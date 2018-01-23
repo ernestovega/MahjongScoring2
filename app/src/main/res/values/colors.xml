@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="greenMM">#00B16A</color>
+    <color name="greenMMTransparent">#8800B16A</color>
+    <color name="greenMMDark">#007B49</color>
+    <color name="greenMMDarkTransparent">#88007B49</color>
+    <color name="grayMM">#414141</color>
+
+    <color name="whiteDark">#EEEEEE</color>
+    <color name="whiteTransparent">#AAFFFFFF</color>
+
+    <color name="gray">#666666</color>
+    <color name="grayLight">#E6E6E6</color>
+    <color name="greyDarkTransparent">#88444444</color>
+
+    <color name="red">#FF0000</color>
+    <color name="redDark">#A00000</color>
+    <color name="redDarkTransparent">#88A00000</color>
+
+    <color name="purple">#7C00E7</color>
+    <color name="purpleDarkTransparent">#88520099</color>
+</resources>

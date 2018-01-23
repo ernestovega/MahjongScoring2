@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_oldgames"
+            android:icon="@drawable/ic_history_black_24px"
+            android:title="@string/old_games"/>
+
+        <item
+            android:id="@+id/nav_newgame"
+            android:icon="@drawable/ic_play_arrow_black_24dp"
+            android:title="@string/new_game"/>
+
+        <item
+            android:id="@+id/nav_game"
+            android:icon="@drawable/ic_play_arrow_black_24dp"
+            android:title="@string/game"
+            android:visible="false"/>
+
+        <item
+            android:id="@+id/nav_combinations"
+            android:icon="@drawable/ic_format_list_numbered_black_24dp"
+            android:title="@string/combinations" />
+
+        <item
+            android:id="@+id/nav_greenbook"
+            android:icon="@drawable/ic_import_contacts_black_24px"
+            android:title="@string/green_book" />
+
+        <item
+            android:id="@+id/nav_rate"
+            android:icon="@drawable/ic_star_rate_black_18px"
+            android:title="@string/rate" />
+
+        <item
+            android:id="@+id/nav_contact"
+            android:icon="@drawable/ic_email_black_18px"
+            android:title="@string/contact" />
+
+    </group>
+
+</menu>

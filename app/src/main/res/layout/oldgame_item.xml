@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvOldGameItem"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/half_standard_margin"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardCornerRadius="@dimen/cardCornerRadius">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="256dp"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/triple_standard_margin"
+                android:background="@color/greenMM">
+
+                <TextView
+                    android:id="@+id/tvOldGameItemStartDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="@dimen/standard_margin"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:gravity="center_vertical"
+                    tools:ignore="HardcodedText"
+                    tools:text="29/04/2017 12:30"
+                    tools:textColor="@android:color/white"
+                    tools:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvOldGameItemEndDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="@dimen/standard_margin"
+                    android:layout_marginRight="@dimen/standard_margin"
+                    android:layout_toEndOf="@+id/tvOldGameItemStartDate"
+                    android:layout_toRightOf="@+id/tvOldGameItemStartDate"
+                    android:gravity="center_vertical|end"
+                    tools:ignore="HardcodedText"
+                    tools:text="29/04/2017 14:30"
+                    tools:textColor="@android:color/white"
+                    tools:textStyle="bold"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/standard_margin"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_weight="3"
+                    android:baselineAligned="false"
+                    android:orientation="vertical"
+                    tools:ignore="NestedWeights">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/llOldGameItemItemPlayerEast"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin=".5dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            tools:ignore="NestedWeights">
+
+                            <TextView
+                                android:id="@+id/tvOlgGameItemPlayerEastName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:lines="2"
+                                tools:text="East player"
+                                tools:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/tvOldGameItemPlayerEastPoints"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                tools:ignore="HardcodedText"
+                                tools:text="100"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llOldGameItemItemPlayerNorth"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin=".5dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            tools:ignore="NestedWeights">
+
+                            <TextView
+                                android:id="@+id/tvOlgGameItemPlayerNorthName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:lines="2"
+                                tools:text="North player"
+                                tools:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/tvOldGameItemPlayerNorthPoints"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                tools:ignore="HardcodedText"
+                                tools:text="100"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/llOldGameItemItemPlayerSouth"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin=".5dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            tools:ignore="NestedWeights">
+
+                            <TextView
+                                android:id="@+id/tvOlgGameItemPlayerSouthName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:lines="2"
+                                tools:text="South player"
+                                tools:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/tvOldGameItemPlayerSouthPoints"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                tools:ignore="HardcodedText"
+                                tools:text="100"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llOldGameItemItemPlayerWest"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin=".5dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            tools:ignore="NestedWeights">
+
+                            <TextView
+                                android:id="@+id/tvOlgGameItemPlayerWestName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:lines="2"
+                                tools:text="West player"
+                                tools:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/tvOldGameItemPlayerWestPoints"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                tools:ignore="HardcodedText"
+                                tools:text="-300"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:baselineAligned="false"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:ignore="NestedWeights">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        tools:text="@string/rounds"
+                        tools:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tvOldGameItemRoundsNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        tools:ignore="HardcodedText"
+                        tools:text="15"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/standard_margin"
+                        android:gravity="center"
+                        tools:text="@string/best_hand"
+                        tools:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tvOldGameItemBestHand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        tools:ignore="HardcodedText"
+                        tools:text="100"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btOldGameItemDelete"
+                    style="?android:buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/half_standard_margin"
+                    android:layout_marginRight="@dimen/half_standard_margin"
+                    android:layout_toLeftOf="@+id/btOldGameItemResume"
+                    android:layout_toStartOf="@+id/btOldGameItemResume"
+                    tools:text="@string/delete"/>
+
+                <Button
+                    android:id="@+id/btOldGameItemResume"
+                    style="?android:buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="@dimen/half_standard_margin"
+                    android:layout_marginRight="@dimen/half_standard_margin"
+                    tools:text="@string/resume"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
