@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
     //region Fields
 
-    @BindView (R.id.tMain) Toolbar toolbar;
     @BindView (R.id.dlMain) DrawerLayout drawerLayout;
+    @BindView (R.id.tMain) Toolbar toolbar;
     @BindView(R.id.nvMain) NavigationView navigationView;
     private Unbinder unbinder;
     private int checkedDrawerItem = NONE;
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(drawerLayout)) {
-            closeDrawer();
+            closeEndDrawer();
         } else {
             long currentTimeMillis = System.currentTimeMillis();
             if((currentTimeMillis - lastBackPress) > BACK_PRESSED_TIME) {
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                openDrawer();
+                openEndDrawer();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -106,14 +106,6 @@ public class MainActivity extends AppCompatActivity {
     //endregion
 
     //region Private
-
-    private void openDrawer() {
-        drawerLayout.openDrawer(GravityCompat.START, true);
-    }
-
-    private void closeDrawer() {
-        drawerLayout.closeDrawer(GravityCompat.START, true);
-    }
 
     private void setupToolbar() {
         setSupportActionBar(toolbar);
@@ -130,32 +122,26 @@ public class MainActivity extends AppCompatActivity {
     private void setupDrawer() {
         setupDrawerHeader();
         navigationView.setNavigationItemSelectedListener(menuItem -> {
-            closeDrawer();
+            closeEndDrawer();
             switch (menuItem.getItemId()) {
                 case R.id.nav_oldgames:
-                    goToOldGames();
-                    return true;
+                    goToOldGames(); break;
                 case R.id.nav_newgame:
-                    goToNewGame();
-                    return true;
+                    goToNewGame(); break;
                 case R.id.nav_game:
-                    goToGame();
-                    return true;
+                    goToGame(); break;
                 case R.id.nav_combinations:
-                    goToCombinations();
-                    return true;
+                    goToCombinations(); break;
                 case R.id.nav_greenbook:
-                    goToGreenBook();
-                    return true;
+                    goToGreenBook(); break;
                 case R.id.nav_rate:
-                    goToRate();
-                    return true;
+                    goToRate(); break;
                 case R.id.nav_contact:
-                    goToContact();
-                    return true;
+                    goToContact(); break;
                 default:
                     return false;
             }
+            return true;
         });
     }
 
@@ -169,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         if(checkedDrawerItem != OLD_GAMES) {
             goToFragment(R.string.old_games, R.id.nav_oldgames, OLD_GAMES, new OldGamesFragment());
         } else {
-            closeDrawer();
+            closeEndDrawer();
         }
     }
 
@@ -177,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         if(checkedDrawerItem != NEW_GAME) {
             goToFragment(R.string.new_game, R.id.nav_newgame, NEW_GAME, new NewGameFragment());
         } else {
-            closeDrawer();
+            closeEndDrawer();
         }
     }
 
@@ -185,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
         if(checkedDrawerItem != GAME) {
             goToFragment(R.string.game, R.id.nav_game, GAME, new GameFragment());
         } else {
-            closeDrawer();
+            closeEndDrawer();
         }
     }
 
@@ -194,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             goToFragment(R.string.combinations, R.id.nav_combinations, COMBINATIONS,
                     new CombinationsFragment());
         } else {
-            closeDrawer();
+            closeEndDrawer();
         }
     }
 
@@ -221,8 +207,16 @@ public class MainActivity extends AppCompatActivity {
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.clMain, fragment);
+        fragmentTransaction.replace(R.id.flMain, fragment);
         fragmentTransaction.commit();
+    }
+
+    private void openEndDrawer() {
+        drawerLayout.openDrawer(GravityCompat.END, true);
+    }
+
+    private void closeEndDrawer() {
+        drawerLayout.closeDrawer(GravityCompat.END, true);
     }
 
     //endregion

@@ -72,9 +72,9 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.OldG
 
     //region Events
 
-    @OnClick (R.id.fabOldGamesNewGame)
+    @OnClick (R.id.fabOldGames)
     public void onFabNewGameClick() {
-        Snackbar.make(swipeLayout, "fabOldGamesNewGame clicked!", Snackbar.LENGTH_LONG)
+        Snackbar.make(swipeLayout, "fabOldGames clicked!", Snackbar.LENGTH_LONG)
                 .show();
     }
 
@@ -97,6 +97,8 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.OldG
     }
 
     //endregion
+
+    //region Private
 
     //region Private
 
@@ -140,4 +142,5 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.OldG
     }
 
     //endregion
+
 }

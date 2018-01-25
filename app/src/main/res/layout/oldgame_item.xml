@@ -24,7 +24,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/triple_standard_margin"
-                android:background="@color/greenMM">
+                android:background="@color/colorPrimary">
 
                 <TextView
                     android:id="@+id/tvOldGameItemStartDate"

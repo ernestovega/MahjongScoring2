@@ -10,60 +10,37 @@
     tools:context=".app.main.MainActivity"
     tools:openDrawer="start">
 
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tMain"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:elevation="@dimen/toolbar_elevation"
+            android:minHeight="?android:attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            tools:ignore="UnusedAttribute"/>
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/tMain"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_alignParentTop="true"
-                android:background="@color/greenMM"
-                android:elevation="@dimen/toolbar_elevation"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                tools:ignore="UnusedAttribute"/>
+        <FrameLayout
+            android:id="@+id/flMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-            <android.support.design.widget.CoordinatorLayout
-                android:id="@+id/clMain"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/tMain"/>
+    </RelativeLayout>
 
-            <FrameLayout
-                android:id="@+id/flBaseProgress"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/whiteTransparent"
-                android:clickable="true"
-                android:focusable="true"
-                android:translationZ="8dp"
-                android:visibility="gone"
-                tools:ignore="UnusedAttribute"
-                tools:visibility="visible">
-
-                <ProgressBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:indeterminate="true"
-                    android:indeterminateTint="@color/greenMM"
-                    android:indeterminateTintMode="src_in"
-                    tools:ignore="UnusedAttribute"/>
-
-            </FrameLayout>
-
-        </RelativeLayout>
-
-        <android.support.design.widget.NavigationView
-            android:id="@+id/nvMain"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/drawer_header"
-            app:itemBackground="@drawable/drawer_menuitem_backgrounds"
-            app:menu="@menu/drawer_menu"/>
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nvMain"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        app:itemBackground="@android:color/transparent"
+        app:headerLayout="@layout/drawer_header"
+        app:menu="@menu/drawer_menu"/>
 
 </android.support.v4.widget.DrawerLayout>
 

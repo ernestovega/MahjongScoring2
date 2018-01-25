@@ -1,43 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout
-    android:id="@+id/slOldGames"
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".app.old_games.OldGamesFragment">
 
-    <RelativeLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/slOldGames"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvOldGames"
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/whiteDark"
-            android:scrollbarStyle="insideOverlay"
-            android:scrollbars="vertical"
-            android:visibility="gone"/>
+            android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/llOldGamesEmptyView"
-            layout="@layout/oldgames_empty_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvOldGames"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/whiteDark"
+                android:scrollbarStyle="insideOverlay"
+                android:scrollbars="vertical"
+                android:visibility="visible"/>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabOldGamesNewGame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/standard_margin"
-            android:backgroundTint="@color/greenMM"
-            android:src="@drawable/ic_play_arrow_white_24px"
-            tools:ignore="UnusedAttribute"/>
+            <LinearLayout
+                android:id="@+id/llOldGamesEmptyView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
 
-    </RelativeLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/double_standard_margin"
+                    android:layout_marginLeft="@dimen/double_standard_margin"
+                    android:layout_marginRight="@dimen/double_standard_margin"
+                    android:layout_marginStart="@dimen/double_standard_margin"
+                    android:tint="@color/grayMM"
+                    android:layout_marginTop="90dp"
+                    android:src="@drawable/img_empty_box"
+                    tools:ignore="ContentDescription"/>
 
-</android.support.v4.widget.SwipeRefreshLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/double_standard_margin"
+                    android:layout_marginLeft="@dimen/double_standard_margin"
+                    android:layout_marginRight="@dimen/double_standard_margin"
+                    android:layout_marginStart="@dimen/double_standard_margin"
+                    android:layout_marginTop="@dimen/double_standard_margin"
+                    android:gravity="start"
+                    android:text="@string/theres_no_games_yet_start_one"
+                    android:textColor="@color/grayMM"
+                    android:textSize="20sp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/double_standard_margin"
+                    android:layout_marginLeft="@dimen/triple_standard_margin"
+                    android:layout_marginRight="@dimen/double_standard_margin"
+                    android:layout_marginStart="@dimen/triple_standard_margin"
+                    android:layout_marginTop="@dimen/double_standard_margin"
+                    android:src="@drawable/arrow"
+                    tools:ignore="ContentDescription"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabOldGames"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_play_arrow_white_24px"/>
+
+</android.support.design.widget.CoordinatorLayout>
