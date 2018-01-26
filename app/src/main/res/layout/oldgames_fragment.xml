@@ -30,6 +30,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                tools:visibility="visible"
+                android:background="@android:color/white"
                 android:orientation="vertical">
 
                 <ImageView
@@ -39,8 +41,8 @@
                     android:layout_marginLeft="@dimen/double_standard_margin"
                     android:layout_marginRight="@dimen/double_standard_margin"
                     android:layout_marginStart="@dimen/double_standard_margin"
-                    android:tint="@color/grayMM"
-                    android:layout_marginTop="90dp"
+                    android:tint="@color/gray"
+                    android:layout_marginTop="120dp"
                     android:src="@drawable/img_empty_box"
                     tools:ignore="ContentDescription"/>
 
@@ -51,10 +53,11 @@
                     android:layout_marginLeft="@dimen/double_standard_margin"
                     android:layout_marginRight="@dimen/double_standard_margin"
                     android:layout_marginStart="@dimen/double_standard_margin"
-                    android:layout_marginTop="@dimen/double_standard_margin"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:lineSpacingExtra="@dimen/half_standard_margin"
                     android:gravity="start"
                     android:text="@string/theres_no_games_yet_start_one"
-                    android:textColor="@color/grayMM"
+                    android:textColor="@color/gray"
                     android:textSize="20sp"/>
 
                 <ImageView
@@ -64,8 +67,10 @@
                     android:layout_marginLeft="@dimen/triple_standard_margin"
                     android:layout_marginRight="@dimen/double_standard_margin"
                     android:layout_marginStart="@dimen/triple_standard_margin"
+                    android:layout_marginBottom="@dimen/double_standard_margin"
                     android:layout_marginTop="@dimen/double_standard_margin"
                     android:src="@drawable/arrow"
+                    android:tint="@color/gray"
                     tools:ignore="ContentDescription"/>
 
             </LinearLayout>

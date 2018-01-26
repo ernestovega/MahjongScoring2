@@ -7,7 +7,7 @@ import es.etologic.mahjongscoring2.app.old_games.OldGamesViewModelFactory;
 import es.etologic.mahjongscoring2.data.repository.DataProvider;
 import es.etologic.mahjongscoring2.data.repository.local.LocalDataSource;
 import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
-import es.etologic.mahjongscoring2.domain.use_cases.GetOldGamesUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
 
 public class Injector {
 
@@ -25,8 +25,8 @@ public class Injector {
         return DataProvider.getInstance(localDataSource);
     }
 
-    private static GetOldGamesUseCase provideGetOldGamesUseCase(@NonNull Context context) {
-        return new GetOldGamesUseCase(provideDataSource(context));
+    private static GetGamesUseCase provideGetOldGamesUseCase(@NonNull Context context) {
+        return new GetGamesUseCase(provideDataSource(context));
     }
 
     public static OldGamesViewModelFactory provideOldGamesViewModelFactory(

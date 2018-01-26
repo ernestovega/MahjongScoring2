@@ -22,7 +22,6 @@ import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.BuildConfig;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.combinations.CombinationsFragment;
-import es.etologic.mahjongscoring2.app.game.GameFragment;
 import es.etologic.mahjongscoring2.app.new_game.NewGameFragment;
 import es.etologic.mahjongscoring2.app.old_games.OldGamesFragment;
 
@@ -33,11 +32,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int NONE = -1;
     private static final int OLD_GAMES = 0;
     private static final int NEW_GAME = 1;
-    private static final int GAME = 2;
-    private static final int COMBINATIONS = 3;
-    private static final int GREEN_BOOK = 4;
-    private static final int RATE = 5;
-    private static final int CONTACT = 6;
+    private static final int COMBINATIONS = 2;
+    private static final int GREEN_BOOK = 3;
+    private static final int RATE = 4;
+    private static final int CONTACT = 5;
     private static final long BACK_PRESSED_TIME = 4000;
 
     //endregion
@@ -128,8 +126,6 @@ public class MainActivity extends AppCompatActivity {
                     goToOldGames(); break;
                 case R.id.nav_newgame:
                     goToNewGame(); break;
-                case R.id.nav_game:
-                    goToGame(); break;
                 case R.id.nav_combinations:
                     goToCombinations(); break;
                 case R.id.nav_greenbook:
@@ -167,14 +163,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void goToGame() {
-        if(checkedDrawerItem != GAME) {
-            goToFragment(R.string.game, R.id.nav_game, GAME, new GameFragment());
-        } else {
-            closeEndDrawer();
-        }
-    }
-
     private void goToCombinations() {
         if(checkedDrawerItem != COMBINATIONS) {
             goToFragment(R.string.combinations, R.id.nav_combinations, COMBINATIONS,
@@ -207,6 +195,8 @@ public class MainActivity extends AppCompatActivity {
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right,
+                R.anim.enter_from_right, R.anim.exit_to_left);
         fragmentTransaction.replace(R.id.flMain, fragment);
         fragmentTransaction.commit();
     }

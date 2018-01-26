@@ -6,7 +6,9 @@ import android.arch.persistence.room.Index;
 
 @Entity(tableName = "Rounds",
         primaryKeys = { "gameId", "roundId" },
-        foreignKeys = { @ForeignKey (entity = Game.class, parentColumns = "gameId",
+        foreignKeys = { @ForeignKey (
+                entity = Game.class,
+                parentColumns = "gameId",
                 childColumns = "gameId") },
         indices = { @Index (value = { "gameId", "roundId" }, unique = true) })
 public class Round {
@@ -133,6 +135,8 @@ public class Round {
         this.gameId = gameId;
         this.roundId = roundId;
     }
+
+    //region Methods
 
     public void setAllPlayersPointsByPenalty(int playerInitialPosition, int penaltyPoints) {
         int noPenalizedPlayerPoints = penaltyPoints / NUM_NO_WINNER_PLAYERS_IN_TSUMO;
@@ -305,4 +309,6 @@ public class Round {
             default: return 2;
         }
     }
+
+    //endregion
 }

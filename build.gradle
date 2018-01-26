@@ -28,14 +28,14 @@ task clean(type: Delete) {
 
 ext {
     // Sdk and tools
-    minSdkVersion = 16
-    targetSdkVersion = 26
-    compileSdkVersion = 26
-    buildToolsVersion = '26.0.2'
+    minSdkVersion = 15
+    targetSdkVersion = 27
+    compileSdkVersion = 27
+    buildToolsVersion = '27.0.3'
 
     // App dependencies
-    supportLibraryVersion = '26.1.0'
-    butterknifeVersion = '8.6.0'
+    supportLibraryVersion = '27.0.2'
+    butterknifeVersion = '8.7.0'
     archComponentsVersion = '1.0.0'
     jUnitVersion = '4.12'
     testRunnerVersion = '1.0.1'

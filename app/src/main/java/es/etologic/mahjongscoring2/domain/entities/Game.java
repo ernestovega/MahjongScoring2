@@ -1,14 +1,17 @@
 package es.etologic.mahjongscoring2.domain.entities;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-@Entity(tableName = "Games")
+@Entity(tableName = "Games",
+        indices = { @Index ( value = { "gameId" }, unique = true) })
 public class Game {
-
-    private static final int MINUTES_IN_AN_HOUR = 60;
 
     @PrimaryKey
     private final int gameId;
@@ -18,6 +21,10 @@ public class Game {
     private String nameP4;
     private Date startDate;
     private Date endDate;
+    @Ignore
+    private List<Round> rounds;
+
+    //region Getters & Setters
 
     public int getGameId() {
         return gameId;
@@ -51,6 +58,16 @@ public class Game {
         this.endDate = endDate;
     }
 
+    public List<Round> getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(List<Round> rounds) {
+        this.rounds = rounds;
+    }
+
+    //endregion
+
     public Game(final int gameId, String nameP1, String nameP2, String nameP3, String nameP4,
                 Date startDate) {
         this.gameId = gameId;
@@ -59,7 +76,10 @@ public class Game {
         this.nameP3 = nameP3;
         this.nameP4 = nameP4;
         this.startDate = startDate;
+        this.rounds = new ArrayList<>();
     }
+
+    //region Methods
 
     public String getPlayerNameByInitialPosition(int initialPosition) {
         switch(initialPosition) {
@@ -70,4 +90,52 @@ public class Game {
             default: return nameP4;
         }
     }
+
+    public BestHand getBestHand() {
+        BestHand bestHand = new BestHand();
+        for(Round round : rounds) {
+            if(round.getPointsP1() > bestHand.getHandValue()) {
+                bestHand.setHandValue(round.getPointsP1());
+                bestHand.setPlayerName(nameP1);
+            }
+            if(round.getPointsP2() > bestHand.getHandValue()) {
+                bestHand.setHandValue(round.getPointsP2());
+                bestHand.setPlayerName(nameP2);
+            }
+            if(round.getPointsP3() > bestHand.getHandValue()) {
+                bestHand.setHandValue(round.getPointsP3());
+                bestHand.setPlayerName(nameP3);
+            }
+            if(round.getPointsP4() > bestHand.getHandValue()) {
+                bestHand.setHandValue(round.getPointsP4());
+                bestHand.setPlayerName(nameP4);
+            }
+        }
+        return bestHand;
+    }
+
+    public String[] getPlayersTotalPoints() {
+        int[] points = new int[]{0, 0, 0, 0};
+        for(Round round : rounds) {
+            points[0] += round.getPointsP1();
+            points[1] += round.getPointsP2();
+            points[2] += round.getPointsP3();
+            points[3] += round.getPointsP4();
+        }
+        return new String[]{
+                String.valueOf(points[0]),
+                String.valueOf(points[1]),
+                String.valueOf(points[2]),
+                String.valueOf(points[3])
+        };
+    }
+
+    public Game getCopy() {
+        Game gameCopy = new Game(gameId, nameP1, nameP2, nameP3, nameP4, startDate);
+        gameCopy.setEndDate(endDate);
+        gameCopy.setRounds(rounds);
+        return gameCopy;
+    }
+
+    //endregion
 }

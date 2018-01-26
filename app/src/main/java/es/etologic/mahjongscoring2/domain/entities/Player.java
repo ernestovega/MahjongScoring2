@@ -1,10 +1,12 @@
 package es.etologic.mahjongscoring2.domain.entities;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(tableName = "Players")
+@Entity(tableName = "Players",
+        indices = { @Index (value = { "name" }, unique = true) })
 public class Player {
 
     @PrimaryKey

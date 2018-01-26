@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5717548201b3c9c2a4c37e7ceca4195d",
+    "identityHash": "c9d321a67a4e4bfea14e0b0db3406782",
     "entities": [
       {
         "tableName": "Players",
@@ -21,7 +21,16 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_Players_name",
+            "unique": true,
+            "columnNames": [
+              "name"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Players_name` ON `${TABLE_NAME}` (`name`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -77,7 +86,16 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_Games_gameId",
+            "unique": true,
+            "columnNames": [
+              "gameId"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Games_gameId` ON `${TABLE_NAME}` (`gameId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -198,7 +216,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5717548201b3c9c2a4c37e7ceca4195d\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c9d321a67a4e4bfea14e0b0db3406782\")"
     ]
   }
 }

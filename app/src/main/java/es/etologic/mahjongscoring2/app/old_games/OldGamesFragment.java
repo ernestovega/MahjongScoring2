@@ -24,12 +24,12 @@ import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.model.ShowState;
-import es.etologic.mahjongscoring2.domain.entities.OldGame;
+import es.etologic.mahjongscoring2.domain.entities.Game;
 
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
-public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.OldGameItemListener {
+public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.GameItemListener {
 
     //region Fields
 
@@ -59,7 +59,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.OldG
         setupSwipeRefresh();
         setupRecyclerView();
         observeViewModel();
-        viewModel.loadOldGames();
+        viewModel.loadGames();
     }
 
     @Override
@@ -110,7 +110,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.OldG
 
     private void setupSwipeRefresh() {
         swipeLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
-        swipeLayout.setOnRefreshListener(() -> viewModel.loadOldGames());
+        swipeLayout.setOnRefreshListener(() -> viewModel.loadGames());
     }
 
     public void setupRecyclerView() {
@@ -122,13 +122,13 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.OldG
     }
 
     private void observeViewModel() {
-        viewModel.getOldGames().observe(this, this :: setOldGames);
+        viewModel.getOldGames().observe(this, this :: setGames);
         viewModel.getProgressState().observe(this, this :: toogleLocalProgress);
         viewModel.getSnackbarMessage().observe(this, this :: showSnackbar);
     }
 
-    private void setOldGames(List<OldGame> oldGames) {
-        rvAdapter.setOldGames(oldGames);
+    private void setGames(List<Game> games) {
+        rvAdapter.setGames(games);
         toogleLocalProgress(HIDE);
     }
 

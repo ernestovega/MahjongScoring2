@@ -1,5 +1,6 @@
 package es.etologic.mahjongscoring2.app.old_games;
 
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +14,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.etologic.mahjongscoring2.R;
-import es.etologic.mahjongscoring2.domain.entities.OldGame;
+import es.etologic.mahjongscoring2.domain.entities.BestHand;
+import es.etologic.mahjongscoring2.domain.entities.Game;
+import es.etologic.mahjongscoring2.utils.DateUtils;
 
 class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //region Interface
 
-    interface OldGameItemListener {
+    interface GameItemListener {
         void onOldGameItemDeleteClicked(int gameId);
         void onOldGameItemResumeClicked(int gameId);
     }
@@ -28,27 +31,80 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //region Fields
 
-    private OldGameItemListener itemClickListener;
-    private List<OldGame> oldGames;
+    private GameItemListener itemClickListener;
+    private List<Game> games;
 
     //endregion
 
     //region Constructor
 
     OldGamesRvAdapter() {
-        oldGames = new ArrayList<>();
+        games = new ArrayList<>();
     }
 
     //endregion
 
     //region Public
 
-    void setOldGameItemListener(OldGameItemListener listener) {
+    void setOldGameItemListener(GameItemListener listener) {
         this.itemClickListener = listener;
     }
 
-    void setOldGames(List<OldGame> oldGames) {
-        this.oldGames = oldGames;
+    void setGames(List<Game> newGames) {
+        if (games == null) {
+            saveNewGamesCopy(newGames);
+            notifyItemRangeInserted(0, newGames.size());
+        } else {
+            DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
+                @Override
+                public int getOldListSize() {
+                    return games.size();
+                }
+
+                @Override
+                public int getNewListSize() {
+                    return newGames.size();
+                }
+
+                @Override
+                public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                    return games.get(oldItemPosition).getGameId() ==
+                            newGames.get(newItemPosition).getGameId() &&
+                            games.get(oldItemPosition).getNameP1().equals(
+                                    newGames.get(newItemPosition).getNameP1()) &&
+                            games.get(oldItemPosition).getNameP2().equals(
+                                    newGames.get(newItemPosition).getNameP2()) &&
+                            games.get(oldItemPosition).getNameP3().equals(
+                                    newGames.get(newItemPosition).getNameP3()) &&
+                            games.get(oldItemPosition).getNameP4().equals(
+                                    newGames.get(newItemPosition).getNameP4()) &&
+                            games.get(oldItemPosition).getStartDate().equals(
+                                    newGames.get(newItemPosition).getStartDate()) &&
+                            games.get(oldItemPosition).getEndDate().equals(
+                                    newGames.get(newItemPosition).getEndDate()) &&
+                            games.get(oldItemPosition).getRounds() ==
+                                    newGames.get(newItemPosition).getRounds();
+                            //TODO: Mejorar comparacion de rounds
+                }
+
+                @Override
+                public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                    Game newGame = newGames.get(newItemPosition);
+                    Game oldGame = games.get(oldItemPosition);
+                    return newGame.getGameId() == oldGame.getGameId() &&
+                            newGame.getNameP1().equals(oldGame.getNameP1()) &&
+                            newGame.getNameP2().equals(oldGame.getNameP2()) &&
+                            newGame.getNameP3().equals(oldGame.getNameP3()) &&
+                            newGame.getNameP4().equals(oldGame.getNameP4()) &&
+                            newGame.getStartDate().equals(oldGame.getStartDate()) &&
+                            newGame.getEndDate().equals(oldGame.getEndDate()) &&
+                            newGame.getRounds() == oldGame.getRounds();
+                            //TODO: Mejorar comparacion de rounds
+                    }
+            });
+            saveNewGamesCopy(newGames);
+            result.dispatchUpdatesTo(this);
+        }
     }
 
     //endregion
@@ -94,7 +150,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return oldGames.size();
+        return games.size();
     }
 
     @Override
@@ -106,23 +162,37 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final OldGame oldGame = oldGames.get(position);
         ItemViewHolder itemViewHolder = ((ItemViewHolder)holder);
+        final Game game = games.get(position);
+        String[] playersTotalPoints = game.getPlayersTotalPoints();
+        BestHand bestHand = game.getBestHand();
 
-        itemViewHolder.gameId = oldGame.getId();
-        itemViewHolder.tvStartDate.setText(oldGame.getStartDate());
-        itemViewHolder.tvEndDate.setText(oldGame.getEndDate());
-        itemViewHolder.tvEastPlayerName.setText(oldGame.getNameP1());
-        itemViewHolder.tvSouthPlayerName.setText(oldGame.getNameP2());
-        itemViewHolder.tvWestPlayerName.setText(oldGame.getNameP3());
-        itemViewHolder.tvNorthPlayerName.setText(oldGame.getNameP4());
-        itemViewHolder.tvEastPlayerPoints.setText(oldGame.getPointsP1());
-        itemViewHolder.tvSouthPlayerPoints.setText(oldGame.getPointsP2());
-        itemViewHolder.tvWestPlayerPoints.setText(oldGame.getPointsP3());
-        itemViewHolder.tvNorthPlayerPoints.setText(oldGame.getPointsP4());
-        itemViewHolder.tvRoundNumber.setText(oldGame.getRoundsNumber());
-        itemViewHolder.tvEndDate.setText(oldGame.getEndDate());
-        itemViewHolder.tvBestHand.setText(oldGame.getBestHand());
+        itemViewHolder.gameId = game.getGameId();
+        itemViewHolder.tvStartDate.setText(DateUtils.getPrettyDate(game.getStartDate()));
+        itemViewHolder.tvEndDate.setText(DateUtils.getPrettyDate(game.getEndDate()));
+        itemViewHolder.tvEastPlayerName.setText(game.getNameP1());
+        itemViewHolder.tvSouthPlayerName.setText(game.getNameP2());
+        itemViewHolder.tvWestPlayerName.setText(game.getNameP3());
+        itemViewHolder.tvNorthPlayerName.setText(game.getNameP4());
+        itemViewHolder.tvEastPlayerPoints.setText(playersTotalPoints[0]);
+        itemViewHolder.tvSouthPlayerPoints.setText(playersTotalPoints[0]);
+        itemViewHolder.tvWestPlayerPoints.setText(playersTotalPoints[0]);
+        itemViewHolder.tvNorthPlayerPoints.setText(playersTotalPoints[0]);
+        itemViewHolder.tvRoundNumber.setText(String.valueOf(game.getRounds().size()));
+        itemViewHolder.tvBestHand.setText(
+                String.format("%s\n%s", bestHand.getHandValue(), bestHand.getPlayerName()));
+    }
+
+    //endregion
+
+    //region Private
+
+    private void saveNewGamesCopy(List<Game> newGames) {
+        List<Game> newGamesCopy = new ArrayList<>(newGames.size());
+        for(Game game : newGames) {
+            newGamesCopy.add(game.getCopy());
+        }
+        games = newGamesCopy;
     }
 
     //endregion

@@ -35,7 +35,6 @@
                     android:layout_marginLeft="@dimen/standard_margin"
                     android:layout_marginStart="@dimen/standard_margin"
                     android:gravity="center_vertical"
-                    tools:ignore="HardcodedText"
                     tools:text="29/04/2017 12:30"
                     tools:textColor="@android:color/white"
                     tools:textStyle="bold"/>
@@ -51,8 +50,7 @@
                     android:layout_toEndOf="@+id/tvOldGameItemStartDate"
                     android:layout_toRightOf="@+id/tvOldGameItemStartDate"
                     android:gravity="center_vertical|end"
-                    tools:ignore="HardcodedText"
-                    tools:text="29/04/2017 14:30"
+                    tools:text="2017/04/29 14:30"
                     tools:textColor="@android:color/white"
                     tools:textStyle="bold"/>
 
@@ -106,7 +104,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                tools:ignore="HardcodedText"
                                 tools:text="100"/>
 
                         </LinearLayout>
@@ -135,7 +132,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                tools:ignore="HardcodedText"
                                 tools:text="100"/>
 
                         </LinearLayout>
@@ -173,7 +169,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                tools:ignore="HardcodedText"
                                 tools:text="100"/>
 
                         </LinearLayout>
@@ -202,7 +197,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                tools:ignore="HardcodedText"
                                 tools:text="-300"/>
 
                         </LinearLayout>
@@ -232,7 +226,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        tools:ignore="HardcodedText"
                         tools:text="15"/>
 
                     <TextView
@@ -246,9 +239,9 @@
                     <TextView
                         android:id="@+id/tvOldGameItemBestHand"
                         android:layout_width="wrap_content"
+                        android:lines="2"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        tools:ignore="HardcodedText"
                         tools:text="100"/>
 
                 </LinearLayout>
