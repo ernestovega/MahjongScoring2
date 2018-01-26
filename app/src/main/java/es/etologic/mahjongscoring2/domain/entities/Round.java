@@ -138,6 +138,47 @@ public class Round {
 
     //region Methods
 
+    public void setAllPlayersTsumoPoints(int winnerInitialPosition, int winnerHandPoints) {
+        this.winnerInitialPosition = winnerInitialPosition;
+        this.handPoints = winnerHandPoints;
+        int looserTotalPoints = winnerHandPoints + HU_BASE_POINTS;
+        int winnerTotalPoints = (looserTotalPoints) * NUM_NO_WINNER_PLAYERS_IN_TSUMO;
+        pointsP1 += (1 == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
+        pointsP2 += (2 == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
+        pointsP3 += (3 == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
+        pointsP4 += (4 == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
+    }
+
+    public void setAllPlayersRonPoints(int winnerInitialPosition, int winnerHandPoints,
+                                       int looserInitialPosition) {
+        this.winnerInitialPosition = winnerInitialPosition;
+        this.handPoints = winnerHandPoints;
+        this.looserInitialPosition = looserInitialPosition;
+        int looserTotalPoints = winnerHandPoints + HU_BASE_POINTS;
+        int winnerTotalPoints = looserTotalPoints +
+                (HU_BASE_POINTS * NUM_NO_WINNER_AND_NO_LOOSER_PLAYERS_IN_RON);
+        if(1 == winnerInitialPosition) {
+            pointsP1 += winnerTotalPoints;
+        } else {
+            pointsP1 -= (1 == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
+        }
+        if(2 == winnerInitialPosition) {
+            pointsP2 += winnerTotalPoints;
+        } else {
+            pointsP2 -= (3 == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
+        }
+        if(3 == winnerInitialPosition) {
+            pointsP3 += winnerTotalPoints;
+        } else {
+            pointsP3 -= (3 == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
+        }
+        if(4 == winnerInitialPosition) {
+            pointsP4 += winnerTotalPoints;
+        } else {
+            pointsP4 -= (4 == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
+        }
+    }
+
     public void setAllPlayersPointsByPenalty(int playerInitialPosition, int penaltyPoints) {
         int noPenalizedPlayerPoints = penaltyPoints / NUM_NO_WINNER_PLAYERS_IN_TSUMO;
         penaltyP1 += (1 == playerInitialPosition) ? penaltyPoints : 0;
@@ -164,52 +205,6 @@ public class Round {
 
     }
 
-    private int getPenaltyPointsFromInitialPlayerPosition(int playerInitialPosition) {
-        switch(playerInitialPosition) {
-            case 1: return penaltyP1;
-            case 2: return penaltyP2;
-            case 3: return penaltyP3;
-            case 4: //ToDo: change this int seats by typed enum seats.
-            default: return penaltyP4;
-        }
-    }
-
-    public void setAllPlayersTsumoPoints(int winnerInitialPosition, int winnerHandPoints) {
-        int looserTotalPoints = winnerHandPoints + HU_BASE_POINTS;
-        int winnerTotalPoints = (looserTotalPoints) * NUM_NO_WINNER_PLAYERS_IN_TSUMO;
-        pointsP1 += (1 == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
-        pointsP2 += (2 == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
-        pointsP3 += (3 == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
-        pointsP4 += (4 == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
-    }
-
-    public void setAllPlayersRonPoints(int winnerInitialPosition, int winnerHandPoints,
-                                       int looserInitialPosition) {
-        int looserTotalPoints = winnerHandPoints + HU_BASE_POINTS;
-        int winnerTotalPoints = looserTotalPoints +
-                (HU_BASE_POINTS * NUM_NO_WINNER_AND_NO_LOOSER_PLAYERS_IN_RON);
-        if(1 == winnerInitialPosition) {
-            pointsP1 += winnerTotalPoints;
-        } else {
-            pointsP1 -= (1 == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
-        }
-        if(2 == winnerInitialPosition) {
-            pointsP2 += winnerTotalPoints;
-        } else {
-            pointsP2 -= (3 == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
-        }
-        if(3 == winnerInitialPosition) {
-            pointsP3 += winnerTotalPoints;
-        } else {
-            pointsP3 -= (3 == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
-        }
-        if(4 == winnerInitialPosition) {
-            pointsP4 += winnerTotalPoints;
-        } else {
-            pointsP4 -= (4 == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
-        }
-    }
-
     public boolean isPenalizedPlayer(int playerInitialPosition) {
         switch(playerInitialPosition) {
             case 1: return penaltyP1 > 0;
@@ -217,6 +212,16 @@ public class Round {
             case 3: return penaltyP3 > 0;
             case 4: //ToDo: change this int seats by typed enum seats.
             default: return penaltyP4 > 0;
+        }
+    }
+
+    private int getPenaltyPointsFromInitialPlayerPosition(int playerInitialPosition) {
+        switch(playerInitialPosition) {
+            case 1: return penaltyP1;
+            case 2: return penaltyP2;
+            case 3: return penaltyP3;
+            case 4: //ToDo: change this int seats by typed enum seats.
+            default: return penaltyP4;
         }
     }
 

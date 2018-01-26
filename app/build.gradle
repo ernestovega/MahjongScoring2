@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 15
+        targetSdkVersion 27
         applicationId "es.etologic.mahjongscoring2"
         versionCode 1
         versionName "1.0.0"
@@ -30,13 +30,19 @@ android {
     flavorDimensions "MahjongScoring2"
     productFlavors {
         mock {
-            applicationIdSuffix ".mock"
-            versionNameSuffix 'MOCK'
+            applicationIdSuffix ".Mock"
+            versionNameSuffix '-Mock'
+        }
+        dev {
+            applicationIdSuffix ".Dev"
+            versionNameSuffix '-Dev'
         }
         pro {}
     }
     android.variantFilter { variant ->
-        if (variant.buildType.name == 'release' && (variant.getFlavors().get(0).name == 'mock')) {
+        if (variant.buildType.name == 'release' &&
+                (variant.getFlavors().get(0).name == 'mock' ||
+                        variant.getFlavors().get(0).name == "dev")) {
             variant.setIgnore(true)
         }
     }
@@ -58,24 +64,22 @@ dependencies {
     compile "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
-    //Room
+    //Architecture components & Rooms
     compile "android.arch.persistence.room:runtime:$archComponentsVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$archComponentsVersion"
-
-    //Architecture components
     compile "android.arch.lifecycle:runtime:$archComponentsVersion"
     compile "android.arch.lifecycle:extensions:$archComponentsVersion"
     annotationProcessor "android.arch.lifecycle:compiler:$archComponentsVersion"
 
     //Test
-    testImplementation "junit:junit:$jUnitVersion"
-    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
-    testCompile "org.mockito:mockito-core:$mockitoVersion"
     testCompile("android.arch.core:core-testing:$archComponentsVersion", {
         exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-core-utils'
     })
+    testImplementation "junit:junit:4.12"
+    androidTestImplementation "com.android.support.test:runner:1.0.1"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.1"
+    testCompile "org.mockito:mockito-core:2.12.0"
 
 }

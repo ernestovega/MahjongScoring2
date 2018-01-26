@@ -1,10 +1,12 @@
 package es.etologic.mahjongscoring2.app.old_games;
 
+import android.content.Context;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,9 +16,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.etologic.mahjongscoring2.R;
+import es.etologic.mahjongscoring2.app.utils.StringUtils;
 import es.etologic.mahjongscoring2.domain.entities.BestHand;
 import es.etologic.mahjongscoring2.domain.entities.Game;
-import es.etologic.mahjongscoring2.utils.DateUtils;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -29,8 +34,15 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //endregion
 
+    //region Constants
+
+    private static final int NUM_GAME_PLAYERS = 4;
+
+    //endregion
+
     //region Fields
 
+    private Context context;
     private GameItemListener itemClickListener;
     private List<Game> games;
 
@@ -69,38 +81,39 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
                     return games.get(oldItemPosition).getGameId() ==
-                            newGames.get(newItemPosition).getGameId() &&
-                            games.get(oldItemPosition).getNameP1().equals(
-                                    newGames.get(newItemPosition).getNameP1()) &&
-                            games.get(oldItemPosition).getNameP2().equals(
-                                    newGames.get(newItemPosition).getNameP2()) &&
-                            games.get(oldItemPosition).getNameP3().equals(
-                                    newGames.get(newItemPosition).getNameP3()) &&
-                            games.get(oldItemPosition).getNameP4().equals(
-                                    newGames.get(newItemPosition).getNameP4()) &&
-                            games.get(oldItemPosition).getStartDate().equals(
-                                    newGames.get(newItemPosition).getStartDate()) &&
-                            games.get(oldItemPosition).getEndDate().equals(
-                                    newGames.get(newItemPosition).getEndDate()) &&
-                            games.get(oldItemPosition).getRounds() ==
-                                    newGames.get(newItemPosition).getRounds();
-                            //TODO: Mejorar comparacion de rounds
+                            newGames.get(newItemPosition).getGameId();
                 }
 
                 @Override
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
                     Game newGame = newGames.get(newItemPosition);
                     Game oldGame = games.get(oldItemPosition);
-                    return newGame.getGameId() == oldGame.getGameId() &&
-                            newGame.getNameP1().equals(oldGame.getNameP1()) &&
-                            newGame.getNameP2().equals(oldGame.getNameP2()) &&
-                            newGame.getNameP3().equals(oldGame.getNameP3()) &&
-                            newGame.getNameP4().equals(oldGame.getNameP4()) &&
-                            newGame.getStartDate().equals(oldGame.getStartDate()) &&
-                            newGame.getEndDate().equals(oldGame.getEndDate()) &&
-                            newGame.getRounds() == oldGame.getRounds();
-                            //TODO: Mejorar comparacion de rounds
+                    return  oldGame.getGameId() == newGame.getGameId() &&
+                            oldGame.getNameP1().equals(newGame.getNameP1()) &&
+                            oldGame.getNameP2().equals(newGame.getNameP2()) &&
+                            oldGame.getNameP3().equals(newGame.getNameP3()) &&
+                            oldGame.getNameP4().equals(newGame.getNameP4()) &&
+                            oldGame.getStartDate().equals(newGame.getStartDate()) &&
+                            oldGame.getEndDate().equals(newGame.getEndDate()) &&
+                            arePlayersTotalsPointsEquals(oldGame.getPlayersTotalPoints(),
+                                    newGame.getPlayersTotalPoints()) &&
+                            areBestHandsEqual(oldGame.getBestHand(), newGame.getBestHand());
                     }
+
+                private boolean arePlayersTotalsPointsEquals(String[] oldPlayersTotalPoints,
+                                                             String[] newPlayersTotalPoints) {
+                    for(int i = 0; i < NUM_GAME_PLAYERS; i++) {
+                        if(!oldPlayersTotalPoints[i].equals(newPlayersTotalPoints[i])) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+
+                private boolean areBestHandsEqual(BestHand oldBestHand, BestHand newBestHand) {
+                    return oldBestHand.getPlayerName().equals(newBestHand.getPlayerName()) &&
+                            oldBestHand.getHandValue() == newBestHand.getHandValue();
+                }
             });
             saveNewGamesCopy(newGames);
             result.dispatchUpdatesTo(this);
@@ -123,8 +136,11 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @BindView (R.id.tvOldGameItemPlayerSouthPoints) TextView tvSouthPlayerPoints;
         @BindView (R.id.tvOldGameItemPlayerWestPoints) TextView tvWestPlayerPoints;
         @BindView (R.id.tvOldGameItemPlayerNorthPoints) TextView tvNorthPlayerPoints;
-        @BindView (R.id.tvOldGameItemBestHand) TextView tvBestHand;
+        @BindView (R.id.llOldGameItemItemRoundsNumber) LinearLayout llRoundNumberContainer;
         @BindView (R.id.tvOldGameItemRoundsNumber) TextView tvRoundNumber;
+        @BindView (R.id.llOldGameItemItemBestHand) LinearLayout llBestHandContainer;
+        @BindView (R.id.tvOldGameItemBestHandPlayerName) TextView tvBestHandPlayerName;
+        @BindView (R.id.tvOldGameItemBestHandValue) TextView tvBestHandValue;
 
         ItemViewHolder(View view) {
             super(view);
@@ -149,6 +165,12 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //region Lifecycle
 
     @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        context = recyclerView.getContext();
+    }
+
+    @Override
     public int getItemCount() {
         return games.size();
     }
@@ -167,20 +189,52 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         String[] playersTotalPoints = game.getPlayersTotalPoints();
         BestHand bestHand = game.getBestHand();
 
+        //GameId
         itemViewHolder.gameId = game.getGameId();
-        itemViewHolder.tvStartDate.setText(DateUtils.getPrettyDate(game.getStartDate()));
-        itemViewHolder.tvEndDate.setText(DateUtils.getPrettyDate(game.getEndDate()));
-        itemViewHolder.tvEastPlayerName.setText(game.getNameP1());
-        itemViewHolder.tvSouthPlayerName.setText(game.getNameP2());
-        itemViewHolder.tvWestPlayerName.setText(game.getNameP3());
-        itemViewHolder.tvNorthPlayerName.setText(game.getNameP4());
-        itemViewHolder.tvEastPlayerPoints.setText(playersTotalPoints[0]);
-        itemViewHolder.tvSouthPlayerPoints.setText(playersTotalPoints[0]);
-        itemViewHolder.tvWestPlayerPoints.setText(playersTotalPoints[0]);
-        itemViewHolder.tvNorthPlayerPoints.setText(playersTotalPoints[0]);
-        itemViewHolder.tvRoundNumber.setText(String.valueOf(game.getRounds().size()));
-        itemViewHolder.tvBestHand.setText(
-                String.format("%s\n%s", bestHand.getHandValue(), bestHand.getPlayerName()));
+
+        //Dates
+        itemViewHolder.tvStartDate.setText(
+                game.getStartDate() == null ? "-" : game.getStartDate());
+        itemViewHolder.tvEndDate.setText(
+                game.getEndDate() == null ? "-" : game.getEndDate());
+
+        //Names
+        itemViewHolder.tvEastPlayerName.setText(
+                game.getNameP1() == null ? "-" : game.getNameP1());
+        itemViewHolder.tvSouthPlayerName.setText(
+                game.getNameP2() == null ? "-" : game.getNameP2());
+        itemViewHolder.tvWestPlayerName.setText(
+                game.getNameP3() == null ? "-" : game.getNameP3());
+        itemViewHolder.tvNorthPlayerName.setText(
+                game.getNameP4() == null ? "-" : game.getNameP4());
+
+        //Points
+        itemViewHolder.tvEastPlayerPoints.setText(
+                playersTotalPoints[0] == null ? "-" : playersTotalPoints[0]);
+        itemViewHolder.tvSouthPlayerPoints.setText(
+                playersTotalPoints[1] == null ? "-" : playersTotalPoints[1]);
+        itemViewHolder.tvWestPlayerPoints.setText(
+                playersTotalPoints[2] == null ? "-" : playersTotalPoints[2]);
+        itemViewHolder.tvNorthPlayerPoints.setText(
+                playersTotalPoints[3] == null ? "-" : playersTotalPoints[3]);
+
+        //Rounds
+        if(game.getRounds() == null || game.getRounds().isEmpty()) {
+            itemViewHolder.llRoundNumberContainer.setVisibility(GONE);
+        } else {
+            itemViewHolder.llRoundNumberContainer.setVisibility(VISIBLE);
+            itemViewHolder.tvRoundNumber.setText(String.valueOf(game.getRounds().size()));
+        }
+
+        //Best Hand
+        if(bestHand == null || StringUtils.isEmpty(bestHand.getPlayerName()) ||
+                bestHand.getHandValue() <= 0) {
+            itemViewHolder.llBestHandContainer.setVisibility(GONE);
+        } else {
+            itemViewHolder.llBestHandContainer.setVisibility(VISIBLE);
+            itemViewHolder.tvBestHandPlayerName.setText(bestHand.getPlayerName());
+            itemViewHolder.tvBestHandValue.setText(String.valueOf(bestHand.getHandValue()));
+        }
     }
 
     //endregion

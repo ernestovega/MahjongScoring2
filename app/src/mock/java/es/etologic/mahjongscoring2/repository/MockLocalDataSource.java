@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import es.etologic.mahjongscoring2.data.repository.local.ILocalDataSource;
+import es.etologic.mahjongscoring2.data.repository.local.converters.DateConverter;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 import es.etologic.mahjongscoring2.domain.entities.Round;
@@ -38,7 +39,7 @@ public class MockLocalDataSource implements ILocalDataSource {
                 "Héctor",
                 "Edu",
                 "Eto",
-                new Date());
+                DateConverter.toFormattedDateTime(new Date().getTime()));
         game1.setRounds(getRandomRounds(1));
         games.add(game1);
         Game game2 = new Game(
@@ -47,7 +48,7 @@ public class MockLocalDataSource implements ILocalDataSource {
                 "Héctor Escaso",
                 "Eduardo Amador",
                 "Ernesto Vega",
-                new Date());
+                DateConverter.toFormattedDateTime(new Date().getTime()));
         game2.setRounds(getRandomRounds(2));
         games.add(game2);
         Game game3 = new Game(
@@ -56,7 +57,7 @@ public class MockLocalDataSource implements ILocalDataSource {
                 "Marco Antonio Olmos Domínguez",
                 "Héctor Escaso Gil",
                 "Ernesto Vega de la Iglesia Soria",
-                new Date());
+                DateConverter.toFormattedDateTime(new Date().getTime()));
         game3.setRounds(getRandomRounds(3));
         games.add(game3);
         Game game4 = new Game(
@@ -65,7 +66,7 @@ public class MockLocalDataSource implements ILocalDataSource {
                 "Chino",
                 "Marco Antonio Olmos Domínguez",
                 "Héctor Escaso Gil",
-                new Date());
+                DateConverter.toFormattedDateTime(new Date().getTime()));
         game4.setRounds(getRandomRounds(4));
         games.add(game4);
         Game game5 = new Game(
@@ -74,7 +75,7 @@ public class MockLocalDataSource implements ILocalDataSource {
                 "Ernesto Vega de la Iglesia Kolganova",
                 "Luis Miguel Froilán de todos los Santos",
                 "Ernesto Vega de la Iglesia Soria",
-                new Date());
+                DateConverter.toFormattedDateTime(new Date().getTime()));
         game5.setRounds(getRandomRounds(5));
         games.add(game5);
         return games;
@@ -85,8 +86,17 @@ public class MockLocalDataSource implements ILocalDataSource {
         List<Round> rounds = new ArrayList<>();
         for(int i = 1; i <= random.nextInt(16) + 1; i++) {
             Round round = new Round(gameId, i);
-            round.setHandPoints(random.nextInt(193) + 8);
-            round.setWinnerInitialPosition(random.nextInt(4) + 1);
+            int handPoints = random.nextInt(93) + 8;
+            int winnerInitialPosition = random.nextInt(4) + 1;
+            if(random.nextInt(2) == 0) {
+                round.setAllPlayersTsumoPoints(winnerInitialPosition, handPoints);
+            } else {
+                int looserInitialPosition;
+                do { looserInitialPosition = random.nextInt(4) + 1;
+                } while(looserInitialPosition == winnerInitialPosition);
+                round.setAllPlayersRonPoints(winnerInitialPosition, handPoints,
+                        looserInitialPosition);
+            }
             rounds.add(round);
         }
         return rounds;

@@ -6,7 +6,6 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = "Games",
@@ -19,8 +18,8 @@ public class Game {
     private String nameP2;
     private String nameP3;
     private String nameP4;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     @Ignore
     private List<Round> rounds;
 
@@ -46,15 +45,15 @@ public class Game {
         return nameP4;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -69,7 +68,7 @@ public class Game {
     //endregion
 
     public Game(final int gameId, String nameP1, String nameP2, String nameP3, String nameP4,
-                Date startDate) {
+                String startDate) {
         this.gameId = gameId;
         this.nameP1 = nameP1;
         this.nameP2 = nameP2;

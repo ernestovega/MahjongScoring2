@@ -2,7 +2,6 @@ package es.etologic.mahjongscoring2.app.main;
 
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -13,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -25,7 +25,7 @@ import es.etologic.mahjongscoring2.app.combinations.CombinationsFragment;
 import es.etologic.mahjongscoring2.app.new_game.NewGameFragment;
 import es.etologic.mahjongscoring2.app.old_games.OldGamesFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IMainActivityListener {
 
     //region Constants
 
@@ -36,14 +36,12 @@ public class MainActivity extends AppCompatActivity {
     private static final int GREEN_BOOK = 3;
     private static final int RATE = 4;
     private static final int CONTACT = 5;
-    private static final long BACK_PRESSED_TIME = 4000;
 
     //endregion
 
     //region Fields
 
-    @BindView (R.id.dlMain) DrawerLayout drawerLayout;
-    @BindView (R.id.tMain) Toolbar toolbar;
+    @BindView (R.id.dlMain) public DrawerLayout drawerLayout;
     @BindView(R.id.nvMain) NavigationView navigationView;
     private Unbinder unbinder;
     private int checkedDrawerItem = NONE;
@@ -56,21 +54,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
-        setupToolbar();
         setupDrawer();
         goToOldGames();
     }
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(drawerLayout)) {
+        if(drawerLayout.isDrawerOpen(Gravity.END)) {
             closeEndDrawer();
         } else {
             long currentTimeMillis = System.currentTimeMillis();
-            if((currentTimeMillis - lastBackPress) > BACK_PRESSED_TIME) {
+            if((currentTimeMillis - lastBackPress) > Snackbar.LENGTH_LONG) {
                 Snackbar.make(drawerLayout, R.string.press_again_to_exit, Snackbar.LENGTH_LONG)
                         .show();
                 lastBackPress = currentTimeMillis;
@@ -103,9 +101,10 @@ public class MainActivity extends AppCompatActivity {
 
     //endregion
 
-    //region Private
+    //region IMainActivityListener
 
-    private void setupToolbar() {
+    @Override
+    public void setToolbar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
                 drawerLayout, R.string.open_drawer, R.string.close_drawer);
@@ -116,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
         }
         actionBarDrawerToggle.syncState();
     }
+
+    //endregion
+
+    //region Private
 
     private void setupDrawer() {
         setupDrawerHeader();
@@ -149,7 +152,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void goToOldGames() {
         if(checkedDrawerItem != OLD_GAMES) {
-            goToFragment(R.string.old_games, R.id.nav_oldgames, OLD_GAMES, new OldGamesFragment());
+            OldGamesFragment oldGamesFragment = new OldGamesFragment();
+            oldGamesFragment.setMainActivityListener(this);
+            goToFragment(R.id.nav_oldgames, OLD_GAMES, oldGamesFragment);
         } else {
             closeEndDrawer();
         }
@@ -157,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void goToNewGame() {
         if(checkedDrawerItem != NEW_GAME) {
-            goToFragment(R.string.new_game, R.id.nav_newgame, NEW_GAME, new NewGameFragment());
+            goToFragment(R.id.nav_newgame, NEW_GAME, new NewGameFragment());
         } else {
             closeEndDrawer();
         }
@@ -165,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void goToCombinations() {
         if(checkedDrawerItem != COMBINATIONS) {
-            goToFragment(R.string.combinations, R.id.nav_combinations, COMBINATIONS,
+            goToFragment(R.id.nav_combinations, COMBINATIONS,
                     new CombinationsFragment());
         } else {
             closeEndDrawer();
@@ -184,9 +189,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void goToFragment(@StringRes int toolbarTitle, @IdRes int navOption, int menuOption,
+    private void goToFragment(@IdRes int navOption, int menuOption,
                               Fragment fragment) {
-        toolbar.setTitle(toolbarTitle);
         checkedDrawerItem = menuOption;
         navigationView.setCheckedItem(navOption);
         replaceFragment(fragment);

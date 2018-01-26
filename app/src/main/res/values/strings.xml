@@ -16,7 +16,7 @@
     <string name="press_again_to_exit">Press again to exit</string>
 
     <!-- OLD GAMES -->
-    <string name="theres_no_games_yet_start_one">There\'s no games yet,\nStart one!</string>
+    <string name="theres_no_games_yet_start_one">There\'s no games yet.\nStart one!</string>
     <string name="best_hand">Best hand</string>
     <string name="rounds">Rounds</string>
     <string name="delete">Delete</string>

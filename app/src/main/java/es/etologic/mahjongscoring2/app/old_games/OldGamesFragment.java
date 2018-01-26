@@ -3,12 +3,14 @@ package es.etologic.mahjongscoring2.app.old_games;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +25,11 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
+import es.etologic.mahjongscoring2.app.main.IMainActivityListener;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 
+import static android.view.View.VISIBLE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
@@ -33,6 +37,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     //region Fields
 
+    @BindView (R.id.tOldGames) Toolbar toolbar;
     @BindView (R.id.slOldGames) SwipeRefreshLayout swipeLayout;
     @BindView (R.id.rvOldGames) RecyclerView rvOldGames;
     @BindView (R.id.llOldGamesEmptyView) LinearLayout emptyLayout;
@@ -40,18 +45,20 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     private OldGamesRvAdapter rvAdapter;
     private Context context;
     private OldGamesViewModel viewModel;
+    private IMainActivityListener mainActivityListener;
 
     //endregion
 
     //region Lifecycle
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.oldgames_fragment, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         context = getContext();
         unbinder = ButterKnife.bind(this, view);
@@ -63,9 +70,25 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if(mainActivityListener != null) {
+            mainActivityListener.setToolbar(toolbar);
+        }
+    }
+
+    @Override
     public void onDestroy() {
         unbinder.unbind();
         super.onDestroy();
+    }
+
+    //endregion
+
+    //region Public
+
+    public void setMainActivityListener(IMainActivityListener mainActivityListener) {
+        this.mainActivityListener = mainActivityListener;
     }
 
     //endregion
@@ -100,8 +123,6 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     //region Private
 
-    //region Private
-
     private void setupViewModel() {
         viewModel = ViewModelProviders
                 .of(this, Injector.provideOldGamesViewModelFactory(context))
@@ -128,6 +149,8 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     }
 
     private void setGames(List<Game> games) {
+        if(games == null || games.isEmpty()) emptyLayout.setVisibility(VISIBLE);
+        if(emptyLayout.getVisibility() == VISIBLE) emptyLayout.setVisibility(View.GONE);
         rvAdapter.setGames(games);
         toogleLocalProgress(HIDE);
     }

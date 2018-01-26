@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c9d321a67a4e4bfea14e0b0db3406782",
+    "identityHash": "8d8842ee0d05cab219eedbb7b3f7068a",
     "entities": [
       {
         "tableName": "Players",
@@ -35,7 +35,7 @@
       },
       {
         "tableName": "Games",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER NOT NULL, `nameP1` TEXT, `nameP2` TEXT, `nameP3` TEXT, `nameP4` TEXT, `startDate` INTEGER, `endDate` INTEGER, PRIMARY KEY(`gameId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER NOT NULL, `nameP1` TEXT, `nameP2` TEXT, `nameP3` TEXT, `nameP4` TEXT, `startDate` TEXT, `endDate` TEXT, PRIMARY KEY(`gameId`))",
         "fields": [
           {
             "fieldPath": "gameId",
@@ -70,13 +70,13 @@
           {
             "fieldPath": "startDate",
             "columnName": "startDate",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "endDate",
             "columnName": "endDate",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": false
           }
         ],
@@ -216,7 +216,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c9d321a67a4e4bfea14e0b0db3406782\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8d8842ee0d05cab219eedbb7b3f7068a\")"
     ]
   }
 }
