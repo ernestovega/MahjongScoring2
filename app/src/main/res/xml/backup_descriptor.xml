@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- Exclude specific shared preferences that contain GCM registration Id -->
+    <include
+        domain="root"
+        path="."/>
+    <include
+        domain="file"
+        path="."/>
+    <include
+        domain="database"
+        path="."/>
+    <include
+        domain="sharedpref"
+        path="."/>
+    <include
+        domain="external"
+        path="."/>
+    <!--https://developer.android.com/guide/topics/data/autobackup.html#IncludingFiles-->
+</full-backup-content>
