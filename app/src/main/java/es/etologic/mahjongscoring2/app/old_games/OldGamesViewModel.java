@@ -20,8 +20,7 @@ class OldGamesViewModel extends BaseViewModel {
     private final GetGamesUseCase getOldGamesUseCase;
     private MutableLiveData<List<Game>> oldGames = new MutableLiveData<List<Game>>() {};
 
-    OldGamesViewModel(UseCaseHandler useCaseHandler,
-                      GetGamesUseCase getOldGamesUseCase) {
+    OldGamesViewModel(UseCaseHandler useCaseHandler, GetGamesUseCase getOldGamesUseCase) {
         super(useCaseHandler);
         this.getOldGamesUseCase = getOldGamesUseCase;
     }

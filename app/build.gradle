@@ -64,22 +64,25 @@ dependencies {
     compile "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
-    //Architecture components & Rooms
-    compile "android.arch.persistence.room:runtime:$archComponentsVersion"
-    annotationProcessor "android.arch.persistence.room:compiler:$archComponentsVersion"
-    compile "android.arch.lifecycle:runtime:$archComponentsVersion"
-    compile "android.arch.lifecycle:extensions:$archComponentsVersion"
-    annotationProcessor "android.arch.lifecycle:compiler:$archComponentsVersion"
-
-    //Test
-    testCompile("android.arch.core:core-testing:$archComponentsVersion", {
+    //Architecture components: Room, Lifecycle & Testing
+    compile "android.arch.persistence.room:runtime:$archComponentsPersistanceVersion"
+    annotationProcessor "android.arch.persistence.room:compiler:$archComponentsPersistanceVersion"
+    compile "android.arch.lifecycle:runtime:$archComponentsLifecycleVersion"
+    compile "android.arch.lifecycle:extensions:$archComponentsLifecycleVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$archComponentsLifecycleVersion"
+    testCompile("android.arch.core:core-testing:$archComponentsPersistanceVersion", {
         exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-core-utils'
     })
+
+    //Test
     testImplementation "junit:junit:4.12"
     androidTestImplementation "com.android.support.test:runner:1.0.1"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.1"
     testCompile "org.mockito:mockito-core:2.12.0"
+
+    //Chips
+    compile "com.github.pchmn:MaterialChipsInput:1.0.8"
 
 }

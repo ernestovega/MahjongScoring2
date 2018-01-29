@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".app.new_game.NewGameFragment">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarNewGame"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/toolbar_elevation"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/new_game"
+        tools:ignore="UnusedAttribute" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayoutNewGame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:attr/actionBarSize">
+
+        <com.pchmn.materialchips.ChipsInput
+            android:id="@+id/chipsViewNewGame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:hasAvatarIcon="false"
+            app:backgroundColor="@color/colorPrimary"
+            app:deletable="true"
+            app:deleteIconColor="@android:color/white"
+            app:label="Ernesto Vega de la Iglesia Soria"
+            app:labelColor="@android:color/white" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</android.support.design.widget.CoordinatorLayout>

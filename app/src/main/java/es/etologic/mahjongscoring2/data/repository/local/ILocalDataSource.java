@@ -9,11 +9,14 @@ import es.etologic.mahjongscoring2.domain.entities.Player;
 
 public interface ILocalDataSource {
 
-    void clearDataBase();
+    //DATABASE
+    void clearDatabase();
 
+    //GAMES
     List<Game> getAllGames();
-
-    boolean savePlayers(List<Player> players);
-
     boolean saveGame(Game game) throws SQLiteConstraintException;
+
+    //PLAYERS
+    List<Player> getAllPlayers();
+    boolean savePlayers(List<Player> players);
 }

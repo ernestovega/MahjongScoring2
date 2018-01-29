@@ -16,20 +16,34 @@ public class MockLocalDataSource implements ILocalDataSource {
     //region IRemoteDataSource implementation
 
     @Override
-    public void clearDataBase() {}
+    public void clearDatabase() {}
 
     //PLAYERS
+    @Override
+    public List<Player> getAllPlayers() {
+        List<Player> players = new ArrayList<>();
+        players.add(new Player("Chino"));
+        players.add(new Player("Antonio Ayllón"));
+        players.add(new Player("Héctor"));
+        players.add(new Player("Héctor Escaso"));
+        players.add(new Player("Héctor Escaso Gil"));
+        players.add(new Player("Edu"));
+        players.add(new Player("Eduardo Amador"));
+        players.add(new Player("Eto"));
+        players.add(new Player("Ernesto Vega"));
+        players.add(new Player("Ernesto Vega de la Iglesia Soria"));
+        players.add(new Player("Ernesto Vega de la Iglesia Kolganova"));
+        players.add(new Player("Marco Antonio Olmos Domínguez"));
+        players.add(new Player("Luis Miguel Froilán de todos los Santos"));
+        return players;
+    }
+
     @Override
     public boolean savePlayers(List<Player> players) {
         return true;
     }
 
     //GAMES
-    @Override
-    public boolean saveGame(Game game) {
-        return true;
-    }
-
     @Override
     public List<Game> getAllGames() {
         List<Game> games = new ArrayList<>();
@@ -80,6 +94,15 @@ public class MockLocalDataSource implements ILocalDataSource {
         games.add(game5);
         return games;
     }
+
+    @Override
+    public boolean saveGame(Game game) {
+        return true;
+    }
+
+    //endregion
+
+    //region Private
 
     private List<Round> getRandomRounds(int gameId) {
         Random random = new Random();

@@ -34,21 +34,16 @@ public class LocalDataSource implements ILocalDataSource {
     //region IRemoteDataSource implementation
 
     @Override
-    public void clearDataBase() {
-    }
-
-    //PLAYERS
-    @Override
-    public boolean savePlayers(List<Player> players) {
-        try {
-            playersDao.bulkInsert(players);
-        } catch(SQLiteConstraintException exception) {
-            return false;
-        }
-        return true;
+    public void clearDatabase() {
     }
 
     //GAMES
+
+    @Override
+    public List<Game> getAllGames() {
+        return gamesDao.getAll();
+    }
+
     @Override
     public boolean saveGame(Game game) {
         try {
@@ -59,9 +54,20 @@ public class LocalDataSource implements ILocalDataSource {
         return true;
     }
 
+    //PLAYERS
     @Override
-    public List<Game> getAllGames() {
-        return gamesDao.getAll();
+    public List<Player> getAllPlayers() {
+        return playersDao.getAll();
+    }
+
+    @Override
+    public boolean savePlayers(List<Player> players) {
+        try {
+            playersDao.bulkInsert(players);
+        } catch(SQLiteConstraintException exception) {
+            return false;
+        }
+        return true;
     }
 
     //endregion

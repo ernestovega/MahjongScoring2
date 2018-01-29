@@ -25,7 +25,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
-import es.etologic.mahjongscoring2.app.main.IMainActivityListener;
+import es.etologic.mahjongscoring2.app.main.IMainToolbarListener;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 
@@ -37,15 +37,15 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     //region Fields
 
-    @BindView (R.id.tOldGames) Toolbar toolbar;
-    @BindView (R.id.slOldGames) SwipeRefreshLayout swipeLayout;
-    @BindView (R.id.rvOldGames) RecyclerView rvOldGames;
-    @BindView (R.id.llOldGamesEmptyView) LinearLayout emptyLayout;
+    @BindView (R.id.toolbarOldGames) Toolbar toolbar;
+    @BindView (R.id.swipeRefreshLayoutOldGames) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView (R.id.recyclerViewOldGames) RecyclerView recyclerView;
+    @BindView (R.id.emptyLayoutOldGames) LinearLayout emptyLayout;
     private Unbinder unbinder;
     private OldGamesRvAdapter rvAdapter;
     private Context context;
     private OldGamesViewModel viewModel;
-    private IMainActivityListener mainActivityListener;
+    private IMainToolbarListener mainToolbarListener;
 
     //endregion
 
@@ -63,7 +63,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
         context = getContext();
         unbinder = ButterKnife.bind(this, view);
         setupViewModel();
-        setupSwipeRefresh();
+        setupSwipeRefreshLayout();
         setupRecyclerView();
         observeViewModel();
         viewModel.loadGames();
@@ -72,9 +72,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     @Override
     public void onResume() {
         super.onResume();
-        if(mainActivityListener != null) {
-            mainActivityListener.setToolbar(toolbar);
-        }
+        setToolbar();
     }
 
     @Override
@@ -87,8 +85,9 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     //region Public
 
-    public void setMainActivityListener(IMainActivityListener mainActivityListener) {
-        this.mainActivityListener = mainActivityListener;
+    public void setMainToolbarListener(IMainToolbarListener mainToolbarListener) {
+        this.mainToolbarListener = mainToolbarListener;
+        setToolbar();
     }
 
     //endregion
@@ -97,7 +96,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     @OnClick (R.id.fabOldGames)
     public void onFabNewGameClick() {
-        Snackbar.make(swipeLayout, "fabOldGames clicked!", Snackbar.LENGTH_LONG)
+        Snackbar.make(swipeRefreshLayout, "fabOldGames clicked!", Snackbar.LENGTH_LONG)
                 .show();
     }
 
@@ -108,14 +107,14 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     @Override
     public void onOldGameItemDeleteClicked(int gameId) {
         String message = String.format(Locale.getDefault(),"game %d delete clicked!", gameId);
-        Snackbar.make(swipeLayout, message, Snackbar.LENGTH_LONG)
+        Snackbar.make(swipeRefreshLayout, message, Snackbar.LENGTH_LONG)
                 .show();
     }
 
     @Override
     public void onOldGameItemResumeClicked(int gameId) {
         String message = String.format(Locale.getDefault(),"game %d resume clicked!", gameId);
-        Snackbar.make(swipeLayout, message, Snackbar.LENGTH_LONG)
+        Snackbar.make(swipeRefreshLayout, message, Snackbar.LENGTH_LONG)
                 .show();
     }
 
@@ -129,23 +128,30 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
                 .get(OldGamesViewModel.class);
     }
 
-    private void setupSwipeRefresh() {
-        swipeLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
-        swipeLayout.setOnRefreshListener(() -> viewModel.loadGames());
+    private void setupSwipeRefreshLayout() {
+        swipeRefreshLayout.setColorSchemeColors(
+                getResources().getIntArray(R.array.swipeRefreshColors));
+        swipeRefreshLayout.setOnRefreshListener(() -> viewModel.loadGames());
     }
 
     public void setupRecyclerView() {
-        rvOldGames.setHasFixedSize(true);
-        rvOldGames.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         rvAdapter = new OldGamesRvAdapter();
         rvAdapter.setOldGameItemListener(this);
-        rvOldGames.setAdapter(rvAdapter);
+        recyclerView.setAdapter(rvAdapter);
     }
 
     private void observeViewModel() {
         viewModel.getOldGames().observe(this, this :: setGames);
         viewModel.getProgressState().observe(this, this :: toogleLocalProgress);
         viewModel.getSnackbarMessage().observe(this, this :: showSnackbar);
+    }
+
+    private void setToolbar() {
+        if(mainToolbarListener != null && toolbar != null) {
+            mainToolbarListener.setToolbar(toolbar);
+        }
     }
 
     private void setGames(List<Game> games) {
@@ -156,14 +162,13 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     }
 
     private void toogleLocalProgress(ShowState showState) {
-        swipeLayout.setRefreshing(showState == SHOW);
+        swipeRefreshLayout.setRefreshing(showState == SHOW);
     }
 
     private void showSnackbar(String message) {
-        Snackbar.make(swipeLayout, message, Snackbar.LENGTH_LONG)
+        Snackbar.make(swipeRefreshLayout, message, Snackbar.LENGTH_LONG)
                 .show();
     }
 
     //endregion
-
 }

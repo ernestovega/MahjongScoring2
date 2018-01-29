@@ -13,7 +13,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/tOldGames"
+            android:id="@+id/toolbarOldGames"
             app:title="@string/old_games"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
@@ -27,7 +27,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/slOldGames"
+        android:id="@+id/swipeRefreshLayoutOldGames"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -37,7 +37,7 @@
             android:layout_height="match_parent">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvOldGames"
+                android:id="@+id/recyclerViewOldGames"
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -48,7 +48,7 @@
                 android:visibility="visible"/>
 
             <LinearLayout
-                android:id="@+id/llOldGamesEmptyView"
+                android:id="@+id/emptyLayoutOldGames"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/white"
