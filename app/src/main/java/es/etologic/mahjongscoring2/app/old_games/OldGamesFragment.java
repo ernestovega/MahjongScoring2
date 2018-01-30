@@ -97,6 +97,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     @OnClick (R.id.fabOldGames)
     public void onFabNewGameClick() {
+        //TODO
         Snackbar.make(swipeRefreshLayout, "fabOldGames clicked!", Snackbar.LENGTH_LONG)
                 .show();
     }
@@ -107,6 +108,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     @Override
     public void onOldGameItemDeleteClicked(int gameId) {
+        //TODO
         String message = String.format(Locale.getDefault(),"game %d delete clicked!", gameId);
         Snackbar.make(toolbar, message, Snackbar.LENGTH_LONG)
                 .show();
@@ -114,6 +116,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     @Override
     public void onOldGameItemResumeClicked(int gameId) {
+        //TODO
         String message = String.format(Locale.getDefault(),"game %d resume clicked!", gameId);
         Snackbar.make(toolbar, message, Snackbar.LENGTH_LONG)
                 .show();

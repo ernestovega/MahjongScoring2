@@ -1,23 +1,20 @@
 package es.etologic.mahjongscoring2.app.new_game;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.TranslateAnimation;
+import android.widget.LinearLayout;
 
 import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
@@ -33,9 +30,13 @@ import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.main.IMainToolbarListener;
 import es.etologic.mahjongscoring2.app.model.ShowState;
+import es.etologic.mahjongscoring2.app.utils.StringUtils;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 
-import static android.view.animation.Animation.RELATIVE_TO_SELF;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
+import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
 public class NewGameFragment extends Fragment {
 
@@ -43,7 +44,8 @@ public class NewGameFragment extends Fragment {
 
     @BindView(R.id.toolbarNewGame) Toolbar toolbar;
     @BindView(R.id.chipsInputNewGame) ChipsInput chipsInput;
-    @BindView(R.id.fabNewGame) FloatingActionButton fab;
+    @BindView(R.id.fabNewGameCreatePlayer) FloatingActionButton fabCreatePlayer;
+    @BindView(R.id.fabNewGameStartGame) FloatingActionButton fabStartGame;
     private Unbinder unbinder;
     private Context context;
     private NewGameViewModel viewModel;
@@ -67,7 +69,6 @@ public class NewGameFragment extends Fragment {
         setupViewModel();
         observeViewModel();
         setupChips();
-        hideFab();
     }
 
     @Override
@@ -96,9 +97,31 @@ public class NewGameFragment extends Fragment {
 
     //region Events
 
-    @OnClick(R.id.fabNewGame) void onFabNewGameClick() {
+    @OnClick(R.id.fabNewGameCreatePlayer) void onFabCreatePlayerClick() {
+        final TextInputLayout til = new TextInputLayout(context);
+        final TextInputEditText tiet = new TextInputEditText(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        til.setLayoutParams(layoutParams);
+        tiet.setLayoutParams(layoutParams);
+        til.addView(tiet);
+        String enteredName = getChipsEnteredText();
+        til.setHint(StringUtils.isEmpty(enteredName) ? getString(R.string.player_name) : enteredName);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(R.string.add_new_player)
+                .setPositiveButton(android.R.string.ok, (dialog, which) ->
+/*TODO: COMPROBAR QUE NO SE PUEDE AÑADIR UN JUGADOR DOS VECES Y REALIZAR VALIDACIONES SOBRE EL NOMBRE*/
+                        viewModel.createPlayer(tiet.getText().toString().trim()))
+                .setNegativeButton(android.R.string.cancel, null)
+                .setView(til)
+                .create()
+                .show();
+    }
+
+    @OnClick(R.id.fabNewGameStartGame) void onFabStartGameClick() {
         List<Player> players = obtainPlayers(getSelectedPlayerChips());
-        viewModel.playersEntered(players);
+        viewModel.createGame(players);
     }
 
     //endregion
@@ -112,23 +135,26 @@ public class NewGameFragment extends Fragment {
     }
 
     private void observeViewModel() {
-        viewModel.getPlayers().observe(this, this :: setAllPlayers);
+        viewModel.getAllPlayers().observe(this, this :: setAllPlayers);
+        viewModel.getNewPlayer().observe(this, this :: addNewPlayer);
+        viewModel.getNewGameId().observe(this, this :: startGame);
     }
 
     private void setAllPlayers(List<Player> allPlayers) {
         chipsInput.setFilterableList(createPlayerChips(allPlayers));
     }
 
-    private void toogleProgress(ShowState showState) {
-
+    private void addNewPlayer(Player player) {
+        addPlayerChip(player);
     }
 
-    private void showFab() {
-        fab.setVisibility(View.VISIBLE);
+    private void startGame(int gameId) {
+        
     }
 
-    private void hideFab() {
-        fab.setVisibility(View.GONE);
+    private void toogleFabStartGame(ShowState showState) {
+        fabStartGame.setVisibility(showState == SHOW ? VISIBLE : GONE);
+        fabStartGame.setVisibility(showState == SHOW ? GONE : VISIBLE);
     }
 
     //endregion
@@ -142,16 +168,16 @@ public class NewGameFragment extends Fragment {
             @Override
             public void onChipAdded(ChipInterface chip, int newSize) {
                 if(newSize == 4) {
-                    chipsInput.getEditText().setEnabled(false);
-                    showFab();
+                    chipsInput.getEditText().setVisibility(GONE);
+                    toogleFabStartGame(SHOW);
                 }
             }
 
             @Override
             public void onChipRemoved(ChipInterface chip, int newSize) {
                 if(newSize == 3) {
-                    chipsInput.getEditText().setEnabled(true);
-                    hideFab();
+                    chipsInput.getEditText().setVisibility(VISIBLE);
+                    toogleFabStartGame(HIDE);
                 }
             }
 
@@ -160,6 +186,10 @@ public class NewGameFragment extends Fragment {
                 // text changed
             }
         });
+    }
+
+    private String getChipsEnteredText() {
+        return chipsInput.getEditText().getText().toString();
     }
 
     private List<PlayerChip> getSelectedPlayerChips() {
@@ -181,6 +211,11 @@ public class NewGameFragment extends Fragment {
             players.add(new Player(playerChip.getPlayer().getPlayerName()));
         }
         return players;
+    }
+
+    private void addPlayerChip(Player player) {
+        PlayerChip playerChip = new PlayerChip(player);
+        chipsInput.addChip(playerChip);
     }
 
     //endregion
