@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimary</item>
-        <item name="android:statusBarColor">@color/colorPrimary</item>
-        <item name="android:windowContentTransitions">true</item>
+    <style playerName="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item playerName="colorPrimary">@color/colorPrimary</item>
+        <item playerName="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item playerName="colorAccent">@color/colorPrimary</item>
+        <item playerName="android:statusBarColor">@color/colorPrimary</item>
+        <item playerName="android:windowContentTransitions">true</item>
     </style>
 
 </resources>

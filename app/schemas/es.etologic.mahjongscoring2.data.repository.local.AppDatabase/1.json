@@ -2,40 +2,40 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8d8842ee0d05cab219eedbb7b3f7068a",
+    "identityHash": "0951df807aba2c55a374a9cd86d92afc",
     "entities": [
       {
         "tableName": "Players",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, PRIMARY KEY(`name`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`playerName` TEXT NOT NULL, PRIMARY KEY(`playerName`))",
         "fields": [
           {
-            "fieldPath": "name",
-            "columnName": "name",
+            "fieldPath": "playerName",
+            "columnName": "playerName",
             "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "name"
+            "playerName"
           ],
           "autoGenerate": false
         },
         "indices": [
           {
-            "name": "index_Players_name",
+            "name": "index_Players_playerName",
             "unique": true,
             "columnNames": [
-              "name"
+              "playerName"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_Players_name` ON `${TABLE_NAME}` (`name`)"
+            "createSql": "CREATE UNIQUE INDEX `index_Players_playerName` ON `${TABLE_NAME}` (`playerName`)"
           }
         ],
         "foreignKeys": []
       },
       {
         "tableName": "Games",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER NOT NULL, `nameP1` TEXT, `nameP2` TEXT, `nameP3` TEXT, `nameP4` TEXT, `startDate` TEXT, `endDate` TEXT, PRIMARY KEY(`gameId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER NOT NULL, `nameP1` TEXT, `nameP2` TEXT, `nameP3` TEXT, `nameP4` TEXT, `startDate` TEXT, `endDate` TEXT NOT NULL, PRIMARY KEY(`gameId`))",
         "fields": [
           {
             "fieldPath": "gameId",
@@ -77,7 +77,7 @@
             "fieldPath": "endDate",
             "columnName": "endDate",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -212,11 +212,52 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "Combinations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`combinationName` TEXT NOT NULL, `combinationDescription` TEXT, `combinationPoints` INTEGER NOT NULL, PRIMARY KEY(`combinationName`))",
+        "fields": [
+          {
+            "fieldPath": "combinationName",
+            "columnName": "combinationName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "combinationDescription",
+            "columnName": "combinationDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "combinationPoints",
+            "columnName": "combinationPoints",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "combinationName"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Combinations_combinationName",
+            "unique": true,
+            "columnNames": [
+              "combinationName"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Combinations_combinationName` ON `${TABLE_NAME}` (`combinationName`)"
+          }
+        ],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8d8842ee0d05cab219eedbb7b3f7068a\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0951df807aba2c55a374a9cd86d92afc\")"
     ]
   }
 }

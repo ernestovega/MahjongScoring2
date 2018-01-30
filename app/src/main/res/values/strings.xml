@@ -21,6 +21,7 @@
     <string name="rounds">Rounds</string>
     <string name="delete">Delete</string>
     <string name="resume">Resume</string>
+    <string name="enter_a_name">Enter a name</string>
 
 
 </resources>

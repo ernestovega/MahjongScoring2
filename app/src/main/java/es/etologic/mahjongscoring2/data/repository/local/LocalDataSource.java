@@ -5,8 +5,10 @@ import android.database.sqlite.SQLiteConstraintException;
 
 import java.util.List;
 
+import es.etologic.mahjongscoring2.data.repository.local.daos.CombinationsDao;
 import es.etologic.mahjongscoring2.data.repository.local.daos.GamesDao;
 import es.etologic.mahjongscoring2.data.repository.local.daos.PlayersDao;
+import es.etologic.mahjongscoring2.domain.entities.Combination;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 
@@ -17,6 +19,7 @@ public class LocalDataSource implements ILocalDataSource {
     private final Context context;
     private final PlayersDao playersDao;
     private final GamesDao gamesDao;
+    private final CombinationsDao combinationsDao;
 
     //endregion
 
@@ -27,6 +30,7 @@ public class LocalDataSource implements ILocalDataSource {
         AppDatabase database = AppDatabase.getInstance(this.context.getApplicationContext());
         playersDao = database.getPlayersDao();
         gamesDao = database.getGamesDao();
+        combinationsDao = database.getCombinationsDao();
     }
 
     //endregion
@@ -68,6 +72,12 @@ public class LocalDataSource implements ILocalDataSource {
             return false;
         }
         return true;
+    }
+
+    //COMBINATIONS
+    @Override
+    public List<Combination> getAllCombinations() {
+        return combinationsDao.getAll();
     }
 
     //endregion

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.new_game.NewGameFragment">
+    tools:context=".app.new_game.NewGameFragment"
+    android:animateLayoutChanges="true">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarNewGame"
@@ -17,23 +18,27 @@
         app:title="@string/new_game"
         tools:ignore="UnusedAttribute" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayoutNewGame"
+    <com.pchmn.materialchips.ChipsInput
+        android:id="@+id/chipsInputNewGame"
+        android:layout_marginTop="?android:attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?android:attr/actionBarSize">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/standard_margin"
+        app:chip_deletable="true"
+        app:chip_backgroundColor="@color/colorPrimary"
+        app:chip_deleteIconColor="@android:color/white"
+        app:chip_detailed_textColor="@android:color/white"
+        app:hint="@string/enter_a_name"
+        app:maxRows="3"/>
 
-        <com.pchmn.materialchips.ChipsInput
-            android:id="@+id/chipsViewNewGame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:hasAvatarIcon="false"
-            app:backgroundColor="@color/colorPrimary"
-            app:deletable="true"
-            app:deleteIconColor="@android:color/white"
-            app:label="Ernesto Vega de la Iglesia Soria"
-            app:labelColor="@android:color/white" />
-
-    </android.support.v4.widget.SwipeRefreshLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabNewGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="@android:color/white"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/standard_margin"
+        android:src="@drawable/ic_play_arrow_white_24px"
+        android:visibility="gone"/>
 
 </android.support.design.widget.CoordinatorLayout>

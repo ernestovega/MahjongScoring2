@@ -7,6 +7,7 @@ import java.util.Random;
 
 import es.etologic.mahjongscoring2.data.repository.local.ILocalDataSource;
 import es.etologic.mahjongscoring2.data.repository.local.converters.DateConverter;
+import es.etologic.mahjongscoring2.domain.entities.Combination;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 import es.etologic.mahjongscoring2.domain.entities.Round;
@@ -98,6 +99,12 @@ public class MockLocalDataSource implements ILocalDataSource {
     @Override
     public boolean saveGame(Game game) {
         return true;
+    }
+
+    //COMBINATIONS
+    @Override
+    public List<Combination> getAllCombinations() {
+        return new ArrayList<>();
     }
 
     //endregion

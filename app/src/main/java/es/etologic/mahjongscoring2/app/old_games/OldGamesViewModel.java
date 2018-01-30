@@ -25,6 +25,10 @@ class OldGamesViewModel extends BaseViewModel {
         this.getOldGamesUseCase = getOldGamesUseCase;
     }
 
+    LiveData<List<Game>> getOldGames() {
+        return oldGames;
+    }
+
     void loadGames() {
         progressState.setValue(SHOW);
         useCaseHandler.execute(getOldGamesUseCase, null,
@@ -41,9 +45,5 @@ class OldGamesViewModel extends BaseViewModel {
                         progressState.setValue(HIDE);
                     }
                 });
-    }
-
-    LiveData<List<Game>> getOldGames() {
-        return oldGames;
     }
 }

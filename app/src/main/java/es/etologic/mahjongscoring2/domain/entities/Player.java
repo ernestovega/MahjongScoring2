@@ -6,19 +6,19 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 @Entity(tableName = "Players",
-        indices = { @Index (value = { "name" }, unique = true) })
+        indices = { @Index (value = { "playerName" }, unique = true) })
 public class Player {
 
     @PrimaryKey
     @NonNull
-    private final String name;
+    private final String playerName;
 
     @NonNull
-    public String getName() {
-        return name;
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public Player(@NonNull final String name) {
-        this.name = name;
+    public Player(@NonNull final String playerName) {
+        this.playerName = playerName;
     }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import es.etologic.mahjongscoring2.data.repository.local.ILocalDataSource;
 import es.etologic.mahjongscoring2.domain.DataSource;
+import es.etologic.mahjongscoring2.domain.entities.Combination;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 
@@ -33,6 +34,11 @@ public class DataProvider implements DataSource {
     @Override
     public List<Player> getAllPlayers() {
         return localDataSource.getAllPlayers();
+    }
+
+    @Override
+    public List<Combination> getAllCombinations() {
+        return localDataSource.getAllCombinations();
     }
 
     //endregion

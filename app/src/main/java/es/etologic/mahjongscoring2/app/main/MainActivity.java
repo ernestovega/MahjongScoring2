@@ -2,10 +2,15 @@ package es.etologic.mahjongscoring2.app.main;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -16,7 +21,8 @@ import es.etologic.mahjongscoring2.BuildConfig;
 import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
 
-public class MainActivity extends AppCompatActivity implements IMainToolbarListener {
+public class MainActivity extends AppCompatActivity implements IMainActivityListener,
+        IMainToolbarListener {
 
     //region Fields
 
@@ -24,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements IMainToolbarListe
     @BindView(R.id.navigationViewMain) NavigationView navigationView;
     private Unbinder unbinder;
     private MainNavigation mainNavigation;
+    private long lastBackPress;
 
     //endregion
 
@@ -42,7 +49,15 @@ public class MainActivity extends AppCompatActivity implements IMainToolbarListe
 
     @Override
     public void onBackPressed() {
-        if(!mainNavigation.onBackPressed()) {
+        if (drawerLayout.isDrawerOpen(Gravity.END)) {
+            closeEndDrawer();
+        } else {
+            long currentTimeMillis = System.currentTimeMillis();
+            if ((currentTimeMillis - lastBackPress) > Snackbar.LENGTH_LONG) {
+                Snackbar.make(navigationView, R.string.press_again_to_exit, Snackbar.LENGTH_LONG)
+                        .show();
+                lastBackPress = currentTimeMillis;
+            }
             super.onBackPressed();
         }
     }
@@ -61,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements IMainToolbarListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mainNavigation.hamburgerPressed();
+                openEndDrawer();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -83,7 +98,30 @@ public class MainActivity extends AppCompatActivity implements IMainToolbarListe
             getSupportActionBar().setHomeButtonEnabled(true);
         }
         actionBarDrawerToggle.syncState();
-        mainNavigation.setDrawerLayout(drawerLayout);
+    }
+
+    @Override
+    public void openEndDrawer() {
+        if (drawerLayout != null) {
+            drawerLayout.openDrawer(Gravity.END, true);
+        }
+    }
+
+    @Override
+    public void closeEndDrawer() {
+        if (drawerLayout != null) {
+            drawerLayout.closeDrawer(Gravity.END, true);
+        }
+    }
+
+    @Override
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right,
+                R.anim.enter_from_right, R.anim.exit_to_left);
+        fragmentTransaction.replace(R.id.frameLayoutMain, fragment);
+        fragmentTransaction.commit();
     }
 
     //endregion
@@ -97,8 +135,7 @@ public class MainActivity extends AppCompatActivity implements IMainToolbarListe
     }
 
     private void setupMainNavigation() {
-        mainNavigation = Injector.provideMainNavigation(navigationView,
-                getSupportFragmentManager(), this);
+        mainNavigation = Injector.provideMainNavigation(navigationView, this, this);
     }
 
     //endregion

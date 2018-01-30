@@ -72,7 +72,9 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     @Override
     public void onResume() {
         super.onResume();
-        setToolbar();
+        if(mainToolbarListener != null && toolbar != null) {
+            mainToolbarListener.setToolbar(toolbar);
+        }
     }
 
     @Override
@@ -87,7 +89,6 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     public void setMainToolbarListener(IMainToolbarListener mainToolbarListener) {
         this.mainToolbarListener = mainToolbarListener;
-        setToolbar();
     }
 
     //endregion
@@ -107,14 +108,14 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     @Override
     public void onOldGameItemDeleteClicked(int gameId) {
         String message = String.format(Locale.getDefault(),"game %d delete clicked!", gameId);
-        Snackbar.make(swipeRefreshLayout, message, Snackbar.LENGTH_LONG)
+        Snackbar.make(toolbar, message, Snackbar.LENGTH_LONG)
                 .show();
     }
 
     @Override
     public void onOldGameItemResumeClicked(int gameId) {
         String message = String.format(Locale.getDefault(),"game %d resume clicked!", gameId);
-        Snackbar.make(swipeRefreshLayout, message, Snackbar.LENGTH_LONG)
+        Snackbar.make(toolbar, message, Snackbar.LENGTH_LONG)
                 .show();
     }
 
@@ -148,12 +149,6 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
         viewModel.getSnackbarMessage().observe(this, this :: showSnackbar);
     }
 
-    private void setToolbar() {
-        if(mainToolbarListener != null && toolbar != null) {
-            mainToolbarListener.setToolbar(toolbar);
-        }
-    }
-
     private void setGames(List<Game> games) {
         if(games == null || games.isEmpty()) emptyLayout.setVisibility(VISIBLE);
         if(emptyLayout.getVisibility() == VISIBLE) emptyLayout.setVisibility(View.GONE);
@@ -166,7 +161,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     }
 
     private void showSnackbar(String message) {
-        Snackbar.make(swipeRefreshLayout, message, Snackbar.LENGTH_LONG)
+        Snackbar.make(toolbar, message, Snackbar.LENGTH_LONG)
                 .show();
     }
 

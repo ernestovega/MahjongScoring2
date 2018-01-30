@@ -21,7 +21,7 @@ class PlayerChip implements ChipInterface{
 
     @Override
     public String getId() {
-        return player.getName();
+        return player.getPlayerName();
     }
 
     @Override
@@ -36,7 +36,7 @@ class PlayerChip implements ChipInterface{
 
     @Override
     public String getLabel() {
-        return player.getName();
+        return player.getPlayerName();
     }
 
     @Override

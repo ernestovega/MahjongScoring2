@@ -26,6 +26,10 @@ class NewGameViewModel extends BaseViewModel {
         this.getPlayersUseCase = getPlayersUseCase;
     }
 
+    LiveData<List<Player>> getPlayers() {
+        return players;
+    }
+
     void loadAllPlayers() {
         progressState.setValue(SHOW);
         useCaseHandler.execute(getPlayersUseCase, null,
@@ -44,7 +48,7 @@ class NewGameViewModel extends BaseViewModel {
                 });
     }
 
-    LiveData<List<Player>> getPlayers() {
-        return players;
+    void playersEntered(List<Player> players) {
+        progressState.setValue(SHOW);
     }
 }

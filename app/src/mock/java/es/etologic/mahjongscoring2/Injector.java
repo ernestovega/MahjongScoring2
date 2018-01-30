@@ -4,15 +4,16 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
 
+import es.etologic.mahjongscoring2.app.combinations.CombinationsViewModelFactory;
+import es.etologic.mahjongscoring2.app.main.IMainActivityListener;
 import es.etologic.mahjongscoring2.app.main.IMainToolbarListener;
-import es.etologic.mahjongscoring2.app.main.MainActivity;
 import es.etologic.mahjongscoring2.app.main.MainNavigation;
 import es.etologic.mahjongscoring2.app.new_game.NewGameViewModelFactory;
 import es.etologic.mahjongscoring2.app.old_games.OldGamesViewModelFactory;
 import es.etologic.mahjongscoring2.data.repository.DataProvider;
 import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
+import es.etologic.mahjongscoring2.domain.use_cases.GetCombinationsUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetPlayersUseCase;
 import es.etologic.mahjongscoring2.repository.MockLocalDataSource;
@@ -31,9 +32,9 @@ public class Injector {
     }
 
     public static MainNavigation provideMainNavigation(NavigationView navigationView,
-                                                       FragmentManager supportFragmentManager,
-                                                       IMainToolbarListener iMainToolbarListener) {
-        return new MainNavigation(navigationView, supportFragmentManager, iMainToolbarListener);
+                                                       IMainActivityListener mainActivityListener,
+                                                       IMainToolbarListener mainToolbarListener) {
+        return new MainNavigation(navigationView, mainActivityListener, mainToolbarListener);
     }
 
     public static OldGamesViewModelFactory provideOldGamesViewModelFactory(
@@ -54,5 +55,14 @@ public class Injector {
 
     private static GetPlayersUseCase provideGetPlayersUseCase(Context context) {
         return new GetPlayersUseCase(provideDataSource(context));
+    }
+
+    public static ViewModelProvider.Factory provideCombinationsViewModelFactory(Context context) {
+        return new CombinationsViewModelFactory(provideUseCaseHandler(),
+                provideCombinationsUseCase(context));
+    }
+
+    private static GetCombinationsUseCase provideCombinationsUseCase(Context context) {
+        return new GetCombinationsUseCase(provideDataSource(context));
     }
 }

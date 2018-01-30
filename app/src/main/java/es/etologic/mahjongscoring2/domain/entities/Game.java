@@ -4,6 +4,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class Game {
     private String nameP3;
     private String nameP4;
     private String startDate;
+    @NonNull
     private String endDate;
     @Ignore
     private List<Round> rounds;
@@ -49,11 +51,12 @@ public class Game {
         return startDate;
     }
 
+    @NonNull
     public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(@NonNull String endDate) {
         this.endDate = endDate;
     }
 
@@ -67,14 +70,15 @@ public class Game {
 
     //endregion
 
-    public Game(final int gameId, String nameP1, String nameP2, String nameP3, String nameP4,
-                String startDate) {
+    public Game(final int gameId, String nameP1, String nameP2, String nameP3,
+                String nameP4, String startDate) {
         this.gameId = gameId;
         this.nameP1 = nameP1;
         this.nameP2 = nameP2;
         this.nameP3 = nameP3;
         this.nameP4 = nameP4;
         this.startDate = startDate;
+        this.endDate = "";
         this.rounds = new ArrayList<>();
     }
 
