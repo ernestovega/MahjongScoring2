@@ -10,6 +10,8 @@ import es.etologic.mahjongscoring2.app.base.BaseViewModel;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 import es.etologic.mahjongscoring2.domain.threading.UseCase;
 import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
+import es.etologic.mahjongscoring2.domain.use_cases.CreateGameUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.CreatePlayerUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetPlayersUseCase;
 
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
@@ -22,7 +24,7 @@ class NewGameViewModel extends BaseViewModel {
     private final CreateGameUseCase createGameUseCase;
     private MutableLiveData<List<Player>> allPlayers = new MutableLiveData<List<Player>>() {};
     private MutableLiveData<Player> newPlayer = new MutableLiveData<Player>() {};
-    private MutableLiveData<Integer> newGameId = new MutableLiveData<Integer>() {};
+    private MutableLiveData<Long> newGameId = new MutableLiveData<Long>() {};
 
     NewGameViewModel(UseCaseHandler useCaseHandler, GetPlayersUseCase getPlayersUseCase,
                      CreatePlayerUseCase createPlayerUseCase, CreateGameUseCase createGameUseCase) {
@@ -38,7 +40,7 @@ class NewGameViewModel extends BaseViewModel {
     LiveData<Player> getNewPlayer() {
         return newPlayer;
     }
-    LiveData<Integer> getNewGameId() {
+    LiveData<Long> getNewGameId() {
         return newGameId;
     }
 
@@ -62,7 +64,8 @@ class NewGameViewModel extends BaseViewModel {
 
     void createPlayer(String playerName) {
         progressState.setValue(SHOW);
-        useCaseHandler.execute(createPlayerUseCase, createPlayerRequest,
+        useCaseHandler.execute(createPlayerUseCase,
+                new CreatePlayerUseCase.RequestValues(playerName),
                 new UseCase.UseCaseCallback<CreatePlayerUseCase.ResponseValue>() {
                     @Override
                     public void onSuccess(CreatePlayerUseCase.ResponseValue response) {
@@ -80,7 +83,8 @@ class NewGameViewModel extends BaseViewModel {
 
     void createGame(List<Player> newGamePlayers) {
         progressState.setValue(SHOW);
-        useCaseHandler.execute(createGameUseCase, createGameRequest,
+        useCaseHandler.execute(createGameUseCase,
+                new CreateGameUseCase.RequestValues(newGamePlayers),
                 new UseCase.UseCaseCallback<CreateGameUseCase.ResponseValue>() {
 
                     @Override

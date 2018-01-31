@@ -1,7 +1,5 @@
 package es.etologic.mahjongscoring2.data.repository.local;
 
-import android.database.sqlite.SQLiteConstraintException;
-
 import java.util.List;
 
 import es.etologic.mahjongscoring2.domain.entities.Combination;
@@ -10,17 +8,23 @@ import es.etologic.mahjongscoring2.domain.entities.Player;
 
 public interface ILocalDataSource {
 
-    //DATABASE
+    //region DB
     void clearDatabase();
+    //endregion
 
-    //GAMES
+    //region GAMES
+    long insertGame(Game game);
+    Game getGame(long gameId);
     List<Game> getAllGames();
-    boolean saveGame(Game game) throws SQLiteConstraintException;
+    //endregion
 
-    //PLAYERS
+    //region PLAYERS
+    boolean insertPlayer(Player player);
+    Player getPlayer(String playerName);
     List<Player> getAllPlayers();
-    boolean savePlayers(List<Player> players);
+    //endregion
 
-    //COMBINATIONS
+    //region COMBINATIONS
     List<Combination> getAllCombinations();
+    //endregion
 }

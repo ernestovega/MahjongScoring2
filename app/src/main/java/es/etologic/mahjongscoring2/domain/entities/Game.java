@@ -4,30 +4,36 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
+import android.arch.persistence.room.TypeConverters;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import es.etologic.mahjongscoring2.data.repository.local.converters.DateConverter;
 
 @Entity(tableName = "Games",
         indices = { @Index ( value = { "gameId" }, unique = true) })
 public class Game {
 
-    @PrimaryKey
-    private final int gameId;
+    public static final int NOT_SET_GAME_ID = 0;
+
+    @PrimaryKey(autoGenerate = true)
+    private final long gameId;
     private String nameP1;
     private String nameP2;
     private String nameP3;
     private String nameP4;
-    private String startDate;
-    @NonNull
-    private String endDate;
+    @TypeConverters({DateConverter.class})
+    private Date startDate;
+    @TypeConverters({DateConverter.class})
+    private Date endDate;
     @Ignore
     private List<Round> rounds;
 
     //region Getters & Setters
 
-    public int getGameId() {
+    public long getGameId() {
         return gameId;
     }
 
@@ -47,16 +53,15 @@ public class Game {
         return nameP4;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    @NonNull
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(@NonNull String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -70,15 +75,14 @@ public class Game {
 
     //endregion
 
-    public Game(final int gameId, String nameP1, String nameP2, String nameP3,
-                String nameP4, String startDate) {
+    public Game(final long gameId, String nameP1, String nameP2, String nameP3, String nameP4,
+                Date startDate) {
         this.gameId = gameId;
         this.nameP1 = nameP1;
         this.nameP2 = nameP2;
         this.nameP3 = nameP3;
         this.nameP4 = nameP4;
         this.startDate = startDate;
-        this.endDate = "";
         this.rounds = new ArrayList<>();
     }
 

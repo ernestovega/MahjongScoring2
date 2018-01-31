@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 
 import es.etologic.mahjongscoring2.app.base.BaseViewModelFactory;
 import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
+import es.etologic.mahjongscoring2.domain.use_cases.CreateGameUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.CreatePlayerUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetPlayersUseCase;
 
 public class NewGameViewModelFactory extends BaseViewModelFactory {

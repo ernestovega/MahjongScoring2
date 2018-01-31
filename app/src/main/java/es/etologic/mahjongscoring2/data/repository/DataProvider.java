@@ -24,17 +24,45 @@ public class DataProvider implements DataSource {
         return INSTANCE;
     }
 
-    //region DataSource implementation
+    //region GAMES
+
+    @Override
+    public Long createGame(Game gameToInsert) {
+        return localDataSource.insertGame(gameToInsert);
+    }
+
+    @Override
+    public Game getGame(long gameId) {
+        return localDataSource.getGame(gameId);
+    }
 
     @Override
     public List<Game> getAllGames() {
         return localDataSource.getAllGames();
     }
 
+    //endregion
+
+    //region PLAYERS
+
+    @Override
+    public boolean createPlayer(Player player) {
+        return localDataSource.insertPlayer(player);
+    }
+
+    @Override
+    public Player getPlayer(String playerName) {
+        return localDataSource.getPlayer(playerName);
+    }
+
     @Override
     public List<Player> getAllPlayers() {
         return localDataSource.getAllPlayers();
     }
+
+    //endregion
+
+    //region COMBINATIONS
 
     @Override
     public List<Combination> getAllCombinations() {

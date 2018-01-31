@@ -19,6 +19,7 @@ import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
 import es.etologic.mahjongscoring2.domain.entities.BestHand;
 import es.etologic.mahjongscoring2.domain.entities.Game;
+import es.etologic.mahjongscoring2.domain.utils.DateUtils;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -28,8 +29,8 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //region Interface
 
     interface GameItemListener {
-        void onOldGameItemDeleteClicked(int gameId);
-        void onOldGameItemResumeClicked(int gameId);
+        void onOldGameItemDeleteClicked(long gameId);
+        void onOldGameItemResumeClicked(long gameId);
     }
 
     //endregion
@@ -125,7 +126,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //region ViewHolder
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
-        private int gameId;
+        private long gameId;
         @BindView (R.id.tvOldGameItemStartDate) TextView tvStartDate;
         @BindView (R.id.tvOldGameItemEndDate) TextView tvEndDate;
         @BindView (R.id.tvOlgGameItemPlayerEastName) TextView tvEastPlayerName;
@@ -194,9 +195,9 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         //Dates
         itemViewHolder.tvStartDate.setText(
-                game.getStartDate() == null ? "-" : game.getStartDate());
+                game.getStartDate() == null ? "-" : DateUtils.getPrettyDate(game.getStartDate()));
         itemViewHolder.tvEndDate.setText(
-                game.getEndDate() == null ? "-" : game.getEndDate());
+                game.getEndDate() == null ? "-" : DateUtils.getPrettyDate(game.getEndDate()));
 
         //Names
         itemViewHolder.tvEastPlayerName.setText(

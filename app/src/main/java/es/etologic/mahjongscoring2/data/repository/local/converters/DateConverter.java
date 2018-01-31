@@ -2,23 +2,17 @@ package es.etologic.mahjongscoring2.data.repository.local.converters;
 
 import android.arch.persistence.room.TypeConverter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.util.Date;
 
 public class DateConverter {
 
-    private static SimpleDateFormat englihSimpleDateFormat =
-            new SimpleDateFormat("EEEE MM/dd/yyyy hh:mm", Locale.ENGLISH);
-
     @TypeConverter
-    public static String toFormattedDateTime(Long timestamp) {
-        return timestamp == null ? null : englihSimpleDateFormat.format(timestamp);
+    public static Date toDate(Long timestamp) {
+        return timestamp == null ? null : new Date(timestamp);
     }
 
     @TypeConverter
-    public static Long toTimestamp(String formattedDateTime) throws ParseException {
-        return formattedDateTime == null ? null :
-                englihSimpleDateFormat.parse(formattedDateTime).getTime();
+    public static Long toTimestamp(Date date) {
+        return date == null ? null : date.getTime();
     }
 }

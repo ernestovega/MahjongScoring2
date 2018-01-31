@@ -35,46 +35,66 @@ public class LocalDataSource implements ILocalDataSource {
 
     //endregion
 
-    //region IRemoteDataSource implementation
+    //region DB
 
     @Override
-    public void clearDatabase() {
+    public void clearDatabase() {}
+
+    //endregion
+
+    //region GAMES
+
+    @Override
+    public long insertGame(Game game) {
+        try {
+            return gamesDao.insertOne(game);
+        } catch(SQLiteConstraintException exception) {
+            return 0;
+            //TODO Hacer pruebas forzando datos (tests unitarios!)
+        }
     }
 
-    //GAMES
+    @Override
+    public Game getGame(long gameId) {
+        return gamesDao.getOne(gameId);
+        //TODO Hacer pruebas forzando datos (tests unitarios!)
+    }
 
     @Override
     public List<Game> getAllGames() {
         return gamesDao.getAll();
     }
 
+    //endregion
+
+    //region PLAYERS
+
     @Override
-    public boolean saveGame(Game game) {
+    public boolean insertPlayer(Player player) {
         try {
-            gamesDao.insertOne(game);
+            playersDao.insert(player);
         } catch(SQLiteConstraintException exception) {
             return false;
+            //TODO Hacer pruebas forzando datos (tests unitarios!)
         }
         return true;
     }
 
-    //PLAYERS
+    @Override
+    public Player getPlayer(String playerName) {
+        return playersDao.getOne(playerName);
+        //TODO Hacer pruebas forzando datos (tests unitarios!)
+    }
+
     @Override
     public List<Player> getAllPlayers() {
         return playersDao.getAll();
     }
 
-    @Override
-    public boolean savePlayers(List<Player> players) {
-        try {
-            playersDao.bulkInsert(players);
-        } catch(SQLiteConstraintException exception) {
-            return false;
-        }
-        return true;
-    }
+    //endregion
 
-    //COMBINATIONS
+    //region COMBINATIONS
+
     @Override
     public List<Combination> getAllCombinations() {
         return combinationsDao.getAll();

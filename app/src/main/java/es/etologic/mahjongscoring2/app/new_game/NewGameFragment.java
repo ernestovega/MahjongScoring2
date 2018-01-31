@@ -148,7 +148,7 @@ public class NewGameFragment extends Fragment {
         addPlayerChip(player);
     }
 
-    private void startGame(int gameId) {
+    private void startGame(long gameId) {
         
     }
 

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0951df807aba2c55a374a9cd86d92afc",
+    "identityHash": "b0fbaa1a62b04767195049e981c99e90",
     "entities": [
       {
         "tableName": "Players",
@@ -35,7 +35,7 @@
       },
       {
         "tableName": "Games",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER NOT NULL, `nameP1` TEXT, `nameP2` TEXT, `nameP3` TEXT, `nameP4` TEXT, `startDate` TEXT, `endDate` TEXT NOT NULL, PRIMARY KEY(`gameId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nameP1` TEXT, `nameP2` TEXT, `nameP3` TEXT, `nameP4` TEXT, `startDate` INTEGER, `endDate` INTEGER)",
         "fields": [
           {
             "fieldPath": "gameId",
@@ -70,21 +70,21 @@
           {
             "fieldPath": "startDate",
             "columnName": "startDate",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": false
           },
           {
             "fieldPath": "endDate",
             "columnName": "endDate",
-            "affinity": "TEXT",
-            "notNull": true
+            "affinity": "INTEGER",
+            "notNull": false
           }
         ],
         "primaryKey": {
           "columnNames": [
             "gameId"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [
           {
@@ -257,7 +257,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0951df807aba2c55a374a9cd86d92afc\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b0fbaa1a62b04767195049e981c99e90\")"
     ]
   }
 }

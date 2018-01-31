@@ -14,7 +14,11 @@ import es.etologic.mahjongscoring2.domain.entities.Game;
 public interface GamesDao {
 
     @Insert (onConflict = OnConflictStrategy.ROLLBACK)
-    void insertOne(Game game) throws SQLiteConstraintException;
+    long insertOne(Game game) throws SQLiteConstraintException;
+    //TODO: probar con tests. ¿Hace falta la exception o devolvería un 0?
+
+    @Query("SELECT * FROM Games WHERE gameId = :gameId")
+    Game getOne(long gameId);
 
     @Query("SELECT * FROM Games")
     List<Game> getAll();

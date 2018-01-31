@@ -8,10 +8,17 @@ import es.etologic.mahjongscoring2.domain.entities.Player;
 
 public interface DataSource {
 
+    //GAMES
+    Long createGame(Game gameToInsert);
+    Game getGame(long gameId);
     List<Game> getAllGames();
 
+    //PLAYERS
+    boolean createPlayer(Player player);
+    Player getPlayer(String playerName);
     List<Player> getAllPlayers();
 
+    //COMBINATIONS
     List<Combination> getAllCombinations();
 }
 

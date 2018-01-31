@@ -13,6 +13,8 @@ import es.etologic.mahjongscoring2.app.new_game.NewGameViewModelFactory;
 import es.etologic.mahjongscoring2.app.old_games.OldGamesViewModelFactory;
 import es.etologic.mahjongscoring2.data.repository.DataProvider;
 import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
+import es.etologic.mahjongscoring2.domain.use_cases.CreateGameUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.CreatePlayerUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetCombinationsUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetPlayersUseCase;
@@ -50,11 +52,20 @@ public class Injector {
 
     public static ViewModelProvider.Factory provideNewGameViewModelFactory(Context context) {
         return new NewGameViewModelFactory(provideUseCaseHandler(),
-                provideGetPlayersUseCase(context));
+                provideGetPlayersUseCase(context), provideCreatePlayerUseCase(context),
+                provideCreateGameUseCase(context));
     }
 
     private static GetPlayersUseCase provideGetPlayersUseCase(Context context) {
         return new GetPlayersUseCase(provideDataSource(context));
+    }
+
+    private static CreatePlayerUseCase provideCreatePlayerUseCase(Context context) {
+        return new CreatePlayerUseCase(provideDataSource(context));
+    }
+
+    private static CreateGameUseCase provideCreateGameUseCase(Context context) {
+        return new CreateGameUseCase(provideDataSource(context));
     }
 
     public static ViewModelProvider.Factory provideCombinationsViewModelFactory(Context context) {
