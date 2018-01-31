@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.domain.utils;
+package es.etologic.mahjongscoring2.app.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -20,9 +20,12 @@ import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.BuildConfig;
 import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
+import es.etologic.mahjongscoring2.app.old_games.OldGamesFragment;
 
 public class MainActivity extends AppCompatActivity implements IMainActivityListener,
-        IMainToolbarListener {
+        IMainToolbarListener, OldGamesFragment.IOldGamesFragmentListener {
+
+    private static final long LAST_BACKPRESSED_MIN_TIME = 4000;
 
     //region Fields
 
@@ -53,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivityList
             closeEndDrawer();
         } else {
             long currentTimeMillis = System.currentTimeMillis();
-            if ((currentTimeMillis - lastBackPress) > Snackbar.LENGTH_LONG) {
+            if ((currentTimeMillis - lastBackPress) > LAST_BACKPRESSED_MIN_TIME) {
                 Snackbar.make(navigationView, R.string.press_again_to_exit, Snackbar.LENGTH_LONG)
                         .show();
                 lastBackPress = currentTimeMillis;
@@ -88,19 +91,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivityList
     //region IMainActivityListener
 
     @Override
-    public void setToolbar(Toolbar toolbar) {
-        setSupportActionBar(toolbar);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
-                drawerLayout, R.string.open_drawer, R.string.close_drawer);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
-        }
-        actionBarDrawerToggle.syncState();
-    }
-
-    @Override
     public void openEndDrawer() {
         if (drawerLayout != null) {
             drawerLayout.openDrawer(Gravity.END, true);
@@ -126,6 +116,32 @@ public class MainActivity extends AppCompatActivity implements IMainActivityList
 
     //endregion
 
+    //region IMainToolbarListener
+
+    @Override
+    public void setToolbar(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
+                drawerLayout, R.string.open_drawer, R.string.close_drawer);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
+        actionBarDrawerToggle.syncState();
+    }
+
+    //endregion
+
+    //region IMainToolbarListener
+
+    @Override
+    public void goToNewGame() {
+        mainNavigation.goToNewGame();
+    }
+
+    //endregion
+
     //region Private
 
     private void setupDrawer() {
@@ -135,7 +151,8 @@ public class MainActivity extends AppCompatActivity implements IMainActivityList
     }
 
     private void setupMainNavigation() {
-        mainNavigation = Injector.provideMainNavigation(navigationView, this, this);
+        mainNavigation = Injector.provideMainNavigation(navigationView,
+                this, this, this);
     }
 
     //endregion

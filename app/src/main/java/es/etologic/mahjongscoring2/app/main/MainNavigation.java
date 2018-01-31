@@ -8,6 +8,7 @@ import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.combinations.CombinationsFragment;
 import es.etologic.mahjongscoring2.app.new_game.NewGameFragment;
 import es.etologic.mahjongscoring2.app.old_games.OldGamesFragment;
+import es.etologic.mahjongscoring2.app.old_games.OldGamesFragment.IOldGamesFragmentListener;
 
 public class MainNavigation {
 
@@ -25,16 +26,19 @@ public class MainNavigation {
     private final NavigationView navigationView;
     private IMainActivityListener mainActivityListener;
     private IMainToolbarListener mainToolbarListener;
+    private IOldGamesFragmentListener oldGamesFragmentListener;
     private int selectedMenuItem = NONE;
 
     //endregion
 
     public MainNavigation(NavigationView navigationView,
                           IMainActivityListener mainActivityListener,
-                          IMainToolbarListener mainToolbarListener) {
+                          IMainToolbarListener mainToolbarListener,
+                          IOldGamesFragmentListener oldGamesFragmentListener) {
         this.navigationView = navigationView;
         this.mainActivityListener = mainActivityListener;
         this.mainToolbarListener = mainToolbarListener;
+        this.oldGamesFragmentListener = oldGamesFragmentListener;
         setupNavigation();
     }
 
@@ -49,22 +53,22 @@ public class MainNavigation {
             mainActivityListener.closeEndDrawer();
             switch (menuItem.getItemId()) {
                 case R.id.nav_oldgames:
-                    MainNavigation.this.goToOldGames();
+                    goToOldGames();
                     break;
                 case R.id.nav_newgame:
-                    MainNavigation.this.goToNewGame();
+                    goToNewGame();
                     break;
                 case R.id.nav_combinations:
-                    MainNavigation.this.goToCombinations();
+                    goToCombinations();
                     break;
                 case R.id.nav_greenbook:
-                    MainNavigation.this.goToGreenBook();
+                    goToGreenBook();
                     break;
                 case R.id.nav_rate:
-                    MainNavigation.this.goToRate();
+                    goToRate();
                     break;
                 case R.id.nav_contact:
-                    MainNavigation.this.goToContact();
+                    goToContact();
                     break;
                 default:
                     return false;
@@ -76,14 +80,14 @@ public class MainNavigation {
     private void goToOldGames() {
         if (selectedMenuItem != OLD_GAMES) {
             OldGamesFragment oldGamesFragment = new OldGamesFragment();
-            oldGamesFragment.setMainToolbarListener(mainToolbarListener);
+            oldGamesFragment.setOldGamesFragmentListener(oldGamesFragmentListener);
             goToFragment(R.id.nav_oldgames, OLD_GAMES, oldGamesFragment);
         } else {
             mainActivityListener.closeEndDrawer();
         }
     }
 
-    private void goToNewGame() {
+    void goToNewGame() {
         if (selectedMenuItem != NEW_GAME) {
             NewGameFragment newGameFragment = new NewGameFragment();
             newGameFragment.setMainToolbarListener(mainToolbarListener);

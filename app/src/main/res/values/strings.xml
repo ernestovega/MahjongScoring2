@@ -24,6 +24,7 @@
     <string name="enter_a_name">Enter a name</string>
     <string name="add_new_player">Add new player</string>
     <string name="player_name">Player name</string>
+    <string name="key_extra_game_id">key_extra_game_id</string>
 
 
 </resources>

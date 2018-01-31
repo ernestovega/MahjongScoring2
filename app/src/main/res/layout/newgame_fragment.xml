@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".app.new_game.NewGameFragment"
-    android:animateLayoutChanges="true">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:animateLayoutChanges="true"
+                                                 tools:context=".app.new_game.NewGameFragment">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarNewGame"
@@ -16,39 +16,41 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/new_game"
-        tools:ignore="UnusedAttribute" />
+        tools:ignore="UnusedAttribute"/>
 
     <com.pchmn.materialchips.ChipsInput
         android:id="@+id/chipsInputNewGame"
-        android:layout_marginTop="?android:attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:animateLayoutChanges="true"
         android:padding="@dimen/standard_margin"
-        app:chip_deletable="true"
         app:chip_backgroundColor="@color/colorPrimary"
+        app:chip_deletable="true"
         app:chip_deleteIconColor="@android:color/white"
-        app:chip_detailed_textColor="@android:color/white"
         app:hint="@string/enter_a_name"
-        app:maxRows="3"/>
+        app:maxRows="3"
+        app:showChipDetailed="false"
+        app:chip_labelColor="@android:color/white"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabNewGameCreatePlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:tint="@android:color/white"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/standard_margin"
         android:src="@drawable/ic_add_white"
+        android:tint="@android:color/white"
         android:visibility="visible"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabNewGameStartGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:tint="@android:color/white"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/standard_margin"
         android:src="@drawable/ic_play_arrow_white_24px"
+        android:tint="@android:color/white"
         android:visibility="gone"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -10,6 +10,7 @@ import es.etologic.mahjongscoring2.app.main.IMainActivityListener;
 import es.etologic.mahjongscoring2.app.main.IMainToolbarListener;
 import es.etologic.mahjongscoring2.app.main.MainNavigation;
 import es.etologic.mahjongscoring2.app.new_game.NewGameViewModelFactory;
+import es.etologic.mahjongscoring2.app.old_games.OldGamesFragment.IOldGamesFragmentListener;
 import es.etologic.mahjongscoring2.app.old_games.OldGamesViewModelFactory;
 import es.etologic.mahjongscoring2.data.repository.DataProvider;
 import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
@@ -35,8 +36,11 @@ public class Injector {
 
     public static MainNavigation provideMainNavigation(NavigationView navigationView,
                                                        IMainActivityListener mainActivityListener,
-                                                       IMainToolbarListener mainToolbarListener) {
-        return new MainNavigation(navigationView, mainActivityListener, mainToolbarListener);
+                                                       IMainToolbarListener mainToolbarListener,
+                                                       IOldGamesFragmentListener
+                                                               oldGamesFragmentListener) {
+        return new MainNavigation(navigationView, mainActivityListener, mainToolbarListener,
+                oldGamesFragmentListener);
     }
 
     public static OldGamesViewModelFactory provideOldGamesViewModelFactory(

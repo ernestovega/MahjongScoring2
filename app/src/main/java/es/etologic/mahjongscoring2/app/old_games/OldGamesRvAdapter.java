@@ -19,7 +19,7 @@ import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
 import es.etologic.mahjongscoring2.domain.entities.BestHand;
 import es.etologic.mahjongscoring2.domain.entities.Game;
-import es.etologic.mahjongscoring2.domain.utils.DateUtils;
+import es.etologic.mahjongscoring2.app.utils.DateUtils;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;

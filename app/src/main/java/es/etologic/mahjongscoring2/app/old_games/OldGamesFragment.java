@@ -2,6 +2,7 @@ package es.etologic.mahjongscoring2.app.old_games;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
+import es.etologic.mahjongscoring2.app.game.GameActivity;
 import es.etologic.mahjongscoring2.app.main.IMainToolbarListener;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.domain.entities.Game;
@@ -34,6 +36,14 @@ import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
 public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.GameItemListener {
+
+    //region Interfaz
+
+    public interface IOldGamesFragmentListener extends IMainToolbarListener {
+        void goToNewGame();
+    }
+
+    //endregion
 
     //region Fields
 
@@ -45,7 +55,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     private OldGamesRvAdapter rvAdapter;
     private Context context;
     private OldGamesViewModel viewModel;
-    private IMainToolbarListener mainToolbarListener;
+    private IOldGamesFragmentListener oldGamesFragmentListener;
 
     //endregion
 
@@ -72,8 +82,8 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     @Override
     public void onResume() {
         super.onResume();
-        if(mainToolbarListener != null && toolbar != null) {
-            mainToolbarListener.setToolbar(toolbar);
+        if(oldGamesFragmentListener != null && toolbar != null) {
+            oldGamesFragmentListener.setToolbar(toolbar);
         }
     }
 
@@ -87,8 +97,8 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     //region Public
 
-    public void setMainToolbarListener(IMainToolbarListener mainToolbarListener) {
-        this.mainToolbarListener = mainToolbarListener;
+    public void setOldGamesFragmentListener(IOldGamesFragmentListener oldGamesFragmentListener) {
+        this.oldGamesFragmentListener = oldGamesFragmentListener;
     }
 
     //endregion
@@ -97,9 +107,9 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     @OnClick (R.id.fabOldGames)
     public void onFabNewGameClick() {
-        //TODO
-        Snackbar.make(swipeRefreshLayout, "fabOldGames clicked!", Snackbar.LENGTH_LONG)
-                .show();
+        if(oldGamesFragmentListener != null) {
+            oldGamesFragmentListener.goToNewGame();
+        }
     }
 
     //endregion
@@ -107,7 +117,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     //region OldGameItemListener
 
     @Override
-    public void onOldGameItemDeleteClicked(int gameId) {
+    public void onOldGameItemDeleteClicked(long gameId) {
         //TODO
         String message = String.format(Locale.getDefault(),"game %d delete clicked!", gameId);
         Snackbar.make(toolbar, message, Snackbar.LENGTH_LONG)
@@ -115,11 +125,10 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     }
 
     @Override
-    public void onOldGameItemResumeClicked(int gameId) {
-        //TODO
-        String message = String.format(Locale.getDefault(),"game %d resume clicked!", gameId);
-        Snackbar.make(toolbar, message, Snackbar.LENGTH_LONG)
-                .show();
+    public void onOldGameItemResumeClicked(long gameId) {
+        Intent intent = new Intent(context, GameActivity.class);
+        intent.putExtra(getString(R.string.key_extra_game_id), gameId);
+        startActivity(intent);
     }
 
     //endregion

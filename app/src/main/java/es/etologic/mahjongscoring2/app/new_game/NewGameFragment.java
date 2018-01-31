@@ -3,6 +3,7 @@ package es.etologic.mahjongscoring2.app.new_game;
 import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
+import es.etologic.mahjongscoring2.app.game.GameActivity;
 import es.etologic.mahjongscoring2.app.main.IMainToolbarListener;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
@@ -98,6 +100,7 @@ public class NewGameFragment extends Fragment {
     //region Events
 
     @OnClick(R.id.fabNewGameCreatePlayer) void onFabCreatePlayerClick() {
+        //region Dialog EditText creation
         final TextInputLayout til = new TextInputLayout(context);
         final TextInputEditText tiet = new TextInputEditText(context);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -109,6 +112,7 @@ public class NewGameFragment extends Fragment {
         String enteredName = getChipsEnteredText();
         til.setHint(StringUtils.isEmpty(enteredName) ? getString(R.string.player_name) : enteredName);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        //endregion
         builder.setTitle(R.string.add_new_player)
                 .setPositiveButton(android.R.string.ok, (dialog, which) ->
 /*TODO: COMPROBAR QUE NO SE PUEDE AÑADIR UN JUGADOR DOS VECES Y REALIZAR VALIDACIONES SOBRE EL NOMBRE*/
@@ -146,15 +150,18 @@ public class NewGameFragment extends Fragment {
 
     private void addNewPlayer(Player player) {
         addPlayerChip(player);
+        //TODO: ver si en la lista aparece o no o hay que recargarla o que
     }
 
     private void startGame(long gameId) {
-        
+        Intent intent = new Intent(context, GameActivity.class);
+        intent.putExtra(getString(R.string.key_extra_game_id), gameId);
+        startActivity(intent);
     }
 
     private void toogleFabStartGame(ShowState showState) {
         fabStartGame.setVisibility(showState == SHOW ? VISIBLE : GONE);
-        fabStartGame.setVisibility(showState == SHOW ? GONE : VISIBLE);
+        fabCreatePlayer.setVisibility(showState == SHOW ? GONE : VISIBLE);
     }
 
     //endregion
@@ -167,6 +174,7 @@ public class NewGameFragment extends Fragment {
         chipsInput.addChipsListener(new ChipsInput.ChipsListener() {
             @Override
             public void onChipAdded(ChipInterface chip, int newSize) {
+                //TODO: Comprobar que desaparece de la lista, que no se duplican, etc.
                 if(newSize == 4) {
                     chipsInput.getEditText().setVisibility(GONE);
                     toogleFabStartGame(SHOW);
