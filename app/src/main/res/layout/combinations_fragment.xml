@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".app.combinations.CombinationsFragment">
 
     <android.support.design.widget.AppBarLayout
@@ -14,15 +15,15 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarCombinations"
-            app:title="@string/combinations"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:background="@color/colorPrimary"
             android:elevation="@dimen/toolbar_elevation"
-            app:layout_scrollFlags="scroll|enterAlways"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            tools:ignore="UnusedAttribute" />
+            app:title="@string/combinations"
+            tools:ignore="UnusedAttribute"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -34,6 +35,6 @@
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="vertical"
         android:visibility="visible"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

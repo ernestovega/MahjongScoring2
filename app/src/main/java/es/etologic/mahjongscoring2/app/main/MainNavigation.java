@@ -12,22 +12,12 @@ import es.etologic.mahjongscoring2.app.old_games.OldGamesFragment.IOldGamesFragm
 
 public class MainNavigation {
 
-    //region Constants
-
-    private static final int NONE = -1;
-    private static final int OLD_GAMES = 0;
-    private static final int NEW_GAME = 1;
-    private static final int COMBINATIONS = 2;
-
-    //endregion
-
     //region Fields
 
     private final NavigationView navigationView;
     private IMainActivityListener mainActivityListener;
     private IMainToolbarListener mainToolbarListener;
     private IOldGamesFragmentListener oldGamesFragmentListener;
-    private int selectedMenuItem = NONE;
 
     //endregion
 
@@ -78,33 +68,21 @@ public class MainNavigation {
     }
 
     private void goToOldGames() {
-        if (selectedMenuItem != OLD_GAMES) {
-            OldGamesFragment oldGamesFragment = new OldGamesFragment();
-            oldGamesFragment.setOldGamesFragmentListener(oldGamesFragmentListener);
-            goToFragment(R.id.nav_oldgames, OLD_GAMES, oldGamesFragment);
-        } else {
-            mainActivityListener.closeEndDrawer();
-        }
+        OldGamesFragment oldGamesFragment = new OldGamesFragment();
+        oldGamesFragment.setOldGamesFragmentListener(oldGamesFragmentListener);
+        goToFragment(R.id.nav_oldgames, oldGamesFragment);
     }
 
     void goToNewGame() {
-        if (selectedMenuItem != NEW_GAME) {
-            NewGameFragment newGameFragment = new NewGameFragment();
-            newGameFragment.setMainToolbarListener(mainToolbarListener);
-            goToFragment(R.id.nav_newgame, NEW_GAME, newGameFragment);
-        } else {
-            mainActivityListener.closeEndDrawer();
-        }
+        NewGameFragment newGameFragment = new NewGameFragment();
+        newGameFragment.setMainToolbarListener(mainToolbarListener);
+        goToFragment(R.id.nav_newgame, newGameFragment);
     }
 
     private void goToCombinations() {
-        if (selectedMenuItem != COMBINATIONS) {
-            CombinationsFragment combinationsFragment = new CombinationsFragment();
-            combinationsFragment.setMainToolbarListener(mainToolbarListener);
-            goToFragment(R.id.nav_combinations, COMBINATIONS, combinationsFragment);
-        } else {
-            mainActivityListener.closeEndDrawer();
-        }
+        CombinationsFragment combinationsFragment = new CombinationsFragment();
+        combinationsFragment.setMainToolbarListener(mainToolbarListener);
+        goToFragment(R.id.nav_combinations, combinationsFragment);
     }
 
     private void goToGreenBook() {
@@ -119,9 +97,7 @@ public class MainNavigation {
 
     }
 
-    private void goToFragment(@IdRes int navOption, int menuOption,
-                              Fragment fragment) {
-        selectedMenuItem = menuOption;
+    private void goToFragment(@IdRes int navOption, Fragment fragment) {
         navigationView.setCheckedItem(navOption);
         mainActivityListener.addFragment(fragment);
     }

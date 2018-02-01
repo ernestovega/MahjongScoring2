@@ -32,6 +32,7 @@ import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.game.GameActivity;
 import es.etologic.mahjongscoring2.app.main.IMainToolbarListener;
 import es.etologic.mahjongscoring2.app.model.ShowState;
+import es.etologic.mahjongscoring2.app.utils.KeyboardUtils;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 
@@ -73,6 +74,7 @@ public class NewGameFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         snackbar4players = Snackbar.make(chipsInput, R.string.just_four_players_please,
                 Snackbar.LENGTH_INDEFINITE);
+        KeyboardUtils.showKeyboard(context, chipsInput.getEditText());
         setupViewModel();
         observeViewModel();
         setupChips();

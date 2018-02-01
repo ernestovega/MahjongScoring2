@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:animateLayoutChanges="true"
-                                                 tools:context=".app.new_game.NewGameFragment">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@android:color/white"
+    tools:context=".app.new_game.NewGameFragment">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarNewGame"
@@ -24,15 +26,15 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize"
         android:animateLayoutChanges="true"
-        android:padding="@dimen/standard_margin"
         android:fitsSystemWindows="true"
+        android:padding="@dimen/standard_margin"
         app:chip_backgroundColor="@color/colorPrimary"
         app:chip_deletable="true"
         app:chip_deleteIconColor="@android:color/white"
+        app:chip_labelColor="@android:color/white"
         app:hint="@string/enter_a_name"
         app:maxRows="3"
-        app:showChipDetailed="false"
-        app:chip_labelColor="@android:color/white"/>
+        app:showChipDetailed="false"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabNewGameCreatePlayer"
@@ -50,9 +52,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/standard_margin"
-        app:fabSize="normal"
         android:src="@drawable/ic_play_arrow_white_24px"
         android:tint="@android:color/white"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:fabSize="normal"/>
 
 </android.support.design.widget.CoordinatorLayout>
