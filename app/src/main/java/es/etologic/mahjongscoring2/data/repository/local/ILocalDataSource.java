@@ -16,6 +16,7 @@ public interface ILocalDataSource {
     long insertGame(Game game);
     Game getGame(long gameId);
     List<Game> getAllGames();
+    boolean deleteGame(long gameId);
     //endregion
 
     //region PLAYERS

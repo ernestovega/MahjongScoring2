@@ -41,6 +41,11 @@ public class DataProvider implements DataSource {
         return localDataSource.getAllGames();
     }
 
+    @Override
+    public boolean deleteGame(long gameId) {
+        return localDataSource.deleteGame(gameId);
+    }
+
     //endregion
 
     //region PLAYERS

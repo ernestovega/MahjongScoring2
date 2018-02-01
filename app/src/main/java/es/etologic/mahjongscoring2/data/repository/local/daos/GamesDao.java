@@ -22,4 +22,7 @@ public interface GamesDao {
 
     @Query("SELECT * FROM Games")
     List<Game> getAll();
+
+    @Query("DELETE FROM Games WHERE gameId = :gameId")
+    int deleteOne(long gameId);
 }

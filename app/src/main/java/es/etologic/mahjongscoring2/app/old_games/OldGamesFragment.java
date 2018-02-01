@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -118,10 +117,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     @Override
     public void onOldGameItemDeleteClicked(long gameId) {
-        //TODO
-        String message = String.format(Locale.getDefault(),"game %d delete clicked!", gameId);
-        Snackbar.make(toolbar, message, Snackbar.LENGTH_LONG)
-                .show();
+        viewModel.deleteGame(gameId);
     }
 
     @Override
@@ -163,9 +159,11 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     private void setGames(List<Game> games) {
         if(games == null || games.isEmpty()) emptyLayout.setVisibility(VISIBLE);
-        if(emptyLayout.getVisibility() == VISIBLE) emptyLayout.setVisibility(View.GONE);
-        rvAdapter.setGames(games);
-        toogleLocalProgress(HIDE);
+        else {
+            if(emptyLayout.getVisibility() == VISIBLE) emptyLayout.setVisibility(View.GONE);
+            rvAdapter.setGames(games);
+            toogleLocalProgress(HIDE);
+        }
     }
 
     private void toogleLocalProgress(ShowState showState) {

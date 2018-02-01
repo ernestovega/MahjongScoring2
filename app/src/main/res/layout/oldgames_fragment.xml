@@ -34,7 +34,8 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewOldGames"
@@ -43,13 +44,13 @@
                 android:background="@color/whiteDark"
                 android:scrollbarStyle="insideOverlay"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:scrollbars="vertical"
-                android:visibility="visible"/>
+                android:scrollbars="vertical"/>
 
             <LinearLayout
                 android:id="@+id/emptyLayoutOldGames"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="?attr/actionBarSize"
                 android:background="@android:color/white"
                 android:clickable="true"
                 android:focusable="true"

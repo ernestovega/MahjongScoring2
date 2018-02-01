@@ -65,6 +65,11 @@ public class LocalDataSource implements ILocalDataSource {
         return gamesDao.getAll();
     }
 
+    @Override
+    public boolean deleteGame(long gameId) {
+        return gamesDao.deleteOne(gameId) == 1;
+    }
+
     //endregion
 
     //region PLAYERS

@@ -2,10 +2,12 @@ package es.etologic.mahjongscoring2.domain.entities;
 
 public class BaseError {
 
-    private static final String STANDARD_ERROR_MESSSAGE = "Hubo un error inesperado";
+    private static final String STANDARD_ERROR_MESSAGE = "Unexpected error";
+    private static final String CREATION_ERROR_MESSAGE = "Creation error";
+    private static final String DELETION_ERROR_MESSAGE = "Deletion error";
     private static final int STANDARD_ERROR_CODE = -1;
-    private static final String CONNECTION_ERROR_MESSSAGE = "Error en la creación";
     private static final int INSERTION_ERROR_CODE = -2;
+    private static final int DELETION_ERROR_CODE = -3;
 
     private int errorCode;
     private String errorMessage;
@@ -24,10 +26,14 @@ public class BaseError {
     }
 
     public static BaseError getStandardError() {
-        return new BaseError(STANDARD_ERROR_CODE, STANDARD_ERROR_MESSSAGE);
+        return new BaseError(STANDARD_ERROR_CODE, STANDARD_ERROR_MESSAGE);
     }
 
     public static BaseError getInsertionError() {
-        return new BaseError(INSERTION_ERROR_CODE, CONNECTION_ERROR_MESSSAGE);
+        return new BaseError(INSERTION_ERROR_CODE, CREATION_ERROR_MESSAGE);
+    }
+
+    public static BaseError getDeletionError() {
+        return new BaseError(DELETION_ERROR_CODE, DELETION_ERROR_MESSAGE);
     }
 }

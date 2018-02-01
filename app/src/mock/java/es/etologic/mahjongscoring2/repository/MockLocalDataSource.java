@@ -83,6 +83,11 @@ public class MockLocalDataSource implements ILocalDataSource {
         return games;
     }
 
+    @Override
+    public boolean deleteGame(long gameId) {
+        return true;
+    }
+
     //endregion
 
     //region PLAYERS

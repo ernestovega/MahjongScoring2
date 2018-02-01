@@ -68,54 +68,8 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             saveNewGamesCopy(newGames);
             notifyItemRangeInserted(0, newGames.size());
         } else {
-            DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
-                @Override
-                public int getOldListSize() {
-                    return games.size();
-                }
-
-                @Override
-                public int getNewListSize() {
-                    return newGames.size();
-                }
-
-                @Override
-                public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    return games.get(oldItemPosition).getGameId() ==
-                            newGames.get(newItemPosition).getGameId();
-                }
-
-                @Override
-                public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                    Game newGame = newGames.get(newItemPosition);
-                    Game oldGame = games.get(oldItemPosition);
-                    return  oldGame.getGameId() == newGame.getGameId() &&
-                            oldGame.getNameP1().equals(newGame.getNameP1()) &&
-                            oldGame.getNameP2().equals(newGame.getNameP2()) &&
-                            oldGame.getNameP3().equals(newGame.getNameP3()) &&
-                            oldGame.getNameP4().equals(newGame.getNameP4()) &&
-                            oldGame.getStartDate().equals(newGame.getStartDate()) &&
-                            oldGame.getEndDate().equals(newGame.getEndDate()) &&
-                            arePlayersTotalsPointsEquals(oldGame.getPlayersTotalPoints(),
-                                    newGame.getPlayersTotalPoints()) &&
-                            areBestHandsEqual(oldGame.getBestHand(), newGame.getBestHand());
-                    }
-
-                private boolean arePlayersTotalsPointsEquals(String[] oldPlayersTotalPoints,
-                                                             String[] newPlayersTotalPoints) {
-                    for(int i = 0; i < NUM_GAME_PLAYERS; i++) {
-                        if(!oldPlayersTotalPoints[i].equals(newPlayersTotalPoints[i])) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-
-                private boolean areBestHandsEqual(BestHand oldBestHand, BestHand newBestHand) {
-                    return oldBestHand.getPlayerName().equals(newBestHand.getPlayerName()) &&
-                            oldBestHand.getHandValue() == newBestHand.getHandValue();
-                }
-            });
+            DiffUtil.DiffResult result = DiffUtil.calculateDiff(
+                    new GameItemDiffUtilCallback(newGames, games), true);
             saveNewGamesCopy(newGames);
             result.dispatchUpdatesTo(this);
         }

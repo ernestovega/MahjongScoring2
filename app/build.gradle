@@ -54,6 +54,9 @@ android {
 
 dependencies {
 
+    //Utils
+    compile "org.apache.commons:commons-lang3:3.6"
+
     //Design
     compile "com.android.support:appcompat-v7:$supportLibraryVersion"
     compile "com.android.support:design:$supportLibraryVersion"

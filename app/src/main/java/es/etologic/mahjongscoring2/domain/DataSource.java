@@ -20,5 +20,7 @@ public interface DataSource {
 
     //COMBINATIONS
     List<Combination> getAllCombinations();
+
+    boolean deleteGame(long gameId);
 }
 
