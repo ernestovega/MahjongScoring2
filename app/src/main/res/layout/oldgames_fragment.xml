@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".app.old_games.OldGamesFragment">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarOldGames"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:elevation="@dimen/toolbar_elevation"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="@string/old_games"
+            tools:ignore="UnusedAttribute"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayoutOldGames"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewOldGames"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/whiteDark"
+                android:scrollbarStyle="insideOverlay"
+                android:scrollbars="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+            <LinearLayout
+                android:id="@+id/emptyLayoutOldGames"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:background="@android:color/white"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/double_standard_margin"
+                    android:layout_marginLeft="@dimen/double_standard_margin"
+                    android:layout_marginRight="@dimen/double_standard_margin"
+                    android:layout_marginStart="@dimen/double_standard_margin"
+                    android:layout_marginTop="120dp"
+                    android:src="@drawable/img_empty_box"
+                    android:tint="@color/gray"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/double_standard_margin"
+                    android:layout_marginLeft="@dimen/double_standard_margin"
+                    android:layout_marginRight="@dimen/double_standard_margin"
+                    android:layout_marginStart="@dimen/double_standard_margin"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:gravity="start"
+                    android:lineSpacingExtra="@dimen/half_standard_margin"
+                    android:text="@string/theres_no_games_yet_start_one"
+                    android:textColor="@color/gray"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/double_standard_margin"
+                    android:layout_marginEnd="@dimen/double_standard_margin"
+                    android:layout_marginLeft="@dimen/triple_standard_margin"
+                    android:layout_marginRight="@dimen/double_standard_margin"
+                    android:layout_marginStart="@dimen/triple_standard_margin"
+                    android:layout_marginTop="@dimen/double_standard_margin"
+                    android:src="@drawable/arrow"
+                    android:tint="@color/gray"
+                    tools:ignore="ContentDescription"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabOldGames"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/standard_margin"
+        android:src="@drawable/ic_add_white"/>
+
+</android.support.design.widget.CoordinatorLayout>
