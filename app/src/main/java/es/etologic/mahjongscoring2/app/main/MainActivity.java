@@ -52,16 +52,15 @@ public class MainActivity extends AppCompatActivity implements IMainActivityList
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(Gravity.END)) {
-            closeEndDrawer();
-        } else {
+        if (drawerLayout.isDrawerOpen(Gravity.END)) closeEndDrawer();
+        else if(getSupportFragmentManager().getBackStackEntryCount() > 1) super.onBackPressed();
+        else if(getSupportFragmentManager().getBackStackEntryCount() <= 1){
             long currentTimeMillis = System.currentTimeMillis();
             if ((currentTimeMillis - lastBackPress) > LAST_BACKPRESSED_MIN_TIME) {
                 Snackbar.make(navigationView, R.string.press_again_to_exit, Snackbar.LENGTH_LONG)
                         .show();
                 lastBackPress = currentTimeMillis;
-            }
-            super.onBackPressed();
+            } else finish();
         }
     }
 
@@ -105,12 +104,13 @@ public class MainActivity extends AppCompatActivity implements IMainActivityList
     }
 
     @Override
-    public void replaceFragment(Fragment fragment) {
+    public void addFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right,
                 R.anim.enter_from_right, R.anim.exit_to_left);
-        fragmentTransaction.replace(R.id.frameLayoutMain, fragment);
+        fragmentTransaction.add(R.id.frameLayoutMain, fragment)
+                .addToBackStack(null);
         fragmentTransaction.commit();
     }
 

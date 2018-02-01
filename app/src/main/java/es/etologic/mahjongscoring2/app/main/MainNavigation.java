@@ -123,7 +123,7 @@ public class MainNavigation {
                               Fragment fragment) {
         selectedMenuItem = menuOption;
         navigationView.setCheckedItem(navOption);
-        mainActivityListener.replaceFragment(fragment);
+        mainActivityListener.addFragment(fragment);
     }
 
     //endregion

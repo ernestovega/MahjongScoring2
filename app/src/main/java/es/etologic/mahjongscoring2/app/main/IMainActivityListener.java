@@ -9,5 +9,5 @@ public interface IMainActivityListener {
 
     void closeEndDrawer();
 
-    void replaceFragment(Fragment fragment);
+    void addFragment(Fragment fragment);
 }
