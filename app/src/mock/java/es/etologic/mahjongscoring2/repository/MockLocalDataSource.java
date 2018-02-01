@@ -94,7 +94,7 @@ public class MockLocalDataSource implements ILocalDataSource {
 
     @Override
     public Player getPlayer(String playerName) {
-        return new Player("Perico de los Palotes");
+        return new Player(playerName);
     }
 
     @Override

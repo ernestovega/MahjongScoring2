@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -15,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
@@ -52,6 +52,9 @@ public class NewGameFragment extends Fragment {
     private Context context;
     private NewGameViewModel viewModel;
     private IMainToolbarListener mainToolbarListener;
+    private List<? extends ChipInterface> lastfilterableList;
+    private String actualChipsImputText;
+    private Snackbar snackbar4players;
 
     //endregion
 
@@ -68,6 +71,8 @@ public class NewGameFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         context = getContext();
         unbinder = ButterKnife.bind(this, view);
+        snackbar4players = Snackbar.make(chipsInput, R.string.just_four_players_please,
+                Snackbar.LENGTH_INDEFINITE);
         setupViewModel();
         observeViewModel();
         setupChips();
@@ -100,23 +105,25 @@ public class NewGameFragment extends Fragment {
     //region Events
 
     @OnClick(R.id.fabNewGameCreatePlayer) void onFabCreatePlayerClick() {
-        //region Dialog EditText creation
-        final TextInputLayout til = new TextInputLayout(context);
-        final TextInputEditText tiet = new TextInputEditText(context);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        til.setLayoutParams(layoutParams);
-        tiet.setLayoutParams(layoutParams);
-        til.addView(tiet);
-        String enteredName = getChipsEnteredText();
-        til.setHint(StringUtils.isEmpty(enteredName) ? getString(R.string.player_name) : enteredName);
+        showNewPlayerDialog();
+    }
+
+    private void showNewPlayerDialog() {
+        TextInputLayout til = (TextInputLayout) getLayoutInflater().inflate(
+                R.layout.new_game_new_player_dialog_textinputlayout, null);
+        TextInputEditText tiet = til.findViewById(R.id.tietNewGameNewPlayerDialog);
+        if(StringUtils.isEmpty(actualChipsImputText)) {
+            til.setHint(getString(R.string.player_name));
+        } else {
+            tiet.setText(actualChipsImputText);
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        //endregion
         builder.setTitle(R.string.add_new_player)
-                .setPositiveButton(android.R.string.ok, (dialog, which) ->
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    String inputText = tiet.getText().toString().trim();
 /*TODO: COMPROBAR QUE NO SE PUEDE AÑADIR UN JUGADOR DOS VECES Y REALIZAR VALIDACIONES SOBRE EL NOMBRE*/
-                        viewModel.createPlayer(tiet.getText().toString().trim()))
+                    viewModel.createPlayer(inputText);
+                })
                 .setNegativeButton(android.R.string.cancel, null)
                 .setView(til)
                 .create()
@@ -124,8 +131,12 @@ public class NewGameFragment extends Fragment {
     }
 
     @OnClick(R.id.fabNewGameStartGame) void onFabStartGameClick() {
-        List<Player> players = obtainPlayers(getSelectedPlayerChips());
-        viewModel.createGame(players);
+        if(getSelectedPlayerChips().size() != 4) {
+            Snackbar.make(chipsInput, getString(R.string.just_four_players), Snackbar.LENGTH_LONG).show();
+        } else {
+            List<Player> players = obtainPlayers(getSelectedPlayerChips());
+            viewModel.createGame(players);
+        }
     }
 
     //endregion
@@ -174,30 +185,26 @@ public class NewGameFragment extends Fragment {
         chipsInput.addChipsListener(new ChipsInput.ChipsListener() {
             @Override
             public void onChipAdded(ChipInterface chip, int newSize) {
-                //TODO: Comprobar que desaparece de la lista, que no se duplican, etc.
-                if(newSize == 4) {
-                    chipsInput.getEditText().setVisibility(GONE);
-                    toogleFabStartGame(SHOW);
+                if(newSize == 4) toogleFabStartGame(SHOW);
+                else if(newSize == 5) {
+                    toogleFabStartGame(HIDE);
+                    snackbar4players.show();
                 }
             }
 
             @Override
             public void onChipRemoved(ChipInterface chip, int newSize) {
-                if(newSize == 3) {
-                    chipsInput.getEditText().setVisibility(VISIBLE);
-                    toogleFabStartGame(HIDE);
-                }
+                if(newSize == 4) {
+                    toogleFabStartGame(SHOW);
+                    snackbar4players.dismiss();
+                } else if(newSize == 3) toogleFabStartGame(HIDE);
             }
 
             @Override
             public void onTextChanged(CharSequence text) {
-                // text changed
+                actualChipsImputText = text.toString();
             }
         });
-    }
-
-    private String getChipsEnteredText() {
-        return chipsInput.getEditText().getText().toString();
     }
 
     private List<PlayerChip> getSelectedPlayerChips() {

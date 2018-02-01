@@ -21,10 +21,11 @@
     <com.pchmn.materialchips.ChipsInput
         android:id="@+id/chipsInputNewGame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize"
         android:animateLayoutChanges="true"
         android:padding="@dimen/standard_margin"
+        android:fitsSystemWindows="true"
         app:chip_backgroundColor="@color/colorPrimary"
         app:chip_deletable="true"
         app:chip_deleteIconColor="@android:color/white"
@@ -49,6 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/standard_margin"
+        app:fabSize="normal"
         android:src="@drawable/ic_play_arrow_white_24px"
         android:tint="@android:color/white"
         android:visibility="gone"/>
