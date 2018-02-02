@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b0fbaa1a62b04767195049e981c99e90",
+    "identityHash": "f7f3820b1d827ae41c6b2e73741892b9",
     "entities": [
       {
         "tableName": "Players",
@@ -212,52 +212,11 @@
             ]
           }
         ]
-      },
-      {
-        "tableName": "Combinations",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`combinationName` TEXT NOT NULL, `combinationDescription` TEXT, `combinationPoints` INTEGER NOT NULL, PRIMARY KEY(`combinationName`))",
-        "fields": [
-          {
-            "fieldPath": "combinationName",
-            "columnName": "combinationName",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "combinationDescription",
-            "columnName": "combinationDescription",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "combinationPoints",
-            "columnName": "combinationPoints",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "combinationName"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [
-          {
-            "name": "index_Combinations_combinationName",
-            "unique": true,
-            "columnNames": [
-              "combinationName"
-            ],
-            "createSql": "CREATE UNIQUE INDEX `index_Combinations_combinationName` ON `${TABLE_NAME}` (`combinationName`)"
-          }
-        ],
-        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b0fbaa1a62b04767195049e981c99e90\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"f7f3820b1d827ae41c6b2e73741892b9\")"
     ]
   }
 }

@@ -70,14 +70,7 @@ public class NewGameActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.new_game_menu, menu);
         super.onCreateOptionsMenu(menu);
-        super.onCreateOptionsMenu(menu);
         return true;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-//        KeyboardUtils.showKeyboard(this, chipsInput.getEditText());
     }
 
     @Override

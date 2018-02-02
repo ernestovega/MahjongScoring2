@@ -1,37 +1,32 @@
 package es.etologic.mahjongscoring2.domain.entities;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
-
-@Entity(tableName = "Combinations",
-        indices = { @Index( value = { "combinationName" }, unique = true) })
 public class Combination {
 
-    @PrimaryKey
-    @NonNull
-    private String combinationName;
-    private String combinationDescription;
-    private int combinationPoints;
+    private int itemType;
+    private int nameStringRes;
+    private int imageResId;
+    private int descriptionStringRes;
 
-    @NonNull
-    public String getCombinationName() {
-        return combinationName;
+    public int getItemTypeValue() {
+        return itemType;
     }
 
-    public String getCombinationDescription() {
-        return combinationDescription;
+    public int getImageResId() {
+        return imageResId;
     }
 
-    public int getCombinationPoints() {
-        return combinationPoints;
+    public int getNameStringRes() {
+        return nameStringRes;
     }
 
-    public Combination(@NonNull String combinationName, String combinationDescription,
-                       int combinationPoints) {
-        this.combinationName = combinationName;
-        this.combinationDescription = combinationDescription;
-        this.combinationPoints = combinationPoints;
+    public int getDescriptionStringRes() {
+        return descriptionStringRes;
+    }
+
+    public Combination(int itemType, int nameStringRes, int imageResId, int descriptionStringRes) {
+        this.itemType = itemType;
+        this.nameStringRes = nameStringRes;
+        this.imageResId = imageResId;
+        this.descriptionStringRes = descriptionStringRes;
     }
 }

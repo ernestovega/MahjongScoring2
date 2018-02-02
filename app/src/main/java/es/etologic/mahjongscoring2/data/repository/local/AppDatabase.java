@@ -8,10 +8,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import es.etologic.mahjongscoring2.data.repository.local.converters.DateConverter;
-import es.etologic.mahjongscoring2.data.repository.local.daos.CombinationsDao;
 import es.etologic.mahjongscoring2.data.repository.local.daos.GamesDao;
 import es.etologic.mahjongscoring2.data.repository.local.daos.PlayersDao;
-import es.etologic.mahjongscoring2.domain.entities.Combination;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 import es.etologic.mahjongscoring2.domain.entities.Round;
@@ -19,8 +17,7 @@ import es.etologic.mahjongscoring2.domain.entities.Round;
 @Database (entities = {
         Player.class,
         Game.class,
-        Round.class,
-        Combination.class}, version = 1)
+        Round.class}, version = 1)
 @TypeConverters (DateConverter.class)
 abstract class AppDatabase extends RoomDatabase {
 
@@ -44,6 +41,4 @@ abstract class AppDatabase extends RoomDatabase {
     abstract PlayersDao getPlayersDao();
 
     abstract GamesDao getGamesDao();
-
-    abstract CombinationsDao getCombinationsDao();
 }

@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import es.etologic.mahjongscoring2.R;
-import es.etologic.mahjongscoring2.app.combinations.CombinationsFragment;
+import es.etologic.mahjongscoring2.app.combinations.CombinationsActivity;
 import es.etologic.mahjongscoring2.app.new_game.NewGameActivity;
 import es.etologic.mahjongscoring2.app.old_games.OldGamesFragment;
 
@@ -79,9 +79,8 @@ public class MainNavigation {
     }
 
     private void goToCombinations() {
-        CombinationsFragment combinationsFragment = new CombinationsFragment();
-        combinationsFragment.setMainToolbarListener(mainActivity);
-        goToFragment(R.id.nav_combinations, combinationsFragment);
+        Intent intent = new Intent(mainActivity, CombinationsActivity.class);
+        mainActivity.startActivity(intent);
     }
 
     private void goToGreenBook() {

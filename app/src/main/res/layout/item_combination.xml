@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UseCompoundDrawables"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:layout_margin="16dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvCombinationItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"/>
+
+    <ImageView
+        android:id="@+id/ivCombinationItemImage"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:scaleType="fitEnd"
+        android:layout_gravity="end"
+        tools:ignore="ContentDescription"/>
+
+    <TextView
+        android:id="@+id/tvCombinationItemDescription"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:visibility="gone"
+        android:gravity="end"/>
+
+</LinearLayout>

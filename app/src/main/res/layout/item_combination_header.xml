@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:elevation="@dimen/toolbar_elevation"
+    android:layout_height="?android:attr/actionBarSize"
+    tools:ignore="UnusedAttribute">
+
+    <TextView android:id="@+id/tvItemHeaderTitle"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/combination_item_height"
+              android:background="@color/colorPrimary"
+              android:gravity="start|center_vertical"
+              android:paddingEnd="@dimen/standard_margin"
+              android:paddingLeft="@dimen/standard_margin"
+              android:paddingRight="@dimen/standard_margin"
+              android:paddingStart="@dimen/standard_margin"
+              android:textAppearance="?android:attr/textAppearanceLarge"
+              android:textColor="@android:color/white"
+              android:textStyle="bold"/>
+
+</LinearLayout>

@@ -155,9 +155,11 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     private void setGames(List<Game> games) {
         if(games == null || games.isEmpty()) emptyLayout.setVisibility(VISIBLE);
-        if(emptyLayout.getVisibility() == VISIBLE) emptyLayout.setVisibility(View.GONE);
-        rvAdapter.setGames(games);
-        toogleLocalProgress(HIDE);
+        else {
+            if(emptyLayout.getVisibility() == VISIBLE) emptyLayout.setVisibility(View.GONE);
+            rvAdapter.setGames(games);
+            toogleLocalProgress(HIDE);
+        }
     }
 
     private void toogleLocalProgress(ShowState showState) {
