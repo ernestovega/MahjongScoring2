@@ -3,9 +3,6 @@ package es.etologic.mahjongscoring2.app.main;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,10 +17,10 @@ import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.BuildConfig;
 import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
-import es.etologic.mahjongscoring2.app.old_games.OldGamesFragment;
+import es.etologic.mahjongscoring2.app.old_games.OldGamesFragment.IOldGamesFragmentListener;
 
-public class MainActivity extends AppCompatActivity implements IMainActivityListener,
-        IMainToolbarListener, OldGamesFragment.IOldGamesFragmentListener {
+public class MainActivity extends AppCompatActivity implements IMainToolbarListener,
+        IOldGamesFragmentListener {
 
     private static final long LAST_BACKPRESSED_MIN_TIME = 4000;
 
@@ -54,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivityList
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(Gravity.END)) closeEndDrawer();
         else if(getSupportFragmentManager().getBackStackEntryCount() > 1) super.onBackPressed();
-        else if(getSupportFragmentManager().getBackStackEntryCount() <= 1){
+        else {
             long currentTimeMillis = System.currentTimeMillis();
             if ((currentTimeMillis - lastBackPress) > LAST_BACKPRESSED_MIN_TIME) {
                 Snackbar.make(navigationView, R.string.press_again_to_exit, Snackbar.LENGTH_LONG)
@@ -87,39 +84,10 @@ public class MainActivity extends AppCompatActivity implements IMainActivityList
 
     //endregion
 
-    //region IMainActivityListener
-
-    @Override
-    public void openEndDrawer() {
-        if (drawerLayout != null) {
-            drawerLayout.openDrawer(Gravity.END, true);
-        }
-    }
-
-    @Override
-    public void closeEndDrawer() {
-        if (drawerLayout != null) {
-            drawerLayout.closeDrawer(Gravity.END, true);
-        }
-    }
-
-    @Override
-    public void addFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right,
-                R.anim.enter_from_right, R.anim.exit_to_left);
-        fragmentTransaction.add(R.id.frameLayoutMain, fragment)
-                .addToBackStack(null);
-        fragmentTransaction.commit();
-    }
-
-    //endregion
-
     //region IMainToolbarListener
 
     @Override
-    public void setToolbar(Toolbar toolbar) {
+    public void setToolbar(Toolbar toolbar)  {
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
                 drawerLayout, R.string.open_drawer, R.string.close_drawer);
@@ -133,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivityList
 
     //endregion
 
-    //region IMainToolbarListener
+    //region IOldGamesFragmentListener
 
     @Override
     public void goToNewGame() {
@@ -151,8 +119,19 @@ public class MainActivity extends AppCompatActivity implements IMainActivityList
     }
 
     private void setupMainNavigation() {
-        mainNavigation = Injector.provideMainNavigation(navigationView,
-                this, this, this);
+        mainNavigation = Injector.provideMainNavigation(this);
+    }
+
+    void openEndDrawer() {
+        if (drawerLayout != null) {
+            drawerLayout.openDrawer(Gravity.END, true);
+        }
+    }
+
+    void closeEndDrawer() {
+        if (drawerLayout != null) {
+            drawerLayout.closeDrawer(Gravity.END, true);
+        }
     }
 
     //endregion

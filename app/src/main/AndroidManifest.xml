@@ -19,7 +19,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".app.game.GameActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".app.game.GameActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".app.new_game.NewGameActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible"/>
 
     </application>
 

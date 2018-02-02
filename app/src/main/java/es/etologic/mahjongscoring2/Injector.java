@@ -3,11 +3,9 @@ package es.etologic.mahjongscoring2;
 import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 
 import es.etologic.mahjongscoring2.app.combinations.CombinationsViewModelFactory;
-import es.etologic.mahjongscoring2.app.main.IMainActivityListener;
-import es.etologic.mahjongscoring2.app.main.IMainToolbarListener;
+import es.etologic.mahjongscoring2.app.main.MainActivity;
 import es.etologic.mahjongscoring2.app.main.MainNavigation;
 import es.etologic.mahjongscoring2.app.new_game.NewGameViewModelFactory;
 import es.etologic.mahjongscoring2.app.old_games.OldGamesViewModelFactory;
@@ -19,21 +17,14 @@ import es.etologic.mahjongscoring2.domain.use_cases.GetCombinationsUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetPlayersUseCase;
 
-import static es.etologic.mahjongscoring2.app.old_games.OldGamesFragment.IOldGamesFragmentListener;
-
 public class Injector extends BaseInjector {
 
     private static UseCaseHandler provideUseCaseHandler() {
         return UseCaseHandler.getInstance();
     }
 
-    public static MainNavigation provideMainNavigation(NavigationView navigationView,
-                                                       IMainActivityListener mainActivityListener,
-                                                       IMainToolbarListener mainToolbarListener,
-                                                       IOldGamesFragmentListener
-                                                               oldGamesFragmentListener) {
-        return new MainNavigation(navigationView, mainActivityListener, mainToolbarListener,
-                oldGamesFragmentListener);
+    public static MainNavigation provideMainNavigation(MainActivity mainActivity) {
+        return new MainNavigation(mainActivity);
     }
 
     public static OldGamesViewModelFactory provideOldGamesViewModelFactory(

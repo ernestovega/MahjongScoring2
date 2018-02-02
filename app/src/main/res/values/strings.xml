@@ -22,7 +22,7 @@
     <string name="delete">Delete</string>
     <string name="resume">Resume</string>
     <string name="enter_a_name">Enter a name</string>
-    <string name="add_new_player">Add new player</string>
+    <string name="create_player">Create player</string>
     <string name="player_name">Player name</string>
     <string name="key_extra_game_id">key_extra_game_id</string>
     <string name="just_four_players">Just 4 players</string>
