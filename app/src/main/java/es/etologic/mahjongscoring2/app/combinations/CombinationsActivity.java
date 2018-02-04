@@ -13,8 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,7 +29,7 @@ public class CombinationsActivity extends AppCompatActivity {
     @BindView(R.id.toolbarCombinations) Toolbar toolbar;
     @BindView (R.id.recyclerViewCombinations) RecyclerView recyclerView;
     private Unbinder unbinder;
-    private CombinationsAdapter adapter;
+    private CombinationsRvAdapter adapter;
     private CombinationsViewModel viewModel;
 
     //endregion
@@ -108,13 +106,9 @@ public class CombinationsActivity extends AppCompatActivity {
 
     public void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL, false);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new CombinationsAdapter();
-        final StickyRecyclerHeadersDecoration headersDecor =
-                new StickyRecyclerHeadersDecoration(adapter);
-        recyclerView.addItemDecoration(headersDecor);
+        adapter = new CombinationsRvAdapter();
         recyclerView.setAdapter(adapter);
     }
 

@@ -1,32 +1,39 @@
 package es.etologic.mahjongscoring2.domain.entities;
 
+import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
+
 public class Combination {
 
-    private int itemType;
-    private int nameStringRes;
-    private int imageResId;
-    private int descriptionStringRes;
+    private final int points;
+    private final @StringRes int name;
+    private final @DrawableRes int image;
+    private final @StringRes int description;
 
-    public int getItemTypeValue() {
-        return itemType;
+    public int getPoints() {
+        return points;
     }
 
-    public int getImageResId() {
-        return imageResId;
+    public int getName() {
+        return name;
     }
 
-    public int getNameStringRes() {
-        return nameStringRes;
+    public int getImage() {
+        return image;
     }
 
-    public int getDescriptionStringRes() {
-        return descriptionStringRes;
+    public int getDescription() {
+        return description;
     }
 
-    public Combination(int itemType, int nameStringRes, int imageResId, int descriptionStringRes) {
-        this.itemType = itemType;
-        this.nameStringRes = nameStringRes;
-        this.imageResId = imageResId;
-        this.descriptionStringRes = descriptionStringRes;
+    public Combination(int points, int name, int image, int description) {
+        this.points = points;
+        this.name = name;
+        this.image = image;
+        this.description = description;
+    }
+
+    public Combination getCopy() {
+        return new Combination(points, name, image, description);
     }
 }
