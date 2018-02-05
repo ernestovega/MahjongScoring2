@@ -74,5 +74,10 @@ public class DataProvider implements DataSource {
         return localDataSource.getAllCombinations();
     }
 
+    @Override
+    public List<Combination> getFilteredCombinations(String filter) {
+        return localDataSource.getFilteredCombinations(filter);
+    }
+
     //endregion
 }

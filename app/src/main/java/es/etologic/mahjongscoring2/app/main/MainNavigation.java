@@ -1,7 +1,6 @@
 package es.etologic.mahjongscoring2.app.main;
 
 import android.content.Intent;
-import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -75,7 +74,7 @@ public class MainNavigation {
     private void goToOldGames() {
         OldGamesFragment oldGamesFragment = new OldGamesFragment();
         oldGamesFragment.setOldGamesFragmentListener(mainActivity);
-        goToFragment(R.id.nav_oldgames, oldGamesFragment);
+        goToFragment(oldGamesFragment);
     }
 
     private void goToCombinations() {
@@ -95,8 +94,7 @@ public class MainNavigation {
 
     }
 
-    private void goToFragment(@IdRes int navOption, Fragment fragment) {
-        mainActivity.navigationView.setCheckedItem(navOption);
+    private void goToFragment(Fragment fragment) {
         FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right,

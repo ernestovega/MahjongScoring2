@@ -122,7 +122,7 @@
     <string name="four_pure_shifted_pungs">Four pure shifted Pungs</string>
 
     <string name="all_terminals">All terminals</string>
-    <string name="all_honors">All honor</string>
+    <string name="all_honors">All honors</string>
     <string name="little_four_winds">Little four winds</string>
     <string name="little_three_dragons">Little three dragons</string>
     <string name="four_concealed_pungs">Four concealed Pungs</string>
@@ -150,6 +150,7 @@
     <string name="description_robbing_the_kong">Win with other player Kong extension tile</string>
     <string name="search">Search</string>
     <string name="combination_name">Combination name</string>
+    <string name="toggle_descriptions">Toogle descriptions</string>
 
 
 </resources>

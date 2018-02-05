@@ -27,5 +27,6 @@ public interface ILocalDataSource {
 
     //region COMBINATIONS
     List<Combination> getAllCombinations();
+    List<Combination> getFilteredCombinations(String filter);
     //endregion
 }

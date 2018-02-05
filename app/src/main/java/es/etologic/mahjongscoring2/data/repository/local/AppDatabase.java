@@ -7,9 +7,12 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import es.etologic.mahjongscoring2.data.repository.local.converters.CombinationDescriptionTypeConverter;
 import es.etologic.mahjongscoring2.data.repository.local.converters.DateConverter;
+import es.etologic.mahjongscoring2.data.repository.local.daos.CombinationsDao;
 import es.etologic.mahjongscoring2.data.repository.local.daos.GamesDao;
 import es.etologic.mahjongscoring2.data.repository.local.daos.PlayersDao;
+import es.etologic.mahjongscoring2.domain.entities.Combination;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 import es.etologic.mahjongscoring2.domain.entities.Round;
@@ -17,8 +20,9 @@ import es.etologic.mahjongscoring2.domain.entities.Round;
 @Database (entities = {
         Player.class,
         Game.class,
-        Round.class}, version = 1)
-@TypeConverters (DateConverter.class)
+        Round.class,
+        Combination.class}, version = 1)
+@TypeConverters ({ DateConverter.class, CombinationDescriptionTypeConverter.class })
 abstract class AppDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "MahjongScoring2";
@@ -41,4 +45,6 @@ abstract class AppDatabase extends RoomDatabase {
     abstract PlayersDao getPlayersDao();
 
     abstract GamesDao getGamesDao();
+
+    abstract CombinationsDao getCombinationsDao();
 }

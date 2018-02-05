@@ -1,39 +1,100 @@
 package es.etologic.mahjongscoring2.domain.entities;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
+import android.support.annotation.NonNull;
 
+import es.etologic.mahjongscoring2.data.repository.local.converters.CombinationDescriptionTypeConverter;
+
+import static es.etologic.mahjongscoring2.domain.entities.Combination.CombinationDescriptionType.DESCRIPTION;
+import static es.etologic.mahjongscoring2.domain.entities.Combination.CombinationDescriptionType.IMAGE;
+
+@Entity(tableName = "Combinations",
+        indices = { @Index ( value = { "combinationName" }, unique = true) })
 public class Combination {
 
-    private final int points;
-    private final @StringRes int name;
-    private final @DrawableRes int image;
-    private final @StringRes int description;
+    public enum CombinationDescriptionType {
+        IMAGE(0),
+        DESCRIPTION(1);
 
-    public int getPoints() {
-        return points;
+        private int code;
+
+        CombinationDescriptionType(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
     }
 
-    public int getName() {
-        return name;
+    private final int combinationPoints;
+    @PrimaryKey
+    @NonNull
+    private final String combinationName;
+    private final @DrawableRes Integer combinationImage;
+    private final String combinationDescription;
+    @TypeConverters(CombinationDescriptionTypeConverter.class)
+    private final CombinationDescriptionType combinationDescriptionType;
+
+    public int getCombinationPoints() {
+        return combinationPoints;
     }
 
-    public int getImage() {
-        return image;
+    @NonNull
+    public String getCombinationName() {
+        return combinationName;
     }
 
-    public int getDescription() {
-        return description;
+    public Integer getCombinationImage() {
+        return combinationImage;
     }
 
-    public Combination(int points, int name, int image, int description) {
-        this.points = points;
-        this.name = name;
-        this.image = image;
-        this.description = description;
+    public String getCombinationDescription() {
+        return combinationDescription;
+    }
+
+    public CombinationDescriptionType getCombinationDescriptionType() {
+        return combinationDescriptionType;
+    }
+
+    public Combination(int combinationPoints, @NonNull String combinationName,
+                       Integer combinationImage, String combinationDescription,
+                       CombinationDescriptionType combinationDescriptionType) {
+        this.combinationPoints = combinationPoints;
+        this.combinationName = combinationName;
+        this.combinationImage = combinationImage;
+        this.combinationDescription = combinationDescription;
+        this.combinationDescriptionType = combinationDescriptionType;
+    }
+
+    @Ignore
+    public Combination(int combinationPoints, String combinationName, Integer combinationImage) {
+        this.combinationPoints = combinationPoints;
+        this.combinationName = combinationName;
+        this.combinationImage = combinationImage;
+        this.combinationDescription = null;
+        combinationDescriptionType = IMAGE;
+    }
+
+    @Ignore
+    public Combination(int combinationPoints, String combinationName, String combinationDescription) {
+        this.combinationPoints = combinationPoints;
+        this.combinationName = combinationName;
+        this.combinationImage = null;
+        this.combinationDescription = combinationDescription;
+        combinationDescriptionType = DESCRIPTION;
     }
 
     public Combination getCopy() {
-        return new Combination(points, name, image, description);
+        if(combinationDescriptionType == IMAGE) {
+            return new Combination(combinationPoints, combinationName, combinationImage);
+        } else {
+            return new Combination(combinationPoints, combinationName, combinationDescription);
+        }
     }
 }

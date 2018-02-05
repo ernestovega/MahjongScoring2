@@ -14,6 +14,7 @@ import es.etologic.mahjongscoring2.domain.use_cases.CreateGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.CreatePlayerUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.DeleteGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetCombinationsUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.GetFilteredCombinationsUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetPlayersUseCase;
 
@@ -61,10 +62,15 @@ public class Injector extends BaseInjector {
 
     public static ViewModelProvider.Factory provideCombinationsViewModelFactory(Context context) {
         return new CombinationsViewModelFactory(provideUseCaseHandler(),
-                provideCombinationsUseCase(context));
+                provideGetCombinationsUseCase(context),
+                provideGetFilteredCombinationsUseCase(context));
     }
 
-    private static GetCombinationsUseCase provideCombinationsUseCase(Context context) {
+    private static GetCombinationsUseCase provideGetCombinationsUseCase(Context context) {
         return new GetCombinationsUseCase(provideDataSource(context));
+    }
+
+    private static GetFilteredCombinationsUseCase provideGetFilteredCombinationsUseCase(Context context) {
+        return new GetFilteredCombinationsUseCase(provideDataSource(context));
     }
 }

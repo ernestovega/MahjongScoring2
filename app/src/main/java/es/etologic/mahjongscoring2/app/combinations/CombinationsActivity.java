@@ -22,6 +22,8 @@ import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.domain.entities.Combination;
 
+import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
+
 public class CombinationsActivity extends AppCompatActivity {
 
     //region Fields
@@ -29,7 +31,7 @@ public class CombinationsActivity extends AppCompatActivity {
     @BindView(R.id.toolbarCombinations) Toolbar toolbar;
     @BindView (R.id.recyclerViewCombinations) RecyclerView recyclerView;
     private Unbinder unbinder;
-    private CombinationsRvAdapter adapter;
+    private CombinationsRvAdapter rvAdapter;
     private CombinationsViewModel viewModel;
 
     //endregion
@@ -54,11 +56,22 @@ public class CombinationsActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.combinations_menu, menu);
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.action_search_combination).getActionView();
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search_combination)
+                .getActionView();
         if(searchManager != null) {
-            searchView.setSearchableInfo(
-                    searchManager.getSearchableInfo(getComponentName()));
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    viewModel.searchCombination(newText);
+                    return true;
+                }
+            });
         }
         return true;
     }
@@ -81,6 +94,12 @@ public class CombinationsActivity extends AppCompatActivity {
                 return true;
             case R.id.action_search_combination:
                 //TODO
+                return true;
+            case R.id.action_toggle_combination_exnplanation:
+                MenuItem menuItem = toolbar.getMenu().getItem(1);
+                menuItem.setIcon(rvAdapter.toggleImageOrDescription() == SHOW ?
+                        R.drawable.ic_library_books_white_24dp :
+                        R.drawable.ic_photo_library_white_24dp);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -108,8 +127,8 @@ public class CombinationsActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new CombinationsRvAdapter();
-        recyclerView.setAdapter(adapter);
+        rvAdapter = new CombinationsRvAdapter();
+        recyclerView.setAdapter(rvAdapter);
     }
 
     private void observeViewModel() {
@@ -117,7 +136,7 @@ public class CombinationsActivity extends AppCompatActivity {
     }
 
     private void setCombinations(List<Combination> combinations) {
-        adapter.setCombinations(combinations);
+        rvAdapter.setCombinations(combinations);
     }
 
     //endregion
