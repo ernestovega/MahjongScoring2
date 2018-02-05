@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:background="@color/grayLight">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvCombinationItem"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/quarter_standard_margin"
+        android:layout_marginEnd="@dimen/half_standard_margin"
+        android:layout_marginLeft="@dimen/half_standard_margin"
+        android:layout_marginRight="@dimen/half_standard_margin"
+        android:layout_marginStart="@dimen/half_standard_margin"
+        android:layout_marginTop="@dimen/quarter_standard_margin"
+        android:minHeight="@dimen/combination_item_cardview_min_height"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardCornerRadius="@dimen/cardCornerRadius">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_standard_margin"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/double_standard_margin"
+                android:layout_marginBottom="@dimen/half_standard_margin"
+                android:layout_marginEnd="@dimen/standard_margin"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvCombinationItemPoints"
+                    android:layout_width="@dimen/double_standard_margin"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@android:color/black"
+                    tools:text="88"/>
+
+                <TextView
+                    android:id="@+id/tvCombinationItemName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    tools:text="@string/big_four_winds"/>
+
+                <TextView
+                    android:id="@+id/tvCombinationItemPosition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="end|center_vertical"
+                    android:paddingLeft="@dimen/half_standard_margin"
+                    android:paddingStart="@dimen/half_standard_margin"
+                    android:textColor="@color/gray"
+                    tools:ignore="RtlSymmetry"
+                    tools:text="#80"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/flCombinationItemImageOrDescriptionContainer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/triple_standard_margin"
+                android:layout_marginEnd="@dimen/standard_margin"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginBottom="@dimen/half_standard_margin">
+
+                <ImageView
+                    android:id="@+id/ivCombinationItemImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible"
+                    tools:ignore="ContentDescription"
+                    tools:src="@drawable/four_concealed_pungs"
+                    tools:visibility="visible"/>
+
+                <TextView
+                    android:id="@+id/tvCombinationItemDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:lines="2"
+                    android:visibility="gone"
+                    tools:text="@string/description_last_tile"
+                    tools:visibility="gone"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

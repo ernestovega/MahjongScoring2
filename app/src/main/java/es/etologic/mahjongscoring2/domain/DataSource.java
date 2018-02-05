@@ -12,6 +12,7 @@ public interface DataSource {
     Long createGame(Game gameToInsert);
     Game getGame(long gameId);
     List<Game> getAllGames();
+    boolean deleteGame(long gameId);
 
     //PLAYERS
     boolean createPlayer(Player player);
@@ -20,7 +21,6 @@ public interface DataSource {
 
     //COMBINATIONS
     List<Combination> getAllCombinations();
-
-    boolean deleteGame(long gameId);
+    List<Combination> getFilteredCombinations(String text);
 }
 

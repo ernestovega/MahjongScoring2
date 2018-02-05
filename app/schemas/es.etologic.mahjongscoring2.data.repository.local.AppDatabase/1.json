@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b0fbaa1a62b04767195049e981c99e90",
+    "identityHash": "27069f0d6ba5800dd0a6738c9b326bc6",
     "entities": [
       {
         "tableName": "Players",
@@ -215,13 +215,25 @@
       },
       {
         "tableName": "Combinations",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`combinationName` TEXT NOT NULL, `combinationDescription` TEXT, `combinationPoints` INTEGER NOT NULL, PRIMARY KEY(`combinationName`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`combinationPoints` INTEGER NOT NULL, `combinationName` TEXT NOT NULL, `combinationImage` INTEGER, `combinationDescription` TEXT, `combinationDescriptionType` INTEGER, PRIMARY KEY(`combinationName`))",
         "fields": [
+          {
+            "fieldPath": "combinationPoints",
+            "columnName": "combinationPoints",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "combinationName",
             "columnName": "combinationName",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "combinationImage",
+            "columnName": "combinationImage",
+            "affinity": "INTEGER",
+            "notNull": false
           },
           {
             "fieldPath": "combinationDescription",
@@ -230,10 +242,10 @@
             "notNull": false
           },
           {
-            "fieldPath": "combinationPoints",
-            "columnName": "combinationPoints",
+            "fieldPath": "combinationDescriptionType",
+            "columnName": "combinationDescriptionType",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -257,7 +269,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b0fbaa1a62b04767195049e981c99e90\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"27069f0d6ba5800dd0a6738c9b326bc6\")"
     ]
   }
 }

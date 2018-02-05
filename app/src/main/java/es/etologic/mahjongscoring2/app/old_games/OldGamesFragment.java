@@ -2,7 +2,6 @@ package es.etologic.mahjongscoring2.app.old_games;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,7 +24,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
-import es.etologic.mahjongscoring2.app.game.GameActivity;
 import es.etologic.mahjongscoring2.app.main.IMainToolbarListener;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.domain.entities.Game;
@@ -122,9 +120,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     @Override
     public void onOldGameItemResumeClicked(long gameId) {
-        Intent intent = new Intent(context, GameActivity.class);
-        intent.putExtra(getString(R.string.key_extra_game_id), gameId);
-        startActivity(intent);
+        oldGamesFragmentListener.goToNewGame();
     }
 
     //endregion
@@ -159,9 +155,11 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     private void setGames(List<Game> games) {
         if(games == null || games.isEmpty()) emptyLayout.setVisibility(VISIBLE);
-        if(emptyLayout.getVisibility() == VISIBLE) emptyLayout.setVisibility(View.GONE);
-        rvAdapter.setGames(games);
-        toogleLocalProgress(HIDE);
+        else {
+            if(emptyLayout.getVisibility() == VISIBLE) emptyLayout.setVisibility(View.GONE);
+            rvAdapter.setGames(games);
+            toogleLocalProgress(HIDE);
+        }
     }
 
     private void toogleLocalProgress(ShowState showState) {

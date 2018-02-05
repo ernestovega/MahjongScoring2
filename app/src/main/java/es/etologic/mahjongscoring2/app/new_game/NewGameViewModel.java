@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.etologic.mahjongscoring2.app.base.BaseViewModel;
+import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 import es.etologic.mahjongscoring2.domain.threading.UseCase;
 import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
@@ -25,6 +26,7 @@ class NewGameViewModel extends BaseViewModel {
     private MutableLiveData<List<Player>> allPlayers = new MutableLiveData<List<Player>>() {};
     private MutableLiveData<Player> newPlayer = new MutableLiveData<Player>() {};
     private MutableLiveData<Long> newGameId = new MutableLiveData<Long>() {};
+    private MutableLiveData<ShowState> toolbarProgress = new MutableLiveData<ShowState>() {};
 
     NewGameViewModel(UseCaseHandler useCaseHandler, GetPlayersUseCase getPlayersUseCase,
                      CreatePlayerUseCase createPlayerUseCase, CreateGameUseCase createGameUseCase) {
@@ -42,6 +44,9 @@ class NewGameViewModel extends BaseViewModel {
     }
     LiveData<Long> getNewGameId() {
         return newGameId;
+    }
+    MutableLiveData<ShowState> getToolbarProgress() {
+        return toolbarProgress;
     }
 
     void loadAllPlayers() {

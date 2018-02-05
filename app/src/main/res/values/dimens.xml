@@ -2,6 +2,7 @@
 <resources>
 
     <!-- COMMON -->
+    <dimen name="quarter_standard_margin">4dp</dimen>
     <dimen name="half_standard_margin">8dp</dimen>
     <dimen name="standard_margin">16dp</dimen>
     <dimen name="double_standard_margin">32dp</dimen>
@@ -14,7 +15,11 @@
     <dimen name="drawer_header_height">160dp</dimen>
 
     <!-- OLD GAMES -->
-    <dimen name="cardCornerRadius">2dp</dimen>
+    <dimen name="cardCornerRadius">4dp</dimen>
     <dimen name="cardview_oldgame_height">256dp</dimen>
+    <dimen name="combination_item_height">80dp</dimen>
+    <dimen name="combination_item_image_height">32dp</dimen>
+    <dimen name="quadruple_standard_margin">64dp</dimen>
+    <dimen name="combination_item_cardview_min_height">52dp</dimen>
 
 </resources>

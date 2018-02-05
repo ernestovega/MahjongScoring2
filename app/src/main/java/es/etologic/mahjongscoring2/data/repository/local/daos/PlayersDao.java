@@ -20,5 +20,4 @@ public interface PlayersDao {
 
     @Query("SELECT * FROM Players")
     List<Player> getAll();
-
 }

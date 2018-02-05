@@ -1,46 +1,50 @@
 package es.etologic.mahjongscoring2.app.main;
 
-import android.support.annotation.IdRes;
-import android.support.design.widget.NavigationView;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import es.etologic.mahjongscoring2.R;
-import es.etologic.mahjongscoring2.app.combinations.CombinationsFragment;
-import es.etologic.mahjongscoring2.app.new_game.NewGameFragment;
+import es.etologic.mahjongscoring2.app.combinations.CombinationsActivity;
+import es.etologic.mahjongscoring2.app.new_game.NewGameActivity;
 import es.etologic.mahjongscoring2.app.old_games.OldGamesFragment;
-import es.etologic.mahjongscoring2.app.old_games.OldGamesFragment.IOldGamesFragmentListener;
 
 public class MainNavigation {
 
     //region Fields
 
-    private final NavigationView navigationView;
-    private IMainActivityListener mainActivityListener;
-    private IMainToolbarListener mainToolbarListener;
-    private IOldGamesFragmentListener oldGamesFragmentListener;
+    private final MainActivity mainActivity;
 
     //endregion
 
-    public MainNavigation(NavigationView navigationView,
-                          IMainActivityListener mainActivityListener,
-                          IMainToolbarListener mainToolbarListener,
-                          IOldGamesFragmentListener oldGamesFragmentListener) {
-        this.navigationView = navigationView;
-        this.mainActivityListener = mainActivityListener;
-        this.mainToolbarListener = mainToolbarListener;
-        this.oldGamesFragmentListener = oldGamesFragmentListener;
+    //region Constructor
+
+    public MainNavigation(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
         setupNavigation();
     }
+
+    //endregion
+
+    //region Public
 
     void goHome() {
         goToOldGames();
     }
 
+    void goToNewGame() {
+        Intent intent = new Intent(mainActivity, NewGameActivity.class);
+        mainActivity.startActivity(intent);
+    }
+
+    //endregion
+
     //region Private
 
     private void setupNavigation() {
-        navigationView.setNavigationItemSelectedListener(menuItem -> {
-            mainActivityListener.closeEndDrawer();
+        mainActivity.navigationView.setNavigationItemSelectedListener(menuItem -> {
+            mainActivity.closeEndDrawer();
             switch (menuItem.getItemId()) {
                 case R.id.nav_oldgames:
                     goToOldGames();
@@ -69,20 +73,13 @@ public class MainNavigation {
 
     private void goToOldGames() {
         OldGamesFragment oldGamesFragment = new OldGamesFragment();
-        oldGamesFragment.setOldGamesFragmentListener(oldGamesFragmentListener);
-        goToFragment(R.id.nav_oldgames, oldGamesFragment);
-    }
-
-    void goToNewGame() {
-        NewGameFragment newGameFragment = new NewGameFragment();
-        newGameFragment.setMainToolbarListener(mainToolbarListener);
-        goToFragment(R.id.nav_newgame, newGameFragment);
+        oldGamesFragment.setOldGamesFragmentListener(mainActivity);
+        goToFragment(oldGamesFragment);
     }
 
     private void goToCombinations() {
-        CombinationsFragment combinationsFragment = new CombinationsFragment();
-        combinationsFragment.setMainToolbarListener(mainToolbarListener);
-        goToFragment(R.id.nav_combinations, combinationsFragment);
+        Intent intent = new Intent(mainActivity, CombinationsActivity.class);
+        mainActivity.startActivity(intent);
     }
 
     private void goToGreenBook() {
@@ -97,9 +94,13 @@ public class MainNavigation {
 
     }
 
-    private void goToFragment(@IdRes int navOption, Fragment fragment) {
-        navigationView.setCheckedItem(navOption);
-        mainActivityListener.addFragment(fragment);
+    private void goToFragment(Fragment fragment) {
+        FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right,
+                R.anim.enter_from_right, R.anim.exit_to_left);
+        fragmentTransaction.add(R.id.frameLayoutMain, fragment).addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     //endregion

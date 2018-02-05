@@ -2,20 +2,17 @@ package es.etologic.mahjongscoring2.app.new_game;
 
 import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
@@ -30,30 +27,25 @@ import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.game.GameActivity;
-import es.etologic.mahjongscoring2.app.main.IMainToolbarListener;
 import es.etologic.mahjongscoring2.app.model.ShowState;
-import es.etologic.mahjongscoring2.app.utils.KeyboardUtils;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 
+import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
-public class NewGameFragment extends Fragment {
+public class NewGameActivity extends AppCompatActivity {
 
     //region Fields
 
     @BindView(R.id.toolbarNewGame) Toolbar toolbar;
     @BindView(R.id.chipsInputNewGame) ChipsInput chipsInput;
-    @BindView(R.id.fabNewGameCreatePlayer) FloatingActionButton fabCreatePlayer;
     @BindView(R.id.fabNewGameStartGame) FloatingActionButton fabStartGame;
     private Unbinder unbinder;
-    private Context context;
     private NewGameViewModel viewModel;
-    private IMainToolbarListener mainToolbarListener;
-    private List<? extends ChipInterface> lastfilterableList;
     private String actualChipsImputText;
     private Snackbar snackbar4players;
 
@@ -62,30 +54,23 @@ public class NewGameFragment extends Fragment {
     //region Lifecycle
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.newgame_fragment, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        context = getContext();
-        unbinder = ButterKnife.bind(this, view);
-        snackbar4players = Snackbar.make(chipsInput, R.string.just_four_players_please,
-                Snackbar.LENGTH_INDEFINITE);
-        KeyboardUtils.showKeyboard(context, chipsInput.getEditText());
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.newgame_activity);
+        unbinder = ButterKnife.bind(this);
+        snackbar4players = Snackbar.make(chipsInput, R.string.just_four_players_please, LENGTH_INDEFINITE);
+        setupToolbar();
         setupViewModel();
         observeViewModel();
         setupChips();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if(mainToolbarListener != null && toolbar != null) {
-            mainToolbarListener.setToolbar(toolbar);
-        }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.new_game_menu, menu);
+        super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
@@ -96,18 +81,20 @@ public class NewGameFragment extends Fragment {
 
     //endregion
 
-    //region Public
-
-    public void setMainToolbarListener(IMainToolbarListener mainToolbarListener) {
-        this.mainToolbarListener = mainToolbarListener;
-    }
-
-    //endregion
-
     //region Events
 
-    @OnClick(R.id.fabNewGameCreatePlayer) void onFabCreatePlayerClick() {
-        showNewPlayerDialog();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_create_player:
+                showNewPlayerDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void showNewPlayerDialog() {
@@ -119,8 +106,8 @@ public class NewGameFragment extends Fragment {
         } else {
             tiet.setText(actualChipsImputText);
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(R.string.add_new_player)
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.create_player)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                     String inputText = tiet.getText().toString().trim();
 /*TODO: COMPROBAR QUE NO SE PUEDE AÑADIR UN JUGADOR DOS VECES Y REALIZAR VALIDACIONES SOBRE EL NOMBRE*/
@@ -145,9 +132,16 @@ public class NewGameFragment extends Fragment {
 
     //region Private
 
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
     private void setupViewModel() {
         viewModel = ViewModelProviders
-                .of(this, Injector.provideNewGameViewModelFactory(context))
+                .of(this, Injector.provideNewGameViewModelFactory(this))
                 .get(NewGameViewModel.class);
     }
 
@@ -155,6 +149,7 @@ public class NewGameFragment extends Fragment {
         viewModel.getAllPlayers().observe(this, this :: setAllPlayers);
         viewModel.getNewPlayer().observe(this, this :: addNewPlayer);
         viewModel.getNewGameId().observe(this, this :: startGame);
+        viewModel.getToolbarProgress().observe(this, this :: toggleToolbarProgress);
     }
 
     private void setAllPlayers(List<Player> allPlayers) {
@@ -167,14 +162,29 @@ public class NewGameFragment extends Fragment {
     }
 
     private void startGame(long gameId) {
-        Intent intent = new Intent(context, GameActivity.class);
+        Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra(getString(R.string.key_extra_game_id), gameId);
         startActivity(intent);
     }
 
     private void toogleFabStartGame(ShowState showState) {
         fabStartGame.setVisibility(showState == SHOW ? VISIBLE : GONE);
-        fabCreatePlayer.setVisibility(showState == SHOW ? GONE : VISIBLE);
+    }
+
+    private void toggleToolbarProgress(ShowState showState) {
+        MenuItem menuItem = toolbar.getMenu().findItem(R.id.action_create_player);
+        if(menuItem != null) {
+            switch(showState) {
+                case HIDE:
+                    menuItem.setEnabled(true);
+                    menuItem.setActionView(null);
+                    break;
+                case SHOW:
+                    menuItem.setEnabled(false);
+                    menuItem.setActionView(R.layout.progressbar_actionbar);
+                    break;
+            }
+        }
     }
 
     //endregion
