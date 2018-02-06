@@ -4,9 +4,9 @@ android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
     defaultConfig {
+        applicationId "es.etologic.mahjongscoring2"
         minSdkVersion 15
         targetSdkVersion 27
-        applicationId "es.etologic.mahjongscoring2"
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -32,19 +32,20 @@ android {
         mock {
             applicationIdSuffix ".Mock"
             versionNameSuffix '-Mock'
+            buildConfigField "String", "PACKAGE_NAME", "\"com.mahjongscoring.activities\""
         }
         dev {
             applicationIdSuffix ".Dev"
             versionNameSuffix '-Dev'
+            buildConfigField "String", "PACKAGE_NAME", "\"com.mahjongscoring.activities\""
         }
-        pro {}
+        pro {
+            buildConfigField "String", "PACKAGE_NAME", "\"es.etologic.mahjongscoring2\""
+        }
     }
     android.variantFilter { variant ->
-        if (variant.buildType.name == 'release' &&
-                (variant.getFlavors().get(0).name == 'mock' ||
-                        variant.getFlavors().get(0).name == "dev")) {
-            variant.setIgnore(true)
-        }
+        if (variant.buildType.name == 'release' && (variant.getFlavors().get(0).name == 'mock' ||
+                variant.getFlavors().get(0).name == "dev")) variant.setIgnore(true)
     }
     compileOptions {
         targetCompatibility 1.8

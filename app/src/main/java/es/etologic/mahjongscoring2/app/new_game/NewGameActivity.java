@@ -99,7 +99,7 @@ public class NewGameActivity extends AppCompatActivity {
 
     private void showNewPlayerDialog() {
         TextInputLayout til = (TextInputLayout) getLayoutInflater().inflate(
-                R.layout.new_game_new_player_dialog_textinputlayout, null);
+                R.layout.newgame_newplayerdialog_textinputlayout, null);
         TextInputEditText tiet = til.findViewById(R.id.tietNewGameNewPlayerDialog);
         if(StringUtils.isEmpty(actualChipsImputText)) {
             til.setHint(getString(R.string.player_name));
@@ -181,7 +181,7 @@ public class NewGameActivity extends AppCompatActivity {
                     break;
                 case SHOW:
                     menuItem.setEnabled(false);
-                    menuItem.setActionView(R.layout.progressbar_actionbar);
+                    menuItem.setActionView(R.layout.newgame_toolbar_progress);
                     break;
             }
         }

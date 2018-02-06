@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements IMainToolbarListe
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
         unbinder = ButterKnife.bind(this);
         setupDrawer();
         setupMainNavigation();

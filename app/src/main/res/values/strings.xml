@@ -151,6 +151,12 @@
     <string name="search">Search</string>
     <string name="combination_name">Combination name</string>
     <string name="toggle_descriptions">Toogle descriptions</string>
+    <string name="downloading_green_book_">Downloading the most recent version from the EMA portal</string>
+    <string name="green_book_download">Green Book download</string>
+    <string name="app_for_file_not_founded">Couldn\'t find apps for this file type</string>
+    <string name="see_on_web">See on web</string>
+    <string name="no_email_apps_founded">Couldn\'t find email apps</string>
+    <string name="send_mail">Send mail</string>
 
 
 </resources>

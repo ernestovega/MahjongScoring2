@@ -21,5 +21,6 @@
     <dimen name="combination_item_image_height">32dp</dimen>
     <dimen name="quadruple_standard_margin">64dp</dimen>
     <dimen name="combination_item_cardview_min_height">52dp</dimen>
+    <dimen name="combination_item_cardview_full_height">112dp</dimen>
 
 </resources>

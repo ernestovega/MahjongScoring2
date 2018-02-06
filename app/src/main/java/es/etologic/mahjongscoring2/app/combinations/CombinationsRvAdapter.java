@@ -41,7 +41,6 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     //region Fields
 
-    private Context context;
     private List<Combination> combinations;
     private ShowState imageOrDescriptionShowState;
     private int cardViewFullHeight;
@@ -88,29 +87,13 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         CombinationItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-
-            cardView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver
-                    .OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    cardView.getViewTreeObserver().removeOnPreDrawListener(this);
-                    if(cardView.getHeight() > cardViewFullHeight) {
-                        cardViewFullHeight = cardView.getHeight();
-                    }
-                    return true;
-                }
-            });
         }
 
         @OnClick(R.id.cvCombinationItem) void onCombinationItemClick() {
-            toggleImageOrDescriptionContainerVisibility();
-        }
-
-        private void toggleImageOrDescriptionContainerVisibility() {
             if (cardView.getHeight() == cardViewMinHeight) {
-                showImageOrDescriptionIfCollapsed(cardView, flImageOrDescriptionContainer);
+                showImageOrDescription(cardView, flImageOrDescriptionContainer);
             } else {
-                hideImageOrDescriptionIfExpanded(cardView, flImageOrDescriptionContainer);
+                hideImageOrDescription(cardView, flImageOrDescriptionContainer);
             }
         }
     }
@@ -122,9 +105,11 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        context = recyclerView.getContext();
+        Context context = recyclerView.getContext();
         cardViewMinHeight = (int) context.getResources().getDimension(
                 R.dimen.combination_item_cardview_min_height);
+        cardViewFullHeight = (int) context.getResources().getDimension(
+                R.dimen.combination_item_cardview_full_height);
     }
 
     @Override
@@ -179,67 +164,63 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.combinations = newCombinationsCopy;
     }
 
-    private void showImageOrDescriptionIfCollapsed(CardView cardView,
-                                                   FrameLayout flImageOrDescription) {
-        if(cardView.getHeight() == cardViewMinHeight) {
-            ValueAnimator expandAnimation = ValueAnimator.ofInt(
-                    cardView.getMeasuredHeightAndState(), cardViewFullHeight);
-            expandAnimation.addUpdateListener(valueAnimator -> {
-                int val = (Integer)valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = cardView.getLayoutParams();
-                layoutParams.height = val;
-                cardView.setLayoutParams(layoutParams);
-            });
-            expandAnimation.setDuration(ANIMATION_DURATION);
-            AlphaAnimation fadeInAnimation = new AlphaAnimation(0, 1);
-            fadeInAnimation.setDuration(ANIMATION_DURATION);
-            fadeInAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    flImageOrDescription.setVisibility(VISIBLE);
-                }
+    private void showImageOrDescription(CardView cardView,
+                                        FrameLayout flImageOrDescription) {
+        ValueAnimator expandAnimation = ValueAnimator.ofInt(
+                cardView.getMeasuredHeightAndState(), cardViewFullHeight);
+        expandAnimation.addUpdateListener(valueAnimator -> {
+            int val = (Integer)valueAnimator.getAnimatedValue();
+            ViewGroup.LayoutParams layoutParams = cardView.getLayoutParams();
+            layoutParams.height = val;
+            cardView.setLayoutParams(layoutParams);
+        });
+        expandAnimation.setDuration(ANIMATION_DURATION);
+        AlphaAnimation fadeInAnimation = new AlphaAnimation(0, 1);
+        fadeInAnimation.setDuration(ANIMATION_DURATION);
+        fadeInAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                flImageOrDescription.setVisibility(VISIBLE);
+            }
 
-                @Override
-                public void onAnimationEnd(Animation animation) {}
+            @Override
+            public void onAnimationEnd(Animation animation) {}
 
-                @Override
-                public void onAnimationRepeat(Animation animation) {}
-            });
-            expandAnimation.start();
-            flImageOrDescription.startAnimation(fadeInAnimation);
-        }
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+        expandAnimation.start();
+        flImageOrDescription.startAnimation(fadeInAnimation);
     }
 
-    private void hideImageOrDescriptionIfExpanded(CardView cardView,
-                                                  FrameLayout flImageOrDescription) {
-        if(cardView.getHeight() > cardViewMinHeight) {
-            ValueAnimator collapseAnimation = ValueAnimator.ofInt(
-                    cardView.getMeasuredHeightAndState(), cardViewMinHeight);
-            collapseAnimation.addUpdateListener(valueAnimator -> {
-                int val = (Integer)valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = cardView.getLayoutParams();
-                layoutParams.height = val;
-                cardView.setLayoutParams(layoutParams);
-            });
-            collapseAnimation.start();
-            collapseAnimation.setDuration(ANIMATION_DURATION);
-            AlphaAnimation fadeOutAnimation = new AlphaAnimation(1, 0);
-            fadeOutAnimation.setDuration(ANIMATION_DURATION);
-            fadeOutAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {}
+    private void hideImageOrDescription(CardView cardView,
+                                        FrameLayout flImageOrDescription) {
+        ValueAnimator collapseAnimation = ValueAnimator.ofInt(
+                cardView.getMeasuredHeightAndState(), cardViewMinHeight);
+        collapseAnimation.addUpdateListener(valueAnimator -> {
+            int val = (Integer)valueAnimator.getAnimatedValue();
+            ViewGroup.LayoutParams layoutParams = cardView.getLayoutParams();
+            layoutParams.height = val;
+            cardView.setLayoutParams(layoutParams);
+        });
+        collapseAnimation.start();
+        collapseAnimation.setDuration(ANIMATION_DURATION);
+        AlphaAnimation fadeOutAnimation = new AlphaAnimation(1, 0);
+        fadeOutAnimation.setDuration(ANIMATION_DURATION);
+        fadeOutAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
 
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    flImageOrDescription.setVisibility(GONE);
-                }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                flImageOrDescription.setVisibility(GONE);
+            }
 
-                @Override
-                public void onAnimationRepeat(Animation animation) {}
-            });
-            flImageOrDescription.startAnimation(fadeOutAnimation);
-            collapseAnimation.start();
-        }
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+        flImageOrDescription.startAnimation(fadeOutAnimation);
+        collapseAnimation.start();
     }
 
     //endregion
