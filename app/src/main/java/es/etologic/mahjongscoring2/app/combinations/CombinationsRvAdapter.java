@@ -7,11 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -76,6 +76,7 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     class CombinationItemViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.llCombinationItemContainer) LinearLayout llContainer;
         @BindView(R.id.cvCombinationItem) CardView cardView;
         @BindView(R.id.tvCombinationItemPoints) TextView tvPoints;
         @BindView(R.id.tvCombinationItemName) TextView tvName;
@@ -91,9 +92,9 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @OnClick(R.id.cvCombinationItem) void onCombinationItemClick() {
             if (cardView.getHeight() == cardViewMinHeight) {
-                showImageOrDescription(cardView, flImageOrDescriptionContainer);
-            } else {
-                hideImageOrDescription(cardView, flImageOrDescriptionContainer);
+                showImageOrDescriptionAnimated(this);
+            } else if(cardView.getHeight() == cardViewFullHeight){
+                hideImageOrDescriptionAnimated(this);
             }
         }
     }
@@ -138,8 +139,14 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         myHolder.tvPosition.setText(String.format(Locale.getDefault(),"#%d", position+1));
         //endregion
         //region Image or Description
-        myHolder.flImageOrDescriptionContainer.setVisibility(
-                imageOrDescriptionShowState == SHOW ? VISIBLE : GONE);
+        if(imageOrDescriptionShowState == SHOW) {
+            if(myHolder.cardView.getHeight() == cardViewMinHeight) {
+                showImageOrDescriptionNoAnimated(myHolder);
+            }
+        } else if(myHolder.cardView.getHeight() == cardViewFullHeight) {
+            hideImageOrDescriptionNoAnimated(myHolder);
+        }
+
         if(combination.getCombinationDescriptionType() == IMAGE) {
             myHolder.ivImage.setImageResource(combination.getCombinationImage());
             myHolder.tvDescription.setVisibility(GONE);
@@ -164,15 +171,22 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.combinations = newCombinationsCopy;
     }
 
-    private void showImageOrDescription(CardView cardView,
-                                        FrameLayout flImageOrDescription) {
+    private void showImageOrDescriptionNoAnimated(CombinationItemViewHolder myHolder) {
+        myHolder.flImageOrDescriptionContainer.setVisibility(VISIBLE);
+    }
+
+    private void hideImageOrDescriptionNoAnimated(CombinationItemViewHolder myHolder) {
+        myHolder.flImageOrDescriptionContainer.setVisibility(GONE);
+    }
+
+    private void showImageOrDescriptionAnimated(CombinationItemViewHolder holder) {
         ValueAnimator expandAnimation = ValueAnimator.ofInt(
-                cardView.getMeasuredHeightAndState(), cardViewFullHeight);
+                holder.cardView.getMeasuredHeightAndState(), cardViewFullHeight);
         expandAnimation.addUpdateListener(valueAnimator -> {
             int val = (Integer)valueAnimator.getAnimatedValue();
-            ViewGroup.LayoutParams layoutParams = cardView.getLayoutParams();
+            ViewGroup.LayoutParams layoutParams = holder.cardView.getLayoutParams();
             layoutParams.height = val;
-            cardView.setLayoutParams(layoutParams);
+            holder.cardView.setLayoutParams(layoutParams);
         });
         expandAnimation.setDuration(ANIMATION_DURATION);
         AlphaAnimation fadeInAnimation = new AlphaAnimation(0, 1);
@@ -180,7 +194,7 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         fadeInAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                flImageOrDescription.setVisibility(VISIBLE);
+                showImageOrDescriptionNoAnimated(holder);
             }
 
             @Override
@@ -190,18 +204,17 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void onAnimationRepeat(Animation animation) {}
         });
         expandAnimation.start();
-        flImageOrDescription.startAnimation(fadeInAnimation);
+        holder.flImageOrDescriptionContainer.startAnimation(fadeInAnimation);
     }
 
-    private void hideImageOrDescription(CardView cardView,
-                                        FrameLayout flImageOrDescription) {
+    private void hideImageOrDescriptionAnimated(CombinationItemViewHolder holder) {
         ValueAnimator collapseAnimation = ValueAnimator.ofInt(
-                cardView.getMeasuredHeightAndState(), cardViewMinHeight);
+                holder.cardView.getMeasuredHeightAndState(), cardViewMinHeight);
         collapseAnimation.addUpdateListener(valueAnimator -> {
             int val = (Integer)valueAnimator.getAnimatedValue();
-            ViewGroup.LayoutParams layoutParams = cardView.getLayoutParams();
+            ViewGroup.LayoutParams layoutParams = holder.cardView.getLayoutParams();
             layoutParams.height = val;
-            cardView.setLayoutParams(layoutParams);
+            holder.cardView.setLayoutParams(layoutParams);
         });
         collapseAnimation.start();
         collapseAnimation.setDuration(ANIMATION_DURATION);
@@ -213,13 +226,13 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                flImageOrDescription.setVisibility(GONE);
+                hideImageOrDescriptionNoAnimated(holder);
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {}
         });
-        flImageOrDescription.startAnimation(fadeOutAnimation);
+        holder.flImageOrDescriptionContainer.startAnimation(fadeOutAnimation);
         collapseAnimation.start();
     }
 
