@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:checkableBehavior="single">
 
         <item
             android:id="@+id/nav_oldgames"
             android:icon="@drawable/ic_history_black_24px"
-            android:title="@string/old_games"/>
-
-        <item
-            android:id="@+id/nav_newgame"
-            android:icon="@drawable/ic_play_arrow_black_24dp"
-            android:title="@string/new_game"/>
+            android:title="@string/old_games"
+            app:actionLayout="@layout/main_drawer_oldgames_actionlayout"/>
 
         <item
             android:id="@+id/nav_combinations"

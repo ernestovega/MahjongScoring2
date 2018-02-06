@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.ImageButton;
 
 import es.etologic.mahjongscoring2.BuildConfig;
 import es.etologic.mahjongscoring2.R;
@@ -58,14 +59,16 @@ public class MainNavigation {
     //region Private
 
     private void setupNavigation() {
+        ImageButton imageButton = mainActivity.navigationView.getMenu()
+                .findItem(R.id.nav_oldgames).getActionView()
+                .findViewById(R.id.ibMainDrawerOldGamesActionLayoutNewGame);
+        imageButton.setOnClickListener(v -> goToNewGame());
+
         mainActivity.navigationView.setNavigationItemSelectedListener(menuItem -> {
             mainActivity.closeEndDrawer();
             switch (menuItem.getItemId()) {
                 case R.id.nav_oldgames:
                     goToOldGames();
-                    break;
-                case R.id.nav_newgame:
-                    goToNewGame();
                     break;
                 case R.id.nav_combinations:
                     goToCombinations();
