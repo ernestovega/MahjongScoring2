@@ -12,11 +12,11 @@ public class BaseError {
     private int errorCode;
     private String errorMessage;
 
-    public int getErrorCode() {
+    public int getCode() {
         return errorCode;
     }
 
-    public String getErrorMessage() {
+    public String getMessage() {
         return errorMessage;
     }
 

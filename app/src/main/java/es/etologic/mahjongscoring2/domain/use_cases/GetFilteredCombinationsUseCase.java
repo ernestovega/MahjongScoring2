@@ -18,8 +18,8 @@ public class GetFilteredCombinationsUseCase extends
 
     @Override
     protected void executeUseCase(RequestValues filter) {
-        getUseCaseCallback().onSuccess(
-                new ResponseValue(dataProvider.getFilteredCombinations(filter.getFilter())));
+        List<Combination> combinations = dataProvider.getFilteredCombinations(filter.getFilter());
+        getUseCaseCallback().onSuccess(new ResponseValue(combinations));
     }
 
     public static final class RequestValues implements UseCase.RequestValues {

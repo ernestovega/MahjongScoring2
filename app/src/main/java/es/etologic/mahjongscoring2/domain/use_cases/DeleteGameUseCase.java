@@ -23,7 +23,7 @@ public class DeleteGameUseCase extends
             List<Game> games = dataProvider.getAllGames();
             getUseCaseCallback().onSuccess(new ResponseValue(games));
         } else {
-            getUseCaseCallback().onError(BaseError.getDeletionError().getErrorMessage());
+            getUseCaseCallback().onError(BaseError.getDeletionError().getMessage());
         }
     }
 

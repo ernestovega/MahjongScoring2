@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 import android.database.sqlite.SQLiteConstraintException;
 
 import java.util.List;
@@ -25,4 +26,7 @@ public interface GamesDao {
 
     @Query("DELETE FROM Games WHERE gameId = :gameId")
     int deleteOne(long gameId);
+
+    @Update
+    int updateOne(Game game);
 }

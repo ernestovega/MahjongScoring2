@@ -26,7 +26,7 @@
         </activity>
 
         <activity
-            android:name=".app.game.GameActivity"
+            android:name=".app.game.game_main.GameMainActivity"
             android:screenOrientation="portrait"/>
 
         <activity

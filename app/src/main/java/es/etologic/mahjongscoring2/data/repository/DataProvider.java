@@ -27,8 +27,8 @@ public class DataProvider implements DataSource {
     //region GAMES
 
     @Override
-    public Long createGame(Game gameToInsert) {
-        return localDataSource.insertGame(gameToInsert);
+    public List<Game> getAllGames() {
+        return localDataSource.getAllGames();
     }
 
     @Override
@@ -37,8 +37,13 @@ public class DataProvider implements DataSource {
     }
 
     @Override
-    public List<Game> getAllGames() {
-        return localDataSource.getAllGames();
+    public Long createGame(Game game) {
+        return localDataSource.insertGame(game);
+    }
+
+    @Override
+    public boolean updateGame(Game game) {
+        return localDataSource.updateGame(game);
     }
 
     @Override
@@ -51,8 +56,8 @@ public class DataProvider implements DataSource {
     //region PLAYERS
 
     @Override
-    public boolean createPlayer(Player player) {
-        return localDataSource.insertPlayer(player);
+    public List<Player> getAllPlayers() {
+        return localDataSource.getAllPlayers();
     }
 
     @Override
@@ -61,8 +66,8 @@ public class DataProvider implements DataSource {
     }
 
     @Override
-    public List<Player> getAllPlayers() {
-        return localDataSource.getAllPlayers();
+    public boolean createPlayer(Player player) {
+        return localDataSource.insertPlayer(player);
     }
 
     //endregion

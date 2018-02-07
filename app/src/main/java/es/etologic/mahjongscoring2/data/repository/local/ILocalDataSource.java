@@ -8,25 +8,19 @@ import es.etologic.mahjongscoring2.domain.entities.Player;
 
 public interface ILocalDataSource {
 
-    //region DB
-    void clearDatabase();
-    //endregion
-
-    //region GAMES
-    long insertGame(Game game);
-    Game getGame(long gameId);
+    //GAMES
     List<Game> getAllGames();
+    Game getGame(long gameId);
+    boolean updateGame(Game game);
+    long insertGame(Game game);
     boolean deleteGame(long gameId);
-    //endregion
 
-    //region PLAYERS
-    boolean insertPlayer(Player player);
-    Player getPlayer(String playerName);
+    //PLAYERS
     List<Player> getAllPlayers();
-    //endregion
+    Player getPlayer(String playerName);
+    boolean insertPlayer(Player player);
 
-    //region COMBINATIONS
+    //COMBINATIONS
     List<Combination> getAllCombinations();
     List<Combination> getFilteredCombinations(String filter);
-    //endregion
 }

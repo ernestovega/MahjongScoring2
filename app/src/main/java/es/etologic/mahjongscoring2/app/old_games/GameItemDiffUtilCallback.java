@@ -11,8 +11,8 @@ import es.etologic.mahjongscoring2.domain.entities.Game;
 class GameItemDiffUtilCallback extends DiffUtil.Callback {
 
     private static final int NUM_GAME_PLAYERS = 4;
-    List<Game> oldList;
-    List<Game> newList;
+    private List<Game> oldList;
+    private List<Game> newList;
 
     GameItemDiffUtilCallback(List<Game> newList, List<Game> oldList) {
         this.newList = newList;

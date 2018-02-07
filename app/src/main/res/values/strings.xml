@@ -148,15 +148,30 @@
     <string name="description_last_tile_claim">Win with last discard tile</string>
     <string name="description_out_with_replacement_tile">Win with Kong extra tile</string>
     <string name="description_robbing_the_kong">Win with other player Kong extension tile</string>
+
     <string name="search">Search</string>
     <string name="combination_name">Combination name</string>
     <string name="toggle_descriptions">Toogle descriptions</string>
+
+    <!-- GREEN BOOK -->
     <string name="downloading_green_book_">Downloading the most recent version from the EMA portal</string>
     <string name="green_book_download">Green Book download</string>
     <string name="app_for_file_not_founded">Couldn\'t find apps for this file type</string>
     <string name="see_on_web">See on web</string>
+
+    <!-- CONTACT -->
     <string name="no_email_apps_founded">Couldn\'t find email apps</string>
     <string name="send_mail">Send mail</string>
+
+    <!-- GAME -->
+    <string name="table">Table</string>
+    <string name="game">Game</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="exit">Exit</string>
+    <string name="exit_game">Exit game</string>
+    <string name="press_ok_to_exit">Press OK to exit</string>
+    <string name="error_updating_end_date">There was an error updating game end date</string>
 
 
 </resources>

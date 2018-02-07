@@ -18,7 +18,8 @@ public class GetGamesUseCase extends
 
     @Override
     protected void executeUseCase(RequestValues ignored) {
-        getUseCaseCallback().onSuccess(new ResponseValue(dataProvider.getAllGames()));
+        List<Game> games = dataProvider.getAllGames();
+        getUseCaseCallback().onSuccess(new ResponseValue(games));
     }
 
     static final class RequestValues implements UseCase.RequestValues {}

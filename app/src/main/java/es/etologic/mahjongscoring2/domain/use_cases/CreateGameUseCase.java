@@ -26,7 +26,7 @@ public class CreateGameUseCase extends
         if(newGameId != null && newGameId > 0) {
             getUseCaseCallback().onSuccess(new ResponseValue(newGameId));
         } else {
-            getUseCaseCallback().onError(BaseError.getInsertionError().getErrorMessage());
+            getUseCaseCallback().onError(BaseError.getInsertionError().getMessage());
         }
     }
 

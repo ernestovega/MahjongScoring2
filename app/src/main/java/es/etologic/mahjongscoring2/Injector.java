@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import es.etologic.mahjongscoring2.app.combinations.CombinationsViewModelFactory;
+import es.etologic.mahjongscoring2.app.game.game_main.GameMainViewModelFactory;
 import es.etologic.mahjongscoring2.app.main.MainActivity;
 import es.etologic.mahjongscoring2.app.main.MainNavigation;
 import es.etologic.mahjongscoring2.app.new_game.NewGameViewModelFactory;
@@ -15,8 +16,10 @@ import es.etologic.mahjongscoring2.domain.use_cases.CreatePlayerUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.DeleteGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetCombinationsUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetFilteredCombinationsUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.GetGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetPlayersUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.UpdateGameUseCase;
 
 public class Injector extends BaseInjector {
 
@@ -31,10 +34,10 @@ public class Injector extends BaseInjector {
     public static OldGamesViewModelFactory provideOldGamesViewModelFactory(
             @NonNull Context context) {
         return new OldGamesViewModelFactory(provideUseCaseHandler(),
-                provideGetOldGamesUseCase(context), provideDeleteGameUseCase(context));
+                provideGetGamesUseCase(context), provideDeleteGameUseCase(context));
     }
 
-    private static GetGamesUseCase provideGetOldGamesUseCase(@NonNull Context context) {
+    private static GetGamesUseCase provideGetGamesUseCase(@NonNull Context context) {
         return new GetGamesUseCase(provideDataSource(context));
     }
 
@@ -72,5 +75,19 @@ public class Injector extends BaseInjector {
 
     private static GetFilteredCombinationsUseCase provideGetFilteredCombinationsUseCase(Context context) {
         return new GetFilteredCombinationsUseCase(provideDataSource(context));
+    }
+
+    public static GameMainViewModelFactory provideGameMainViewModelFactory(
+            @NonNull Context context) {
+        return new GameMainViewModelFactory(provideUseCaseHandler(),
+                provideGetGameUseCase(context), provideUpdateGameUseCase(context));
+    }
+
+    private static GetGameUseCase provideGetGameUseCase(@NonNull Context context) {
+        return new GetGameUseCase(provideDataSource(context));
+    }
+
+    private static UpdateGameUseCase provideUpdateGameUseCase(@NonNull Context context) {
+        return new UpdateGameUseCase(provideDataSource(context));
     }
 }

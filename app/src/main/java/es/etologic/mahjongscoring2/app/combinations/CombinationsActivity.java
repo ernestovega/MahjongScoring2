@@ -95,7 +95,7 @@ public class CombinationsActivity extends AppCompatActivity {
             case R.id.action_search_combination:
                 //TODO
                 return true;
-            case R.id.action_toggle_combination_exnplanation:
+            case R.id.action_toggle_combination_explanation:
                 MenuItem menuItem = toolbar.getMenu().getItem(1);
                 menuItem.setIcon(rvAdapter.toggleImageOrDescription() == SHOW ?
                         R.drawable.ic_library_books_white_24dp :

@@ -25,7 +25,7 @@
         app:itemBackground="@android:color/transparent"
         app:itemTextColor="@color/grayMM"
         app:itemIconTint="@color/grayMM"
-        app:menu="@menu/drawer_menu"/>
+        app:menu="@menu/main_drawer_menu"/>
 
 </android.support.v4.widget.DrawerLayout>
 

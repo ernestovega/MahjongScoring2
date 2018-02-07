@@ -26,7 +26,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
-import es.etologic.mahjongscoring2.app.game.GameActivity;
+import es.etologic.mahjongscoring2.app.game.game_main.GameMainActivity;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
 import es.etologic.mahjongscoring2.domain.entities.Player;
@@ -162,7 +162,7 @@ public class NewGameActivity extends AppCompatActivity {
     }
 
     private void startGame(long gameId) {
-        Intent intent = new Intent(this, GameActivity.class);
+        Intent intent = new Intent(this, GameMainActivity.class);
         intent.putExtra(getString(R.string.key_extra_game_id), gameId);
         startActivity(intent);
     }

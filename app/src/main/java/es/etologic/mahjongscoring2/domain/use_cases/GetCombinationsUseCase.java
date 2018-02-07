@@ -18,7 +18,8 @@ public class GetCombinationsUseCase extends
 
     @Override
     protected void executeUseCase(RequestValues ignored) {
-        getUseCaseCallback().onSuccess(new ResponseValue(dataProvider.getAllCombinations()));
+        List<Combination> combinations = dataProvider.getAllCombinations();
+        getUseCaseCallback().onSuccess(new ResponseValue(combinations));
     }
 
     static final class RequestValues implements UseCase.RequestValues {}

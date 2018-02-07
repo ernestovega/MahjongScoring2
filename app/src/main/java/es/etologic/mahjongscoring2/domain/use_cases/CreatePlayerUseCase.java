@@ -22,7 +22,7 @@ public class CreatePlayerUseCase extends
             Player newPlayer = dataProvider.getPlayer(requestValues.getPlayerName());
             getUseCaseCallback().onSuccess(new ResponseValue(newPlayer));
         } else {
-            getUseCaseCallback().onError(BaseError.getInsertionError().getErrorMessage());
+            getUseCaseCallback().onError(BaseError.getInsertionError().getMessage());
         }
     }
 

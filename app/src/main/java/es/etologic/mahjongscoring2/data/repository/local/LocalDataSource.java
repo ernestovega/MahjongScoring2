@@ -37,14 +37,23 @@ public class LocalDataSource implements ILocalDataSource {
 
     //endregion
 
-    //region DB
+    //region GAMES
 
     @Override
-    public void clearDatabase() {}
+    public List<Game> getAllGames() {
+        return gamesDao.getAll();
+    }
 
-    //endregion
+    @Override
+    public Game getGame(long gameId) {
+        return gamesDao.getOne(gameId);
+        //TODO Hacer pruebas forzando datos (tests unitarios!)
+    }
 
-    //region GAMES
+    @Override
+    public boolean updateGame(Game game) {
+        return gamesDao.updateOne(game) == 1;
+    }
 
     @Override
     public long insertGame(Game game) {
@@ -57,17 +66,6 @@ public class LocalDataSource implements ILocalDataSource {
     }
 
     @Override
-    public Game getGame(long gameId) {
-        return gamesDao.getOne(gameId);
-        //TODO Hacer pruebas forzando datos (tests unitarios!)
-    }
-
-    @Override
-    public List<Game> getAllGames() {
-        return gamesDao.getAll();
-    }
-
-    @Override
     public boolean deleteGame(long gameId) {
         return gamesDao.deleteOne(gameId) == 1;
     }
@@ -75,6 +73,17 @@ public class LocalDataSource implements ILocalDataSource {
     //endregion
 
     //region PLAYERS
+
+    @Override
+    public List<Player> getAllPlayers() {
+        return playersDao.getAll();
+    }
+
+    @Override
+    public Player getPlayer(String playerName) {
+        return playersDao.getOne(playerName);
+        //TODO Hacer pruebas forzando datos (tests unitarios!)
+    }
 
     @Override
     public boolean insertPlayer(Player player) {
@@ -85,17 +94,6 @@ public class LocalDataSource implements ILocalDataSource {
             //TODO Hacer pruebas forzando datos (tests unitarios!)
         }
         return true;
-    }
-
-    @Override
-    public Player getPlayer(String playerName) {
-        return playersDao.getOne(playerName);
-        //TODO Hacer pruebas forzando datos (tests unitarios!)
-    }
-
-    @Override
-    public List<Player> getAllPlayers() {
-        return playersDao.getAll();
     }
 
     //endregion
@@ -111,6 +109,15 @@ public class LocalDataSource implements ILocalDataSource {
         }
         return combinations;
     }
+
+    @Override
+    public List<Combination> getFilteredCombinations(String filter) {
+        return combinationsDao.getFilteredCombinations(String.format("%%%s%%", filter));
+    }
+
+    //endregion
+
+    //region Private
 
     private List<Combination> getAllHardcodedCombinations() {
         List<Combination> combinations = new ArrayList<>();
@@ -195,11 +202,6 @@ public class LocalDataSource implements ILocalDataSource {
         combinations.add(new Combination(88,    context.getString(R.string.four_kongs),                        R.drawable.four_kongs));
         combinations.add(new Combination(88,    context.getString(R.string.seven_shifted_pairs),               R.drawable.seven_shifted_pairs));
         return combinations;
-    }
-
-    @Override
-    public List<Combination> getFilteredCombinations(String filter) {
-        return combinationsDao.getFilteredCombinations(String.format("%%%s%%", filter));
     }
 
     //endregion

@@ -10,7 +10,7 @@
         app:actionViewClass="android.support.v7.widget.SearchView"/>
 
     <item
-        android:id="@+id/action_toggle_combination_exnplanation"
+        android:id="@+id/action_toggle_combination_explanation"
         android:icon="@drawable/ic_library_books_white_24dp"
         android:title="@string/toggle_descriptions"
         app:showAsAction="ifRoom"/>
