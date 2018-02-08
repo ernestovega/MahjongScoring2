@@ -25,9 +25,7 @@ public class Game {
     private String nameP3;
     private String nameP4;
     @TypeConverters({DateConverter.class})
-    private Date startDate;
-    @TypeConverters({DateConverter.class})
-    private Date endDate;
+    private Date creationDate;
     @Ignore
     private List<Round> rounds;
 
@@ -53,16 +51,8 @@ public class Game {
         return nameP4;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
     public List<Round> getRounds() {
@@ -76,13 +66,13 @@ public class Game {
     //endregion
 
     public Game(final long gameId, String nameP1, String nameP2, String nameP3, String nameP4,
-                Date startDate) {
+                Date creationDate) {
         this.gameId = gameId;
         this.nameP1 = nameP1;
         this.nameP2 = nameP2;
         this.nameP3 = nameP3;
         this.nameP4 = nameP4;
-        this.startDate = startDate;
+        this.creationDate = creationDate;
         this.rounds = new ArrayList<>();
     }
 
@@ -137,9 +127,19 @@ public class Game {
         };
     }
 
+    public long getTotalDuration() {
+        if(rounds == null || !rounds.isEmpty()) return 0;
+        else {
+            long totalDuration = 0;
+            for(Round round : rounds) {
+                totalDuration += round.getRoundDuration();
+            }
+            return totalDuration;
+        }
+    }
+
     public Game getCopy() {
-        Game gameCopy = new Game(gameId, nameP1, nameP2, nameP3, nameP4, startDate);
-        gameCopy.setEndDate(endDate);
+        Game gameCopy = new Game(gameId, nameP1, nameP2, nameP3, nameP4, creationDate);
         gameCopy.setRounds(rounds);
         return gameCopy;
     }

@@ -6,15 +6,15 @@ import android.support.annotation.NonNull;
 import es.etologic.mahjongscoring2.app.base.BaseViewModelFactory;
 import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
 import es.etologic.mahjongscoring2.domain.use_cases.GetGameUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.UpdateGameUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.UpdateRoundUseCase;
 
 public class GameMainViewModelFactory extends BaseViewModelFactory {
 
     private final GetGameUseCase getGameUseCase;
-    private final UpdateGameUseCase updateGameUseCase;
+    private final UpdateRoundUseCase updateGameUseCase;
 
     public GameMainViewModelFactory(UseCaseHandler useCaseHandler, GetGameUseCase getGameUseCase,
-                                    UpdateGameUseCase updateGameUseCase) {
+                                    UpdateRoundUseCase updateGameUseCase) {
         super(useCaseHandler);
         this.getGameUseCase = getGameUseCase;
         this.updateGameUseCase = updateGameUseCase;

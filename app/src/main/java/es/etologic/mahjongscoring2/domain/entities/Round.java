@@ -30,6 +30,7 @@ public class Round {
     private int penaltyP2;
     private int penaltyP3;
     private int penaltyP4;
+    private long roundDuration;
 
     //region GETTERS & SETTERS
 
@@ -39,6 +40,30 @@ public class Round {
 
     public int getRoundId() {
         return roundId;
+    }
+
+    public int getHandPoints() {
+        return handPoints;
+    }
+
+    public void setHandPoints(int handPoints) {
+        this.handPoints = handPoints;
+    }
+
+    public int getWinnerInitialPosition() {
+        return winnerInitialPosition;
+    }
+
+    public void setWinnerInitialPosition(int winnerInitialPosition) {
+        this.winnerInitialPosition = winnerInitialPosition;
+    }
+
+    public int getLooserInitialPosition() {
+        return looserInitialPosition;
+    }
+
+    public void setLooserInitialPosition(int looserInitialPosition) {
+        this.looserInitialPosition = looserInitialPosition;
     }
 
     public int getPointsP1() {
@@ -105,28 +130,12 @@ public class Round {
         this.penaltyP4 = penaltyP4;
     }
 
-    public int getHandPoints() {
-        return handPoints;
+    public long getRoundDuration() {
+        return roundDuration;
     }
 
-    public void setHandPoints(int handPoints) {
-        this.handPoints = handPoints;
-    }
-
-    public int getWinnerInitialPosition() {
-        return winnerInitialPosition;
-    }
-
-    public void setWinnerInitialPosition(int winnerInitialPosition) {
-        this.winnerInitialPosition = winnerInitialPosition;
-    }
-
-    public int getLooserInitialPosition() {
-        return looserInitialPosition;
-    }
-
-    public void setLooserInitialPosition(int looserInitialPosition) {
-        this.looserInitialPosition = looserInitialPosition;
+    public void setRoundDuration(long roundDuration) {
+        this.roundDuration = roundDuration;
     }
 
     //endregion

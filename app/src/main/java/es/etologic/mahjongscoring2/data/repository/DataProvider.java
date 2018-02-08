@@ -7,6 +7,7 @@ import es.etologic.mahjongscoring2.domain.DataSource;
 import es.etologic.mahjongscoring2.domain.entities.Combination;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 import es.etologic.mahjongscoring2.domain.entities.Player;
+import es.etologic.mahjongscoring2.domain.entities.Round;
 
 public class DataProvider implements DataSource {
 
@@ -23,6 +24,25 @@ public class DataProvider implements DataSource {
         }
         return INSTANCE;
     }
+
+    //region PLAYERS
+
+    @Override
+    public List<Player> getAllPlayers() {
+        return localDataSource.getAllPlayers();
+    }
+
+    @Override
+    public Player getPlayer(String playerName) {
+        return localDataSource.getPlayer(playerName);
+    }
+
+    @Override
+    public boolean createPlayer(Player player) {
+        return localDataSource.insertPlayer(player);
+    }
+
+    //endregion
 
     //region GAMES
 
@@ -42,32 +62,17 @@ public class DataProvider implements DataSource {
     }
 
     @Override
-    public boolean updateGame(Game game) {
-        return localDataSource.updateGame(game);
-    }
-
-    @Override
     public boolean deleteGame(long gameId) {
         return localDataSource.deleteGame(gameId);
     }
 
     //endregion
 
-    //region PLAYERS
+    //region ROUNDS
 
     @Override
-    public List<Player> getAllPlayers() {
-        return localDataSource.getAllPlayers();
-    }
-
-    @Override
-    public Player getPlayer(String playerName) {
-        return localDataSource.getPlayer(playerName);
-    }
-
-    @Override
-    public boolean createPlayer(Player player) {
-        return localDataSource.insertPlayer(player);
+    public boolean updateRound(Round round) {
+        return localDataSource.updateRound(round);
     }
 
     //endregion

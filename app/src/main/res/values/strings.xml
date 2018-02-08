@@ -172,6 +172,17 @@
     <string name="exit_game">Exit game</string>
     <string name="press_ok_to_exit">Press OK to exit</string>
     <string name="error_updating_end_date">There was an error updating game end date</string>
+    <string name="totals">Totals</string>
+    <string name="no_rounds_yet">There aren´t rounds yet</string>
+    <string name="points">Points</string>
+    <string name="number_symbol">#</string>
+    <string name="final_results">Final results</string>
+    <string name="duration">Duration</string>
+    <string name="cancel_penalty">Cancel penalty</string>
+    <string name="penalty">Penalty</string>
+    <string name="draw">Draw</string>
+    <string name="hu_wall">Wall Hu</string>
+    <string name="hu_discard">Discard Hu</string>
 
 
 </resources>

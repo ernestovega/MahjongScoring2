@@ -89,4 +89,6 @@ dependencies {
     //Chips
     compile "com.github.pchmn:MaterialChipsInput:1.0.8"
 
+    //Floating Action Menu
+    compile 'com.github.clans:fab:1.6.4'
 }

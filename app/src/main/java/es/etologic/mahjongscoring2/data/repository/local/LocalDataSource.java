@@ -13,6 +13,7 @@ import es.etologic.mahjongscoring2.data.repository.local.daos.PlayersDao;
 import es.etologic.mahjongscoring2.domain.entities.Combination;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 import es.etologic.mahjongscoring2.domain.entities.Player;
+import es.etologic.mahjongscoring2.domain.entities.Round;
 
 public class LocalDataSource implements ILocalDataSource {
 
@@ -33,41 +34,6 @@ public class LocalDataSource implements ILocalDataSource {
         playersDao = database.getPlayersDao();
         gamesDao = database.getGamesDao();
         combinationsDao = database.getCombinationsDao();
-    }
-
-    //endregion
-
-    //region GAMES
-
-    @Override
-    public List<Game> getAllGames() {
-        return gamesDao.getAll();
-    }
-
-    @Override
-    public Game getGame(long gameId) {
-        return gamesDao.getOne(gameId);
-        //TODO Hacer pruebas forzando datos (tests unitarios!)
-    }
-
-    @Override
-    public boolean updateGame(Game game) {
-        return gamesDao.updateOne(game) == 1;
-    }
-
-    @Override
-    public long insertGame(Game game) {
-        try {
-            return gamesDao.insertOne(game);
-        } catch(SQLiteConstraintException exception) {
-            return 0;
-            //TODO Hacer pruebas forzando datos (tests unitarios!)
-        }
-    }
-
-    @Override
-    public boolean deleteGame(long gameId) {
-        return gamesDao.deleteOne(gameId) == 1;
     }
 
     //endregion
@@ -94,6 +60,45 @@ public class LocalDataSource implements ILocalDataSource {
             //TODO Hacer pruebas forzando datos (tests unitarios!)
         }
         return true;
+    }
+
+    //endregion
+
+    //region GAMES
+
+    @Override
+    public List<Game> getAllGames() {
+        return gamesDao.getAll();
+    }
+
+    @Override
+    public Game getGame(long gameId) {
+        return gamesDao.getOne(gameId);
+        //TODO Hacer pruebas forzando datos (tests unitarios!)
+    }
+
+    @Override
+    public long insertGame(Game game) {
+        try {
+            return gamesDao.insertOne(game);
+        } catch(SQLiteConstraintException exception) {
+            return 0;
+            //TODO Hacer pruebas forzando datos (tests unitarios!)
+        }
+    }
+
+    @Override
+    public boolean deleteGame(long gameId) {
+        return gamesDao.deleteOne(gameId) == 1;
+    }
+
+    //endregion
+
+    //region ROUNDS
+
+    @Override
+    public boolean updateRound(Round round) {
+        return roundsDao.updateOne(round) == 1;
     }
 
     //endregion

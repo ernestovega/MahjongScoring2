@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "27069f0d6ba5800dd0a6738c9b326bc6",
+    "identityHash": "38b0649c3ffdde996e7e3e79304ab947",
     "entities": [
       {
         "tableName": "Players",
@@ -35,7 +35,7 @@
       },
       {
         "tableName": "Games",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nameP1` TEXT, `nameP2` TEXT, `nameP3` TEXT, `nameP4` TEXT, `startDate` INTEGER, `endDate` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nameP1` TEXT, `nameP2` TEXT, `nameP3` TEXT, `nameP4` TEXT, `creationDate` INTEGER)",
         "fields": [
           {
             "fieldPath": "gameId",
@@ -68,14 +68,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "startDate",
-            "columnName": "startDate",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "endDate",
-            "columnName": "endDate",
+            "fieldPath": "creationDate",
+            "columnName": "creationDate",
             "affinity": "INTEGER",
             "notNull": false
           }
@@ -100,7 +94,7 @@
       },
       {
         "tableName": "Rounds",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, `handPoints` INTEGER NOT NULL, `winnerInitialPosition` INTEGER NOT NULL, `looserInitialPosition` INTEGER NOT NULL, `pointsP1` INTEGER NOT NULL, `pointsP2` INTEGER NOT NULL, `pointsP3` INTEGER NOT NULL, `pointsP4` INTEGER NOT NULL, `penaltyP1` INTEGER NOT NULL, `penaltyP2` INTEGER NOT NULL, `penaltyP3` INTEGER NOT NULL, `penaltyP4` INTEGER NOT NULL, PRIMARY KEY(`gameId`, `roundId`), FOREIGN KEY(`gameId`) REFERENCES `Games`(`gameId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, `handPoints` INTEGER NOT NULL, `winnerInitialPosition` INTEGER NOT NULL, `looserInitialPosition` INTEGER NOT NULL, `pointsP1` INTEGER NOT NULL, `pointsP2` INTEGER NOT NULL, `pointsP3` INTEGER NOT NULL, `pointsP4` INTEGER NOT NULL, `penaltyP1` INTEGER NOT NULL, `penaltyP2` INTEGER NOT NULL, `penaltyP3` INTEGER NOT NULL, `penaltyP4` INTEGER NOT NULL, `duration` INTEGER NOT NULL, PRIMARY KEY(`gameId`, `roundId`), FOREIGN KEY(`gameId`) REFERENCES `Games`(`gameId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "gameId",
@@ -177,6 +171,12 @@
           {
             "fieldPath": "penaltyP4",
             "columnName": "penaltyP4",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "duration",
+            "columnName": "duration",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -269,7 +269,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"27069f0d6ba5800dd0a6738c9b326bc6\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"38b0649c3ffdde996e7e3e79304ab947\")"
     ]
   }
 }

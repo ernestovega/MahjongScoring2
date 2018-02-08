@@ -134,7 +134,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         //endregion
         //region Dates
         itemViewHolder.tvStartDate.setText(
-                game.getStartDate() == null ? "-" : DateUtils.getPrettyDate(game.getStartDate()));
+                game.getCreationDate() == null ? "-" : DateUtils.getPrettyDate(game.getCreationDate()));
         itemViewHolder.tvEndDate.setText(
                 game.getEndDate() == null ? "-" : DateUtils.getPrettyDate(game.getEndDate()));
         //endregion

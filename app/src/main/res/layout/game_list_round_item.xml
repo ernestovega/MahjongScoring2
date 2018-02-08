@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<com.daimajia.swipe.SwipeLayout
+    android:id="@+id/slGameList"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/triple_margin">-->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/triple_standard_margin">
+
+    <!-- Bottom View Start-->
+
+    <LinearLayout
+        android:id="@+id/bottom_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/grayLight"
+        android:layout_gravity="end"
+        android:weightSum="1">
+
+        <ImageButton
+            android:id="@+id/ibDeleteItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:src="@drawable/ic_bin_white"
+            android:tint="@color/grayMM"
+            tools:ignore="ContentDescription"/>
+
+    </LinearLayout>
+
+    <!-- Bottom View End-->
+
+    <!-- Surface View Start -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:padding="@dimen/standard_margin">
+
+        <TextView
+            android:id="@+id/tvGameListItemRoundNumber"
+            android:layout_width="@dimen/standard_margin"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginRight="@dimen/standard_margin"
+            android:gravity="center"
+            android:lines="1" />
+
+        <TextView
+            android:id="@+id/tvGameListItemHandPoints"
+            android:layout_width="@dimen/triple_standard_margin"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:lines="1" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tvGameListItemRoundPointsP1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:lines="1"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ivGameListItemPenaltyIconP1"
+                android:layout_width="@dimen/standard_margin"
+                android:layout_height="@dimen/standard_margin"
+                android:layout_toEndOf="@+id/tvGameListItemRoundPointsP1"
+                android:layout_toRightOf="@+id/tvGameListItemRoundPointsP1"
+                android:src="@drawable/ic_penalty_purple"
+                android:visibility="gone"
+                tools:ignore="ContentDescription"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tvGameListItemRoundPointsP2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:lines="1"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ivGameListItemPenaltyIconP2"
+                android:layout_width="@dimen/standard_margin"
+                android:layout_height="@dimen/standard_margin"
+                android:layout_toEndOf="@+id/tvGameListItemRoundPointsP2"
+                android:layout_toRightOf="@+id/tvGameListItemRoundPointsP2"
+                android:src="@drawable/ic_penalty_purple"
+                android:visibility="gone"
+                tools:ignore="ContentDescription"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tvGameListItemRoundPointsP3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:lines="1"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ivGameListItemPenaltyIconP3"
+                android:layout_width="@dimen/standard_margin"
+                android:layout_height="@dimen/standard_margin"
+                android:layout_toEndOf="@+id/tvGameListItemRoundPointsP3"
+                android:layout_toRightOf="@+id/tvGameListItemRoundPointsP3"
+                android:src="@drawable/ic_penalty_purple"
+                android:visibility="gone"
+                tools:ignore="ContentDescription"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tvGameListItemRoundPointsP4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:lines="1"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ivGameListItemPenaltyIconP4"
+                android:layout_width="@dimen/standard_margin"
+                android:layout_height="@dimen/standard_margin"
+                android:layout_toEndOf="@+id/tvGameListItemRoundPointsP4"
+                android:layout_toRightOf="@+id/tvGameListItemRoundPointsP4"
+                android:src="@drawable/ic_penalty_purple"
+                android:visibility="gone"
+                tools:ignore="ContentDescription"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- Surface View End -->
+    
+</LinearLayout>
+<!--</com.daimajia.swipe.SwipeLayout>-->

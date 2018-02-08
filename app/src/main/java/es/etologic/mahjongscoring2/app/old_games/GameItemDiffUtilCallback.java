@@ -45,7 +45,7 @@ class GameItemDiffUtilCallback extends DiffUtil.Callback {
                     oldGame.getNameP2().equals(newGame.getNameP2()) &&
                     oldGame.getNameP3().equals(newGame.getNameP3()) &&
                     oldGame.getNameP4().equals(newGame.getNameP4()) &&
-                    DateUtils.areEqual(oldGame.getStartDate(), newGame.getStartDate()) &&
+                    DateUtils.areEqual(oldGame.getCreationDate(), newGame.getCreationDate()) &&
                     DateUtils.areEqual(oldGame.getEndDate(), newGame.getEndDate()) &&
                     arePlayersTotalsPointsEquals(oldGame.getPlayersTotalPoints(),
                             newGame.getPlayersTotalPoints()) &&

@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                tools:ignore="NestedWeights">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cvSeatEast"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/quarter_standard_margin"
+                    android:layout_marginEnd="@dimen/quarter_standard_margin"
+                    android:layout_marginLeft="@dimen/half_standard_margin"
+                    android:layout_marginRight="@dimen/quarter_standard_margin"
+                    android:layout_marginStart="@dimen/half_standard_margin"
+                    android:layout_marginTop="@dimen/half_standard_margin"
+                    app:cardElevation="@dimen/quarter_standard_margin"
+                    card_view:cardBackgroundColor="@android:color/white"
+                    card_view:cardCornerRadius="@dimen/cardCornerRadius">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivItemPlayerEastSeatWindIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/standard_margin"
+                            android:alpha=".6"
+                            android:src="@drawable/ic_east"
+                            tools:ignore="ContentDescription"/>
+
+                        <TextView
+                            android:id="@+id/tvItemPlayerEastName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ivItemPlayerEastSeatWindIcon"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/standard_margin"
+                            android:gravity="center"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:textColor="@color/grayMM"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/tvItemPlayerEastPoints"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_below="@+id/tvItemPlayerEastName"
+                            android:gravity="center"
+                            android:textColor="@color/grayMM"
+                            android:textSize="@dimen/table_player_points_text_size"
+                            android:textStyle="bold"/>
+
+                        <LinearLayout
+                            android:id="@+id/llItemPlayerEastLayer"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:focusable="true">
+
+                            <ImageView
+                                android:id="@+id/ivItemPlayerEastLayerIcon"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/triple_standard_margin"
+                                tools:ignore="ContentDescription"/>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                tools:ignore="NestedWeights">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cvSeatNorth"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/quarter_standard_margin"
+                    android:layout_marginEnd="@dimen/half_standard_margin"
+                    android:layout_marginLeft="@dimen/quarter_standard_margin"
+                    android:layout_marginRight="@dimen/half_standard_margin"
+                    android:layout_marginStart="@dimen/quarter_standard_margin"
+                    android:layout_marginTop="@dimen/half_standard_margin"
+                    app:cardElevation="@dimen/quarter_standard_margin"
+                    card_view:cardBackgroundColor="@android:color/white"
+                    card_view:cardCornerRadius="@dimen/cardCornerRadius">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivItemPlayerNorthSeatWindIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/standard_margin"
+                            android:alpha=".6"
+                            android:src="@drawable/ic_north"
+                            tools:ignore="ContentDescription"/>
+
+                        <TextView
+                            android:id="@+id/tvItemPlayerNorthName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ivItemPlayerNorthSeatWindIcon"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/standard_margin"
+                            android:gravity="center"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:textColor="@color/grayMM"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/tvItemPlayerNorthPoints"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_below="@+id/tvItemPlayerNorthName"
+                            android:gravity="center"
+                            android:textColor="@color/grayMM"
+                            android:textSize="@dimen/table_player_points_text_size"
+                            android:textStyle="bold"/>
+
+                        <LinearLayout
+                            android:id="@+id/llItemPlayerNorthLayer"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:focusable="true">
+
+                            <ImageView
+                                android:id="@+id/ivItemPlayerNorthLayerIcon"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/triple_standard_margin"
+                                tools:ignore="ContentDescription"/>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                tools:ignore="NestedWeights">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cvSeatSouth"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/half_standard_margin"
+                    android:layout_marginEnd="@dimen/quarter_standard_margin"
+                    android:layout_marginLeft="@dimen/half_standard_margin"
+                    android:layout_marginRight="@dimen/quarter_standard_margin"
+                    android:layout_marginStart="@dimen/half_standard_margin"
+                    android:layout_marginTop="@dimen/quarter_standard_margin"
+                    app:cardElevation="@dimen/quarter_standard_margin"
+                    card_view:cardBackgroundColor="@android:color/white"
+                    card_view:cardCornerRadius="@dimen/cardCornerRadius">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivItemPlayerSouthSeatWindIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/standard_margin"
+                            android:alpha=".6"
+                            android:src="@drawable/ic_south"
+                            tools:ignore="ContentDescription"/>
+
+                        <TextView
+                            android:id="@+id/tvItemPlayerSouthName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ivItemPlayerSouthSeatWindIcon"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/standard_margin"
+                            android:gravity="center"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:textColor="@color/grayMM"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/tvItemPlayerSouthPoints"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_below="@+id/tvItemPlayerSouthName"
+                            android:gravity="center"
+                            android:textColor="@color/grayMM"
+                            android:textSize="@dimen/table_player_points_text_size"
+                            android:textStyle="bold"/>
+
+                        <LinearLayout
+                            android:id="@+id/llItemPlayerSouthLayer"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:focusable="true">
+
+                            <ImageView
+                                android:id="@+id/ivItemPlayerSouthLayerIcon"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/triple_standard_margin"
+                                tools:ignore="ContentDescription"/>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                tools:ignore="NestedWeights">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cvSeatWest"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/half_standard_margin"
+                    android:layout_marginEnd="@dimen/half_standard_margin"
+                    android:layout_marginLeft="@dimen/quarter_standard_margin"
+                    android:layout_marginRight="@dimen/half_standard_margin"
+                    android:layout_marginStart="@dimen/quarter_standard_margin"
+                    android:layout_marginTop="@dimen/quarter_standard_margin"
+                    app:cardElevation="@dimen/quarter_standard_margin"
+                    card_view:cardBackgroundColor="@android:color/white"
+                    card_view:cardCornerRadius="@dimen/cardCornerRadius">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivItemPlayerWestSeatWindIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/standard_margin"
+                            android:alpha=".6"
+                            android:src="@drawable/ic_west"
+                            tools:ignore="ContentDescription"/>
+
+                        <TextView
+                            android:id="@+id/tvItemPlayerWestName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ivItemPlayerWestSeatWindIcon"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/standard_margin"
+                            android:gravity="center"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                            android:textColor="@color/grayMM"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/tvItemPlayerWestPoints"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_below="@+id/tvItemPlayerWestName"
+                            android:gravity="center"
+                            android:textColor="@color/grayMM"
+                            android:textSize="@dimen/table_player_points_text_size"
+                            android:textStyle="bold"/>
+
+                        <LinearLayout
+                            android:id="@+id/llItemPlayerWestLayer"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:focusable="true">
+
+                            <ImageView
+                                android:id="@+id/ivItemPlayerWestLayerIcon"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/triple_standard_margin"
+                                tools:ignore="ContentDescription"/>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/famGame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:paddingBottom="@dimen/half_standard_margin"
+        android:paddingLeft="@dimen/half_standard_margin"
+        android:paddingRight="@dimen/half_standard_margin"
+        android:src="@drawable/ic_add_white_24dp"
+        app:menu_animationDelayPerItem="20"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_colorPressed="@color/colorPrimaryDark"
+        app:fab_colorRipple="@color/colorPrimaryDark"
+        app:menu_labels_colorNormal="@color/gray"
+        app:menu_labels_colorRipple="@color/grayMM"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabGamePenaltyCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_penalty_white"
+            app:fab_colorNormal="@color/red"
+            app:fab_colorPressed="@color/redDark"
+            app:fab_colorRipple="@color/redDark"
+            app:fab_label="@string/cancel_penalty"
+            app:fab_size="mini"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabGamePenalty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_penalty_white"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
+            app:fab_colorRipple="@color/colorPrimaryDark"
+            app:fab_label="@string/penalty"
+            app:fab_size="mini"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabGameWashout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_flag_white"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
+            app:fab_colorRipple="@color/colorPrimaryDark"
+            app:fab_label="@string/draw"
+            app:fab_size="mini"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabGameTsumo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_trophy_white_18dp"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
+            app:fab_colorRipple="@color/colorPrimaryDark"
+            app:fab_label="@string/hu_wall"
+            app:fab_size="mini"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabGameRon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_medal_white"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryDark"
+            app:fab_colorRipple="@color/colorPrimaryDark"
+            app:fab_label="@string/hu_discard"
+            app:fab_size="mini"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fabCancel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/half_standard_margin"
+        android:layout_marginLeft="@dimen/half_standard_margin"
+        android:layout_marginRight="@dimen/half_standard_margin"
+        android:rotation="45"
+        android:src="@drawable/fab_add"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/llGameTableRankingContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDarkTransparent"
+        android:clickable="true"
+        android:visibility="gone"
+        android:focusable="true">
+
+        <include layout="@layout/game_table_ranking_dialog"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

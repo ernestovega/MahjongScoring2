@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="480dp"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <TableRow style="@style/trDialogRanking">
+
+            <TextView
+                android:layout_marginBottom="@dimen/half_standard_margin"
+                android:layout_weight="12"
+                android:text="@string/final_results"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"/>
+
+        </TableRow>
+
+        <TableRow style="@style/trDialogRanking">
+
+            <TextView
+                android:id="@+id/tvNamePlayerFirst"
+                style="@style/tvDialogRankingTableContent"
+                android:layout_weight="7"
+                android:text="Player 1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:id="@+id/tvPointsPlayerFirst"
+                style="@style/tvDialogRankingTableContent"
+                android:layout_weight="2"
+                android:text="4"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:id="@+id/tvScorePlayerFirst"
+                style="@style/tvDialogRankingTableContent"
+                android:layout_weight="3"
+                android:text="200"
+                tools:ignore="HardcodedText"/>
+        </TableRow>
+
+        <TableRow style="@style/trDialogRanking">
+
+            <TextView
+                android:id="@+id/tvNamePlayerSecond"
+                style="@style/tvDialogRankingTableContent"
+                android:layout_weight="7"
+                android:text="Player 2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:id="@+id/tvPointsPlayerSecond"
+                style="@style/tvDialogRankingTableContent"
+                android:layout_weight="2"
+                android:text="2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:id="@+id/tvScorePlayerSecond"
+                style="@style/tvDialogRankingTableContent"
+                android:layout_weight="3"
+                android:text="100"
+                tools:ignore="HardcodedText"/>
+        </TableRow>
+
+        <TableRow style="@style/trDialogRanking">
+
+            <TextView
+                android:id="@+id/tvNamePlayerThird"
+                style="@style/tvDialogRankingTableContent"
+                android:layout_weight="7"
+                android:text="Player 3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:id="@+id/tvPointsPlayerThird"
+                style="@style/tvDialogRankingTableContent"
+                android:layout_weight="2"
+                android:text="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:id="@+id/tvScorePlayerThird"
+                style="@style/tvDialogRankingTableContent"
+                android:layout_weight="3"
+                android:text="-100"
+                tools:ignore="HardcodedText"/>
+        </TableRow>
+
+        <TableRow style="@style/trDialogRanking">
+
+            <TextView
+                android:id="@+id/tvNamePlayerFourth"
+                style="@style/tvDialogRankingTableContent"
+                android:layout_weight="7"
+                android:text="Player 4"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:id="@+id/tvPointsPlayerFourth"
+                style="@style/tvDialogRankingTableContent"
+                android:layout_weight="2"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:id="@+id/tvScorePlayerFourth"
+                style="@style/tvDialogRankingTableContent"
+                android:layout_weight="3"
+                android:text="-200"
+                tools:ignore="HardcodedText"/>
+        </TableRow>
+
+        <TableRow style="@style/trDialogRanking">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="12"
+                android:background="@color/whiteDark"/>
+        </TableRow>
+
+        <TableRow style="@style/trDialogRanking">
+
+            <View
+                style="@style/tvDialogRankingOthers"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/textview_ranking_titulo_numero_rondas"
+                style="@style/tvDialogRankingOthers"
+                android:layout_weight="5"
+                android:text="@string/rounds"/>
+
+            <TextView
+                android:id="@+id/tvNumRounds"
+                style="@style/tvDialogRankingOthers"
+                android:layout_weight="5"
+                android:text="16"
+                tools:ignore="HardcodedText"/>
+
+            <View
+                style="@style/tvDialogRankingOthers"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+        </TableRow>
+
+        <TableRow style="@style/trDialogRanking">
+
+            <View
+                style="@style/tvDialogRankingOthers"
+                android:layout_weight="1"
+                android:layout_height="0dp"/>
+
+            <TextView
+                android:id="@+id/textview_ranking_titulo_mejorjugada"
+                style="@style/tvDialogRankingOthers"
+                android:layout_weight="5"
+                android:text="@string/best_hand"/>
+
+            <TextView
+                android:id="@+id/tvBestHandPlayerPoints"
+                style="@style/tvDialogRankingOthers"
+                android:layout_weight="5"
+                android:text="119"
+                tools:ignore="HardcodedText"/>
+
+            <View
+                style="@style/tvDialogRankingOthers"
+                android:layout_weight="1"
+                android:layout_height="0dp"/>
+
+        </TableRow>
+
+        <TableRow style="@style/trDialogRanking">
+
+            <View
+                style="@style/tvDialogRankingOthers"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/textview_ranking_titulo_fecha_inicio"
+                style="@style/tvDialogRankingOthers"
+                android:layout_weight="5"
+                android:text="@string/duration"/>
+
+            <TextView
+                android:id="@+id/tvDuration"
+                style="@style/tvDialogRankingOthers"
+                android:layout_weight="5"
+                android:text="1h 57m"
+                tools:ignore="HardcodedText"/>
+
+            <View
+                style="@style/tvDialogRankingOthers"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fabRankingResume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/standard_margin"
+        android:layout_marginLeft="@dimen/standard_margin"
+        android:layout_marginRight="@dimen/standard_margin"
+        android:src="@drawable/fab_add"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_colorPressed="@color/colorPrimaryDark"
+        app:fab_colorRipple="@color/colorPrimaryDark"
+        app:fab_label="@string/resume"/>
+
+</RelativeLayout>

@@ -19,7 +19,7 @@ import es.etologic.mahjongscoring2.domain.use_cases.GetFilteredCombinationsUseCa
 import es.etologic.mahjongscoring2.domain.use_cases.GetGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetPlayersUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.UpdateGameUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.UpdateRoundUseCase;
 
 public class Injector extends BaseInjector {
 
@@ -87,7 +87,7 @@ public class Injector extends BaseInjector {
         return new GetGameUseCase(provideDataSource(context));
     }
 
-    private static UpdateGameUseCase provideUpdateGameUseCase(@NonNull Context context) {
-        return new UpdateGameUseCase(provideDataSource(context));
+    private static UpdateRoundUseCase provideUpdateGameUseCase(@NonNull Context context) {
+        return new UpdateRoundUseCase(provideDataSource(context));
     }
 }
