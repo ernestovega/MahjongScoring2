@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import es.etologic.mahjongscoring2.app.combinations.CombinationsViewModelFactory;
 import es.etologic.mahjongscoring2.app.game.game_main.GameMainViewModelFactory;
 import es.etologic.mahjongscoring2.app.main.MainActivity;
-import es.etologic.mahjongscoring2.app.main.MainNavigation;
+import es.etologic.mahjongscoring2.app.main.MainActivityViewModelFactory;
 import es.etologic.mahjongscoring2.app.new_game.NewGameViewModelFactory;
 import es.etologic.mahjongscoring2.app.old_games.OldGamesViewModelFactory;
 import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
@@ -27,8 +27,8 @@ public class Injector extends BaseInjector {
         return UseCaseHandler.getInstance();
     }
 
-    public static MainNavigation provideMainNavigation(MainActivity mainActivity) {
-        return new MainNavigation(mainActivity);
+    public static ViewModelProvider.Factory provideMainActivityViewModelFactory() {
+        return new MainActivityViewModelFactory();
     }
 
     public static OldGamesViewModelFactory provideOldGamesViewModelFactory(

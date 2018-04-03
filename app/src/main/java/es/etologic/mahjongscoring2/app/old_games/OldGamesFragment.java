@@ -1,5 +1,6 @@
 package es.etologic.mahjongscoring2.app.old_games;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
@@ -25,10 +26,12 @@ import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.main.IMainToolbarListener;
+import es.etologic.mahjongscoring2.app.main.MainActivityViewModel;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 
 import static android.view.View.VISIBLE;
+import static es.etologic.mahjongscoring2.app.main.MainActivityViewModel.MainScreens.NEW_GAME;
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
@@ -51,8 +54,8 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     private Unbinder unbinder;
     private OldGamesRvAdapter rvAdapter;
     private Context context;
+    private MainActivityViewModel activityViewModel;
     private OldGamesViewModel viewModel;
-    private IOldGamesFragmentListener oldGamesFragmentListener;
 
     //endregion
 
@@ -69,19 +72,17 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
         super.onViewCreated(view, savedInstanceState);
         context = getContext();
         unbinder = ButterKnife.bind(this, view);
+        setupActivityViewModel();
         setupViewModel();
         setupSwipeRefreshLayout();
         setupRecyclerView();
         observeViewModel();
-        viewModel.loadGames();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(oldGamesFragmentListener != null && toolbar != null) {
-            oldGamesFragmentListener.setToolbar(toolbar);
-        }
+        viewModel.loadOldGames();
     }
 
     @Override
@@ -92,21 +93,11 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     //endregion
 
-    //region Public
-
-    public void setOldGamesFragmentListener(IOldGamesFragmentListener oldGamesFragmentListener) {
-        this.oldGamesFragmentListener = oldGamesFragmentListener;
-    }
-
-    //endregion
-
     //region Events
 
     @OnClick (R.id.fabOldGames)
     public void onFabNewGameClick() {
-        if(oldGamesFragmentListener != null) {
-            oldGamesFragmentListener.goToNewGame();
-        }
+        activityViewModel.goToScreen(NEW_GAME);
     }
 
     //endregion
@@ -115,17 +106,29 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     @Override
     public void onOldGameItemDeleteClicked(long gameId) {
-        viewModel.deleteGame(gameId);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(R.string.delete_game)
+                .setMessage(R.string.are_you_sure)
+                .setPositiveButton(R.string.delete, (dialog, which) -> viewModel.deleteGame(gameId))
+                .setNegativeButton(android.R.string.cancel, null)
+                .create()
+                .show();
     }
 
     @Override
     public void onOldGameItemResumeClicked(long gameId) {
-        oldGamesFragmentListener.goToNewGame();
+        activityViewModel.goToGame(gameId);
     }
 
     //endregion
 
     //region Private
+
+    private void setupActivityViewModel() {
+        activityViewModel = ViewModelProviders
+                .of(getActivity(), Injector.provideMainActivityViewModelFactory())
+                .get(MainActivityViewModel.class);
+    }
 
     private void setupViewModel() {
         viewModel = ViewModelProviders
@@ -136,7 +139,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     private void setupSwipeRefreshLayout() {
         swipeRefreshLayout.setColorSchemeColors(
                 getResources().getIntArray(R.array.swipeRefreshColors));
-        swipeRefreshLayout.setOnRefreshListener(() -> viewModel.loadGames());
+        swipeRefreshLayout.setOnRefreshListener(() -> viewModel.loadOldGames());
     }
 
     public void setupRecyclerView() {

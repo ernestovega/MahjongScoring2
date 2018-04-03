@@ -67,8 +67,8 @@ public class GameMainActivity extends AppCompatActivity {
     private void showDialogEndGame() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.exit_game)
-                .setMessage(R.string.press_ok_to_exit)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> viewModel.endGame())
+                .setMessage(R.string.are_you_sure)
+                .setPositiveButton(R.string.exit, (dialog, which) -> finish()/*viewModel.endGame()*/)
                 .setNegativeButton(android.R.string.cancel, null)
                 .create()
                 .show();

@@ -33,7 +33,7 @@ class OldGamesViewModel extends BaseViewModel {
         return oldGames;
     }
 
-    void loadGames() {
+    void loadOldGames() {
         progressState.setValue(SHOW);
         useCaseHandler.execute(getOldGamesUseCase, null,
                 new UseCase.UseCaseCallback<GetGamesUseCase.ResponseValue>() {

@@ -4,6 +4,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 
+import java.util.List;
+
 @Entity(tableName = "Rounds",
         primaryKeys = { "gameId", "roundId" },
         foreignKeys = { @ForeignKey (
@@ -321,6 +323,42 @@ public class Round {
             case 3: return 1;
             case 4: //ToDo: change this int seats by typed enum seats.
             default: return 2;
+        }
+    }
+
+    private static boolean areEqual(Round round1, Round round2) {
+        return round1.gameId == round2.gameId &&
+                round1.roundId == round2.roundId &&
+                round1.handPoints == round2.handPoints &&
+                round1.winnerInitialPosition == round2.winnerInitialPosition &&
+                round1.looserInitialPosition == round2.looserInitialPosition &&
+                round1.pointsP1 == round2.pointsP1 &&
+                round1.pointsP2 == round2.pointsP2 &&
+                round1.pointsP3 == round2.pointsP3 &&
+                round1.pointsP4 == round2.pointsP4 &&
+                round1.penaltyP1 == round2.penaltyP1 &&
+                round1.penaltyP2 == round2.penaltyP2 &&
+                round1.penaltyP3 == round2.penaltyP3 &&
+                round1.penaltyP4 == round2.penaltyP4 &&
+                round1.roundDuration == round2.roundDuration;
+    }
+
+    public static boolean areEqual(List<Round> rounds1, List<Round> rounds2) {
+        if(rounds1 == null && rounds2 == null) {
+            return true;
+        } else if(rounds1 != null && rounds2 != null) {
+            if(rounds1.size() != rounds2.size()) {
+                return false;
+            } else {
+                for (int i = 0; i < rounds1.size(); i++) {
+                    if(!areEqual(rounds1.get(i), rounds2.get(i))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        } else {
+            return false;
         }
     }
 

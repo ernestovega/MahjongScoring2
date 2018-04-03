@@ -12,7 +12,7 @@ import es.etologic.mahjongscoring2.domain.entities.Player;
 @Dao
 public interface PlayersDao {
 
-    @Insert(onConflict = OnConflictStrategy.ROLLBACK)
+    @Insert(onConflict = OnConflictStrategy.FAIL)
     void insert(Player player);
 
     @Query("SELECT * FROM Players WHERE playerName = :playerName")

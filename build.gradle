@@ -1,12 +1,10 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
-        
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:3.1.0'
+    }
+    repositories {
+        jcenter()
+        google()
     }
 }
 
@@ -23,9 +21,9 @@ task clean(type: Delete) {
 }
 
 ext {
-    //App dependencies versions
-    supportLibraryVersion = '27.0.2'
-    butterknifeVersion = '8.7.0'
+    supportLibrariesVersion = '27.1.0'
+    daggerVersion = '2.14.1'
     archComponentsPersistanceVersion = '1.0.0'
-    archComponentsLifecycleVersion = '1.1.0'
+    archComponentsLifecycleVersion = '1.1.1'
+    butterknifeVersion = '8.8.1'
 }

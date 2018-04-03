@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "38b0649c3ffdde996e7e3e79304ab947",
+    "identityHash": "ff7163f24467af57511769486892c954",
     "entities": [
       {
         "tableName": "Players",
@@ -94,7 +94,7 @@
       },
       {
         "tableName": "Rounds",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, `handPoints` INTEGER NOT NULL, `winnerInitialPosition` INTEGER NOT NULL, `looserInitialPosition` INTEGER NOT NULL, `pointsP1` INTEGER NOT NULL, `pointsP2` INTEGER NOT NULL, `pointsP3` INTEGER NOT NULL, `pointsP4` INTEGER NOT NULL, `penaltyP1` INTEGER NOT NULL, `penaltyP2` INTEGER NOT NULL, `penaltyP3` INTEGER NOT NULL, `penaltyP4` INTEGER NOT NULL, `duration` INTEGER NOT NULL, PRIMARY KEY(`gameId`, `roundId`), FOREIGN KEY(`gameId`) REFERENCES `Games`(`gameId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, `handPoints` INTEGER NOT NULL, `winnerInitialPosition` INTEGER NOT NULL, `looserInitialPosition` INTEGER NOT NULL, `pointsP1` INTEGER NOT NULL, `pointsP2` INTEGER NOT NULL, `pointsP3` INTEGER NOT NULL, `pointsP4` INTEGER NOT NULL, `penaltyP1` INTEGER NOT NULL, `penaltyP2` INTEGER NOT NULL, `penaltyP3` INTEGER NOT NULL, `penaltyP4` INTEGER NOT NULL, `roundDuration` INTEGER NOT NULL, PRIMARY KEY(`gameId`, `roundId`), FOREIGN KEY(`gameId`) REFERENCES `Games`(`gameId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "gameId",
@@ -175,8 +175,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "duration",
-            "columnName": "duration",
+            "fieldPath": "roundDuration",
+            "columnName": "roundDuration",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -269,7 +269,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"38b0649c3ffdde996e7e3e79304ab947\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ff7163f24467af57511769486892c954\")"
     ]
   }
 }

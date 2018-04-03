@@ -12,6 +12,7 @@ import es.etologic.mahjongscoring2.data.repository.local.converters.DateConverte
 import es.etologic.mahjongscoring2.data.repository.local.daos.CombinationsDao;
 import es.etologic.mahjongscoring2.data.repository.local.daos.GamesDao;
 import es.etologic.mahjongscoring2.data.repository.local.daos.PlayersDao;
+import es.etologic.mahjongscoring2.data.repository.local.daos.RoundsDao;
 import es.etologic.mahjongscoring2.domain.entities.Combination;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 import es.etologic.mahjongscoring2.domain.entities.Player;
@@ -45,6 +46,8 @@ abstract class AppDatabase extends RoomDatabase {
     abstract PlayersDao getPlayersDao();
 
     abstract GamesDao getGamesDao();
+
+    abstract RoundsDao getRoundsDao();
 
     abstract CombinationsDao getCombinationsDao();
 }

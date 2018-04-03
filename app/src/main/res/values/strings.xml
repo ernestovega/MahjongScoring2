@@ -27,6 +27,8 @@
     <string name="key_extra_game_id">key_extra_game_id</string>
     <string name="just_four_players">Just 4 players</string>
     <string name="just_four_players_please">Just 4 players please</string>
+    <string name="delete_game">Delete game</string>
+    <string name="are_you_sure">Are you sure?</string>
 
     <!--COMBINATIONS-->
     <string name="image_combination_example">Combination example image</string>
@@ -183,6 +185,5 @@
     <string name="draw">Draw</string>
     <string name="hu_wall">Wall Hu</string>
     <string name="hu_discard">Discard Hu</string>
-
 
 </resources>

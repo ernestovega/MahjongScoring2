@@ -127,14 +127,14 @@ public class Game {
         };
     }
 
-    public long getTotalDuration() {
+    public long getDuration() {
         if(rounds == null || !rounds.isEmpty()) return 0;
         else {
-            long totalDuration = 0;
+            long gameDuration = 0;
             for(Round round : rounds) {
-                totalDuration += round.getRoundDuration();
+                gameDuration += round.getRoundDuration();
             }
-            return totalDuration;
+            return gameDuration;
         }
     }
 

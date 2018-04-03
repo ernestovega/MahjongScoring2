@@ -4,9 +4,10 @@ import android.support.v7.util.DiffUtil;
 
 import java.util.List;
 
-import es.etologic.mahjongscoring2.app.utils.DateUtils;
+import es.etologic.mahjongscoring2.app.utils.DateTimeUtils;
 import es.etologic.mahjongscoring2.domain.entities.BestHand;
 import es.etologic.mahjongscoring2.domain.entities.Game;
+import es.etologic.mahjongscoring2.domain.entities.Round;
 
 class GameItemDiffUtilCallback extends DiffUtil.Callback {
 
@@ -45,11 +46,11 @@ class GameItemDiffUtilCallback extends DiffUtil.Callback {
                     oldGame.getNameP2().equals(newGame.getNameP2()) &&
                     oldGame.getNameP3().equals(newGame.getNameP3()) &&
                     oldGame.getNameP4().equals(newGame.getNameP4()) &&
-                    DateUtils.areEqual(oldGame.getCreationDate(), newGame.getCreationDate()) &&
-                    DateUtils.areEqual(oldGame.getEndDate(), newGame.getEndDate()) &&
+                    DateTimeUtils.areEqual(oldGame.getCreationDate(), newGame.getCreationDate()) &&
                     arePlayersTotalsPointsEquals(oldGame.getPlayersTotalPoints(),
                             newGame.getPlayersTotalPoints()) &&
-                    areBestHandsEqual(oldGame.getBestHand(), newGame.getBestHand());
+                    areBestHandsEqual(oldGame.getBestHand(), newGame.getBestHand())
+                    && Round.areEqual(oldGame.getRounds(), newGame.getRounds());
         }
 
     private boolean arePlayersTotalsPointsEquals(String[] oldPlayersTotalPoints,

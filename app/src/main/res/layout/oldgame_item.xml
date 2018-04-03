@@ -39,7 +39,7 @@
                     tools:text="04/29/2017 12:30"/>
 
                 <TextView
-                    android:id="@+id/tvOldGameItemEndDate"
+                    android:id="@+id/tvOldGameItemDuration"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"

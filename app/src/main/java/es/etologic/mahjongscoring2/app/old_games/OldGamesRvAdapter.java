@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.etologic.mahjongscoring2.R;
-import es.etologic.mahjongscoring2.app.utils.DateUtils;
+import es.etologic.mahjongscoring2.app.utils.DateTimeUtils;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
 import es.etologic.mahjongscoring2.domain.entities.BestHand;
 import es.etologic.mahjongscoring2.domain.entities.Game;
@@ -74,7 +74,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     class OldGameItemViewHolder extends RecyclerView.ViewHolder {
         private long gameId;
         @BindView (R.id.tvOldGameItemStartDate) TextView tvStartDate;
-        @BindView (R.id.tvOldGameItemEndDate) TextView tvEndDate;
+        @BindView (R.id.tvOldGameItemDuration) TextView tvEndDate;
         @BindView (R.id.tvOlgGameItemPlayerEastName) TextView tvEastPlayerName;
         @BindView (R.id.tvOlgGameItemPlayerSouthName) TextView tvSouthPlayerName;
         @BindView (R.id.tvOlgGameItemPlayerWestName) TextView tvWestPlayerName;
@@ -129,16 +129,11 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final Game game = games.get(position);
         String[] playersTotalPoints = game.getPlayersTotalPoints();
         BestHand bestHand = game.getBestHand();
-        //region GameId
         itemViewHolder.gameId = game.getGameId();
-        //endregion
-        //region Dates
         itemViewHolder.tvStartDate.setText(
-                game.getCreationDate() == null ? "-" : DateUtils.getPrettyDate(game.getCreationDate()));
-        itemViewHolder.tvEndDate.setText(
-                game.getEndDate() == null ? "-" : DateUtils.getPrettyDate(game.getEndDate()));
-        //endregion
-        //region Names
+                game.getCreationDate() == null ? "-" : DateTimeUtils.getPrettyDate(game.getCreationDate()));
+        long duration = game.getDuration();
+        itemViewHolder.tvEndDate.setText(DateTimeUtils.getPrettyTime(duration));
         itemViewHolder.tvEastPlayerName.setText(
                 game.getNameP1() == null ? "-" : game.getNameP1());
         itemViewHolder.tvSouthPlayerName.setText(
@@ -147,8 +142,6 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 game.getNameP3() == null ? "-" : game.getNameP3());
         itemViewHolder.tvNorthPlayerName.setText(
                 game.getNameP4() == null ? "-" : game.getNameP4());
-        //endregion
-        //region Points
         itemViewHolder.tvEastPlayerPoints.setText(
                 playersTotalPoints[0] == null ? "-" : playersTotalPoints[0]);
         itemViewHolder.tvSouthPlayerPoints.setText(
@@ -157,16 +150,14 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 playersTotalPoints[2] == null ? "-" : playersTotalPoints[2]);
         itemViewHolder.tvNorthPlayerPoints.setText(
                 playersTotalPoints[3] == null ? "-" : playersTotalPoints[3]);
-        //endregion
-        //region Rounds
+
         if(game.getRounds() == null || game.getRounds().isEmpty()) {
             itemViewHolder.llRoundNumberContainer.setVisibility(GONE);
         } else {
             itemViewHolder.llRoundNumberContainer.setVisibility(VISIBLE);
             itemViewHolder.tvRoundNumber.setText(String.valueOf(game.getRounds().size()));
         }
-        //endregion
-        //region Best Hand
+
         if(bestHand == null || StringUtils.isEmpty(bestHand.getPlayerName()) ||
                 bestHand.getHandValue() <= 0) {
             itemViewHolder.llBestHandContainer.setVisibility(GONE);
@@ -175,7 +166,6 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             itemViewHolder.tvBestHandPlayerName.setText(bestHand.getPlayerName());
             itemViewHolder.tvBestHandValue.setText(String.valueOf(bestHand.getHandValue()));
         }
-        //endregion
     }
 
     //endregion

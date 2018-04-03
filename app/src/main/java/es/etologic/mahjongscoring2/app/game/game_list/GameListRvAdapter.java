@@ -1,6 +1,7 @@
 package es.etologic.mahjongscoring2.app.game.game_list;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -82,8 +83,9 @@ class GameListRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return rounds.size();
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.game_list_round_item, parent, false);
         return new ItemViewHolder(itemView);

@@ -51,44 +51,61 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {
+    androidTestImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test:rules:1.0.1'
 
-    //Utils
-    compile "org.apache.commons:commons-lang3:3.6"
-
-    //Design
-    compile "com.android.support:appcompat-v7:$supportLibraryVersion"
-    compile "com.android.support:design:$supportLibraryVersion"
-    compile "com.android.support:cardview-v7:$supportLibraryVersion"
-    compile "com.android.support:recyclerview-v7:$supportLibraryVersion"
-
-    //View bindings
-    compile "com.jakewharton:butterknife:$butterknifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
-
-    //Architecture components: Room, Lifecycle & Testing
-    compile "android.arch.persistence.room:runtime:$archComponentsPersistanceVersion"
+    //ARCH COMPONENTS
+    implementation "android.arch.persistence.room:runtime:$archComponentsPersistanceVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$archComponentsPersistanceVersion"
-    compile "android.arch.lifecycle:runtime:$archComponentsLifecycleVersion"
-    compile "android.arch.lifecycle:extensions:$archComponentsLifecycleVersion"
-    annotationProcessor "android.arch.lifecycle:compiler:$archComponentsLifecycleVersion"
-    testCompile("android.arch.core:core-testing:$archComponentsPersistanceVersion", {
+    implementation "android.arch.lifecycle:runtime:$archComponentsLifecycleVersion"
+    implementation "android.arch.lifecycle:extensions:$archComponentsLifecycleVersion"
+    annotationProcessor "android.arch.lifecycle:common-java8:$archComponentsLifecycleVersion"
+    testImplementation("android.arch.core:core-testing:$archComponentsPersistanceVersion", {
         exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-core-utils'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
     })
 
-    //Test
-    testImplementation "junit:junit:4.12"
-    androidTestImplementation "com.android.support.test:runner:1.0.1"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.1"
-    testCompile "org.mockito:mockito-core:2.12.0"
+    //SUPPORT & DESIGN
+    implementation "com.android.support:appcompat-v7:$supportLibrariesVersion"
+    implementation "com.android.support:customtabs:$supportLibrariesVersion"
+    implementation "com.android.support:design:$supportLibrariesVersion"
+    implementation "com.android.support:support-v4:$supportLibrariesVersion"
+    implementation "com.android.support:support-compat:$supportLibrariesVersion"
+    implementation "com.android.support:cardview-v7:$supportLibrariesVersion"
+    implementation "com.android.support:recyclerview-v7:$supportLibrariesVersion"
 
-    //Chips
-    compile "com.github.pchmn:MaterialChipsInput:1.0.8"
+    //DAGGER
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
 
-    //Floating Action Menu
-    compile 'com.github.clans:fab:1.6.4'
+    //BUTTERKNIFE
+    implementation "com.jakewharton:butterknife:$butterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+
+    //RX BINDINGS
+    implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+
+    //RX JAVA
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.0'
+
+    //UTILS
+    implementation "org.apache.commons:commons-lang3:3.6"
+
+    //CHIPS
+    implementation "com.github.pchmn:MaterialChipsInput:1.0.8"
+
+    //FAB MENU
+    implementation 'com.github.clans:fab:1.6.4'
 }

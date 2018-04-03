@@ -36,7 +36,7 @@ public class CreateGameUseCase extends
         String nameP3 = requestValues.getPlayers().get(2).getPlayerName();
         String nameP4 = requestValues.getPlayers().get(3).getPlayerName();
         return new Game(Game.NOT_SET_GAME_ID, nameP1, nameP2, nameP3, nameP4,
-                Calendar.getInstance().getTime(), duration);
+                Calendar.getInstance().getTime());
     }
 
     public static final class RequestValues implements UseCase.RequestValues {
