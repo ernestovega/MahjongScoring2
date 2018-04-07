@@ -1,5 +1,6 @@
 package es.etologic.mahjongscoring2.app.old_games;
 
+import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,54 +26,18 @@ import static android.view.View.VISIBLE;
 
 class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    //region Interface
-
+    //INTERFACE
     interface GameItemListener {
         void onOldGameItemDeleteClicked(long gameId);
         void onOldGameItemResumeClicked(long gameId);
     }
 
-    //endregion
-
-    //region Fields
-
+    //FIELDS
     private GameItemListener itemClickListener;
     private List<Game> games;
 
-    //endregion
-
-    //region Constructor
-
-    OldGamesRvAdapter() {
-        games = new ArrayList<>();
-    }
-
-    //endregion
-
-    //region Public
-
-    void setOldGameItemListener(GameItemListener listener) {
-        this.itemClickListener = listener;
-    }
-
-    void setGames(List<Game> newGames) {
-        if (games == null) {
-            saveNewGamesCopy(newGames);
-            notifyItemRangeInserted(0, newGames.size());
-        } else {
-            DiffUtil.DiffResult result = DiffUtil.calculateDiff(
-                    new GameItemDiffUtilCallback(newGames, games), true);
-            saveNewGamesCopy(newGames);
-            result.dispatchUpdatesTo(this);
-        }
-    }
-
-    //endregion
-
-    //region ViewHolder
-
+    //VIEWHOLDER
     class OldGameItemViewHolder extends RecyclerView.ViewHolder {
-        private long gameId;
         @BindView (R.id.tvOldGameItemStartDate) TextView tvStartDate;
         @BindView (R.id.tvOldGameItemDuration) TextView tvEndDate;
         @BindView (R.id.tvOlgGameItemPlayerEastName) TextView tvEastPlayerName;
@@ -88,6 +53,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @BindView (R.id.llOldGameItemItemBestHand) LinearLayout llBestHandContainer;
         @BindView (R.id.tvOldGameItemBestHandPlayerName) TextView tvBestHandPlayerName;
         @BindView (R.id.tvOldGameItemBestHandValue) TextView tvBestHandValue;
+        private long gameId;
 
         OldGameItemViewHolder(View view) {
             super(view);
@@ -107,57 +73,75 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    //endregion
-
-    //region Lifecycle
-
-    @Override
-    public int getItemCount() {
-        return games.size();
+    //CONTRUCTOR
+    OldGamesRvAdapter() {
+        games = new ArrayList<>();
     }
 
+    //METHODS
+    void setOldGameItemListener(GameItemListener listener) { this.itemClickListener = listener; }
+    void setGames(List<Game> newGames) {
+        if (games == null) {
+            saveNewGamesCopy(newGames);
+            notifyItemRangeInserted(0, newGames.size());
+        } else {
+            DiffUtil.DiffResult result = DiffUtil.calculateDiff(
+                    new GameItemDiffUtilCallback(newGames, games), true);
+            saveNewGamesCopy(newGames);
+            result.dispatchUpdatesTo(this);
+        }
+    }
+    private void saveNewGamesCopy(List<Game> newGames) {
+        List<Game> newGamesCopy = new ArrayList<>(newGames.size());
+        for(Game game : newGames) {
+            newGamesCopy.add(game.getCopy());
+        }
+        games = newGamesCopy;
+    }
+
+    //LIFECYCLE
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public int getItemCount() { return games.size(); }
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.oldgame_item,
                 parent, false);
         return new OldGameItemViewHolder(itemView);
     }
-
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         OldGameItemViewHolder itemViewHolder = ((OldGameItemViewHolder)holder);
         final Game game = games.get(position);
-        String[] playersTotalPoints = game.getPlayersTotalPoints();
-        BestHand bestHand = game.getBestHand();
-        itemViewHolder.gameId = game.getGameId();
-        itemViewHolder.tvStartDate.setText(
-                game.getCreationDate() == null ? "-" : DateTimeUtils.getPrettyDate(game.getCreationDate()));
         long duration = game.getDuration();
+        BestHand bestHand = game.getBestHand();
+        setFields(itemViewHolder, game, duration, bestHand);
+    }
+    private void setFields(OldGameItemViewHolder itemViewHolder, Game game, long duration, BestHand bestHand) {
+        itemViewHolder.gameId = game.getGameId();
+        itemViewHolder.tvStartDate.setText(game.getCreationDate() == null ? "-" : DateTimeUtils.getPrettyDate(game.getCreationDate()));
         itemViewHolder.tvEndDate.setText(DateTimeUtils.getPrettyTime(duration));
-        itemViewHolder.tvEastPlayerName.setText(
-                game.getNameP1() == null ? "-" : game.getNameP1());
-        itemViewHolder.tvSouthPlayerName.setText(
-                game.getNameP2() == null ? "-" : game.getNameP2());
-        itemViewHolder.tvWestPlayerName.setText(
-                game.getNameP3() == null ? "-" : game.getNameP3());
-        itemViewHolder.tvNorthPlayerName.setText(
-                game.getNameP4() == null ? "-" : game.getNameP4());
-        itemViewHolder.tvEastPlayerPoints.setText(
-                playersTotalPoints[0] == null ? "-" : playersTotalPoints[0]);
-        itemViewHolder.tvSouthPlayerPoints.setText(
-                playersTotalPoints[1] == null ? "-" : playersTotalPoints[1]);
-        itemViewHolder.tvWestPlayerPoints.setText(
-                playersTotalPoints[2] == null ? "-" : playersTotalPoints[2]);
-        itemViewHolder.tvNorthPlayerPoints.setText(
-                playersTotalPoints[3] == null ? "-" : playersTotalPoints[3]);
-
+        itemViewHolder.tvEastPlayerName.setText(game.getNameP1() == null ? "-" : game.getNameP1());
+        itemViewHolder.tvSouthPlayerName.setText(game.getNameP2() == null ? "-" : game.getNameP2());
+        itemViewHolder.tvWestPlayerName.setText(game.getNameP3() == null ? "-" : game.getNameP3());
+        itemViewHolder.tvNorthPlayerName.setText(game.getNameP4() == null ? "-" : game.getNameP4());
+        String[] playersTotalPoints = game.getPlayersTotalPoints();
+        itemViewHolder.tvEastPlayerPoints.setText(playersTotalPoints[0] == null ? "-" : playersTotalPoints[0]);
+        itemViewHolder.tvSouthPlayerPoints.setText(playersTotalPoints[1] == null ? "-" : playersTotalPoints[1]);
+        itemViewHolder.tvWestPlayerPoints.setText(playersTotalPoints[2] == null ? "-" : playersTotalPoints[2]);
+        itemViewHolder.tvNorthPlayerPoints.setText(playersTotalPoints[3] == null ? "-" : playersTotalPoints[3]);
+        setRoundsNumber(itemViewHolder, game);
+        setBestHand(itemViewHolder, bestHand);
+    }
+    private void setRoundsNumber(OldGameItemViewHolder itemViewHolder, Game game) {
         if(game.getRounds() == null || game.getRounds().isEmpty()) {
             itemViewHolder.llRoundNumberContainer.setVisibility(GONE);
         } else {
             itemViewHolder.llRoundNumberContainer.setVisibility(VISIBLE);
             itemViewHolder.tvRoundNumber.setText(String.valueOf(game.getRounds().size()));
         }
-
+    }
+    private void setBestHand(OldGameItemViewHolder itemViewHolder, BestHand bestHand) {
         if(bestHand == null || StringUtils.isEmpty(bestHand.getPlayerName()) ||
                 bestHand.getHandValue() <= 0) {
             itemViewHolder.llBestHandContainer.setVisibility(GONE);
@@ -167,18 +151,4 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             itemViewHolder.tvBestHandValue.setText(String.valueOf(bestHand.getHandValue()));
         }
     }
-
-    //endregion
-
-    //region Private
-
-    private void saveNewGamesCopy(List<Game> newGames) {
-        List<Game> newGamesCopy = new ArrayList<>(newGames.size());
-        for(Game game : newGames) {
-            newGamesCopy.add(game.getCopy());
-        }
-        games = newGamesCopy;
-    }
-
-    //endregion
 }
