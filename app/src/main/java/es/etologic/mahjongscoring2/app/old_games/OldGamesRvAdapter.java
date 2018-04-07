@@ -74,9 +74,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     //CONTRUCTOR
-    OldGamesRvAdapter() {
-        games = new ArrayList<>();
-    }
+    OldGamesRvAdapter() { games = new ArrayList<>(); }
 
     //METHODS
     void setOldGameItemListener(GameItemListener listener) { this.itemClickListener = listener; }
@@ -105,8 +103,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.oldgame_item,
-                parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.oldgame_item, parent, false);
         return new OldGameItemViewHolder(itemView);
     }
     @Override

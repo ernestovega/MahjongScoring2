@@ -185,5 +185,9 @@
     <string name="draw">Draw</string>
     <string name="hu_wall">Wall Hu</string>
     <string name="hu_discard">Discard Hu</string>
+    <string name="east">East</string>
+    <string name="west">West</string>
+    <string name="south">South</string>
+    <string name="north">North</string>
 
 </resources>
