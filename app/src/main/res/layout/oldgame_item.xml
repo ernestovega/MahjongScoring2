@@ -77,173 +77,141 @@
                     android:layout_weight="3"
                     android:orientation="vertical">
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/standard_margin"
+                            android:layout_height="@dimen/standard_margin"
+                            android:contentDescription="@string/east"
+                            android:src="@drawable/ic_east" />
 
                         <TextView
                             android:id="@+id/tvOlgGameItemPlayerEastName"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_centerHorizontal="true"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:lines="1"
                             android:textStyle="bold"
-                            tools:text="East player" />
-
-                        <ImageView
-                            android:layout_width="@dimen/standard_margin"
-                            android:layout_height="@dimen/standard_margin"
-                            android:layout_below="@+id/tvOlgGameItemPlayerEastName"
-                            android:layout_marginEnd="@dimen/half_standard_margin"
-                            android:layout_marginRight="@dimen/half_standard_margin"
-                            android:layout_toLeftOf="@+id/tvOldGameItemPlayerEastPoints"
-                            android:layout_toStartOf="@+id/tvOldGameItemPlayerEastPoints"
-                            android:contentDescription="@string/east"
-                            android:src="@drawable/ic_east" />
+                            tools:text="East playerplayer" />
 
                         <TextView
                             android:id="@+id/tvOldGameItemPlayerEastPoints"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tvOlgGameItemPlayerEastName"
-                            android:layout_centerHorizontal="true"
                             android:gravity="center"
                             tools:text="100" />
 
-                    </RelativeLayout>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/standard_margin"
                         android:baselineAligned="false"
                         android:orientation="horizontal">
 
-                        <RelativeLayout
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/half_standard_margin"
                             android:layout_marginRight="@dimen/half_standard_margin"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="@dimen/standard_margin"
+                                android:layout_height="@dimen/standard_margin"
+                                android:contentDescription="@string/south"
+                                android:src="@drawable/ic_south" />
 
                             <TextView
                                 android:id="@+id/tvOlgGameItemPlayerSouthName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_centerHorizontal="true"
                                 android:ellipsize="end"
                                 android:gravity="center"
                                 android:lines="1"
                                 android:textStyle="bold"
                                 tools:text="South playerplayerplayerplayer" />
 
-                            <ImageView
-                                android:layout_width="@dimen/standard_margin"
-                                android:layout_height="@dimen/standard_margin"
-                                android:layout_below="@+id/tvOlgGameItemPlayerSouthName"
-                                android:layout_marginEnd="@dimen/half_standard_margin"
-                                android:layout_marginRight="@dimen/half_standard_margin"
-                                android:layout_toLeftOf="@+id/tvOldGameItemPlayerSouthPoints"
-                                android:layout_toStartOf="@+id/tvOldGameItemPlayerSouthPoints"
-                                android:contentDescription="@string/south"
-                                android:src="@drawable/ic_south" />
-
                             <TextView
                                 android:id="@+id/tvOldGameItemPlayerSouthPoints"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/tvOlgGameItemPlayerSouthName"
-                                android:layout_centerHorizontal="true"
                                 android:gravity="center"
                                 tools:text="100" />
 
-                        </RelativeLayout>
+                        </LinearLayout>
 
-                        <RelativeLayout
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/half_standard_margin"
-                            android:layout_marginStart="@dimen/half_standard_margin"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="@dimen/standard_margin"
+                                android:layout_height="@dimen/standard_margin"
+                                android:contentDescription="@string/north"
+                                android:src="@drawable/ic_north" />
 
                             <TextView
                                 android:id="@+id/tvOlgGameItemPlayerNorthName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_centerHorizontal="true"
                                 android:ellipsize="end"
                                 android:gravity="center"
                                 android:lines="1"
                                 android:textStyle="bold"
                                 tools:text="North playerplayerplayerplayer" />
 
-                            <ImageView
-                                android:layout_width="@dimen/standard_margin"
-                                android:layout_height="@dimen/standard_margin"
-                                android:layout_below="@+id/tvOlgGameItemPlayerNorthName"
-                                android:layout_marginEnd="@dimen/half_standard_margin"
-                                android:layout_marginRight="@dimen/half_standard_margin"
-                                android:layout_toLeftOf="@+id/tvOldGameItemPlayerNorthPoints"
-                                android:layout_toStartOf="@+id/tvOldGameItemPlayerNorthPoints"
-                                android:contentDescription="@string/north"
-                                android:src="@drawable/ic_north" />
-
                             <TextView
                                 android:id="@+id/tvOldGameItemPlayerNorthPoints"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/tvOlgGameItemPlayerNorthName"
-                                android:layout_centerHorizontal="true"
                                 android:gravity="center"
                                 tools:text="100" />
 
-                        </RelativeLayout>
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/standard_margin">
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/standard_margin"
+                            android:layout_height="@dimen/standard_margin"
+                            android:contentDescription="@string/west"
+                            android:src="@drawable/ic_west" />
 
                         <TextView
                             android:id="@+id/tvOlgGameItemPlayerWestName"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_centerHorizontal="true"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:lines="1"
                             android:textStyle="bold"
                             tools:text="West player" />
 
-                        <ImageView
-                            android:layout_width="@dimen/standard_margin"
-                            android:layout_height="@dimen/standard_margin"
-                            android:layout_below="@+id/tvOlgGameItemPlayerWestName"
-                            android:layout_marginEnd="@dimen/half_standard_margin"
-                            android:layout_marginRight="@dimen/half_standard_margin"
-                            android:layout_toLeftOf="@+id/tvOldGameItemPlayerWestPoints"
-                            android:layout_toStartOf="@+id/tvOldGameItemPlayerWestPoints"
-                            android:contentDescription="@string/west"
-                            android:src="@drawable/ic_west" />
-
                         <TextView
                             android:id="@+id/tvOldGameItemPlayerWestPoints"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tvOlgGameItemPlayerWestName"
-                            android:layout_centerHorizontal="true"
                             android:gravity="center"
                             tools:text="100" />
 
-                    </RelativeLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -288,8 +256,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/standard_margin"
                         android:gravity="center"
-                        tools:visibility="gone"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        tools:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
