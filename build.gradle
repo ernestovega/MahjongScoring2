@@ -21,7 +21,7 @@ task clean(type: Delete) {
 }
 
 ext {
-    supportLibrariesVersion = '27.1.0'
+    supportLibrariesVersion = '27.1.1'
     daggerVersion = '2.14.1'
     archComponentsPersistanceVersion = '1.0.0'
     archComponentsLifecycleVersion = '1.1.1'

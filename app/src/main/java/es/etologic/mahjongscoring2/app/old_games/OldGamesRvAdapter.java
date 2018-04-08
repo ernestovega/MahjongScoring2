@@ -127,16 +127,8 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         itemViewHolder.tvSouthPlayerPoints.setText(playersTotalPoints[1] == null ? "-" : playersTotalPoints[1]);
         itemViewHolder.tvWestPlayerPoints.setText(playersTotalPoints[2] == null ? "-" : playersTotalPoints[2]);
         itemViewHolder.tvNorthPlayerPoints.setText(playersTotalPoints[3] == null ? "-" : playersTotalPoints[3]);
-        setRoundsNumber(itemViewHolder, game);
+        itemViewHolder.tvRoundNumber.setText(String.valueOf(game.getRounds().size()));
         setBestHand(itemViewHolder, bestHand);
-    }
-    private void setRoundsNumber(OldGameItemViewHolder itemViewHolder, Game game) {
-        if(game.getRounds() == null || game.getRounds().isEmpty()) {
-            itemViewHolder.llRoundNumberContainer.setVisibility(GONE);
-        } else {
-            itemViewHolder.llRoundNumberContainer.setVisibility(VISIBLE);
-            itemViewHolder.tvRoundNumber.setText(String.valueOf(game.getRounds().size()));
-        }
     }
     private void setBestHand(OldGameItemViewHolder itemViewHolder, BestHand bestHand) {
         if(bestHand == null || StringUtils.isEmpty(bestHand.getPlayerName()) ||
