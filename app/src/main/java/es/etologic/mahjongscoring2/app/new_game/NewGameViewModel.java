@@ -1,6 +1,5 @@
 package es.etologic.mahjongscoring2.app.new_game;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
@@ -20,6 +19,7 @@ import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
 class NewGameViewModel extends BaseViewModel {
 
+    //FIELDS
     private final GetPlayersUseCase getPlayersUseCase;
     private final CreatePlayerUseCase createPlayerUseCase;
     private final CreateGameUseCase createGameUseCase;
@@ -28,27 +28,22 @@ class NewGameViewModel extends BaseViewModel {
     private MutableLiveData<Long> newGameId = new MutableLiveData<Long>() {};
     private MutableLiveData<ShowState> toolbarProgress = new MutableLiveData<ShowState>() {};
 
-    NewGameViewModel(UseCaseHandler useCaseHandler, GetPlayersUseCase getPlayersUseCase,
-                     CreatePlayerUseCase createPlayerUseCase, CreateGameUseCase createGameUseCase) {
+    //GETTERS (OBSERVABLES)
+    MutableLiveData<List<Player>> getAllPlayers() { return allPlayers; }
+    MutableLiveData<Player> getNewPlayer() { return newPlayer; }
+    MutableLiveData<Long> getNewGameId() { return newGameId; }
+    MutableLiveData<ShowState> getToolbarProgress() { return toolbarProgress; }
+
+    //CONSTRUCTOR
+    NewGameViewModel(UseCaseHandler useCaseHandler, GetPlayersUseCase getPlayersUseCase, CreatePlayerUseCase createPlayerUseCase,
+                     CreateGameUseCase createGameUseCase) {
         super(useCaseHandler);
         this.getPlayersUseCase = getPlayersUseCase;
         this.createPlayerUseCase = createPlayerUseCase;
         this.createGameUseCase = createGameUseCase;
     }
 
-    LiveData<List<Player>> getAllPlayers() {
-        return allPlayers;
-    }
-    LiveData<Player> getNewPlayer() {
-        return newPlayer;
-    }
-    LiveData<Long> getNewGameId() {
-        return newGameId;
-    }
-    MutableLiveData<ShowState> getToolbarProgress() {
-        return toolbarProgress;
-    }
-
+    //METHODS
     void loadAllPlayers() {
         progressState.setValue(SHOW);
         useCaseHandler.execute(getPlayersUseCase, null,
@@ -66,7 +61,6 @@ class NewGameViewModel extends BaseViewModel {
                     }
                 });
     }
-
     void createPlayer(String playerName) {
         progressState.setValue(SHOW);
         useCaseHandler.execute(createPlayerUseCase,
@@ -85,7 +79,6 @@ class NewGameViewModel extends BaseViewModel {
                     }
                 });
     }
-
     void createGame(List<Player> newGamePlayers) {
         progressState.setValue(SHOW);
         useCaseHandler.execute(createGameUseCase,

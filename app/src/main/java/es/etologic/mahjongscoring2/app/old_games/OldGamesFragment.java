@@ -58,22 +58,21 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
         super.onViewCreated(view, savedInstanceState);
         context = getContext();
         unbinder = ButterKnife.bind(this, view);
-        setupActivityViewModel();
+        setupRecyclerView();
         setupViewModel();
         setupSwipeRefreshLayout();
-        setupRecyclerView();
         setToolbar();
-        observeViewModel();
     }
-    private void setupActivityViewModel() {
+    private void setupViewModel() {
         activityViewModel = ViewModelProviders
                 .of(getActivity(), Injector.provideMainActivityViewModelFactory())
                 .get(MainActivityViewModel.class);
-    }
-    private void setupViewModel() {
         viewModel = ViewModelProviders
                 .of(this, Injector.provideOldGamesViewModelFactory(context))
                 .get(OldGamesViewModel.class);
+        viewModel.getOldGames().observe(this, this :: setGames);
+        viewModel.getProgressState().observe(this, this :: toogleLocalProgress);
+        viewModel.getSnackbarMessage().observe(this, this :: showSnackbar);
     }
     private void setupSwipeRefreshLayout() {
         swipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
@@ -86,14 +85,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
         rvAdapter.setOldGameItemListener(this);
         recyclerView.setAdapter(rvAdapter);
     }
-    private void setToolbar() {
-        activityViewModel.setToolbar(toolbar);
-    }
-    private void observeViewModel() {
-        viewModel.getOldGames().observe(this, this :: setGames);
-        viewModel.getProgressState().observe(this, this :: toogleLocalProgress);
-        viewModel.getSnackbarMessage().observe(this, this :: showSnackbar);
-    }
+    private void setToolbar() { activityViewModel.setToolbar(toolbar); }
     private void setGames(List<Game> games) {
         if(games == null || games.isEmpty()) {
             emptyLayout.setVisibility(VISIBLE);
@@ -103,9 +95,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
             toogleLocalProgress(HIDE);
         }
     }
-    private void toogleLocalProgress(ShowState showState) {
-        swipeRefreshLayout.setRefreshing(showState == SHOW);
-    }
+    private void toogleLocalProgress(ShowState showState) { swipeRefreshLayout.setRefreshing(showState == SHOW); }
     private void showSnackbar(String message) { Snackbar.make(toolbar, message, Snackbar.LENGTH_LONG).show(); }
     @Override
     public void onResume() {
@@ -120,8 +110,6 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     //EVENTS
     @OnClick (R.id.fabOldGames) public void onFabNewGameClick() { activityViewModel.goToScreen(NEW_GAME); }
-
-    //OldGameItemListener
     @Override
     public void onOldGameItemDeleteClicked(long gameId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

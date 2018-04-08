@@ -20,7 +20,6 @@ class GameItemDiffUtilCallback extends DiffUtil.Callback {
         this.oldList = oldList;
     }
 
-
     @Override
         public int getOldListSize() {
             return oldList.size();

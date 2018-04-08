@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         unbinder = ButterKnife.bind(this);
-        initializeViewModel();
+        setupViewModel();
         setupDrawer();
         viewModel.goToScreen(OLD_GAMES);
     }
-    private void initializeViewModel() {
+    private void setupViewModel() {
         viewModel = ViewModelProviders.of(this, Injector.provideMainActivityViewModelFactory()).get(MainActivityViewModel.class);
         viewModel.getCurrentScreen().observe(this, this::goToScreen);
         viewModel.getCurrentGame().observe(this, this::goToGame);

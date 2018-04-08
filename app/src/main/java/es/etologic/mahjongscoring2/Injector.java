@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 
 import es.etologic.mahjongscoring2.app.combinations.CombinationsViewModelFactory;
 import es.etologic.mahjongscoring2.app.game.game_main.GameMainViewModelFactory;
-import es.etologic.mahjongscoring2.app.main.MainActivity;
 import es.etologic.mahjongscoring2.app.main.MainActivityViewModelFactory;
 import es.etologic.mahjongscoring2.app.new_game.NewGameViewModelFactory;
 import es.etologic.mahjongscoring2.app.old_games.OldGamesViewModelFactory;
@@ -31,10 +30,8 @@ public class Injector extends BaseInjector {
         return new MainActivityViewModelFactory();
     }
 
-    public static OldGamesViewModelFactory provideOldGamesViewModelFactory(
-            @NonNull Context context) {
-        return new OldGamesViewModelFactory(provideUseCaseHandler(),
-                provideGetGamesUseCase(context), provideDeleteGameUseCase(context));
+    public static OldGamesViewModelFactory provideOldGamesViewModelFactory(@NonNull Context context) {
+        return new OldGamesViewModelFactory(provideUseCaseHandler(), provideGetGamesUseCase(context), provideDeleteGameUseCase(context));
     }
 
     private static GetGamesUseCase provideGetGamesUseCase(@NonNull Context context) {
@@ -46,8 +43,7 @@ public class Injector extends BaseInjector {
     }
 
     public static ViewModelProvider.Factory provideNewGameViewModelFactory(Context context) {
-        return new NewGameViewModelFactory(provideUseCaseHandler(),
-                provideGetPlayersUseCase(context), provideCreatePlayerUseCase(context),
+        return new NewGameViewModelFactory(provideUseCaseHandler(), provideGetPlayersUseCase(context), provideCreatePlayerUseCase(context),
                 provideCreateGameUseCase(context));
     }
 
@@ -64,8 +60,7 @@ public class Injector extends BaseInjector {
     }
 
     public static ViewModelProvider.Factory provideCombinationsViewModelFactory(Context context) {
-        return new CombinationsViewModelFactory(provideUseCaseHandler(),
-                provideGetCombinationsUseCase(context),
+        return new CombinationsViewModelFactory(provideUseCaseHandler(), provideGetCombinationsUseCase(context),
                 provideGetFilteredCombinationsUseCase(context));
     }
 
@@ -77,10 +72,8 @@ public class Injector extends BaseInjector {
         return new GetFilteredCombinationsUseCase(provideDataSource(context));
     }
 
-    public static GameMainViewModelFactory provideGameMainViewModelFactory(
-            @NonNull Context context) {
-        return new GameMainViewModelFactory(provideUseCaseHandler(),
-                provideGetGameUseCase(context), provideUpdateGameUseCase(context));
+    public static GameMainViewModelFactory provideGameMainViewModelFactory(@NonNull Context context) {
+        return new GameMainViewModelFactory(provideUseCaseHandler(), provideGetGameUseCase(context), provideUpdateGameUseCase(context));
     }
 
     private static GetGameUseCase provideGetGameUseCase(@NonNull Context context) {
