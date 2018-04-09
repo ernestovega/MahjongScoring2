@@ -9,18 +9,12 @@ import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
 
 public class BaseViewModel extends ViewModel {
 
-    protected final UseCaseHandler useCaseHandler;
     protected MutableLiveData<ShowState> progressState = new MutableLiveData<ShowState>() {};
     protected MutableLiveData<String> snackbarMessage = new MutableLiveData<String>() {};
-
-    protected BaseViewModel(UseCaseHandler useCaseHandler) {
-        this.useCaseHandler = useCaseHandler;
-    }
 
     public LiveData<ShowState> getProgressState() {
         return progressState;
     }
-
     public LiveData<String> getSnackbarMessage() {
         return snackbarMessage;
     }

@@ -10,8 +10,6 @@ import es.etologic.mahjongscoring2.app.base.BaseViewModel;
 import es.etologic.mahjongscoring2.domain.entities.Combination;
 import es.etologic.mahjongscoring2.domain.threading.UseCase;
 import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
-import es.etologic.mahjongscoring2.domain.use_cases.GetCombinationsUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.GetFilteredCombinationsUseCase;
 
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;

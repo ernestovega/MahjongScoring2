@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.data.repository.local.converters;
+package es.etologic.mahjongscoring2.data.local_data_source.local.converters;
 
 import android.arch.persistence.room.TypeConverter;
 

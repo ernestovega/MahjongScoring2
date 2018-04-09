@@ -11,11 +11,8 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
@@ -32,6 +29,7 @@ import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.game.game_main.GameMainActivity;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
+import es.etologic.mahjongscoring2.data.local_data_source.local.AppDatabase;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
@@ -190,19 +188,19 @@ public class NewGameActivity extends AppCompatActivity {
         if(getSelectedPlayerChips().size() != 4) {
             Snackbar.make(chipsInput, getString(R.string.just_four_players), Snackbar.LENGTH_LONG).show();
         } else {
-            List<Player> players = obtainPlayers(getSelectedPlayerChips());
-            viewModel.createGame(players);
+            List<String> playersNames = obtainPlayersNames(getSelectedPlayerChips());
+            viewModel.createGame(playersNames);
         }
+    }
+    private List<String> obtainPlayersNames(List<PlayerChip> playersChips) {
+        List<String> playersNames = new ArrayList<>();
+        for (PlayerChip playerChip : playersChips) {
+            playersNames.add(playerChip.getPlayer().getPlayerName());
+        }
+        return playersNames;
     }
     private List<PlayerChip> getSelectedPlayerChips() {
         //noinspection unchecked
         return (List<PlayerChip>) chipsInput.getSelectedChipList();
-    }
-    private List<Player> obtainPlayers(List<PlayerChip> playersChips) {
-        List<Player> players = new ArrayList<>();
-        for (PlayerChip playerChip : playersChips) {
-            players.add(new Player(playerChip.getPlayer().getPlayerName()));
-        }
-        return players;
     }
 }

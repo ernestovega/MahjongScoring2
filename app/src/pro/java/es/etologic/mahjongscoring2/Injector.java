@@ -4,8 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import es.etologic.mahjongscoring2.app.old_games.OldGamesViewModelFactory;
-import es.etologic.mahjongscoring2.data.repository.DataProvider;
-import es.etologic.mahjongscoring2.data.repository.local.LocalDataSource;
 import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
 import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
 

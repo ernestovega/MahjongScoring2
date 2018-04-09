@@ -10,13 +10,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import es.etologic.mahjongscoring2.data.repository.local.converters.DateConverter;
+import es.etologic.mahjongscoring2.data.local_data_source.local.converters.DateConverter;
 
 @Entity(tableName = "Games",
         indices = { @Index ( value = { "gameId" }, unique = true) })
 public class Game {
-
-    public static final int NOT_SET_GAME_ID = 0;
 
     @PrimaryKey(autoGenerate = true)
     private final long gameId;

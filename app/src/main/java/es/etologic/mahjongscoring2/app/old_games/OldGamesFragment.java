@@ -70,13 +70,13 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
         viewModel = ViewModelProviders
                 .of(this, Injector.provideOldGamesViewModelFactory(context))
                 .get(OldGamesViewModel.class);
-        viewModel.getOldGames().observe(this, this :: setGames);
+        viewModel.getGames().observe(this, this :: setGames);
         viewModel.getProgressState().observe(this, this :: toogleLocalProgress);
         viewModel.getSnackbarMessage().observe(this, this :: showSnackbar);
     }
     private void setupSwipeRefreshLayout() {
         swipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
-        swipeRefreshLayout.setOnRefreshListener(() -> viewModel.loadOldGames());
+        swipeRefreshLayout.setOnRefreshListener(() -> viewModel.loadGames());
     }
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
@@ -100,7 +100,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.loadOldGames();
+        viewModel.loadGames();
     }
     @Override
     public void onDestroy() {

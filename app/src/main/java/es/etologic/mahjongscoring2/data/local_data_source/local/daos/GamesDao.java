@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.data.repository.local.daos;
+package es.etologic.mahjongscoring2.data.local_data_source.local.daos;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
@@ -14,9 +14,11 @@ import es.etologic.mahjongscoring2.domain.entities.Game;
 @Dao
 public interface GamesDao {
 
-    @Insert (onConflict = OnConflictStrategy.FAIL)
-    long insertOne(Game game) throws SQLiteConstraintException;
-    //TODO: probar con tests. ¿Hace falta la exception o devolvería un 0?
+    @Insert(onConflict = OnConflictStrategy.FAIL)
+    long insertOne(Game game) throws SQLiteConstraintException; //TODO: probar con tests. ¿Hace falta la exception o devolvería un 0?
+
+    @Insert(onConflict = OnConflictStrategy.FAIL)
+    long bulkInsert(List<Game> game) throws SQLiteConstraintException; //TODO: probar con tests. ¿Hace falta la exception o devolvería un 0?
 
     @Query("SELECT * FROM Games WHERE gameId = :gameId")
     Game getOne(long gameId);
@@ -24,9 +26,12 @@ public interface GamesDao {
     @Query("SELECT * FROM Games")
     List<Game> getAll();
 
+    @Update
+    int updateOne(Game game);
+
     @Query("DELETE FROM Games WHERE gameId = :gameId")
     int deleteOne(long gameId);
 
-    @Update
-    int updateOne(Game game);
+    @Query("DELETE FROM Games")
+    long deleteAll();
 }

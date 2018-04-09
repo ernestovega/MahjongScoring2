@@ -8,7 +8,7 @@ import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 
-import es.etologic.mahjongscoring2.data.repository.local.converters.CombinationDescriptionTypeConverter;
+import es.etologic.mahjongscoring2.data.local_data_source.local.converters.CombinationDescriptionTypeConverter;
 
 import static es.etologic.mahjongscoring2.domain.entities.Combination.CombinationDescriptionType.DESCRIPTION;
 import static es.etologic.mahjongscoring2.domain.entities.Combination.CombinationDescriptionType.IMAGE;
@@ -33,7 +33,10 @@ public class Combination {
     }
 
     private final int combinationPoints;
-    @PrimaryKey
+
+    @PrimaryKey(autoGenerate = true)
+    private final long combinationId;
+
     @NonNull
     private final String combinationName;
     private final @DrawableRes Integer combinationImage;
@@ -62,10 +65,11 @@ public class Combination {
         return combinationDescriptionType;
     }
 
-    public Combination(int combinationPoints, @NonNull String combinationName,
+    public Combination(int combinationPoints, long combinationId, @NonNull String combinationName,
                        Integer combinationImage, String combinationDescription,
                        CombinationDescriptionType combinationDescriptionType) {
         this.combinationPoints = combinationPoints;
+        this.combinationId = combinationId;
         this.combinationName = combinationName;
         this.combinationImage = combinationImage;
         this.combinationDescription = combinationDescription;
@@ -73,8 +77,9 @@ public class Combination {
     }
 
     @Ignore
-    public Combination(int combinationPoints, String combinationName, Integer combinationImage) {
+    public Combination(int combinationPoints, long combinationId, String combinationName, Integer combinationImage) {
         this.combinationPoints = combinationPoints;
+        this.combinationId = combinationId;
         this.combinationName = combinationName;
         this.combinationImage = combinationImage;
         this.combinationDescription = null;
@@ -82,8 +87,9 @@ public class Combination {
     }
 
     @Ignore
-    public Combination(int combinationPoints, String combinationName, String combinationDescription) {
+    public Combination(int combinationPoints, long combinationId, String combinationName, String combinationDescription) {
         this.combinationPoints = combinationPoints;
+        this.combinationId = combinationId;
         this.combinationName = combinationName;
         this.combinationImage = null;
         this.combinationDescription = combinationDescription;
@@ -92,9 +98,9 @@ public class Combination {
 
     public Combination getCopy() {
         if(combinationDescriptionType == IMAGE) {
-            return new Combination(combinationPoints, combinationName, combinationImage);
+            return new Combination(combinationPoints, combinationId, combinationName, combinationImage);
         } else {
-            return new Combination(combinationPoints, combinationName, combinationDescription);
+            return new Combination(combinationPoints, combinationId, combinationName, combinationDescription);
         }
     }
 }

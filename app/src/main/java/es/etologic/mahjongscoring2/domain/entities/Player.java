@@ -9,16 +9,20 @@ import android.support.annotation.NonNull;
         indices = { @Index (value = { "playerName" }, unique = true) })
 public class Player {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private final long playerId;
+
     @NonNull
     private final String playerName;
 
+    public long getPlayerId() { return playerId; }
     @NonNull
     public String getPlayerName() {
         return playerName;
     }
 
-    public Player(@NonNull final String playerName) {
+    public Player(long playerId, @NonNull final String playerName) {
+        this.playerId = playerId;
         this.playerName = playerName;
     }
 }

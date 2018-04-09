@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.etologic.mahjongscoring2.R;
+import es.etologic.mahjongscoring2.app.model.GameItemDiffUtilCallback;
 import es.etologic.mahjongscoring2.app.utils.DateTimeUtils;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
 import es.etologic.mahjongscoring2.domain.entities.BestHand;

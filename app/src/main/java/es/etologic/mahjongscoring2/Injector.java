@@ -10,8 +10,6 @@ import es.etologic.mahjongscoring2.app.main.MainActivityViewModelFactory;
 import es.etologic.mahjongscoring2.app.new_game.NewGameViewModelFactory;
 import es.etologic.mahjongscoring2.app.old_games.OldGamesViewModelFactory;
 import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
-import es.etologic.mahjongscoring2.domain.use_cases.CreateGameUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.CreatePlayerUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.DeleteGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetCombinationsUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetFilteredCombinationsUseCase;

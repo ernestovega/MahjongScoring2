@@ -7,12 +7,9 @@ import java.util.List;
 
 import es.etologic.mahjongscoring2.app.base.BaseViewModel;
 import es.etologic.mahjongscoring2.app.model.ShowState;
+import es.etologic.mahjongscoring2.data.repositories.GamesRepository;
+import es.etologic.mahjongscoring2.data.repositories.PlayersRepository;
 import es.etologic.mahjongscoring2.domain.entities.Player;
-import es.etologic.mahjongscoring2.domain.threading.UseCase;
-import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
-import es.etologic.mahjongscoring2.domain.use_cases.CreateGameUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.CreatePlayerUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.GetPlayersUseCase;
 
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
@@ -20,9 +17,8 @@ import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 class NewGameViewModel extends BaseViewModel {
 
     //FIELDS
-    private final GetPlayersUseCase getPlayersUseCase;
-    private final CreatePlayerUseCase createPlayerUseCase;
-    private final CreateGameUseCase createGameUseCase;
+    private PlayersRepository playersRepository;
+    private GamesRepository gamesRepository;
     private MutableLiveData<List<Player>> allPlayers = new MutableLiveData<List<Player>>() {};
     private MutableLiveData<Player> newPlayer = new MutableLiveData<Player>() {};
     private MutableLiveData<Long> newGameId = new MutableLiveData<Long>() {};
@@ -35,67 +31,27 @@ class NewGameViewModel extends BaseViewModel {
     MutableLiveData<ShowState> getToolbarProgress() { return toolbarProgress; }
 
     //CONSTRUCTOR
-    NewGameViewModel(UseCaseHandler useCaseHandler, GetPlayersUseCase getPlayersUseCase, CreatePlayerUseCase createPlayerUseCase,
-                     CreateGameUseCase createGameUseCase) {
-        super(useCaseHandler);
-        this.getPlayersUseCase = getPlayersUseCase;
-        this.createPlayerUseCase = createPlayerUseCase;
-        this.createGameUseCase = createGameUseCase;
+    NewGameViewModel(PlayersRepository playersRepository, GamesRepository gamesRepository) {
+        this.playersRepository = playersRepository;
+        this.gamesRepository = gamesRepository;
     }
 
     //METHODS
     void loadAllPlayers() {
         progressState.setValue(SHOW);
-        useCaseHandler.execute(getPlayersUseCase, null,
-                new UseCase.UseCaseCallback<GetPlayersUseCase.ResponseValue>() {
-                    @Override
-                    public void onSuccess(GetPlayersUseCase.ResponseValue response) {
-                        allPlayers.setValue(response.getPlayers());
-                        progressState.setValue(HIDE);
-                    }
-
-                    @Override
-                    public void onError(String ignored) {
-                        allPlayers.setValue(new ArrayList<>());
-                        progressState.setValue(HIDE);
-                    }
-                });
+        List<Player> players = playersRepository.getAll();
+        allPlayers.setValue(players);
+        progressState.setValue(HIDE);
     }
     void createPlayer(String playerName) {
         progressState.setValue(SHOW);
-        useCaseHandler.execute(createPlayerUseCase,
-                new CreatePlayerUseCase.RequestValues(playerName),
-                new UseCase.UseCaseCallback<CreatePlayerUseCase.ResponseValue>() {
-                    @Override
-                    public void onSuccess(CreatePlayerUseCase.ResponseValue response) {
-                        newPlayer.setValue(response.getPlayer());
-                        progressState.setValue(HIDE);
-                    }
-
-                    @Override
-                    public void onError(String errorMessage) {
-                        snackbarMessage.setValue(errorMessage);
-                        progressState.setValue(HIDE);
-                    }
-                });
+        playersRepository.insertOne(playerName);
+        allPlayers.setValue(playersRepository.getAll());
+        progressState.setValue(HIDE);
     }
-    void createGame(List<Player> newGamePlayers) {
+    void createGame(List<String> playersNames) {
         progressState.setValue(SHOW);
-        useCaseHandler.execute(createGameUseCase,
-                new CreateGameUseCase.RequestValues(newGamePlayers),
-                new UseCase.UseCaseCallback<CreateGameUseCase.ResponseValue>() {
-
-                    @Override
-                    public void onSuccess(CreateGameUseCase.ResponseValue response) {
-                        newGameId.setValue(response.getGameId());
-                        progressState.setValue(HIDE);
-                    }
-
-                    @Override
-                    public void onError(String errorMessage) {
-                        snackbarMessage.setValue(errorMessage);
-                        progressState.setValue(HIDE);
-                    }
-                });
+        gamesRepository.insertOne(playersNames);
+        progressState.setValue(HIDE);
     }
 }

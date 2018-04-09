@@ -7,40 +7,26 @@ import com.pchmn.materialchips.model.ChipInterface;
 
 import es.etologic.mahjongscoring2.domain.entities.Player;
 
-class PlayerChip implements ChipInterface{
+class PlayerChip implements ChipInterface {
 
     private Player player;
 
-    public Player getPlayer() {
-        return player;
-    }
+    public Player getPlayer() { return player; }
 
-    PlayerChip(Player player) {
-        this.player = player;
-    }
+    PlayerChip(Player player) { this.player = player; }
 
     @Override
-    public String getId() {
-        return player.getPlayerName();
-    }
+    public String getId() { return String.valueOf(player.getPlayerId()); }
 
     @Override
-    public Uri getAvatarUri() {
-        return null;
-    }
+    public Uri getAvatarUri() { return null; }
 
     @Override
-    public Drawable getAvatarDrawable() {
-        return null;
-    }
+    public Drawable getAvatarDrawable() { return null; }
 
     @Override
-    public String getLabel() {
-        return player.getPlayerName();
-    }
+    public String getLabel() { return player.getPlayerName(); }
 
     @Override
-    public String getInfo() {
-        return null;
-    }
+    public String getInfo() { return null; }
 }
