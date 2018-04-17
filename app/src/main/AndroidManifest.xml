@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme.BrandedLaunch">
 
         <activity
-            android:name=".app.main.MainActivity"
+            android:name=".app.main.activity.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -26,16 +26,16 @@
         </activity>
 
         <activity
-            android:name=".app.game.game_main.GameMainActivity"
+            android:name=".app.game.activity.GameActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".app.new_game.NewGameActivity"
+            android:name=".app.main.new_game.NewGameActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible"/>
 
         <activity
-            android:name=".app.combinations.CombinationsActivity"
+            android:name=".app.main.combinations.CombinationsActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.searchable"

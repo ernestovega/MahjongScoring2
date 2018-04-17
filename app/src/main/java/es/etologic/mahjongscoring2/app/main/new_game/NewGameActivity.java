@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.app.new_game;
+package es.etologic.mahjongscoring2.app.main.new_game;
 
 import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
@@ -26,10 +26,9 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
-import es.etologic.mahjongscoring2.app.game.game_main.GameMainActivity;
+import es.etologic.mahjongscoring2.app.game.activity.GameActivity;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
-import es.etologic.mahjongscoring2.data.local_data_source.local.AppDatabase;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
@@ -71,45 +70,12 @@ public class NewGameActivity extends AppCompatActivity {
     }
     private void setupViewModel() {
         viewModel = ViewModelProviders
-                .of(this, Injector.provideNewGameViewModelFactory(this))
-                .get(NewGameViewModel.class);
-        viewModel.getAllPlayers().observe(this, this :: setAllPlayers);
-        viewModel.getNewPlayer().observe(this, this :: addNewPlayer);
-        viewModel.getNewGameId().observe(this, this :: startGame);
-        viewModel.getToolbarProgress().observe(this, this :: toggleToolbarProgress);
-    }
-    private void setAllPlayers(List<Player> allPlayers) { chipsInput.setFilterableList(createPlayerChips(allPlayers)); }
-    private List<PlayerChip> createPlayerChips(List<Player> players) {
-        List<PlayerChip> playersChips = new ArrayList<>();
-        for(Player player : players) {
-            playersChips.add(new PlayerChip(player));
-        }
-        return playersChips;
-    }
-    private void addNewPlayer(Player player) { addPlayerChip(player); }
-    private void addPlayerChip(Player player) {
-        PlayerChip playerChip = new PlayerChip(player);
-        chipsInput.addChip(playerChip);
-    }
-    private void startGame(long gameId) {
-        Intent intent = new Intent(this, GameMainActivity.class);
-        intent.putExtra(getString(R.string.key_extra_game_id), gameId);
-        startActivity(intent);
-    }
-    private void toggleToolbarProgress(ShowState showState) {
-        MenuItem menuItem = toolbar.getMenu().findItem(R.id.action_create_player);
-        if(menuItem != null) {
-            switch(showState) {
-                case HIDE:
-                    menuItem.setEnabled(true);
-                    menuItem.setActionView(null);
-                    break;
-                case SHOW:
-                    menuItem.setEnabled(false);
-                    menuItem.setActionView(R.layout.newgame_toolbar_progress);
-                    break;
-            }
-        }
+                            .of(this, Injector.provideNewGameViewModelFactory(this))
+                            .get(NewGameViewModel.class);
+        viewModel.getAllPlayers().observe(this, this::setAllPlayers);
+        viewModel.getNewPlayer().observe(this, this::addNewPlayer);
+        viewModel.getNewGameId().observe(this, this::startGame);
+        viewModel.getToolbarProgress().observe(this, this::toggleToolbarProgress);
     }
     private void setupChips() {
         chipsInput.addChipsListener(new ChipsInput.ChipsListener() {
@@ -136,7 +102,46 @@ public class NewGameActivity extends AppCompatActivity {
             }
         });
     }
-    private void toogleFabStartGame(ShowState showState) { fabStartGame.setVisibility(showState == SHOW ? VISIBLE : GONE); }
+    private void toogleFabStartGame(ShowState showState) {
+        fabStartGame.setVisibility(showState == SHOW ? VISIBLE : GONE);
+    }
+    private void setAllPlayers(List<Player> allPlayers) {
+        chipsInput.setFilterableList(createPlayerChips(allPlayers));
+    }
+    private List<PlayerChip> createPlayerChips(List<Player> players) {
+        List<PlayerChip> playersChips = new ArrayList<>();
+        for(Player player : players) {
+            playersChips.add(new PlayerChip(player));
+        }
+        return playersChips;
+    }
+    private void addNewPlayer(Player player) {
+        addPlayerChip(player);
+    }
+    private void addPlayerChip(Player player) {
+        PlayerChip playerChip = new PlayerChip(player);
+        chipsInput.addChip(playerChip);
+    }
+    private void startGame(long gameId) {
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra(getString(R.string.key_extra_game_id), gameId);
+        startActivity(intent);
+    }
+    private void toggleToolbarProgress(ShowState showState) {
+        MenuItem menuItem = toolbar.getMenu().findItem(R.id.action_create_player);
+        if(menuItem != null) {
+            switch(showState) {
+                case HIDE:
+                    menuItem.setEnabled(true);
+                    menuItem.setActionView(null);
+                    break;
+                case SHOW:
+                    menuItem.setEnabled(false);
+                    menuItem.setActionView(R.layout.newgame_toolbar_progress);
+                    break;
+            }
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.new_game_menu, menu);
@@ -152,7 +157,7 @@ public class NewGameActivity extends AppCompatActivity {
     //EVENTS
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        switch(item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -176,7 +181,7 @@ public class NewGameActivity extends AppCompatActivity {
         builder.setTitle(R.string.create_player)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                     String inputText = tiet.getText().toString().trim();
-/*TODO: COMPROBAR QUE NO SE PUEDE AÑADIR UN JUGADOR DOS VECES Y REALIZAR VALIDACIONES SOBRE EL NOMBRE*/
+                    /*TODO: COMPROBAR QUE NO SE PUEDE AÑADIR UN JUGADOR DOS VECES Y REALIZAR VALIDACIONES SOBRE EL NOMBRE*/
                     viewModel.createPlayer(inputText);
                 })
                 .setNegativeButton(android.R.string.cancel, null)
@@ -192,15 +197,15 @@ public class NewGameActivity extends AppCompatActivity {
             viewModel.createGame(playersNames);
         }
     }
-    private List<String> obtainPlayersNames(List<PlayerChip> playersChips) {
-        List<String> playersNames = new ArrayList<>();
-        for (PlayerChip playerChip : playersChips) {
-            playersNames.add(playerChip.getPlayer().getPlayerName());
-        }
-        return playersNames;
-    }
     private List<PlayerChip> getSelectedPlayerChips() {
         //noinspection unchecked
         return (List<PlayerChip>) chipsInput.getSelectedChipList();
+    }
+    private List<String> obtainPlayersNames(List<PlayerChip> playersChips) {
+        List<String> playersNames = new ArrayList<>();
+        for(PlayerChip playerChip : playersChips) {
+            playersNames.add(playerChip.getPlayer().getPlayerName());
+        }
+        return playersNames;
     }
 }

@@ -10,7 +10,6 @@ import android.database.sqlite.SQLiteConstraintException;
 import java.util.List;
 
 import es.etologic.mahjongscoring2.domain.entities.Round;
-import es.etologic.mahjongscoring2.domain.entities.Round;
 
 @Dao
 public interface RoundsDao {
@@ -19,7 +18,7 @@ public interface RoundsDao {
     long insertOne(Round round) throws SQLiteConstraintException; //TODO: probar con tests. ¿Hace falta la exception o devolvería un 0?
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
-    long bulkInsert(List<Round> round) throws SQLiteConstraintException; //TODO: probar con tests. ¿Hace falta la exception o devolvería un 0?
+    long[] bulkInsert(List<Round> round) throws SQLiteConstraintException; //TODO: probar con tests. ¿Hace falta la exception o devolvería un 0?
 
     @Query("SELECT * FROM Rounds WHERE roundId = :roundId")
     Round getOne(long roundId);
@@ -34,5 +33,5 @@ public interface RoundsDao {
     int deleteOne(long roundId);
 
     @Query("DELETE FROM Rounds")
-    long deleteAll();
+    int deleteAll();
 }

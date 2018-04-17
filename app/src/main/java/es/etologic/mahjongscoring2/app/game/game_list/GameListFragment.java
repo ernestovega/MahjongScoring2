@@ -16,13 +16,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.R;
-import es.etologic.mahjongscoring2.app.game.game_main.GameMainViewModel;
+import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel;
 
 public class GameListFragment extends Fragment {
 
     //region Fields
 
-    @BindView (R.id.rvGameList)
+    @BindView(R.id.rvGameList)
     RecyclerView recyclerView;
     @BindView(R.id.tvGameListHeaderNameP1)
     TextView tvHeaderNameP1;
@@ -43,14 +43,14 @@ public class GameListFragment extends Fragment {
 
     private Context context;
     private Unbinder unbinder;
-    private GameMainViewModel mainViewModel;
+    private GameActivityViewModel mainViewModel;
     private GameListRvAdapter rvAdapter;
 
     //endregion
 
     //region Public
 
-    public void setMainViewModel(GameMainViewModel mainViewModel) {
+    public void setMainViewModel(GameActivityViewModel mainViewModel) {
         this.mainViewModel = mainViewModel;
     }
 
@@ -76,7 +76,11 @@ public class GameListFragment extends Fragment {
     //endregion
 
     //region Private
+    private void setupViewModel() {
 
+    }
+    private void observeViewModel() {
+    }
     public void setupRecyclerView() {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
@@ -84,13 +88,6 @@ public class GameListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         rvAdapter = new GameListRvAdapter();
         recyclerView.setAdapter(rvAdapter);
-    }
-
-    private void setupViewModel() {
-
-    }
-
-    private void observeViewModel() {
     }
 
 //    public void fillHeaderPlayersNames(List<String> playersNames) {

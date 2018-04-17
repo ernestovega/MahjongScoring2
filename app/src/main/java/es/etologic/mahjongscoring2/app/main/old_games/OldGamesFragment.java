@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.app.old_games;
+package es.etologic.mahjongscoring2.app.main.old_games;
 
 import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
@@ -25,28 +25,45 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
-import es.etologic.mahjongscoring2.app.main.MainActivityViewModel;
+import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 
 import static android.view.View.VISIBLE;
-import static es.etologic.mahjongscoring2.app.model.MainScreens.NEW_GAME;
+import static es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.NEW_GAME;
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
 public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.GameItemListener {
 
     //VIEWS
-    @BindView (R.id.toolbarOldGames) Toolbar toolbar;
-    @BindView (R.id.swipeRefreshLayoutOldGames) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView (R.id.recyclerViewOldGames) RecyclerView recyclerView;
-    @BindView (R.id.emptyLayoutOldGames) LinearLayout emptyLayout;
+    @BindView(R.id.toolbarOldGames) Toolbar toolbar;
+    @BindView(R.id.swipeRefreshLayoutOldGames) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.recyclerViewOldGames) RecyclerView recyclerView;
+    @BindView(R.id.emptyLayoutOldGames) LinearLayout emptyLayout;
     //FIELDS
     private Unbinder unbinder;
     private OldGamesRvAdapter rvAdapter;
     private Context context;
     private MainActivityViewModel activityViewModel;
     private OldGamesViewModel viewModel;
+
+    //EVENTS
+    @OnClick(R.id.fabOldGames) public void onFabNewGameClick() {
+        activityViewModel.goToScreen(NEW_GAME);
+    }
+    @Override public void onOldGameItemDeleteClicked(long gameId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(R.string.delete_game)
+                .setMessage(R.string.are_you_sure)
+                .setPositiveButton(R.string.delete, (dialog, which) -> viewModel.deleteGame(gameId))
+                .setNegativeButton(android.R.string.cancel, null)
+                .create()
+                .show();
+    }
+    @Override public void onOldGameItemResumeClicked(long gameId) {
+        activityViewModel.goToGame(gameId);
+    }
 
     //LIFECYCLE
     @Override
@@ -63,21 +80,6 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
         setupSwipeRefreshLayout();
         setToolbar();
     }
-    private void setupViewModel() {
-        activityViewModel = ViewModelProviders
-                .of(getActivity(), Injector.provideMainActivityViewModelFactory())
-                .get(MainActivityViewModel.class);
-        viewModel = ViewModelProviders
-                .of(this, Injector.provideOldGamesViewModelFactory(context))
-                .get(OldGamesViewModel.class);
-        viewModel.getGames().observe(this, this :: setGames);
-        viewModel.getProgressState().observe(this, this :: toogleLocalProgress);
-        viewModel.getSnackbarMessage().observe(this, this :: showSnackbar);
-    }
-    private void setupSwipeRefreshLayout() {
-        swipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
-        swipeRefreshLayout.setOnRefreshListener(() -> viewModel.loadGames());
-    }
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -85,7 +87,24 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
         rvAdapter.setOldGameItemListener(this);
         recyclerView.setAdapter(rvAdapter);
     }
-    private void setToolbar() { activityViewModel.setToolbar(toolbar); }
+    private void setupViewModel() {
+        activityViewModel = ViewModelProviders
+                                    .of(getActivity(), Injector.provideMainActivityViewModelFactory())
+                                    .get(MainActivityViewModel.class);
+        viewModel = ViewModelProviders
+                            .of(this, Injector.provideOldGamesViewModelFactory(context))
+                            .get(OldGamesViewModel.class);
+        viewModel.getGames().observe(this, this::setGames);
+//        viewModel.getProgressState().observe(this, this::toogleLocalProgress);
+//        viewModel.getSnackbarMessage().observe(this, this::showSnackbar);
+    }
+    private void setupSwipeRefreshLayout() {
+        swipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
+        swipeRefreshLayout.setOnRefreshListener(() -> viewModel.loadGames());
+    }
+    private void setToolbar() {
+        activityViewModel.setToolbar(toolbar);
+    }
     private void setGames(List<Game> games) {
         if(games == null || games.isEmpty()) {
             emptyLayout.setVisibility(VISIBLE);
@@ -95,8 +114,12 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
             toogleLocalProgress(HIDE);
         }
     }
-    private void toogleLocalProgress(ShowState showState) { swipeRefreshLayout.setRefreshing(showState == SHOW); }
-    private void showSnackbar(String message) { Snackbar.make(toolbar, message, Snackbar.LENGTH_LONG).show(); }
+    private void toogleLocalProgress(ShowState showState) {
+        swipeRefreshLayout.setRefreshing(showState == SHOW);
+    }
+    private void showSnackbar(String message) {
+        Snackbar.make(toolbar, message, Snackbar.LENGTH_LONG).show();
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -107,19 +130,4 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
         unbinder.unbind();
         super.onDestroy();
     }
-
-    //EVENTS
-    @OnClick (R.id.fabOldGames) public void onFabNewGameClick() { activityViewModel.goToScreen(NEW_GAME); }
-    @Override
-    public void onOldGameItemDeleteClicked(long gameId) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(R.string.delete_game)
-                .setMessage(R.string.are_you_sure)
-                .setPositiveButton(R.string.delete, (dialog, which) -> viewModel.deleteGame(gameId))
-                .setNegativeButton(android.R.string.cancel, null)
-                .create()
-                .show();
-    }
-    @Override
-    public void onOldGameItemResumeClicked(long gameId) { activityViewModel.goToGame(gameId); }
 }

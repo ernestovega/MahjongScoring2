@@ -23,4 +23,5 @@ public class CombinationDescriptionTypeConverter {
     @TypeConverter
     public static int toIntCode(CombinationDescriptionType combinationDescriptionType) {
         return combinationDescriptionType.getCode();
-    }}
+    }
+}

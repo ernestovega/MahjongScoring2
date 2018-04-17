@@ -48,6 +48,10 @@ public class Combination {
         return combinationPoints;
     }
 
+    public long getCombinationId() {
+        return combinationId;
+    }
+
     @NonNull
     public String getCombinationName() {
         return combinationName;

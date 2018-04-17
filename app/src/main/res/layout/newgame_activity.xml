@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@android:color/white"
-    tools:context=".app.new_game.NewGameActivity">
+    tools:context=".app.main.new_game.NewGameActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarNewGame"

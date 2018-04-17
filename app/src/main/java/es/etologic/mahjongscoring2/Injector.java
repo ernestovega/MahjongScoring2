@@ -4,81 +4,53 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import es.etologic.mahjongscoring2.app.combinations.CombinationsViewModelFactory;
-import es.etologic.mahjongscoring2.app.game.game_main.GameMainViewModelFactory;
-import es.etologic.mahjongscoring2.app.main.MainActivityViewModelFactory;
-import es.etologic.mahjongscoring2.app.new_game.NewGameViewModelFactory;
-import es.etologic.mahjongscoring2.app.old_games.OldGamesViewModelFactory;
-import es.etologic.mahjongscoring2.domain.threading.UseCaseHandler;
-import es.etologic.mahjongscoring2.domain.use_cases.DeleteGameUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.GetCombinationsUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.GetFilteredCombinationsUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.GetGameUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.GetPlayersUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.UpdateRoundUseCase;
+import es.etologic.mahjongscoring2.app.main.combinations.CombinationsViewModelFactory;
+import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModelFactory;
+import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModelFactory;
+import es.etologic.mahjongscoring2.app.main.new_game.NewGameViewModelFactory;
+import es.etologic.mahjongscoring2.app.main.old_games.OldGamesViewModelFactory;
+import es.etologic.mahjongscoring2.data.repositories.CombinationsRepository;
+import es.etologic.mahjongscoring2.data.repositories.GamesRepository;
+import es.etologic.mahjongscoring2.data.repositories.PlayersRepository;
+import es.etologic.mahjongscoring2.data.repositories.RoundsRepository;
 
 public class Injector extends BaseInjector {
 
-    private static UseCaseHandler provideUseCaseHandler() {
-        return UseCaseHandler.getInstance();
-    }
-
+    //VIEWMODELFACTORIES
     public static ViewModelProvider.Factory provideMainActivityViewModelFactory() {
         return new MainActivityViewModelFactory();
     }
 
     public static OldGamesViewModelFactory provideOldGamesViewModelFactory(@NonNull Context context) {
-        return new OldGamesViewModelFactory(provideUseCaseHandler(), provideGetGamesUseCase(context), provideDeleteGameUseCase(context));
-    }
-
-    private static GetGamesUseCase provideGetGamesUseCase(@NonNull Context context) {
-        return new GetGamesUseCase(provideDataSource(context));
-    }
-
-    private static DeleteGameUseCase provideDeleteGameUseCase(Context context) {
-        return new DeleteGameUseCase(provideDataSource(context));
+        return new OldGamesViewModelFactory(provideGamesRepository(context));
     }
 
     public static ViewModelProvider.Factory provideNewGameViewModelFactory(Context context) {
-        return new NewGameViewModelFactory(provideUseCaseHandler(), provideGetPlayersUseCase(context), provideCreatePlayerUseCase(context),
-                provideCreateGameUseCase(context));
-    }
-
-    private static GetPlayersUseCase provideGetPlayersUseCase(Context context) {
-        return new GetPlayersUseCase(provideDataSource(context));
-    }
-
-    private static CreatePlayerUseCase provideCreatePlayerUseCase(Context context) {
-        return new CreatePlayerUseCase(provideDataSource(context));
-    }
-
-    private static CreateGameUseCase provideCreateGameUseCase(Context context) {
-        return new CreateGameUseCase(provideDataSource(context));
+        return new NewGameViewModelFactory(providePlayersRepository(context), provideGamesRepository(context));
     }
 
     public static ViewModelProvider.Factory provideCombinationsViewModelFactory(Context context) {
-        return new CombinationsViewModelFactory(provideUseCaseHandler(), provideGetCombinationsUseCase(context),
-                provideGetFilteredCombinationsUseCase(context));
+        return new CombinationsViewModelFactory(provideCombinationsRepository(context));
     }
 
-    private static GetCombinationsUseCase provideGetCombinationsUseCase(Context context) {
-        return new GetCombinationsUseCase(provideDataSource(context));
+    public static ViewModelProvider.Factory provideGameActivityViewModelFactory(@NonNull Context context) {
+        return new GameActivityViewModelFactory(provideGamesRepository(context), provideRoundsRepository(context));
     }
 
-    private static GetFilteredCombinationsUseCase provideGetFilteredCombinationsUseCase(Context context) {
-        return new GetFilteredCombinationsUseCase(provideDataSource(context));
+    //REPOSITORIES
+    private static GamesRepository provideGamesRepository(@NonNull Context context) {
+        return new GamesRepository(context);
     }
 
-    public static GameMainViewModelFactory provideGameMainViewModelFactory(@NonNull Context context) {
-        return new GameMainViewModelFactory(provideUseCaseHandler(), provideGetGameUseCase(context), provideUpdateGameUseCase(context));
+    private static PlayersRepository providePlayersRepository(Context context) {
+        return new PlayersRepository(context);
     }
 
-    private static GetGameUseCase provideGetGameUseCase(@NonNull Context context) {
-        return new GetGameUseCase(provideDataSource(context));
+    private static CombinationsRepository provideCombinationsRepository(Context context) {
+        return new CombinationsRepository(context);
     }
 
-    private static UpdateRoundUseCase provideUpdateGameUseCase(@NonNull Context context) {
-        return new UpdateRoundUseCase(provideDataSource(context));
+    private static RoundsRepository provideRoundsRepository(@NonNull Context context) {
+        return new RoundsRepository(context);
     }
 }

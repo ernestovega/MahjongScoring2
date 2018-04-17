@@ -1,13 +1,11 @@
 package es.etologic.mahjongscoring2.data.repositories;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteConstraintException;
 
 import java.util.List;
 
 import es.etologic.mahjongscoring2.data.local_data_source.local.AppDatabase;
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.PlayersDao;
-import es.etologic.mahjongscoring2.domain.entities.Game;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 
 public class PlayersRepository extends BaseRepository<Player> { /*TODO Hacer pruebas forzando datos (tests unitarios!)*/
@@ -23,7 +21,7 @@ public class PlayersRepository extends BaseRepository<Player> { /*TODO Hacer pru
     public long insertOne(Player player) {
         try {
             return playersDao.insert(player);
-        } catch (Exception exception) {
+        } catch(Exception exception) {
             return 0;
         }
     }
@@ -32,7 +30,7 @@ public class PlayersRepository extends BaseRepository<Player> { /*TODO Hacer pru
         try {
             Player player = new Player(AppDatabase.NOT_SET_ID, playerName);
             return playersDao.insert(player);
-        } catch (Exception exception) {
+        } catch(Exception exception) {
             return 0;
         }
     }
@@ -43,16 +41,26 @@ public class PlayersRepository extends BaseRepository<Player> { /*TODO Hacer pru
     }
 
     @Override
-    public Player getOne(long playerId) { return playersDao.getOne(playerId); }
+    public Player getOne(long playerId) {
+        return playersDao.getOne(playerId);
+    }
 
-    public Player getOne(String playerName) { return playersDao.getOne(playerName); }
-
-    @Override
-    public boolean updateOne(Player player) { return playersDao.updateOne(player) == 1; }
-
-    @Override
-    public boolean deleteOne(long gameId) { return playersDao.deleteOne(gameId) == 1; }
+    public Player getOne(String playerName) {
+        return playersDao.getOne(playerName);
+    }
 
     @Override
-    public long deleteAll() { return playersDao.deleteAll(); }
+    public boolean updateOne(Player player) {
+        return playersDao.updateOne(player) == 1;
+    }
+
+    @Override
+    public boolean deleteOne(long gameId) {
+        return playersDao.deleteOne(gameId) == 1;
+    }
+
+    @Override
+    public long deleteAll() {
+        return playersDao.deleteAll();
+    }
 }

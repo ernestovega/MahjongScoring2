@@ -5,7 +5,6 @@ import android.content.Context;
 import java.util.List;
 
 import es.etologic.mahjongscoring2.data.local_data_source.local.AppDatabase;
-import es.etologic.mahjongscoring2.domain.entities.Game;
 
 public abstract class BaseRepository<T> {
 

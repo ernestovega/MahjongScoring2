@@ -10,7 +10,6 @@ import android.database.sqlite.SQLiteConstraintException;
 import java.util.List;
 
 import es.etologic.mahjongscoring2.domain.entities.Combination;
-import es.etologic.mahjongscoring2.domain.entities.Combination;
 
 @Dao
 public interface CombinationsDao {
@@ -18,16 +17,16 @@ public interface CombinationsDao {
     @Insert(onConflict = OnConflictStrategy.FAIL)
     long insertOne(Combination combination) throws SQLiteConstraintException; //TODO: probar con tests. ¿Hace falta la exception o devolvería un 0?
 
-    @Insert (onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void bulkInsert(List<Combination> combinations);
 
     @Query("SELECT * FROM Combinations WHERE combinationId = :combinationId")
     Combination getOne(long combinationId);
 
     @Query("SELECT * FROM Combinations " +
-            "WHERE combinationName LIKE :filter " +
-            "OR combinationDescription LIKE :filter " +
-            "ORDER BY combinationPoints")
+                   "WHERE combinationName LIKE :filter " +
+                   "OR combinationDescription LIKE :filter " +
+                   "ORDER BY combinationPoints")
     List<Combination> getFilteredCombinations(String filter);
 
     @Query("SELECT * FROM Combinations ORDER BY combinationPoints, combinationName ASC")
@@ -40,5 +39,5 @@ public interface CombinationsDao {
     int deleteOne(long combinationId);
 
     @Query("DELETE FROM Combinations")
-    long deleteAll();
+    int deleteAll();
 }

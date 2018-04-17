@@ -27,17 +27,27 @@ public class RoundsRepository extends BaseRepository<Round> { /*TODO Hacer prueb
     }
 
     @Override
-    public Round getOne(long roundId) { return roundsDao.getOne(roundId); }
+    public Round getOne(long roundId) {
+        return roundsDao.getOne(roundId);
+    }
 
     @Override
-    public List<Round> getAll() { return roundsDao.getAll(); }
+    public List<Round> getAll() {
+        return roundsDao.getAll();
+    }
 
     @Override
-    public boolean updateOne(Round round) { return roundsDao.updateOne(round) == 1; }
+    public boolean updateOne(Round round) {
+        return roundsDao.updateOne(round) == 1;
+    }
 
     @Override
-    public boolean deleteOne(long roundId) { return roundsDao.deleteOne(roundId) == 1; }
+    public boolean deleteOne(long roundId) {
+        return roundsDao.deleteOne(roundId) == 1;
+    }
 
     @Override
-    public long deleteAll() { return roundsDao.deleteAll(); }
+    public long deleteAll() {
+        return roundsDao.deleteAll();
+    }
 }

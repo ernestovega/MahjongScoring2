@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import static android.content.Context.*;
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class KeyboardUtils {
 

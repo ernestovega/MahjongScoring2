@@ -9,7 +9,6 @@ import java.util.List;
 import es.etologic.mahjongscoring2.data.local_data_source.local.AppDatabase;
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.GamesDao;
 import es.etologic.mahjongscoring2.domain.entities.Game;
-import es.etologic.mahjongscoring2.domain.entities.Player;
 
 public class GamesRepository extends BaseRepository<Game> { /*TODO Hacer pruebas forzando datos (tests unitarios!)*/
 
@@ -35,17 +34,27 @@ public class GamesRepository extends BaseRepository<Game> { /*TODO Hacer pruebas
     }
 
     @Override
-    public Game getOne(long gameId) { return gamesDao.getOne(gameId); }
+    public Game getOne(long gameId) {
+        return gamesDao.getOne(gameId);
+    }
 
     @Override
-    public List<Game> getAll() { return gamesDao.getAll(); }
+    public List<Game> getAll() {
+        return gamesDao.getAll();
+    }
 
     @Override
-    public boolean updateOne(Game game) { return gamesDao.updateOne(game) == 1; }
+    public boolean updateOne(Game game) {
+        return gamesDao.updateOne(game) == 1;
+    }
 
     @Override
-    public boolean deleteOne(long gameId) { return gamesDao.deleteOne(gameId) == 1; }
+    public boolean deleteOne(long gameId) {
+        return gamesDao.deleteOne(gameId) == 1;
+    }
 
     @Override
-    public long deleteAll() { return gamesDao.deleteAll(); }
+    public long deleteAll() {
+        return gamesDao.deleteAll();
+    }
 }

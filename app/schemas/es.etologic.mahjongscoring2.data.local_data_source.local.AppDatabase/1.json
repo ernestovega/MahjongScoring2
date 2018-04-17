@@ -1,0 +1,287 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "898c0a52f1a1807f8fe1f4bb67765455",
+    "entities": [
+      {
+        "tableName": "Players",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`playerId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `playerName` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "playerId",
+            "columnName": "playerId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "playerName",
+            "columnName": "playerName",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "playerId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Players_playerName",
+            "unique": true,
+            "columnNames": [
+              "playerName"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Players_playerName` ON `${TABLE_NAME}` (`playerName`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Games",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nameP1` TEXT, `nameP2` TEXT, `nameP3` TEXT, `nameP4` TEXT, `creationDate` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "gameId",
+            "columnName": "gameId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameP1",
+            "columnName": "nameP1",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nameP2",
+            "columnName": "nameP2",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nameP3",
+            "columnName": "nameP3",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nameP4",
+            "columnName": "nameP4",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "creationDate",
+            "columnName": "creationDate",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "gameId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Games_gameId",
+            "unique": true,
+            "columnNames": [
+              "gameId"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Games_gameId` ON `${TABLE_NAME}` (`gameId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Rounds",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, `handPoints` INTEGER NOT NULL, `winnerInitialPosition` INTEGER NOT NULL, `looserInitialPosition` INTEGER NOT NULL, `pointsP1` INTEGER NOT NULL, `pointsP2` INTEGER NOT NULL, `pointsP3` INTEGER NOT NULL, `pointsP4` INTEGER NOT NULL, `penaltyP1` INTEGER NOT NULL, `penaltyP2` INTEGER NOT NULL, `penaltyP3` INTEGER NOT NULL, `penaltyP4` INTEGER NOT NULL, `roundDuration` INTEGER NOT NULL, PRIMARY KEY(`gameId`, `roundId`), FOREIGN KEY(`gameId`) REFERENCES `Games`(`gameId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "gameId",
+            "columnName": "gameId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roundId",
+            "columnName": "roundId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "handPoints",
+            "columnName": "handPoints",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "winnerInitialPosition",
+            "columnName": "winnerInitialPosition",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "looserInitialPosition",
+            "columnName": "looserInitialPosition",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pointsP1",
+            "columnName": "pointsP1",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pointsP2",
+            "columnName": "pointsP2",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pointsP3",
+            "columnName": "pointsP3",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pointsP4",
+            "columnName": "pointsP4",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "penaltyP1",
+            "columnName": "penaltyP1",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "penaltyP2",
+            "columnName": "penaltyP2",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "penaltyP3",
+            "columnName": "penaltyP3",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "penaltyP4",
+            "columnName": "penaltyP4",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roundDuration",
+            "columnName": "roundDuration",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "gameId",
+            "roundId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Rounds_gameId_roundId",
+            "unique": true,
+            "columnNames": [
+              "gameId",
+              "roundId"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Rounds_gameId_roundId` ON `${TABLE_NAME}` (`gameId`, `roundId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Games",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "gameId"
+            ],
+            "referencedColumns": [
+              "gameId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Combinations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`combinationPoints` INTEGER NOT NULL, `combinationId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `combinationName` TEXT NOT NULL, `combinationImage` INTEGER, `combinationDescription` TEXT, `combinationDescriptionType` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "combinationPoints",
+            "columnName": "combinationPoints",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "combinationId",
+            "columnName": "combinationId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "combinationName",
+            "columnName": "combinationName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "combinationImage",
+            "columnName": "combinationImage",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "combinationDescription",
+            "columnName": "combinationDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "combinationDescriptionType",
+            "columnName": "combinationDescriptionType",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "combinationId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Combinations_combinationName",
+            "unique": true,
+            "columnNames": [
+              "combinationName"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Combinations_combinationName` ON `${TABLE_NAME}` (`combinationName`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"898c0a52f1a1807f8fe1f4bb67765455\")"
+    ]
+  }
+}

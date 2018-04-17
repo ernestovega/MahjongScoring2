@@ -9,7 +9,6 @@ import android.arch.persistence.room.Update;
 import java.util.List;
 
 import es.etologic.mahjongscoring2.domain.entities.Player;
-import es.etologic.mahjongscoring2.domain.entities.Player;
 
 @Dao
 public interface PlayersDao {
@@ -33,5 +32,5 @@ public interface PlayersDao {
     int deleteOne(long playerId);
 
     @Query("DELETE FROM Players")
-    long deleteAll();
+    int deleteAll();
 }

@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.app.old_games;
+package es.etologic.mahjongscoring2.app.main.old_games;
 
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
@@ -27,60 +27,19 @@ import static android.view.View.VISIBLE;
 
 class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    //INTERFACE
-    interface GameItemListener {
-        void onOldGameItemDeleteClicked(long gameId);
-        void onOldGameItemResumeClicked(long gameId);
-    }
-
     //FIELDS
     private GameItemListener itemClickListener;
     private List<Game> games;
-
-    //VIEWHOLDER
-    class OldGameItemViewHolder extends RecyclerView.ViewHolder {
-        @BindView (R.id.tvOldGameItemStartDate) TextView tvStartDate;
-        @BindView (R.id.tvOldGameItemDuration) TextView tvEndDate;
-        @BindView (R.id.tvOlgGameItemPlayerEastName) TextView tvEastPlayerName;
-        @BindView (R.id.tvOlgGameItemPlayerSouthName) TextView tvSouthPlayerName;
-        @BindView (R.id.tvOlgGameItemPlayerWestName) TextView tvWestPlayerName;
-        @BindView (R.id.tvOlgGameItemPlayerNorthName) TextView tvNorthPlayerName;
-        @BindView (R.id.tvOldGameItemPlayerEastPoints) TextView tvEastPlayerPoints;
-        @BindView (R.id.tvOldGameItemPlayerSouthPoints) TextView tvSouthPlayerPoints;
-        @BindView (R.id.tvOldGameItemPlayerWestPoints) TextView tvWestPlayerPoints;
-        @BindView (R.id.tvOldGameItemPlayerNorthPoints) TextView tvNorthPlayerPoints;
-        @BindView (R.id.llOldGameItemItemRoundsNumber) LinearLayout llRoundNumberContainer;
-        @BindView (R.id.tvOldGameItemRoundsNumber) TextView tvRoundNumber;
-        @BindView (R.id.llOldGameItemItemBestHand) LinearLayout llBestHandContainer;
-        @BindView (R.id.tvOldGameItemBestHandPlayerName) TextView tvBestHandPlayerName;
-        @BindView (R.id.tvOldGameItemBestHandValue) TextView tvBestHandValue;
-        private long gameId;
-
-        OldGameItemViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-
-        @OnClick(R.id.btOldGameItemDelete) void onDeleteClick() {
-            if(itemClickListener != null) {
-                itemClickListener.onOldGameItemDeleteClicked(gameId);
-            }
-        }
-
-        @OnClick(R.id.btOldGameItemResume) void onResumeClick() {
-            if(itemClickListener != null) {
-                itemClickListener.onOldGameItemResumeClicked(gameId);
-            }
-        }
-    }
-
     //CONTRUCTOR
-    OldGamesRvAdapter() { games = new ArrayList<>(); }
-
+    OldGamesRvAdapter() {
+        games = new ArrayList<>();
+    }
     //METHODS
-    void setOldGameItemListener(GameItemListener listener) { this.itemClickListener = listener; }
+    void setOldGameItemListener(GameItemListener listener) {
+        this.itemClickListener = listener;
+    }
     void setGames(List<Game> newGames) {
-        if (games == null) {
+        if(games == null) {
             saveNewGamesCopy(newGames);
             notifyItemRangeInserted(0, newGames.size());
         } else {
@@ -97,10 +56,11 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
         games = newGamesCopy;
     }
-
     //LIFECYCLE
     @Override
-    public int getItemCount() { return games.size(); }
+    public int getItemCount() {
+        return games.size();
+    }
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -109,7 +69,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        OldGameItemViewHolder itemViewHolder = ((OldGameItemViewHolder)holder);
+        OldGameItemViewHolder itemViewHolder = ((OldGameItemViewHolder) holder);
         final Game game = games.get(position);
         long duration = game.getDuration();
         BestHand bestHand = game.getBestHand();
@@ -133,12 +93,54 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     private void setBestHand(OldGameItemViewHolder itemViewHolder, BestHand bestHand) {
         if(bestHand == null || StringUtils.isEmpty(bestHand.getPlayerName()) ||
-                bestHand.getHandValue() <= 0) {
+                   bestHand.getHandValue() <= 0) {
             itemViewHolder.llBestHandContainer.setVisibility(GONE);
         } else {
             itemViewHolder.llBestHandContainer.setVisibility(VISIBLE);
             itemViewHolder.tvBestHandPlayerName.setText(bestHand.getPlayerName());
             itemViewHolder.tvBestHandValue.setText(String.valueOf(bestHand.getHandValue()));
+        }
+    }
+    //INTERFACE
+    interface GameItemListener {
+        void onOldGameItemDeleteClicked(long gameId);
+        void onOldGameItemResumeClicked(long gameId);
+    }
+
+    //VIEWHOLDER
+    class OldGameItemViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tvOldGameItemStartDate) TextView tvStartDate;
+        @BindView(R.id.tvOldGameItemDuration) TextView tvEndDate;
+        @BindView(R.id.tvOlgGameItemPlayerEastName) TextView tvEastPlayerName;
+        @BindView(R.id.tvOlgGameItemPlayerSouthName) TextView tvSouthPlayerName;
+        @BindView(R.id.tvOlgGameItemPlayerWestName) TextView tvWestPlayerName;
+        @BindView(R.id.tvOlgGameItemPlayerNorthName) TextView tvNorthPlayerName;
+        @BindView(R.id.tvOldGameItemPlayerEastPoints) TextView tvEastPlayerPoints;
+        @BindView(R.id.tvOldGameItemPlayerSouthPoints) TextView tvSouthPlayerPoints;
+        @BindView(R.id.tvOldGameItemPlayerWestPoints) TextView tvWestPlayerPoints;
+        @BindView(R.id.tvOldGameItemPlayerNorthPoints) TextView tvNorthPlayerPoints;
+        @BindView(R.id.llOldGameItemItemRoundsNumber) LinearLayout llRoundNumberContainer;
+        @BindView(R.id.tvOldGameItemRoundsNumber) TextView tvRoundNumber;
+        @BindView(R.id.llOldGameItemItemBestHand) LinearLayout llBestHandContainer;
+        @BindView(R.id.tvOldGameItemBestHandPlayerName) TextView tvBestHandPlayerName;
+        @BindView(R.id.tvOldGameItemBestHandValue) TextView tvBestHandValue;
+        private long gameId;
+
+        OldGameItemViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+
+        @OnClick(R.id.btOldGameItemDelete) void onDeleteClick() {
+            if(itemClickListener != null) {
+                itemClickListener.onOldGameItemDeleteClicked(gameId);
+            }
+        }
+
+        @OnClick(R.id.btOldGameItemResume) void onResumeClick() {
+            if(itemClickListener != null) {
+                itemClickListener.onOldGameItemResumeClicked(gameId);
+            }
         }
     }
 }

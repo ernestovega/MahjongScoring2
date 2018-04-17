@@ -18,18 +18,17 @@ import es.etologic.mahjongscoring2.domain.entities.Game;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 import es.etologic.mahjongscoring2.domain.entities.Round;
 
-@Database (entities = {
+@Database(entities = {
         Player.class,
         Game.class,
         Round.class,
         Combination.class}, version = 1)
-@TypeConverters ({ DateConverter.class, CombinationDescriptionTypeConverter.class })
+@TypeConverters({DateConverter.class, CombinationDescriptionTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
+    public static final int NOT_SET_ID = 0;
     private static final String DATABASE_NAME = "MahjongScoring2";
     private static final Object LOCK = new Object();
-    public static final int NOT_SET_ID = 0;
-
     private static volatile AppDatabase sInstance;
 
     public static AppDatabase getInstance(@NonNull Context context) {
