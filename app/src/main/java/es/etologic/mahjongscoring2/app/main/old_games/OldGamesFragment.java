@@ -50,7 +50,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
 
     //EVENTS
     @OnClick(R.id.fabOldGames) public void onFabNewGameClick() {
-        activityViewModel.goToScreen(NEW_GAME);
+        activityViewModel.navigateTo(NEW_GAME);
     }
     @Override public void onOldGameItemDeleteClicked(long gameId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -61,9 +61,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
                 .create()
                 .show();
     }
-    @Override public void onOldGameItemResumeClicked(long gameId) {
-        activityViewModel.goToGame(gameId);
-    }
+    @Override public void onOldGameItemResumeClicked(long gameId) { activityViewModel.goToGame(gameId); }
 
     //LIFECYCLE
     @Override
@@ -88,23 +86,19 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
         recyclerView.setAdapter(rvAdapter);
     }
     private void setupViewModel() {
-        activityViewModel = ViewModelProviders
-                                    .of(getActivity(), Injector.provideMainActivityViewModelFactory())
+        activityViewModel = ViewModelProviders.of(getActivity(), Injector.provideMainActivityViewModelFactory())
                                     .get(MainActivityViewModel.class);
-        viewModel = ViewModelProviders
-                            .of(this, Injector.provideOldGamesViewModelFactory(context))
+        viewModel = ViewModelProviders.of(this, Injector.provideOldGamesViewModelFactory(context))
                             .get(OldGamesViewModel.class);
         viewModel.getGames().observe(this, this::setGames);
-//        viewModel.getProgressState().observe(this, this::toogleLocalProgress);
-//        viewModel.getSnackbarMessage().observe(this, this::showSnackbar);
+        viewModel.getProgressState().observe(this, this::toogleLocalProgress);
+        viewModel.getSnackbarMessage().observe(this, this::showSnackbar);
     }
     private void setupSwipeRefreshLayout() {
         swipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         swipeRefreshLayout.setOnRefreshListener(() -> viewModel.loadGames());
     }
-    private void setToolbar() {
-        activityViewModel.setToolbar(toolbar);
-    }
+    private void setToolbar() { activityViewModel.setToolbar(toolbar); }
     private void setGames(List<Game> games) {
         if(games == null || games.isEmpty()) {
             emptyLayout.setVisibility(VISIBLE);

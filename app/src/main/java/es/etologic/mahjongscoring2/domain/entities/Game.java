@@ -7,64 +7,39 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import es.etologic.mahjongscoring2.data.local_data_source.local.converters.DateConverter;
 
-@Entity(tableName = "Games",
-        indices = { @Index ( value = { "gameId" }, unique = true) })
+@Entity(tableName = "Games", indices = { @Index ( value = { "gameId" }, unique = true) })
 public class Game {
 
-    @PrimaryKey(autoGenerate = true)
-    private final long gameId;
+    //CONSTANTS
+    private static final long NOT_SET_GAME_ID = 0;
+
+    //FIELDS
+    @PrimaryKey(autoGenerate = true) private final long gameId;
     private String nameP1;
     private String nameP2;
     private String nameP3;
     private String nameP4;
-    @TypeConverters({DateConverter.class})
-    private Date creationDate;
-    @Ignore
-    private List<Round> rounds;
+    @TypeConverters({DateConverter.class}) private Date creationDate;
+    @Ignore private List<Round> rounds;
 
-    //region Getters & Setters
+    //GETTERS & SETTERS
+    public long getGameId() { return gameId; }
+    public String getNameP1() { return nameP1; }
+    public String getNameP2() { return nameP2; }
+    public String getNameP3() { return nameP3; }
+    public String getNameP4() { return nameP4; }
+    public Date getCreationDate() { return creationDate; }
+    public List<Round> getRounds() { return rounds; }
+    public void setRounds(List<Round> rounds) { this.rounds = rounds; }
 
-    public long getGameId() {
-        return gameId;
-    }
-
-    public String getNameP1() {
-        return nameP1;
-    }
-
-    public String getNameP2() {
-        return nameP2;
-    }
-
-    public String getNameP3() {
-        return nameP3;
-    }
-
-    public String getNameP4() {
-        return nameP4;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public List<Round> getRounds() {
-        return rounds;
-    }
-
-    public void setRounds(List<Round> rounds) {
-        this.rounds = rounds;
-    }
-
-    //endregion
-
-    public Game(final long gameId, String nameP1, String nameP2, String nameP3, String nameP4,
-                Date creationDate) {
+    //CONSTRUCTORS
+    public Game(final long gameId, String nameP1, String nameP2, String nameP3, String nameP4, Date creationDate) {
         this.gameId = gameId;
         this.nameP1 = nameP1;
         this.nameP2 = nameP2;
@@ -74,7 +49,11 @@ public class Game {
         this.rounds = new ArrayList<>();
     }
 
-    //region Methods
+    //METHODS
+    public static Game getNewGame(List<String> playersNames) {
+        return new Game(NOT_SET_GAME_ID, playersNames.get(0), playersNames.get(1), playersNames.get(2), playersNames.get(3),
+                Calendar.getInstance().getTime());
+    }
 
     public String getPlayerNameByInitialPosition(int initialPosition) {
         switch(initialPosition) {
@@ -141,6 +120,4 @@ public class Game {
         gameCopy.setRounds(rounds);
         return gameCopy;
     }
-
-    //endregion
 }

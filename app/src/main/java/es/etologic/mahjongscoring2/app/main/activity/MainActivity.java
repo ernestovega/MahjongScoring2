@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         unbinder = ButterKnife.bind(this);
         setupViewModel();
         setupDrawer();
-        viewModel.goToScreen(OLD_GAMES);
+        viewModel.navigateTo(OLD_GAMES);
     }
     private void setupViewModel() {
         viewModel = ViewModelProviders.of(this, Injector.provideMainActivityViewModelFactory()).get(MainActivityViewModel.class);
@@ -87,19 +87,19 @@ public class MainActivity extends AppCompatActivity {
             this.closeEndDrawer();
             switch(menuItem.getItemId()) {
                 case R.id.nav_oldgames:
-                    viewModel.goToScreen(OLD_GAMES);
+                    viewModel.navigateTo(OLD_GAMES);
                     break;
                 case R.id.nav_combinations:
-                    viewModel.goToScreen(COMBINATIONS);
+                    viewModel.navigateTo(COMBINATIONS);
                     break;
                 case R.id.nav_greenbook:
-                    viewModel.goToScreen(GREEN_BOOK);
+                    viewModel.navigateTo(GREEN_BOOK);
                     break;
                 case R.id.nav_rate:
-                    viewModel.goToScreen(RATE);
+                    viewModel.navigateTo(RATE);
                     break;
                 case R.id.nav_contact:
-                    viewModel.goToScreen(CONTACT);
+                    viewModel.navigateTo(CONTACT);
                     break;
                 default:
                     return false;

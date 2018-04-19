@@ -26,15 +26,6 @@ public class PlayersRepository extends BaseRepository<Player> { /*TODO Hacer pru
         }
     }
 
-    public long insertOne(String playerName) {
-        try {
-            Player player = new Player(AppDatabase.NOT_SET_ID, playerName);
-            return playersDao.insert(player);
-        } catch(Exception exception) {
-            return 0;
-        }
-    }
-
     @Override
     public List<Player> getAll() {
         return playersDao.getAll();

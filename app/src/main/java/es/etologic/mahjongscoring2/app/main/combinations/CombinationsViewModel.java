@@ -1,38 +1,50 @@
 package es.etologic.mahjongscoring2.app.main.combinations;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 
 import java.util.List;
 
-import es.etologic.mahjongscoring2.data.repositories.CombinationsRepository;
+import es.etologic.mahjongscoring2.app.base.BaseViewModel;
 import es.etologic.mahjongscoring2.domain.entities.Combination;
+import es.etologic.mahjongscoring2.domain.operation_objects.BaseError;
+import es.etologic.mahjongscoring2.domain.operation_objects.OperationResult;
+import es.etologic.mahjongscoring2.domain.use_cases.GetAllCombinationsUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.GetFilteredCombinationsUseCase;
 
-class CombinationsViewModel extends ViewModel {
+import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
+import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
+import static es.etologic.mahjongscoring2.domain.operation_objects.OperationState.SUCCESS;
+
+class CombinationsViewModel extends BaseViewModel {
 
     //FIELDS
-    private final CombinationsRepository combinationsRepository;
+    private final GetAllCombinationsUseCase getAllCombinationsUseCase;
+    private final GetFilteredCombinationsUseCase getFilteredCombinationsUseCase;
     private MutableLiveData<List<Combination>> combinations = new MutableLiveData<>();
 
     //CONSTRUCTOR
-    CombinationsViewModel(CombinationsRepository combinationsRepository) {
-        this.combinationsRepository = combinationsRepository;
+    CombinationsViewModel(GetAllCombinationsUseCase getAllCombinationsUseCase, GetFilteredCombinationsUseCase getFilteredCombinationsUseCase) {
+        this.getAllCombinationsUseCase = getAllCombinationsUseCase;
+        this.getFilteredCombinationsUseCase = getFilteredCombinationsUseCase;
     }
 
     //OBSERVABLES
-    MutableLiveData<List<Combination>> getCombinations() {
-        return combinations;
-    }
+    LiveData<List<Combination>> getCombinations() { return combinations; }
 
     void loadCombinations() {
-//        progressState.setValue(SHOW);
-        combinations.setValue(combinationsRepository.getAll());
-//        progressState.setValue(HIDE);
+        progressState.setValue(SHOW);
+        OperationResult<List<Combination>, BaseError> operationResult = getAllCombinationsUseCase.execute();
+        progressState.setValue(HIDE);
+        if(operationResult.getState() == SUCCESS) combinations.setValue(operationResult.getResponse());
+        else snackbarMessage.setValue(operationResult.getError().getMessage());
     }
 
-    void searchCombination(String text) {
-//        progressState.setValue(SHOW);
-        combinations.setValue(combinationsRepository.getFilteredCombinations(text));
-//        progressState.setValue(HIDE);
+    void searchCombination(String filter) {
+        progressState.setValue(SHOW);
+        OperationResult<List<Combination>, BaseError> operationResult = getFilteredCombinationsUseCase.execute(filter);
+        progressState.setValue(HIDE);
+        if(operationResult.getState() == SUCCESS) combinations.setValue(operationResult.getResponse());
+        else snackbarMessage.setValue(operationResult.getError().getMessage());
     }
 }

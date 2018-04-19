@@ -49,6 +49,61 @@ public class NewGameActivity extends AppCompatActivity {
     private String actualChipsImputText;
     private Snackbar snackbar4players;
 
+    //EVENTS
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_create_player:
+                showNewPlayerDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    private void showNewPlayerDialog() {
+        TextInputLayout til = (TextInputLayout) getLayoutInflater().inflate(
+                R.layout.newgame_newplayerdialog_textinputlayout, null);
+        TextInputEditText tiet = til.findViewById(R.id.tietNewGameNewPlayerDialog);
+        if(StringUtils.isEmpty(actualChipsImputText)) {
+            til.setHint(getString(R.string.player_name));
+        } else {
+            tiet.setText(actualChipsImputText);
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.create_player)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    String inputText = tiet.getText().toString().trim();
+                    /*TODO: COMPROBAR QUE NO SE PUEDE AÑADIR UN JUGADOR DOS VECES Y REALIZAR VALIDACIONES SOBRE EL NOMBRE*/
+                    viewModel.createPlayer(inputText);
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .setView(til)
+                .create()
+                .show();
+    }
+    @OnClick(R.id.fabNewGameStartGame) void onFabStartGameClick() {
+        if(getSelectedPlayerChips().size() != 4) {
+            showSnackbar(getString(R.string.just_four_players));
+        } else {
+            List<String> playersNames = obtainPlayersNames(getSelectedPlayerChips());
+            viewModel.createGame(playersNames);
+        }
+    }
+    private List<PlayerChip> getSelectedPlayerChips() {
+        //noinspection unchecked
+        return (List<PlayerChip>) chipsInput.getSelectedChipList();
+    }
+    private List<String> obtainPlayersNames(List<PlayerChip> playersChips) {
+        List<String> playersNames = new ArrayList<>();
+        for(PlayerChip playerChip : playersChips) {
+            playersNames.add(playerChip.getPlayer().getPlayerName());
+        }
+        return playersNames;
+    }
+
     //LIFECYCLE
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +131,10 @@ public class NewGameActivity extends AppCompatActivity {
         viewModel.getNewPlayer().observe(this, this::addNewPlayer);
         viewModel.getNewGameId().observe(this, this::startGame);
         viewModel.getToolbarProgress().observe(this, this::toggleToolbarProgress);
+        viewModel.getSnackbarMessage().observe(this, this::showSnackbar);
+    }
+    private void showSnackbar(String message) {
+        Snackbar.make(chipsInput, message, Snackbar.LENGTH_LONG).show();
     }
     private void setupChips() {
         chipsInput.addChipsListener(new ChipsInput.ChipsListener() {
@@ -152,60 +211,5 @@ public class NewGameActivity extends AppCompatActivity {
     public void onDestroy() {
         unbinder.unbind();
         super.onDestroy();
-    }
-
-    //EVENTS
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            case R.id.action_create_player:
-                showNewPlayerDialog();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-    private void showNewPlayerDialog() {
-        TextInputLayout til = (TextInputLayout) getLayoutInflater().inflate(
-                R.layout.newgame_newplayerdialog_textinputlayout, null);
-        TextInputEditText tiet = til.findViewById(R.id.tietNewGameNewPlayerDialog);
-        if(StringUtils.isEmpty(actualChipsImputText)) {
-            til.setHint(getString(R.string.player_name));
-        } else {
-            tiet.setText(actualChipsImputText);
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.create_player)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                    String inputText = tiet.getText().toString().trim();
-                    /*TODO: COMPROBAR QUE NO SE PUEDE AÑADIR UN JUGADOR DOS VECES Y REALIZAR VALIDACIONES SOBRE EL NOMBRE*/
-                    viewModel.createPlayer(inputText);
-                })
-                .setNegativeButton(android.R.string.cancel, null)
-                .setView(til)
-                .create()
-                .show();
-    }
-    @OnClick(R.id.fabNewGameStartGame) void onFabStartGameClick() {
-        if(getSelectedPlayerChips().size() != 4) {
-            Snackbar.make(chipsInput, getString(R.string.just_four_players), Snackbar.LENGTH_LONG).show();
-        } else {
-            List<String> playersNames = obtainPlayersNames(getSelectedPlayerChips());
-            viewModel.createGame(playersNames);
-        }
-    }
-    private List<PlayerChip> getSelectedPlayerChips() {
-        //noinspection unchecked
-        return (List<PlayerChip>) chipsInput.getSelectedChipList();
-    }
-    private List<String> obtainPlayersNames(List<PlayerChip> playersChips) {
-        List<String> playersNames = new ArrayList<>();
-        for(PlayerChip playerChip : playersChips) {
-            playersNames.add(playerChip.getPlayer().getPlayerName());
-        }
-        return playersNames;
     }
 }
