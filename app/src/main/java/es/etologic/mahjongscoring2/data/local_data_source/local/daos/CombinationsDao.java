@@ -1,5 +1,6 @@
 package es.etologic.mahjongscoring2.data.local_data_source.local.daos;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -21,16 +22,16 @@ public interface CombinationsDao {
     void bulkInsert(List<Combination> combinations);
 
     @Query("SELECT * FROM Combinations WHERE combinationId = :combinationId")
-    Combination getOne(long combinationId);
+    LiveData<Combination> getOne(long combinationId);
 
     @Query("SELECT * FROM Combinations " +
                    "WHERE combinationName LIKE :filter " +
                    "OR combinationDescription LIKE :filter " +
                    "ORDER BY combinationPoints")
-    List<Combination> getFilteredCombinations(String filter);
+    LiveData<List<Combination>> getFilteredCombinations(String filter);
 
     @Query("SELECT * FROM Combinations ORDER BY combinationPoints, combinationName ASC")
-    List<Combination> getAllOrderedAscByPoints();
+    LiveData<List<Combination>> getAllOrderedAscByPoints();
 
     @Update
     int updateOne(Combination combination);

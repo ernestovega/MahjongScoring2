@@ -44,7 +44,7 @@ public class GameActivityViewModel extends ViewModel {
 
     void loadGame(long gameId) {
 //        progressState.setValue(SHOW);
-        game.setValue(gamesRepository.getOne(gameId));
+//        game.setValue(gamesRepository.getOne(gameId));
 //        progressState.setValue(HIDE);
     }
 

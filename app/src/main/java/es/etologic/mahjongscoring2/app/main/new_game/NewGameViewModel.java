@@ -44,13 +44,7 @@ class NewGameViewModel extends BaseViewModel {
     LiveData<ShowState> getToolbarProgress() { return toolbarProgress; }
 
     //METHODS
-    void loadAllPlayers() {
-        toolbarProgress.setValue(SHOW);
-        OperationResult<List<Player>, BaseError> operationResult = getAllPlayersUseCase.execute();
-        toolbarProgress.setValue(HIDE);
-        if(operationResult.getState() == SUCCESS) allPlayers.setValue(operationResult.getResponse());
-        else snackbarMessage.setValue(operationResult.getError().getMessage());
-    }
+    void bindAllPlayers() { allPlayers.postValue(getAllPlayersUseCase.execute().getValue()); }
     void createPlayer(String playerName) {
         progressState.setValue(SHOW);
         OperationResult<Player, BaseError> operationResult = createPlayerUseCase.execute(playerName);
@@ -60,9 +54,9 @@ class NewGameViewModel extends BaseViewModel {
     }
     void createGame(List<String> playersNames) {
         progressState.setValue(SHOW);
-        OperationResult<Game, BaseError> operationResult = createGameUseCase.execute(playersNames);
+        OperationResult<Long, BaseError> operationResult = createGameUseCase.execute(playersNames);
         progressState.setValue(HIDE);
-        if(operationResult.getState() == SUCCESS) newGameId.setValue(operationResult.getResponse().getGameId());
+        if(operationResult.getState() == SUCCESS) newGameId.setValue(operationResult.getResponse());
         else snackbarMessage.setValue(operationResult.getError().getMessage());
     }
 }

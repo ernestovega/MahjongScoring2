@@ -96,7 +96,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     }
     private void setupSwipeRefreshLayout() {
         swipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
-        swipeRefreshLayout.setOnRefreshListener(() -> viewModel.loadGames());
+        swipeRefreshLayout.setOnRefreshListener(() -> viewModel.bindGames());
     }
     private void setToolbar() { activityViewModel.setToolbar(toolbar); }
     private void setGames(List<Game> games) {
@@ -117,7 +117,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.loadGames();
+        viewModel.bindGames();
     }
     @Override
     public void onDestroy() {

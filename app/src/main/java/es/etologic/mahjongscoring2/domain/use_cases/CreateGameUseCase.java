@@ -1,7 +1,9 @@
 package es.etologic.mahjongscoring2.domain.use_cases;
 
+import java.util.Calendar;
 import java.util.List;
 
+import es.etologic.mahjongscoring2.data.local_data_source.local.AppDatabase;
 import es.etologic.mahjongscoring2.data.repositories.GamesRepository;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 import es.etologic.mahjongscoring2.domain.operation_objects.BaseError;
@@ -13,9 +15,9 @@ public class CreateGameUseCase {
 
     public CreateGameUseCase(GamesRepository gamesRepository) { this.gamesRepository = gamesRepository; }
 
-    public OperationResult<Game, BaseError> execute(List<String> playersNames) {
-        long newGameId = gamesRepository.insertOne(Game.getNewGame(playersNames));
-        Game newGame = gamesRepository.getOne(newGameId);
-        return newGameId > 0 ? new OperationResult<>(newGame) : new OperationResult<>(BaseError.getInsertionError());
+    public OperationResult<Long, BaseError> execute(List<String> playersNames) {
+        long gameId = gamesRepository.insertOne(Game.getNewGame(playersNames));
+        if (gameId > 0) return new OperationResult<>(gameId);
+        else return new OperationResult<>(BaseError.getInsertionError());
     }
 }

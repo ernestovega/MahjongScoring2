@@ -1,10 +1,12 @@
 package es.etologic.mahjongscoring2.data.repositories;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.CombinationsDao;
@@ -12,7 +14,7 @@ import es.etologic.mahjongscoring2.domain.entities.Combination;
 
 import static es.etologic.mahjongscoring2.data.local_data_source.local.AppDatabase.NOT_SET_ID;
 
-public class CombinationsRepository extends BaseRepository<Combination> { /*TODO Hacer pruebas forzando datos (tests unitarios!)*/
+public class CombinationsRepository extends BaseRepository<Combination> { /*TODO ¿Qué pasa con posibles errores? Hacer pruebas forzando datos (tests unitarios!)*/
 
     private final CombinationsDao combinationsDao;
     private Context context;
@@ -21,13 +23,9 @@ public class CombinationsRepository extends BaseRepository<Combination> { /*TODO
         super(context);
         this.context = context;
         combinationsDao = database.getCombinationsDao();
-        if(getAll().isEmpty()) {
+        if(Objects.requireNonNull(getAll().getValue()).isEmpty()) {
             combinationsDao.bulkInsert(hardcodedCombinations());
         }
-    }
-    @Override
-    public List<Combination> getAll() {
-        return combinationsDao.getAllOrderedAscByPoints();
     }
     private List<Combination> hardcodedCombinations() {
         List<Combination> combinations = new ArrayList<>();
@@ -113,39 +111,24 @@ public class CombinationsRepository extends BaseRepository<Combination> { /*TODO
         combinations.add(new Combination(88, NOT_SET_ID, context.getString(R.string.seven_shifted_pairs), R.drawable.seven_shifted_pairs));
         return combinations;
     }
+
     @Override
-    public long insertOne(Combination combination) {
-        try {
-            return combinationsDao.insertOne(combination);
-        } catch(SQLiteConstraintException exception) {
-            return 0;
-        }
-    }
+    public long insertOne(Combination combination) { return combinationsDao.insertOne(combination); }
+
     @Override
-    public Combination getOne(long combinationId) {
-        Combination combination = combinationsDao.getOne(combinationId);
-        if(combination == null) { //TODO: Ver si devuelve null?
-            combinationsDao.bulkInsert(hardcodedCombinations());
-            combination = combinationsDao.getOne(combinationId);
-        }
-        return combination;
-    }
-    public List<Combination> getFilteredCombinations(String filter) {
+    public LiveData<List<Combination>> getAll() { return combinationsDao.getAllOrderedAscByPoints(); }
+
+    public LiveData<Combination> getOne(long combinationId) { return combinationsDao.getOne(combinationId); }
+
+    public LiveData<List<Combination>> getFilteredCombinations(String filter) {
         return combinationsDao.getFilteredCombinations(String.format("%%%s%%", filter));
     }
 
     @Override
-    public boolean updateOne(Combination combination) {
-        return combinationsDao.updateOne(combination) == 1;
-    }
+    public boolean updateOne(Combination combination) { return combinationsDao.updateOne(combination) == 1; }
+
+    public boolean deleteOne(long combinationId) { return combinationsDao.deleteOne(combinationId) == 1; }
 
     @Override
-    public boolean deleteOne(long combinationId) {
-        return combinationsDao.deleteOne(combinationId) == 1;
-    }
-
-    @Override
-    public long deleteAll() {
-        return combinationsDao.deleteAll();
-    }
+    public boolean deleteAll() { return combinationsDao.deleteAll() >= 0; } //TODO: ¿Cómo saber si ha habido algún error?
 }

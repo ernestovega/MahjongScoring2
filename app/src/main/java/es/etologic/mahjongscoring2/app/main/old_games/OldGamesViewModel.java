@@ -22,7 +22,7 @@ class OldGamesViewModel extends BaseViewModel {
     //FIELDS
     private GetAllGamesUseCase getAllGamesUseCase;
     private DeleteGameUseCase deleteGameUseCase;
-    private MutableLiveData<List<Game>> oldGames = new MutableLiveData<>();
+    private MutableLiveData<List<Game>> allGames = new MutableLiveData<>();
 
     //CONSTRUCTOR
     OldGamesViewModel(GetAllGamesUseCase getAllGamesUseCase, DeleteGameUseCase deleteGameUseCase) {
@@ -31,28 +31,24 @@ class OldGamesViewModel extends BaseViewModel {
     }
 
     //OBSERVABLES
-    LiveData<List<Game>> getGames() { return oldGames; }
+    LiveData<List<Game>> getGames() { return allGames; }
 
     //METHODS
-    void loadGames() {
-        progressState.setValue(SHOW);
-        OperationResult<List<Game>, BaseError> operationResult = getAllGamesUseCase.execute();
-        progressState.setValue(HIDE);
-        if(operationResult.getState() == SUCCESS) oldGames.setValue(operationResult.getResponse());
-        else snackbarMessage.setValue(operationResult.getError().getMessage());
+    void bindGames() {
+        allGames.setValue(getAllGamesUseCase.execute().getValue());
     }
     void deleteGame(long gameId) {
         progressState.setValue(SHOW);
         OperationResult<Boolean, BaseError> operationResult = deleteGameUseCase.execute(gameId);
         if(operationResult.getState() == SUCCESS) {
-            for(Game game : Objects.requireNonNull(oldGames.getValue())) {
+            for(Game game : Objects.requireNonNull(allGames.getValue())) {
                 if(game.getGameId() == gameId) {
-                    oldGames.getValue().remove(game);
+                    allGames.getValue().remove(game);
                     break;
                 }
             }
             progressState.setValue(HIDE);
-            oldGames.setValue(oldGames.getValue());
+            allGames.setValue(allGames.getValue());
         } else {
             progressState.setValue(HIDE);
             snackbarMessage.setValue(operationResult.getError().getMessage());

@@ -115,7 +115,7 @@ public class NewGameActivity extends AppCompatActivity {
         setupToolbar();
         setupViewModel();
         setupChips();
-        viewModel.loadAllPlayers();
+        viewModel.bindAllPlayers();
     }
     private void setupToolbar() {
         setSupportActionBar(toolbar);

@@ -1,5 +1,6 @@
 package es.etologic.mahjongscoring2.data.local_data_source.local.daos;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -20,10 +21,10 @@ public interface PlayersDao {
     Player getOne(long playerId);
 
     @Query("SELECT * FROM Players WHERE playerName = :playerName")
-    Player getOne(String playerName);
+    LiveData<Player> getOne(String playerName);
 
     @Query("SELECT * FROM Players")
-    List<Player> getAll();
+    LiveData<List<Player>> getAll();
 
     @Update
     int updateOne(Player player);

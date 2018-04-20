@@ -13,6 +13,6 @@ public class DeleteGameUseCase {
     }
 
     public OperationResult<Boolean, BaseError> execute(long gameId) {
-        return gamesRepository.deleteOne(gameId) ? new OperationResult<>(true) : new OperationResult<>(BaseError.getDeletionError());
+        return /*gamesRepository.deleteOne(gameId) ? new OperationResult<>(true) :*/ new OperationResult<>(BaseError.getDeletionError());
     }
 }

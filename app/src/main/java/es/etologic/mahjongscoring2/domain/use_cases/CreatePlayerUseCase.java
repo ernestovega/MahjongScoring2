@@ -1,5 +1,7 @@
 package es.etologic.mahjongscoring2.domain.use_cases;
 
+import android.arch.lifecycle.LiveData;
+
 import es.etologic.mahjongscoring2.data.repositories.PlayersRepository;
 import es.etologic.mahjongscoring2.domain.entities.Player;
 import es.etologic.mahjongscoring2.domain.operation_objects.BaseError;
@@ -12,8 +14,11 @@ public class CreatePlayerUseCase {
     public CreatePlayerUseCase(PlayersRepository playersRepository) { this.playersRepository = playersRepository; }
 
     public OperationResult<Player, BaseError> execute(String playerName) {
-        long newPlayerId = playersRepository.insertOne(Player.getNewPlayer(playerName));
-        Player newPlayer = playersRepository.getOne(newPlayerId);
-        return newPlayerId > 0 ? new OperationResult<>(newPlayer) : new OperationResult<>(BaseError.getInsertionError());
+        long playerId = playersRepository.insertOne(Player.getNewPlayer(playerName));
+        if (playerId > 0) {
+            Player player = playersRepository.getOne(playerId);
+            return new OperationResult<>(player);
+        }
+        else return new OperationResult<>(BaseError.getInsertionError());
     }
 }

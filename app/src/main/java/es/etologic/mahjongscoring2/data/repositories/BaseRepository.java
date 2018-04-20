@@ -1,5 +1,6 @@
 package es.etologic.mahjongscoring2.data.repositories;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 
 import java.util.List;
@@ -16,13 +17,9 @@ public abstract class BaseRepository<T> {
 
     public abstract long insertOne(T entity);
 
-    public abstract List<T> getAll();
-
-    public abstract T getOne(long id);
+    public abstract LiveData<List<T>> getAll();
 
     public abstract boolean updateOne(T entity);
 
-    public abstract boolean deleteOne(long entityId);
-
-    public abstract long deleteAll();
+    public abstract boolean deleteAll();
 }

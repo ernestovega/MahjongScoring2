@@ -1,5 +1,7 @@
 package es.etologic.mahjongscoring2.domain.use_cases;
 
+import android.arch.lifecycle.LiveData;
+
 import java.util.List;
 
 import es.etologic.mahjongscoring2.data.repositories.PlayersRepository;
@@ -13,8 +15,7 @@ public class GetAllPlayersUseCase {
 
     public GetAllPlayersUseCase(PlayersRepository playersRepository) { this.playersRepository = playersRepository; }
 
-    public OperationResult<List<Player>, BaseError> execute() {
-        List<Player> players = playersRepository.getAll();
-        return players != null ? new OperationResult<>(players) : new OperationResult<>(BaseError.getDefaultError());
+    public LiveData<List<Player>> execute() {
+        return playersRepository.getAll();
     }
 }
