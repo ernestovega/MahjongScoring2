@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,13 +20,16 @@ import android.widget.LinearLayout;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
+import es.etologic.mahjongscoring2.app.base.BaseFragment;
 import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel;
+import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModelFactory;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 
@@ -34,7 +38,7 @@ import static es.etologic.mahjongscoring2.app.main.activity.MainActivityViewMode
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
-public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.GameItemListener {
+public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.GameItemListener {
 
     //VIEWS
     @BindView(R.id.toolbarOldGames) Toolbar toolbar;
@@ -45,6 +49,8 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     private Unbinder unbinder;
     private OldGamesRvAdapter rvAdapter;
     private Context context;
+    @Inject MainActivityViewModelFactory mainActivityViewModelFactory;
+    @Inject OldGamesViewModelFactory oldGamesViewModelFactory;
     private MainActivityViewModel activityViewModel;
     private OldGamesViewModel viewModel;
 
@@ -86,17 +92,19 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
         recyclerView.setAdapter(rvAdapter);
     }
     private void setupViewModel() {
-        activityViewModel = ViewModelProviders.of(getActivity(), Injector.provideMainActivityViewModelFactory())
-                                    .get(MainActivityViewModel.class);
-        viewModel = ViewModelProviders.of(this, Injector.provideOldGamesViewModelFactory(context))
-                            .get(OldGamesViewModel.class);
-        viewModel.getGames().observe(this, this::setGames);
-        viewModel.getProgressState().observe(this, this::toogleLocalProgress);
-        viewModel.getSnackbarMessage().observe(this, this::showSnackbar);
+        FragmentActivity activity = getActivity();
+        if(activity != null) {
+            activityViewModel = ViewModelProviders.of(activity, mainActivityViewModelFactory).get(MainActivityViewModel.class);
+            viewModel = ViewModelProviders.of(this, oldGamesViewModelFactory).get(OldGamesViewModel.class);
+            viewModel.getError().observe(this, this::showError);
+            viewModel.getGames().observe(this, this::setGames);
+            viewModel.getProgressState().observe(this, this::toogleLocalProgress);
+            viewModel.getSnackbarMessage().observe(this, this::showSnackbar);
+        }
     }
     private void setupSwipeRefreshLayout() {
         swipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
-        swipeRefreshLayout.setOnRefreshListener(() -> viewModel.bindGames());
+        swipeRefreshLayout.setOnRefreshListener(() -> viewModel.getAllGames());
     }
     private void setToolbar() { activityViewModel.setToolbar(toolbar); }
     private void setGames(List<Game> games) {
@@ -117,7 +125,7 @@ public class OldGamesFragment extends Fragment implements OldGamesRvAdapter.Game
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.bindGames();
+        viewModel.getAllGames();
     }
     @Override
     public void onDestroy() {

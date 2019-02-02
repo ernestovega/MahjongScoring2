@@ -189,5 +189,6 @@
     <string name="west">West</string>
     <string name="south">South</string>
     <string name="north">North</string>
+    <string name="ups_something_wrong">Ups! Somenthing went wrong.</string>
 
 </resources>

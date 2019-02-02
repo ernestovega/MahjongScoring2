@@ -1,14 +1,12 @@
 package es.etologic.mahjongscoring2.app.main.combinations;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,31 +32,21 @@ import static es.etologic.mahjongscoring2.domain.entities.Combination.Combinatio
 class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //region Constants
-
-    private static final int ANIMATION_DURATION = 500;
-
-    //endregion
+//    private static final int ANIMATION_DURATION = 500;
 
     //region Fields
-
     private List<Combination> combinations;
     private ShowState imageOrDescriptionShowState;
-    private int cardViewFullHeight;
     private int cardViewMinHeight;
-
-    //endregion
+//    private int cardViewFullHeight;
 
     //region Constructor
-
     CombinationsRvAdapter() {
         combinations = new ArrayList<>();
         imageOrDescriptionShowState = HIDE;
     }
 
-    //endregion
-
     //region Public
-
     void setCombinations(List<Combination> combinations) {
         saveCombinationsCopy(combinations);
         notifyDataSetChanged();
@@ -71,26 +59,20 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.combinations = newCombinationsCopy;
     }
 
-    //endregion
-
-    //region ViewHolder
     ShowState toggleImageOrDescription() {
         imageOrDescriptionShowState = imageOrDescriptionShowState == SHOW ? HIDE : SHOW;
-        notifyDataSetChanged();
+        notifyItemRangeChanged(0, combinations.size() - 1);
         return imageOrDescriptionShowState;
     }
 
-    //endregion
-
     //region Lifecycle
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        Context context = recyclerView.getContext();
-        cardViewMinHeight = (int) context.getResources().getDimension(
+        cardViewMinHeight = (int) recyclerView.getContext().getResources().getDimension(
                 R.dimen.combination_item_cardview_min_height);
-        cardViewFullHeight = (int) context.getResources().getDimension(
-                R.dimen.combination_item_cardview_full_height);
+//        cardViewFullHeight = (int) context.getResources().getDimension(
+//                R.dimen.combination_item_cardview_full_height);
     }
 
     @Override
@@ -98,34 +80,19 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return combinations.size();
     }
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.combination_item,
-                parent, false);
+    @NonNull @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.combination_item, parent, false);
         return new CombinationItemViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Combination combination = combinations.get(position);
         CombinationItemViewHolder myHolder = (CombinationItemViewHolder) holder;
-        //region Points
         myHolder.tvPoints.setText(String.valueOf(combination.getCombinationPoints()));
-        //endregion
-        //region Name
         myHolder.tvName.setText(combination.getCombinationName());
-        //endregion
-        //region Position
         myHolder.tvPosition.setText(String.format(Locale.getDefault(), "#%d", position + 1));
-        //endregion
-        //region Image or Description
-        if(imageOrDescriptionShowState == SHOW) {
-            if(myHolder.cardView.getHeight() == cardViewMinHeight) {
-                showImageOrDescriptionNoAnimated(myHolder);
-            }
-        } else if(myHolder.cardView.getHeight() == cardViewFullHeight) {
-            hideImageOrDescriptionNoAnimated(myHolder);
-        }
 
         if(combination.getCombinationDescriptionType() == IMAGE) {
             myHolder.ivImage.setImageResource(combination.getCombinationImage());
@@ -136,78 +103,11 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             myHolder.ivImage.setVisibility(GONE);
             myHolder.tvDescription.setVisibility(VISIBLE);
         }
-        //endregion
-    }
 
-    //endregion
+        myHolder.flImageOrDescriptionContainer.setVisibility(imageOrDescriptionShowState == SHOW ? VISIBLE : GONE);
+    }
 
     //region Private
-    private void showImageOrDescriptionNoAnimated(CombinationItemViewHolder myHolder) {
-        myHolder.flImageOrDescriptionContainer.setVisibility(VISIBLE);
-    }
-    private void hideImageOrDescriptionNoAnimated(CombinationItemViewHolder myHolder) {
-        myHolder.flImageOrDescriptionContainer.setVisibility(GONE);
-    }
-    private void showImageOrDescriptionAnimated(CombinationItemViewHolder holder) {
-        ValueAnimator expandAnimation = ValueAnimator.ofInt(
-                holder.cardView.getMeasuredHeightAndState(), cardViewFullHeight);
-        expandAnimation.addUpdateListener(valueAnimator -> {
-            int val = (Integer) valueAnimator.getAnimatedValue();
-            ViewGroup.LayoutParams layoutParams = holder.cardView.getLayoutParams();
-            layoutParams.height = val;
-            holder.cardView.setLayoutParams(layoutParams);
-        });
-        expandAnimation.setDuration(ANIMATION_DURATION);
-        AlphaAnimation fadeInAnimation = new AlphaAnimation(0, 1);
-        fadeInAnimation.setDuration(ANIMATION_DURATION);
-        fadeInAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                showImageOrDescriptionNoAnimated(holder);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-        expandAnimation.start();
-        holder.flImageOrDescriptionContainer.startAnimation(fadeInAnimation);
-    }
-    private void hideImageOrDescriptionAnimated(CombinationItemViewHolder holder) {
-        ValueAnimator collapseAnimation = ValueAnimator.ofInt(
-                holder.cardView.getMeasuredHeightAndState(), cardViewMinHeight);
-        collapseAnimation.addUpdateListener(valueAnimator -> {
-            int val = (Integer) valueAnimator.getAnimatedValue();
-            ViewGroup.LayoutParams layoutParams = holder.cardView.getLayoutParams();
-            layoutParams.height = val;
-            holder.cardView.setLayoutParams(layoutParams);
-        });
-        collapseAnimation.start();
-        collapseAnimation.setDuration(ANIMATION_DURATION);
-        AlphaAnimation fadeOutAnimation = new AlphaAnimation(1, 0);
-        fadeOutAnimation.setDuration(ANIMATION_DURATION);
-        fadeOutAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                hideImageOrDescriptionNoAnimated(holder);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-        holder.flImageOrDescriptionContainer.startAnimation(fadeOutAnimation);
-        collapseAnimation.start();
-    }
-
     class CombinationItemViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.llCombinationItemContainer) LinearLayout llContainer;
@@ -225,13 +125,7 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         @OnClick(R.id.cvCombinationItem) void onCombinationItemClick() {
-            if(cardView.getHeight() == cardViewMinHeight) {
-                showImageOrDescriptionAnimated(this);
-            } else if(cardView.getHeight() == cardViewFullHeight) {
-                hideImageOrDescriptionAnimated(this);
-            }
+            flImageOrDescriptionContainer.setVisibility(cardView.getHeight() == cardViewMinHeight ? VISIBLE : GONE);
         }
     }
-
-    //endregion
 }

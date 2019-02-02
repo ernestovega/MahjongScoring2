@@ -4,24 +4,23 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import es.etologic.mahjongscoring2.domain.use_cases.GetAllCombinationsUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.GetFilteredCombinationsUseCase;
+import javax.inject.Inject;
+
+import es.etologic.mahjongscoring2.domain.use_cases.GetCombinationsUseCase;
 
 public class CombinationsViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private final GetAllCombinationsUseCase getAllCombinationsUseCase;
-    private final GetFilteredCombinationsUseCase getFilteredCombinationsUseCase;
+    private final GetCombinationsUseCase getCombinationsUseCase;
 
-    public CombinationsViewModelFactory(GetAllCombinationsUseCase getAllCombinationsUseCase,
-                                        GetFilteredCombinationsUseCase getFilteredCombinationsUseCase) {
-        this.getAllCombinationsUseCase = getAllCombinationsUseCase;
-        this.getFilteredCombinationsUseCase = getFilteredCombinationsUseCase;
+    @Inject
+    public CombinationsViewModelFactory(GetCombinationsUseCase getCombinationsUseCase) {
+        this.getCombinationsUseCase = getCombinationsUseCase;
     }
 
     @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new CombinationsViewModel(getAllCombinationsUseCase, getFilteredCombinationsUseCase);
+        return (T) new CombinationsViewModel(getCombinationsUseCase);
     }
 }

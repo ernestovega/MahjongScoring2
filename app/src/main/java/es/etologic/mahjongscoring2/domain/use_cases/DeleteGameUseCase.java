@@ -1,18 +1,22 @@
 package es.etologic.mahjongscoring2.domain.use_cases;
 
+import javax.inject.Inject;
+
 import es.etologic.mahjongscoring2.data.repositories.GamesRepository;
 import es.etologic.mahjongscoring2.domain.operation_objects.BaseError;
 import es.etologic.mahjongscoring2.domain.operation_objects.OperationResult;
+import io.reactivex.Single;
 
 public class DeleteGameUseCase {
 
     private final GamesRepository gamesRepository;
 
+    @Inject
     public DeleteGameUseCase(GamesRepository gamesRepository) {
         this.gamesRepository = gamesRepository;
     }
 
-    public OperationResult<Boolean, BaseError> execute(long gameId) {
-        return /*gamesRepository.deleteOne(gameId) ? new OperationResult<>(true) :*/ new OperationResult<>(BaseError.getDeletionError());
+    public Single<Boolean> deleteGame(long gameId) {
+        return gamesRepository.deleteOne(gameId);
     }
 }

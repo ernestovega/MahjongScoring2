@@ -5,27 +5,28 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
+import es.etologic.mahjongscoring2.app.base.BaseActivity;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivity;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
@@ -37,7 +38,7 @@ import static android.view.View.VISIBLE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
-public class NewGameActivity extends AppCompatActivity {
+public class NewGameActivity extends BaseActivity {
 
     //VIEWS
     @BindView(R.id.toolbarNewGame) Toolbar toolbar;
@@ -45,8 +46,9 @@ public class NewGameActivity extends AppCompatActivity {
     @BindView(R.id.fabNewGameStartGame) FloatingActionButton fabStartGame;
     //FIELDS
     private Unbinder unbinder;
+    @Inject NewGameViewModelFactory newGameViewModelFactory;
     private NewGameViewModel viewModel;
-    private String actualChipsImputText;
+    private String actualChipsInputText;
     private Snackbar snackbar4players;
 
     //EVENTS
@@ -67,10 +69,10 @@ public class NewGameActivity extends AppCompatActivity {
         TextInputLayout til = (TextInputLayout) getLayoutInflater().inflate(
                 R.layout.newgame_newplayerdialog_textinputlayout, null);
         TextInputEditText tiet = til.findViewById(R.id.tietNewGameNewPlayerDialog);
-        if(StringUtils.isEmpty(actualChipsImputText)) {
+        if(StringUtils.isEmpty(actualChipsInputText)) {
             til.setHint(getString(R.string.player_name));
         } else {
-            tiet.setText(actualChipsImputText);
+            tiet.setText(actualChipsInputText);
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.create_player)
@@ -124,11 +126,9 @@ public class NewGameActivity extends AppCompatActivity {
         }
     }
     private void setupViewModel() {
-        viewModel = ViewModelProviders
-                            .of(this, Injector.provideNewGameViewModelFactory(this))
-                            .get(NewGameViewModel.class);
+        viewModel = ViewModelProviders.of(this, newGameViewModelFactory).get(NewGameViewModel.class);
         viewModel.getAllPlayers().observe(this, this::setAllPlayers);
-        viewModel.getNewPlayer().observe(this, this::addNewPlayer);
+        viewModel.getNewPlayer().observe(this, this::addPlayerChip);
         viewModel.getNewGameId().observe(this, this::startGame);
         viewModel.getToolbarProgress().observe(this, this::toggleToolbarProgress);
         viewModel.getSnackbarMessage().observe(this, this::showSnackbar);
@@ -140,8 +140,9 @@ public class NewGameActivity extends AppCompatActivity {
         chipsInput.addChipsListener(new ChipsInput.ChipsListener() {
             @Override
             public void onChipAdded(ChipInterface chip, int newSize) {
-                if(newSize == 4) toogleFabStartGame(SHOW);
-                else if(newSize == 5) {
+                if(newSize == 4) {
+                    toogleFabStartGame(SHOW);
+                } else if(newSize == 5) {
                     toogleFabStartGame(HIDE);
                     snackbar4players.show();
                 }
@@ -152,12 +153,14 @@ public class NewGameActivity extends AppCompatActivity {
                 if(newSize == 4) {
                     toogleFabStartGame(SHOW);
                     snackbar4players.dismiss();
-                } else if(newSize == 3) toogleFabStartGame(HIDE);
+                } else if(newSize == 3) {
+                    toogleFabStartGame(HIDE);
+                }
             }
 
             @Override
             public void onTextChanged(CharSequence text) {
-                actualChipsImputText = text.toString();
+                actualChipsInputText = text.toString();
             }
         });
     }
@@ -170,16 +173,27 @@ public class NewGameActivity extends AppCompatActivity {
     private List<PlayerChip> createPlayerChips(List<Player> players) {
         List<PlayerChip> playersChips = new ArrayList<>();
         for(Player player : players) {
-            playersChips.add(new PlayerChip(player));
+            if(!isSelected(player)) {
+                playersChips.add(new PlayerChip(player));
+            }
         }
         return playersChips;
     }
-    private void addNewPlayer(Player player) {
-        addPlayerChip(player);
+    private boolean isSelected(Player player) {
+        List<PlayerChip> selectedPlayerChips = getSelectedPlayerChips();
+        if(!selectedPlayerChips.isEmpty()) {
+            for (PlayerChip playerChip : selectedPlayerChips) {
+                if (playerChip.getPlayer().getPlayerId() == player.getPlayerId()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     private void addPlayerChip(Player player) {
         PlayerChip playerChip = new PlayerChip(player);
         chipsInput.addChip(playerChip);
+        viewModel.bindAllPlayers();
     }
     private void startGame(long gameId) {
         Intent intent = new Intent(this, GameActivity.class);

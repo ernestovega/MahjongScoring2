@@ -26,28 +26,24 @@ import es.etologic.mahjongscoring2.domain.entities.Round;
 @TypeConverters({DateConverter.class, CombinationDescriptionTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
-    public static final int NOT_SET_ID = 0;
     private static final String DATABASE_NAME = "MahjongScoring2";
     private static final Object LOCK = new Object();
     private static volatile AppDatabase sInstance;
 
     public static AppDatabase getInstance(@NonNull Context context) {
-        if(sInstance == null) {
-            synchronized(LOCK) {
-                if(sInstance == null) {
-                    sInstance = Room.databaseBuilder(context.getApplicationContext(),
-                            AppDatabase.class, DATABASE_NAME).build();
+        if (sInstance == null) {
+            synchronized (LOCK) {
+                if (sInstance == null) {
+                    sInstance = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, DATABASE_NAME)
+                            .build();
                 }
             }
         }
         return sInstance;
     }
 
-    public abstract PlayersDao getPlayersDao();
-
-    public abstract GamesDao getGamesDao();
-
-    public abstract RoundsDao getRoundsDao();
-
     public abstract CombinationsDao getCombinationsDao();
+    public abstract PlayersDao getPlayersDao();
+    public abstract GamesDao getGamesDao();
+    public abstract RoundsDao getRoundsDao();
 }

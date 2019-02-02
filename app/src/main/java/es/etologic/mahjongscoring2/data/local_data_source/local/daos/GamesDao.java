@@ -1,6 +1,5 @@
 package es.etologic.mahjongscoring2.data.local_data_source.local.daos;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -11,6 +10,8 @@ import android.database.sqlite.SQLiteConstraintException;
 import java.util.List;
 
 import es.etologic.mahjongscoring2.domain.entities.Game;
+import es.etologic.mahjongscoring2.domain.entities.Player;
+import io.reactivex.Single;
 
 @Dao
 public interface GamesDao {
@@ -22,10 +23,10 @@ public interface GamesDao {
     long[] bulkInsert(List<Game> game) throws SQLiteConstraintException; //TODO: probar con tests. ¿Hace falta la exception o devolvería un 0?
 
     @Query("SELECT * FROM Games WHERE gameId = :gameId")
-    LiveData<Game> getOne(long gameId);
+    Game getOne(long gameId);
 
     @Query("SELECT * FROM Games")
-    LiveData<List<Game>> getAll();
+    List<Game> getAll();
 
     @Update
     int updateOne(Game game);

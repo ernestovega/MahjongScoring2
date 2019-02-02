@@ -4,6 +4,8 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
+import javax.inject.Inject;
+
 import es.etologic.mahjongscoring2.data.repositories.GamesRepository;
 import es.etologic.mahjongscoring2.data.repositories.RoundsRepository;
 
@@ -12,7 +14,8 @@ public class GameActivityViewModelFactory extends ViewModelProvider.NewInstanceF
     private final GamesRepository gamesRepository;
     private final RoundsRepository roundsRepository;
 
-    public GameActivityViewModelFactory(GamesRepository gamesRepository, RoundsRepository roundsRepository) {
+    @Inject
+    GameActivityViewModelFactory(GamesRepository gamesRepository, RoundsRepository roundsRepository) {
         this.gamesRepository = gamesRepository;
         this.roundsRepository = roundsRepository;
     }

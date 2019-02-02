@@ -4,8 +4,6 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel;
-
 public class MainActivityViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     @SuppressWarnings("unchecked")

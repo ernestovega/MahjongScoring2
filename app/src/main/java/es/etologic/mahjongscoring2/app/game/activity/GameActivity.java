@@ -8,33 +8,31 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
+import es.etologic.mahjongscoring2.app.base.BaseActivity;
 import es.etologic.mahjongscoring2.domain.entities.Game;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends BaseActivity {
 
-    //region Fields
-
+    //FIELDS
     @BindView(R.id.toolbarGame) Toolbar toolbar;
     @BindView(R.id.tabLayoutGame) TabLayout tabLayout;
     @BindView(R.id.viewPagerGame) ViewPager viewPager;
     private Unbinder unbinder;
+    @Inject GameActivityViewModelFactory viewModelFactory;
     private GameActivityViewModel viewModel;
     private long gameId;
 
-    //endregion
-
-    //region Lifecycle
-
+    //LIFECYCLE
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,34 +41,39 @@ public class GameActivity extends AppCompatActivity {
         getExtras();
         setupToolbar();
         setupViewModel();
-        observeViewModel();
         setupViewPager();
         viewModel.loadGame(gameId);
     }
     private void getExtras() {
         gameId = getIntent().getLongExtra(getString(R.string.key_extra_game_id), -1);
-        if(gameId == -1) finish();
+        if (gameId == -1) finish();
     }
     private void setupToolbar() {
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_white_24dp);
         }
     }
     private void setupViewModel() {
-        viewModel = ViewModelProviders
-                            .of(this, Injector.provideGameActivityViewModelFactory(this))
-                            .get(GameActivityViewModel.class);
-    }
-    private void observeViewModel() {
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameActivityViewModel.class);
         viewModel.getGame().observe(this, this::setGame);
         viewModel.isGameFinished().observe(this, this::gameFinished);
     }
-
-    //endregion
-
-    //region Events
+    private void setGame(Game game) {
+        //TODO
+    }
+    private void gameFinished(Boolean gameFinished) {
+        if (gameFinished != null) {
+            if (gameFinished) finish();
+            else {
+                Snackbar.make(viewPager, R.string.error_updating_end_date, Snackbar.LENGTH_LONG)
+                        .setActionTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                        .setAction(R.string.exit, v -> finish())
+                        .show();
+            }
+        }
+    }
     private void setupViewPager() {
         tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -81,9 +84,9 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if(getSupportActionBar() != null) {
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setHomeAsUpIndicator(position == 0 ?
-                                                                       R.drawable.ic_clear_white_24dp : R.drawable.ic_arrow_back_white_24dp);
+                            R.drawable.ic_clear_white_24dp : R.drawable.ic_arrow_back_white_24dp);
                 }
             }
 
@@ -93,10 +96,6 @@ public class GameActivity extends AppCompatActivity {
         });
         createFragments();
     }
-
-    //endregion
-
-    //region Private
     private void createFragments() {
         //TODO
     }
@@ -107,13 +106,8 @@ public class GameActivity extends AppCompatActivity {
         return true;
     }
     @Override
-    protected void onDestroy() {
-        unbinder.unbind();
-        super.onDestroy();
-    }
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -127,7 +121,7 @@ public class GameActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        if(viewPager.getCurrentItem() == 1) {
+        if (viewPager.getCurrentItem() == 1) {
             viewPager.setCurrentItem(0, true);
         } else {
             showDialogEndGame();
@@ -142,20 +136,9 @@ public class GameActivity extends AppCompatActivity {
                 .create()
                 .show();
     }
-    private void setGame(Game game) {
-        //TODO
+    @Override
+    protected void onDestroy() {
+        unbinder.unbind();
+        super.onDestroy();
     }
-    private void gameFinished(Boolean gameFinished) {
-        if(gameFinished != null) {
-            if(gameFinished) finish();
-            else {
-                Snackbar.make(viewPager, R.string.error_updating_end_date, Snackbar.LENGTH_LONG)
-                        .setActionTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
-                        .setAction(R.string.exit, v -> finish())
-                        .show();
-            }
-        }
-    }
-
-    //endregion
 }

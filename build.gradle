@@ -1,6 +1,6 @@
 buildscript {
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.1'
+        classpath 'com.android.tools.build:gradle:3.3.0'
     }
     repositories {
         jcenter()
@@ -21,9 +21,9 @@ task clean(type: Delete) {
 }
 
 ext {
-    supportLibrariesVersion = '27.1.1'
-    daggerVersion = '2.14.1'
-    archComponentsPersistanceVersion = '1.0.0'
+    supportLibrariesVersion = '28.0.0'
+    daggerVersion = '2.19'
+    archComponentsPersistanceVersion = '1.1.1'
     archComponentsLifecycleVersion = '1.1.1'
-    butterknifeVersion = '8.8.1'
+    butterknifeVersion = '9.0.0'
 }

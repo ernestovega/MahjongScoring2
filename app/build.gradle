@@ -1,12 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
     defaultConfig {
         applicationId "es.etologic.mahjongscoring2"
         minSdkVersion 15
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -58,10 +57,11 @@ android {
 
 dependencies {
     androidTestImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test:rules:1.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
 
     //ARCH COMPONENTS
+    implementation "android.arch.persistence.room:rxjava2:$archComponentsPersistanceVersion"
     implementation "android.arch.persistence.room:runtime:$archComponentsPersistanceVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$archComponentsPersistanceVersion"
     implementation "android.arch.lifecycle:runtime:$archComponentsLifecycleVersion"
@@ -97,8 +97,8 @@ dependencies {
     implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
 
     //RX JAVA
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
 
     //UTILS
     implementation "org.apache.commons:commons-lang3:3.6"
@@ -107,5 +107,10 @@ dependencies {
     implementation "com.github.pchmn:MaterialChipsInput:1.0.8"
 
     //FAB MENU
-    implementation 'com.github.clans:fab:1.6.4'
+    implementation("com.github.clans:fab:1.6.4", {
+        exclude group: 'com.android.support', module: 'support-compat'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-core-utils'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    })
 }

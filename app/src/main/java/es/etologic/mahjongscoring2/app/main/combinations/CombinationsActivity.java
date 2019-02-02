@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -13,30 +12,27 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.List;
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
-import es.etologic.mahjongscoring2.domain.entities.Combination;
+import es.etologic.mahjongscoring2.app.base.BaseActivity;
 
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
-public class CombinationsActivity extends AppCompatActivity {
+public class CombinationsActivity extends BaseActivity {
 
-    //region Fields
-
+    //Fields
     @BindView(R.id.toolbarCombinations) Toolbar toolbar;
     @BindView(R.id.recyclerViewCombinations) RecyclerView recyclerView;
     private Unbinder unbinder;
-    private CombinationsRvAdapter rvAdapter;
+    @Inject CombinationsViewModelFactory combinationsViewModelFactory;
     private CombinationsViewModel viewModel;
+    private CombinationsRvAdapter rvAdapter;
 
-    //endregion
-
-    //region Lifecycle
+    //Lifecycle
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,9 +43,9 @@ public class CombinationsActivity extends AppCompatActivity {
         setupToolbar();
         setupRecyclerView();
         setupViewModel();
-        observeViewModel();
-        viewModel.loadCombinations();
+        viewModel.getAll();
     }
+
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) {
@@ -64,28 +60,15 @@ public class CombinationsActivity extends AppCompatActivity {
         recyclerView.setAdapter(rvAdapter);
     }
 
-    //endregion
-
-    //region Events
     private void setupViewModel() {
-        viewModel = ViewModelProviders
-                            .of(this, Injector.provideCombinationsViewModelFactory(this))
-                            .get(CombinationsViewModel.class);
-    }
-
-    //endregion
-
-    //region Private
-    private void observeViewModel() {
-        viewModel.getCombinations().observe(this, this::setCombinations);
+        viewModel = ViewModelProviders.of(this, combinationsViewModelFactory).get(CombinationsViewModel.class);
+        viewModel.getFilteredCombinations().observe(this, rvAdapter::setCombinations);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.combinations_menu, menu);
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search_combination)
-                                                     .getActionView();
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search_combination).getActionView();
         if(searchManager != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -104,18 +87,10 @@ public class CombinationsActivity extends AppCompatActivity {
         return true;
     }
     @Override
-    public void onDestroy() {
-        unbinder.unbind();
-        super.onDestroy();
-    }
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
-                return true;
-            case R.id.action_search_combination:
-                //TODO
                 return true;
             case R.id.action_toggle_combination_explanation:
                 MenuItem menuItem = toolbar.getMenu().getItem(1);
@@ -127,9 +102,9 @@ public class CombinationsActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    private void setCombinations(List<Combination> combinations) {
-        rvAdapter.setCombinations(combinations);
+    @Override
+    public void onDestroy() {
+        unbinder.unbind();
+        super.onDestroy();
     }
-
-    //endregion
 }

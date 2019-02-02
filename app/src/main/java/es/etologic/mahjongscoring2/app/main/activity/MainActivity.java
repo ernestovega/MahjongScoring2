@@ -12,21 +12,22 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.BuildConfig;
-import es.etologic.mahjongscoring2.Injector;
 import es.etologic.mahjongscoring2.R;
+import es.etologic.mahjongscoring2.app.base.BaseActivity;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivity;
-import es.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity;
 import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens;
+import es.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity;
 import es.etologic.mahjongscoring2.app.main.new_game.NewGameActivity;
 import es.etologic.mahjongscoring2.app.main.old_games.OldGamesFragment;
 
@@ -35,7 +36,8 @@ import static es.etologic.mahjongscoring2.app.main.activity.MainActivityViewMode
 import static es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.GREEN_BOOK;
 import static es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.OLD_GAMES;
 import static es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.RATE;
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends BaseActivity {
 
     //CONSTANTS
     private static final String GREEN_BOOK_URL = "https://docs.google.com/gview?embedded=true&url=mahjong-europe.org/portal/images/docs/mcr_EN.pdf";
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.navigationViewMain) NavigationView navigationView;
     //FIELDS
     private Unbinder unbinder;
+    @Inject MainActivityViewModelFactory viewModelFactory;
     private MainActivityViewModel viewModel;
     private long lastBackPress;
 
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.navigateTo(OLD_GAMES);
     }
     private void setupViewModel() {
-        viewModel = ViewModelProviders.of(this, Injector.provideMainActivityViewModelFactory()).get(MainActivityViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainActivityViewModel.class);
         viewModel.getCurrentScreen().observe(this, this::goToScreen);
         viewModel.getCurrentGame().observe(this, this::goToGame);
         viewModel.getToolbar().observe(this, this::setToolbar);
