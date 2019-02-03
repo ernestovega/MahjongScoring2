@@ -17,16 +17,12 @@ public class GameActivityViewModel extends ViewModel {
     private MutableLiveData<Game> game = new MutableLiveData<>();
     private MutableLiveData<Boolean> gameFinished = new MutableLiveData<>();
 
-    //endregion
-
     //region Constructor
 
     GameActivityViewModel(GamesRepository gamesRepository, RoundsRepository roundsRepository) {
         this.gamesRepository = gamesRepository;
         this.roundsRepository = roundsRepository;
     }
-
-    //endregion
 
     //region Observables
 
@@ -38,8 +34,6 @@ public class GameActivityViewModel extends ViewModel {
         return gameFinished;
     }
 
-    //endregion
-
     //region Public
 
     void loadGame(long gameId) {
@@ -50,10 +44,4 @@ public class GameActivityViewModel extends ViewModel {
 
     void endGame() {
     }
-
-    //endregion
-
-    //region Private
-
-    //endregion
 }
