@@ -32,12 +32,30 @@
         android:id="@+id/recyclerViewCombinations"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/whiteDark"
+        android:background="@color/grayLight"
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="vertical"
         android:paddingTop="@dimen/quarter_standard_margin"
         android:paddingBottom="@dimen/quarter_standard_margin"
         android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <LinearLayout
+        android:id="@+id/llProgress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@color/grayMMTransparent"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="TODO" />
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

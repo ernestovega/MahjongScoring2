@@ -30,7 +30,7 @@ import es.etologic.mahjongscoring2.app.base.BaseActivity;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivity;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
-import es.etologic.mahjongscoring2.domain.entities.Player;
+import es.etologic.mahjongscoring2.domain.model.Player;
 
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 import static android.view.View.GONE;

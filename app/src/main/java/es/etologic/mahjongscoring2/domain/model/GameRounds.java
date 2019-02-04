@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.domain.entities;
+package es.etologic.mahjongscoring2.domain.model;
 
 import java.util.List;
 

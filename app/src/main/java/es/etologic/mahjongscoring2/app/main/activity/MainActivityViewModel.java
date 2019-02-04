@@ -33,10 +33,11 @@ public class MainActivityViewModel extends ViewModel {
     LiveData<MainScreens> getCurrentScreen() { return currentScreen; }
     LiveData<Long> getCurrentGame() { return currentGame; }
     public LiveData<Toolbar> getToolbar() { return currentToolbar; }
-    public void setToolbar(Toolbar toolbar) { currentToolbar.setValue(toolbar); }
+    //SETTERS
+    public void setToolbar(Toolbar toolbar) { currentToolbar.postValue(toolbar); }
 
     //METHODS
-    public void navigateTo(MainScreens screen) { currentScreen.setValue(screen); }
+    public void navigateTo(MainScreens screen) { currentScreen.postValue(screen); }
     public void navigateBack() {
         switch(Objects.requireNonNull(currentScreen.getValue())) {
             case OLD_GAMES:
@@ -49,5 +50,5 @@ public class MainActivityViewModel extends ViewModel {
                 break;
         }
     }
-    public void goToGame(long gameId) { currentGame.setValue(gameId); }
+    public void goToGame(long gameId) { currentGame.postValue(gameId); }
 }

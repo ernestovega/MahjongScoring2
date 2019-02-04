@@ -2,10 +2,10 @@ package es.etologic.mahjongscoring2.data.local_data_source.local.converters;
 
 import android.arch.persistence.room.TypeConverter;
 
-import es.etologic.mahjongscoring2.domain.entities.Combination.CombinationDescriptionType;
+import es.etologic.mahjongscoring2.domain.model.Combination.CombinationDescriptionType;
 
-import static es.etologic.mahjongscoring2.domain.entities.Combination.CombinationDescriptionType.DESCRIPTION;
-import static es.etologic.mahjongscoring2.domain.entities.Combination.CombinationDescriptionType.IMAGE;
+import static es.etologic.mahjongscoring2.domain.model.Combination.CombinationDescriptionType.DESCRIPTION;
+import static es.etologic.mahjongscoring2.domain.model.Combination.CombinationDescriptionType.IMAGE;
 
 public class CombinationDescriptionTypeConverter {
 

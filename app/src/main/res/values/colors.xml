@@ -6,14 +6,12 @@
     <color name="colorPrimaryDarkTransparent">#88007B49</color>
     <color name="colorAccent">#ff4e95</color>
 
-    <color name="whiteDark">#EEEEEE</color>
     <color name="whiteTransparent">#88FFFFFF</color>
 
     <color name="grayLight">#EEE</color>
     <color name="gray">#999</color>
     <color name="grayMMTransparent">#88414141</color>
     <color name="grayMM">#414141</color>
-    <color name="greyMMTransparent">#88414141</color>
 
     <color name="red">#FF0000</color>
     <color name="redDark">#A00000</color>
@@ -22,4 +20,5 @@
     <color name="purple">#7C00E7</color>
     <color name="purpleDark">#520099</color>
     <color name="purpleDarkTransparent">#88520099</color>
+
 </resources>

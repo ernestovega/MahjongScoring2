@@ -195,7 +195,7 @@ public class MainActivity extends BaseActivity {
     }
     private void goToGame(long gameId) {
         Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra(getString(R.string.key_extra_game_id), gameId);
+        intent.putExtra(GameActivity.ARG_KEY_GAME_ID, gameId);
         startActivity(intent);
     }
     private void setToolbar(Toolbar toolbar) {

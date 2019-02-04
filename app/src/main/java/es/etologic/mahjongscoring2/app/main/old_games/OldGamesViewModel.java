@@ -6,8 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import java.util.List;
 
 import es.etologic.mahjongscoring2.app.base.BaseViewModel;
-import es.etologic.mahjongscoring2.app.model.ShowState;
-import es.etologic.mahjongscoring2.domain.entities.Game;
+import es.etologic.mahjongscoring2.domain.model.Game;
 import es.etologic.mahjongscoring2.domain.use_cases.DeleteGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetAllGamesUseCase;
 import io.reactivex.schedulers.Schedulers;

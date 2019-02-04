@@ -7,7 +7,7 @@ import java.util.List;
 
 import es.etologic.mahjongscoring2.app.base.BaseViewModel;
 import es.etologic.mahjongscoring2.app.model.ShowState;
-import es.etologic.mahjongscoring2.domain.entities.Player;
+import es.etologic.mahjongscoring2.domain.model.Player;
 import es.etologic.mahjongscoring2.domain.use_cases.CreateGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.CreatePlayerUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetAllPlayersUseCase;

@@ -15,18 +15,26 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import org.apache.commons.lang3.StringUtils;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.android.support.DaggerAppCompatActivity;
 import es.etologic.mahjongscoring2.R;
+import es.etologic.mahjongscoring2.app.model.ShowState;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
 @SuppressLint("Registered")
 public class BaseActivity extends DaggerAppCompatActivity {
 
     //FIELDS
+    @BindView(R.id.llProgress) LinearLayout llProgress;
     private Unbinder viewUnbinder;
 
     //LIFECYCLE
@@ -64,5 +72,9 @@ public class BaseActivity extends DaggerAppCompatActivity {
         String text = StringUtils.isBlank(message) ? "" : message;
         Snackbar.make(view, text, Snackbar.LENGTH_LONG)
                 .show();
+    }
+
+    protected void toggleProgress(ShowState showState) {
+        llProgress.setVisibility((showState == SHOW) ? VISIBLE : GONE);
     }
 }

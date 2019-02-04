@@ -5,7 +5,7 @@ import android.net.Uri;
 
 import com.pchmn.materialchips.model.ChipInterface;
 
-import es.etologic.mahjongscoring2.domain.entities.Player;
+import es.etologic.mahjongscoring2.domain.model.Player;
 
 class PlayerChip implements ChipInterface {
 

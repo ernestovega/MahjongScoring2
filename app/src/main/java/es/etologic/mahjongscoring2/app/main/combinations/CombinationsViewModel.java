@@ -6,7 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import java.util.List;
 
 import es.etologic.mahjongscoring2.app.base.BaseViewModel;
-import es.etologic.mahjongscoring2.domain.entities.Combination;
+import es.etologic.mahjongscoring2.domain.model.Combination;
 import es.etologic.mahjongscoring2.domain.use_cases.GetCombinationsUseCase;
 import io.reactivex.schedulers.Schedulers;
 

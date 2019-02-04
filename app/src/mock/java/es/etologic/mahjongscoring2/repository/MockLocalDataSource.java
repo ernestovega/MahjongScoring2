@@ -5,10 +5,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
-import es.etologic.mahjongscoring2.domain.entities.Combination;
-import es.etologic.mahjongscoring2.domain.entities.Game;
-import es.etologic.mahjongscoring2.domain.entities.Player;
-import es.etologic.mahjongscoring2.domain.entities.Round;
+import es.etologic.mahjongscoring2.domain.model.Combination;
+import es.etologic.mahjongscoring2.domain.model.Game;
+import es.etologic.mahjongscoring2.domain.model.Player;
+import es.etologic.mahjongscoring2.domain.model.Round;
 
 public class MockLocalDataSource implements ILocalDataSource {
 

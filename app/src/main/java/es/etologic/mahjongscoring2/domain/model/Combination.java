@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.domain.entities;
+package es.etologic.mahjongscoring2.domain.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
@@ -10,8 +10,8 @@ import android.support.annotation.NonNull;
 
 import es.etologic.mahjongscoring2.data.local_data_source.local.converters.CombinationDescriptionTypeConverter;
 
-import static es.etologic.mahjongscoring2.domain.entities.Combination.CombinationDescriptionType.DESCRIPTION;
-import static es.etologic.mahjongscoring2.domain.entities.Combination.CombinationDescriptionType.IMAGE;
+import static es.etologic.mahjongscoring2.domain.model.Combination.CombinationDescriptionType.DESCRIPTION;
+import static es.etologic.mahjongscoring2.domain.model.Combination.CombinationDescriptionType.IMAGE;
 
 @Entity(tableName = "Combinations",
         indices = { @Index ( value = { "combinationName" }, unique = true) })

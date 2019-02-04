@@ -13,10 +13,10 @@ import es.etologic.mahjongscoring2.data.local_data_source.local.daos.Combination
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.GamesDao;
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.PlayersDao;
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.RoundsDao;
-import es.etologic.mahjongscoring2.domain.entities.Combination;
-import es.etologic.mahjongscoring2.domain.entities.Game;
-import es.etologic.mahjongscoring2.domain.entities.Player;
-import es.etologic.mahjongscoring2.domain.entities.Round;
+import es.etologic.mahjongscoring2.domain.model.Combination;
+import es.etologic.mahjongscoring2.domain.model.Game;
+import es.etologic.mahjongscoring2.domain.model.Player;
+import es.etologic.mahjongscoring2.domain.model.Round;
 
 @Database(entities = {
         Player.class,

@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.domain.entities;
+package es.etologic.mahjongscoring2.domain.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
@@ -13,14 +13,16 @@ import java.util.List;
 
 import es.etologic.mahjongscoring2.data.local_data_source.local.converters.DateConverter;
 
-@Entity(tableName = "Games", indices = { @Index ( value = { "gameId" }, unique = true) })
+@Entity(tableName = "Games",
+        indices = {@Index(value = {"gameId"},
+                          unique = true)})
 public class Game {
 
     //CONSTANTS
-    private static final long NOT_SET_GAME_ID = 0;
+    private static final int NOT_SET_GAME_ID = 0;
 
     //FIELDS
-    @PrimaryKey(autoGenerate = true) private final long gameId;
+    @PrimaryKey(autoGenerate = true) private final int gameId;
     private String nameP1;
     private String nameP2;
     private String nameP3;
@@ -29,7 +31,7 @@ public class Game {
     @Ignore private List<Round> rounds;
 
     //GETTERS & SETTERS
-    public long getGameId() { return gameId; }
+    public int getGameId() { return gameId; }
     public String getNameP1() { return nameP1; }
     public String getNameP2() { return nameP2; }
     public String getNameP3() { return nameP3; }
@@ -39,7 +41,7 @@ public class Game {
     public void setRounds(List<Round> rounds) { this.rounds = rounds; }
 
     //CONSTRUCTORS
-    public Game(final long gameId, String nameP1, String nameP2, String nameP3, String nameP4, Date creationDate) {
+    public Game(final int gameId, String nameP1, String nameP2, String nameP3, String nameP4, Date creationDate) {
         this.gameId = gameId;
         this.nameP1 = nameP1;
         this.nameP2 = nameP2;
@@ -56,31 +58,35 @@ public class Game {
     }
 
     public String getPlayerNameByInitialPosition(int initialPosition) {
-        switch(initialPosition) {
-            case 1: return nameP1;
-            case 2: return nameP2;
-            case 3: return nameP3;
+        switch (initialPosition) {
+            case 1:
+                return nameP1;
+            case 2:
+                return nameP2;
+            case 3:
+                return nameP3;
             case 4: //ToDo: change this int seats by typed enum seats.
-            default: return nameP4;
+            default:
+                return nameP4;
         }
     }
 
     public BestHand getBestHand() {
         BestHand bestHand = new BestHand();
-        for(Round round : rounds) {
-            if(round.getPointsP1() > bestHand.getHandValue()) {
+        for (Round round : rounds) {
+            if (round.getPointsP1() > bestHand.getHandValue()) {
                 bestHand.setHandValue(round.getPointsP1());
                 bestHand.setPlayerName(nameP1);
             }
-            if(round.getPointsP2() > bestHand.getHandValue()) {
+            if (round.getPointsP2() > bestHand.getHandValue()) {
                 bestHand.setHandValue(round.getPointsP2());
                 bestHand.setPlayerName(nameP2);
             }
-            if(round.getPointsP3() > bestHand.getHandValue()) {
+            if (round.getPointsP3() > bestHand.getHandValue()) {
                 bestHand.setHandValue(round.getPointsP3());
                 bestHand.setPlayerName(nameP3);
             }
-            if(round.getPointsP4() > bestHand.getHandValue()) {
+            if (round.getPointsP4() > bestHand.getHandValue()) {
                 bestHand.setHandValue(round.getPointsP4());
                 bestHand.setPlayerName(nameP4);
             }
@@ -88,9 +94,18 @@ public class Game {
         return bestHand;
     }
 
+    public String[] getPlayersNames() {
+        String[] names = new String[4];
+        names[0] = nameP1;
+        names[1] = nameP2;
+        names[2] = nameP3;
+        names[3] = nameP4;
+        return names;
+    }
+
     public String[] getPlayersTotalPoints() {
         int[] points = new int[]{0, 0, 0, 0};
-        for(Round round : rounds) {
+        for (Round round : rounds) {
             points[0] += round.getPointsP1();
             points[1] += round.getPointsP2();
             points[2] += round.getPointsP3();
@@ -105,10 +120,11 @@ public class Game {
     }
 
     public long getDuration() {
-        if(rounds == null || !rounds.isEmpty()) return 0;
-        else {
+        if (rounds == null || rounds.isEmpty()) {
+            return 0;
+        } else {
             long gameDuration = 0;
-            for(Round round : rounds) {
+            for (Round round : rounds) {
                 gameDuration += round.getRoundDuration();
             }
             return gameDuration;

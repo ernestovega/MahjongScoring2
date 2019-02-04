@@ -19,34 +19,36 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.base.BaseActivity;
-import es.etologic.mahjongscoring2.domain.entities.Game;
+import es.etologic.mahjongscoring2.app.base.ViewPagerAdapter;
+import es.etologic.mahjongscoring2.app.game.game_list.GameListFragment;
+import es.etologic.mahjongscoring2.app.game.game_table.GameTableFragment;
 
 public class GameActivity extends BaseActivity {
 
+    //CONSTANTS
+    public static final String ARG_KEY_GAME_ID = "arg_key_game_id";
+    private static final int OFFSCREEN_PAGE_LIMIT = 1;
+    private static final int INDEX_TABLE = 0;
+    private static final int INDEX_LIST = 1;
     //FIELDS
     @BindView(R.id.toolbarGame) Toolbar toolbar;
     @BindView(R.id.tabLayoutGame) TabLayout tabLayout;
     @BindView(R.id.viewPagerGame) ViewPager viewPager;
     private Unbinder unbinder;
     @Inject GameActivityViewModelFactory viewModelFactory;
-    private GameActivityViewModel viewModel;
-    private long gameId;
+    private GameActivityViewModel activityViewModel;
 
     //LIFECYCLE
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_main_activity);
+        setContentView(R.layout.game_activity);
         unbinder = ButterKnife.bind(this);
-        getExtras();
         setupToolbar();
         setupViewModel();
+        getExtras();
         setupViewPager();
-        viewModel.loadGame(gameId);
-    }
-    private void getExtras() {
-        gameId = getIntent().getLongExtra(getString(R.string.key_extra_game_id), -1);
-        if (gameId == -1) finish();
+        activityViewModel.loadGame();
     }
     private void setupToolbar() {
         setSupportActionBar(toolbar);
@@ -56,12 +58,9 @@ public class GameActivity extends BaseActivity {
         }
     }
     private void setupViewModel() {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameActivityViewModel.class);
-        viewModel.getGame().observe(this, this::setGame);
-        viewModel.isGameFinished().observe(this, this::gameFinished);
-    }
-    private void setGame(Game game) {
-        //TODO
+        activityViewModel = ViewModelProviders.of(this, viewModelFactory).get(GameActivityViewModel.class);
+        activityViewModel.getError().observe(this, this::showError);
+        activityViewModel.getProgressState().observe(this, this::toggleProgress);
     }
     private void gameFinished(Boolean gameFinished) {
         if (gameFinished != null) {
@@ -74,30 +73,40 @@ public class GameActivity extends BaseActivity {
             }
         }
     }
-    private void setupViewPager() {
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setHomeAsUpIndicator(position == 0 ?
-                            R.drawable.ic_clear_white_24dp : R.drawable.ic_arrow_back_white_24dp);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-        createFragments();
+    private void getExtras() {
+        long gameId = getIntent().getLongExtra(ARG_KEY_GAME_ID, -1);
+        if (gameId == -1) {
+            finish();
+        } else {
+            activityViewModel.setGameId(gameId);
+        }
     }
-    private void createFragments() {
-        //TODO
+    private void setupViewPager() {
+        ViewPagerAdapter adapter = initAdapter();
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(OFFSCREEN_PAGE_LIMIT);
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+        @Override public void onPageScrollStateChanged(int state) {}
+        @Override public void onPageSelected(int position) {
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setHomeAsUpIndicator(position == 0 ?
+                        R.drawable.ic_clear_white_24dp : R.drawable.ic_arrow_back_white_24dp);
+            }
+        }
+
+    });
+}
+    private ViewPagerAdapter initAdapter() {
+        GameTableFragment gameTableFragment = new GameTableFragment();
+        GameListFragment gameListFragment = new GameListFragment();
+
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(gameTableFragment, getString(R.string.table));
+        adapter.addFragment(gameListFragment, getString(R.string.list));
+
+        return adapter;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -121,8 +130,8 @@ public class GameActivity extends BaseActivity {
     }
     @Override
     public void onBackPressed() {
-        if (viewPager.getCurrentItem() == 1) {
-            viewPager.setCurrentItem(0, true);
+        if (viewPager.getCurrentItem() == INDEX_LIST) {
+            viewPager.setCurrentItem(INDEX_TABLE, true);
         } else {
             showDialogEndGame();
         }
@@ -131,7 +140,7 @@ public class GameActivity extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.exit_game)
                 .setMessage(R.string.are_you_sure)
-                .setPositiveButton(R.string.exit, (dialog, which) -> finish()/*viewModel.endGame()*/)
+                .setPositiveButton(R.string.exit, (dialog, which) -> finish()/*activityViewModel.endGame()*/)
                 .setNegativeButton(android.R.string.cancel, null)
                 .create()
                 .show();

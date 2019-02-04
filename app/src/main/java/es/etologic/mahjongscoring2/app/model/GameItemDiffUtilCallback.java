@@ -5,9 +5,9 @@ import android.support.v7.util.DiffUtil;
 import java.util.List;
 
 import es.etologic.mahjongscoring2.app.utils.DateTimeUtils;
-import es.etologic.mahjongscoring2.domain.entities.BestHand;
-import es.etologic.mahjongscoring2.domain.entities.Game;
-import es.etologic.mahjongscoring2.domain.entities.Round;
+import es.etologic.mahjongscoring2.domain.model.BestHand;
+import es.etologic.mahjongscoring2.domain.model.Game;
+import es.etologic.mahjongscoring2.domain.model.Round;
 
 public class GameItemDiffUtilCallback extends DiffUtil.Callback {
 

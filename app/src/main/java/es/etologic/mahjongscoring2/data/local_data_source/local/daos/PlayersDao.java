@@ -8,8 +8,7 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import es.etologic.mahjongscoring2.domain.entities.Player;
-import io.reactivex.Single;
+import es.etologic.mahjongscoring2.domain.model.Player;
 
 @Dao
 public interface PlayersDao {

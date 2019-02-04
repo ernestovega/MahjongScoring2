@@ -19,8 +19,8 @@ import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.model.GameItemDiffUtilCallback;
 import es.etologic.mahjongscoring2.app.utils.DateTimeUtils;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
-import es.etologic.mahjongscoring2.domain.entities.BestHand;
-import es.etologic.mahjongscoring2.domain.entities.Game;
+import es.etologic.mahjongscoring2.domain.model.BestHand;
+import es.etologic.mahjongscoring2.domain.model.Game;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;

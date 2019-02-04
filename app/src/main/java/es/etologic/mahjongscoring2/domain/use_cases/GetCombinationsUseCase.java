@@ -5,7 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import es.etologic.mahjongscoring2.data.repositories.CombinationsRepository;
-import es.etologic.mahjongscoring2.domain.entities.Combination;
+import es.etologic.mahjongscoring2.domain.model.Combination;
 import io.reactivex.Single;
 
 public class GetCombinationsUseCase {

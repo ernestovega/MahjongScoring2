@@ -1,6 +1,5 @@
 package es.etologic.mahjongscoring2.app.main.combinations;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -21,13 +20,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.model.ShowState;
-import es.etologic.mahjongscoring2.domain.entities.Combination;
+import es.etologic.mahjongscoring2.domain.model.Combination;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
-import static es.etologic.mahjongscoring2.domain.entities.Combination.CombinationDescriptionType.IMAGE;
+import static es.etologic.mahjongscoring2.domain.model.Combination.CombinationDescriptionType.IMAGE;
 
 class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

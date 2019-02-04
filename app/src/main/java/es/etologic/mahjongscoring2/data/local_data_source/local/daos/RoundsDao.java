@@ -9,8 +9,7 @@ import android.database.sqlite.SQLiteConstraintException;
 
 import java.util.List;
 
-import es.etologic.mahjongscoring2.domain.entities.Round;
-import io.reactivex.Single;
+import es.etologic.mahjongscoring2.domain.model.Round;
 
 @Dao
 public interface RoundsDao {

@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.CombinationsDao;
-import es.etologic.mahjongscoring2.domain.entities.Combination;
+import es.etologic.mahjongscoring2.domain.model.Combination;
 import io.reactivex.Single;
 
 public class CombinationsRepository extends BaseRepository { /*TODO ¿Qué pasa con posibles errores? Hacer pruebas forzando datos (tests unitarios!)*/

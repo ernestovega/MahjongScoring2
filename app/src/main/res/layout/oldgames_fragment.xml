@@ -42,7 +42,7 @@
                 android:id="@+id/recyclerViewOldGames"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/whiteDark"
+                android:background="@color/grayLight"
                 android:scrollbarStyle="insideOverlay"
                 android:scrollbars="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>

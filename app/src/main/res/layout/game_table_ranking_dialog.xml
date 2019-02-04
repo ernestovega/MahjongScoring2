@@ -138,7 +138,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="12"
-                android:background="@color/whiteDark"/>
+                android:background="@color/grayLight"/>
         </TableRow>
 
         <TableRow style="@style/trDialogRanking">

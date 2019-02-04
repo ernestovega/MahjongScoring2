@@ -7,7 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.GamesDao;
-import es.etologic.mahjongscoring2.domain.entities.Game;
+import es.etologic.mahjongscoring2.domain.model.Game;
 import io.reactivex.Single;
 
 public class GamesRepository extends BaseRepository { /*TODO: ¿Qué pasa con posibles errores? Hacer pruebas forzando datos (tests unitarios!)*/
