@@ -6,8 +6,6 @@ import javax.inject.Inject;
 
 import es.etologic.mahjongscoring2.data.repositories.GamesRepository;
 import es.etologic.mahjongscoring2.domain.model.Game;
-import es.etologic.mahjongscoring2.domain.operation_objects.BaseError;
-import es.etologic.mahjongscoring2.domain.operation_objects.OperationResult;
 import io.reactivex.Single;
 
 public class CreateGameUseCase {

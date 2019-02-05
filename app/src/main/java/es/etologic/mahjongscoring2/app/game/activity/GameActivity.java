@@ -22,6 +22,9 @@ import es.etologic.mahjongscoring2.app.base.BaseActivity;
 import es.etologic.mahjongscoring2.app.base.ViewPagerAdapter;
 import es.etologic.mahjongscoring2.app.game.game_list.GameListFragment;
 import es.etologic.mahjongscoring2.app.game.game_table.GameTableFragment;
+import es.etologic.mahjongscoring2.app.model.DialogType;
+import es.etologic.mahjongscoring2.app.model.EnablingState;
+import es.etologic.mahjongscoring2.app.model.ToolbarState;
 
 public class GameActivity extends BaseActivity {
 
@@ -30,12 +33,13 @@ public class GameActivity extends BaseActivity {
     private static final int OFFSCREEN_PAGE_LIMIT = 1;
     private static final int INDEX_TABLE = 0;
     private static final int INDEX_LIST = 1;
-    //FIELDS
+    //VIEWS
     @BindView(R.id.toolbarGame) Toolbar toolbar;
     @BindView(R.id.tabLayoutGame) TabLayout tabLayout;
     @BindView(R.id.viewPagerGame) ViewPager viewPager;
-    private Unbinder unbinder;
+    //FIELDS
     @Inject GameActivityViewModelFactory viewModelFactory;
+    private Unbinder unbinder;
     private GameActivityViewModel activityViewModel;
 
     //LIFECYCLE
@@ -61,6 +65,35 @@ public class GameActivity extends BaseActivity {
         activityViewModel = ViewModelProviders.of(this, viewModelFactory).get(GameActivityViewModel.class);
         activityViewModel.getError().observe(this, this::showError);
         activityViewModel.getProgressState().observe(this, this::toggleProgress);
+        activityViewModel.getViewPagerPagingState().observe(this, this::viewPagerPagingStateObserver);
+        activityViewModel.getShowDialog().observe(this, this::showDialogObserver);
+        activityViewModel.getToolbarState().observe(this, this::toolbarStateObserver);
+    }
+    private void viewPagerPagingStateObserver(EnablingState enablingState) {
+        viewPager.setEnabled(enablingState == EnablingState.ENABLED);
+    }
+    private void showDialogObserver(DialogType dialogType) {
+        switch (dialogType) {
+            case REQUEST_POINTS_HAND:
+                break;
+            case REQUEST_POINTS_PENALTI:
+                break;
+            case SHOW_RANKING:
+                break;
+            default:
+                break;
+        }
+    }
+    private void toolbarStateObserver(ToolbarState toolbarState) {
+        switch (toolbarState) {
+            default:
+            case NORMAL:
+                toolbar.setTitle(getString(R.string.game));
+                break;
+            case REQUEST_LOOSER:
+                toolbar.setTitle(getString(R.string.select_looser_player));
+                break;
+        }
     }
     private void gameFinished(Boolean gameFinished) {
         if (gameFinished != null) {
@@ -82,10 +115,10 @@ public class GameActivity extends BaseActivity {
         }
     }
     private void setupViewPager() {
-        ViewPagerAdapter adapter = initAdapter();
+        ViewPagerAdapter vpAdapter = initAdapter();
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(OFFSCREEN_PAGE_LIMIT);
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(vpAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
         @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
         @Override public void onPageScrollStateChanged(int state) {}

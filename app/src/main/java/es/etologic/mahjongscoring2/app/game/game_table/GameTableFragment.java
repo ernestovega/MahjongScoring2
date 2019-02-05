@@ -27,7 +27,13 @@ import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModelFactory;
+import es.etologic.mahjongscoring2.app.model.ShowState;
+import es.etologic.mahjongscoring2.domain.model.Seat;
+import es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates;
 import es.etologic.mahjongscoring2.domain.model.enums.Winds;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class GameTableFragment extends Fragment {
 
@@ -52,7 +58,7 @@ public class GameTableFragment extends Fragment {
     @BindView(R.id.ivItemPlayerSouthLayerIcon) ImageView ivSeatSouthLayerIcon;
     @BindView(R.id.ivItemPlayerWestLayerIcon) ImageView ivSeatWestLayerIcon;
     @BindView(R.id.ivItemPlayerNorthLayerIcon) ImageView ivSeatNorthLayerIcon;
-    @BindView(R.id.famGame) FloatingActionMenu famGame;
+    @BindView(R.id.famGame) FloatingActionMenu fabMenuGame;
     @BindView(R.id.fabGamePenaltyCancel) FloatingActionButton fabPenaltyCancel;
     @BindView(R.id.fabGamePenalty) FloatingActionButton fabPenalty;
     @BindView(R.id.fabGameTsumo) FloatingActionButton fabTsumo;
@@ -101,21 +107,61 @@ public class GameTableFragment extends Fragment {
         setupActivityViewModel();
     }
     private void setupFabMenu() {
-        famGame.setClosedOnTouchOutside(true);
-        famGame.setOnMenuToggleListener(opened -> activityViewModel.setFamOpened(opened));
+        fabMenuGame.setClosedOnTouchOutside(true);
+        fabMenuGame.setOnMenuToggleListener(opened -> activityViewModel.toggleFabMenuShowState(opened));
     }
     private void setupActivityViewModel() {
         //noinspection ConstantConditions
         activityViewModel = ViewModelProviders.of(getActivity(), activityViewModelFactory).get(GameActivityViewModel.class);
-        activityViewModel.getSeats().observe(this, this::windsObserver);
+        activityViewModel.getFabMenuShowState().observe(this, this::fabMenuShowStateObserver);
+        activityViewModel.getFabMenuState().observe(this, this::fabMenuStateObserver);
+        activityViewModel.getSeats().observe(this, this::seatsObserver);
+        activityViewModel.getSelectedSeat().observe(this, this::selectedSeatObserver);
+        activityViewModel.getWinnerLayerSeat().observe(this, this::winnerLayerSeatObserver);
+        activityViewModel.getLooserLayerSeat().observe(this, this::looserLayerSeatObserver);
+        activityViewModel.getPenaltyLayerSeats().observe(this, this::penaltyLayerSeatsObserver);
+        activityViewModel.getPenaltyIconSeat().observe(this, this::penaltyIconSeatObserver);
+        activityViewModel.getRonIconSeat().observe(this, this::ronIconSeatObserver);
+        activityViewModel.getTsumoIconSeat().observe(this, this::tsumoIconSeatObserver);
     }
-    private void namesObserver(String[] names) {
+    private void fabMenuShowStateObserver(ShowState showState) {
+        fabMenuGame.setVisibility(showState == ShowState.SHOW ? VISIBLE : GONE);
+    }
+    private void fabMenuStateObserver(FabMenuStates fabMenuStates) {
+        switch (fabMenuStates) {
+            default:
+            case NORMAL:
+                break;
+            case PLAYER_SELECTED:
+                break;
+            case PLAYER_PENALIZED:
+                break;
+            case CANCEL:
+                break;
+        }
+    }
+    private void seatsObserver(Seat[] seats) {
 
     }
-    private void windsObserver(Winds seat) {
+    private void selectedSeatObserver(Winds winds) {
 
     }
-    private void totalsObserver(String[] strings) {
+    private void winnerLayerSeatObserver(Winds winds) {
+
+    }
+    private void looserLayerSeatObserver(Winds winds) {
+
+    }
+    private void penaltyLayerSeatsObserver(boolean[] booleans) {
+
+    }
+    private void penaltyIconSeatObserver(Winds winds) {
+
+    }
+    private void ronIconSeatObserver(Winds winds) {
+
+    }
+    private void tsumoIconSeatObserver(Winds winds) {
 
     }
 }
