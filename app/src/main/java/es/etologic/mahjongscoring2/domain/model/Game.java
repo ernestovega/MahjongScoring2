@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import es.etologic.mahjongscoring2.data.local_data_source.local.converters.DateConverter;
 
@@ -20,6 +22,7 @@ public class Game {
 
     //CONSTANTS
     private static final int NOT_SET_GAME_ID = 0;
+    private static final long MINUTES_IN_AN_HOUR = 60;
 
     //FIELDS
     @PrimaryKey(autoGenerate = true) private final int gameId;
@@ -72,26 +75,30 @@ public class Game {
     }
 
     public BestHand getBestHand() {
-        BestHand bestHand = new BestHand();
-        for (Round round : rounds) {
-            if (round.getPointsP1() > bestHand.getHandValue()) {
-                bestHand.setHandValue(round.getPointsP1());
-                bestHand.setPlayerName(nameP1);
+        if(rounds == null) {
+            return new BestHand();
+        } else {
+            BestHand bestHand = new BestHand();
+            for (Round round : rounds) {
+                if (round.getPointsP1() > bestHand.getHandValue()) {
+                    bestHand.setHandValue(round.getPointsP1());
+                    bestHand.setPlayerName(nameP1);
+                }
+                if (round.getPointsP2() > bestHand.getHandValue()) {
+                    bestHand.setHandValue(round.getPointsP2());
+                    bestHand.setPlayerName(nameP2);
+                }
+                if (round.getPointsP3() > bestHand.getHandValue()) {
+                    bestHand.setHandValue(round.getPointsP3());
+                    bestHand.setPlayerName(nameP3);
+                }
+                if (round.getPointsP4() > bestHand.getHandValue()) {
+                    bestHand.setHandValue(round.getPointsP4());
+                    bestHand.setPlayerName(nameP4);
+                }
             }
-            if (round.getPointsP2() > bestHand.getHandValue()) {
-                bestHand.setHandValue(round.getPointsP2());
-                bestHand.setPlayerName(nameP2);
-            }
-            if (round.getPointsP3() > bestHand.getHandValue()) {
-                bestHand.setHandValue(round.getPointsP3());
-                bestHand.setPlayerName(nameP3);
-            }
-            if (round.getPointsP4() > bestHand.getHandValue()) {
-                bestHand.setHandValue(round.getPointsP4());
-                bestHand.setPlayerName(nameP4);
-            }
+            return bestHand;
         }
-        return bestHand;
     }
 
     public String[] getPlayersNames() {
@@ -135,5 +142,20 @@ public class Game {
         Game gameCopy = new Game(gameId, nameP1, nameP2, nameP3, nameP4, creationDate);
         gameCopy.setRounds(rounds);
         return gameCopy;
+    }
+
+    public String getPrettyDuration() {
+        if (rounds != null) {
+            long duration = 0;
+            for (Round round : rounds) {
+                duration += round.getRoundDuration();
+            }
+            long hours = TimeUnit.MILLISECONDS.toHours(duration);
+            long minutes = TimeUnit.MILLISECONDS.toMinutes(duration) - (hours*MINUTES_IN_AN_HOUR);
+            String prettyDate = String.format(Locale.getDefault(), "%2dh %2dm", hours, minutes);
+            return prettyDate;
+        } else {
+            return "-";
+        }
     }
 }

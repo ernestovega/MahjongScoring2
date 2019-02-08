@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -32,6 +33,7 @@ import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModelFactor
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.domain.model.Game;
 
+import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.NEW_GAME;
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
@@ -44,6 +46,7 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
     @BindView(R.id.swipeRefreshLayoutOldGames) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recyclerViewOldGames) RecyclerView recyclerView;
     @BindView(R.id.emptyLayoutOldGames) LinearLayout emptyLayout;
+    @BindView(R.id.fabOldGames) FloatingActionButton fabNewGame;
     //FIELDS
     private Unbinder unbinder;
     private OldGamesRvAdapter rvAdapter;
@@ -109,11 +112,13 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
     private void setGames(List<Game> games) {
         if(games == null || games.isEmpty()) {
             emptyLayout.setVisibility(VISIBLE);
+            fabNewGame.setVisibility(VISIBLE);
         } else {
-            if(emptyLayout.getVisibility() == VISIBLE) emptyLayout.setVisibility(View.GONE);
+            emptyLayout.setVisibility(GONE);
+            fabNewGame.setVisibility(GONE);
             rvAdapter.setGames(games);
-            toogleLocalProgress(HIDE);
         }
+        toogleLocalProgress(HIDE);
     }
     private void toogleLocalProgress(ShowState showState) {
         swipeRefreshLayout.setRefreshing(showState == SHOW);

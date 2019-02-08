@@ -25,6 +25,8 @@ import static es.etologic.mahjongscoring2.app.model.EnablingState.DISABLED;
 import static es.etologic.mahjongscoring2.app.model.EnablingState.ENABLED;
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
+import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.*;
+import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.PLAYER_PENALIZED;
 import static es.etologic.mahjongscoring2.domain.model.enums.Winds.EAST;
 import static es.etologic.mahjongscoring2.domain.model.enums.Winds.NORTH;
 import static es.etologic.mahjongscoring2.domain.model.enums.Winds.SOUTH;
@@ -45,16 +47,15 @@ public class GameActivityViewModel extends BaseViewModel {
     private MutableLiveData<EnablingState> viewPagerPagingState = new MutableLiveData<>();
     private MutableLiveData<DialogType> showDialog = new MutableLiveData<>();
     private MutableLiveData<ToolbarState> toolbarState = new MutableLiveData<>();
-    private MutableLiveData<ShowState> fabMenuShowState = new MutableLiveData<>();
+    private MutableLiveData<FabMenuStates> fabMenuState = new MutableLiveData<>();
+    private MutableLiveData<ShowState> fabMenuOpenState = new MutableLiveData<>();
     private MutableLiveData<Seat[]> seats = new MutableLiveData<>();
     private MutableLiveData<Winds> selectedSeat = new MutableLiveData<>();
     private MutableLiveData<Winds> winnerLayerSeat = new MutableLiveData<>();
-    private MutableLiveData<Winds> looserLayerSeat = new MutableLiveData<>();
     private MutableLiveData<boolean[]> penaltyLayerSeats = new MutableLiveData<>();
     private MutableLiveData<Winds> penaltyIconSeat = new MutableLiveData<>();
     private MutableLiveData<Winds> ronIconSeat = new MutableLiveData<>();
     private MutableLiveData<Winds> tsumoIconSeat = new MutableLiveData<>();
-    private MutableLiveData<FabMenuStates> fabMenuState = new MutableLiveData<>();
     private Round mActualRound;
     private int mSelectedPlayerSeat;
     private int mSelectedPlayerInitialPosition;
@@ -97,17 +98,14 @@ public class GameActivityViewModel extends BaseViewModel {
     public LiveData<Winds> getSelectedSeat() {
         return selectedSeat;
     }
-    public LiveData<ShowState> getFabMenuShowState() {
-        return fabMenuShowState;
-    }
     public LiveData<FabMenuStates> getFabMenuState() {
         return fabMenuState;
     }
+    public LiveData<ShowState> getFabMenuOpenState() {
+        return fabMenuOpenState;
+    }
     public LiveData<Winds> getWinnerLayerSeat() {
         return winnerLayerSeat;
-    }
-    public LiveData<Winds> getLooserLayerSeat() {
-        return looserLayerSeat;
     }
     public LiveData<boolean[]> getPenaltyLayerSeats() {
         return penaltyLayerSeats;
@@ -159,6 +157,8 @@ public class GameActivityViewModel extends BaseViewModel {
         listTotals.postValue(game.getPlayersTotalPoints());
     }
     private void fillTable() {
+        this.seats.postValue(getActualSeats());
+        //TODO
 
     }
     private void saveGame() {
@@ -209,13 +209,12 @@ public class GameActivityViewModel extends BaseViewModel {
         fillSeats();
     }
     private void resetCurrentRound() {
-        resetViews();
+        resetStates();
         resetVariables();
         fillSeats();
     }
-    private void resetViews() {
-        fabMenuShowState.postValue(HIDE);
-        fabMenuState.postValue(FabMenuStates.NORMAL);
+    private void resetStates() {
+        fabMenuState.postValue(NORMAL);
         hidePlayersLayers();
         viewPagerPagingState.postValue(ENABLED);
         toolbarState.postValue(ToolbarState.NORMAL);
@@ -243,6 +242,7 @@ public class GameActivityViewModel extends BaseViewModel {
         return seats;
     }
     private Seat getSeat(int player) {
+        assert listRounds.getValue() != null;
         if(EAST.getCode() == player) {
             return new Seat(game.getNameP1(),
                     mActualRound.isPenalizedPlayer(EAST.getCode()),
@@ -296,8 +296,7 @@ public class GameActivityViewModel extends BaseViewModel {
     }
     private void requestLooser() {
         mIsRequestingLooser = true;
-        fabMenuShowState.postValue(HIDE);
-        fabMenuState.postValue(FabMenuStates.CANCEL);
+        fabMenuState.postValue(CANCEL);
         viewPagerPagingState.postValue(DISABLED);
         toolbarState.postValue(ToolbarState.REQUEST_LOOSER);
         hidePlayersLayers();
@@ -305,7 +304,6 @@ public class GameActivityViewModel extends BaseViewModel {
     }
     private void hidePlayersLayers() {
         winnerLayerSeat.postValue(Winds.NONE);
-        looserLayerSeat.postValue(Winds.NONE);
         penaltyLayerSeats.postValue(new boolean[] { false, false, false, false });
     }
     public void onRequestHandPointsCancel() {
@@ -338,27 +336,13 @@ public class GameActivityViewModel extends BaseViewModel {
         resetCurrentRound();
     }
 
-    public void onSeatEastClicked() {
-        onSeatClicked(1);
-    }
-    public void onSeatSouthClicked() {
-        onSeatClicked(2);
-    }
-    public void onWestSeatClicked() {
-        onSeatClicked(3);
-    }
-    public void onNorthSeatClicked() {
-        onSeatClicked(4);
-    }
-    private void onSeatClicked(int seatPosition) {
+    public void onSeatClicked(Winds seatPosition) {
         if(mIsRequestingLooser) {
-            saveRonRound(Round.getPlayerInitialPositionBySeat(seatPosition, mActualRound.getRoundId()));
+            saveRonRound(Round.getPlayerInitialPositionBySeat(seatPosition.getCode(), mActualRound.getRoundId()));
         } else {
-            setSelectedPlayerSeatAndInitialPosition(seatPosition);
+            setSelectedPlayerSeatAndInitialPosition(seatPosition.getCode());
             winnerLayerSeat.postValue(Winds.getFromCode(mSelectedPlayerSeat));
-            fabMenuState.postValue(mActualRound.isPenalizedPlayer(mSelectedPlayerInitialPosition) ?
-                    FabMenuStates.PLAYER_PENALIZED : FabMenuStates.PLAYER_SELECTED);
-            fabMenuShowState.postValue(SHOW);
+            fabMenuState.postValue(mActualRound.isPenalizedPlayer(mSelectedPlayerInitialPosition) ? PLAYER_PENALIZED : PLAYER_SELECTED);
         }
     }
     private void saveRonRound(int looserInitialPosition) {
@@ -376,29 +360,16 @@ public class GameActivityViewModel extends BaseViewModel {
         mSelectedPlayerSeat = seatPosition;
         mSelectedPlayerInitialPosition = Round.getPlayerInitialPositionBySeat(mSelectedPlayerSeat, mActualRound.getRoundId());
     }
-    public void onEastSeatLayerClicked() {
-        onSeatLayerClicked(1);
-    }
-    public void onSouthSeatLayerClicked() {
-        onSeatLayerClicked(2);
-    }
-    public void onWestSeatLayerClicked() {
-        onSeatLayerClicked(3);
-    }
-    public void onNorthSeatLayerClicked() {
-        onSeatLayerClicked(4);
-    }
-    private void onSeatLayerClicked(int seatPosition) {
-        int playerInitialPositionBySeat = Round.getPlayerInitialPositionBySeat(seatPosition, mActualRound.getRoundId());
+    public void onSeatLayerClicked(Winds seatPosition) {
+        int playerInitialPositionBySeat = Round.getPlayerInitialPositionBySeat(seatPosition.getCode(), mActualRound.getRoundId());
         if(!mIsRequestingLooser && mActualRound.isPenalizedPlayer(playerInitialPositionBySeat)) {
-            setSelectedPlayerSeatAndInitialPosition(seatPosition);
-            fabMenuState.postValue(FabMenuStates.PLAYER_PENALIZED);
-            fabMenuShowState.postValue(SHOW);
+            setSelectedPlayerSeatAndInitialPosition(seatPosition.getCode());
+            fabMenuState.postValue(PLAYER_PENALIZED);
         }
     }
     public void onFamClosed(boolean isOpened) {
         if(!isOpened) {
-            fabMenuState.postValue(FabMenuStates.NORMAL);
+            fabMenuState.postValue(NORMAL);
             if(mSelectedPlayerSeat != 0 &&
                     !mIsRequestingLooser &&
                     !mIsRequestingHandPoints &&
@@ -414,7 +385,7 @@ public class GameActivityViewModel extends BaseViewModel {
         resetCurrentRound();
     }
     public void onFabGamePenaltyClicked() {
-        fabMenuShowState.postValue(HIDE);
+        fabMenuState.postValue(HIDDEN);
         hidePlayersLayers();
         penaltyIconSeat.postValue(Winds.getFromCode(mSelectedPlayerSeat));
         mIsRequestingPenaltyPoints = true;
@@ -425,14 +396,14 @@ public class GameActivityViewModel extends BaseViewModel {
         loadGameRounds();
     }
     public void onFabGameTsumoClicked() {
-        fabMenuShowState.postValue(HIDE);
+        fabMenuState.postValue(HIDDEN);
         tsumoIconSeat.postValue(Winds.getFromCode(mSelectedPlayerSeat));
         mIsTsumo = true;
         mIsRequestingHandPoints = true;
         showDialog.postValue(DialogType.REQUEST_POINTS_HAND);
     }
     public void onFabGameRonClicked() {
-        fabMenuShowState.postValue(HIDE);
+        fabMenuState.postValue(HIDDEN);
         ronIconSeat.postValue(Winds.getFromCode(mSelectedPlayerSeat));
         mIsTsumo = false;
         mIsRequestingHandPoints = true;
@@ -441,7 +412,16 @@ public class GameActivityViewModel extends BaseViewModel {
     public void onFabCancelRequestingLooserClicked() {
         resetCurrentRound();
     }
-    public void toggleFabMenuShowState(boolean opened) {
-        fabMenuShowState.postValue(opened ? SHOW : HIDE);
+    public void toggleViewPagerPagingState(EnablingState state) {
+        viewPagerPagingState.postValue(state);
+    }
+    public void setToolbarState(ToolbarState state) {
+        toolbarState.postValue(state);
+    }
+    public void setFabMenuState(FabMenuStates state) {
+        fabMenuState.postValue(state);
+    }
+    public void toggleFabMenuOpenState(ShowState showState) {
+        fabMenuOpenState.postValue(showState);
     }
 }

@@ -2,7 +2,7 @@ package es.etologic.mahjongscoring2.domain.model;
 
 import android.support.annotation.NonNull;
 
-class PlayerRanking implements Comparable<PlayerRanking> {
+public class PlayerRanking implements Comparable<PlayerRanking> {
 
     private final String name;
     private String points;

@@ -78,7 +78,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void setFields(OldGameItemViewHolder itemViewHolder, Game game, long duration, BestHand bestHand) {
         itemViewHolder.gameId = game.getGameId();
         itemViewHolder.tvStartDate.setText(game.getCreationDate() == null ? "-" : DateTimeUtils.getPrettyDate(game.getCreationDate()));
-        itemViewHolder.tvEndDate.setText(DateTimeUtils.getPrettyTime(duration));
+        itemViewHolder.tvDuration.setText(DateTimeUtils.getPrettyTime(duration));
         itemViewHolder.tvEastPlayerName.setText(game.getNameP1() == null ? "-" : game.getNameP1());
         itemViewHolder.tvSouthPlayerName.setText(game.getNameP2() == null ? "-" : game.getNameP2());
         itemViewHolder.tvWestPlayerName.setText(game.getNameP3() == null ? "-" : game.getNameP3());
@@ -110,7 +110,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //VIEWHOLDER
     class OldGameItemViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvOldGameItemStartDate) TextView tvStartDate;
-        @BindView(R.id.tvOldGameItemDuration) TextView tvEndDate;
+        @BindView(R.id.tvOldGameItemDuration) TextView tvDuration;
         @BindView(R.id.tvOlgGameItemPlayerEastName) TextView tvEastPlayerName;
         @BindView(R.id.tvOlgGameItemPlayerSouthName) TextView tvSouthPlayerName;
         @BindView(R.id.tvOlgGameItemPlayerWestName) TextView tvWestPlayerName;

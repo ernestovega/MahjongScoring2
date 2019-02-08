@@ -21,11 +21,10 @@ public class RankingTableMapper {
         List<BestHand> bestHands = getBestHands(rounds);
         return new RankingTable(
                 sortedPlayersRankings,
-                bestHands.isEmpty() ? "-" : String.valueOf(bestHands.get(0).getPoints()),
+                bestHands.isEmpty() ? "-" : String.valueOf(bestHands.get(0).getHandValue()),
                 rounds.size(),
                 String.valueOf(rounds.size()),
-                Game.getPrettyDuration(game.getStartDate(), game.getFinishDate())
-        );
+                game.getPrettyDuration());
     }
 
     private static List<PlayerRanking> getSortedPlayersRankings(Game game, List<Round> rounds) {
@@ -103,11 +102,14 @@ public class RankingTableMapper {
         for(Round round: rounds) {
             int roundHandPoints = round.getHandPoints();
             int roundWinnerInitialPosition = round.getWinnerInitialPosition();
-            if(bestHands.isEmpty() || roundHandPoints == bestHands.get(0).getPoints()) {
-                bestHands.add(new BestHand(roundHandPoints, roundWinnerInitialPosition));
-            } else if(roundHandPoints > bestHands.get(0).getPoints()) {
+            BestHand bestHand = new BestHand();
+            bestHand.setHandValue(roundHandPoints);
+            bestHand.setPlayerInitialPosition(round.getWinnerInitialPosition());
+            if(bestHands.isEmpty() || roundHandPoints == bestHands.get(0).getHandValue()) {
+                bestHands.add(bestHand);
+            } else if(roundHandPoints > bestHands.get(0).getHandValue()) {
                 bestHands.clear();
-                bestHands.add(new BestHand(roundHandPoints, roundWinnerInitialPosition));
+                bestHands.add(bestHand);
             }
         }
         return bestHands;

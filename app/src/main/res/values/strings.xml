@@ -192,5 +192,8 @@
     <string name="ups_something_wrong">Ups! Somenthing went wrong.</string>
     <string name="list">List</string>
     <string name="select_looser_player">Select discarder player</string>
+    <string name="hand_points">Hand points</string>
+    <string name="penalty_points">Penalty points</string>
+    <string name="enter_points">Enter points</string>
 
 </resources>

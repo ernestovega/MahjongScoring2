@@ -57,6 +57,7 @@
                 android:focusable="true"
                 android:gravity="center"
                 android:orientation="vertical"
+                android:visibility="gone"
                 tools:visibility="visible">
 
                 <ImageView
@@ -111,6 +112,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/standard_margin"
-        android:src="@drawable/ic_add_white_24dp"/>
+        android:src="@drawable/ic_add_white_24dp"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
 </android.support.design.widget.CoordinatorLayout>
