@@ -180,8 +180,8 @@
     <string name="number_symbol">#</string>
     <string name="final_results">Final results</string>
     <string name="duration">Duration</string>
-    <string name="cancel_penalty">Cancel penalty</string>
-    <string name="penalty">Penalty</string>
+    <string name="cancel_penalty">Cancel isPenalized</string>
+    <string name="isPenalized">Penalty</string>
     <string name="draw">Draw</string>
     <string name="hu_wall">Wall Hu</string>
     <string name="hu_discard">Discard Hu</string>
@@ -195,5 +195,8 @@
     <string name="hand_points">Hand points</string>
     <string name="penalty_points">Penalty points</string>
     <string name="enter_points">Enter points</string>
+    <string name="seat_player_name">Seat player name</string>
+    <string name="see_list">See list</string>
+    <string name="close">Close</string>
 
 </resources>

@@ -6,26 +6,27 @@ import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
-import es.etologic.mahjongscoring2.data.repositories.GamesRepository;
-import es.etologic.mahjongscoring2.data.repositories.RoundsRepository;
 import es.etologic.mahjongscoring2.domain.use_cases.GetGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetRoundsUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.UpdateRoundsUseCase;
 
 public class GameActivityViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final GetGameUseCase getGameUseCase;
     private final GetRoundsUseCase getRoundsUseCase;
+    private UpdateRoundsUseCase updateRoundUseCase;
 
     @Inject
-    GameActivityViewModelFactory(GetGameUseCase getGameUseCase, GetRoundsUseCase getRoundsUseCase) {
+    GameActivityViewModelFactory(GetGameUseCase getGameUseCase, GetRoundsUseCase getRoundsUseCase, UpdateRoundsUseCase updateRoundUseCase) {
         this.getGameUseCase = getGameUseCase;
         this.getRoundsUseCase = getRoundsUseCase;
+        this.updateRoundUseCase = updateRoundUseCase;
     }
 
     @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new GameActivityViewModel(getGameUseCase, getRoundsUseCase);
+        return (T) new GameActivityViewModel(getGameUseCase, getRoundsUseCase, updateRoundUseCase);
     }
 }

@@ -22,7 +22,7 @@
     </style>
 
     <!-- GAME RANKING DIALOG -->
-    <style name="trDialogRanking">
+    <style name="trRankingDialog">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:weightSum">12</item>
@@ -39,7 +39,7 @@
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Medium</item>
     </style>
 
-    <style name="tvDialogRankingTableContent" parent="">
+    <style name="tvRankingDialogTableContent" parent="">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/grayMM</item>
@@ -48,7 +48,7 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="tvDialogRankingOthers">
+    <style name="tvRankingDialogOthers">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/grayMM</item>

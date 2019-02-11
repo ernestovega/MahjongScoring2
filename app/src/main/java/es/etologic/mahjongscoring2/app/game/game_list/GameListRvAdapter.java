@@ -19,6 +19,13 @@ import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.base.BaseRvAdapter;
 import es.etologic.mahjongscoring2.domain.model.Round;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.EAST;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NORTH;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.SOUTH;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.WEST;
+
 /*import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;*/
 
@@ -63,26 +70,24 @@ class GameListRvAdapter extends BaseRvAdapter<Round> {
         mHolder.tvPointsP4.setText(String.valueOf(item.getPointsP4()));
     }
     private void setWinnerColor(Round item, ItemViewHolder mHolder) {
-        mHolder.tvPointsP1.setTextColor(item.getWinnerInitialPosition() == 1 ? greenMM : grayMM);
-        mHolder.tvPointsP2.setTextColor(item.getWinnerInitialPosition() == 2 ? greenMM : grayMM);
-        mHolder.tvPointsP3.setTextColor(item.getWinnerInitialPosition() == 3 ? greenMM : grayMM);
-        mHolder.tvPointsP4.setTextColor(item.getWinnerInitialPosition() == 4 ? greenMM : grayMM);
+        mHolder.tvPointsP1.setTextColor(item.getWinnerInitialPosition() == EAST ?  greenMM : grayMM);
+        mHolder.tvPointsP2.setTextColor(item.getWinnerInitialPosition() == SOUTH ? greenMM : grayMM);
+        mHolder.tvPointsP3.setTextColor(item.getWinnerInitialPosition() == WEST ?  greenMM : grayMM);
+        mHolder.tvPointsP4.setTextColor(item.getWinnerInitialPosition() == NORTH ? greenMM : grayMM);
     }
     private void setLooserColor(Round item, ItemViewHolder mHolder) {
-        if(item.getLooserInitialPosition() > 0) {
-            switch(item.getLooserInitialPosition()) {
-                case 1: mHolder.tvPointsP1.setTextColor(red); break;
-                case 2: mHolder.tvPointsP2.setTextColor(red); break;
-                case 3: mHolder.tvPointsP3.setTextColor(red); break;
-                case 4: mHolder.tvPointsP4.setTextColor(red); break;
-            }
+        switch(item.getDiscarderInitialPosition()) {
+            case EAST: mHolder.tvPointsP1.setTextColor(red); break;
+            case SOUTH: mHolder.tvPointsP2.setTextColor(red); break;
+            case WEST: mHolder.tvPointsP3.setTextColor(red); break;
+            case NORTH: mHolder.tvPointsP4.setTextColor(red); break;
         }
     }
     private void setPenaltiesIcons(Round item, ItemViewHolder mHolder) {
-        mHolder.ivPenaltyP1.setVisibility(item.getPenaltyP1() > 0 ? View.VISIBLE : View.GONE);
-        mHolder.ivPenaltyP2.setVisibility(item.getPenaltyP2() > 0 ? View.VISIBLE : View.GONE);
-        mHolder.ivPenaltyP3.setVisibility(item.getPenaltyP3() > 0 ? View.VISIBLE : View.GONE);
-        mHolder.ivPenaltyP4.setVisibility(item.getPenaltyP4() > 0 ? View.VISIBLE : View.GONE);
+        mHolder.ivPenaltyP1.setVisibility(item.getPenaltyP1() > 0 ? VISIBLE : GONE);
+        mHolder.ivPenaltyP2.setVisibility(item.getPenaltyP2() > 0 ? VISIBLE : GONE);
+        mHolder.ivPenaltyP3.setVisibility(item.getPenaltyP3() > 0 ? VISIBLE : GONE);
+        mHolder.ivPenaltyP4.setVisibility(item.getPenaltyP4() > 0 ? VISIBLE : GONE);
     }
 
     /*@Override

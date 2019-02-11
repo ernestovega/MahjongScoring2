@@ -5,6 +5,8 @@ import dagger.android.ContributesAndroidInjector;
 import es.etologic.mahjongscoring2.app.game.game_list.GameListFragment;
 import es.etologic.mahjongscoring2.app.game.game_list.GameListModule;
 import es.etologic.mahjongscoring2.app.game.game_table.GameTableFragment;
+import es.etologic.mahjongscoring2.app.game.game_table.GameTableRankingFragmentDialog;
+import es.etologic.mahjongscoring2.app.game.game_table.GameTableSeatFragment;
 
 @Module
 public abstract class GameActivityFragmentsBuilder {
@@ -14,5 +16,11 @@ public abstract class GameActivityFragmentsBuilder {
 
     @ContributesAndroidInjector
     abstract GameTableFragment provideGameTableFragmentFactory();
+
+    @ContributesAndroidInjector
+    abstract GameTableSeatFragment provideGameTableSeatFragmentFactory();
+
+    @ContributesAndroidInjector
+    abstract GameTableRankingFragmentDialog provideGameTableRankingFragmentDialogFactory();
 
 }

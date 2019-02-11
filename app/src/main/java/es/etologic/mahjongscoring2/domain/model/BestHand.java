@@ -1,12 +1,14 @@
 package es.etologic.mahjongscoring2.domain.model;
 
+import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
+
 public class BestHand {
 
-    private int playerInitialPosition;
+    private TableWinds playerInitialPosition;
     private String playerName;
     private int handValue;
 
-    int getPlayerInitialPosition() {
+    TableWinds getPlayerInitialPosition() {
         return playerInitialPosition;
     }
     public String getPlayerName() {
@@ -16,7 +18,7 @@ public class BestHand {
         return handValue;
     }
 
-    void setPlayerInitialPosition(int playerInitialPosition) {
+    void setPlayerInitialPosition(TableWinds playerInitialPosition) {
         this.playerInitialPosition = playerInitialPosition;
     }
     public void setPlayerName(String playerName) {

@@ -28,11 +28,6 @@ android {
     }
     flavorDimensions "MahjongScoring2"
     productFlavors {
-        mock {
-            applicationIdSuffix ".Mock"
-            versionNameSuffix '-Mock'
-            buildConfigField "String", "PACKAGE_NAME", "\"com.mahjongscoring.activities\""
-        }
         dev {
             applicationIdSuffix ".Dev"
             versionNameSuffix '-Dev'

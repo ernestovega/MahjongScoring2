@@ -1,6 +1,6 @@
 package es.etologic.mahjongscoring2.domain.model.enums;
 
-public enum Winds {
+public enum TableWinds {
     NONE(0),
     EAST(1),
     SOUTH(2),
@@ -9,11 +9,13 @@ public enum Winds {
 
     private int code;
 
-    Winds(int code) { this.code = code; }
+    TableWinds(int code) { this.code = code; }
 
     public int getCode() { return code; }
 
-    public static Winds getFromCode(int code) {
+    public int getIndex() { return code - 1; }
+
+    public static TableWinds getFromCode(int code) {
         switch (code) {
             default: return NONE;
             case 1: return EAST;

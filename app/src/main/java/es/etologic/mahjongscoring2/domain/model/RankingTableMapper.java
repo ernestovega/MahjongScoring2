@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
+
 public class RankingTableMapper {
     private static final String FIRST_POSITION_POINTS = "4";
     private static final String SECOND_POSITION_POINTS = "2";
@@ -101,7 +103,7 @@ public class RankingTableMapper {
         List<BestHand> bestHands = new ArrayList<>();
         for(Round round: rounds) {
             int roundHandPoints = round.getHandPoints();
-            int roundWinnerInitialPosition = round.getWinnerInitialPosition();
+            TableWinds roundWinnerInitialPosition = round.getWinnerInitialPosition();
             BestHand bestHand = new BestHand();
             bestHand.setHandValue(roundHandPoints);
             bestHand.setPlayerInitialPosition(round.getWinnerInitialPosition());

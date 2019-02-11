@@ -14,11 +14,17 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import es.etologic.mahjongscoring2.data.local_data_source.local.converters.DateConverter;
+import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
+
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.EAST;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NORTH;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.SOUTH;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.WEST;
 
 @Entity(tableName = "Games",
         indices = {@Index(value = {"gameId"},
                           unique = true)})
-public class Game {
+public class Game extends GameRounds{
 
     //CONSTANTS
     private static final int NOT_SET_GAME_ID = 0;
@@ -54,22 +60,28 @@ public class Game {
         this.rounds = new ArrayList<>();
     }
 
-    //METHODS
-    public static Game getNewGame(List<String> playersNames) {
-        return new Game(NOT_SET_GAME_ID, playersNames.get(0), playersNames.get(1), playersNames.get(2), playersNames.get(3),
-                Calendar.getInstance().getTime());
+    public Game(List<String> playersNames) {
+        this.gameId = NOT_SET_GAME_ID;
+        this.nameP1 = playersNames.get(EAST.getIndex());
+        this.nameP2 = playersNames.get(SOUTH.getIndex());
+        this.nameP3 = playersNames.get(WEST.getIndex());
+        this.nameP4 = playersNames.get(NORTH.getIndex());
+        this.creationDate = Calendar.getInstance().getTime();
+        this.rounds = new ArrayList<>();
     }
 
-    public String getPlayerNameByInitialPosition(int initialPosition) {
+    public String getPlayerNameByInitialPosition(TableWinds initialPosition) {
         switch (initialPosition) {
-            case 1:
-                return nameP1;
-            case 2:
-                return nameP2;
-            case 3:
-                return nameP3;
-            case 4: //ToDo: change this int seats by typed enum seats.
             default:
+            case NONE:
+                return "";
+            case EAST:
+                return nameP1;
+            case SOUTH:
+                return nameP2;
+            case WEST:
+                return nameP3;
+            case NORTH:
                 return nameP4;
         }
     }
@@ -103,26 +115,31 @@ public class Game {
 
     public String[] getPlayersNames() {
         String[] names = new String[4];
-        names[0] = nameP1;
-        names[1] = nameP2;
-        names[2] = nameP3;
-        names[3] = nameP4;
+        names[EAST.getIndex()] = nameP1;
+        names[SOUTH.getIndex()] = nameP2;
+        names[WEST.getIndex()] = nameP3;
+        names[NORTH.getIndex()] = nameP4;
         return names;
     }
 
-    public String[] getPlayersTotalPoints() {
+    public int[] getPlayersTotalPoints() {
         int[] points = new int[]{0, 0, 0, 0};
         for (Round round : rounds) {
-            points[0] += round.getPointsP1();
-            points[1] += round.getPointsP2();
-            points[2] += round.getPointsP3();
-            points[3] += round.getPointsP4();
+            points[EAST.getIndex()] += round.getPointsP1();
+            points[SOUTH.getIndex()] += round.getPointsP2();
+            points[WEST.getIndex()] += round.getPointsP3();
+            points[NORTH.getIndex()] += round.getPointsP4();
         }
+        return points;
+    }
+
+    public String[] getPlayersTotalPointsString() {
+        int[] points = getPlayersTotalPoints();
         return new String[]{
-                String.valueOf(points[0]),
-                String.valueOf(points[1]),
-                String.valueOf(points[2]),
-                String.valueOf(points[3])
+                String.valueOf(points[EAST.getIndex()]),
+                String.valueOf(points[SOUTH.getIndex()]),
+                String.valueOf(points[WEST.getIndex()]),
+                String.valueOf(points[NORTH.getIndex()])
         };
     }
 
@@ -144,7 +161,7 @@ public class Game {
         return gameCopy;
     }
 
-    public String getPrettyDuration() {
+    String getPrettyDuration() {
         if (rounds != null) {
             long duration = 0;
             for (Round round : rounds) {
@@ -152,8 +169,7 @@ public class Game {
             }
             long hours = TimeUnit.MILLISECONDS.toHours(duration);
             long minutes = TimeUnit.MILLISECONDS.toMinutes(duration) - (hours*MINUTES_IN_AN_HOUR);
-            String prettyDate = String.format(Locale.getDefault(), "%2dh %2dm", hours, minutes);
-            return prettyDate;
+            return String.format(Locale.getDefault(), "%2dh %2dm", hours, minutes);
         } else {
             return "-";
         }

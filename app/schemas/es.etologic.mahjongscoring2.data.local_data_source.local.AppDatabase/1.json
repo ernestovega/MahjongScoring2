@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "898c0a52f1a1807f8fe1f4bb67765455",
+    "identityHash": "802bc60e3a7dfa1b8812e881249ab06a",
     "entities": [
       {
         "tableName": "Players",
@@ -100,7 +100,7 @@
       },
       {
         "tableName": "Rounds",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, `handPoints` INTEGER NOT NULL, `winnerInitialPosition` INTEGER NOT NULL, `looserInitialPosition` INTEGER NOT NULL, `pointsP1` INTEGER NOT NULL, `pointsP2` INTEGER NOT NULL, `pointsP3` INTEGER NOT NULL, `pointsP4` INTEGER NOT NULL, `penaltyP1` INTEGER NOT NULL, `penaltyP2` INTEGER NOT NULL, `penaltyP3` INTEGER NOT NULL, `penaltyP4` INTEGER NOT NULL, `roundDuration` INTEGER NOT NULL, PRIMARY KEY(`gameId`, `roundId`), FOREIGN KEY(`gameId`) REFERENCES `Games`(`gameId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, `handPoints` INTEGER NOT NULL, `winnerInitialPosition` INTEGER, `discarderInitialPosition` INTEGER, `pointsP1` INTEGER NOT NULL, `pointsP2` INTEGER NOT NULL, `pointsP3` INTEGER NOT NULL, `pointsP4` INTEGER NOT NULL, `penaltyP1` INTEGER NOT NULL, `penaltyP2` INTEGER NOT NULL, `penaltyP3` INTEGER NOT NULL, `penaltyP4` INTEGER NOT NULL, `roundDuration` INTEGER NOT NULL, PRIMARY KEY(`gameId`, `roundId`), FOREIGN KEY(`gameId`) REFERENCES `Games`(`gameId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "gameId",
@@ -124,13 +124,13 @@
             "fieldPath": "winnerInitialPosition",
             "columnName": "winnerInitialPosition",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
-            "fieldPath": "looserInitialPosition",
-            "columnName": "looserInitialPosition",
+            "fieldPath": "discarderInitialPosition",
+            "columnName": "discarderInitialPosition",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "pointsP1",
@@ -281,7 +281,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"898c0a52f1a1807f8fe1f4bb67765455\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"802bc60e3a7dfa1b8812e881249ab06a\")"
     ]
   }
 }

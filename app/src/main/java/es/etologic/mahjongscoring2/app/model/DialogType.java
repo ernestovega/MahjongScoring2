@@ -1,7 +1,8 @@
 package es.etologic.mahjongscoring2.app.model;
 
 public enum DialogType {
-    REQUEST_POINTS_HAND,
-    REQUEST_POINTS_PENALTI,
+    NONE,
+    REQUEST_HAND_POINTS,
+    REQUEST_PENALTY_POINTS,
     SHOW_RANKING
 }

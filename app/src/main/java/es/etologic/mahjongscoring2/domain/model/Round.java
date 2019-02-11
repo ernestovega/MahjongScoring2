@@ -3,10 +3,19 @@ package es.etologic.mahjongscoring2.domain.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
+import android.arch.persistence.room.TypeConverters;
 
 import java.util.List;
 
 import es.etologic.mahjongscoring2.app.base.RecyclerViewable;
+import es.etologic.mahjongscoring2.data.local_data_source.local.converters.TableWindsConverter;
+import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
+
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.EAST;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NONE;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NORTH;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.SOUTH;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.WEST;
 
 @Entity(tableName = "Rounds",
         primaryKeys = { "gameId", "roundId" },
@@ -14,7 +23,8 @@ import es.etologic.mahjongscoring2.app.base.RecyclerViewable;
                 entity = Game.class,
                 parentColumns = "gameId",
                 childColumns = "gameId") },
-        indices = { @Index (value = { "gameId", "roundId" }, unique = true) })
+        indices = { @Index (value = { "gameId", "roundId" },
+                            unique = true) })
 public class Round extends RecyclerViewable<Round> {
 
     //Constants
@@ -25,18 +35,20 @@ public class Round extends RecyclerViewable<Round> {
     //Fields
     private final int gameId;
     private final int roundId;
-    private int handPoints;
-    private int winnerInitialPosition; //ToDo: change this int seats by typed enum seats.
-    private int looserInitialPosition;//ToDo: change this int seats by typed enum seats.
-    private int pointsP1;
-    private int pointsP2;
-    private int pointsP3;
-    private int pointsP4;
-    private int penaltyP1;
-    private int penaltyP2;
-    private int penaltyP3;
-    private int penaltyP4;
-    private long roundDuration;
+    private int handPoints = 0;
+    @TypeConverters(TableWindsConverter.class)
+    private TableWinds winnerInitialPosition = NONE;
+    @TypeConverters(TableWindsConverter.class)
+    private TableWinds discarderInitialPosition = NONE;
+    private int pointsP1 = 0;
+    private int pointsP2 = 0;
+    private int pointsP3 = 0;
+    private int pointsP4 = 0;
+    private int penaltyP1 = 0;
+    private int penaltyP2 = 0;
+    private int penaltyP3 = 0;
+    private int penaltyP4 = 0;
+    private long roundDuration = 0;
 
     //region GETTERS & SETTERS
     public int getGameId() {
@@ -51,17 +63,17 @@ public class Round extends RecyclerViewable<Round> {
     public void setHandPoints(int handPoints) {
         this.handPoints = handPoints;
     }
-    public int getWinnerInitialPosition() {
+    public TableWinds getWinnerInitialPosition() {
         return winnerInitialPosition;
     }
-    public void setWinnerInitialPosition(int winnerInitialPosition) {
+    public void setWinnerInitialPosition(TableWinds winnerInitialPosition) {
         this.winnerInitialPosition = winnerInitialPosition;
     }
-    public int getLooserInitialPosition() {
-        return looserInitialPosition;
+    public TableWinds getDiscarderInitialPosition() {
+        return discarderInitialPosition;
     }
-    public void setLooserInitialPosition(int looserInitialPosition) {
-        this.looserInitialPosition = looserInitialPosition;
+    public void setDiscarderInitialPosition(TableWinds looserInitialPosition) {
+        this.discarderInitialPosition = looserInitialPosition;
     }
     public int getPointsP1() {
         return pointsP1;
@@ -122,14 +134,15 @@ public class Round extends RecyclerViewable<Round> {
     public Round(final int gameId, final int roundId) {
         this.gameId = gameId;
         this.roundId = roundId;
+
     }
-    private Round(int gameId, int roundId, int handPoints, int winnerInitialPosition, int looserInitialPosition, int pointsP1, int pointsP2,
+    private Round(int gameId, int roundId, int handPoints, TableWinds winnerInitialPosition, TableWinds discarderInitialPosition, int pointsP1, int pointsP2,
                   int pointsP3, int pointsP4, int penaltyP1, int penaltyP2, int penaltyP3, int penaltyP4, long roundDuration) {
         this.gameId = gameId;
         this.roundId = roundId;
         this.handPoints = handPoints;
         this.winnerInitialPosition = winnerInitialPosition;
-        this.looserInitialPosition = looserInitialPosition;
+        this.discarderInitialPosition = discarderInitialPosition;
         this.pointsP1 = pointsP1;
         this.pointsP2 = pointsP2;
         this.pointsP3 = pointsP3;
@@ -140,167 +153,86 @@ public class Round extends RecyclerViewable<Round> {
         this.penaltyP4 = penaltyP4;
         this.roundDuration = roundDuration;
     }
-
+    
     //Methods
-    public void setAllPlayersTsumoPoints(int winnerInitialPosition, int winnerHandPoints) {
+    public void setAllPlayersTsumoPoints(TableWinds winnerInitialPosition, int winnerHandPoints) {
         this.winnerInitialPosition = winnerInitialPosition;
         this.handPoints = winnerHandPoints;
         int looserTotalPoints = winnerHandPoints + HU_BASE_POINTS;
         int winnerTotalPoints = (looserTotalPoints) * NUM_NO_WINNER_PLAYERS_IN_TSUMO;
-        pointsP1 += (1 == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
-        pointsP2 += (2 == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
-        pointsP3 += (3 == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
-        pointsP4 += (4 == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
+        pointsP1 += (EAST == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
+        pointsP2 += (SOUTH == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
+        pointsP3 += (WEST == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
+        pointsP4 += (NORTH == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
     }
-    public void setAllPlayersRonPoints(int winnerInitialPosition, int winnerHandPoints, int looserInitialPosition) {
+    public void setAllPlayersRonPoints(TableWinds winnerInitialPosition, int winnerHandPoints, TableWinds looserInitialPosition) {
         this.winnerInitialPosition = winnerInitialPosition;
         this.handPoints = winnerHandPoints;
-        this.looserInitialPosition = looserInitialPosition;
+        this.discarderInitialPosition = looserInitialPosition;
         int looserTotalPoints = winnerHandPoints + HU_BASE_POINTS;
         int winnerTotalPoints = looserTotalPoints +
                 (HU_BASE_POINTS * NUM_NO_WINNER_AND_NO_LOOSER_PLAYERS_IN_RON);
-        if(1 == winnerInitialPosition) {
+        if(EAST == winnerInitialPosition) {
             pointsP1 += winnerTotalPoints;
         } else {
-            pointsP1 -= (1 == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
+            pointsP1 -= (EAST == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
         }
-        if(2 == winnerInitialPosition) {
+        if(SOUTH == winnerInitialPosition) {
             pointsP2 += winnerTotalPoints;
         } else {
-            pointsP2 -= (3 == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
+            pointsP2 -= (SOUTH == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
         }
-        if(3 == winnerInitialPosition) {
+        if(WEST == winnerInitialPosition) {
             pointsP3 += winnerTotalPoints;
         } else {
-            pointsP3 -= (3 == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
+            pointsP3 -= (WEST == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
         }
-        if(4 == winnerInitialPosition) {
+        if(NORTH == winnerInitialPosition) {
             pointsP4 += winnerTotalPoints;
         } else {
-            pointsP4 -= (4 == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
+            pointsP4 -= (NORTH == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
         }
     }
-    public void setAllPlayersPointsByPenalty(int playerInitialPosition, int penaltyPoints) {
+    public void setAllPlayersPointsByPenalty(TableWinds playerInitialPosition, int penaltyPoints) {
         int noPenalizedPlayerPoints = penaltyPoints / NUM_NO_WINNER_PLAYERS_IN_TSUMO;
-        penaltyP1 += (1 == playerInitialPosition) ? penaltyPoints : 0;
-        penaltyP2 += (2 == playerInitialPosition) ? penaltyPoints : 0;
-        penaltyP3 += (3 == playerInitialPosition) ? penaltyPoints : 0;
-        penaltyP4 += (4 == playerInitialPosition) ? penaltyPoints : 0;
-        pointsP1 += (1 == playerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
-        pointsP2 += (2 == playerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
-        pointsP3 += (3 == playerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
-        pointsP4 += (4 == playerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
+        penaltyP1 += (EAST == playerInitialPosition) ? penaltyPoints : 0;
+        penaltyP2 += (SOUTH == playerInitialPosition) ? penaltyPoints : 0;
+        penaltyP3 += (WEST == playerInitialPosition) ? penaltyPoints : 0;
+        penaltyP4 += (NORTH == playerInitialPosition) ? penaltyPoints : 0;
+        pointsP1 += (EAST == playerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
+        pointsP2 += (SOUTH == playerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
+        pointsP3 += (WEST == playerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
+        pointsP4 += (NORTH == playerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
     }
-    public void setAllPlayersPointsByPenaltyCancellation(int playerInitialPosition) {
+    public void setAllPlayersPointsByPenaltyCancellation(TableWinds playerInitialPosition) {
         int penaltyPoints = getPenaltyPointsFromInitialPlayerPosition(playerInitialPosition);
         int noPenalizedPlayerPoints = penaltyPoints / NUM_NO_WINNER_PLAYERS_IN_TSUMO;
-        if(1 == playerInitialPosition) { penaltyP1 = 0; }
-        if(2 == playerInitialPosition) { penaltyP2 = 0; }
-        if(3 == playerInitialPosition) { penaltyP3 = 0; }
-        if(4 == playerInitialPosition) { penaltyP4 = 0; }
-        pointsP1 += (1 == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
-        pointsP2 += (2 == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
-        pointsP3 += (3 == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
-        pointsP4 += (4 == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
+        if(EAST == playerInitialPosition) { penaltyP1 = 0; }
+        if(SOUTH == playerInitialPosition) { penaltyP2 = 0; }
+        if(WEST == playerInitialPosition) { penaltyP3 = 0; }
+        if(NORTH == playerInitialPosition) { penaltyP4 = 0; }
+        pointsP1 += (EAST == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
+        pointsP2 += (SOUTH == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
+        pointsP3 += (WEST == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
+        pointsP4 += (NORTH == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
 
     }
-    public boolean isPenalizedPlayer(int playerInitialPosition) {
+    public boolean isPenalizedPlayer(TableWinds playerInitialPosition) {
         switch(playerInitialPosition) {
-            case 1: return penaltyP1 > 0;
-            case 2: return penaltyP2 > 0;
-            case 3: return penaltyP3 > 0;
-            case 4: //ToDo: change this int seats by typed enum seats.
+            case EAST: return penaltyP1 > 0;
+            case SOUTH: return penaltyP2 > 0;
+            case WEST: return penaltyP3 > 0;
+            case NORTH:
             default: return penaltyP4 > 0;
         }
     }
-    private int getPenaltyPointsFromInitialPlayerPosition(int playerInitialPosition) {
+    private int getPenaltyPointsFromInitialPlayerPosition(TableWinds playerInitialPosition) {
         switch(playerInitialPosition) {
-            case 1: return penaltyP1;
-            case 2: return penaltyP2;
-            case 3: return penaltyP3;
-            case 4: //ToDo: change this int seats by typed enum seats.
+            case EAST: return penaltyP1;
+            case SOUTH: return penaltyP2;
+            case WEST: return penaltyP3;
+            case NORTH:
             default: return penaltyP4;
-        }
-    }
-    public static int getEastSeatPlayerByRound(int roundId) {
-        switch(roundId) {
-            case 1:case 2:case 3:case 4:default: return 1;
-            case 5:case 6:case 7:case 8:         return 2;
-            case 9:case 10:case 11:case 12:      return 3;
-            case 13:case 14:case 15:case 16:     return 4;
-        } //ToDo: change this returned int seats by typed enum seats.
-    }
-    public static int getSouthSeatPlayerByRound(int roundId) {
-        switch(roundId) {
-            case 1:case 2:case 3:case 4:default: return 2;
-            case 5:case 6:case 7:case 8:         return 1;
-            case 9:case 10:case 11:case 12:      return 4;
-            case 13:case 14:case 15:case 16:     return 3;
-        } //ToDo: change this returned int seats by typed enum seats.
-    }
-    public static int getWestSeatPlayerByRound(int roundId) {
-        switch(roundId) {
-            case 1:case 2:case 3:case 4:default: return 3;
-            case 5:case 6:case 7:case 8:         return 4;
-            case 9:case 10:case 11:case 12:      return 2;
-            case 13:case 14:case 15:case 16:     return 1;
-        } //ToDo: change this returned int seats by typed enum seats.
-    }
-    public static int getNorthSeatPlayerByRound(int roundId) {
-        switch(roundId) {
-            case 1:case 2:case 3:case 4:default: return 4;
-            case 5:case 6:case 7:case 8:         return 3;
-            case 9:case 10:case 11:case 12:      return 1;
-            case 13:case 14:case 15:case 16:     return 2;
-        } //ToDo: change this returned int seats by typed enum seats.
-    }
-    public static int getPlayerInitialPositionBySeat(int seat, int roundId) {
-        switch(roundId) {
-            case 1:case 2:case 3:case 4:
-                return getPlayerInitialPositionBySeatInRoundEast(seat);
-            case 5:case 6:case 7:case 8:
-                return getPlayerInitialPositionBySeatInRoundSouth(seat);
-            case 9:case 10:case 11:case 12:
-                return getPlayerInitialPositionBySeatInRoundWest(seat);
-            case 13:case 14:case 15:case 16: default:
-                return getPlayerInitialPositionBySeatInRoundNorth(seat);
-            //ToDo: change this int seats by typed enum seats.
-        }
-    }
-    private static int getPlayerInitialPositionBySeatInRoundEast(int seat) {
-        switch(seat) {
-            case 1: return 1;
-            case 2: return 2;
-            case 3: return 3;
-            case 4: //ToDo: change this int seats by typed enum seats.
-            default: return 4;
-        }
-    }
-    private static int getPlayerInitialPositionBySeatInRoundSouth(int seat) {
-        switch(seat) {
-            case 1: return 2;
-            case 2: return 1;
-            case 3: return 4;
-            case 4: //ToDo: change this int seats by typed enum seats.
-            default: return 3;
-        }
-    }
-    private static int getPlayerInitialPositionBySeatInRoundWest(int seat) {
-        switch(seat) {
-            case 1: return 3;
-            case 2: return 4;
-            case 3: return 2;
-            case 4: //ToDo: change this int seats by typed enum seats.
-            default: return 1;
-        }
-    }
-    private static int getPlayerInitialPositionBySeatInRoundNorth(int seat) {
-        switch(seat) {
-            case 1: return 4;
-            case 2: return 3;
-            case 3: return 1;
-            case 4: //ToDo: change this int seats by typed enum seats.
-            default: return 2;
         }
     }
     private static boolean areEqual(Round round1, Round round2) {
@@ -308,7 +240,7 @@ public class Round extends RecyclerViewable<Round> {
                 round1.roundId == round2.roundId &&
                 round1.handPoints == round2.handPoints &&
                 round1.winnerInitialPosition == round2.winnerInitialPosition &&
-                round1.looserInitialPosition == round2.looserInitialPosition &&
+                round1.discarderInitialPosition == round2.discarderInitialPosition &&
                 round1.pointsP1 == round2.pointsP1 &&
                 round1.pointsP2 == round2.pointsP2 &&
                 round1.pointsP3 == round2.pointsP3 &&
@@ -352,7 +284,7 @@ public class Round extends RecyclerViewable<Round> {
                 roundId,
                 handPoints,
                 winnerInitialPosition,
-                looserInitialPosition,
+                discarderInitialPosition,
                 pointsP1,
                 pointsP2,
                 pointsP3,

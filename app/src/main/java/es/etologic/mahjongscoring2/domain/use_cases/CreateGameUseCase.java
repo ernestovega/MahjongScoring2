@@ -16,6 +16,6 @@ public class CreateGameUseCase {
     public CreateGameUseCase(GamesRepository gamesRepository) { this.gamesRepository = gamesRepository; }
 
     public Single<Long> createGame(List<String> playersNames) {
-        return gamesRepository.insertOne(Game.getNewGame(playersNames));
+        return gamesRepository.insertOne(new Game(playersNames));
     }
 }

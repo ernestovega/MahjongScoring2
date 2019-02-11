@@ -83,7 +83,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         itemViewHolder.tvSouthPlayerName.setText(game.getNameP2() == null ? "-" : game.getNameP2());
         itemViewHolder.tvWestPlayerName.setText(game.getNameP3() == null ? "-" : game.getNameP3());
         itemViewHolder.tvNorthPlayerName.setText(game.getNameP4() == null ? "-" : game.getNameP4());
-        String[] playersTotalPoints = game.getPlayersTotalPoints();
+        String[] playersTotalPoints = game.getPlayersTotalPointsString();
         itemViewHolder.tvEastPlayerPoints.setText(playersTotalPoints[0] == null ? "-" : playersTotalPoints[0]);
         itemViewHolder.tvSouthPlayerPoints.setText(playersTotalPoints[1] == null ? "-" : playersTotalPoints[1]);
         itemViewHolder.tvWestPlayerPoints.setText(playersTotalPoints[2] == null ? "-" : playersTotalPoints[2]);
