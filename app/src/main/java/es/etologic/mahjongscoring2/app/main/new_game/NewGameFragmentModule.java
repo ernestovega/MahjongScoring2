@@ -8,7 +8,7 @@ import es.etologic.mahjongscoring2.domain.use_cases.GetAllPlayersUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetPlayerUseCase;
 
 @Module
-public class NewGameActivityModule {
+public class NewGameFragmentModule {
 
     @Provides
     NewGameViewModelFactory provideNewGameViewModelFactory(GetAllPlayersUseCase getAllPlayersUseCase,

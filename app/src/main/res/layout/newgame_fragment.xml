@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@android:color/white"
-    tools:context=".app.main.new_game.NewGameActivity">
+    tools:context=".app.main.new_game.NewGameFragment">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarNewGame"
@@ -44,6 +44,9 @@
         android:layout_margin="@dimen/standard_margin"
         android:src="@drawable/ic_play_arrow_white_24px"
         android:tint="@android:color/white"
+        app:fab_colorNormal="@color/colorAccent"
+        app:fab_colorPressed="@color/colorAccentDark"
+        app:fab_colorRipple="@color/colorAccentDark"
         android:visibility="gone"
         app:fabSize="normal"/>
 

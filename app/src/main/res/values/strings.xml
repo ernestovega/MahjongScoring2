@@ -180,7 +180,7 @@
     <string name="number_symbol">#</string>
     <string name="final_results">Final results</string>
     <string name="duration">Duration</string>
-    <string name="cancel_penalty">Cancel isPenalized</string>
+    <string name="cancel_penalty">Cancel penalty</string>
     <string name="isPenalized">Penalty</string>
     <string name="draw">Draw</string>
     <string name="hu_wall">Wall Hu</string>

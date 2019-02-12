@@ -2,7 +2,6 @@ package es.etologic.mahjongscoring2.app.main.old_games;
 
 import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -51,10 +50,9 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
     //FIELDS
     private Unbinder unbinder;
     private OldGamesRvAdapter rvAdapter;
-    private Context context;
     @Inject MainActivityViewModelFactory mainActivityViewModelFactory;
-    @Inject OldGamesViewModelFactory oldGamesViewModelFactory;
     private MainActivityViewModel activityViewModel;
+    @Inject OldGamesViewModelFactory oldGamesViewModelFactory;
     private OldGamesViewModel viewModel;
 
     //EVENTS
@@ -70,7 +68,7 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
                 .create()
                 .show();
     }
-    @Override public void onOldGameItemResumeClicked(long gameId) { activityViewModel.goToGame(gameId); }
+    @Override public void onOldGameItemResumeClicked(long gameId) { activityViewModel.startGame(gameId); }
 
     //LIFECYCLE
     @Override
@@ -80,7 +78,6 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        context = getContext();
         unbinder = ButterKnife.bind(this, view);
         setupRecyclerView();
         setupViewModel();

@@ -168,28 +168,28 @@ public class GameTableFragment extends Fragment {
         eastSeat.setWind(seat.getWind());
         eastSeat.setName(seat.getName());
         eastSeat.setPoints(seat.getPoints());
-        eastSeat.setPenalty(seat.getPenalty());
+//        eastSeat.addPenalty(seat.getPenalty());
         eastSeat.setState(seat.getState());
     }
     private void southSeatObserver(Seat seat) {
         southSeat.setWind(seat.getWind());
         southSeat.setName(seat.getName());
         southSeat.setPoints(seat.getPoints());
-        southSeat.setPenalty(seat.getPenalty());
+//        southSeat.addPenalty(seat.getPenalty());
         southSeat.setState(seat.getState());
     }
     private void westSeatObserver(Seat seat) {
         westSeat.setWind(seat.getWind());
         westSeat.setName(seat.getName());
         westSeat.setPoints(seat.getPoints());
-        westSeat.setPenalty(seat.getPenalty());
+//        westSeat.addPenalty(seat.getPenalty());
         westSeat.setState(seat.getState());
     }
     private void northSeatObserver(Seat seat) {
         northSeat.setWind(seat.getWind());
         northSeat.setName(seat.getName());
         northSeat.setPoints(seat.getPoints());
-        northSeat.setPenalty(seat.getPenalty());
+//        northSeat.addPenalty(seat.getPenalty());
         northSeat.setState(seat.getState());
     }
     @Override

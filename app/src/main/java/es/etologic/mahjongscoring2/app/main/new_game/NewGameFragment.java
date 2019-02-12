@@ -1,16 +1,20 @@
 package es.etologic.mahjongscoring2.app.main.new_game;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.pchmn.materialchips.ChipsInput;
@@ -26,8 +30,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.R;
-import es.etologic.mahjongscoring2.app.base.BaseActivity;
-import es.etologic.mahjongscoring2.app.game.activity.GameActivity;
+import es.etologic.mahjongscoring2.app.base.BaseFragment;
+import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel;
+import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModelFactory;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
 import es.etologic.mahjongscoring2.domain.model.Player;
@@ -35,10 +40,11 @@ import es.etologic.mahjongscoring2.domain.model.Player;
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.OLD_GAMES;
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
-public class NewGameActivity extends BaseActivity {
+public class NewGameFragment extends BaseFragment {
 
     //VIEWS
     @BindView(R.id.toolbarNewGame) Toolbar toolbar;
@@ -46,6 +52,8 @@ public class NewGameActivity extends BaseActivity {
     @BindView(R.id.fabNewGameStartGame) FloatingActionButton fabStartGame;
     //FIELDS
     private Unbinder unbinder;
+    @Inject MainActivityViewModelFactory mainActivityViewModelFactory;
+    private MainActivityViewModel activityViewModel;
     @Inject NewGameViewModelFactory newGameViewModelFactory;
     private NewGameViewModel viewModel;
     private String actualChipsInputText;
@@ -56,7 +64,7 @@ public class NewGameActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                activityViewModel.navigateTo(OLD_GAMES);
                 return true;
             case R.id.action_create_player:
                 showNewPlayerDialog();
@@ -66,6 +74,7 @@ public class NewGameActivity extends BaseActivity {
         }
     }
     private void showNewPlayerDialog() {
+        @SuppressLint("InflateParams")
         TextInputLayout til = (TextInputLayout) getLayoutInflater().inflate(
                 R.layout.newgame_newplayerdialog_textinputlayout, null);
         TextInputEditText tiet = til.findViewById(R.id.tietNewGameNewPlayerDialog);
@@ -74,7 +83,7 @@ public class NewGameActivity extends BaseActivity {
         } else {
             tiet.setText(actualChipsInputText);
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.create_player)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                     String inputText = tiet.getText().toString().trim();
@@ -108,30 +117,31 @@ public class NewGameActivity extends BaseActivity {
 
     //LIFECYCLE
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.newgame_activity);
-        unbinder = ButterKnife.bind(this);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.newgame_fragment, container, false);
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        unbinder = ButterKnife.bind(this, view);
         snackbar4players = Snackbar.make(chipsInput, R.string.just_four_players_please, LENGTH_INDEFINITE);
-        setupToolbar();
         setupViewModel();
         setupChips();
+        setToolbar();
         viewModel.bindAllPlayers();
     }
-    private void setupToolbar() {
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-    }
+    private void setToolbar() { activityViewModel.setToolbar(toolbar); }
     private void setupViewModel() {
-        viewModel = ViewModelProviders.of(this, newGameViewModelFactory).get(NewGameViewModel.class);
-        viewModel.getAllPlayers().observe(this, this::setAllPlayers);
-        viewModel.getNewPlayer().observe(this, this::addPlayerChip);
-        viewModel.getNewGameId().observe(this, this::startGame);
-        viewModel.getToolbarProgress().observe(this, this::toggleToolbarProgress);
-        viewModel.getSnackbarMessage().observe(this, this::showSnackbar);
+        FragmentActivity activity = getActivity();
+        if(activity != null) {
+            activityViewModel = ViewModelProviders.of(activity, mainActivityViewModelFactory).get(MainActivityViewModel.class);
+            viewModel = ViewModelProviders.of(this, newGameViewModelFactory).get(NewGameViewModel.class);
+            viewModel.getAllPlayers().observe(this, this::setAllPlayers);
+            viewModel.getNewPlayer().observe(this, this::addPlayerChip);
+            viewModel.getNewGameId().observe(this, activityViewModel::startGame);
+            viewModel.getToolbarProgress().observe(this, this::toggleToolbarProgress);
+            viewModel.getSnackbarMessage().observe(this, this::showSnackbar);
+        }
     }
     private void showSnackbar(String message) {
         Snackbar.make(chipsInput, message, Snackbar.LENGTH_LONG).show();
@@ -195,15 +205,10 @@ public class NewGameActivity extends BaseActivity {
         chipsInput.addChip(playerChip);
         viewModel.bindAllPlayers();
     }
-    private void startGame(long gameId) {
-        Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra(getString(R.string.key_extra_game_id), gameId);
-        startActivity(intent);
-    }
     private void toggleToolbarProgress(ShowState showState) {
         MenuItem menuItem = toolbar.getMenu().findItem(R.id.action_create_player);
-        if(menuItem != null) {
-            switch(showState) {
+        if (menuItem != null) {
+            switch (showState) {
                 case HIDE:
                     menuItem.setEnabled(true);
                     menuItem.setActionView(null);
@@ -214,12 +219,6 @@ public class NewGameActivity extends BaseActivity {
                     break;
             }
         }
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.new_game_menu, menu);
-        super.onCreateOptionsMenu(menu);
-        return true;
     }
     @Override
     public void onDestroy() {

@@ -38,17 +38,7 @@ public class MainActivityViewModel extends ViewModel {
 
     //METHODS
     public void navigateTo(MainScreens screen) { currentScreen.postValue(screen); }
-    public void navigateBack() {
-        switch(Objects.requireNonNull(currentScreen.getValue())) {
-            case OLD_GAMES:
-                navigateTo(FINISH);
-                break;
-            case COMBINATIONS:
-                navigateTo(OLD_GAMES);
-                break;
-            default:
-                break;
-        }
+    public void startGame(long gameId) {
+        currentGame.postValue(gameId);
     }
-    public void goToGame(long gameId) { currentGame.postValue(gameId); }
 }

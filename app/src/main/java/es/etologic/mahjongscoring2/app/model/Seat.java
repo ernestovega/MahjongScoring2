@@ -9,7 +9,7 @@ public class Seat {
     private TableWinds wind;
     private String name;
     private Integer points;
-    private Integer penalty;
+    private int penalty;
     private SeatState state;
 
     public TableWinds getWind() {
@@ -21,7 +21,7 @@ public class Seat {
     public Integer getPoints() {
         return points;
     }
-    public Integer getPenalty() {
+    public int getPenalty() {
         return penalty;
     }
     public SeatState getState() {
@@ -37,7 +37,7 @@ public class Seat {
     public void setPoints(Integer points) {
         this.points = points;
     }
-    public void setPenalty(Integer penalty) {
+    public void setPenalty(int penalty) {
         this.penalty = penalty;
     }
     public void setState(SeatState state) {

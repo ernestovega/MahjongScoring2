@@ -1,111 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:id="@+id/rlTableSeatContainer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvSeat"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <ImageView
+        android:id="@+id/ivItemPlayerSeatWindIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/standard_margin"
-        android:padding="@dimen/standard_margin"
-        app:cardBackgroundColor="@android:color/white"
-        app:cardCornerRadius="@dimen/cardCornerRadius"
-        app:cardElevation="@dimen/quarter_standard_margin">
+        android:layout_gravity="center_horizontal"
+        android:alpha=".6"
+        android:contentDescription="@string/seat_wind"
+        android:scaleType="centerInside"
+        tools:src="@drawable/ic_east" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvItemPlayerPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/standard_margin"
+            android:layout_centerInParent="true"
+            android:textColor="@color/grayMM"
+            android:textSize="@dimen/table_player_points_text_size"
+            android:textStyle="bold"
+            tools:text="412" />
 
-                <ImageView
-                    android:id="@+id/ivItemPlayerSeatWindIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:alpha=".6"
-                    android:contentDescription="@string/seat_wind"
-                    android:scaleType="centerInside"
-                    tools:src="@drawable/ic_east" />
+        <TextView
+            android:id="@+id/tvItemPlayerPenaltyPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tvItemPlayerPoints"
+            android:layout_toRightOf="@+id/tvItemPlayerPoints"
+            android:layout_marginLeft="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_centerVertical="true"
+            android:textColor="@color/purple"
+            android:textSize="@dimen/table_player_penalty_points_text_size"
+            android:textStyle="bold"
+            tools:text="-60" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/standard_margin"
-                    android:layout_marginBottom="@dimen/standard_margin"
-                    android:layout_weight="3">
+    </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/tvItemPlayerPoints"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/standard_margin"
-                        android:textColor="@color/grayMM"
-                        android:textSize="@dimen/table_player_points_text_size"
-                        android:textStyle="bold"
-                        tools:text="412" />
-
-                    <TextView
-                        android:id="@+id/tvItemPlayerPenaltyPoints"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/tvItemPlayerPoints"
-                        android:layout_toRightOf="@+id/tvItemPlayerPoints"
-                        android:gravity="top"
-                        android:textColor="@color/purple"
-                        android:textSize="@dimen/table_player_penalty_points_text_size"
-                        android:textStyle="bold"
-                        tools:text="-60" />
-
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/tvItemPlayerName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="3"
-                    android:gravity="center"
-                    android:textColor="@color/grayMM"
-                    android:textSize="@dimen/table_player_name_text_size"
-                    android:textStyle="bold"
-                    tools:text="Ernesto" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llItemPlayerLayer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:visibility="gone"
-                tools:background="@color/colorPrimaryTransparent"
-                tools:visibility="visible">
-
-                <ImageView
-                    android:id="@+id/ivItemPlayerLayerIcon"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/seat_player_name"
-                    android:padding="@dimen/triple_standard_margin" />
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-    </android.support.v7.widget.CardView>
+    <TextView
+        android:id="@+id/tvItemPlayerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/standard_margin"
+        android:textColor="@color/grayMM"
+        android:textSize="@dimen/table_player_name_text_size"
+        android:textStyle="bold"
+        tools:text="Ernesto" />
 
 </LinearLayout>

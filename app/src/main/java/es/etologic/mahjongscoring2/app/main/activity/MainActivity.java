@@ -28,7 +28,7 @@ import es.etologic.mahjongscoring2.app.base.BaseActivity;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivity;
 import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens;
 import es.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity;
-import es.etologic.mahjongscoring2.app.main.new_game.NewGameActivity;
+import es.etologic.mahjongscoring2.app.main.new_game.NewGameFragment;
 import es.etologic.mahjongscoring2.app.main.old_games.OldGamesFragment;
 
 import static es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.COMBINATIONS;
@@ -111,7 +111,7 @@ public class MainActivity extends BaseActivity {
         });
     }
     private void goToNewGame() {
-        Intent intent = new Intent(this, NewGameActivity.class);
+        Intent intent = new Intent(this, NewGameFragment.class);
         startActivity(intent);
     }
     private void closeEndDrawer() {
