@@ -8,17 +8,17 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class KeyboardUtils {
 
-    public static void showKeyboard(Context context, View viewInputMethod) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
+    public static void showKeyboard(View viewInputMethod) {
+        InputMethodManager imm = (InputMethodManager) viewInputMethod.getContext().getSystemService(INPUT_METHOD_SERVICE);
         if(imm != null) {
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 
-    public static void hideKeyboard(Context context, View view) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
+    public static void hideKeyboard(View viewInputMethod) {
+        InputMethodManager imm = (InputMethodManager) viewInputMethod.getContext().getSystemService(INPUT_METHOD_SERVICE);
         if(imm != null) {
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(viewInputMethod.getWindowToken(), 0);
         }
     }
 }

@@ -99,7 +99,7 @@ class GameListRvAdapter extends BaseRvAdapter<Round> {
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         //@BindView (R.id.slGameList) SwipeLayout swipeLayout;
-        @BindView(R.id.ibDeleteItem) ImageButton ibDeleteItem;
+//        @BindView(R.id.ibDeleteItem) ImageButton ibDeleteItem;
         @BindView(R.id.tvGameListItemRoundNumber) TextView tvRoundNum;
         @BindView(R.id.tvGameListItemHandPoints) TextView tvHandPoints;
         @BindView(R.id.tvGameListItemRoundPointsP1) TextView tvPointsP1;

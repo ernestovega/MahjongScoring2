@@ -7,8 +7,9 @@ import java.util.List;
 
 import es.etologic.mahjongscoring2.app.base.BaseViewModel;
 import es.etologic.mahjongscoring2.domain.model.Game;
+import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
 import es.etologic.mahjongscoring2.domain.use_cases.DeleteGameUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.GetAllGamesUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.GetGamesWithRoundsUseCase;
 import io.reactivex.schedulers.Schedulers;
 
 import static es.etologic.mahjongscoring2.app.model.ShowState.*;
@@ -16,23 +17,23 @@ import static es.etologic.mahjongscoring2.app.model.ShowState.*;
 class OldGamesViewModel extends BaseViewModel {
 
     //FIELDS
-    private GetAllGamesUseCase getAllGamesUseCase;
+    private GetGamesWithRoundsUseCase getGamesWithRoundsUseCase;
     private DeleteGameUseCase deleteGameUseCase;
-    private MutableLiveData<List<Game>> allGames = new MutableLiveData<>();
+    private MutableLiveData<List<GameWithRounds>> allGames = new MutableLiveData<>();
 
     //CONSTRUCTOR
-    OldGamesViewModel(GetAllGamesUseCase getAllGamesUseCase, DeleteGameUseCase deleteGameUseCase) {
-        this.getAllGamesUseCase = getAllGamesUseCase;
+    OldGamesViewModel(GetGamesWithRoundsUseCase getGamesWithRoundsUseCase, DeleteGameUseCase deleteGameUseCase) {
+        this.getGamesWithRoundsUseCase = getGamesWithRoundsUseCase;
         this.deleteGameUseCase = deleteGameUseCase;
     }
 
     //OBSERVABLES
-    LiveData<List<Game>> getGames() { return allGames; }
+    LiveData<List<GameWithRounds>> getGames() { return allGames; }
 
     //METHODS
     void getAllGames() {
         disposables.add(
-                getAllGamesUseCase.getAll()
+                getGamesWithRoundsUseCase.getAllWithRounds()
                         .subscribeOn(Schedulers.io())
                         .doOnSubscribe(observer -> progressState.postValue(SHOW))
                         .doOnEvent((observer, throwable) -> progressState.postValue(HIDE))

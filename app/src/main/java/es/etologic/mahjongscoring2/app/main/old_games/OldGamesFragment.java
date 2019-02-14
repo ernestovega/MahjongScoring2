@@ -16,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.github.clans.fab.FloatingActionButton;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,6 +30,7 @@ import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel;
 import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModelFactory;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.domain.model.Game;
+import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -46,7 +45,6 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
     @BindView(R.id.swipeRefreshLayoutOldGames) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recyclerViewOldGames) RecyclerView recyclerView;
     @BindView(R.id.emptyLayoutOldGames) LinearLayout emptyLayout;
-    @BindView(R.id.fabOldGames) FloatingActionButton fabNewGame;
     //FIELDS
     private Unbinder unbinder;
     private OldGamesRvAdapter rvAdapter;
@@ -60,7 +58,7 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
         activityViewModel.navigateTo(NEW_GAME);
     }
     @Override public void onOldGameItemDeleteClicked(long gameId) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.delete_game)
                 .setMessage(R.string.are_you_sure)
                 .setPositiveButton(R.string.delete, (dialog, which) -> viewModel.deleteGame(gameId))
@@ -98,7 +96,7 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
             viewModel = ViewModelProviders.of(this, oldGamesViewModelFactory).get(OldGamesViewModel.class);
             viewModel.getError().observe(this, this::showError);
             viewModel.getGames().observe(this, this::setGames);
-            viewModel.getProgressState().observe(this, this::toogleLocalProgress);
+            viewModel.getLocalProgressState().observe(this, this::toogleLocalProgress);
             viewModel.getSnackbarMessage().observe(this, this::showSnackbar);
         }
     }
@@ -107,13 +105,11 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
         swipeRefreshLayout.setOnRefreshListener(() -> viewModel.getAllGames());
     }
     private void setToolbar() { activityViewModel.setToolbar(toolbar); }
-    private void setGames(List<Game> games) {
+    private void setGames(List<GameWithRounds> games) {
         if(games == null || games.isEmpty()) {
             emptyLayout.setVisibility(VISIBLE);
-            fabNewGame.setVisibility(VISIBLE);
         } else {
             emptyLayout.setVisibility(GONE);
-            fabNewGame.setVisibility(GONE);
             rvAdapter.setGames(games);
         }
         toogleLocalProgress(HIDE);

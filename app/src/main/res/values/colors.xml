@@ -21,5 +21,6 @@
     <color name="purple">#7C00E7</color>
     <color name="purpleDark">#520099</color>
     <color name="purpleDarkTransparent">#88520099</color>
+    <color name="redPenalty">#CC0000</color>
 
 </resources>

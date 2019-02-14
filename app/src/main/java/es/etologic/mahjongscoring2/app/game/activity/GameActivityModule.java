@@ -3,6 +3,7 @@ package es.etologic.mahjongscoring2.app.game.activity;
 import dagger.Module;
 import dagger.Provides;
 import es.etologic.mahjongscoring2.domain.use_cases.GetGameUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.GetGamesWithRoundsUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetRoundsUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.UpdateRoundsUseCase;
 
@@ -10,12 +11,9 @@ import es.etologic.mahjongscoring2.domain.use_cases.UpdateRoundsUseCase;
 public class GameActivityModule {
 
     @Provides
-    GameActivityViewModelFactory provideGameViewModelFactory(GetGameUseCase getGameUseCase,
-                                                             GetRoundsUseCase getRoundsRepository,
+    GameActivityViewModelFactory provideGameViewModelFactory(GetGamesWithRoundsUseCase getGamesWithRoundsUseCase,
                                                              UpdateRoundsUseCase updateRoundUseCase) {
         return new GameActivityViewModelFactory(
-                getGameUseCase,
-                getRoundsRepository,
-                updateRoundUseCase);
+                getGamesWithRoundsUseCase, updateRoundUseCase);
     }
 }

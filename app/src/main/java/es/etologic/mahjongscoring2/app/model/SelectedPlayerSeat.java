@@ -32,7 +32,7 @@ public class SelectedPlayerSeat {
             clear();
         } else {
             this.currentSeat = currentSeat;
-            this.initialSeat = Game.getPlayerInitialPositionByCurrentSeat(currentSeat, roundId);
+            this.initialSeat = Game.getPlayerInitialSeatByCurrentSeat(currentSeat, roundId);
         }
     }
 }

@@ -21,15 +21,17 @@ import es.etologic.mahjongscoring2.app.utils.DateTimeUtils;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
 import es.etologic.mahjongscoring2.domain.model.BestHand;
 import es.etologic.mahjongscoring2.domain.model.Game;
+import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static android.view.View.resolveSize;
 
 class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //FIELDS
     private GameItemListener itemClickListener;
-    private List<Game> games;
+    private List<GameWithRounds> games;
     //CONTRUCTOR
     OldGamesRvAdapter() {
         games = new ArrayList<>();
@@ -38,7 +40,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     void setOldGameItemListener(GameItemListener listener) {
         this.itemClickListener = listener;
     }
-    void setGames(List<Game> newGames) {
+    void setGames(List<GameWithRounds> newGames) {
         if(games == null) {
             saveNewGamesCopy(newGames);
             notifyItemRangeInserted(0, newGames.size());
@@ -49,10 +51,10 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             result.dispatchUpdatesTo(this);
         }
     }
-    private void saveNewGamesCopy(List<Game> newGames) {
-        List<Game> newGamesCopy = new ArrayList<>(newGames.size());
-        for(Game game : newGames) {
-            newGamesCopy.add(game.getCopy());
+    private void saveNewGamesCopy(List<GameWithRounds> newGames) {
+        List<GameWithRounds> newGamesCopy = new ArrayList<>(newGames.size());
+        for(GameWithRounds gameWithRounds : newGames) {
+            newGamesCopy.add(gameWithRounds.getCopy());
         }
         games = newGamesCopy;
     }
@@ -70,25 +72,25 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         OldGameItemViewHolder itemViewHolder = ((OldGameItemViewHolder) holder);
-        final Game game = games.get(position);
-        long duration = game.getDuration();
-        BestHand bestHand = game.getBestHand();
-        setFields(itemViewHolder, game, duration, bestHand);
+        final GameWithRounds gameWithRounds = games.get(position);
+        long duration = gameWithRounds.getDuration();
+        BestHand bestHand = gameWithRounds.getBestHand();
+        setFields(itemViewHolder, gameWithRounds, duration, bestHand);
     }
-    private void setFields(OldGameItemViewHolder itemViewHolder, Game game, long duration, BestHand bestHand) {
-        itemViewHolder.gameId = game.getGameId();
-        itemViewHolder.tvStartDate.setText(game.getCreationDate() == null ? "-" : DateTimeUtils.getPrettyDate(game.getCreationDate()));
+    private void setFields(OldGameItemViewHolder itemViewHolder, GameWithRounds gameWithRounds, long duration, BestHand bestHand) {
+        itemViewHolder.gameId = gameWithRounds.getGame().getGameId();
+        itemViewHolder.tvStartDate.setText(gameWithRounds.getGame().getCreationDate() == null ? "-" : DateTimeUtils.getPrettyDate(gameWithRounds.getGame().getCreationDate()));
         itemViewHolder.tvDuration.setText(DateTimeUtils.getPrettyTime(duration));
-        itemViewHolder.tvEastPlayerName.setText(game.getNameP1() == null ? "-" : game.getNameP1());
-        itemViewHolder.tvSouthPlayerName.setText(game.getNameP2() == null ? "-" : game.getNameP2());
-        itemViewHolder.tvWestPlayerName.setText(game.getNameP3() == null ? "-" : game.getNameP3());
-        itemViewHolder.tvNorthPlayerName.setText(game.getNameP4() == null ? "-" : game.getNameP4());
-        String[] playersTotalPoints = game.getPlayersTotalPointsString();
+        itemViewHolder.tvEastPlayerName.setText(gameWithRounds.getGame().getNameP1() == null ? "-" : gameWithRounds.getGame().getNameP1());
+        itemViewHolder.tvSouthPlayerName.setText(gameWithRounds.getGame().getNameP2() == null ? "-" : gameWithRounds.getGame().getNameP2());
+        itemViewHolder.tvWestPlayerName.setText(gameWithRounds.getGame().getNameP3() == null ? "-" : gameWithRounds.getGame().getNameP3());
+        itemViewHolder.tvNorthPlayerName.setText(gameWithRounds.getGame().getNameP4() == null ? "-" : gameWithRounds.getGame().getNameP4());
+        String[] playersTotalPoints = gameWithRounds.getPlayersTotalPointsString();
         itemViewHolder.tvEastPlayerPoints.setText(playersTotalPoints[0] == null ? "-" : playersTotalPoints[0]);
         itemViewHolder.tvSouthPlayerPoints.setText(playersTotalPoints[1] == null ? "-" : playersTotalPoints[1]);
         itemViewHolder.tvWestPlayerPoints.setText(playersTotalPoints[2] == null ? "-" : playersTotalPoints[2]);
         itemViewHolder.tvNorthPlayerPoints.setText(playersTotalPoints[3] == null ? "-" : playersTotalPoints[3]);
-        itemViewHolder.tvRoundNumber.setText(String.valueOf(game.getRounds().size()));
+        itemViewHolder.tvRoundNumber.setText(String.valueOf(gameWithRounds.getRounds().size()));
         setBestHand(itemViewHolder, bestHand);
     }
     private void setBestHand(OldGameItemViewHolder itemViewHolder, BestHand bestHand) {
@@ -119,7 +121,6 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @BindView(R.id.tvOldGameItemPlayerSouthPoints) TextView tvSouthPlayerPoints;
         @BindView(R.id.tvOldGameItemPlayerWestPoints) TextView tvWestPlayerPoints;
         @BindView(R.id.tvOldGameItemPlayerNorthPoints) TextView tvNorthPlayerPoints;
-        @BindView(R.id.llOldGameItemItemRoundsNumber) LinearLayout llRoundNumberContainer;
         @BindView(R.id.tvOldGameItemRoundsNumber) TextView tvRoundNumber;
         @BindView(R.id.llOldGameItemItemBestHand) LinearLayout llBestHandContainer;
         @BindView(R.id.tvOldGameItemBestHandPlayerName) TextView tvBestHandPlayerName;

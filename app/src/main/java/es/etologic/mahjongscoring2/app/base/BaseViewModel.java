@@ -14,7 +14,7 @@ public class BaseViewModel extends ViewModel {
     protected MutableLiveData<String> snackbarMessage = new MutableLiveData<>();
     protected MutableLiveData<Throwable> error = new MutableLiveData<>();
 
-    public LiveData<ShowState> getProgressState() { return progressState; }
+    public LiveData<ShowState> getLocalProgressState() { return progressState; }
     public LiveData<String> getSnackbarMessage() { return snackbarMessage; }
     public LiveData<Throwable> getError() { return error; }
 

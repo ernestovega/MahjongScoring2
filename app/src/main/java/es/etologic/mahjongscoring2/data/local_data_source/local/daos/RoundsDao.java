@@ -35,6 +35,9 @@ public interface RoundsDao {
     @Query("DELETE FROM Rounds WHERE gameId = :gameId AND roundId = :roundId")
     int deleteOne(long gameId, long roundId);
 
+    @Query("DELETE FROM Rounds WHERE gameId = :gameId")
+    int deleteByGame(long gameId);
+
     @Query("DELETE FROM Rounds")
     int deleteAll();
 }

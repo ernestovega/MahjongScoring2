@@ -6,16 +6,16 @@ import java.util.List;
 
 import es.etologic.mahjongscoring2.app.utils.DateTimeUtils;
 import es.etologic.mahjongscoring2.domain.model.BestHand;
-import es.etologic.mahjongscoring2.domain.model.Game;
+import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
 import es.etologic.mahjongscoring2.domain.model.Round;
 
 public class GameItemDiffUtilCallback extends DiffUtil.Callback {
 
     private static final int NUM_GAME_PLAYERS = 4;
-    private List<Game> oldList;
-    private List<Game> newList;
+    private List<GameWithRounds> oldList;
+    private List<GameWithRounds> newList;
 
-    public GameItemDiffUtilCallback(List<Game> newList, List<Game> oldList) {
+    public GameItemDiffUtilCallback(List<GameWithRounds> newList, List<GameWithRounds> oldList) {
         this.newList = newList;
         this.oldList = oldList;
     }
@@ -32,20 +32,20 @@ public class GameItemDiffUtilCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldList.get(oldItemPosition).getGameId() ==
-                       newList.get(newItemPosition).getGameId();
+        return oldList.get(oldItemPosition).getGame().getGameId() ==
+                       newList.get(newItemPosition).getGame().getGameId();
     }
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        Game newGame = newList.get(newItemPosition);
-        Game oldGame = oldList.get(oldItemPosition);
-        return oldGame.getGameId() == newGame.getGameId() &&
-                       oldGame.getNameP1().equals(newGame.getNameP1()) &&
-                       oldGame.getNameP2().equals(newGame.getNameP2()) &&
-                       oldGame.getNameP3().equals(newGame.getNameP3()) &&
-                       oldGame.getNameP4().equals(newGame.getNameP4()) &&
-                       DateTimeUtils.areEqual(oldGame.getCreationDate(), newGame.getCreationDate()) &&
+        GameWithRounds newGame = newList.get(newItemPosition);
+        GameWithRounds oldGame = oldList.get(oldItemPosition);
+        return oldGame.getGame().getGameId() == newGame.getGame().getGameId() &&
+                       oldGame.getGame().getNameP1().equals(newGame.getGame().getNameP1()) &&
+                       oldGame.getGame().getNameP2().equals(newGame.getGame().getNameP2()) &&
+                       oldGame.getGame().getNameP3().equals(newGame.getGame().getNameP3()) &&
+                       oldGame.getGame().getNameP4().equals(newGame.getGame().getNameP4()) &&
+                       DateTimeUtils.areEqual(oldGame.getGame().getCreationDate(), newGame.getGame().getCreationDate()) &&
                        arePlayersTotalsPointsEquals(oldGame.getPlayersTotalPointsString(),
                                newGame.getPlayersTotalPointsString()) &&
                        areBestHandsEqual(oldGame.getBestHand(), newGame.getBestHand())

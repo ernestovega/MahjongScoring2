@@ -1,6 +1,7 @@
 package es.etologic.mahjongscoring2.app.game.game_table;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,12 +9,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import javax.inject.Inject;
 
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -43,6 +47,8 @@ public class GameTableFragment extends Fragment {
     private GameTableSeatFragment southSeat;
     private GameTableSeatFragment westSeat;
     private GameTableSeatFragment northSeat;
+    @BindView(R.id.tvGameTableRoundNumber) TextView tvRoundNumber;
+    @BindView(R.id.ivGameTableRoundWind) ImageView ivRoundWind;
     @BindView(R.id.famGameTable) FloatingActionMenu fabMenu;
     @BindView(R.id.fabGameTablePenaltyCancel) FloatingActionButton fabPenaltyCancel;
     @BindView(R.id.fabGameTablePenalty) FloatingActionButton fabPenalty;
@@ -51,10 +57,10 @@ public class GameTableFragment extends Fragment {
     @BindView(R.id.fabGameTableCancel) FloatingActionButton fabCancel;
 
     //RESOURCES
-    //    @BindDrawable(R.drawable.ic_east) Drawable eastIcon;
-    //    @BindDrawable(R.drawable.ic_south) Drawable southIcon;
-    //    @BindDrawable(R.drawable.ic_west) Drawable westIcon;
-    //    @BindDrawable(R.drawable.ic_north) Drawable northIcon;//ToDo: Usarlos para poner en el fabMenu el viento de ronda!
+    @BindDrawable(R.drawable.ic_east) Drawable eastIcon;
+    @BindDrawable(R.drawable.ic_south) Drawable southIcon;
+    @BindDrawable(R.drawable.ic_west) Drawable westIcon;
+    @BindDrawable(R.drawable.ic_north) Drawable northIcon;
     //FIELDS
     @Inject GameActivityViewModelFactory activityViewModelFactory;
     private Unbinder unbinder;
@@ -112,7 +118,7 @@ public class GameTableFragment extends Fragment {
     }
     private void setupFabMenu() {
         fabMenu.setClosedOnTouchOutside(true);
-        fabMenu.setOnMenuToggleListener(opened -> activityViewModel.onFabMenuClosed(opened));
+        fabMenu.setOnMenuToggleListener(activityViewModel::onToggleFabMenu);
     }
     private void setupActivityViewModel() {
         //noinspection ConstantConditions
@@ -121,6 +127,7 @@ public class GameTableFragment extends Fragment {
         activityViewModel.getSouthSeat().observe(this, this::southSeatObserver);
         activityViewModel.getWestSeat().observe(this, this::westSeatObserver);
         activityViewModel.getNorthSeat().observe(this, this::northSeatObserver);
+        activityViewModel.getRoundNumber().observe(this, this::roundNumberObserver);
         activityViewModel.getFabMenuState().observe(this, this::fabMenuStateObserver);
         activityViewModel.getFabMenuOpenState().observe(this, this::fabMenuOpenStateObserver);
     }
@@ -168,29 +175,40 @@ public class GameTableFragment extends Fragment {
         eastSeat.setWind(seat.getWind());
         eastSeat.setName(seat.getName());
         eastSeat.setPoints(seat.getPoints());
-//        eastSeat.addPenalty(seat.getPenalty());
+        //        eastSeat.addPenalty(seat.getPenalty());
         eastSeat.setState(seat.getState());
     }
     private void southSeatObserver(Seat seat) {
         southSeat.setWind(seat.getWind());
         southSeat.setName(seat.getName());
         southSeat.setPoints(seat.getPoints());
-//        southSeat.addPenalty(seat.getPenalty());
+        //        southSeat.addPenalty(seat.getPenalty());
         southSeat.setState(seat.getState());
     }
     private void westSeatObserver(Seat seat) {
         westSeat.setWind(seat.getWind());
         westSeat.setName(seat.getName());
         westSeat.setPoints(seat.getPoints());
-//        westSeat.addPenalty(seat.getPenalty());
+        //        westSeat.addPenalty(seat.getPenalty());
         westSeat.setState(seat.getState());
     }
     private void northSeatObserver(Seat seat) {
         northSeat.setWind(seat.getWind());
         northSeat.setName(seat.getName());
         northSeat.setPoints(seat.getPoints());
-//        northSeat.addPenalty(seat.getPenalty());
+        //        northSeat.addPenalty(seat.getPenalty());
         northSeat.setState(seat.getState());
+    }
+    private void roundNumberObserver(int roundNumber) {
+        tvRoundNumber.setText(String.valueOf(roundNumber));
+        if (roundNumber < 5)
+            ivRoundWind.setImageDrawable(eastIcon);
+        else if (roundNumber < 9)
+            ivRoundWind.setImageDrawable(southIcon);
+        else if (roundNumber < 13)
+            ivRoundWind.setImageDrawable(westIcon);
+        else
+            ivRoundWind.setImageDrawable(northIcon);
     }
     @Override
     public void onDestroyView() {

@@ -37,7 +37,11 @@ public class MainActivityViewModel extends ViewModel {
     public void setToolbar(Toolbar toolbar) { currentToolbar.postValue(toolbar); }
 
     //METHODS
-    public void navigateTo(MainScreens screen) { currentScreen.postValue(screen); }
+    public void navigateTo(MainScreens screen) {
+        if(currentScreen.getValue() != screen) {
+            currentScreen.postValue(screen);
+        }
+    }
     public void startGame(long gameId) {
         currentGame.postValue(gameId);
     }

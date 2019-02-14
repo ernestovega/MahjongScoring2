@@ -1,15 +1,12 @@
 package es.etologic.mahjongscoring2.app.base;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -18,7 +15,6 @@ import dagger.android.support.DaggerFragment;
 public abstract class BaseFragment extends DaggerFragment {
 
     //FIELDS
-    @Inject protected Context context;
     private Unbinder viewUnbinder;
 
     //LIFECYCLE

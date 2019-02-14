@@ -113,8 +113,6 @@
         app:fab_colorNormal="@color/colorAccent"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/double_standard_margin"
-        android:src="@drawable/ic_add_white_24dp"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+        android:src="@drawable/ic_add_white_24dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -83,7 +83,10 @@ public class MainActivity extends BaseActivity {
     }
     private void setOldGamesActionNewGameListener() {
         MenuItem oldGamesItem = navigationView.getMenu().findItem(R.id.nav_oldgames);
-        oldGamesItem.getActionView().findViewById(R.id.ibMainDrawerOldGamesActionLayoutNewGame).setOnClickListener(v -> goToNewGame());
+        oldGamesItem.getActionView().findViewById(R.id.ibMainDrawerOldGamesActionLayoutNewGame).setOnClickListener(v -> {
+            goToNewGame();
+            closeEndDrawer();
+        });
     }
     private void setMenuItemSelectedListener() {
         navigationView.setNavigationItemSelectedListener(menuItem -> {
@@ -111,8 +114,8 @@ public class MainActivity extends BaseActivity {
         });
     }
     private void goToNewGame() {
-        Intent intent = new Intent(this, NewGameFragment.class);
-        startActivity(intent);
+        NewGameFragment newGameFragment = new NewGameFragment();
+        goToFragment(newGameFragment);
     }
     private void closeEndDrawer() {
         if(drawerLayout != null) {

@@ -1,21 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/centerAnchor"
-        android:layout_width="@dimen/half_standard_margin"
-        android:layout_height="@dimen/half_standard_margin"
-        android:layout_centerInParent="true" />
+    <LinearLayout
+        android:id="@+id/llGameTableRoundNumberAndWindContainer"
+        android:layout_width="64dp"
+        android:layout_height="48dp"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivGameTableRoundWind"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:src="@drawable/ic_east" />
+
+        <TextView
+            android:id="@+id/tvGameTableRoundNumber"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="16" />
+
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/centerAnchor"
+        android:layout_below="@+id/llGameTableRoundNumberAndWindContainer"
         android:layout_centerHorizontal="true"
         android:rotation="0">
 
@@ -30,26 +52,28 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_toEndOf="@+id/centerAnchor"
-        android:layout_toRightOf="@+id/centerAnchor"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/double_standard_margin"
+        android:layout_marginRight="@dimen/double_standard_margin"
+        android:layout_toEndOf="@+id/llGameTableRoundNumberAndWindContainer"
+        android:layout_toRightOf="@+id/llGameTableRoundNumberAndWindContainer"
         android:rotation="-90">
 
         <fragment
             android:id="@+id/fGameTableSeatSouth"
-            android:layout_gravity="center_horizontal"
             android:name="es.etologic.mahjongscoring2.app.game.game_table.GameTableSeatFragment"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal" />
 
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/centerAnchor"
+        android:layout_above="@+id/llGameTableRoundNumberAndWindContainer"
         android:layout_centerHorizontal="true"
         android:rotation="180">
 
@@ -64,19 +88,21 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/centerAnchor"
-        android:layout_toLeftOf="@+id/centerAnchor"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/double_standard_margin"
+        android:layout_marginLeft="@dimen/double_standard_margin"
+        android:layout_toStartOf="@+id/llGameTableRoundNumberAndWindContainer"
+        android:layout_toLeftOf="@+id/llGameTableRoundNumberAndWindContainer"
         android:rotation="90">
 
         <fragment
             android:id="@+id/fGameTableSeatNorth"
-            android:layout_gravity="center_horizontal"
             android:name="es.etologic.mahjongscoring2.app.game.game_table.GameTableSeatFragment"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal" />
 
     </FrameLayout>
 
@@ -91,26 +117,26 @@
         android:paddingRight="@dimen/half_standard_margin"
         android:paddingBottom="@dimen/half_standard_margin"
         android:src="@drawable/ic_add_white_24dp"
+        app:menu_animationDelayPerItem="20"
         app:menu_backgroundColor="@color/white_transparency"
-        app:menu_labels_colorNormal="@color/gray"
-        app:menu_labels_colorRipple="@color/grayMM"
-        app:menu_labels_ellipsize="end"
-        app:menu_labels_singleLine="true"
         app:menu_colorNormal="@color/colorAccent"
         app:menu_colorPressed="@color/colorAccentDark"
         app:menu_colorRipple="@color/colorAccentDark"
-        app:menu_animationDelayPerItem="20">
+        app:menu_labels_colorNormal="@color/gray"
+        app:menu_labels_colorRipple="@color/grayMM"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fabGameTablePenaltyCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_penalty_white"
+            android:visibility="gone"
             app:fab_colorNormal="@color/red"
             app:fab_colorPressed="@color/redDark"
             app:fab_colorRipple="@color/redDark"
             app:fab_label="@string/cancel_penalty"
-            android:visibility="gone"
             app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton

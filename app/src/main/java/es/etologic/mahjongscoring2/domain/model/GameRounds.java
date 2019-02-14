@@ -68,7 +68,7 @@ public class GameRounds {
         }
     }
 
-    public static TableWinds getPlayerInitialPositionByCurrentSeat(TableWinds seatPosition, int roundId) {
+    public static TableWinds getPlayerInitialSeatByCurrentSeat(TableWinds seatPosition, int roundId) {
         switch(roundId) {
             case 1:case 2:case 3:case 4:
                 return getPlayerInitialPositionBySeatInRoundEast(seatPosition);
@@ -81,40 +81,41 @@ public class GameRounds {
 
         }
     }
-        private static TableWinds getPlayerInitialPositionBySeatInRoundEast(TableWinds seatPosition) {
-            switch(seatPosition) {
-                case EAST: return EAST;
-                case SOUTH: return SOUTH;
-                case WEST: return WEST;
-                case NORTH:
-                default: return NORTH;
-            }
-        }
-        private static TableWinds getPlayerInitialPositionBySeatInRoundSouth(TableWinds seatPosition) {
-            switch(seatPosition) {
-                case EAST: return SOUTH;
-                case SOUTH: return EAST;
-                case WEST: return NORTH;
-                case NORTH:
-                default: return WEST;
-            }
-        }
-        private static TableWinds getPlayerInitialPositionBySeatInRoundWest(TableWinds seatPosition) {
-            switch(seatPosition) {
-                case EAST: return WEST;
-                case SOUTH: return NORTH;
-                case WEST: return SOUTH;
-                case NORTH:
-                default: return EAST;
-            }
-        }
-        private static TableWinds getPlayerInitialPositionBySeatInRoundNorth(TableWinds seatPosition) {
+
+    private static TableWinds getPlayerInitialPositionBySeatInRoundEast(TableWinds seatPosition) {
         switch(seatPosition) {
-            case EAST: return NORTH;
-            case SOUTH: return WEST;
-            case WEST: return EAST;
+            case EAST:  return EAST;
+            case SOUTH: return SOUTH;
+            case WEST:  return WEST;
             case NORTH:
-            default: return SOUTH;
+            default:    return NORTH;
+        }
+    }
+    private static TableWinds getPlayerInitialPositionBySeatInRoundSouth(TableWinds seatPosition) {
+        switch(seatPosition) {
+            case EAST:  return SOUTH;
+            case SOUTH: return EAST;
+            case WEST:  return NORTH;
+            case NORTH:
+            default:    return WEST;
+        }
+    }
+    private static TableWinds getPlayerInitialPositionBySeatInRoundWest(TableWinds seatPosition) {
+        switch(seatPosition) {
+            case EAST:  return WEST;
+            case SOUTH: return NORTH;
+            case WEST:  return SOUTH;
+            case NORTH:
+            default:    return EAST;
+        }
+    }
+    private static TableWinds getPlayerInitialPositionBySeatInRoundNorth(TableWinds seatPosition) {
+        switch(seatPosition) {
+            case EAST:  return NORTH;
+            case SOUTH: return WEST;
+            case WEST:  return EAST;
+            case NORTH:
+            default:    return SOUTH;
         }
     }
 }

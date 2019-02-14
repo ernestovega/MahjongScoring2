@@ -1,6 +1,5 @@
 package es.etologic.mahjongscoring2.app.game.activity;
 
-import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,13 +8,13 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -74,7 +73,7 @@ public class GameActivity extends BaseActivity {
     private void setupViewModel() {
         activityViewModel = ViewModelProviders.of(this, viewModelFactory).get(GameActivityViewModel.class);
         activityViewModel.getError().observe(this, this::showError);
-        activityViewModel.getProgressState().observe(this, this::toggleProgress);
+        activityViewModel.getLocalProgressState().observe(this, this::toggleProgress);
         activityViewModel.getViewPagerPagingState().observe(this, this::viewPagerPagingStateObserver);
         activityViewModel.getShowDialog().observe(this, this::showDialogObserver);
         activityViewModel.getToolbarState().observe(this, this::toolbarStateObserver);
@@ -105,39 +104,43 @@ public class GameActivity extends BaseActivity {
     }
     public void showRequestHandPointsDialog() {
         final LinearLayout linearLayout = getPointsDialogEditTextPoints();
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this, R.style.AlertDialogStyleMM);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyleMM);
+        EditText childAt = (EditText) linearLayout.getChildAt(0);
         builder.setTitle(R.string.hand_points)
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                    String text = ((EditText) linearLayout.getChildAt(0)).getText().toString();
-                    activityViewModel.onRequestHandPointsResponse(text);
+                    activityViewModel.onRequestHandPointsResponse(childAt.getText().toString());
+                    KeyboardUtils.hideKeyboard(childAt);
                 })
-                .setNegativeButton(android.R.string.cancel, (dialog, which) -> activityViewModel.onRequestHandPointsCancel())
-                .setView(linearLayout);
-        android.support.v7.app.AlertDialog dialog = builder.create();
-        Window window = dialog.getWindow();
-        if (window != null) {
-            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        }
-        dialog.show();
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+                    activityViewModel.onRequestHandPointsCancel();
+                    KeyboardUtils.hideKeyboard(childAt);
+                })
+                .setView(linearLayout)
+                .create()
+                .show();
+        childAt.requestFocus();
+        KeyboardUtils.showKeyboard(childAt);
     }
     public void showRequestPenaltyPointsDialog() {
         final LinearLayout linearLayout = getPointsDialogEditTextPoints();
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this, R.style.AlertDialogStyleMM);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyleMM);
+        EditText childAt = (EditText) linearLayout.getChildAt(0);
         builder .setTitle(R.string.penalty_points)
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                    String text = ((EditText) linearLayout.getChildAt(0)).getText().toString();
-                    activityViewModel.onRequestPenaltyPointsResponse(text);
+                    activityViewModel.onRequestPenaltyPointsResponse(childAt.getText().toString());
+                    KeyboardUtils.hideKeyboard(childAt);
                 })
-                .setNegativeButton(android.R.string.cancel, (dialog, which) -> activityViewModel.onRequestPenaltyPointsCancel())
-                .setView(linearLayout);
-        android.support.v7.app.AlertDialog dialog = builder.create();
-        Window window = dialog.getWindow();
-        if (window != null) {
-            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        }
-        dialog.show();
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+                    activityViewModel.onRequestPenaltyPointsCancel();
+                    KeyboardUtils.hideKeyboard(childAt);
+                })
+                .setView(linearLayout)
+                .create()
+                .show();
+        childAt.requestFocus();
+        KeyboardUtils.showKeyboard(childAt);
     }
     private LinearLayout getPointsDialogEditTextPoints() {
         final EditText editText = new EditText(this);
@@ -158,9 +161,9 @@ public class GameActivity extends BaseActivity {
         editText.setHint(R.string.enter_points);
         editText.setOnFocusChangeListener((v, hasFocus) -> {
             if(hasFocus) {
-                KeyboardUtils.showKeyboard(v.getContext(), v);
+                KeyboardUtils.showKeyboard(v);
             } else {
-                KeyboardUtils.hideKeyboard(v.getContext(), v);
+                KeyboardUtils.hideKeyboard(v);
             }
         });
         LinearLayout layout = new LinearLayout(this);

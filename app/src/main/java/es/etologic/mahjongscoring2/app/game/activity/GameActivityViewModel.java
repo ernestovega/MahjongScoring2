@@ -15,11 +15,12 @@ import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.app.model.TableStates;
 import es.etologic.mahjongscoring2.app.model.ToolbarState;
 import es.etologic.mahjongscoring2.domain.model.Game;
+import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
 import es.etologic.mahjongscoring2.domain.model.Round;
 import es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates;
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
 import es.etologic.mahjongscoring2.domain.use_cases.GetGameUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.GetRoundsUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.GetGamesWithRoundsUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.UpdateRoundsUseCase;
 import io.reactivex.schedulers.Schedulers;
 
@@ -32,7 +33,6 @@ import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.CANCEL;
 import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.HIDDEN;
 import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.PLAYER_PENALIZED;
-import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.PLAYER_SELECTED;
 import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.EAST;
 import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NONE;
 import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NORTH;
@@ -43,6 +43,7 @@ public class GameActivityViewModel extends BaseViewModel {
 
     //CONSTANTS
     private static final Integer MCR_MIN_POINTS = 8;
+    public static final int MAX_MCR_HANDS_PER_GAME = 16;
 
     //FIELDS
     //List Observables
@@ -59,14 +60,14 @@ public class GameActivityViewModel extends BaseViewModel {
     private MutableLiveData<Seat> southSeat = new MutableLiveData<>();
     private MutableLiveData<Seat> westSeat = new MutableLiveData<>();
     private MutableLiveData<Seat> northSeat = new MutableLiveData<>();
+    private MutableLiveData<Integer> roundNumber = new MutableLiveData<>();
     private MutableLiveData<DialogType> showDialog = new MutableLiveData<>();
     //UseCases
-    private GetGameUseCase getGameUseCase;
-    private GetRoundsUseCase getRoundsUseCase;
+    private GetGamesWithRoundsUseCase getGamesWithRoundsUseCase;
     private UpdateRoundsUseCase updateRoundsUseCase;
     //Common
     private long gameId;
-    private Game game;
+    private GameWithRounds gameWithRounds;
     //Table variables
     private Round mCurrentRound = new Round(0, 0);
     private TableStates tableState = TableStates.NORMAL;
@@ -74,11 +75,9 @@ public class GameActivityViewModel extends BaseViewModel {
     private TableWinds mDiscarderCurrentSeat = NONE;
 
     //Constructor
-    GameActivityViewModel(GetGameUseCase getGameUseCase,
-                          GetRoundsUseCase getRoundsUseCase,
+    GameActivityViewModel(GetGamesWithRoundsUseCase getGamesWithRoundsUseCase,
                           UpdateRoundsUseCase updateRoundsUseCase) {
-        this.getGameUseCase = getGameUseCase;
-        this.getRoundsUseCase = getRoundsUseCase;
+        this.getGamesWithRoundsUseCase = getGamesWithRoundsUseCase;
         this.updateRoundsUseCase = updateRoundsUseCase;
     }
 
@@ -118,6 +117,9 @@ public class GameActivityViewModel extends BaseViewModel {
     public LiveData<Seat> getNorthSeat() {
         return northSeat;
     }
+    public LiveData<Integer> getRoundNumber() {
+        return roundNumber;
+    }
     public LiveData<FabMenuStates> getFabMenuState() {
         return fabMenuState;
     }
@@ -135,31 +137,19 @@ public class GameActivityViewModel extends BaseViewModel {
     //METHODS
     void loadGame() {
         disposables.add(
-                getGameUseCase.getGame(gameId)
+                getGamesWithRoundsUseCase.getOneWithRounds(gameId)
                         .subscribeOn(Schedulers.io())
                         .doOnSubscribe(disposable -> progressState.postValue(SHOW))
                         .doOnEvent((combinations, throwable) -> progressState.postValue(HIDE))
                         .subscribe(this::getGameSuccess, error::postValue));
     }
-    private void getGameSuccess(Game game) {
-        this.game = game;
-        loadGameRounds();
-    }
-    private void loadGameRounds() {
-        disposables.add(
-                getRoundsUseCase.getGameRounds(game.getGameId())
-                        .subscribeOn(Schedulers.io())
-                        .doOnSubscribe(disposable -> progressState.postValue(SHOW))
-                        .doOnEvent((combinations, throwable) -> progressState.postValue(HIDE))
-                        .subscribe(this::loadGameRoundsSuccess, error::postValue));
-    }
-    private void loadGameRoundsSuccess(List<Round> rounds) {
-        game.setRounds(rounds);
-        listNames.postValue(game.getPlayersNames());
-        listRounds.postValue(game.getRounds());
-        listTotals.postValue(game.getPlayersTotalPointsString());
-        if (game.getRounds().size() < 16) {
-            mCurrentRound = new Round(game.getGameId(), game.getRounds().size() + 1);
+    private void getGameSuccess(GameWithRounds gameWithRounds) {
+        this.gameWithRounds = gameWithRounds;
+        listNames.postValue(gameWithRounds.getGame().getPlayersNames());
+        listRounds.postValue(gameWithRounds.getRounds());
+        listTotals.postValue(gameWithRounds.getPlayersTotalPointsString());
+        if (gameWithRounds.getRounds().size() < MAX_MCR_HANDS_PER_GAME) {
+            mCurrentRound = new Round(gameWithRounds.getGame().getGameId(), gameWithRounds.getRounds().size() + 1);
         } else {
             showDialog.postValue(DialogType.SHOW_RANKING);
         }
@@ -189,15 +179,18 @@ public class GameActivityViewModel extends BaseViewModel {
         fabMenuOpenState.postValue(HIDE);
         showDialog.postValue(DialogType.NONE);
 
-        eastSeat.postValue(buildNewSeat(EAST));
-        southSeat.postValue(buildNewSeat(SOUTH));
-        westSeat.postValue(buildNewSeat(WEST));
-        northSeat.postValue(buildNewSeat(NORTH));
+        roundNumber.postValue(mCurrentRound.getRoundId());
+
+        int[] playersTotalPoints = gameWithRounds.getPlayersTotalPoints();
+        eastSeat.postValue(buildNewSeat(EAST, playersTotalPoints));
+        southSeat.postValue(buildNewSeat(SOUTH, playersTotalPoints));
+        westSeat.postValue(buildNewSeat(WEST, playersTotalPoints));
+        northSeat.postValue(buildNewSeat(NORTH, playersTotalPoints));
     }
-    private Seat buildNewSeat(TableWinds wind) {
-        TableWinds initialPosition = Game.getPlayerInitialPositionByCurrentSeat(wind, mCurrentRound.getRoundId());
-        String name = game.getPlayerNameByInitialPosition(initialPosition);
-        int points = game.getPlayersTotalPoints()[wind.getIndex()];
+    private Seat buildNewSeat(TableWinds wind, int[] playersTotalsPoints) {
+        TableWinds initialPosition = Game.getPlayerInitialSeatByCurrentSeat(wind, mCurrentRound.getRoundId());
+        String name = gameWithRounds.getGame().getPlayerNameByInitialPosition(initialPosition);
+        int points = playersTotalsPoints[initialPosition.getIndex()];
         return new Seat(wind, name, points);
     }
     //RequestHandPoints  Dialog Responses
@@ -240,7 +233,7 @@ public class GameActivityViewModel extends BaseViewModel {
                         .subscribeOn(Schedulers.io())
                         .doOnSubscribe(disposable -> progressState.postValue(SHOW))
                         .doOnEvent((combinations, throwable) -> progressState.postValue(HIDE))
-                        .subscribe(this::loadGameRoundsSuccess, error::postValue));
+                        .subscribe(this::getGameSuccess, error::postValue));
     }
     //RequestPenaltyPoints Dialog Responses
     public void onRequestPenaltyPointsCancel() {
@@ -261,7 +254,7 @@ public class GameActivityViewModel extends BaseViewModel {
         switch (tableState) {
             case NORMAL:
                 setSelectedPlayerSeat(seatPosition);
-                FabMenuStates newMenuState = mCurrentRound.isPenalizedPlayer(selectedPlayerSeat.getInitialSeat()) ? PLAYER_PENALIZED : PLAYER_SELECTED;
+                FabMenuStates newMenuState = mCurrentRound.isPenalizedPlayer(selectedPlayerSeat.getInitialSeat()) ? PLAYER_PENALIZED : FabMenuStates.PLAYER_SELECTED;
                 fabMenuState.postValue(newMenuState);
                 fabMenuOpenState.postValue(SHOW);
                 break;
@@ -288,7 +281,7 @@ public class GameActivityViewModel extends BaseViewModel {
     private void saveRonRound(int requestedPoints) {
         mCurrentRound.setHandPoints(requestedPoints);
         mCurrentRound.setWinnerInitialPosition(selectedPlayerSeat.getInitialSeat());
-        mCurrentRound.setDiscarderInitialPosition(Game.getPlayerInitialPositionByCurrentSeat(mDiscarderCurrentSeat, mCurrentRound.getRoundId()));
+        mCurrentRound.setDiscarderInitialPosition(Game.getPlayerInitialSeatByCurrentSeat(mDiscarderCurrentSeat, mCurrentRound.getRoundId()));
         mCurrentRound.setAllPlayersRonPoints(selectedPlayerSeat.getInitialSeat(), requestedPoints, mDiscarderCurrentSeat);
         saveCurrentRoundAndStartNext();
     }
@@ -350,10 +343,11 @@ public class GameActivityViewModel extends BaseViewModel {
     public void onFabCancelRequestingLooserClicked() {
         resetTable();
     }
-    public void onFabMenuClosed(boolean isOpened) {
+    public void onToggleFabMenu(boolean isOpened) {
         if (!isOpened && tableState == TableStates.NORMAL) {
             setSelectedPlayerSeat(NONE);
             setSeatSelected(NONE);
+            fabMenuState.postValue(FabMenuStates.NORMAL);
         }
     }
     public void onFabGamePenaltyCancelClicked() {

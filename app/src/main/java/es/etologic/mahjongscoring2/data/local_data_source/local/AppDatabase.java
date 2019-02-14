@@ -10,11 +10,13 @@ import android.support.annotation.NonNull;
 import es.etologic.mahjongscoring2.data.local_data_source.local.converters.CombinationDescriptionTypeConverter;
 import es.etologic.mahjongscoring2.data.local_data_source.local.converters.DateConverter;
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.CombinationsDao;
+import es.etologic.mahjongscoring2.data.local_data_source.local.daos.GameWithRoundsDao;
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.GamesDao;
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.PlayersDao;
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.RoundsDao;
 import es.etologic.mahjongscoring2.domain.model.Combination;
 import es.etologic.mahjongscoring2.domain.model.Game;
+import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
 import es.etologic.mahjongscoring2.domain.model.Player;
 import es.etologic.mahjongscoring2.domain.model.Round;
 
@@ -46,4 +48,5 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract PlayersDao getPlayersDao();
     public abstract GamesDao getGamesDao();
     public abstract RoundsDao getRoundsDao();
+    public abstract GameWithRoundsDao getGameWithRoundsDao();
 }

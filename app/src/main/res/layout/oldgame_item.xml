@@ -257,7 +257,7 @@
                         android:layout_marginTop="@dimen/standard_margin"
                         android:gravity="center"
                         android:orientation="vertical"
-                        tools:visibility="gone">
+                        tools:visibility="visible">
 
                         <TextView
                             android:layout_width="wrap_content"

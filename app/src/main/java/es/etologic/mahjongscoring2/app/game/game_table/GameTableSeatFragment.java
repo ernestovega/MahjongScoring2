@@ -70,7 +70,7 @@ public class GameTableSeatFragment extends Fragment {
         switch (state){
             default:
             case NORMAL:
-                changeViewColors(grayMMColor, grayMMColor, grayMMColor);
+                changeViewColors(null, grayMMColor, grayMMColor);
 //                hideIcon();
                 break;
             case SELECTED:
@@ -80,8 +80,12 @@ public class GameTableSeatFragment extends Fragment {
                 break;
         }
     }
-    private void changeViewColors(int windColorFilter, int pointsColor, int nameColor) {
-        ivSeatWindIcon.setColorFilter(windColorFilter);
+    private void changeViewColors(Integer windColorFilter, int pointsColor, int nameColor) {
+        if (windColorFilter == null) {
+            ivSeatWindIcon.clearColorFilter();
+        } else {
+            ivSeatWindIcon.setColorFilter(windColorFilter);
+        }
         tvSeatName.setTextColor(pointsColor);
         tvSeatPoints.setTextColor(nameColor);
     }

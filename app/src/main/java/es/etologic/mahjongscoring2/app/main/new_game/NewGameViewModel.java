@@ -24,7 +24,6 @@ class NewGameViewModel extends BaseViewModel {
     private MutableLiveData<List<Player>> allPlayers = new MutableLiveData<>();
     private MutableLiveData<Player> newPlayer = new MutableLiveData<>();
     private MutableLiveData<Long> newGameId = new MutableLiveData<>();
-    private MutableLiveData<ShowState> toolbarProgress = new MutableLiveData<>();
 
     //CONSTRUCTOR
     NewGameViewModel(GetAllPlayersUseCase getAllPlayersUseCase, CreatePlayerUseCase createPlayerUseCase,
@@ -39,7 +38,6 @@ class NewGameViewModel extends BaseViewModel {
     LiveData<List<Player>> getAllPlayers() { return allPlayers; }
     LiveData<Player> getNewPlayer() { return newPlayer; }
     LiveData<Long> getNewGameId() { return newGameId; }
-    LiveData<ShowState> getToolbarProgress() { return toolbarProgress; }
 
     //METHODS
     void bindAllPlayers() {

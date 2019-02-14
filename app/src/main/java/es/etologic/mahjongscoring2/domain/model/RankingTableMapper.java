@@ -18,15 +18,15 @@ public class RankingTableMapper {
     private static final String DRAW_SECOND_2 = "1.5";
     private static final String DRAW_LAST_2 = "0.5";
 
-    public static RankingTable fromGame(Game game, List<Round> rounds) {
-        List<PlayerRanking> sortedPlayersRankings = getSortedPlayersRankings(game, rounds);
-        List<BestHand> bestHands = getBestHands(rounds);
+    public static RankingTable fromGame(GameWithRounds gameWithRounds) {
+        List<PlayerRanking> sortedPlayersRankings = getSortedPlayersRankings(gameWithRounds.getGame(), gameWithRounds.getRounds());
+        List<BestHand> bestHands = getBestHands(gameWithRounds.getRounds());
         return new RankingTable(
                 sortedPlayersRankings,
                 bestHands.isEmpty() ? "-" : String.valueOf(bestHands.get(0).getHandValue()),
-                rounds.size(),
-                String.valueOf(rounds.size()),
-                game.getPrettyDuration());
+                gameWithRounds.getRounds().size(),
+                String.valueOf(gameWithRounds.getRounds().size()),
+                gameWithRounds.getPrettyDuration());
     }
 
     private static List<PlayerRanking> getSortedPlayersRankings(Game game, List<Round> rounds) {

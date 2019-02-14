@@ -10,8 +10,9 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,6 @@ import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 public class NewGameFragment extends BaseFragment {
 
     //VIEWS
-    @BindView(R.id.toolbarNewGame) Toolbar toolbar;
     @BindView(R.id.chipsInputNewGame) ChipsInput chipsInput;
     @BindView(R.id.fabNewGameStartGame) FloatingActionButton fabStartGame;
     //FIELDS
@@ -83,7 +83,7 @@ public class NewGameFragment extends BaseFragment {
         } else {
             tiet.setText(actualChipsInputText);
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.create_player)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                     String inputText = tiet.getText().toString().trim();
@@ -127,10 +127,8 @@ public class NewGameFragment extends BaseFragment {
         snackbar4players = Snackbar.make(chipsInput, R.string.just_four_players_please, LENGTH_INDEFINITE);
         setupViewModel();
         setupChips();
-        setToolbar();
         viewModel.bindAllPlayers();
     }
-    private void setToolbar() { activityViewModel.setToolbar(toolbar); }
     private void setupViewModel() {
         FragmentActivity activity = getActivity();
         if(activity != null) {
@@ -139,7 +137,6 @@ public class NewGameFragment extends BaseFragment {
             viewModel.getAllPlayers().observe(this, this::setAllPlayers);
             viewModel.getNewPlayer().observe(this, this::addPlayerChip);
             viewModel.getNewGameId().observe(this, activityViewModel::startGame);
-            viewModel.getToolbarProgress().observe(this, this::toggleToolbarProgress);
             viewModel.getSnackbarMessage().observe(this, this::showSnackbar);
         }
     }
@@ -205,20 +202,10 @@ public class NewGameFragment extends BaseFragment {
         chipsInput.addChip(playerChip);
         viewModel.bindAllPlayers();
     }
-    private void toggleToolbarProgress(ShowState showState) {
-        MenuItem menuItem = toolbar.getMenu().findItem(R.id.action_create_player);
-        if (menuItem != null) {
-            switch (showState) {
-                case HIDE:
-                    menuItem.setEnabled(true);
-                    menuItem.setActionView(null);
-                    break;
-                case SHOW:
-                    menuItem.setEnabled(false);
-                    menuItem.setActionView(R.layout.newgame_toolbar_progress);
-                    break;
-            }
-        }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.new_game_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
     @Override
     public void onDestroy() {

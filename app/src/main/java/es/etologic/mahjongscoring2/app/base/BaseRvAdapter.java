@@ -17,7 +17,7 @@ import static android.support.v7.util.DiffUtil.calculateDiff;
 public abstract class BaseRvAdapter<T extends RecyclerViewable<T>> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //FIELDS
-    protected List<T> collection;
+    protected List<T> collection = new ArrayList<>();
 
     //METHODS
     public void setCollection(List<T> newCollection) {
