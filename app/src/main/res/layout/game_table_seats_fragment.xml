@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <View
+        android:id="@+id/vTableSeatsCenter"
+        android:layout_width="@dimen/triple_standard_margin"
+        android:layout_height="@dimen/triple_standard_margin"
+        android:layout_centerInParent="true" />
+
+    <!-- EAST -->
+    <ImageView
+        android:id="@+id/ivTableSeatEastSeatWindIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vTableSeatsCenter"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerInside"
+        tools:src="@drawable/ic_east" />
+
+    <TextView
+        android:id="@+id/tvTableSeatEastPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivTableSeatEastSeatWindIcon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:text="000"
+        android:textColor="@color/grayMM"
+        android:textSize="@dimen/table_player_points_text_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvTableSeatEastPenaltyPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivTableSeatEastSeatWindIcon"
+        android:layout_marginLeft="@dimen/half_standard_margin"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_toRightOf="@+id/tvTableSeatEastPoints"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:text="000"
+        android:textColor="@color/redPenalty"
+        android:textSize="@dimen/table_player_penalty_points_text_size"
+        android:textStyle="bold"
+        tools:ignore="RtlHardcoded" />
+
+    <TextView
+        android:id="@+id/tvTableSeatEastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTableSeatEastPoints"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:text="@string/player_east_name"
+        android:textColor="@color/grayMM"
+        android:textSize="@dimen/table_player_name_text_size"
+        android:textStyle="bold" />
+
+    <!-- SOUTH -->
+    <ImageView
+        android:id="@+id/ivTableSeatSouthSeatWindIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/vTableSeatsCenter"
+        android:rotation="-90"
+        android:scaleType="centerInside"
+        tools:ignore="RtlHardcoded"
+        tools:src="@drawable/ic_south" />
+
+    <TextView
+        android:id="@+id/tvTableSeatSouthPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/standard_margin"
+        android:layout_toRightOf="@+id/ivTableSeatSouthSeatWindIcon"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:rotation="-90"
+        android:text="000"
+        android:textColor="@color/grayMM"
+        android:textSize="@dimen/table_player_points_text_size"
+        android:textStyle="bold"
+        tools:ignore="RtlHardcoded" />
+
+    <TextView
+        android:id="@+id/tvTableSeatSouthPenaltyPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvTableSeatSouthPoints"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/standard_margin"
+        android:layout_marginBottom="@dimen/half_standard_margin"
+        android:layout_toRightOf="@+id/ivTableSeatSouthSeatWindIcon"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:rotation="-90"
+        android:text="000"
+        android:textColor="@color/redPenalty"
+        android:textSize="@dimen/table_player_penalty_points_text_size"
+        android:textStyle="bold"
+        tools:ignore="RtlHardcoded" />
+
+    <TextView
+        android:id="@+id/tvTableSeatSouthName"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:layout_toRightOf="@+id/tvTableSeatSouthPoints"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:rotation="-90"
+        android:text="@string/player_south_name"
+        android:textColor="@color/grayMM"
+        android:textSize="@dimen/table_player_name_text_size"
+        android:textStyle="bold"
+        tools:ignore="RtlHardcoded" />
+
+    <!-- WEST -->
+    <ImageView
+        android:id="@+id/ivTableSeatWestSeatWindIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/vTableSeatsCenter"
+        android:layout_centerHorizontal="true"
+        android:rotation="180"
+        android:scaleType="centerInside"
+        tools:src="@drawable/ic_west" />
+
+    <TextView
+        android:id="@+id/tvTableSeatWestPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ivTableSeatWestSeatWindIcon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/standard_margin"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:rotation="180"
+        android:text="000"
+        android:textColor="@color/grayMM"
+        android:textSize="@dimen/table_player_points_text_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvTableSeatWestPenaltyPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ivTableSeatWestSeatWindIcon"
+        android:layout_marginRight="@dimen/half_standard_margin"
+        android:layout_marginBottom="@dimen/standard_margin"
+        android:layout_toLeftOf="@+id/tvTableSeatWestPoints"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:rotation="180"
+        android:text="000"
+        android:textColor="@color/redPenalty"
+        android:textSize="@dimen/table_player_penalty_points_text_size"
+        android:textStyle="bold"
+        tools:ignore="RtlHardcoded" />
+
+    <TextView
+        android:id="@+id/tvTableSeatWestName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvTableSeatWestPoints"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/standard_margin"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:rotation="180"
+        android:text="@string/player_west_name"
+        android:textColor="@color/grayMM"
+        android:textSize="@dimen/table_player_name_text_size"
+        android:textStyle="bold" />
+
+    <!-- NORTH -->
+    <ImageView
+        android:id="@+id/ivTableSeatNorthSeatWindIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/vTableSeatsCenter"
+        android:rotation="90"
+        android:scaleType="centerInside"
+        tools:ignore="RtlHardcoded"
+        tools:src="@drawable/ic_north" />
+
+    <TextView
+        android:id="@+id/tvTableSeatNorthPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/standard_margin"
+        android:layout_toLeftOf="@+id/ivTableSeatNorthSeatWindIcon"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:rotation="90"
+        android:text="000"
+        android:textColor="@color/grayMM"
+        android:textSize="@dimen/table_player_points_text_size"
+        android:textStyle="bold"
+        tools:ignore="RtlHardcoded" />
+
+    <TextView
+        android:id="@+id/tvTableSeatNorthPenaltyPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTableSeatNorthPoints"
+        android:layout_marginTop="@dimen/half_standard_margin"
+        android:layout_marginRight="@dimen/standard_margin"
+        android:layout_toLeftOf="@+id/ivTableSeatNorthSeatWindIcon"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:rotation="90"
+        android:text="000"
+        android:textColor="@color/redPenalty"
+        android:textSize="@dimen/table_player_penalty_points_text_size"
+        android:textStyle="bold"
+        tools:ignore="RtlHardcoded" />
+
+    <TextView
+        android:id="@+id/tvTableSeatNorthName"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/tvTableSeatNorthPoints"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:rotation="90"
+        android:text="@string/player_north_name"
+        android:gravity="center"
+        android:textColor="@color/grayMM"
+        android:textSize="@dimen/table_player_name_text_size"
+        android:textStyle="bold"
+        tools:ignore="RtlHardcoded" />
+
+</RelativeLayout>

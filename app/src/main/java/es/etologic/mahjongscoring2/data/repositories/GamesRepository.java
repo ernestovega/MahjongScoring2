@@ -55,7 +55,7 @@ public class GamesRepository extends BaseRepository { /*TODO: ¿Qué pasa con po
     } //TODO: ¿Cómo saber si ha habido algún error?
 
     public Single<GameWithRounds> getOneWithRounds(long gameId) {
-        return Single.fromCallable(() -> gameWithRoundsDao.getGameWithRounds(gameId));
+        return Single.fromCallable(() -> gameWithRoundsDao.getGameWithRoundsOrderedByDateDesc(gameId));
     }
 
     public Single<List<GameWithRounds>> getAllWithRounds() {

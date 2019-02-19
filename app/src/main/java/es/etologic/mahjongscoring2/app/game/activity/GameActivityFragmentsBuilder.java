@@ -6,7 +6,7 @@ import es.etologic.mahjongscoring2.app.game.game_list.GameListFragment;
 import es.etologic.mahjongscoring2.app.game.game_list.GameListModule;
 import es.etologic.mahjongscoring2.app.game.game_table.GameTableFragment;
 import es.etologic.mahjongscoring2.app.game.game_table.GameTableRankingFragmentDialog;
-import es.etologic.mahjongscoring2.app.game.game_table.GameTableSeatFragment;
+import es.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment;
 
 @Module
 public abstract class GameActivityFragmentsBuilder {
@@ -18,7 +18,7 @@ public abstract class GameActivityFragmentsBuilder {
     abstract GameTableFragment provideGameTableFragmentFactory();
 
     @ContributesAndroidInjector
-    abstract GameTableSeatFragment provideGameTableSeatFragmentFactory();
+    abstract GameTableSeatsFragment provideGameTableSeatFragmentFactory();
 
     @ContributesAndroidInjector
     abstract GameTableRankingFragmentDialog provideGameTableRankingFragmentDialogFactory();

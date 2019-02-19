@@ -16,6 +16,6 @@ public interface GameWithRoundsDao {
     List<GameWithRounds> getAllGamesWithRounds();
 
     @Transaction
-    @Query("SELECT * from Games WHERE gameId = :gameId")
-    GameWithRounds getGameWithRounds(long gameId);
+    @Query("SELECT * from Games WHERE gameId = :gameId ORDER BY creationDate")
+    GameWithRounds getGameWithRoundsOrderedByDateDesc(long gameId);
 }

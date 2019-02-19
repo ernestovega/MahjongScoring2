@@ -9,8 +9,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -26,7 +24,6 @@ import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModelFactory;
 import es.etologic.mahjongscoring2.app.model.EnablingState;
-import es.etologic.mahjongscoring2.app.model.Seat;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates;
 
@@ -35,20 +32,12 @@ import static android.view.View.VISIBLE;
 import static es.etologic.mahjongscoring2.app.model.EnablingState.DISABLED;
 import static es.etologic.mahjongscoring2.app.model.EnablingState.ENABLED;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
-import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.EAST;
-import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NORTH;
-import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.SOUTH;
-import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.WEST;
 
 public class GameTableFragment extends Fragment {
 
     //VIEWS
-    private GameTableSeatFragment eastSeat;
-    private GameTableSeatFragment southSeat;
-    private GameTableSeatFragment westSeat;
-    private GameTableSeatFragment northSeat;
-    @BindView(R.id.tvGameTableRoundNumber) TextView tvRoundNumber;
-    @BindView(R.id.ivGameTableRoundWind) ImageView ivRoundWind;
+//    @BindView(R.id.tvGameTableRoundNumber) TextView tvRoundNumber;
+//    @BindView(R.id.ivGameTableRoundWind) ImageView ivRoundWind;
     @BindView(R.id.famGameTable) FloatingActionMenu fabMenu;
     @BindView(R.id.fabGameTablePenaltyCancel) FloatingActionButton fabPenaltyCancel;
     @BindView(R.id.fabGameTablePenalty) FloatingActionButton fabPenalty;
@@ -65,20 +54,9 @@ public class GameTableFragment extends Fragment {
     @Inject GameActivityViewModelFactory activityViewModelFactory;
     private Unbinder unbinder;
     private GameActivityViewModel activityViewModel;
+    private GameTableSeatsFragment tableSeats;
 
     //EVENTS
-    @OnClick(R.id.fGameTableSeatEast) public void onEastSeatClick() {
-        activityViewModel.onSeatClicked(EAST);
-    }
-    @OnClick(R.id.fGameTableSeatSouth) public void onSouthSeatClick() {
-        activityViewModel.onSeatClicked(SOUTH);
-    }
-    @OnClick(R.id.fGameTableSeatWest) public void onWestSeatClick() {
-        activityViewModel.onSeatClicked(WEST);
-    }
-    @OnClick(R.id.fGameTableSeatNorth) public void onNorthSeatClick() {
-        activityViewModel.onSeatClicked(NORTH);
-    }
     @OnClick(R.id.fabGameTablePenaltyCancel) public void onFabGamePenaltyCancelClick() {
         activityViewModel.onFabGamePenaltyCancelClicked();
     }
@@ -108,10 +86,7 @@ public class GameTableFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
         if (getActivity() != null) {
-            eastSeat = (GameTableSeatFragment) getChildFragmentManager().findFragmentById(R.id.fGameTableSeatEast);
-            southSeat = (GameTableSeatFragment) getChildFragmentManager().findFragmentById(R.id.fGameTableSeatSouth);
-            westSeat = (GameTableSeatFragment) getChildFragmentManager().findFragmentById(R.id.fGameTableSeatWest);
-            northSeat = (GameTableSeatFragment) getChildFragmentManager().findFragmentById(R.id.fGameTableSeatNorth);
+            tableSeats = (GameTableSeatsFragment) getChildFragmentManager().findFragmentById(R.id.fGameTableSeats);
             setupActivityViewModel();
             setupFabMenu();
         }
@@ -123,10 +98,10 @@ public class GameTableFragment extends Fragment {
     private void setupActivityViewModel() {
         //noinspection ConstantConditions
         activityViewModel = ViewModelProviders.of(getActivity(), activityViewModelFactory).get(GameActivityViewModel.class);
-        activityViewModel.getEastSeat().observe(this, this::eastSeatObserver);
-        activityViewModel.getSouthSeat().observe(this, this::southSeatObserver);
-        activityViewModel.getWestSeat().observe(this, this::westSeatObserver);
-        activityViewModel.getNorthSeat().observe(this, this::northSeatObserver);
+        activityViewModel.getEastSeat().observe(this, tableSeats::setEastSeat);
+        activityViewModel.getSouthSeat().observe(this, tableSeats::setSouthSeat);
+        activityViewModel.getWestSeat().observe(this, tableSeats::setWestSeat);
+        activityViewModel.getNorthSeat().observe(this, tableSeats::setNorthSeat);
         activityViewModel.getRoundNumber().observe(this, this::roundNumberObserver);
         activityViewModel.getFabMenuState().observe(this, this::fabMenuStateObserver);
         activityViewModel.getFabMenuOpenState().observe(this, this::fabMenuOpenStateObserver);
@@ -171,44 +146,16 @@ public class GameTableFragment extends Fragment {
             fabMenu.close(true);
         }
     }
-    private void eastSeatObserver(Seat seat) {
-        eastSeat.setWind(seat.getWind());
-        eastSeat.setName(seat.getName());
-        eastSeat.setPoints(seat.getPoints());
-        //        eastSeat.addPenalty(seat.getPenalty());
-        eastSeat.setState(seat.getState());
-    }
-    private void southSeatObserver(Seat seat) {
-        southSeat.setWind(seat.getWind());
-        southSeat.setName(seat.getName());
-        southSeat.setPoints(seat.getPoints());
-        //        southSeat.addPenalty(seat.getPenalty());
-        southSeat.setState(seat.getState());
-    }
-    private void westSeatObserver(Seat seat) {
-        westSeat.setWind(seat.getWind());
-        westSeat.setName(seat.getName());
-        westSeat.setPoints(seat.getPoints());
-        //        westSeat.addPenalty(seat.getPenalty());
-        westSeat.setState(seat.getState());
-    }
-    private void northSeatObserver(Seat seat) {
-        northSeat.setWind(seat.getWind());
-        northSeat.setName(seat.getName());
-        northSeat.setPoints(seat.getPoints());
-        //        northSeat.addPenalty(seat.getPenalty());
-        northSeat.setState(seat.getState());
-    }
     private void roundNumberObserver(int roundNumber) {
-        tvRoundNumber.setText(String.valueOf(roundNumber));
-        if (roundNumber < 5)
-            ivRoundWind.setImageDrawable(eastIcon);
-        else if (roundNumber < 9)
-            ivRoundWind.setImageDrawable(southIcon);
-        else if (roundNumber < 13)
-            ivRoundWind.setImageDrawable(westIcon);
-        else
-            ivRoundWind.setImageDrawable(northIcon);
+//        tvRoundNumber.setText(String.valueOf(roundNumber));
+//        if (roundNumber < 5)
+//            ivRoundWind.setImageDrawable(eastIcon);
+//        else if (roundNumber < 9)
+//            ivRoundWind.setImageDrawable(southIcon);
+//        else if (roundNumber < 13)
+//            ivRoundWind.setImageDrawable(westIcon);
+//        else
+//            ivRoundWind.setImageDrawable(northIcon);
     }
     @Override
     public void onDestroyView() {

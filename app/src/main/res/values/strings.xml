@@ -198,5 +198,9 @@
     <string name="seat_player_name">Seat player name</string>
     <string name="see_list">See list</string>
     <string name="close">Close</string>
+    <string name="player_east_name">Player East name</string>
+    <string name="player_south_name">Player South name</string>
+    <string name="player_west_name">Player West name</string>
+    <string name="player_north_name">Player North name</string>
 
 </resources>
