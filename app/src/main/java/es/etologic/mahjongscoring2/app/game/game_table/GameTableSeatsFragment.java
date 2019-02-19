@@ -19,7 +19,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.model.Seat;
-import es.etologic.mahjongscoring2.app.model.SeatState;
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
 
 import static android.view.View.INVISIBLE;
@@ -28,6 +27,13 @@ import static es.etologic.mahjongscoring2.app.model.SeatState.NORMAL;
 
 public class GameTableSeatsFragment extends Fragment {
 
+    //LISTENER
+    interface TableSeatsListener {
+        void onEastSeatClick();
+        void onSouthSeatClick();
+        void onWestSeatClick();
+        void onNorthSeatClick();
+    }
     //VIEWS
     @BindView(R.id.ivTableSeatEastSeatWindIcon) ImageView ivSeatEastWindIcon;
     @BindView(R.id.tvTableSeatEastName) TextView tvSeatEastName;
@@ -57,24 +63,42 @@ public class GameTableSeatsFragment extends Fragment {
     @BindColor(R.color.grayMM) int grayMMColor;
     @BindColor(R.color.colorAccent) int accentColor;
     @BindColor(R.color.purpleDarkTransparent) int purpleColor;
+    @BindColor(R.color.redPenalty) int redPenalty;
+    @BindColor(R.color.colorPrimary) int green;
     //FIELDS
     private Unbinder unbinder;
-    private int eastPenaltyPoints = 0;
-    private int southPenaltyPoints = 0;
-    private int westPenaltyPoints = 0;
-    private int northPenaltyPoints = 0;
+    private TableSeatsListener listener;
 
     //EVENTS
-//    @OnClick(R.id.ivTableSeatEastSeatWindIcon)
+    @OnClick(R.id.ivTableSeatEastSeatWindIcon) void onTableSeatEastSeatWindIconClick() { if(listener != null) listener.onEastSeatClick();}
+    @OnClick(R.id.tvTableSeatEastName) void onTableSeatEastNameClick() { if(listener != null) listener.onEastSeatClick();}
+    @OnClick(R.id.tvTableSeatEastPoints) void onTableSeatEastPointsClick() { if(listener != null) listener.onEastSeatClick();}
+    @OnClick(R.id.tvTableSeatEastPenaltyPoints) void onTableSeatEastPenaltyPointsClick() { if(listener != null) listener.onEastSeatClick();}
+    @OnClick(R.id.ivTableSeatSouthSeatWindIcon) void onTableSeatSouthSeatWindIconClick() { if(listener != null) listener.onSouthSeatClick();}
+    @OnClick(R.id.tvTableSeatSouthName) void onTableSeatSouthNameClick() { if(listener != null) listener.onSouthSeatClick();}
+    @OnClick(R.id.tvTableSeatSouthPoints) void onTableSeatSouthPointsClick() { if(listener != null) listener.onSouthSeatClick();}
+    @OnClick(R.id.tvTableSeatSouthPenaltyPoints) void onTableSeatSouthPenaltyPointsClick() { if(listener != null) listener.onSouthSeatClick();}
+    @OnClick(R.id.ivTableSeatWestSeatWindIcon) void onTableSeatWestSeatWindIconClick() { if(listener != null) listener.onWestSeatClick();}
+    @OnClick(R.id.tvTableSeatWestName) void onTableSeatWestNameClick() { if(listener != null) listener.onWestSeatClick();}
+    @OnClick(R.id.tvTableSeatWestPoints) void onTableSeatWestPointsClick() { if(listener != null) listener.onWestSeatClick();}
+    @OnClick(R.id.tvTableSeatWestPenaltyPoints) void onTableSeatWestPenaltyPointsClick() { if(listener != null) listener.onWestSeatClick();}
+    @OnClick(R.id.ivTableSeatNorthSeatWindIcon) void onTableSeatNorthSeatWindIconClick() { if(listener != null) listener.onNorthSeatClick();}
+    @OnClick(R.id.tvTableSeatNorthName) void onTableSeatNorthNameClick() { if(listener != null) listener.onNorthSeatClick();}
+    @OnClick(R.id.tvTableSeatNorthPoints) void onTableSeatNorthPointsClick() { if(listener != null) listener.onNorthSeatClick();}
+    @OnClick(R.id.tvTableSeatNorthPenaltyPoints) void onTableSeatNorthPenaltyPointsClick() { if(listener != null) listener.onNorthSeatClick();}
 
     //PUBLIC METHODS
+    void setTableSeatsListener(TableSeatsListener tableSeatsListener) {
+        listener = tableSeatsListener;
+    }
+
     void setEastSeat(Seat seat) {
         ivSeatEastWindIcon.setImageDrawable(getWindIcon(seat.getWind()));
         tvSeatEastName.setText(seat.getName());
         tvSeatEastPoints.setText(String.valueOf(seat.getPoints()));
-        eastPenaltyPoints = seat.getPenalty();
-        tvSeatEastPenaltyPoints.setText(String.valueOf(eastPenaltyPoints));
-        tvSeatEastPenaltyPoints.setVisibility(eastPenaltyPoints != 0 ? VISIBLE : INVISIBLE);
+        tvSeatEastPenaltyPoints.setText(String.valueOf(seat.getPenalty()));
+        tvSeatEastPenaltyPoints.setTextColor(seat.getPenalty() < 0 ? redPenalty : green);
+//        tvSeatEastPenaltyPoints.setVisibility(seat.getPenalty() != 0 ? VISIBLE : INVISIBLE);
         if(seat.getState() == NORMAL) {
             ivSeatEastWindIcon.clearColorFilter();
             tvSeatEastName.setTextColor(grayMMColor);
@@ -89,51 +113,51 @@ public class GameTableSeatsFragment extends Fragment {
         ivSeatSouthWindIcon.setImageDrawable(getWindIcon(seat.getWind()));
         tvSeatSouthName.setText(seat.getName());
         tvSeatSouthPoints.setText(String.valueOf(seat.getPoints()));
-        southPenaltyPoints = seat.getPenalty();
-        tvSeatSouthPenaltyPoints.setText(String.valueOf(southPenaltyPoints));
-        tvSeatSouthPenaltyPoints.setVisibility(southPenaltyPoints != 0 ? VISIBLE : INVISIBLE);
+        tvSeatSouthPenaltyPoints.setText(String.valueOf(seat.getPenalty()));
+        tvSeatSouthPenaltyPoints.setTextColor(seat.getPenalty() < 0 ? redPenalty : green);
+//        tvSeatSouthPenaltyPoints.setVisibility(seat.getPenalty() != 0 ? VISIBLE : INVISIBLE);
         if(seat.getState() == NORMAL) {
             ivSeatSouthWindIcon.clearColorFilter();
             tvSeatSouthName.setTextColor(grayMMColor);
             tvSeatSouthPoints.setTextColor(grayMMColor);
         } else {
             ivSeatSouthWindIcon.setColorFilter(accentColor);
-            tvSeatSouthName.setTextColor(grayMMColor);
-            tvSeatSouthPoints.setTextColor(grayMMColor);
+            tvSeatSouthName.setTextColor(accentColor);
+            tvSeatSouthPoints.setTextColor(accentColor);
         }
     }
     void setWestSeat(Seat seat) {
         ivSeatWestWindIcon.setImageDrawable(getWindIcon(seat.getWind()));
         tvSeatWestName.setText(seat.getName());
         tvSeatWestPoints.setText(String.valueOf(seat.getPoints()));
-        westPenaltyPoints = seat.getPenalty();
-        tvSeatWestPenaltyPoints.setText(String.valueOf(westPenaltyPoints));
-        tvSeatWestPenaltyPoints.setVisibility(westPenaltyPoints != 0 ? VISIBLE : INVISIBLE);
+        tvSeatWestPenaltyPoints.setText(String.valueOf(seat.getPenalty()));
+        tvSeatWestPenaltyPoints.setTextColor(seat.getPenalty() < 0 ? redPenalty : green);
+//        tvSeatWestPenaltyPoints.setVisibility(seat.getPenalty() != 0 ? VISIBLE : INVISIBLE);
         if(seat.getState() == NORMAL) {
             ivSeatWestWindIcon.clearColorFilter();
             tvSeatWestName.setTextColor(grayMMColor);
             tvSeatWestPoints.setTextColor(grayMMColor);
         } else {
             ivSeatWestWindIcon.setColorFilter(accentColor);
-            tvSeatWestName.setTextColor(grayMMColor);
-            tvSeatWestPoints.setTextColor(grayMMColor);
+            tvSeatWestName.setTextColor(accentColor);
+            tvSeatWestPoints.setTextColor(accentColor);
         }
     }
     void setNorthSeat(Seat seat) {
         ivSeatNorthWindIcon.setImageDrawable(getWindIcon(seat.getWind()));
         tvSeatNorthName.setText(seat.getName());
         tvSeatNorthPoints.setText(String.valueOf(seat.getPoints()));
-        northPenaltyPoints = seat.getPenalty();
-        tvSeatNorthPenaltyPoints.setText(String.valueOf(northPenaltyPoints));
-        tvSeatNorthPenaltyPoints.setVisibility(northPenaltyPoints != 0 ? VISIBLE : INVISIBLE);
+        tvSeatNorthPenaltyPoints.setText(String.valueOf(seat.getPenalty()));
+        tvSeatNorthPenaltyPoints.setTextColor(seat.getPenalty() < 0 ? redPenalty : green);
+//        tvSeatNorthPenaltyPoints.setVisibility(seat.getPenalty() != 0 ? VISIBLE : INVISIBLE);
         if(seat.getState() == NORMAL) {
             ivSeatNorthWindIcon.clearColorFilter();
             tvSeatNorthName.setTextColor(grayMMColor);
             tvSeatNorthPoints.setTextColor(grayMMColor);
         } else {
             ivSeatNorthWindIcon.setColorFilter(accentColor);
-            tvSeatNorthName.setTextColor(grayMMColor);
-            tvSeatNorthPoints.setTextColor(grayMMColor);
+            tvSeatNorthName.setTextColor(accentColor);
+            tvSeatNorthPoints.setTextColor(accentColor);
         }
     }
     private Drawable getWindIcon(TableWinds wind) {

@@ -32,8 +32,12 @@ import static android.view.View.VISIBLE;
 import static es.etologic.mahjongscoring2.app.model.EnablingState.DISABLED;
 import static es.etologic.mahjongscoring2.app.model.EnablingState.ENABLED;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.EAST;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NORTH;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.SOUTH;
+import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.WEST;
 
-public class GameTableFragment extends Fragment {
+public class GameTableFragment extends Fragment implements GameTableSeatsFragment.TableSeatsListener {
 
     //VIEWS
 //    @BindView(R.id.tvGameTableRoundNumber) TextView tvRoundNumber;
@@ -75,6 +79,18 @@ public class GameTableFragment extends Fragment {
     @OnClick(R.id.fabGameTableCancel) public void onFabCancelLooserSelectionClick() {
         activityViewModel.onFabCancelRequestingLooserClicked();
     }
+    @Override public void onEastSeatClick() {
+        activityViewModel.onSeatClicked(EAST);
+    }
+    @Override public void onSouthSeatClick() {
+        activityViewModel.onSeatClicked(SOUTH);
+    }
+    @Override public void onWestSeatClick() {
+        activityViewModel.onSeatClicked(WEST);
+    }
+    @Override public void onNorthSeatClick() {
+        activityViewModel.onSeatClicked(NORTH);
+    }
 
     //LIFECYCLE
     @Override
@@ -89,6 +105,7 @@ public class GameTableFragment extends Fragment {
             tableSeats = (GameTableSeatsFragment) getChildFragmentManager().findFragmentById(R.id.fGameTableSeats);
             setupActivityViewModel();
             setupFabMenu();
+            tableSeats.setTableSeatsListener(this);
         }
     }
     private void setupFabMenu() {
