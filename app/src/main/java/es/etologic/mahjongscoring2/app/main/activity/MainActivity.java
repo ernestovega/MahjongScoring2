@@ -28,7 +28,6 @@ import es.etologic.mahjongscoring2.app.base.BaseActivity;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivity;
 import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens;
 import es.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity;
-import es.etologic.mahjongscoring2.app.main.new_game.NewGameFragment;
 import es.etologic.mahjongscoring2.app.main.old_games.OldGamesFragment;
 
 import static es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.COMBINATIONS;
@@ -84,13 +83,13 @@ public class MainActivity extends BaseActivity {
     private void setOldGamesActionNewGameListener() {
         MenuItem oldGamesItem = navigationView.getMenu().findItem(R.id.nav_oldgames);
         oldGamesItem.getActionView().findViewById(R.id.ibMainDrawerOldGamesActionLayoutNewGame).setOnClickListener(v -> {
-            goToNewGame();
-            closeEndDrawer();
+            goToGame(null);
+            closeDrawer();
         });
     }
     private void setMenuItemSelectedListener() {
         navigationView.setNavigationItemSelectedListener(menuItem -> {
-            this.closeEndDrawer();
+            this.closeDrawer();
             switch(menuItem.getItemId()) {
                 case R.id.nav_oldgames:
                     viewModel.navigateTo(OLD_GAMES);
@@ -113,23 +112,11 @@ public class MainActivity extends BaseActivity {
             return true;
         });
     }
-    private void goToNewGame() {
-        NewGameFragment newGameFragment = new NewGameFragment();
-        goToFragment(newGameFragment);
-    }
-    private void closeEndDrawer() {
-        if(drawerLayout != null) {
-            drawerLayout.closeDrawer(Gravity.END, true);
-        }
-    }
     private void goToScreen(MainScreens screen) {
         switch(screen) {
             default:
             case OLD_GAMES:
                 goToOldGames();
-                break;
-            case NEW_GAME:
-                goToNewGame();
                 break;
             case COMBINATIONS:
                 goToCombinations();
@@ -196,9 +183,11 @@ public class MainActivity extends BaseActivity {
         fragmentTransaction.add(R.id.frameLayoutMain, fragment).addToBackStack(null);
         fragmentTransaction.commit();
     }
-    private void goToGame(long gameId) {
+    private void goToGame(Long gameId) {
         Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra(GameActivity.ARG_KEY_GAME_ID, gameId);
+        if(gameId != null) {
+            intent.putExtra(GameActivity.ARG_KEY_GAME_ID, gameId);
+        }
         startActivity(intent);
     }
     private void setToolbar(Toolbar toolbar) {
@@ -213,8 +202,8 @@ public class MainActivity extends BaseActivity {
     }
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(Gravity.END)) {
-            closeEndDrawer();
+        if(drawerLayout.isDrawerOpen(Gravity.START)) {
+            closeDrawer();
         } else if(getSupportFragmentManager().getBackStackEntryCount() > 1) {
             super.onBackPressed();
         } else {
@@ -232,17 +221,20 @@ public class MainActivity extends BaseActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case android.R.id.home:
-                openEndDrawer();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            openDrawer();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void openDrawer() {
+        if(drawerLayout != null) {
+            drawerLayout.openDrawer(Gravity.START, true);
         }
     }
-    private void openEndDrawer() {
+    private void closeDrawer() {
         if(drawerLayout != null) {
-            drawerLayout.openDrawer(Gravity.END, true);
+            drawerLayout.closeDrawer(Gravity.START, true);
         }
     }
 }

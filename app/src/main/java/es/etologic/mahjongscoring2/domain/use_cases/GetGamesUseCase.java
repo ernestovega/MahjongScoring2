@@ -10,16 +10,20 @@ import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
-public class GetGamesWithRoundsUseCase {
+public class GetGamesUseCase {
 
     private GamesRepository gamesRepository;
 
     @Inject
-    public GetGamesWithRoundsUseCase(GamesRepository gamesRepository) { this.gamesRepository = gamesRepository; }
+    public GetGamesUseCase(GamesRepository gamesRepository) {
+        this.gamesRepository = gamesRepository;
+    }
 
-    public Single<List<GameWithRounds>> getAllWithRounds() { return gamesRepository.getAllWithRounds(); }
+    public Single<List<GameWithRounds>> getAllWithRounds() {
+        return gamesRepository.getAllWithRounds();
+    }
 
-    public Single<GameWithRounds> getOneWithRounds(long gameId) {
+    public Single<GameWithRounds> getGame(long gameId) {
         return gamesRepository.getOneWithRounds(gameId);
     }
 }

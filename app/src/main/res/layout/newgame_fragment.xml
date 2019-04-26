@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@android:color/white"
-    tools:context=".app.main.new_game.NewGameFragment">
+    tools:context=".app.game.new_player_dialog.NewPlayerDialogFragment">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarNewGame"
@@ -37,7 +37,7 @@
         app:showChipDetailed="false"/>
 
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fabNewGameStartGame"
+        android:id="@+id/fabCreatePlayerStartGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"

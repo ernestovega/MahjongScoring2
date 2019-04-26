@@ -19,11 +19,10 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.model.Seat;
+import es.etologic.mahjongscoring2.app.model.SeatStates;
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
 
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
-import static es.etologic.mahjongscoring2.app.model.SeatState.NORMAL;
+import static es.etologic.mahjongscoring2.app.model.SeatStates.NORMAL;
 
 public class GameTableSeatsFragment extends Fragment {
 
@@ -93,85 +92,63 @@ public class GameTableSeatsFragment extends Fragment {
     }
 
     void setEastSeat(Seat seat) {
-        ivSeatEastWindIcon.setImageDrawable(getWindIcon(seat.getWind()));
-        tvSeatEastName.setText(seat.getName());
-        tvSeatEastPoints.setText(String.valueOf(seat.getPoints()));
-        tvSeatEastPenaltyPoints.setText(String.valueOf(seat.getPenalty()));
-        tvSeatEastPenaltyPoints.setTextColor(seat.getPenalty() < 0 ? redPenalty : green);
-//        tvSeatEastPenaltyPoints.setVisibility(seat.getPenalty() != 0 ? VISIBLE : INVISIBLE);
-        if(seat.getState() == NORMAL) {
-            ivSeatEastWindIcon.clearColorFilter();
-            tvSeatEastName.setTextColor(grayMMColor);
-            tvSeatEastPoints.setTextColor(grayMMColor);
-        } else {
-            ivSeatEastWindIcon.setColorFilter(accentColor);
-            tvSeatEastName.setTextColor(accentColor);
-            tvSeatEastPoints.setTextColor(accentColor);
-        }
+        setWindIcon(ivSeatEastWindIcon, seat.getWind());
+        setName(tvSeatEastName, seat.getName());
+        setPoints(tvSeatEastPoints, seat.getPoints());
+        setPenaltyPoints(tvSeatEastPenaltyPoints, seat.getPenalty());
+        setState(ivSeatEastWindIcon, tvSeatEastName, tvSeatEastPoints, seat.getState());
     }
     void setSouthSeat(Seat seat) {
-        ivSeatSouthWindIcon.setImageDrawable(getWindIcon(seat.getWind()));
-        tvSeatSouthName.setText(seat.getName());
-        tvSeatSouthPoints.setText(String.valueOf(seat.getPoints()));
-        tvSeatSouthPenaltyPoints.setText(String.valueOf(seat.getPenalty()));
-        tvSeatSouthPenaltyPoints.setTextColor(seat.getPenalty() < 0 ? redPenalty : green);
-//        tvSeatSouthPenaltyPoints.setVisibility(seat.getPenalty() != 0 ? VISIBLE : INVISIBLE);
-        if(seat.getState() == NORMAL) {
-            ivSeatSouthWindIcon.clearColorFilter();
-            tvSeatSouthName.setTextColor(grayMMColor);
-            tvSeatSouthPoints.setTextColor(grayMMColor);
-        } else {
-            ivSeatSouthWindIcon.setColorFilter(accentColor);
-            tvSeatSouthName.setTextColor(accentColor);
-            tvSeatSouthPoints.setTextColor(accentColor);
-        }
+        setWindIcon(ivSeatSouthWindIcon, seat.getWind());
+        setName(tvSeatSouthName, seat.getName());
+        setPoints(tvSeatSouthPoints, seat.getPoints());
+        setPenaltyPoints(tvSeatSouthPenaltyPoints, seat.getPenalty());
+        setState(ivSeatSouthWindIcon, tvSeatSouthName, tvSeatSouthPoints, seat.getState());
     }
     void setWestSeat(Seat seat) {
-        ivSeatWestWindIcon.setImageDrawable(getWindIcon(seat.getWind()));
-        tvSeatWestName.setText(seat.getName());
-        tvSeatWestPoints.setText(String.valueOf(seat.getPoints()));
-        tvSeatWestPenaltyPoints.setText(String.valueOf(seat.getPenalty()));
-        tvSeatWestPenaltyPoints.setTextColor(seat.getPenalty() < 0 ? redPenalty : green);
-//        tvSeatWestPenaltyPoints.setVisibility(seat.getPenalty() != 0 ? VISIBLE : INVISIBLE);
-        if(seat.getState() == NORMAL) {
-            ivSeatWestWindIcon.clearColorFilter();
-            tvSeatWestName.setTextColor(grayMMColor);
-            tvSeatWestPoints.setTextColor(grayMMColor);
-        } else {
-            ivSeatWestWindIcon.setColorFilter(accentColor);
-            tvSeatWestName.setTextColor(accentColor);
-            tvSeatWestPoints.setTextColor(accentColor);
-        }
+        setWindIcon(ivSeatWestWindIcon, seat.getWind());
+        setName(tvSeatWestName, seat.getName());
+        setPoints(tvSeatWestPoints, seat.getPoints());
+        setPenaltyPoints(tvSeatWestPenaltyPoints, seat.getPenalty());
+        setState(ivSeatWestWindIcon, tvSeatWestName, tvSeatWestPoints, seat.getState());
     }
     void setNorthSeat(Seat seat) {
-        ivSeatNorthWindIcon.setImageDrawable(getWindIcon(seat.getWind()));
-        tvSeatNorthName.setText(seat.getName());
-        tvSeatNorthPoints.setText(String.valueOf(seat.getPoints()));
-        tvSeatNorthPenaltyPoints.setText(String.valueOf(seat.getPenalty()));
-        tvSeatNorthPenaltyPoints.setTextColor(seat.getPenalty() < 0 ? redPenalty : green);
-//        tvSeatNorthPenaltyPoints.setVisibility(seat.getPenalty() != 0 ? VISIBLE : INVISIBLE);
-        if(seat.getState() == NORMAL) {
-            ivSeatNorthWindIcon.clearColorFilter();
-            tvSeatNorthName.setTextColor(grayMMColor);
-            tvSeatNorthPoints.setTextColor(grayMMColor);
-        } else {
-            ivSeatNorthWindIcon.setColorFilter(accentColor);
-            tvSeatNorthName.setTextColor(accentColor);
-            tvSeatNorthPoints.setTextColor(accentColor);
+        setWindIcon(ivSeatNorthWindIcon, seat.getWind());
+        setName(tvSeatNorthName, seat.getName());
+        setPoints(tvSeatNorthPoints, seat.getPoints());
+        setPenaltyPoints(tvSeatNorthPenaltyPoints, seat.getPenalty());
+        setState(ivSeatNorthWindIcon, tvSeatNorthName, tvSeatNorthPoints, seat.getState());
+    }
+    private void setWindIcon(ImageView imageView, TableWinds wind) {
+        switch (wind) {
+            case EAST:  imageView.setImageDrawable(eastIcon);   break;
+            case SOUTH: imageView.setImageDrawable(southIcon);  break;
+            case WEST:  imageView.setImageDrawable(westIcon);   break;
+            case NORTH: imageView.setImageDrawable(northIcon);  break;
+            case NONE:
+            default:
         }
     }
-    private Drawable getWindIcon(TableWinds wind) {
-        switch (wind) {
-            case EAST:
-                return eastIcon;
-            case SOUTH:
-                return southIcon;
-            case WEST:
-                return westIcon;
-            case NORTH:
-                return northIcon;
-            default:
-                return null;
+    private void setName(TextView textView, String name) {
+        textView.setText(name);
+    }
+    private void setPoints(TextView textView, int points) {
+        textView.setText(String.valueOf(points));
+    }
+    private void setPenaltyPoints(TextView textView, int penaltyPoints) {
+        textView.setText(String.valueOf(penaltyPoints));
+        textView.setTextColor(penaltyPoints < 0 ? redPenalty : green);
+        //        textView.setVisibility(seat.getPenalty() != 0 ? VISIBLE : INVISIBLE);
+    }
+    private void setState(ImageView imageViewWind, TextView textViewName, TextView textViewPoints, SeatStates state) {
+        if(state == NORMAL) {
+            imageViewWind.clearColorFilter();
+            textViewName.setTextColor(grayMMColor);
+            textViewPoints.setTextColor(grayMMColor);
+        } else {
+            imageViewWind.setColorFilter(accentColor);
+            textViewName.setTextColor(accentColor);
+            textViewPoints.setTextColor(accentColor);
         }
     }
 

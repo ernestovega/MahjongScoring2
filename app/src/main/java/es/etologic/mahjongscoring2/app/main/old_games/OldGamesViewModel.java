@@ -6,10 +6,9 @@ import android.arch.lifecycle.MutableLiveData;
 import java.util.List;
 
 import es.etologic.mahjongscoring2.app.base.BaseViewModel;
-import es.etologic.mahjongscoring2.domain.model.Game;
 import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
 import es.etologic.mahjongscoring2.domain.use_cases.DeleteGameUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.GetGamesWithRoundsUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
 import io.reactivex.schedulers.Schedulers;
 
 import static es.etologic.mahjongscoring2.app.model.ShowState.*;
@@ -17,13 +16,13 @@ import static es.etologic.mahjongscoring2.app.model.ShowState.*;
 class OldGamesViewModel extends BaseViewModel {
 
     //FIELDS
-    private GetGamesWithRoundsUseCase getGamesWithRoundsUseCase;
+    private GetGamesUseCase getGamesUseCase;
     private DeleteGameUseCase deleteGameUseCase;
     private MutableLiveData<List<GameWithRounds>> allGames = new MutableLiveData<>();
 
     //CONSTRUCTOR
-    OldGamesViewModel(GetGamesWithRoundsUseCase getGamesWithRoundsUseCase, DeleteGameUseCase deleteGameUseCase) {
-        this.getGamesWithRoundsUseCase = getGamesWithRoundsUseCase;
+    OldGamesViewModel(GetGamesUseCase getGamesUseCase, DeleteGameUseCase deleteGameUseCase) {
+        this.getGamesUseCase = getGamesUseCase;
         this.deleteGameUseCase = deleteGameUseCase;
     }
 
@@ -33,7 +32,7 @@ class OldGamesViewModel extends BaseViewModel {
     //METHODS
     void getAllGames() {
         disposables.add(
-                getGamesWithRoundsUseCase.getAllWithRounds()
+                getGamesUseCase.getAllWithRounds()
                         .subscribeOn(Schedulers.io())
                         .doOnSubscribe(observer -> progressState.postValue(SHOW))
                         .doOnEvent((observer, throwable) -> progressState.postValue(HIDE))

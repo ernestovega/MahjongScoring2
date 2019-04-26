@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.app.main.new_game;
+package es.etologic.mahjongscoring2.app.game.new_player_dialog;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -45,17 +45,17 @@ import static es.etologic.mahjongscoring2.app.main.activity.MainActivityViewMode
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
-public class NewGameFragment extends BaseFragment {
+public class NewPlayerDialogFragment extends BaseFragment {
 
     //VIEWS
     @BindView(R.id.chipsInputNewGame) ChipsInput chipsInput;
-    @BindView(R.id.fabNewGameStartGame) FloatingActionButton fabStartGame;
+    @BindView(R.id.fabCreatePlayerStartGame) FloatingActionButton fabStartGame;
     //FIELDS
     private Unbinder unbinder;
     @Inject MainActivityViewModelFactory mainActivityViewModelFactory;
     private MainActivityViewModel activityViewModel;
-    @Inject NewGameViewModelFactory newGameViewModelFactory;
-    private NewGameViewModel viewModel;
+    @Inject NewPlayerDialogViewModelFactory newPlayerDialogViewModelFactory;
+    private NewPlayerDialogViewModel viewModel;
     private String actualChipsInputText;
     private Snackbar snackbar4players;
 
@@ -95,13 +95,7 @@ public class NewGameFragment extends BaseFragment {
                 .create()
                 .show();
     }
-    @OnClick(R.id.fabNewGameStartGame) void onFabStartGameClick() {
-        if(getSelectedPlayerChips().size() != 4) {
-            showSnackbar(getString(R.string.just_four_players));
-        } else {
-            List<String> playersNames = obtainPlayersNames(getSelectedPlayerChips());
-            viewModel.createGame(playersNames);
-        }
+    @OnClick(R.id.fabCreatePlayerStartGame) void onFabCreatePlayerClick() {
     }
     private List<PlayerChip> getSelectedPlayerChips() {
         //noinspection unchecked
@@ -133,10 +127,9 @@ public class NewGameFragment extends BaseFragment {
         FragmentActivity activity = getActivity();
         if(activity != null) {
             activityViewModel = ViewModelProviders.of(activity, mainActivityViewModelFactory).get(MainActivityViewModel.class);
-            viewModel = ViewModelProviders.of(this, newGameViewModelFactory).get(NewGameViewModel.class);
+            viewModel = ViewModelProviders.of(this, newPlayerDialogViewModelFactory).get(NewPlayerDialogViewModel.class);
             viewModel.getAllPlayers().observe(this, this::setAllPlayers);
             viewModel.getNewPlayer().observe(this, this::addPlayerChip);
-            viewModel.getNewGameId().observe(this, activityViewModel::startGame);
             viewModel.getSnackbarMessage().observe(this, this::showSnackbar);
         }
     }

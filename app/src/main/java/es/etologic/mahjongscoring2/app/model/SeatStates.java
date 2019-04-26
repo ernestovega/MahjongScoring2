@@ -1,6 +1,6 @@
 package es.etologic.mahjongscoring2.app.model;
 
-public enum SeatState {
+public enum SeatStates {
     NORMAL,
     SELECTED,
     CALLING_RON,

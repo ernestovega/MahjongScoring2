@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.app.main.new_game;
+package es.etologic.mahjongscoring2.app.game.new_player_dialog;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -14,30 +14,26 @@ import es.etologic.mahjongscoring2.domain.use_cases.GetAllPlayersUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetPlayerUseCase;
 import io.reactivex.schedulers.Schedulers;
 
-class NewGameViewModel extends BaseViewModel {
+class NewPlayerDialogViewModel extends BaseViewModel {
 
     //FIELDS
     private GetAllPlayersUseCase getAllPlayersUseCase;
     private CreatePlayerUseCase createPlayerUseCase;
     private GetPlayerUseCase getPlayerUseCase;
-    private CreateGameUseCase createGameUseCase;
     private MutableLiveData<List<Player>> allPlayers = new MutableLiveData<>();
     private MutableLiveData<Player> newPlayer = new MutableLiveData<>();
-    private MutableLiveData<Long> newGameId = new MutableLiveData<>();
 
     //CONSTRUCTOR
-    NewGameViewModel(GetAllPlayersUseCase getAllPlayersUseCase, CreatePlayerUseCase createPlayerUseCase,
-                     GetPlayerUseCase getPlayerUseCase, CreateGameUseCase createGameUseCase) {
+    NewPlayerDialogViewModel(GetAllPlayersUseCase getAllPlayersUseCase, CreatePlayerUseCase createPlayerUseCase,
+                             GetPlayerUseCase getPlayerUseCase) {
         this.getAllPlayersUseCase = getAllPlayersUseCase;
         this.createPlayerUseCase = createPlayerUseCase;
         this.getPlayerUseCase = getPlayerUseCase;
-        this.createGameUseCase = createGameUseCase;
     }
 
     //OBSERVABLES
     LiveData<List<Player>> getAllPlayers() { return allPlayers; }
     LiveData<Player> getNewPlayer() { return newPlayer; }
-    LiveData<Long> getNewGameId() { return newGameId; }
 
     //METHODS
     void bindAllPlayers() {
@@ -56,13 +52,5 @@ class NewGameViewModel extends BaseViewModel {
                         .doOnEvent((observer, throwable) -> progressState.postValue(ShowState.HIDE))
                         .flatMap(newPlayerId -> getPlayerUseCase.getPlayer(newPlayerId))
                         .subscribe(newPlayer::postValue, throwable -> snackbarMessage.postValue(throwable.getMessage())));
-    }
-    void createGame(List<String> playersNames) {
-        disposables.add(
-                createGameUseCase.createGame(playersNames)
-                        .subscribeOn(Schedulers.io())
-                        .doOnSubscribe(observer -> progressState.postValue(ShowState.SHOW))
-                        .doOnEvent((observer, throwable) -> progressState.postValue(ShowState.HIDE))
-                        .subscribe(newGameId::postValue, throwable -> snackbarMessage.postValue(throwable.getMessage())));
     }
 }

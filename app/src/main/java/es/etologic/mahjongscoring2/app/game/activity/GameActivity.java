@@ -14,7 +14,6 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -59,9 +58,8 @@ public class GameActivity extends BaseActivity {
         unbinder = ButterKnife.bind(this);
         setupToolbar();
         setupViewModel();
-        getExtras();
         setupViewPager();
-        activityViewModel.loadGame();
+        startGame();
     }
     private void setupToolbar() {
         setSupportActionBar(toolbar);
@@ -190,6 +188,23 @@ public class GameActivity extends BaseActivity {
                 break;
         }
     }
+    private void setupViewPager() {
+        ViewPagerAdapter vpAdapter = initAdapter();
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(OFFSCREEN_PAGE_LIMIT);
+        viewPager.setAdapter(vpAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            @Override public void onPageScrollStateChanged(int state) {}
+            @Override public void onPageSelected(int position) {
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setHomeAsUpIndicator(position == 0 ?
+                            R.drawable.ic_clear_white_24dp : R.drawable.ic_arrow_back_white_24dp);
+                }
+            }
+
+        });
+    }
     private void gameFinished(Boolean gameFinished) {
         if (gameFinished != null) {
             if (gameFinished) finish();
@@ -201,31 +216,14 @@ public class GameActivity extends BaseActivity {
             }
         }
     }
-    private void getExtras() {
+    private void startGame() {
         long gameId = getIntent().getLongExtra(ARG_KEY_GAME_ID, -1);
         if (gameId == -1) {
-            finish();
+            activityViewModel.createGame();
         } else {
-            activityViewModel.setGameId(gameId);
+            activityViewModel.loadGame(gameId);
         }
     }
-    private void setupViewPager() {
-        ViewPagerAdapter vpAdapter = initAdapter();
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.setOffscreenPageLimit(OFFSCREEN_PAGE_LIMIT);
-        viewPager.setAdapter(vpAdapter);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-        @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-        @Override public void onPageScrollStateChanged(int state) {}
-        @Override public void onPageSelected(int position) {
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setHomeAsUpIndicator(position == 0 ?
-                        R.drawable.ic_clear_white_24dp : R.drawable.ic_arrow_back_white_24dp);
-            }
-        }
-
-    });
-}
     private ViewPagerAdapter initAdapter() {
         GameTableFragment gameTableFragment = new GameTableFragment();
         GameListFragment gameListFragment = new GameListFragment();

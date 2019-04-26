@@ -10,8 +10,6 @@ import es.etologic.mahjongscoring2.app.main.activity.MainActivityFragmentsBuilde
 import es.etologic.mahjongscoring2.app.main.activity.MainActivityModule;
 import es.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity;
 import es.etologic.mahjongscoring2.app.main.combinations.CombinationsActivityModule;
-import es.etologic.mahjongscoring2.app.main.new_game.NewGameFragment;
-import es.etologic.mahjongscoring2.app.main.new_game.NewGameFragmentModule;
 
 @Module
 abstract class AppActivitiesBuilder {

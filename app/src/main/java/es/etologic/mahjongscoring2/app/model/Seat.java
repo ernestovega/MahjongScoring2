@@ -2,15 +2,13 @@ package es.etologic.mahjongscoring2.app.model;
 
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
 
-import static es.etologic.mahjongscoring2.app.model.SeatState.NORMAL;
-
 public class Seat {
 
     private TableWinds wind;
     private String name;
-    private Integer points;
+    private int points;
     private int penalty;
-    private SeatState state;
+    private SeatStates state;
 
     public TableWinds getWind() {
         return wind;
@@ -18,13 +16,13 @@ public class Seat {
     public String getName() {
         return name;
     }
-    public Integer getPoints() {
+    public int getPoints() {
         return points;
     }
     public int getPenalty() {
         return penalty;
     }
-    public SeatState getState() {
+    public SeatStates getState() {
         return state;
     }
 
@@ -34,21 +32,29 @@ public class Seat {
     public void setName(String name) {
         this.name = name;
     }
-    public void setPoints(Integer points) {
+    public void setPoints(int points) {
         this.points = points;
     }
     public void setPenalty(int penalty) {
         this.penalty = penalty;
     }
-    public void setState(SeatState state) {
+    public void setState(SeatStates state) {
         this.state = state;
     }
 
-    public Seat(TableWinds wind, String name, Integer points) {
+    public Seat(TableWinds wind, String name, int points, int penalty, SeatStates state) {
         this.wind = wind;
         this.name = name;
         this.points = points;
         this.penalty = 0;
-        this.state = NORMAL;
+        this.state = state;
+    }
+
+    public Seat(TableWinds wind, String name, int points, SeatStates state) {
+        this.wind = wind;
+        this.name = name;
+        this.points = points;
+        this.penalty = 0;
+        this.state = state;
     }
 }

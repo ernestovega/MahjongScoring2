@@ -6,19 +6,21 @@ import android.support.annotation.NonNull;
 
 import javax.inject.Inject;
 
-import es.etologic.mahjongscoring2.domain.use_cases.GetGameUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.GetGamesWithRoundsUseCase;
-import es.etologic.mahjongscoring2.domain.use_cases.GetRoundsUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.CreateGameUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.UpdateRoundsUseCase;
 
 public class GameActivityViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private final GetGamesWithRoundsUseCase getGamesWithRoundsUseCase;
+    private CreateGameUseCase createGameUseCase;
+    private final GetGamesUseCase getGamesUseCase;
     private UpdateRoundsUseCase updateRoundUseCase;
 
+
     @Inject
-    GameActivityViewModelFactory(GetGamesWithRoundsUseCase getGamesWithRoundsUseCase, UpdateRoundsUseCase updateRoundUseCase) {
-        this.getGamesWithRoundsUseCase = getGamesWithRoundsUseCase;
+    GameActivityViewModelFactory(CreateGameUseCase createGameUseCase, GetGamesUseCase getGamesUseCase, UpdateRoundsUseCase updateRoundUseCase) {
+        this.createGameUseCase = createGameUseCase;
+        this.getGamesUseCase = getGamesUseCase;
         this.updateRoundUseCase = updateRoundUseCase;
     }
 
@@ -26,6 +28,6 @@ public class GameActivityViewModelFactory extends ViewModelProvider.NewInstanceF
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new GameActivityViewModel(getGamesWithRoundsUseCase, updateRoundUseCase);
+        return (T) new GameActivityViewModel(createGameUseCase, getGamesUseCase, updateRoundUseCase);
     }
 }

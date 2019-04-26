@@ -17,9 +17,6 @@ public interface GamesDao {
     @Insert(onConflict = OnConflictStrategy.FAIL)
     long insertOne(Game game) throws SQLiteConstraintException; //TODO: probar con tests. ¿Hace falta la exception o devolvería un 0?
 
-    @Insert(onConflict = OnConflictStrategy.FAIL)
-    long[] bulkInsert(List<Game> game) throws SQLiteConstraintException; //TODO: probar con tests. ¿Hace falta la exception o devolvería un 0?
-
     @Query("SELECT * FROM Games WHERE gameId = :gameId")
     Game getOne(long gameId);
 

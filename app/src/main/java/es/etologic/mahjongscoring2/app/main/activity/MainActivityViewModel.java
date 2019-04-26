@@ -5,10 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.v7.widget.Toolbar;
 
-import java.util.Objects;
-
-import static es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.FINISH;
-import static es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.OLD_GAMES;
+import io.reactivex.annotations.Nullable;
 
 public class MainActivityViewModel extends ViewModel {
 
@@ -16,7 +13,6 @@ public class MainActivityViewModel extends ViewModel {
     public enum MainScreens {
         OLD_GAMES,
         NEW_GAME,
-        GAME,
         COMBINATIONS,
         GREEN_BOOK,
         RATE,
@@ -42,7 +38,7 @@ public class MainActivityViewModel extends ViewModel {
             currentScreen.postValue(screen);
         }
     }
-    public void startGame(long gameId) {
+    public void startGame(Long gameId) {
         currentGame.postValue(gameId);
     }
 }

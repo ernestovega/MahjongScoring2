@@ -11,7 +11,7 @@
         android:layout_width="@dimen/double_standard_margin"
         android:layout_height="@dimen/double_standard_margin"
         android:background="@drawable/shape_oval_accent"
-        android:src="@drawable/ic_add_white_24dp"
+        android:src="@drawable/ic_play_arrow_white_24px"
         tools:ignore="ContentDescription"/>
 
 </FrameLayout>

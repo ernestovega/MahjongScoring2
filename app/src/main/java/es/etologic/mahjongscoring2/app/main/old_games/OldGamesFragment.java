@@ -29,7 +29,6 @@ import es.etologic.mahjongscoring2.app.base.BaseFragment;
 import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel;
 import es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModelFactory;
 import es.etologic.mahjongscoring2.app.model.ShowState;
-import es.etologic.mahjongscoring2.domain.model.Game;
 import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
 
 import static android.view.View.GONE;
@@ -55,7 +54,7 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
 
     //EVENTS
     @OnClick(R.id.fabOldGames) public void onFabNewGameClick() {
-        activityViewModel.navigateTo(NEW_GAME);
+        activityViewModel.startGame(null);
     }
     @Override public void onOldGameItemDeleteClicked(long gameId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -66,7 +65,9 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
                 .create()
                 .show();
     }
-    @Override public void onOldGameItemResumeClicked(long gameId) { activityViewModel.startGame(gameId); }
+    @Override public void onOldGameItemResumeClicked(long gameId) {
+        activityViewModel.startGame(gameId);
+    }
 
     //LIFECYCLE
     @Override
@@ -90,9 +91,8 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
         recyclerView.setAdapter(rvAdapter);
     }
     private void setupViewModel() {
-        FragmentActivity activity = getActivity();
-        if(activity != null) {
-            activityViewModel = ViewModelProviders.of(activity, mainActivityViewModelFactory).get(MainActivityViewModel.class);
+        if(getActivity() != null) {
+            activityViewModel = ViewModelProviders.of(getActivity(), mainActivityViewModelFactory).get(MainActivityViewModel.class);
             viewModel = ViewModelProviders.of(this, oldGamesViewModelFactory).get(OldGamesViewModel.class);
             viewModel.getError().observe(this, this::showError);
             viewModel.getGames().observe(this, this::setGames);

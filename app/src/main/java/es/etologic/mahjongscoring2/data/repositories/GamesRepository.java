@@ -2,6 +2,7 @@ package es.etologic.mahjongscoring2.data.repositories;
 
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,15 +29,10 @@ public class GamesRepository extends BaseRepository { /*TODO: ¿Qué pasa con po
     }
 
     public Single<Long> insertOne(Game game) {
-        return Single.fromCallable(() -> gamesDao.insertOne(game));
-    }
-
-    public Single<Game> getOne(long gameId) {
-        return Single.fromCallable(() -> gamesDao.getOne(gameId));
-    }
-
-    public Single<List<Game>> getAll() {
-        return Single.fromCallable(gamesDao::getAll);
+        return Single.fromCallable(() -> {
+            long l = gamesDao.insertOne(game);
+            return l;
+        });
     }
 
     public Single<Boolean> updateOne(Game game) {
@@ -50,12 +46,11 @@ public class GamesRepository extends BaseRepository { /*TODO: ¿Qué pasa con po
         });
     }
 
-    public Single<Boolean> deleteAll() {
-        return Single.fromCallable(() -> gamesDao.deleteAll() >= 0);
-    } //TODO: ¿Cómo saber si ha habido algún error?
-
     public Single<GameWithRounds> getOneWithRounds(long gameId) {
-        return Single.fromCallable(() -> gameWithRoundsDao.getGameWithRoundsOrderedByDateDesc(gameId));
+        return Single.fromCallable(() -> {
+            GameWithRounds gameWithRoundsOrderedByDateDesc = gameWithRoundsDao.getGameWithRoundsOrderedByDateDesc(gameId);
+            return gameWithRoundsOrderedByDateDesc;
+        });
     }
 
     public Single<List<GameWithRounds>> getAllWithRounds() {

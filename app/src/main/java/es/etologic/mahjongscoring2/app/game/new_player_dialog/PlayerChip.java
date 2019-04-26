@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.app.main.new_game;
+package es.etologic.mahjongscoring2.app.game.new_player_dialog;
 
 import android.graphics.drawable.Drawable;
 import android.net.Uri;

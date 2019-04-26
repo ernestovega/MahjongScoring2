@@ -29,13 +29,21 @@ import static android.view.View.resolveSize;
 
 class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    //INTERFACE
+    interface GameItemListener {
+        void onOldGameItemDeleteClicked(long gameId);
+        void onOldGameItemResumeClicked(long gameId);
+    }
+
     //FIELDS
     private GameItemListener itemClickListener;
     private List<GameWithRounds> games;
+
     //CONTRUCTOR
     OldGamesRvAdapter() {
         games = new ArrayList<>();
     }
+
     //METHODS
     void setOldGameItemListener(GameItemListener listener) {
         this.itemClickListener = listener;
@@ -58,13 +66,13 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
         games = newGamesCopy;
     }
+
     //LIFECYCLE
     @Override
     public int getItemCount() {
         return games.size();
     }
-    @NonNull
-    @Override
+    @Override @NonNull
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.oldgame_item, parent, false);
         return new OldGameItemViewHolder(itemView);
@@ -102,11 +110,6 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             itemViewHolder.tvBestHandPlayerName.setText(bestHand.getPlayerName());
             itemViewHolder.tvBestHandValue.setText(String.valueOf(bestHand.getHandValue()));
         }
-    }
-    //INTERFACE
-    interface GameItemListener {
-        void onOldGameItemDeleteClicked(long gameId);
-        void onOldGameItemResumeClicked(long gameId);
     }
 
     //VIEWHOLDER

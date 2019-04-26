@@ -193,16 +193,16 @@ public class Round extends RecyclerViewable<Round> {
             pointsP4 -= (NORTH == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
         }
     }
-    public void setAllPlayersPointsByPenalty(TableWinds playerInitialPosition, int penaltyPoints) {
+    public void setAllPlayersPointsByPenalty(TableWinds penalizedPlayerInitialPosition, int penaltyPoints) {
         int noPenalizedPlayerPoints = penaltyPoints / NUM_NO_WINNER_PLAYERS_IN_TSUMO;
-        penaltyP1 += (EAST == playerInitialPosition) ? penaltyPoints : 0;
-        penaltyP2 += (SOUTH == playerInitialPosition) ? penaltyPoints : 0;
-        penaltyP3 += (WEST == playerInitialPosition) ? penaltyPoints : 0;
-        penaltyP4 += (NORTH == playerInitialPosition) ? penaltyPoints : 0;
-        pointsP1 += (EAST == playerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
-        pointsP2 += (SOUTH == playerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
-        pointsP3 += (WEST == playerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
-        pointsP4 += (NORTH == playerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
+        penaltyP1 += (EAST == penalizedPlayerInitialPosition) ? penaltyPoints : 0;
+        penaltyP2 += (SOUTH == penalizedPlayerInitialPosition) ? penaltyPoints : 0;
+        penaltyP3 += (WEST == penalizedPlayerInitialPosition) ? penaltyPoints : 0;
+        penaltyP4 += (NORTH == penalizedPlayerInitialPosition) ? penaltyPoints : 0;
+        pointsP1 += (EAST == penalizedPlayerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
+        pointsP2 += (SOUTH == penalizedPlayerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
+        pointsP3 += (WEST == penalizedPlayerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
+        pointsP4 += (NORTH == penalizedPlayerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
     }
     public void setAllPlayersPointsByPenaltyCancellation(TableWinds playerInitialPosition) {
         int penaltyPoints = getPenaltyPointsFromInitialPlayerPosition(playerInitialPosition);
@@ -226,7 +226,7 @@ public class Round extends RecyclerViewable<Round> {
             default: return penaltyP4 > 0;
         }
     }
-    private int getPenaltyPointsFromInitialPlayerPosition(TableWinds playerInitialPosition) {
+    public int getPenaltyPointsFromInitialPlayerPosition(TableWinds playerInitialPosition) {
         switch(playerInitialPosition) {
             case EAST: return penaltyP1;
             case SOUTH: return penaltyP2;
