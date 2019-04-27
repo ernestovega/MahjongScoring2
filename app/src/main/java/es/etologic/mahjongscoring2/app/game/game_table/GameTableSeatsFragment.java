@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.R;
+import es.etologic.mahjongscoring2.app.custom_views.VerticalTextView;
 import es.etologic.mahjongscoring2.app.model.Seat;
 import es.etologic.mahjongscoring2.app.model.SeatStates;
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
@@ -47,7 +48,7 @@ public class GameTableSeatsFragment extends Fragment {
     @BindView(R.id.tvTableSeatWestPoints) TextView tvSeatWestPoints;
     @BindView(R.id.tvTableSeatWestPenaltyPoints) TextView tvSeatWestPenaltyPoints;
     @BindView(R.id.ivTableSeatNorthSeatWindIcon) ImageView ivSeatNorthWindIcon;
-    @BindView(R.id.tvTableSeatNorthName) TextView tvSeatNorthName;
+    @BindView(R.id.tvTableSeatNorthName) VerticalTextView tvSeatNorthName;
     @BindView(R.id.tvTableSeatNorthPoints) TextView tvSeatNorthPoints;
     @BindView(R.id.tvTableSeatNorthPenaltyPoints) TextView tvSeatNorthPenaltyPoints;
     //RESOURCES
@@ -62,7 +63,7 @@ public class GameTableSeatsFragment extends Fragment {
     @BindColor(R.color.grayMM) int grayMMColor;
     @BindColor(R.color.colorAccent) int accentColor;
     @BindColor(R.color.purpleDarkTransparent) int purpleColor;
-    @BindColor(R.color.redPenalty) int redPenalty;
+    @BindColor(R.color.purplePenalty) int purplePenalty;
     @BindColor(R.color.colorPrimary) int green;
     //FIELDS
     private Unbinder unbinder;
@@ -137,7 +138,7 @@ public class GameTableSeatsFragment extends Fragment {
     }
     private void setPenaltyPoints(TextView textView, int penaltyPoints) {
         textView.setText(String.valueOf(penaltyPoints));
-        textView.setTextColor(penaltyPoints < 0 ? redPenalty : green);
+        textView.setTextColor(penaltyPoints < 0 ? purplePenalty : green);
         //        textView.setVisibility(seat.getPenalty() != 0 ? VISIBLE : INVISIBLE);
     }
     private void setState(ImageView imageViewWind, TextView textViewName, TextView textViewPoints, SeatStates state) {

@@ -2,6 +2,6 @@
 <resources>
     <array name="swipeRefreshColors">
         <item>@color/colorPrimary</item>
-        <item>@color/purple</item>
+        <item>@color/purplePenalty</item>
     </array>
 </resources>

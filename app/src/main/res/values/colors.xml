@@ -18,9 +18,8 @@
     <color name="redDark">#A00000</color>
     <color name="redDarkTransparent">#88A00000</color>
 
-    <color name="purple">#7C00E7</color>
+    <color name="purplePenalty">#7C00E7</color>
     <color name="purpleDark">#520099</color>
     <color name="purpleDarkTransparent">#88520099</color>
-    <color name="redPenalty">#CC0000</color>
 
 </resources>
