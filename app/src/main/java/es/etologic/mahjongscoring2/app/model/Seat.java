@@ -42,14 +42,6 @@ public class Seat {
         this.state = state;
     }
 
-    public Seat(TableWinds wind, String name, int points, int penalty, SeatStates state) {
-        this.wind = wind;
-        this.name = name;
-        this.points = points;
-        this.penalty = 0;
-        this.state = state;
-    }
-
     public Seat(TableWinds wind, String name, int points, SeatStates state) {
         this.wind = wind;
         this.name = name;

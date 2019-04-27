@@ -183,7 +183,7 @@
     <string name="cancel_penalty">Cancel penalty</string>
     <string name="isPenalized">Penalty</string>
     <string name="draw">Draw</string>
-    <string name="hu_wall">Wall Hu</string>
+    <string name="hu_selfpick">Selfpick Hu</string>
     <string name="hu_discard">Discard Hu</string>
     <string name="east">East</string>
     <string name="west">West</string>
@@ -202,5 +202,8 @@
     <string name="player_south_name">Player South name</string>
     <string name="player_west_name">Player West name</string>
     <string name="player_north_name">Player North name</string>
+    <string name="divided_equally">Divided equally</string>
+    <string name="players">Players</string>
+    <string name="players_names">Players names</string>
 
 </resources>

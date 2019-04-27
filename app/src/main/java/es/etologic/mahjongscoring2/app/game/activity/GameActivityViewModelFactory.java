@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import es.etologic.mahjongscoring2.domain.use_cases.CreateGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.UpdateGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.UpdateRoundsUseCase;
 
 public class GameActivityViewModelFactory extends ViewModelProvider.NewInstanceFactory {
@@ -15,19 +16,23 @@ public class GameActivityViewModelFactory extends ViewModelProvider.NewInstanceF
     private CreateGameUseCase createGameUseCase;
     private final GetGamesUseCase getGamesUseCase;
     private UpdateRoundsUseCase updateRoundUseCase;
-
+    private UpdateGameUseCase updateGameUseCase;
 
     @Inject
-    GameActivityViewModelFactory(CreateGameUseCase createGameUseCase, GetGamesUseCase getGamesUseCase, UpdateRoundsUseCase updateRoundUseCase) {
+    GameActivityViewModelFactory(CreateGameUseCase createGameUseCase,
+                                 GetGamesUseCase getGamesUseCase,
+                                 UpdateRoundsUseCase updateRoundUseCase,
+                                 UpdateGameUseCase updateGameUseCase) {
         this.createGameUseCase = createGameUseCase;
         this.getGamesUseCase = getGamesUseCase;
         this.updateRoundUseCase = updateRoundUseCase;
+        this.updateGameUseCase = updateGameUseCase;
     }
 
     @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new GameActivityViewModel(createGameUseCase, getGamesUseCase, updateRoundUseCase);
+        return (T) new GameActivityViewModel(createGameUseCase, getGamesUseCase, updateRoundUseCase, updateGameUseCase);
     }
 }

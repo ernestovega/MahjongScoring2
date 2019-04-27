@@ -14,6 +14,7 @@ import es.etologic.mahjongscoring2.app.model.SelectedPlayerSeat;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.app.model.TableStates;
 import es.etologic.mahjongscoring2.app.model.ToolbarState;
+import es.etologic.mahjongscoring2.app.utils.StringUtils;
 import es.etologic.mahjongscoring2.domain.model.Game;
 import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
 import es.etologic.mahjongscoring2.domain.model.Round;
@@ -21,6 +22,7 @@ import es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates;
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
 import es.etologic.mahjongscoring2.domain.use_cases.CreateGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
+import es.etologic.mahjongscoring2.domain.use_cases.UpdateGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.UpdateRoundsUseCase;
 import io.reactivex.schedulers.Schedulers;
 
@@ -43,7 +45,7 @@ public class GameActivityViewModel extends BaseViewModel {
 
     //CONSTANTS
     private static final Integer MCR_MIN_POINTS = 8;
-    public static final int MAX_MCR_HANDS_PER_GAME = 16;
+    private static final int MAX_MCR_HANDS_PER_GAME = 16;
 
     //FIELDS
     //List Observables
@@ -67,6 +69,7 @@ public class GameActivityViewModel extends BaseViewModel {
     private CreateGameUseCase createGameUseCase;
     private GetGamesUseCase getGamesUseCase;
     private UpdateRoundsUseCase updateRoundsUseCase;
+    private UpdateGameUseCase updateGameUseCase;
     //Common
     private GameWithRounds gameWithRounds;
     //Table variables
@@ -76,12 +79,12 @@ public class GameActivityViewModel extends BaseViewModel {
     private TableWinds mDiscarderCurrentSeat = NONE;
 
     //Constructor
-    GameActivityViewModel(CreateGameUseCase createGameUseCase,
-                          GetGamesUseCase getGamesUseCase,
-                          UpdateRoundsUseCase updateRoundsUseCase) {
+    GameActivityViewModel(CreateGameUseCase createGameUseCase, GetGamesUseCase getGamesUseCase,
+                          UpdateRoundsUseCase updateRoundsUseCase, UpdateGameUseCase updateGameUseCase) {
         this.createGameUseCase = createGameUseCase;
         this.getGamesUseCase = getGamesUseCase;
         this.updateRoundsUseCase = updateRoundsUseCase;
+        this.updateGameUseCase = updateGameUseCase;
     }
 
     //Observables
@@ -188,26 +191,50 @@ public class GameActivityViewModel extends BaseViewModel {
         showDialog.postValue(DialogType.NONE);
 
         roundNumber.postValue(mCurrentRound.getRoundId());
-
-        int[] playersPoints = gameWithRounds.getPlayersTotalPoints();
-        eastSeat.postValue(buildNewSeat(EAST, playersPoints));
-        southSeat.postValue(buildNewSeat(SOUTH, playersPoints));
-        westSeat.postValue(buildNewSeat(WEST, playersPoints));
-        northSeat.postValue(buildNewSeat(NORTH, playersPoints));
+        resetSeats();
     }
-    private Seat buildNewSeat(TableWinds wind, int[] playersTotalsPoints) {
+    private void resetSeats() {
+        eastSeat.postValue(buildNewSeat(EAST));
+        southSeat.postValue(buildNewSeat(SOUTH));
+        westSeat.postValue(buildNewSeat(WEST));
+        northSeat.postValue(buildNewSeat(NORTH));
+    }
+    private Seat buildNewSeat(TableWinds wind) {
         TableWinds initialPosition = Game.getPlayerInitialSeatByCurrentSeat(wind, mCurrentRound.getRoundId());
         String name = gameWithRounds.getGame().getPlayerNameByInitialPosition(initialPosition);
-        int points = playersTotalsPoints[initialPosition.getIndex()];
+        int points = gameWithRounds.getPlayersTotalPoints()[initialPosition.getIndex()];
         return new Seat(wind, name, points, NORMAL);
     }
+    //RequestPlayers  Dialog Responses
+    void onRequestPlayersResponse(CharSequence tiet1Text, CharSequence tiet2Text, CharSequence tiet3Text, CharSequence tiet4Text) {
+        String name1 = tiet1Text.toString();
+        String name2 = tiet2Text.toString();
+        String name3 = tiet3Text.toString();
+        String name4 = tiet4Text.toString();
+        if(!StringUtils.isEmpty(name1) && !StringUtils.isEmpty(name2) && !StringUtils.isEmpty(name3) && !StringUtils.isEmpty(name4)) {
+            gameWithRounds.getGame().setNameP1(name1);
+            gameWithRounds.getGame().setNameP2(name2);
+            gameWithRounds.getGame().setNameP3(name3);
+            gameWithRounds.getGame().setNameP4(name4);
+            listNames.postValue(gameWithRounds.getGame().getPlayersNames());
+            resetTable();
+            disposables.add(
+                    updateGameUseCase.updateGame(gameWithRounds.game)
+                            .subscribeOn(Schedulers.io())
+                            .doOnSubscribe(disposable -> progressState.postValue(SHOW))
+                            .doOnEvent((combinations, throwable) -> progressState.postValue(HIDE))
+                            .subscribe(success -> {}, error::postValue));
+        } else {
+            showDialog.postValue(DialogType.PLAYERS);
+        }
+    }
     //RequestHandPoints  Dialog Responses
-    public void onRequestHandPointsCancel() {
+    void onRequestHandPointsCancel() {
         resetTable();
     }
-    public void onRequestHandPointsResponse(String handPointsInput) {
-
-        Integer handPoints = convertInputValue(handPointsInput);
+    void onRequestHandPointsResponse(CharSequence handPointsInput) {
+        if(handPointsInput == null) { handPointsInput = "0"; }
+        Integer handPoints = convertInputValue(handPointsInput.toString());
 
         if (handPoints == null || handPoints < MCR_MIN_POINTS) {
             showDialog.postValue(DialogType.REQUEST_HAND_POINTS);
@@ -244,17 +271,20 @@ public class GameActivityViewModel extends BaseViewModel {
                         .subscribe(this::getGameSuccess, error::postValue));
     }
     //RequestPenaltyPoints Dialog Responses
-    public void onRequestPenaltyPointsCancel() {
+    void onRequestPenaltyPointsCancel() {
         resetTable();
     }
-    public void onRequestPenaltyPointsResponse(String penaltyPointsInput) {
-
-        Integer penaltyPoints = convertInputValue(penaltyPointsInput);
-
+    void onRequestPenaltyPointsResponse(CharSequence penaltyPointsInput, boolean isDividedEqually) {
+        if(penaltyPointsInput == null) { penaltyPointsInput = "0"; }
+        Integer penaltyPoints = convertInputValue(penaltyPointsInput.toString());
         if (penaltyPoints == null || penaltyPoints <= 0) {
             showDialog.postValue(DialogType.REQUEST_PENALTY_POINTS);
         } else {
-            mCurrentRound.setAllPlayersPointsByPenalty(selectedPlayerSeat.getInitialSeat(), penaltyPoints);
+            if(isDividedEqually) {
+                mCurrentRound.setAllPlayersPointsByPenalty(selectedPlayerSeat.getInitialSeat(), penaltyPoints);
+            } else {
+                mCurrentRound.setPlayerPenaltyPoints(selectedPlayerSeat.getInitialSeat(), penaltyPoints);
+            }
             resetTable();
         }
     }

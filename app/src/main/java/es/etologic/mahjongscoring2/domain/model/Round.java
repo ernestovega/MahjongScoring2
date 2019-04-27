@@ -193,6 +193,14 @@ public class Round extends RecyclerViewable<Round> {
             pointsP4 -= (NORTH == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
         }
     }
+    public void setPlayerPenaltyPoints(TableWinds penalizedPlayerInitialPosition, int penaltyPoints) {
+        switch(penalizedPlayerInitialPosition) {
+            case EAST: penaltyP1 += penaltyPoints; break;
+            case SOUTH: penaltyP2 += penaltyPoints; break;
+            case WEST: penaltyP3 += penaltyPoints; break;
+            default: penaltyP4 += penaltyPoints; break;
+        }
+    }
     public void setAllPlayersPointsByPenalty(TableWinds penalizedPlayerInitialPosition, int penaltyPoints) {
         int noPenalizedPlayerPoints = penaltyPoints / NUM_NO_WINNER_PLAYERS_IN_TSUMO;
         penaltyP1 += (EAST == penalizedPlayerInitialPosition) ? penaltyPoints : 0;
@@ -207,31 +215,28 @@ public class Round extends RecyclerViewable<Round> {
     public void setAllPlayersPointsByPenaltyCancellation(TableWinds playerInitialPosition) {
         int penaltyPoints = getPenaltyPointsFromInitialPlayerPosition(playerInitialPosition);
         int noPenalizedPlayerPoints = penaltyPoints / NUM_NO_WINNER_PLAYERS_IN_TSUMO;
-        if(EAST == playerInitialPosition) { penaltyP1 = 0; }
-        if(SOUTH == playerInitialPosition) { penaltyP2 = 0; }
-        if(WEST == playerInitialPosition) { penaltyP3 = 0; }
+        if(EAST == playerInitialPosition) { penaltyP1 = 0; } else
+        if(SOUTH == playerInitialPosition) { penaltyP2 = 0; } else
+        if(WEST == playerInitialPosition) { penaltyP3 = 0; } else
         if(NORTH == playerInitialPosition) { penaltyP4 = 0; }
         pointsP1 += (EAST == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
         pointsP2 += (SOUTH == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
         pointsP3 += (WEST == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
         pointsP4 += (NORTH == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
-
     }
     public boolean isPenalizedPlayer(TableWinds playerInitialPosition) {
         switch(playerInitialPosition) {
             case EAST: return penaltyP1 > 0;
             case SOUTH: return penaltyP2 > 0;
             case WEST: return penaltyP3 > 0;
-            case NORTH:
             default: return penaltyP4 > 0;
         }
     }
-    public int getPenaltyPointsFromInitialPlayerPosition(TableWinds playerInitialPosition) {
+    private int getPenaltyPointsFromInitialPlayerPosition(TableWinds playerInitialPosition) {
         switch(playerInitialPosition) {
             case EAST: return penaltyP1;
             case SOUTH: return penaltyP2;
             case WEST: return penaltyP3;
-            case NORTH:
             default: return penaltyP4;
         }
     }

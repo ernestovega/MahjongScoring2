@@ -44,6 +44,18 @@ public class Game extends GameRounds{
     public String getNameP3() { return nameP3; }
     public String getNameP4() { return nameP4; }
     public Date getCreationDate() { return creationDate; }
+    public void setNameP1(String nameP1) {
+        this.nameP1 = nameP1;
+    }
+    public void setNameP2(String nameP2) {
+        this.nameP2 = nameP2;
+    }
+    public void setNameP3(String nameP3) {
+        this.nameP3 = nameP3;
+    }
+    public void setNameP4(String nameP4) {
+        this.nameP4 = nameP4;
+    }
 
     //CONSTRUCTORS
     public Game(final int gameId, String nameP1, String nameP2, String nameP3, String nameP4, Date creationDate) {

@@ -23,6 +23,8 @@ import es.etologic.mahjongscoring2.app.model.Seat;
 import es.etologic.mahjongscoring2.app.model.SeatStates;
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 import static es.etologic.mahjongscoring2.app.model.SeatStates.NORMAL;
 
 public class GameTableSeatsFragment extends Fragment {
@@ -40,17 +42,17 @@ public class GameTableSeatsFragment extends Fragment {
     @BindView(R.id.tvTableSeatEastPoints) TextView tvSeatEastPoints;
     @BindView(R.id.tvTableSeatEastPenaltyPoints) TextView tvSeatEastPenaltyPoints;
     @BindView(R.id.ivTableSeatSouthSeatWindIcon) ImageView ivSeatSouthWindIcon;
-    @BindView(R.id.tvTableSeatSouthName) TextView tvSeatSouthName;
-    @BindView(R.id.tvTableSeatSouthPoints) TextView tvSeatSouthPoints;
-    @BindView(R.id.tvTableSeatSouthPenaltyPoints) TextView tvSeatSouthPenaltyPoints;
+    @BindView(R.id.tvTableSeatSouthName) VerticalTextView tvSeatSouthName;
+    @BindView(R.id.tvTableSeatSouthPoints) VerticalTextView tvSeatSouthPoints;
+    @BindView(R.id.tvTableSeatSouthPenaltyPoints) VerticalTextView tvSeatSouthPenaltyPoints;
     @BindView(R.id.ivTableSeatWestSeatWindIcon) ImageView ivSeatWestWindIcon;
     @BindView(R.id.tvTableSeatWestName) TextView tvSeatWestName;
     @BindView(R.id.tvTableSeatWestPoints) TextView tvSeatWestPoints;
     @BindView(R.id.tvTableSeatWestPenaltyPoints) TextView tvSeatWestPenaltyPoints;
     @BindView(R.id.ivTableSeatNorthSeatWindIcon) ImageView ivSeatNorthWindIcon;
     @BindView(R.id.tvTableSeatNorthName) VerticalTextView tvSeatNorthName;
-    @BindView(R.id.tvTableSeatNorthPoints) TextView tvSeatNorthPoints;
-    @BindView(R.id.tvTableSeatNorthPenaltyPoints) TextView tvSeatNorthPenaltyPoints;
+    @BindView(R.id.tvTableSeatNorthPoints) VerticalTextView tvSeatNorthPoints;
+    @BindView(R.id.tvTableSeatNorthPenaltyPoints) VerticalTextView tvSeatNorthPenaltyPoints;
     //RESOURCES
     @BindDrawable(R.drawable.ic_east) Drawable eastIcon;
     @BindDrawable(R.drawable.ic_south) Drawable southIcon;
@@ -139,7 +141,7 @@ public class GameTableSeatsFragment extends Fragment {
     private void setPenaltyPoints(TextView textView, int penaltyPoints) {
         textView.setText(String.valueOf(penaltyPoints));
         textView.setTextColor(penaltyPoints < 0 ? purplePenalty : green);
-        //        textView.setVisibility(seat.getPenalty() != 0 ? VISIBLE : INVISIBLE);
+        textView.setVisibility(penaltyPoints != 0 ? VISIBLE : INVISIBLE);
     }
     private void setState(ImageView imageViewWind, TextView textViewName, TextView textViewPoints, SeatStates state) {
         if(state == NORMAL) {
