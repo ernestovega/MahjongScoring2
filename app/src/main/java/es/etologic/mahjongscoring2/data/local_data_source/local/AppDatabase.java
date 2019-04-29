@@ -16,7 +16,6 @@ import es.etologic.mahjongscoring2.data.local_data_source.local.daos.PlayersDao;
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.RoundsDao;
 import es.etologic.mahjongscoring2.domain.model.Combination;
 import es.etologic.mahjongscoring2.domain.model.Game;
-import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
 import es.etologic.mahjongscoring2.domain.model.Player;
 import es.etologic.mahjongscoring2.domain.model.Round;
 

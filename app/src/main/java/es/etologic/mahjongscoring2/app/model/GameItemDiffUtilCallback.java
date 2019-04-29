@@ -33,7 +33,7 @@ public class GameItemDiffUtilCallback extends DiffUtil.Callback {
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
         return oldList.get(oldItemPosition).getGame().getGameId() ==
-                       newList.get(newItemPosition).getGame().getGameId();
+                newList.get(newItemPosition).getGame().getGameId();
     }
 
     @Override
@@ -41,21 +41,21 @@ public class GameItemDiffUtilCallback extends DiffUtil.Callback {
         GameWithRounds newGame = newList.get(newItemPosition);
         GameWithRounds oldGame = oldList.get(oldItemPosition);
         return oldGame.getGame().getGameId() == newGame.getGame().getGameId() &&
-                       oldGame.getGame().getNameP1().equals(newGame.getGame().getNameP1()) &&
-                       oldGame.getGame().getNameP2().equals(newGame.getGame().getNameP2()) &&
-                       oldGame.getGame().getNameP3().equals(newGame.getGame().getNameP3()) &&
-                       oldGame.getGame().getNameP4().equals(newGame.getGame().getNameP4()) &&
-                       DateTimeUtils.areEqual(oldGame.getGame().getCreationDate(), newGame.getGame().getCreationDate()) &&
-                       arePlayersTotalsPointsEquals(oldGame.getPlayersTotalPointsString(),
-                               newGame.getPlayersTotalPointsString()) &&
-                       areBestHandsEqual(oldGame.getBestHand(), newGame.getBestHand())
-                       && Round.areEqual(oldGame.getRounds(), newGame.getRounds());
+                oldGame.getGame().getNameP1().equals(newGame.getGame().getNameP1()) &&
+                oldGame.getGame().getNameP2().equals(newGame.getGame().getNameP2()) &&
+                oldGame.getGame().getNameP3().equals(newGame.getGame().getNameP3()) &&
+                oldGame.getGame().getNameP4().equals(newGame.getGame().getNameP4()) &&
+                DateTimeUtils.areEqual(oldGame.getGame().getCreationDate(), newGame.getGame().getCreationDate()) &&
+                arePlayersTotalsPointsEquals(oldGame.getPlayersTotalPointsString(),
+                        newGame.getPlayersTotalPointsString()) &&
+                areBestHandsEqual(oldGame.getBestHand(), newGame.getBestHand())
+                && Round.areEqual(oldGame.getRounds(), newGame.getRounds());
     }
 
     private boolean arePlayersTotalsPointsEquals(String[] oldPlayersTotalPoints,
                                                  String[] newPlayersTotalPoints) {
-        for(int i = 0; i < NUM_GAME_PLAYERS; i++) {
-            if(!oldPlayersTotalPoints[i].equals(newPlayersTotalPoints[i])) {
+        for (int i = 0; i < NUM_GAME_PLAYERS; i++) {
+            if (!oldPlayersTotalPoints[i].equals(newPlayersTotalPoints[i])) {
                 return false;
             }
         }
@@ -64,6 +64,6 @@ public class GameItemDiffUtilCallback extends DiffUtil.Callback {
 
     private boolean areBestHandsEqual(BestHand oldBestHand, BestHand newBestHand) {
         return oldBestHand.getPlayerName().equals(newBestHand.getPlayerName()) &&
-                       oldBestHand.getHandValue() == newBestHand.getHandValue();
+                oldBestHand.getHandValue() == newBestHand.getHandValue();
     }
 }

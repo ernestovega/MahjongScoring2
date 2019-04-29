@@ -14,7 +14,7 @@ import static es.etologic.mahjongscoring2.domain.model.Combination.CombinationDe
 import static es.etologic.mahjongscoring2.domain.model.Combination.CombinationDescriptionType.IMAGE;
 
 @Entity(tableName = "Combinations",
-        indices = { @Index ( value = { "combinationName" }, unique = true) })
+        indices = {@Index(value = {"combinationName"}, unique = true)})
 public class Combination {
 
     public enum CombinationDescriptionType {
@@ -101,7 +101,7 @@ public class Combination {
     }
 
     public Combination getCopy() {
-        if(combinationDescriptionType == IMAGE) {
+        if (combinationDescriptionType == IMAGE) {
             return new Combination(combinationPoints, combinationId, combinationName, combinationImage);
         } else {
             return new Combination(combinationPoints, combinationId, combinationName, combinationDescription);

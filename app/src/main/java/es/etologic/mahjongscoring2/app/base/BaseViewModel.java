@@ -19,7 +19,7 @@ public class BaseViewModel extends ViewModel {
     public LiveData<Throwable> getError() { return error; }
 
     @Override protected void onCleared() {
-        if(!disposables.isDisposed()) {
+        if (!disposables.isDisposed()) {
             disposables.dispose();
         }
         super.onCleared();

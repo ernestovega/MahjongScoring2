@@ -34,7 +34,8 @@ public final class RankingTable {
                         int numRounds, String sNumRounds, String duration) {
         SortedPlayersRankings = sortedPlayersRankings;
         BestHandPlayerPoints = bestHandPlayerPoints;
-        NumRounds = numRounds; SNumRounds = sNumRounds;
+        NumRounds = numRounds;
+        SNumRounds = sNumRounds;
         Duration = duration;
     }
 }

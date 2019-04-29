@@ -21,18 +21,16 @@ public class SelectedPlayerSeat {
         this.currentSeat = NONE;
         this.initialSeat = NONE;
     }
-
-    public void clear() {
-        this.currentSeat = NONE;
-        this.initialSeat = NONE;
-    }
-
     public void setSelectedPlayer(TableWinds currentSeat, int roundId) {
-        if(currentSeat == null || currentSeat == NONE) {
+        if (currentSeat == null || currentSeat == NONE) {
             clear();
         } else {
             this.currentSeat = currentSeat;
             this.initialSeat = Game.getPlayerInitialSeatByCurrentSeat(currentSeat, roundId);
         }
+    }
+    public void clear() {
+        this.currentSeat = NONE;
+        this.initialSeat = NONE;
     }
 }

@@ -11,7 +11,8 @@ import es.etologic.mahjongscoring2.domain.use_cases.DeleteGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
 import io.reactivex.schedulers.Schedulers;
 
-import static es.etologic.mahjongscoring2.app.model.ShowState.*;
+import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
+import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
 class OldGamesViewModel extends BaseViewModel {
 
@@ -28,7 +29,14 @@ class OldGamesViewModel extends BaseViewModel {
 
     //OBSERVABLES
     LiveData<List<GameWithRounds>> getGames() { return allGames; }
-
+    void deleteGame(long gameId) {
+        disposables.add(
+                deleteGameUseCase.deleteGame(gameId)
+                        .subscribeOn(Schedulers.io())
+                        .doOnSubscribe(observer -> progressState.postValue(SHOW))
+                        .doOnEvent((observer, throwable) -> progressState.postValue(HIDE))
+                        .subscribe(result -> getAllGames(), error::postValue));
+    }
     //METHODS
     void getAllGames() {
         disposables.add(
@@ -37,13 +45,5 @@ class OldGamesViewModel extends BaseViewModel {
                         .doOnSubscribe(observer -> progressState.postValue(SHOW))
                         .doOnEvent((observer, throwable) -> progressState.postValue(HIDE))
                         .subscribe(allGames::postValue, error::postValue));
-    }
-    void deleteGame(long gameId) {
-        disposables.add(
-                deleteGameUseCase.deleteGame(gameId)
-                        .subscribeOn(Schedulers.io())
-                        .doOnSubscribe(observer -> progressState.postValue(SHOW))
-                        .doOnEvent((observer, throwable) -> progressState.postValue(HIDE))
-                        .subscribe(result -> getAllGames(), error::postValue));
     }
 }

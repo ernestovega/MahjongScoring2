@@ -6,7 +6,7 @@ public enum CombinationItemTypes {
     ITEM;
 
     public static int getValue(CombinationItemTypes viewType) {
-        switch(viewType) {
+        switch (viewType) {
             case HEADER:
                 return 0;
             default:
@@ -16,7 +16,7 @@ public enum CombinationItemTypes {
     }
 
     public static CombinationItemTypes getType(int value) {
-        switch(value) {
+        switch (value) {
             case 0:
                 return HEADER;
             default:

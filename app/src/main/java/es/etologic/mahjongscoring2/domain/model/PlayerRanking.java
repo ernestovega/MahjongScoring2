@@ -19,16 +19,14 @@ public class PlayerRanking implements Comparable<PlayerRanking> {
         this.points = points;
     }
 
-    public String getScore() {
-        return score;
-    }
-
     public PlayerRanking(String name, String score) {
         this.name = name;
         this.score = score;
     }
-
     @Override public int compareTo(@NonNull PlayerRanking o) {
         return score.compareTo(o.getScore());
+    }
+    public String getScore() {
+        return score;
     }
 }

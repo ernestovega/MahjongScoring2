@@ -2,7 +2,6 @@ package es.etologic.mahjongscoring2.data.repositories;
 
 import android.content.Context;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;

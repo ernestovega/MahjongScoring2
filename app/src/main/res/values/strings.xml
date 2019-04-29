@@ -205,5 +205,7 @@
     <string name="divided_equally">Divided equally</string>
     <string name="players">Players</string>
     <string name="players_names">Players names</string>
+    <string name="edit_names">Edit names</string>
+    <string name="round">Round</string>
 
 </resources>

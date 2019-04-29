@@ -35,12 +35,12 @@
         style="@style/tvTableSeatEast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/half_standard_margin"
         android:layout_below="@+id/ivTableSeatEastSeatWindIcon"
         android:layout_alignTop="@+id/tvTableSeatEastPoints"
+        android:layout_marginLeft="@dimen/half_standard_margin"
         android:layout_toRightOf="@+id/tvTableSeatEastPoints"
-        android:textColor="@color/purplePenalty"
         android:textSize="@dimen/table_player_penalty_points_text_size"
+        android:textStyle="normal"
         tools:ignore="RtlHardcoded"
         tools:text="-000" />
 
@@ -79,15 +79,15 @@
         android:id="@+id/tvTableSeatSouthPenaltyPoints"
         style="@style/tvTableSeatSouth"
         android:layout_width="wrap_content"
-        android:layout_marginBottom="@dimen/half_standard_margin"
         android:layout_height="wrap_content"
         android:layout_above="@+id/tvTableSeatSouthPoints"
         android:layout_alignLeft="@+id/tvTableSeatSouthPoints"
+        android:layout_marginBottom="@dimen/half_standard_margin"
         android:layout_toRightOf="@+id/ivTableSeatSouthSeatWindIcon"
-        android:textColor="@color/purplePenalty"
         android:textSize="@dimen/table_player_penalty_points_text_size"
-        tools:text="-000"
-        tools:ignore="RtlHardcoded" />
+        android:textStyle="normal"
+        tools:ignore="RtlHardcoded"
+        tools:text="-000" />
 
     <es.etologic.mahjongscoring2.app.custom_views.VerticalTextView
         android:id="@+id/tvTableSeatSouthName"
@@ -125,11 +125,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/ivTableSeatWestSeatWindIcon"
-        android:layout_marginRight="@dimen/half_standard_margin"
         android:layout_alignBottom="@+id/tvTableSeatWestPoints"
+        android:layout_marginRight="@dimen/half_standard_margin"
         android:layout_toLeftOf="@+id/tvTableSeatWestPoints"
-        android:textColor="@color/purplePenalty"
         android:textSize="@dimen/table_player_penalty_points_text_size"
+        android:textStyle="normal"
         tools:ignore="RtlHardcoded"
         tools:text="-000" />
 
@@ -169,14 +169,14 @@
         style="@style/tvTableSeatNorth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/half_standard_margin"
         android:layout_below="@+id/tvTableSeatNorthPoints"
         android:layout_alignRight="@+id/tvTableSeatNorthPoints"
+        android:layout_marginTop="@dimen/half_standard_margin"
         android:layout_toLeftOf="@+id/ivTableSeatNorthSeatWindIcon"
-        android:textColor="@color/purplePenalty"
-        tools:text="-000"
         android:textSize="@dimen/table_player_penalty_points_text_size"
-        tools:ignore="RtlHardcoded" />
+        android:textStyle="normal"
+        tools:ignore="RtlHardcoded"
+        tools:text="-000" />
 
     <es.etologic.mahjongscoring2.app.custom_views.VerticalTextView
         android:id="@+id/tvTableSeatNorthName"
@@ -185,8 +185,8 @@
         android:layout_height="match_parent"
         android:layout_toLeftOf="@+id/tvTableSeatNorthPoints"
         android:gravity="center"
-        tools:text="@string/player_north_name"
         android:textSize="@dimen/table_player_name_text_size"
-        tools:ignore="RtlHardcoded" />
+        tools:ignore="RtlHardcoded"
+        tools:text="@string/player_north_name" />
 
 </RelativeLayout>

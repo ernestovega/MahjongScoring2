@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import butterknife.BindColor;
 import butterknife.BindDrawable;
 import butterknife.BindView;
@@ -23,9 +25,10 @@ import es.etologic.mahjongscoring2.app.model.Seat;
 import es.etologic.mahjongscoring2.app.model.SeatStates;
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
 
-import static android.view.View.INVISIBLE;
+import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static es.etologic.mahjongscoring2.app.model.SeatStates.NORMAL;
+import static es.etologic.mahjongscoring2.app.model.SeatStates.SELECTED;
 
 public class GameTableSeatsFragment extends Fragment {
 
@@ -36,6 +39,7 @@ public class GameTableSeatsFragment extends Fragment {
         void onWestSeatClick();
         void onNorthSeatClick();
     }
+
     //VIEWS
     @BindView(R.id.ivTableSeatEastSeatWindIcon) ImageView ivSeatEastWindIcon;
     @BindView(R.id.tvTableSeatEastName) TextView tvSeatEastName;
@@ -62,32 +66,31 @@ public class GameTableSeatsFragment extends Fragment {
     @BindDrawable(R.drawable.ic_trophy_white_18dp) Drawable tsumoIcon;
     @BindDrawable(R.drawable.ic_medal_white) Drawable ronIcon;
     @BindColor(android.R.color.white) int whiteColor;
-    @BindColor(R.color.grayMM) int grayMMColor;
+    @BindColor(R.color.grayMM) int grayColor;
     @BindColor(R.color.colorAccent) int accentColor;
-    @BindColor(R.color.purpleDarkTransparent) int purpleColor;
-    @BindColor(R.color.purplePenalty) int purplePenalty;
-    @BindColor(R.color.colorPrimary) int green;
+    @BindColor(R.color.red) int redColor;
+    @BindColor(R.color.colorPrimary) int greenColor;
     //FIELDS
     private Unbinder unbinder;
     private TableSeatsListener listener;
 
     //EVENTS
-    @OnClick(R.id.ivTableSeatEastSeatWindIcon) void onTableSeatEastSeatWindIconClick() { if(listener != null) listener.onEastSeatClick();}
-    @OnClick(R.id.tvTableSeatEastName) void onTableSeatEastNameClick() { if(listener != null) listener.onEastSeatClick();}
-    @OnClick(R.id.tvTableSeatEastPoints) void onTableSeatEastPointsClick() { if(listener != null) listener.onEastSeatClick();}
-    @OnClick(R.id.tvTableSeatEastPenaltyPoints) void onTableSeatEastPenaltyPointsClick() { if(listener != null) listener.onEastSeatClick();}
-    @OnClick(R.id.ivTableSeatSouthSeatWindIcon) void onTableSeatSouthSeatWindIconClick() { if(listener != null) listener.onSouthSeatClick();}
-    @OnClick(R.id.tvTableSeatSouthName) void onTableSeatSouthNameClick() { if(listener != null) listener.onSouthSeatClick();}
-    @OnClick(R.id.tvTableSeatSouthPoints) void onTableSeatSouthPointsClick() { if(listener != null) listener.onSouthSeatClick();}
-    @OnClick(R.id.tvTableSeatSouthPenaltyPoints) void onTableSeatSouthPenaltyPointsClick() { if(listener != null) listener.onSouthSeatClick();}
-    @OnClick(R.id.ivTableSeatWestSeatWindIcon) void onTableSeatWestSeatWindIconClick() { if(listener != null) listener.onWestSeatClick();}
-    @OnClick(R.id.tvTableSeatWestName) void onTableSeatWestNameClick() { if(listener != null) listener.onWestSeatClick();}
-    @OnClick(R.id.tvTableSeatWestPoints) void onTableSeatWestPointsClick() { if(listener != null) listener.onWestSeatClick();}
-    @OnClick(R.id.tvTableSeatWestPenaltyPoints) void onTableSeatWestPenaltyPointsClick() { if(listener != null) listener.onWestSeatClick();}
-    @OnClick(R.id.ivTableSeatNorthSeatWindIcon) void onTableSeatNorthSeatWindIconClick() { if(listener != null) listener.onNorthSeatClick();}
-    @OnClick(R.id.tvTableSeatNorthName) void onTableSeatNorthNameClick() { if(listener != null) listener.onNorthSeatClick();}
-    @OnClick(R.id.tvTableSeatNorthPoints) void onTableSeatNorthPointsClick() { if(listener != null) listener.onNorthSeatClick();}
-    @OnClick(R.id.tvTableSeatNorthPenaltyPoints) void onTableSeatNorthPenaltyPointsClick() { if(listener != null) listener.onNorthSeatClick();}
+    @OnClick(R.id.ivTableSeatEastSeatWindIcon) void onTableSeatEastSeatWindIconClick() { if (listener != null) listener.onEastSeatClick();}
+    @OnClick(R.id.tvTableSeatEastName) void onTableSeatEastNameClick() { if (listener != null) listener.onEastSeatClick();}
+    @OnClick(R.id.tvTableSeatEastPoints) void onTableSeatEastPointsClick() { if (listener != null) listener.onEastSeatClick();}
+    @OnClick(R.id.tvTableSeatEastPenaltyPoints) void onTableSeatEastPenaltyPointsClick() { if (listener != null) listener.onEastSeatClick();}
+    @OnClick(R.id.ivTableSeatSouthSeatWindIcon) void onTableSeatSouthSeatWindIconClick() { if (listener != null) listener.onSouthSeatClick();}
+    @OnClick(R.id.tvTableSeatSouthName) void onTableSeatSouthNameClick() { if (listener != null) listener.onSouthSeatClick();}
+    @OnClick(R.id.tvTableSeatSouthPoints) void onTableSeatSouthPointsClick() { if (listener != null) listener.onSouthSeatClick();}
+    @OnClick(R.id.tvTableSeatSouthPenaltyPoints) void onTableSeatSouthPenaltyPointsClick() { if (listener != null) listener.onSouthSeatClick();}
+    @OnClick(R.id.ivTableSeatWestSeatWindIcon) void onTableSeatWestSeatWindIconClick() { if (listener != null) listener.onWestSeatClick();}
+    @OnClick(R.id.tvTableSeatWestName) void onTableSeatWestNameClick() { if (listener != null) listener.onWestSeatClick();}
+    @OnClick(R.id.tvTableSeatWestPoints) void onTableSeatWestPointsClick() { if (listener != null) listener.onWestSeatClick();}
+    @OnClick(R.id.tvTableSeatWestPenaltyPoints) void onTableSeatWestPenaltyPointsClick() { if (listener != null) listener.onWestSeatClick();}
+    @OnClick(R.id.ivTableSeatNorthSeatWindIcon) void onTableSeatNorthSeatWindIconClick() { if (listener != null) listener.onNorthSeatClick();}
+    @OnClick(R.id.tvTableSeatNorthName) void onTableSeatNorthNameClick() { if (listener != null) listener.onNorthSeatClick();}
+    @OnClick(R.id.tvTableSeatNorthPoints) void onTableSeatNorthPointsClick() { if (listener != null) listener.onNorthSeatClick();}
+    @OnClick(R.id.tvTableSeatNorthPenaltyPoints) void onTableSeatNorthPenaltyPointsClick() { if (listener != null) listener.onNorthSeatClick();}
 
     //PUBLIC METHODS
     void setTableSeatsListener(TableSeatsListener tableSeatsListener) {
@@ -100,6 +103,56 @@ public class GameTableSeatsFragment extends Fragment {
         setPoints(tvSeatEastPoints, seat.getPoints());
         setPenaltyPoints(tvSeatEastPenaltyPoints, seat.getPenalty());
         setState(ivSeatEastWindIcon, tvSeatEastName, tvSeatEastPoints, seat.getState());
+    }
+    private void setWindIcon(ImageView imageView, TableWinds wind) {
+        switch (wind) {
+            case EAST:
+                imageView.setImageDrawable(eastIcon);
+                break;
+            case SOUTH:
+                imageView.setImageDrawable(southIcon);
+                break;
+            case WEST:
+                imageView.setImageDrawable(westIcon);
+                break;
+            case NORTH:
+                imageView.setImageDrawable(northIcon);
+                break;
+            case NONE:
+            default:
+        }
+    }
+    private void setName(TextView textView, String name) {
+        textView.setText(name);
+    }
+    private void setPoints(TextView textView, int points) {
+        textView.setText(String.format(Locale.getDefault(), "%d", points));
+    }
+    private void setPenaltyPoints(TextView textView, int penaltyPoints) {
+        textView.setText(String.format(Locale.getDefault(), "%+d", penaltyPoints));
+        textView.setTextColor(penaltyPoints < 0 ? redColor : greenColor);
+        textView.setVisibility(penaltyPoints != 0 ? VISIBLE : GONE);
+    }
+    private void setState(ImageView imageViewWind, TextView textViewName, TextView textViewPoints, SeatStates state) {
+        if (state == NORMAL) {
+            imageViewWind.clearColorFilter();
+            textViewName.setTextColor(grayColor);
+            textViewPoints.setTextColor(grayColor);
+            imageViewWind.setEnabled(true);
+            textViewName.setEnabled(true);
+            textViewPoints.setEnabled(true);
+        } else if (state == SELECTED) {
+            imageViewWind.setColorFilter(accentColor);
+            textViewName.setTextColor(accentColor);
+            textViewPoints.setTextColor(accentColor);
+            imageViewWind.setEnabled(true);
+            textViewName.setEnabled(true);
+            textViewPoints.setEnabled(true);
+        } else {
+            imageViewWind.setEnabled(false);
+            textViewName.setEnabled(false);
+            textViewPoints.setEnabled(false);
+        }
     }
     void setSouthSeat(Seat seat) {
         setWindIcon(ivSeatSouthWindIcon, seat.getWind());
@@ -122,39 +175,6 @@ public class GameTableSeatsFragment extends Fragment {
         setPenaltyPoints(tvSeatNorthPenaltyPoints, seat.getPenalty());
         setState(ivSeatNorthWindIcon, tvSeatNorthName, tvSeatNorthPoints, seat.getState());
     }
-    private void setWindIcon(ImageView imageView, TableWinds wind) {
-        switch (wind) {
-            case EAST:  imageView.setImageDrawable(eastIcon);   break;
-            case SOUTH: imageView.setImageDrawable(southIcon);  break;
-            case WEST:  imageView.setImageDrawable(westIcon);   break;
-            case NORTH: imageView.setImageDrawable(northIcon);  break;
-            case NONE:
-            default:
-        }
-    }
-    private void setName(TextView textView, String name) {
-        textView.setText(name);
-    }
-    private void setPoints(TextView textView, int points) {
-        textView.setText(String.valueOf(points));
-    }
-    private void setPenaltyPoints(TextView textView, int penaltyPoints) {
-        textView.setText(String.valueOf(penaltyPoints));
-        textView.setTextColor(penaltyPoints < 0 ? purplePenalty : green);
-        textView.setVisibility(penaltyPoints != 0 ? VISIBLE : INVISIBLE);
-    }
-    private void setState(ImageView imageViewWind, TextView textViewName, TextView textViewPoints, SeatStates state) {
-        if(state == NORMAL) {
-            imageViewWind.clearColorFilter();
-            textViewName.setTextColor(grayMMColor);
-            textViewPoints.setTextColor(grayMMColor);
-        } else {
-            imageViewWind.setColorFilter(accentColor);
-            textViewName.setTextColor(accentColor);
-            textViewPoints.setTextColor(accentColor);
-        }
-    }
-
     //LIFECYCLE
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

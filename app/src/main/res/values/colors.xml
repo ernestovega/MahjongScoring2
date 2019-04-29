@@ -11,6 +11,7 @@
 
     <color name="grayLight">#EEE</color>
     <color name="gray">#999</color>
+    <color name="gray2">#797979</color>
     <color name="grayMMTransparent">#88414141</color>
     <color name="grayMM">#414141</color>
 

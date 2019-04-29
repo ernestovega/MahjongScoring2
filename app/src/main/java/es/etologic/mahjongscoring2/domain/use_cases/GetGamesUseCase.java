@@ -5,9 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import es.etologic.mahjongscoring2.data.repositories.GamesRepository;
-import es.etologic.mahjongscoring2.domain.model.Game;
 import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
-import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class GetGamesUseCase {

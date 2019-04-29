@@ -6,10 +6,12 @@ import android.arch.lifecycle.MutableLiveData;
 import java.util.List;
 
 import es.etologic.mahjongscoring2.app.base.BaseViewModel;
-import es.etologic.mahjongscoring2.app.model.GamePages;
-import es.etologic.mahjongscoring2.app.model.Seat;
+import es.etologic.mahjongscoring2.app.game.game_ranking.RankingTableHelper;
 import es.etologic.mahjongscoring2.app.model.DialogType;
 import es.etologic.mahjongscoring2.app.model.EnablingState;
+import es.etologic.mahjongscoring2.app.model.GamePages;
+import es.etologic.mahjongscoring2.app.model.Seat;
+import es.etologic.mahjongscoring2.app.model.SeatStates;
 import es.etologic.mahjongscoring2.app.model.SelectedPlayerSeat;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.app.model.TableStates;
@@ -17,6 +19,7 @@ import es.etologic.mahjongscoring2.app.model.ToolbarState;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
 import es.etologic.mahjongscoring2.domain.model.Game;
 import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
+import es.etologic.mahjongscoring2.domain.model.RankingTable;
 import es.etologic.mahjongscoring2.domain.model.Round;
 import es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates;
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
@@ -26,10 +29,12 @@ import es.etologic.mahjongscoring2.domain.use_cases.UpdateGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.UpdateRoundsUseCase;
 import io.reactivex.schedulers.Schedulers;
 
-import static es.etologic.mahjongscoring2.app.model.SeatStates.NORMAL;
-import static es.etologic.mahjongscoring2.app.model.SeatStates.SELECTED;
 import static es.etologic.mahjongscoring2.app.model.EnablingState.DISABLED;
 import static es.etologic.mahjongscoring2.app.model.EnablingState.ENABLED;
+import static es.etologic.mahjongscoring2.app.model.GamePages.LIST;
+import static es.etologic.mahjongscoring2.app.model.GamePages.TABLE;
+import static es.etologic.mahjongscoring2.app.model.SeatStates.NORMAL;
+import static es.etologic.mahjongscoring2.app.model.SeatStates.SELECTED;
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.CANCEL;
@@ -65,14 +70,12 @@ public class GameActivityViewModel extends BaseViewModel {
     private MutableLiveData<Integer> roundNumber = new MutableLiveData<>();
     private MutableLiveData<DialogType> showDialog = new MutableLiveData<>();
     //UseCases
-
     private CreateGameUseCase createGameUseCase;
     private GetGamesUseCase getGamesUseCase;
     private UpdateRoundsUseCase updateRoundsUseCase;
     private UpdateGameUseCase updateGameUseCase;
-    //Common
+    //Table
     private GameWithRounds gameWithRounds;
-    //Table variables
     private Round mCurrentRound = new Round(0, 0);
     private TableStates tableState = TableStates.NORMAL;
     private SelectedPlayerSeat selectedPlayerSeat = new SelectedPlayerSeat();
@@ -105,10 +108,7 @@ public class GameActivityViewModel extends BaseViewModel {
     LiveData<ToolbarState> getToolbarState() {
         return toolbarState;
     }
-    LiveData<DialogType> getShowDialog() {
-        return showDialog;
-    }
-    LiveData<GamePages> getPageToSee() {
+    LiveData<GamePages> getViewPagerPageToSee() {
         return viewPagerPageToSee;
     }
     public LiveData<Seat> getEastSeat() {
@@ -132,9 +132,8 @@ public class GameActivityViewModel extends BaseViewModel {
     public LiveData<ShowState> getFabMenuOpenState() {
         return fabMenuOpenState;
     }
-    //Setters
-    public void setToolbarState(ToolbarState state) {
-        toolbarState.postValue(state);
+    public LiveData<DialogType> getShowDialog() {
+        return showDialog;
     }
 
     //METHODS
@@ -144,27 +143,56 @@ public class GameActivityViewModel extends BaseViewModel {
                         .subscribeOn(Schedulers.io())
                         .doOnSubscribe(disposable -> progressState.postValue(SHOW))
                         .doOnEvent((combinations, throwable) -> progressState.postValue(HIDE))
-                        .subscribe(this::getGameSuccess, error::postValue));
+                        .subscribe(this::createGameSuccess, error::postValue));
     }
-    void loadGame(long gameId) {
-        disposables.add(
-                getGamesUseCase.getGame(gameId)
-                        .subscribeOn(Schedulers.io())
-                        .doOnSubscribe(disposable -> progressState.postValue(SHOW))
-                        .doOnEvent((combinations, throwable) -> progressState.postValue(HIDE))
-                        .subscribe(this::getGameSuccess, error::postValue));
+    private void createGameSuccess(GameWithRounds gameWithRounds) {
+        getGameSuccess(gameWithRounds);
+        showDialog.postValue(DialogType.PLAYERS_NAMES);
     }
     private void getGameSuccess(GameWithRounds gameWithRounds) {
         this.gameWithRounds = gameWithRounds;
         listNames.postValue(gameWithRounds.getGame().getPlayersNames());
-        listRounds.postValue(gameWithRounds.getRounds());
+        listRounds.postValue(gameWithRounds.getRoundsWithBestHand());
         listTotals.postValue(gameWithRounds.getPlayersTotalPointsString());
-        if (gameWithRounds.getRounds().size() < MAX_MCR_HANDS_PER_GAME) {
-            mCurrentRound = new Round(gameWithRounds.getGame().getGameId(), gameWithRounds.getRounds().size() + 1);
+        createRoundOrFinish(gameWithRounds);
+    }
+    private void createRoundOrFinish(GameWithRounds gameWithRounds) {
+        int gameId = gameWithRounds.getGame().getGameId();
+        int newRoundId;
+        List<Round> rounds = gameWithRounds.getRounds();
+        if (rounds.size() < MAX_MCR_HANDS_PER_GAME) {
+            newRoundId = rounds.size() + 1;
+            mCurrentRound = new Round(gameId, newRoundId);
+            resetTable();
         } else {
+            mCurrentRound = rounds.get(rounds.size() - 1);
+            resetTable();
+            disableSeats();
+            fabMenuState.postValue(HIDDEN);
             showDialog.postValue(DialogType.SHOW_RANKING);
         }
-        resetTable();
+    }
+    private void disableSeats() {
+        Seat eastSeatValue = eastSeat.getValue();
+        if (eastSeatValue != null) {
+            eastSeatValue.setState(SeatStates.DISABLED);
+            eastSeat.postValue(eastSeatValue);
+        }
+        Seat southSeatValue = southSeat.getValue();
+        if (southSeatValue != null) {
+            southSeatValue.setState(SeatStates.DISABLED);
+            southSeat.postValue(southSeatValue);
+        }
+        Seat northSeatValue = northSeat.getValue();
+        if (northSeatValue != null) {
+            northSeatValue.setState(SeatStates.DISABLED);
+            northSeat.postValue(northSeatValue);
+        }
+        Seat westSeatValue = westSeat.getValue();
+        if (westSeatValue != null) {
+            westSeatValue.setState(SeatStates.DISABLED);
+            westSeat.postValue(westSeatValue);
+        }
     }
     //public void onRoundSwiped(int roundId) {
     //    try {
@@ -203,7 +231,16 @@ public class GameActivityViewModel extends BaseViewModel {
         TableWinds initialPosition = Game.getPlayerInitialSeatByCurrentSeat(wind, mCurrentRound.getRoundId());
         String name = gameWithRounds.getGame().getPlayerNameByInitialPosition(initialPosition);
         int points = gameWithRounds.getPlayersTotalPoints()[initialPosition.getIndex()];
-        return new Seat(wind, name, points, NORMAL);
+        int penaltyPoints = mCurrentRound.getPlayersPenalties()[initialPosition.getIndex()];
+        return new Seat(wind, name, points, penaltyPoints, NORMAL);
+    }
+    void loadGame(long gameId) {
+        disposables.add(
+                getGamesUseCase.getGame(gameId)
+                        .subscribeOn(Schedulers.io())
+                        .doOnSubscribe(disposable -> progressState.postValue(SHOW))
+                        .doOnEvent((combinations, throwable) -> progressState.postValue(HIDE))
+                        .subscribe(this::getGameSuccess, error::postValue));
     }
     //RequestPlayers  Dialog Responses
     void onRequestPlayersResponse(CharSequence tiet1Text, CharSequence tiet2Text, CharSequence tiet3Text, CharSequence tiet4Text) {
@@ -211,7 +248,7 @@ public class GameActivityViewModel extends BaseViewModel {
         String name2 = tiet2Text.toString();
         String name3 = tiet3Text.toString();
         String name4 = tiet4Text.toString();
-        if(!StringUtils.isEmpty(name1) && !StringUtils.isEmpty(name2) && !StringUtils.isEmpty(name3) && !StringUtils.isEmpty(name4)) {
+        if (!StringUtils.isEmpty(name1) && !StringUtils.isEmpty(name2) && !StringUtils.isEmpty(name3) && !StringUtils.isEmpty(name4)) {
             gameWithRounds.getGame().setNameP1(name1);
             gameWithRounds.getGame().setNameP2(name2);
             gameWithRounds.getGame().setNameP3(name3);
@@ -225,15 +262,13 @@ public class GameActivityViewModel extends BaseViewModel {
                             .doOnEvent((combinations, throwable) -> progressState.postValue(HIDE))
                             .subscribe(success -> {}, error::postValue));
         } else {
-            showDialog.postValue(DialogType.PLAYERS);
+            showDialog.postValue(DialogType.PLAYERS_NAMES);
         }
     }
     //RequestHandPoints  Dialog Responses
-    void onRequestHandPointsCancel() {
-        resetTable();
-    }
     void onRequestHandPointsResponse(CharSequence handPointsInput) {
-        if(handPointsInput == null) { handPointsInput = "0"; }
+
+        if (handPointsInput == null) handPointsInput = "0";
         Integer handPoints = convertInputValue(handPointsInput.toString());
 
         if (handPoints == null || handPoints < MCR_MIN_POINTS) {
@@ -244,17 +279,13 @@ public class GameActivityViewModel extends BaseViewModel {
 
         } else if (tableState == TableStates.REQUESTING_TSUMO_POINTS) {
             saveTsumoRound(handPoints);
+
         } else {
             onRequestHandPointsCancel();
         }
     }
-    private Integer convertInputValue(String penaltyPointsInput) {
-        try {
-            return Integer.valueOf(penaltyPointsInput);
-        } catch (NumberFormatException nfe) {
-            nfe.printStackTrace();
-            return null;
-        }
+    void onRequestHandPointsCancel() {
+        resetTable();
     }
     private void saveTsumoRound(int requestedPoints) {
         mCurrentRound.setHandPoints(requestedPoints);
@@ -262,37 +293,44 @@ public class GameActivityViewModel extends BaseViewModel {
         mCurrentRound.setAllPlayersTsumoPoints(selectedPlayerSeat.getInitialSeat(), requestedPoints);
         saveCurrentRoundAndStartNext();
     }
-    private void saveCurrentRoundAndStartNext() {
-        disposables.add(
-                updateRoundsUseCase.addRound(mCurrentRound)
-                        .subscribeOn(Schedulers.io())
-                        .doOnSubscribe(disposable -> progressState.postValue(SHOW))
-                        .doOnEvent((combinations, throwable) -> progressState.postValue(HIDE))
-                        .subscribe(this::getGameSuccess, error::postValue));
-    }
     //RequestPenaltyPoints Dialog Responses
-    void onRequestPenaltyPointsCancel() {
-        resetTable();
-    }
     void onRequestPenaltyPointsResponse(CharSequence penaltyPointsInput, boolean isDividedEqually) {
-        if(penaltyPointsInput == null) { penaltyPointsInput = "0"; }
+        if (penaltyPointsInput == null) { penaltyPointsInput = "0"; }
         Integer penaltyPoints = convertInputValue(penaltyPointsInput.toString());
         if (penaltyPoints == null || penaltyPoints <= 0) {
             showDialog.postValue(DialogType.REQUEST_PENALTY_POINTS);
         } else {
-            if(isDividedEqually) {
-                mCurrentRound.setAllPlayersPointsByPenalty(selectedPlayerSeat.getInitialSeat(), penaltyPoints);
+            if (isDividedEqually) {
+                if (penaltyPoints%3 == 0) {
+                    mCurrentRound.setAllPlayersPenaltyPoints(selectedPlayerSeat.getInitialSeat(), penaltyPoints);
+                    resetTable();
+                } else {
+                    showDialog.postValue(DialogType.REQUEST_PENALTY_POINTS);
+                }
             } else {
                 mCurrentRound.setPlayerPenaltyPoints(selectedPlayerSeat.getInitialSeat(), penaltyPoints);
+                resetTable();
             }
-            resetTable();
         }
     }
+    private Integer convertInputValue(String penaltyPointsInput) {
+        try {
+            return Integer.valueOf(penaltyPointsInput);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    void onRequestPenaltyPointsCancel() {
+        resetTable();
+    }
+    //Seats
     public void onSeatClicked(TableWinds seatPosition) {
         switch (tableState) {
             case NORMAL:
                 setSelectedPlayerSeat(seatPosition);
-                FabMenuStates newMenuState = mCurrentRound.isPenalizedPlayer(selectedPlayerSeat.getInitialSeat()) ? PLAYER_PENALIZED : FabMenuStates.PLAYER_SELECTED;
+                boolean isPlayerPenalized = mCurrentRound.isPenalizedPlayer(selectedPlayerSeat.getInitialSeat());
+                FabMenuStates newMenuState = isPlayerPenalized ? PLAYER_PENALIZED : FabMenuStates.PLAYER_SELECTED;
                 fabMenuState.postValue(newMenuState);
                 fabMenuOpenState.postValue(SHOW);
                 break;
@@ -311,17 +349,6 @@ public class GameActivityViewModel extends BaseViewModel {
     private void setSelectedPlayerSeat(TableWinds seatPosition) {
         selectedPlayerSeat.setSelectedPlayer(seatPosition, mCurrentRound.getRoundId());
         setSeatSelected(seatPosition);
-    }
-    private void requestRonPoints() {
-        tableState = TableStates.REQUESTING_RON_POINTS;
-        showDialog.postValue(DialogType.REQUEST_HAND_POINTS);
-    }
-    private void saveRonRound(int requestedPoints) {
-        mCurrentRound.setHandPoints(requestedPoints);
-        mCurrentRound.setWinnerInitialPosition(selectedPlayerSeat.getInitialSeat());
-        mCurrentRound.setDiscarderInitialPosition(Game.getPlayerInitialSeatByCurrentSeat(mDiscarderCurrentSeat, mCurrentRound.getRoundId()));
-        mCurrentRound.setAllPlayersRonPoints(selectedPlayerSeat.getInitialSeat(), requestedPoints, mDiscarderCurrentSeat);
-        saveCurrentRoundAndStartNext();
     }
     private void setSeatSelected(TableWinds seatPosition) {
         switch (seatPosition) {
@@ -377,6 +404,17 @@ public class GameActivityViewModel extends BaseViewModel {
         northSeatValue.setState(NORMAL);
         northSeat.postValue(northSeatValue);
     }
+    private void requestRonPoints() {
+        tableState = TableStates.REQUESTING_RON_POINTS;
+        showDialog.postValue(DialogType.REQUEST_HAND_POINTS);
+    }
+    private void saveRonRound(int requestedPoints) {
+        mCurrentRound.setHandPoints(requestedPoints);
+        mCurrentRound.setWinnerInitialPosition(selectedPlayerSeat.getInitialSeat());
+        mCurrentRound.setDiscarderInitialPosition(Game.getPlayerInitialSeatByCurrentSeat(mDiscarderCurrentSeat, mCurrentRound.getRoundId()));
+        mCurrentRound.setAllPlayersRonPoints(selectedPlayerSeat.getInitialSeat(), requestedPoints, mDiscarderCurrentSeat);
+        saveCurrentRoundAndStartNext();
+    }
     //Fabs
     public void onFabCancelRequestingLooserClicked() {
         resetTable();
@@ -389,7 +427,7 @@ public class GameActivityViewModel extends BaseViewModel {
         }
     }
     public void onFabGamePenaltyCancelClicked() {
-        mCurrentRound.setAllPlayersPointsByPenaltyCancellation(selectedPlayerSeat.getInitialSeat());
+        mCurrentRound.cancelAllPlayersPenalties();
         resetTable();
     }
     public void onFabGamePenaltyClicked() {
@@ -400,6 +438,16 @@ public class GameActivityViewModel extends BaseViewModel {
     public void onFabGameWashoutClicked() {
         fabMenuState.postValue(HIDDEN);
         saveCurrentRoundAndStartNext();
+    }
+    private void saveCurrentRoundAndStartNext() {
+        mCurrentRound.applyAllPlayersPenalties();
+        //        mCurrentRound.setRoundDuration();
+        disposables.add(
+                updateRoundsUseCase.addRound(mCurrentRound)
+                        .subscribeOn(Schedulers.io())
+                        .doOnSubscribe(disposable -> progressState.postValue(SHOW))
+                        .doOnEvent((combinations, throwable) -> progressState.postValue(HIDE))
+                        .subscribe(this::getGameSuccess, error::postValue));
     }
     public void onFabGameTsumoClicked() {
         fabMenuState.postValue(HIDDEN);
@@ -419,13 +467,11 @@ public class GameActivityViewModel extends BaseViewModel {
         toolbarState.postValue(ToolbarState.REQUEST_LOOSER);
         fabMenuState.postValue(CANCEL);
     }
+    public void onFabRankingClicked() {
+        fabMenuState.postValue(FabMenuStates.RANKING);
+        showDialog.postValue(DialogType.SHOW_RANKING);
+    }
     //Others
-    public void toggleViewPagerPagingState(EnablingState state) {
-        viewPagerPagingState.postValue(state);
-    }
-    public void toggleFabMenuOpenState(ShowState showState) {
-        fabMenuOpenState.postValue(showState);
-    }
     public void seeListPage() {
         viewPagerPageToSee.postValue(GamePages.LIST);
     }
@@ -434,5 +480,19 @@ public class GameActivityViewModel extends BaseViewModel {
     }
     public void exit() {
         //ToDo
+    }
+    void onBackPressed() {
+        if (viewPagerPageToSee.getValue() == LIST) {
+            viewPagerPageToSee.postValue(TABLE);
+
+        } else if (fabMenuOpenState.getValue() == SHOW) {
+            fabMenuOpenState.postValue(HIDE);
+
+        } else {
+            showDialog.postValue(DialogType.EXIT);
+        }
+    }
+    public RankingTable getRankingTable() {
+        return RankingTableHelper.generateRankingTable(gameWithRounds);
     }
 }

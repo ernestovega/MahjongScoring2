@@ -11,24 +11,23 @@ public class BestHand {
     TableWinds getPlayerInitialPosition() {
         return playerInitialPosition;
     }
+    public void setPlayerInitialPosition(TableWinds playerInitialPosition) {
+        this.playerInitialPosition = playerInitialPosition;
+    }
     public String getPlayerName() {
         return playerName;
     }
-    public int getHandValue() {
-        return handValue;
-    }
-
-    void setPlayerInitialPosition(TableWinds playerInitialPosition) {
-        this.playerInitialPosition = playerInitialPosition;
-    }
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
+    }
+    public int getHandValue() {
+        return handValue;
     }
     public void setHandValue(int handValue) {
         this.handValue = handValue;
     }
 
-    BestHand() {
+    public BestHand() {
         playerName = "";
         handValue = 0;
     }

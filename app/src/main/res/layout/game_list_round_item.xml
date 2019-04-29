@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--<com.daimajia.swipe.SwipeLayout
+<?xml version="1.0" encoding="utf-8"?><!--<com.daimajia.swipe.SwipeLayout
     android:id="@+id/slGameList"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/triple_margin">-->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/triple_standard_margin">
@@ -63,8 +61,8 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/standard_margin"
             android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginLeft="@dimen/standard_margin"
             android:layout_weight="1">
 
             <TextView
@@ -82,16 +80,17 @@
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP1"
                 android:layout_toRightOf="@+id/tvGameListItemRoundPointsP1"
                 android:src="@drawable/ic_penalty_purple"
+                android:tint="@color/red"
                 android:visibility="gone"
-                tools:ignore="ContentDescription"/>
+                tools:ignore="ContentDescription" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/standard_margin"
             android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginLeft="@dimen/standard_margin"
             android:layout_weight="1">
 
             <TextView
@@ -109,16 +108,17 @@
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP2"
                 android:layout_toRightOf="@+id/tvGameListItemRoundPointsP2"
                 android:src="@drawable/ic_penalty_purple"
+                android:tint="@color/red"
                 android:visibility="gone"
-                tools:ignore="ContentDescription"/>
+                tools:ignore="ContentDescription" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/standard_margin"
             android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginLeft="@dimen/standard_margin"
             android:layout_weight="1">
 
             <TextView
@@ -136,16 +136,17 @@
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP3"
                 android:layout_toRightOf="@+id/tvGameListItemRoundPointsP3"
                 android:src="@drawable/ic_penalty_purple"
+                android:tint="@color/red"
                 android:visibility="gone"
-                tools:ignore="ContentDescription"/>
+                tools:ignore="ContentDescription" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/standard_margin"
             android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginLeft="@dimen/standard_margin"
             android:layout_weight="1">
 
             <TextView
@@ -163,14 +164,14 @@
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP4"
                 android:layout_toRightOf="@+id/tvGameListItemRoundPointsP4"
                 android:src="@drawable/ic_penalty_purple"
+                android:tint="@color/red"
                 android:visibility="gone"
-                tools:ignore="ContentDescription"/>
+                tools:ignore="ContentDescription" />
 
         </RelativeLayout>
 
     </LinearLayout>
 
     <!-- Surface View End -->
-    
-</LinearLayout>
-<!--</com.daimajia.swipe.SwipeLayout>-->
+
+</LinearLayout><!--</com.daimajia.swipe.SwipeLayout>-->

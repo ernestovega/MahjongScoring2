@@ -4,10 +4,7 @@ import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Relation;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.EAST;
 import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NORTH;
@@ -15,9 +12,6 @@ import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.SOUTH;
 import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.WEST;
 
 public class GameWithRounds {
-
-    //CONSTANTS
-    private static final long MINUTES_IN_AN_HOUR = 60;
 
     //FIELDS
     @Embedded public Game game;
@@ -65,27 +59,36 @@ public class GameWithRounds {
         return points;
     }
 
+    public int[] getPlayersTotalPenalties() {
+        int[] points = new int[]{0, 0, 0, 0};
+        for (Round round : rounds) {
+            points[EAST.getIndex()] += round.getPenaltyP1();
+            points[SOUTH.getIndex()] += round.getPenaltyP2();
+            points[WEST.getIndex()] += round.getPenaltyP3();
+            points[NORTH.getIndex()] += round.getPenaltyP4();
+        }
+        return points;
+    }
+
+    public List<Round> getRoundsWithBestHand() {
+        BestHand bestHand = getBestHand();
+        for (Round round : rounds) {
+            boolean isBestHandRound = round.getHandPoints() == bestHand.getHandValue() &&
+                    round.getWinnerInitialPosition() == bestHand.getPlayerInitialPosition();
+            round.setIsBestHand(isBestHandRound);
+        }
+        return rounds;
+    }
+
     public BestHand getBestHand() {
-        if(rounds == null) {
+        if (rounds == null) {
             return new BestHand();
         } else {
             BestHand bestHand = new BestHand();
             for (Round round : rounds) {
-                if (round.getPointsP1() > bestHand.getHandValue()) {
-                    bestHand.setHandValue(round.getPointsP1());
-                    bestHand.setPlayerName(game.getNameP1());
-                }
-                if (round.getPointsP2() > bestHand.getHandValue()) {
-                    bestHand.setHandValue(round.getPointsP2());
-                    bestHand.setPlayerName(game.getNameP2());
-                }
-                if (round.getPointsP3() > bestHand.getHandValue()) {
-                    bestHand.setHandValue(round.getPointsP3());
-                    bestHand.setPlayerName(game.getNameP3());
-                }
-                if (round.getPointsP4() > bestHand.getHandValue()) {
-                    bestHand.setHandValue(round.getPointsP4());
-                    bestHand.setPlayerName(game.getNameP4());
+                if (round.getHandPoints() > bestHand.getHandValue()) {
+                    bestHand.setHandValue(round.getHandPoints());
+                    bestHand.setPlayerName(game.getPlayerNameByInitialPosition(round.getWinnerInitialPosition()));
                 }
             }
             return bestHand;
@@ -107,24 +110,10 @@ public class GameWithRounds {
     public GameWithRounds getCopy() {
         GameWithRounds gameWithRounds = new GameWithRounds(game.getCopy());
         List<Round> newRounds = new ArrayList<>(rounds.size());
-        for(Round round : rounds) {
+        for (Round round : rounds) {
             newRounds.add(round.getCopy());
         }
         gameWithRounds.setRounds(newRounds);
         return gameWithRounds;
-    }
-
-    public String getPrettyDuration() {
-        if (rounds != null) {
-            long duration = 0;
-            for (Round round : rounds) {
-                duration += round.getRoundDuration();
-            }
-            long hours = TimeUnit.MILLISECONDS.toHours(duration);
-            long minutes = TimeUnit.MILLISECONDS.toMinutes(duration) - (hours*MINUTES_IN_AN_HOUR);
-            return String.format(Locale.getDefault(), "%2dh %2dm", hours, minutes);
-        } else {
-            return "-";
-        }
     }
 }

@@ -5,5 +5,6 @@ public enum FabMenuStates {
     NORMAL,
     PLAYER_SELECTED,
     PLAYER_PENALIZED,
+    RANKING,
     CANCEL
 }

@@ -71,49 +71,8 @@ public class MainActivity extends BaseActivity {
         viewModel.getCurrentGame().observe(this, this::goToGame);
         viewModel.getToolbar().observe(this, this::setToolbar);
     }
-    private void setupDrawer() {
-        setAppVersion();
-        setOldGamesActionNewGameListener();
-        setMenuItemSelectedListener();
-    }
-    private void setAppVersion() {
-        TextView tvAppVersion = navigationView.getHeaderView(0).findViewById(R.id.tvDrawerHeaderAppVersion);
-        tvAppVersion.setText(BuildConfig.VERSION_NAME);
-    }
-    private void setOldGamesActionNewGameListener() {
-        MenuItem oldGamesItem = navigationView.getMenu().findItem(R.id.nav_oldgames);
-        oldGamesItem.getActionView().findViewById(R.id.ibMainDrawerOldGamesActionLayoutNewGame).setOnClickListener(v -> {
-            goToGame(null);
-            closeDrawer();
-        });
-    }
-    private void setMenuItemSelectedListener() {
-        navigationView.setNavigationItemSelectedListener(menuItem -> {
-            this.closeDrawer();
-            switch(menuItem.getItemId()) {
-                case R.id.nav_oldgames:
-                    viewModel.navigateTo(OLD_GAMES);
-                    break;
-                case R.id.nav_combinations:
-                    viewModel.navigateTo(COMBINATIONS);
-                    break;
-                case R.id.nav_greenbook:
-                    viewModel.navigateTo(GREEN_BOOK);
-                    break;
-                case R.id.nav_rate:
-                    viewModel.navigateTo(RATE);
-                    break;
-                case R.id.nav_contact:
-                    viewModel.navigateTo(CONTACT);
-                    break;
-                default:
-                    return false;
-            }
-            return true;
-        });
-    }
     private void goToScreen(MainScreens screen) {
-        switch(screen) {
+        switch (screen) {
             default:
             case OLD_GAMES:
                 goToOldGames();
@@ -139,6 +98,13 @@ public class MainActivity extends BaseActivity {
         OldGamesFragment oldGamesFragment = new OldGamesFragment();
         goToFragment(oldGamesFragment);
     }
+    private void goToFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
+        fragmentTransaction.add(R.id.frameLayoutMain, fragment).addToBackStack(null);
+        fragmentTransaction.commit();
+    }
     private void goToCombinations() {
         Intent intent = new Intent(this, CombinationsActivity.class);
         startActivity(intent);
@@ -150,14 +116,14 @@ public class MainActivity extends BaseActivity {
     private void goToRate() {
         Uri uriMarket = Uri.parse(MARKET_URI_BASE + BuildConfig.PACKAGE_NAME);
         Intent intent = new Intent(Intent.ACTION_VIEW, uriMarket);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY|Intent.FLAG_ACTIVITY_NEW_DOCUMENT|Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         } else {
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY|Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET|Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         }
         try {
             this.startActivity(intent);
-        } catch(Exception e) {
+        } catch (Exception e) {
             Uri uriPlayStore = Uri.parse(PLAY_STORE_URL_BASE + BuildConfig.APPLICATION_ID);
             intent = new Intent(Intent.ACTION_VIEW, uriPlayStore);
             startActivity(intent);
@@ -168,24 +134,36 @@ public class MainActivity extends BaseActivity {
         intent.setData(Uri.parse("mailto:"));
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{EMAIL_ADDRESS});
         intent.putExtra(Intent.EXTRA_SUBJECT, EMAIL_SUBJECT);
-        if(intent.resolveActivity(this.getPackageManager()) != null) {
+        if (intent.resolveActivity(this.getPackageManager()) != null) {
             try {
                 this.startActivity(intent);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 Snackbar.make(this.drawerLayout, R.string.no_email_apps_founded, Snackbar.LENGTH_LONG).show();
             }
         }
     }
-    private void goToFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
-        fragmentTransaction.add(R.id.frameLayoutMain, fragment).addToBackStack(null);
-        fragmentTransaction.commit();
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(Gravity.START)) {
+            closeDrawer();
+        } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            super.onBackPressed();
+        } else {
+            long currentTimeMillis = System.currentTimeMillis();
+            if ((currentTimeMillis - lastBackPress) > LAST_BACKPRESSED_MIN_TIME) {
+                Snackbar.make(navigationView, R.string.press_again_to_exit, Snackbar.LENGTH_LONG).show();
+                lastBackPress = currentTimeMillis;
+            } else finish();
+        }
+    }
+    private void closeDrawer() {
+        if (drawerLayout != null) {
+            drawerLayout.closeDrawer(Gravity.START, true);
+        }
     }
     private void goToGame(Long gameId) {
         Intent intent = new Intent(this, GameActivity.class);
-        if(gameId != null) {
+        if (gameId != null) {
             intent.putExtra(GameActivity.ARG_KEY_GAME_ID, gameId);
         }
         startActivity(intent);
@@ -194,25 +172,52 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
         }
         actionBarDrawerToggle.syncState();
     }
-    @Override
-    public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(Gravity.START)) {
+    private void setupDrawer() {
+        setAppVersion();
+        setOldGamesActionNewGameListener();
+        setMenuItemSelectedListener();
+    }
+    private void setAppVersion() {
+        TextView tvAppVersion = navigationView.getHeaderView(0).findViewById(R.id.tvDrawerHeaderAppVersion);
+        tvAppVersion.setText(BuildConfig.VERSION_NAME);
+    }
+    private void setOldGamesActionNewGameListener() {
+        MenuItem oldGamesItem = navigationView.getMenu().findItem(R.id.nav_oldgames);
+        oldGamesItem.getActionView().findViewById(R.id.ibMainDrawerOldGamesActionLayoutNewGame).setOnClickListener(v -> {
+            goToGame(null);
             closeDrawer();
-        } else if(getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            super.onBackPressed();
-        } else {
-            long currentTimeMillis = System.currentTimeMillis();
-            if((currentTimeMillis - lastBackPress) > LAST_BACKPRESSED_MIN_TIME) {
-                Snackbar.make(navigationView, R.string.press_again_to_exit, Snackbar.LENGTH_LONG).show();
-                lastBackPress = currentTimeMillis;
-            } else finish();
-        }
+        });
+    }
+    private void setMenuItemSelectedListener() {
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            this.closeDrawer();
+            switch (menuItem.getItemId()) {
+                case R.id.nav_oldgames:
+                    viewModel.navigateTo(OLD_GAMES);
+                    break;
+                case R.id.nav_combinations:
+                    viewModel.navigateTo(COMBINATIONS);
+                    break;
+                case R.id.nav_greenbook:
+                    viewModel.navigateTo(GREEN_BOOK);
+                    break;
+                case R.id.nav_rate:
+                    viewModel.navigateTo(RATE);
+                    break;
+                case R.id.nav_contact:
+                    viewModel.navigateTo(CONTACT);
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        });
     }
     @Override
     protected void onDestroy() {
@@ -228,13 +233,8 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
     private void openDrawer() {
-        if(drawerLayout != null) {
+        if (drawerLayout != null) {
             drawerLayout.openDrawer(Gravity.START, true);
-        }
-    }
-    private void closeDrawer() {
-        if(drawerLayout != null) {
-            drawerLayout.closeDrawer(Gravity.START, true);
         }
     }
 }

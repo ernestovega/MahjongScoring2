@@ -1,6 +1,8 @@
 package es.etologic.mahjongscoring2.app.game.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,12 +16,14 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import javax.inject.Inject;
 
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -28,14 +32,12 @@ import es.etologic.mahjongscoring2.app.base.BaseActivity;
 import es.etologic.mahjongscoring2.app.base.ViewPagerAdapter;
 import es.etologic.mahjongscoring2.app.game.game_list.GameListFragment;
 import es.etologic.mahjongscoring2.app.game.game_table.GameTableFragment;
+import es.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity;
 import es.etologic.mahjongscoring2.app.model.DialogType;
 import es.etologic.mahjongscoring2.app.model.EnablingState;
 import es.etologic.mahjongscoring2.app.model.GamePages;
 import es.etologic.mahjongscoring2.app.model.ToolbarState;
 import es.etologic.mahjongscoring2.app.utils.KeyboardUtils;
-
-import static es.etologic.mahjongscoring2.app.model.GamePages.LIST;
-import static es.etologic.mahjongscoring2.app.model.GamePages.TABLE;
 
 public class GameActivity extends BaseActivity {
 
@@ -46,10 +48,15 @@ public class GameActivity extends BaseActivity {
     @BindView(R.id.toolbarGame) Toolbar toolbar;
     @BindView(R.id.tabLayoutGame) TabLayout tabLayout;
     @BindView(R.id.viewPagerGame) ViewPager viewPager;
+    //ASSETS
+    @BindDrawable(R.drawable.ic_east) Drawable eastIconDrawable;
+    @BindDrawable(R.drawable.ic_south) Drawable southIconDrawable;
+    @BindDrawable(R.drawable.ic_west) Drawable westIconDrawable;
+    @BindDrawable(R.drawable.ic_north) Drawable northIconDrawable;
     //FIELDS
     @Inject GameActivityViewModelFactory viewModelFactory;
     private Unbinder unbinder;
-    private GameActivityViewModel activityViewModel;
+    private GameActivityViewModel viewModel;
     private LinearLayout pointsDialogLayout, penaltyPointsDialogLayout, playersDialogLayout;
 
     //LIFECYCLE
@@ -74,15 +81,15 @@ public class GameActivity extends BaseActivity {
         }
     }
     private void setupViewModel() {
-        activityViewModel = ViewModelProviders.of(this, viewModelFactory).get(GameActivityViewModel.class);
-        activityViewModel.getError().observe(this, this::showError);
-        activityViewModel.getLocalProgressState().observe(this, this::toggleProgress);
-        activityViewModel.getViewPagerPagingState().observe(this, this::viewPagerPagingStateObserver);
-        activityViewModel.getShowDialog().observe(this, this::showDialogObserver);
-        activityViewModel.getToolbarState().observe(this, this::toolbarStateObserver);
-        activityViewModel.getPageToSee().observe(this, this::pageToSeeObserver);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameActivityViewModel.class);
+        viewModel.getError().observe(this, this::showError);
+        viewModel.getLocalProgressState().observe(this, this::toggleProgress);
+        viewModel.getViewPagerPagingState().observe(this, this::viewPagerPagingStateObserver);
+        viewModel.getShowDialog().observe(this, this::showDialogObserver);
+        viewModel.getToolbarState().observe(this, this::toolbarStateObserver);
+        viewModel.getViewPagerPageToSee().observe(this, this::viewPagerPageToSeeObserver);
     }
-    private void pageToSeeObserver(GamePages gamePages) {
+    private void viewPagerPageToSeeObserver(GamePages gamePages) {
         if (gamePages != null) {
             viewPager.setCurrentItem(gamePages.getCode());
         }
@@ -92,7 +99,7 @@ public class GameActivity extends BaseActivity {
     }
     private void showDialogObserver(DialogType dialogType) {
         switch (dialogType) {
-            case PLAYERS:
+            case PLAYERS_NAMES:
                 showPlayersDialog();
                 break;
             case REQUEST_HAND_POINTS:
@@ -101,20 +108,21 @@ public class GameActivity extends BaseActivity {
             case REQUEST_PENALTY_POINTS:
                 showRequestPenaltyPointsDialog();
                 break;
-            case SHOW_RANKING:
-
-                break;
-            default:
+            case EXIT:
+                showDialogExitGame();
                 break;
         }
     }
     private void showPlayersDialog() {
+        if (playersDialogLayout.getParent() != null) {
+            ((ViewGroup) playersDialogLayout.getParent()).removeView(playersDialogLayout);
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyleMM);
-        TextInputEditText tiet1 = (TextInputEditText) ((FrameLayout)((TextInputLayout)playersDialogLayout.getChildAt(0)).getChildAt(0)).getChildAt(0);
-        TextInputEditText tiet2 = (TextInputEditText) ((FrameLayout)((TextInputLayout)playersDialogLayout.getChildAt(1)).getChildAt(0)).getChildAt(0);
-        TextInputEditText tiet3 = (TextInputEditText) ((FrameLayout)((TextInputLayout)playersDialogLayout.getChildAt(2)).getChildAt(0)).getChildAt(0);
-        TextInputEditText tiet4 = (TextInputEditText) ((FrameLayout)((TextInputLayout)playersDialogLayout.getChildAt(3)).getChildAt(0)).getChildAt(0);
-        String[] playersNames = activityViewModel.getListNames().getValue();
+        TextInputEditText tiet1 = (TextInputEditText) ((FrameLayout) ((TextInputLayout) playersDialogLayout.getChildAt(0)).getChildAt(0)).getChildAt(0);
+        TextInputEditText tiet2 = (TextInputEditText) ((FrameLayout) ((TextInputLayout) playersDialogLayout.getChildAt(1)).getChildAt(0)).getChildAt(0);
+        TextInputEditText tiet3 = (TextInputEditText) ((FrameLayout) ((TextInputLayout) playersDialogLayout.getChildAt(2)).getChildAt(0)).getChildAt(0);
+        TextInputEditText tiet4 = (TextInputEditText) ((FrameLayout) ((TextInputLayout) playersDialogLayout.getChildAt(3)).getChildAt(0)).getChildAt(0);
+        String[] playersNames = viewModel.getListNames().getValue();
         assert playersNames != null;
         tiet1.setText(playersNames[0]);
         tiet2.setText(playersNames[1]);
@@ -123,7 +131,7 @@ public class GameActivity extends BaseActivity {
         builder.setTitle(R.string.players_names)
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                    activityViewModel.onRequestPlayersResponse(tiet1.getText(), tiet2.getText(), tiet3.getText(), tiet4.getText());
+                    viewModel.onRequestPlayersResponse(tiet1.getText(), tiet2.getText(), tiet3.getText(), tiet4.getText());
                     KeyboardUtils.hideKeyboard(tiet4);
                 })
                 .setNegativeButton(android.R.string.cancel, (dialog, which) -> KeyboardUtils.hideKeyboard(tiet4))
@@ -131,19 +139,23 @@ public class GameActivity extends BaseActivity {
                 .create()
                 .show();
         tiet1.requestFocus();
+        tiet1.selectAll();
         KeyboardUtils.showKeyboard(tiet1);
     }
-    public void showRequestHandPointsDialog() {
+    private void showRequestHandPointsDialog() {
+        if (pointsDialogLayout.getParent() != null) {
+            ((ViewGroup) pointsDialogLayout.getParent()).removeView(pointsDialogLayout);
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyleMM);
-        TextInputEditText tiet = (TextInputEditText) ((FrameLayout)((TextInputLayout)pointsDialogLayout.getChildAt(0)).getChildAt(0)).getChildAt(0);
+        TextInputEditText tiet = (TextInputEditText) ((FrameLayout) ((TextInputLayout) pointsDialogLayout.getChildAt(0)).getChildAt(0)).getChildAt(0);
         builder.setTitle(R.string.hand_points)
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                    activityViewModel.onRequestHandPointsResponse(tiet.getText());
+                    viewModel.onRequestHandPointsResponse(tiet.getText());
                     KeyboardUtils.hideKeyboard(tiet);
                 })
                 .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-                    activityViewModel.onRequestHandPointsCancel();
+                    viewModel.onRequestHandPointsCancel();
                     KeyboardUtils.hideKeyboard(tiet);
                 })
                 .setOnDismissListener(dialog -> tiet.setText(""))
@@ -153,18 +165,21 @@ public class GameActivity extends BaseActivity {
         tiet.requestFocus();
         KeyboardUtils.showKeyboard(tiet);
     }
-    public void showRequestPenaltyPointsDialog() {
+    private void showRequestPenaltyPointsDialog() {
+        if (penaltyPointsDialogLayout.getParent() != null) {
+            ((ViewGroup) penaltyPointsDialogLayout.getParent()).removeView(penaltyPointsDialogLayout);
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyleMM);
-        TextInputEditText tiet = (TextInputEditText) ((FrameLayout)((TextInputLayout)penaltyPointsDialogLayout.getChildAt(0)).getChildAt(0)).getChildAt(0);
+        TextInputEditText tiet = (TextInputEditText) ((FrameLayout) ((TextInputLayout) penaltyPointsDialogLayout.getChildAt(0)).getChildAt(0)).getChildAt(0);
         CheckBox checkbox = (CheckBox) penaltyPointsDialogLayout.getChildAt(1);
-        builder .setTitle(R.string.penalty_points)
+        builder.setTitle(R.string.penalty_points)
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                    activityViewModel.onRequestPenaltyPointsResponse(tiet.getText(), checkbox.isChecked());
+                    viewModel.onRequestPenaltyPointsResponse(tiet.getText(), checkbox.isChecked());
                     KeyboardUtils.hideKeyboard(tiet);
                 })
                 .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-                    activityViewModel.onRequestPenaltyPointsCancel();
+                    viewModel.onRequestPenaltyPointsCancel();
                     KeyboardUtils.hideKeyboard(tiet);
                 })
                 .setOnDismissListener(dialog -> {
@@ -176,6 +191,15 @@ public class GameActivity extends BaseActivity {
                 .show();
         tiet.requestFocus();
         KeyboardUtils.showKeyboard(tiet);
+    }
+    private void showDialogExitGame() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.exit_game)
+                .setMessage(R.string.are_you_sure)
+                .setPositiveButton(R.string.exit, (dialog, which) -> finish()/*viewModel.endGame()*/)
+                .setNegativeButton(android.R.string.cancel, null)
+                .create()
+                .show();
     }
     private void toolbarStateObserver(ToolbarState toolbarState) {
         switch (toolbarState) {
@@ -205,31 +229,46 @@ public class GameActivity extends BaseActivity {
 
         });
     }
-//    private void gameFinished(Boolean gameFinished) {
-//        if (gameFinished != null) {
-//            if (gameFinished) finish();
-//            else {
-//                Snackbar.make(viewPager, R.string.error_updating_end_date, Snackbar.LENGTH_LONG)
-//                        .setActionTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
-//                        .setAction(R.string.exit, v -> finish())
-//                        .show();
-//            }
-//        }
-//    }
+    private ViewPagerAdapter initAdapter() {
+        GameTableFragment gameTableFragment = new GameTableFragment();
+        GameListFragment gameListFragment = new GameListFragment();
+
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(gameTableFragment, getString(R.string.table));
+        adapter.addFragment(gameListFragment, getString(R.string.list));
+
+        return adapter;
+    }
+    //    private void gameFinished(Boolean gameFinished) {
+    //        if (gameFinished != null) {
+    //            if (gameFinished) finish();
+    //            else {
+    //                Snackbar.make(viewPager, R.string.error_updating_end_date, Snackbar.LENGTH_LONG)
+    //                        .setActionTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+    //                        .setAction(R.string.exit, v -> finish())
+    //                        .show();
+    //            }
+    //        }
+    //    }
     private void startGame() {
         long gameId = getIntent().getLongExtra(ARG_KEY_GAME_ID, -1);
         if (gameId == -1) {
-            activityViewModel.createGame();
+            viewModel.createGame();
         } else {
-            activityViewModel.loadGame(gameId);
+            viewModel.loadGame(gameId);
         }
     }
     private void initPlayersDialogLayout() {
+        final int MAX_TIET_LINES = 1;
+        final int MAX_TIET_CHARS = 16;
         final TextInputEditText tiet1 = new TextInputEditText(this);
         tiet1.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        tiet1.setLines(1);
+        tiet1.setLines(MAX_TIET_LINES);
+        tiet1.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_TIET_CHARS)});
+        tiet1.setCompoundDrawablesWithIntrinsicBounds(eastIconDrawable, null, null, null);
+        tiet1.setCompoundDrawablePadding(MAX_TIET_CHARS);
         tiet1.setOnFocusChangeListener((v, hasFocus) -> {
-            if(hasFocus) KeyboardUtils.showKeyboard(v); 
+            if (hasFocus) KeyboardUtils.showKeyboard(v);
             else KeyboardUtils.hideKeyboard(v);
         });
         final TextInputLayout til1 = new TextInputLayout(this);
@@ -238,9 +277,12 @@ public class GameActivity extends BaseActivity {
 
         final TextInputEditText tiet2 = new TextInputEditText(this);
         tiet2.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        tiet2.setLines(1);
+        tiet2.setLines(MAX_TIET_LINES);
+        tiet2.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_TIET_CHARS)});
+        tiet2.setCompoundDrawablesWithIntrinsicBounds(southIconDrawable, null, null, null);
+        tiet2.setCompoundDrawablePadding(MAX_TIET_CHARS);
         tiet2.setOnFocusChangeListener((v, hasFocus) -> {
-            if(hasFocus) KeyboardUtils.showKeyboard(v); 
+            if (hasFocus) KeyboardUtils.showKeyboard(v);
             else KeyboardUtils.hideKeyboard(v);
         });
         final TextInputLayout til2 = new TextInputLayout(this);
@@ -249,9 +291,12 @@ public class GameActivity extends BaseActivity {
 
         final TextInputEditText tiet3 = new TextInputEditText(this);
         tiet3.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        tiet3.setLines(1);
+        tiet3.setLines(MAX_TIET_LINES);
+        tiet3.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_TIET_CHARS)});
+        tiet3.setCompoundDrawablesWithIntrinsicBounds(westIconDrawable, null, null, null);
+        tiet3.setCompoundDrawablePadding(MAX_TIET_CHARS);
         tiet3.setOnFocusChangeListener((v, hasFocus) -> {
-            if(hasFocus) KeyboardUtils.showKeyboard(v); 
+            if (hasFocus) KeyboardUtils.showKeyboard(v);
             else KeyboardUtils.hideKeyboard(v);
         });
         final TextInputLayout til3 = new TextInputLayout(this);
@@ -260,9 +305,12 @@ public class GameActivity extends BaseActivity {
 
         final TextInputEditText tiet4 = new TextInputEditText(this);
         tiet4.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        tiet4.setLines(1);
+        tiet4.setLines(MAX_TIET_LINES);
+        tiet4.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_TIET_CHARS)});
+        tiet4.setCompoundDrawablesWithIntrinsicBounds(northIconDrawable, null, null, null);
+        tiet4.setCompoundDrawablePadding(MAX_TIET_CHARS);
         tiet4.setOnFocusChangeListener((v, hasFocus) -> {
-            if(hasFocus) KeyboardUtils.showKeyboard(v); 
+            if (hasFocus) KeyboardUtils.showKeyboard(v);
             else KeyboardUtils.hideKeyboard(v);
         });
         final TextInputLayout til4 = new TextInputLayout(this);
@@ -272,8 +320,8 @@ public class GameActivity extends BaseActivity {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         int margin = getResources().getDimensionPixelSize(R.dimen.standard_margin);
         int half_margin = getResources().getDimensionPixelSize(R.dimen.half_standard_margin);
-        layoutParams.setMargins(margin, margin, margin, 0);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        layoutParams.setMargins(margin, margin, margin, half_margin);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             layoutParams.setMarginStart(getResources().getDimensionPixelSize(R.dimen.standard_margin));
             layoutParams.setMarginEnd(margin);
         }
@@ -290,21 +338,19 @@ public class GameActivity extends BaseActivity {
     private void initPointsDialogLayout() {
         final TextInputEditText tiet = new TextInputEditText(this);
         tiet.setInputType(InputType.TYPE_CLASS_NUMBER);
-        InputFilter filter = (source, start, end, dest, dstart, dend) -> {
-            for(int i = start; i < end; i++) {
-                if(!Character.isDigit(source.charAt(i))) {
+        InputFilter digitsFilter = (source, start, end, dest, dstart, dend) -> {
+            for (int i = start; i < end; i++) {
+                if (!Character.isDigit(source.charAt(i))) {
                     return "";
                 }
             }
             return null;
         };
-        tiet.setFilters(new InputFilter[] { filter });
-        InputFilter[] filterArray = new InputFilter[1];
-        filterArray[0] = new InputFilter.LengthFilter(4);
-        tiet.setFilters(filterArray);
+        InputFilter.LengthFilter lengthFilter = new InputFilter.LengthFilter(4);
+        tiet.setFilters(new InputFilter[]{digitsFilter, lengthFilter});
         tiet.setLines(1);
         tiet.setOnFocusChangeListener((v, hasFocus) -> {
-            if(hasFocus) {
+            if (hasFocus) {
                 KeyboardUtils.showKeyboard(v);
             } else {
                 KeyboardUtils.hideKeyboard(v);
@@ -319,7 +365,7 @@ public class GameActivity extends BaseActivity {
         int margin = getResources().getDimensionPixelSize(R.dimen.standard_margin);
         int half_margin = getResources().getDimensionPixelSize(R.dimen.half_standard_margin);
         layoutParams.setMargins(margin, margin, margin, half_margin);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             layoutParams.setMarginStart(getResources().getDimensionPixelSize(R.dimen.standard_margin));
             layoutParams.setMarginEnd(margin);
         }
@@ -334,20 +380,20 @@ public class GameActivity extends BaseActivity {
         final TextInputEditText tiet = new TextInputEditText(this);
         tiet.setInputType(InputType.TYPE_CLASS_NUMBER);
         InputFilter filter = (source, start, end, dest, dstart, dend) -> {
-            for(int i = start; i < end; i++) {
-                if(!Character.isDigit(source.charAt(i))) {
+            for (int i = start; i < end; i++) {
+                if (!Character.isDigit(source.charAt(i))) {
                     return "";
                 }
             }
             return null;
         };
-        tiet.setFilters(new InputFilter[] { filter });
+        tiet.setFilters(new InputFilter[]{filter});
         InputFilter[] filterArray = new InputFilter[1];
         filterArray[0] = new InputFilter.LengthFilter(4);
         tiet.setFilters(filterArray);
         tiet.setLines(1);
         tiet.setOnFocusChangeListener((v, hasFocus) -> {
-            if(hasFocus) {
+            if (hasFocus) {
                 KeyboardUtils.showKeyboard(v);
             } else {
                 KeyboardUtils.hideKeyboard(v);
@@ -362,7 +408,7 @@ public class GameActivity extends BaseActivity {
         int margin = getResources().getDimensionPixelSize(R.dimen.standard_margin);
         int half_margin = getResources().getDimensionPixelSize(R.dimen.half_standard_margin);
         layoutParams.setMargins(margin, margin, margin, half_margin);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             layoutParams.setMarginStart(getResources().getDimensionPixelSize(R.dimen.standard_margin));
             layoutParams.setMarginEnd(margin);
         }
@@ -378,16 +424,6 @@ public class GameActivity extends BaseActivity {
         layout.addView(checkBox, layoutParams);
         penaltyPointsDialogLayout = layout;
     }
-    private ViewPagerAdapter initAdapter() {
-        GameTableFragment gameTableFragment = new GameTableFragment();
-        GameListFragment gameListFragment = new GameListFragment();
-
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(gameTableFragment, getString(R.string.table));
-        adapter.addFragment(gameListFragment, getString(R.string.list));
-
-        return adapter;
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.game_menu, menu);
@@ -400,33 +436,21 @@ public class GameActivity extends BaseActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.action_combinations:
+                startActivity(new Intent(this, CombinationsActivity.class));
+                return true;
             case R.id.action_players:
                 showPlayersDialog();
                 return true;
-            case R.id.action_play:
-                return true;
-            case R.id.action_pause:
-                return true;
+            //            case R.id.action_play:
+            //            case R.id.action_pause:
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
     @Override
     public void onBackPressed() {
-        if (viewPager.getCurrentItem() == LIST.getCode()) {
-            viewPager.setCurrentItem(TABLE.getCode(), true);
-        } else {
-            showDialogExitGame();
-        }
-    }
-    private void showDialogExitGame() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.exit_game)
-                .setMessage(R.string.are_you_sure)
-                .setPositiveButton(R.string.exit, (dialog, which) -> finish()/*activityViewModel.endGame()*/)
-                .setNegativeButton(android.R.string.cancel, null)
-                .create()
-                .show();
+        viewModel.onBackPressed();
     }
     @Override
     protected void onDestroy() {

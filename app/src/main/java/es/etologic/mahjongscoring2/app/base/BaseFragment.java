@@ -25,13 +25,13 @@ public abstract class BaseFragment extends DaggerFragment {
     }
     protected void showError(Throwable throwable) {
         Activity activity = getActivity();
-        if(activity instanceof BaseActivity) {
+        if (activity instanceof BaseActivity) {
             ((BaseActivity) activity).showError(throwable);
         }
     }
     protected void showSnackbar(View view, String message) {
         Activity activity = getActivity();
-        if(activity instanceof BaseActivity) {
+        if (activity instanceof BaseActivity) {
             ((BaseActivity) activity).showSnackbar(view, message);
         }
     }
@@ -47,7 +47,7 @@ public abstract class BaseFragment extends DaggerFragment {
     }
     @Override
     public void onDestroyView() {
-        if(viewUnbinder != null) {
+        if (viewUnbinder != null) {
             viewUnbinder.unbind();
         }
         super.onDestroyView();

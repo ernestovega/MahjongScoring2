@@ -11,7 +11,7 @@ public class CombinationDescriptionTypeConverter {
 
     @TypeConverter
     public static CombinationDescriptionType toCombinationDescriptionType(int code) {
-        switch(code) {
+        switch (code) {
             case 0:
                 return IMAGE;
             default:

@@ -21,7 +21,7 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
-    <!-- GAME RANKING DIALOG -->
+    <!-- GAME HIDDEN DIALOG -->
     <style name="trRankingDialog">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -58,30 +58,27 @@
     </style>
 
     <style name="tvTableSeat">
+        <item name="android:paddingTop">@dimen/standard_margin</item>
         <item name="android:textColor">@color/grayMM</item>
         <item name="android:textStyle">bold</item>
         <item name="android:lines">1</item>
     </style>
 
     <style name="tvTableSeatEast" parent="tvTableSeat">
-        <item name="android:layout_marginTop">@dimen/standard_margin</item>
         <item name="android:layout_centerHorizontal">true</item>
     </style>
 
     <style name="tvTableSeatSouth" parent="tvTableSeat">
-        <item name="android:layout_marginLeft">@dimen/standard_margin</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:gravity">bottom|center</item>
     </style>
 
     <style name="tvTableSeatWest" parent="tvTableSeat">
-        <item name="android:layout_marginBottom">@dimen/standard_margin</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:rotation">180</item>
     </style>
 
     <style name="tvTableSeatNorth" parent="tvTableSeat">
-        <item name="android:layout_marginRight">@dimen/standard_margin</item>
         <item name="android:layout_centerVertical">true</item>
     </style>
 

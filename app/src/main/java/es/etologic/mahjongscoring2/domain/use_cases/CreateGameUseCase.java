@@ -6,11 +6,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import es.etologic.mahjongscoring2.data.repositories.GamesRepository;
-import es.etologic.mahjongscoring2.data.repositories.RoundsRepository;
 import es.etologic.mahjongscoring2.domain.model.Game;
 import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 
 public class CreateGameUseCase {
 

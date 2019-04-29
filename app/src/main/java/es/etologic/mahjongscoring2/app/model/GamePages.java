@@ -1,6 +1,6 @@
 package es.etologic.mahjongscoring2.app.model;
 
-public enum GamePages{
+public enum GamePages {
     TABLE(0),
     LIST(1);
 
@@ -12,8 +12,10 @@ public enum GamePages{
 
     public static GamePages getFromCode(int code) {
         switch (code) {
-            default: return TABLE;
-            case 1: return LIST;
+            default:
+                return TABLE;
+            case 1:
+                return LIST;
         }
     }
 }

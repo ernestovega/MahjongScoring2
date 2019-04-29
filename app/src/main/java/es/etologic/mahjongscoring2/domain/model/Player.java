@@ -6,8 +6,8 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 @Entity(tableName = "Players",
-        indices = { @Index (value = { "playerName" },
-                            unique = true) })
+        indices = {@Index(value = {"playerName"},
+                          unique = true)})
 public class Player {
 
     private static final int NOT_SET_PLAYER_ID = 0;

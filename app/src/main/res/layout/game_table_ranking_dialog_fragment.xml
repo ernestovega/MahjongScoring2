@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@android:color/white">
 
     <TableLayout
+        android:id="@+id/tlRanking"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:minWidth="480dp"
         android:orientation="horizontal"
         android:padding="20dp">
@@ -193,32 +194,32 @@
 
         </TableRow>
 
-        <TableRow style="@style/trRankingDialog">
+        <!--<TableRow style="@style/trRankingDialog">-->
 
-            <View
-                style="@style/tvRankingDialogOthers"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+        <!--<View-->
+        <!--style="@style/tvRankingDialogOthers"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1" />-->
 
-            <TextView
-                android:id="@+id/textview_ranking_titulo_fecha_inicio"
-                style="@style/tvRankingDialogOthers"
-                android:layout_weight="5"
-                android:text="@string/duration" />
+        <!--<TextView-->
+        <!--android:id="@+id/textview_ranking_titulo_fecha_inicio"-->
+        <!--style="@style/tvRankingDialogOthers"-->
+        <!--android:layout_weight="5"-->
+        <!--android:text="@string/duration" />-->
 
-            <TextView
-                android:id="@+id/tvDuration"
-                style="@style/tvRankingDialogOthers"
-                android:layout_weight="5"
-                android:text="1h 57m"
-                tools:ignore="HardcodedText" />
+        <!--<TextView-->
+        <!--android:id="@+id/tvDuration"-->
+        <!--style="@style/tvRankingDialogOthers"-->
+        <!--android:layout_weight="5"-->
+        <!--android:text="1h 57m"-->
+        <!--tools:ignore="HardcodedText" />-->
 
-            <View
-                style="@style/tvRankingDialogOthers"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+        <!--<View-->
+        <!--style="@style/tvRankingDialogOthers"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1" />-->
 
-        </TableRow>
+        <!--</TableRow>-->
 
     </TableLayout>
 
@@ -227,13 +228,13 @@
         style="?android:buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/standard_margin"
-        android:layout_marginBottom="@dimen/standard_margin"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:layout_marginRight="@dimen/standard_margin"
+        android:layout_below="@+id/tlRanking"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_marginEnd="@dimen/standard_margin"
+        android:layout_marginRight="@dimen/standard_margin"
+        android:layout_marginBottom="@dimen/standard_margin"
         android:text="@string/see_list" />
 
     <Button
@@ -241,11 +242,11 @@
         style="?android:buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/tlRanking"
         android:layout_marginTop="@dimen/standard_margin"
-        android:layout_marginBottom="@dimen/standard_margin"
         android:layout_marginEnd="@dimen/standard_margin"
         android:layout_marginRight="@dimen/standard_margin"
+        android:layout_marginBottom="@dimen/standard_margin"
         android:layout_toStartOf="@+id/btRankingDialogSeeList"
         android:layout_toLeftOf="@+id/btRankingDialogSeeList"
         android:text="@string/resume" />
@@ -254,25 +255,25 @@
         android:id="@+id/btRankingDialogClose"
         style="?android:buttonBarButtonStyle"
         android:layout_width="wrap_content"
-        android:layout_toStartOf="@+id/btRankingDialogResume"
-        android:layout_toLeftOf="@+id/btRankingDialogResume"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/tlRanking"
         android:layout_marginTop="@dimen/standard_margin"
-        android:layout_marginBottom="@dimen/standard_margin"
         android:layout_marginEnd="@dimen/standard_margin"
         android:layout_marginRight="@dimen/standard_margin"
+        android:layout_marginBottom="@dimen/standard_margin"
+        android:layout_toStartOf="@+id/btRankingDialogResume"
+        android:layout_toLeftOf="@+id/btRankingDialogResume"
         android:text="@string/close" />
 
     <Button
         android:id="@+id/btRankingDialogExit"
         style="?android:buttonBarButtonStyle"
         android:layout_width="wrap_content"
-        android:layout_toStartOf="@+id/btRankingDialogClose"
-        android:layout_toLeftOf="@+id/btRankingDialogClose"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/tlRanking"
         android:layout_margin="@dimen/standard_margin"
+        android:layout_toStartOf="@+id/btRankingDialogResume"
+        android:layout_toLeftOf="@+id/btRankingDialogResume"
         android:text="@string/exit" />
 
 </RelativeLayout>

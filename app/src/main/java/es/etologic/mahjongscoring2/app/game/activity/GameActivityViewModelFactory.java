@@ -18,11 +18,10 @@ public class GameActivityViewModelFactory extends ViewModelProvider.NewInstanceF
     private UpdateRoundsUseCase updateRoundUseCase;
     private UpdateGameUseCase updateGameUseCase;
 
-    @Inject
-    GameActivityViewModelFactory(CreateGameUseCase createGameUseCase,
-                                 GetGamesUseCase getGamesUseCase,
-                                 UpdateRoundsUseCase updateRoundUseCase,
-                                 UpdateGameUseCase updateGameUseCase) {
+    @Inject GameActivityViewModelFactory(CreateGameUseCase createGameUseCase,
+                                         GetGamesUseCase getGamesUseCase,
+                                         UpdateRoundsUseCase updateRoundUseCase,
+                                         UpdateGameUseCase updateGameUseCase) {
         this.createGameUseCase = createGameUseCase;
         this.getGamesUseCase = getGamesUseCase;
         this.updateRoundUseCase = updateRoundUseCase;

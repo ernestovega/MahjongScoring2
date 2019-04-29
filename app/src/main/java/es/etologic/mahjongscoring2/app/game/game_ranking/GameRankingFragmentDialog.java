@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.app.game.game_table;
+package es.etologic.mahjongscoring2.app.game.game_ranking;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -20,11 +20,13 @@ import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModelFactory;
-import es.etologic.mahjongscoring2.domain.model.Game;
 import es.etologic.mahjongscoring2.domain.model.PlayerRanking;
 import es.etologic.mahjongscoring2.domain.model.RankingTable;
 
-public class GameTableRankingFragmentDialog extends DialogFragment {
+public class GameRankingFragmentDialog extends DialogFragment {
+
+    //Constants
+    public static final String TAG = "GameRankingFragmentDialog";
 
     //Views
     @BindView(R.id.tvNamePlayerFirst) TextView tvNamePlayerFirst;
@@ -41,16 +43,14 @@ public class GameTableRankingFragmentDialog extends DialogFragment {
     @BindView(R.id.tvScorePlayerFourth) TextView tvScorePlayerFourth;
     @BindView(R.id.tvBestHandPlayerPoints) TextView tvBestHandPlayerPoints;
     @BindView(R.id.tvNumRounds) TextView tvNumRounds;
-    @BindView(R.id.tvDuration) TextView tvDuration;
+    //    @BindView(R.id.tvDuration) TextView tvDuration;
     @BindView(R.id.btRankingDialogSeeList) Button btSeeList;
     @BindView(R.id.btRankingDialogResume) Button btResume;
-    @BindView(R.id.btRankingDialogClose) Button btClose;
     @BindView(R.id.btRankingDialogExit) Button btExit;
     //FIELDS
     @Inject GameActivityViewModelFactory activityViewModelFactory;
     private Unbinder unbinder;
     private GameActivityViewModel activityViewModel;
-    private RankingTable rankingTable;
 
     //EVENTS
     @OnClick(R.id.btRankingDialogSeeList) public void onRankingDialogSeeListClick() {
@@ -67,12 +67,29 @@ public class GameTableRankingFragmentDialog extends DialogFragment {
         dismiss();
     }
 
-    //PUBLIC METHODS
-    void setRankingTable(RankingTable rankingTable) {
-        this.rankingTable = rankingTable;
+    //LIFECYCLE
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.game_table_ranking_dialog_fragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        unbinder = ButterKnife.bind(this, view);
+        setCancelable(false);
+        setupActivityViewModel();
         fillRankingViews();
     }
+    private void setupActivityViewModel() {
+        if (getActivity() != null) {
+            activityViewModel = ViewModelProviders.of(getActivity(), activityViewModelFactory).get(GameActivityViewModel.class);
+        } else {
+            dismiss();
+        }
+    }
     private void fillRankingViews() {
+        RankingTable rankingTable = activityViewModel.getRankingTable();
         PlayerRanking playerFirst = rankingTable.getSortedPlayersRankings().get(0);
         PlayerRanking playerSecond = rankingTable.getSortedPlayersRankings().get(1);
         PlayerRanking playerThird = rankingTable.getSortedPlayersRankings().get(2);
@@ -91,37 +108,21 @@ public class GameTableRankingFragmentDialog extends DialogFragment {
         tvScorePlayerFourth.setText(playerFourth.getScore());
         tvBestHandPlayerPoints.setText(rankingTable.getBestHandPlayerPoints());
         tvNumRounds.setText(rankingTable.getSNumRounds());
-        tvDuration.setText(rankingTable.getDuration());
-        if(rankingTable.getNumRounds() < 16) {
+        //        tvDuration.setText(rankingTable.getDuration());
+        if (rankingTable.getNumRounds() < 16) {
             btResume.setVisibility(View.VISIBLE);
-            btResume.setOnClickListener(view -> {}/*activityViewModel.resumeGame()*/);
+            btResume.setOnClickListener(view -> activityViewModel.resumeGame());
         } else {
             btResume.setVisibility(View.GONE);
         }
     }
 
-    //LIFECYCLE
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.game_table_ranking_dialog_fragment, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        unbinder = ButterKnife.bind(this, view);
-    }
-    private void setupActivityViewModel() {
-        //noinspection ConstantConditions
-        activityViewModel = ViewModelProviders.of(getActivity(), activityViewModelFactory).get(GameActivityViewModel.class);
-    }
 
     @Override
     public void onDestroyView() {
-        if(unbinder != null) {
+        if (unbinder != null) {
             unbinder.unbind();
         }
         super.onDestroyView();
     }
-
 }

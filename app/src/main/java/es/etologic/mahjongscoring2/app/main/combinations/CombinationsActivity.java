@@ -48,7 +48,7 @@ public class CombinationsActivity extends BaseActivity {
 
     private void setupToolbar() {
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
@@ -69,7 +69,7 @@ public class CombinationsActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.combinations_menu, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search_combination).getActionView();
-        if(searchManager != null) {
+        if (searchManager != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
@@ -88,15 +88,15 @@ public class CombinationsActivity extends BaseActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
             case R.id.action_toggle_combination_explanation:
                 MenuItem menuItem = toolbar.getMenu().getItem(1);
                 menuItem.setIcon(rvAdapter.toggleImageOrDescription() == SHOW ?
-                                         R.drawable.ic_library_books_white_24dp :
-                                         R.drawable.ic_photo_library_white_24dp);
+                        R.drawable.ic_library_books_white_24dp :
+                        R.drawable.ic_photo_library_white_24dp);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

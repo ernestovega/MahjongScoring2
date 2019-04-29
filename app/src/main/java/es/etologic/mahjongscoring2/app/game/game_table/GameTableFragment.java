@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -23,6 +25,8 @@ import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModelFactory;
+import es.etologic.mahjongscoring2.app.game.game_ranking.GameRankingFragmentDialog;
+import es.etologic.mahjongscoring2.app.model.DialogType;
 import es.etologic.mahjongscoring2.app.model.EnablingState;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates;
@@ -40,14 +44,17 @@ import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.WEST;
 public class GameTableFragment extends Fragment implements GameTableSeatsFragment.TableSeatsListener {
 
     //VIEWS
-//    @BindView(R.id.tvGameTableRoundNumber) TextView tvRoundNumber;
-//    @BindView(R.id.ivGameTableRoundWind) ImageView ivRoundWind;
+    @BindView(R.id.ivGameTableRoundWindUp) ImageView ivRoundWindUp;
+    @BindView(R.id.tvGameTableRoundNumberUp) TextView tvRoundNumberUp;
+    @BindView(R.id.ivGameTableRoundWindDown) ImageView ivRoundWindDown;
+    @BindView(R.id.tvGameTableRoundNumberDown) TextView tvRoundNumberDown;
     @BindView(R.id.famGameTable) FloatingActionMenu fabMenu;
     @BindView(R.id.fabGameTablePenaltyCancel) FloatingActionButton fabPenaltyCancel;
     @BindView(R.id.fabGameTablePenalty) FloatingActionButton fabPenalty;
     @BindView(R.id.fabGameTableTsumo) FloatingActionButton fabTsumo;
     @BindView(R.id.fabGameTableRon) FloatingActionButton fabRon;
     @BindView(R.id.fabGameTableCancel) FloatingActionButton fabCancel;
+    @BindView(R.id.fabGameTableRanking) FloatingActionButton fabRanking;
 
     //RESOURCES
     @BindDrawable(R.drawable.ic_east) Drawable eastIcon;
@@ -76,7 +83,11 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
     @OnClick(R.id.fabGameTableRon) public void onFabGameRonClick() {
         activityViewModel.onFabGameRonClicked();
     }
-    @OnClick(R.id.fabGameTableCancel) public void onFabCancelLooserSelectionClick() {
+    @OnClick(R.id.fabGameTableCancel) public void onFabRankingClick() {
+        activityViewModel.onFabRankingClicked();
+    }
+    @OnClick(R.id.fabGameTableRanking
+    ) public void onFabCancelLooserSelectionClick() {
         activityViewModel.onFabCancelRequestingLooserClicked();
     }
     @Override public void onEastSeatClick() {
@@ -115,46 +126,82 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
     private void setupActivityViewModel() {
         //noinspection ConstantConditions
         activityViewModel = ViewModelProviders.of(getActivity(), activityViewModelFactory).get(GameActivityViewModel.class);
+        activityViewModel.getRoundNumber().observe(this, this::roundNumberObserver);
         activityViewModel.getEastSeat().observe(this, tableSeats::setEastSeat);
         activityViewModel.getSouthSeat().observe(this, tableSeats::setSouthSeat);
         activityViewModel.getWestSeat().observe(this, tableSeats::setWestSeat);
         activityViewModel.getNorthSeat().observe(this, tableSeats::setNorthSeat);
-        activityViewModel.getRoundNumber().observe(this, this::roundNumberObserver);
         activityViewModel.getFabMenuState().observe(this, this::fabMenuStateObserver);
         activityViewModel.getFabMenuOpenState().observe(this, this::fabMenuOpenStateObserver);
+        activityViewModel.getShowDialog().observe(this, this::showDialogObserver);
+    }
+    private void roundNumberObserver(int roundNumber) {
+        tvRoundNumberUp.setText(String.valueOf(roundNumber));
+        tvRoundNumberDown.setText(String.valueOf(roundNumber));
+        if (roundNumber < 5) {
+            ivRoundWindUp.setImageDrawable(eastIcon);
+            ivRoundWindDown.setImageDrawable(eastIcon);
+        } else if (roundNumber < 9) {
+            ivRoundWindUp.setImageDrawable(southIcon);
+            ivRoundWindDown.setImageDrawable(southIcon);
+        } else if (roundNumber < 13) {
+            ivRoundWindUp.setImageDrawable(westIcon);
+            ivRoundWindDown.setImageDrawable(westIcon);
+        } else {
+            ivRoundWindUp.setImageDrawable(northIcon);
+            ivRoundWindDown.setImageDrawable(northIcon);
+        }
     }
     private void fabMenuStateObserver(FabMenuStates fabMenuStates) {
         switch (fabMenuStates) {
             default:
             case NORMAL:
                 applyFabMenuState(DISABLED, DISABLED, DISABLED, DISABLED);
-                showFabMenuIfProceed();
+                fabRanking.setVisibility(GONE);
+                fabCancel.setVisibility(GONE);
+                fabMenu.setVisibility(VISIBLE);
                 break;
             case PLAYER_SELECTED:
                 applyFabMenuState(DISABLED, ENABLED, ENABLED, ENABLED);
-                showFabMenuIfProceed();
+                fabRanking.setVisibility(GONE);
+                fabCancel.setVisibility(GONE);
+                fabMenu.setVisibility(VISIBLE);
                 break;
             case PLAYER_PENALIZED:
                 applyFabMenuState(ENABLED, ENABLED, DISABLED, DISABLED);
-                showFabMenuIfProceed();
+                fabRanking.setVisibility(GONE);
+                fabCancel.setVisibility(GONE);
+                fabMenu.setVisibility(VISIBLE);
                 break;
+            case RANKING:
+                fabRanking.setVisibility(VISIBLE);
+                fabMenu.setVisibility(GONE);
+                fabCancel.setVisibility(GONE);
+            case HIDDEN:
+                fabRanking.setVisibility(GONE);
+                fabMenu.setVisibility(GONE);
+                fabCancel.setVisibility(GONE);
             case CANCEL:
+                fabRanking.setVisibility(GONE);
                 fabMenu.setVisibility(GONE);
                 fabCancel.setVisibility(VISIBLE);
                 break;
         }
     }
-    private void applyFabMenuState(EnablingState penaltyCancel, EnablingState penalty, EnablingState tsumo, EnablingState ron) {
-        fabPenaltyCancel.setEnabled(penaltyCancel == ENABLED);
-        fabPenalty.setEnabled(penalty == ENABLED);
-        fabTsumo.setEnabled(tsumo == ENABLED);
-        fabRon.setEnabled(ron == ENABLED);
-    }
-    private void showFabMenuIfProceed() {
-        if (fabMenu.getVisibility() != VISIBLE) {
-            fabCancel.setVisibility(GONE);
-            fabMenu.setVisibility(VISIBLE);
+    private void applyFabMenuState(EnablingState penaltyCancelState,
+                                   EnablingState penaltyState,
+                                   EnablingState tsumoState,
+                                   EnablingState ronState) {
+        if (penaltyCancelState == ENABLED) {
+            fabPenaltyCancel.setEnabled(true);
+            fabPenaltyCancel.setVisibility(VISIBLE);
+        } else {
+            fabPenaltyCancel.setEnabled(false);
+            fabPenaltyCancel.setVisibility(GONE);
         }
+        fabPenalty.setEnabled(penaltyState == ENABLED);
+        fabTsumo.setEnabled(tsumoState == ENABLED);
+        fabRon.setEnabled(ronState == ENABLED);
     }
     private void fabMenuOpenStateObserver(ShowState state) {
         if (state == SHOW) {
@@ -163,17 +210,15 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
             fabMenu.close(true);
         }
     }
-    private void roundNumberObserver(int roundNumber) {
-//        tvRoundNumber.setText(String.valueOf(roundNumber));
-//        if (roundNumber < 5)
-//            ivRoundWind.setImageDrawable(eastIcon);
-//        else if (roundNumber < 9)
-//            ivRoundWind.setImageDrawable(southIcon);
-//        else if (roundNumber < 13)
-//            ivRoundWind.setImageDrawable(westIcon);
-//        else
-//            ivRoundWind.setImageDrawable(northIcon);
+    private void showDialogObserver(DialogType dialogType) {
+        if (dialogType == DialogType.SHOW_RANKING) {
+            showRankingDialog();
+        }
     }
+    private void showRankingDialog() {
+        new GameRankingFragmentDialog().show(getChildFragmentManager(), GameRankingFragmentDialog.TAG);
+    }
+
     @Override
     public void onDestroyView() {
         if (unbinder != null) {

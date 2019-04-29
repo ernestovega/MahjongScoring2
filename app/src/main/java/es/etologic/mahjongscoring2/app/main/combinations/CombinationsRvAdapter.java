@@ -31,13 +31,13 @@ import static es.etologic.mahjongscoring2.domain.model.Combination.CombinationDe
 class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //region Constants
-//    private static final int ANIMATION_DURATION = 500;
+    //    private static final int ANIMATION_DURATION = 500;
 
     //region Fields
     private List<Combination> combinations;
     private ShowState imageOrDescriptionShowState;
     private int cardViewMinHeight;
-//    private int cardViewFullHeight;
+    //    private int cardViewFullHeight;
 
     //region Constructor
     CombinationsRvAdapter() {
@@ -52,7 +52,7 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
     private void saveCombinationsCopy(List<Combination> combinations) {
         List<Combination> newCombinationsCopy = new ArrayList<>(combinations.size());
-        for(Combination combination : combinations) {
+        for (Combination combination : combinations) {
             newCombinationsCopy.add(combination.getCopy());
         }
         this.combinations = newCombinationsCopy;
@@ -70,8 +70,8 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         super.onAttachedToRecyclerView(recyclerView);
         cardViewMinHeight = (int) recyclerView.getContext().getResources().getDimension(
                 R.dimen.combination_item_cardview_min_height);
-//        cardViewFullHeight = (int) context.getResources().getDimension(
-//                R.dimen.combination_item_cardview_full_height);
+        //        cardViewFullHeight = (int) context.getResources().getDimension(
+        //                R.dimen.combination_item_cardview_full_height);
     }
 
     @Override
@@ -93,7 +93,7 @@ class CombinationsRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         myHolder.tvName.setText(combination.getCombinationName());
         myHolder.tvPosition.setText(String.format(Locale.getDefault(), "#%d", position + 1));
 
-        if(combination.getCombinationDescriptionType() == IMAGE) {
+        if (combination.getCombinationDescriptionType() == IMAGE) {
             myHolder.ivImage.setImageResource(combination.getCombinationImage());
             myHolder.tvDescription.setVisibility(GONE);
             myHolder.ivImage.setVisibility(VISIBLE);

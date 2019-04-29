@@ -1,6 +1,5 @@
 package es.etologic.mahjongscoring2.app.utils;
 
-import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -10,14 +9,14 @@ public class KeyboardUtils {
 
     public static void showKeyboard(View viewInputMethod) {
         InputMethodManager imm = (InputMethodManager) viewInputMethod.getContext().getSystemService(INPUT_METHOD_SERVICE);
-        if(imm != null) {
+        if (imm != null) {
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 
     public static void hideKeyboard(View viewInputMethod) {
         InputMethodManager imm = (InputMethodManager) viewInputMethod.getContext().getSystemService(INPUT_METHOD_SERVICE);
-        if(imm != null) {
+        if (imm != null) {
             imm.hideSoftInputFromWindow(viewInputMethod.getWindowToken(), 0);
         }
     }

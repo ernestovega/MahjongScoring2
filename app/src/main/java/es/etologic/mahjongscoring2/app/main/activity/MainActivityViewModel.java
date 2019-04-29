@@ -5,8 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.v7.widget.Toolbar;
 
-import io.reactivex.annotations.Nullable;
-
 public class MainActivityViewModel extends ViewModel {
 
     //ENUM
@@ -34,7 +32,7 @@ public class MainActivityViewModel extends ViewModel {
 
     //METHODS
     public void navigateTo(MainScreens screen) {
-        if(currentScreen.getValue() != screen) {
+        if (currentScreen.getValue() != screen) {
             currentScreen.postValue(screen);
         }
     }

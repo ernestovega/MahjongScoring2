@@ -1,17 +1,13 @@
 package es.etologic.mahjongscoring2.domain.model;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import es.etologic.mahjongscoring2.data.local_data_source.local.converters.DateConverter;
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
@@ -24,7 +20,7 @@ import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.WEST;
 @Entity(tableName = "Games",
         indices = {@Index(value = {"gameId"},
                           unique = true)})
-public class Game extends GameRounds{
+public class Game extends GameRounds {
 
     //CONSTANTS
     private static final int NOT_SET_GAME_ID = 0;
@@ -40,22 +36,22 @@ public class Game extends GameRounds{
     //GETTERS & SETTERS
     public int getGameId() { return gameId; }
     public String getNameP1() { return nameP1; }
-    public String getNameP2() { return nameP2; }
-    public String getNameP3() { return nameP3; }
-    public String getNameP4() { return nameP4; }
-    public Date getCreationDate() { return creationDate; }
     public void setNameP1(String nameP1) {
         this.nameP1 = nameP1;
     }
+    public String getNameP2() { return nameP2; }
     public void setNameP2(String nameP2) {
         this.nameP2 = nameP2;
     }
+    public String getNameP3() { return nameP3; }
     public void setNameP3(String nameP3) {
         this.nameP3 = nameP3;
     }
+    public String getNameP4() { return nameP4; }
     public void setNameP4(String nameP4) {
         this.nameP4 = nameP4;
     }
+    public Date getCreationDate() { return creationDate; }
 
     //CONSTRUCTORS
     public Game(final int gameId, String nameP1, String nameP2, String nameP3, String nameP4, Date creationDate) {

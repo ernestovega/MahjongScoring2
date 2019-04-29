@@ -2,6 +2,7 @@ package es.etologic.mahjongscoring2.domain.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.TypeConverters;
 
@@ -18,18 +19,18 @@ import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.SOUTH;
 import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.WEST;
 
 @Entity(tableName = "Rounds",
-        primaryKeys = { "gameId", "roundId" },
-        foreignKeys = { @ForeignKey (
+        primaryKeys = {"gameId", "roundId"},
+        foreignKeys = {@ForeignKey(
                 entity = Game.class,
                 parentColumns = "gameId",
-                childColumns = "gameId") },
-        indices = { @Index (value = { "gameId", "roundId" },
-                            unique = true) })
+                childColumns = "gameId")},
+        indices = {@Index(value = {"gameId", "roundId"},
+                          unique = true)})
 public class Round extends RecyclerViewable<Round> {
 
     //Constants
     private static final int HU_BASE_POINTS = 8;
-    private static final int NUM_NO_WINNER_PLAYERS_IN_TSUMO = 3;
+    private static final int NUM_NO_WINNER_PLAYERS = 3;
     private static final int NUM_NO_WINNER_AND_NO_LOOSER_PLAYERS_IN_RON = 2;
 
     //Fields
@@ -49,14 +50,8 @@ public class Round extends RecyclerViewable<Round> {
     private int penaltyP3 = 0;
     private int penaltyP4 = 0;
     private long roundDuration = 0;
-
-    //region GETTERS & SETTERS
-    public int getGameId() {
-        return gameId;
-    }
-    public int getRoundId() {
-        return roundId;
-    }
+    @Ignore
+    private boolean isBestHand = false;
     public int getHandPoints() {
         return handPoints;
     }
@@ -129,7 +124,12 @@ public class Round extends RecyclerViewable<Round> {
     public void setRoundDuration(long roundDuration) {
         this.roundDuration = roundDuration;
     }
-
+    public boolean isBestHand() {
+        return isBestHand;
+    }
+    public void setIsBestHand(boolean bestHand) {
+        isBestHand = bestHand;
+    }
     //Constructors
     public Round(final int gameId, final int roundId) {
         this.gameId = gameId;
@@ -153,13 +153,12 @@ public class Round extends RecyclerViewable<Round> {
         this.penaltyP4 = penaltyP4;
         this.roundDuration = roundDuration;
     }
-    
     //Methods
     public void setAllPlayersTsumoPoints(TableWinds winnerInitialPosition, int winnerHandPoints) {
         this.winnerInitialPosition = winnerInitialPosition;
         this.handPoints = winnerHandPoints;
         int looserTotalPoints = winnerHandPoints + HU_BASE_POINTS;
-        int winnerTotalPoints = (looserTotalPoints) * NUM_NO_WINNER_PLAYERS_IN_TSUMO;
+        int winnerTotalPoints = (looserTotalPoints)*NUM_NO_WINNER_PLAYERS;
         pointsP1 += (EAST == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
         pointsP2 += (SOUTH == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
         pointsP3 += (WEST == winnerInitialPosition) ? winnerTotalPoints : -looserTotalPoints;
@@ -171,73 +170,103 @@ public class Round extends RecyclerViewable<Round> {
         this.discarderInitialPosition = looserInitialPosition;
         int looserTotalPoints = winnerHandPoints + HU_BASE_POINTS;
         int winnerTotalPoints = looserTotalPoints +
-                (HU_BASE_POINTS * NUM_NO_WINNER_AND_NO_LOOSER_PLAYERS_IN_RON);
-        if(EAST == winnerInitialPosition) {
+                (HU_BASE_POINTS*NUM_NO_WINNER_AND_NO_LOOSER_PLAYERS_IN_RON);
+        if (EAST == winnerInitialPosition) {
             pointsP1 += winnerTotalPoints;
         } else {
             pointsP1 -= (EAST == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
         }
-        if(SOUTH == winnerInitialPosition) {
+        if (SOUTH == winnerInitialPosition) {
             pointsP2 += winnerTotalPoints;
         } else {
             pointsP2 -= (SOUTH == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
         }
-        if(WEST == winnerInitialPosition) {
+        if (WEST == winnerInitialPosition) {
             pointsP3 += winnerTotalPoints;
         } else {
             pointsP3 -= (WEST == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
         }
-        if(NORTH == winnerInitialPosition) {
+        if (NORTH == winnerInitialPosition) {
             pointsP4 += winnerTotalPoints;
         } else {
             pointsP4 -= (NORTH == looserInitialPosition) ? looserTotalPoints : HU_BASE_POINTS;
         }
     }
     public void setPlayerPenaltyPoints(TableWinds penalizedPlayerInitialPosition, int penaltyPoints) {
-        switch(penalizedPlayerInitialPosition) {
-            case EAST: penaltyP1 += penaltyPoints; break;
-            case SOUTH: penaltyP2 += penaltyPoints; break;
-            case WEST: penaltyP3 += penaltyPoints; break;
-            default: penaltyP4 += penaltyPoints; break;
+        switch (penalizedPlayerInitialPosition) {
+            case EAST:
+                penaltyP1 -= penaltyPoints;
+                break;
+            case SOUTH:
+                penaltyP2 -= penaltyPoints;
+                break;
+            case WEST:
+                penaltyP3 -= penaltyPoints;
+                break;
+            default:
+                penaltyP4 -= penaltyPoints;
+                break;
         }
     }
-    public void setAllPlayersPointsByPenalty(TableWinds penalizedPlayerInitialPosition, int penaltyPoints) {
-        int noPenalizedPlayerPoints = penaltyPoints / NUM_NO_WINNER_PLAYERS_IN_TSUMO;
-        penaltyP1 += (EAST == penalizedPlayerInitialPosition) ? penaltyPoints : 0;
-        penaltyP2 += (SOUTH == penalizedPlayerInitialPosition) ? penaltyPoints : 0;
-        penaltyP3 += (WEST == penalizedPlayerInitialPosition) ? penaltyPoints : 0;
-        penaltyP4 += (NORTH == penalizedPlayerInitialPosition) ? penaltyPoints : 0;
-        pointsP1 += (EAST == penalizedPlayerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
-        pointsP2 += (SOUTH == penalizedPlayerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
-        pointsP3 += (WEST == penalizedPlayerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
-        pointsP4 += (NORTH == penalizedPlayerInitialPosition) ? -penaltyPoints : noPenalizedPlayerPoints;
+    public void setAllPlayersPenaltyPoints(TableWinds penalizedPlayerInitialPosition, int penaltyPoints) {
+        int noPenalizedPlayerPoints = penaltyPoints/NUM_NO_WINNER_PLAYERS;
+        penaltyP1 -= (EAST == penalizedPlayerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
+        penaltyP2 -= (SOUTH == penalizedPlayerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
+        penaltyP3 -= (WEST == penalizedPlayerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
+        penaltyP4 -= (NORTH == penalizedPlayerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
     }
-    public void setAllPlayersPointsByPenaltyCancellation(TableWinds playerInitialPosition) {
-        int penaltyPoints = getPenaltyPointsFromInitialPlayerPosition(playerInitialPosition);
-        int noPenalizedPlayerPoints = penaltyPoints / NUM_NO_WINNER_PLAYERS_IN_TSUMO;
-        if(EAST == playerInitialPosition) { penaltyP1 = 0; } else
-        if(SOUTH == playerInitialPosition) { penaltyP2 = 0; } else
-        if(WEST == playerInitialPosition) { penaltyP3 = 0; } else
-        if(NORTH == playerInitialPosition) { penaltyP4 = 0; }
-        pointsP1 += (EAST == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
-        pointsP2 += (SOUTH == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
-        pointsP3 += (WEST == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
-        pointsP4 += (NORTH == playerInitialPosition) ? penaltyPoints : -noPenalizedPlayerPoints;
+    public void applyAllPlayersPenalties() {
+        pointsP1 += penaltyP1;
+        pointsP2 += penaltyP2;
+        pointsP3 += penaltyP3;
+        pointsP4 += penaltyP4;
+    }
+    public void cancelAllPlayersPenalties() {
+        penaltyP1 = 0;
+        penaltyP2 = 0;
+        penaltyP3 = 0;
+        penaltyP4 = 0;
     }
     public boolean isPenalizedPlayer(TableWinds playerInitialPosition) {
-        switch(playerInitialPosition) {
-            case EAST: return penaltyP1 > 0;
-            case SOUTH: return penaltyP2 > 0;
-            case WEST: return penaltyP3 > 0;
-            default: return penaltyP4 > 0;
+        switch (playerInitialPosition) {
+            case EAST:
+                return penaltyP1 < 0;
+            case SOUTH:
+                return penaltyP2 < 0;
+            case WEST:
+                return penaltyP3 < 0;
+            default:
+                return penaltyP4 < 0;
         }
     }
     private int getPenaltyPointsFromInitialPlayerPosition(TableWinds playerInitialPosition) {
-        switch(playerInitialPosition) {
-            case EAST: return penaltyP1;
-            case SOUTH: return penaltyP2;
-            case WEST: return penaltyP3;
-            default: return penaltyP4;
+        switch (playerInitialPosition) {
+            case EAST:
+                return penaltyP1;
+            case SOUTH:
+                return penaltyP2;
+            case WEST:
+                return penaltyP3;
+            default:
+                return penaltyP4;
+        }
+    }
+    public static boolean areEqual(List<Round> rounds1, List<Round> rounds2) {
+        if (rounds1 == null && rounds2 == null) {
+            return true;
+        } else if (rounds1 != null && rounds2 != null) {
+            if (rounds1.size() != rounds2.size()) {
+                return false;
+            } else {
+                for (int i = 0; i < rounds1.size(); i++) {
+                    if (!areEqual(rounds1.get(i), rounds2.get(i))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        } else {
+            return false;
         }
     }
     private static boolean areEqual(Round round1, Round round2) {
@@ -256,29 +285,17 @@ public class Round extends RecyclerViewable<Round> {
                 round1.penaltyP4 == round2.penaltyP4 &&
                 round1.roundDuration == round2.roundDuration;
     }
-    public static boolean areEqual(List<Round> rounds1, List<Round> rounds2) {
-        if(rounds1 == null && rounds2 == null) {
-            return true;
-        } else if(rounds1 != null && rounds2 != null) {
-            if(rounds1.size() != rounds2.size()) {
-                return false;
-            } else {
-                for (int i = 0; i < rounds1.size(); i++) {
-                    if(!areEqual(rounds1.get(i), rounds2.get(i))) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        } else {
-            return false;
-        }
-    }
-
     //RecyclerViewable
     @Override public boolean compareIdTo(Round object) {
         return gameId == object.getGameId() &&
                 roundId == object.getRoundId();
+    }
+    //region GETTERS & SETTERS
+    public int getGameId() {
+        return gameId;
+    }
+    public int getRoundId() {
+        return roundId;
     }
     @Override public boolean compareContentsTo(Round object) {
         return areEqual(this, object);
@@ -300,5 +317,8 @@ public class Round extends RecyclerViewable<Round> {
                 penaltyP4,
                 roundDuration
         );
+    }
+    public int[] getPlayersPenalties() {
+        return new int[]{penaltyP1, penaltyP2, penaltyP3, penaltyP4};
     }
 }

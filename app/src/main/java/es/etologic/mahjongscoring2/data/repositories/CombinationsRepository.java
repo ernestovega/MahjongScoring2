@@ -30,7 +30,7 @@ public class CombinationsRepository extends BaseRepository { /*TODO ¿Qué pasa 
     public Single<List<Combination>> getAll() {
         return combinationsDao.getAll()
                 .flatMap(combinations -> {
-                    if(combinations.isEmpty()) {
+                    if (combinations.isEmpty()) {
                         combinationsDao.bulkInsert(hardcodedCombinations());
                         return combinationsDao.getAll();
                     }

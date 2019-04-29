@@ -17,11 +17,16 @@ public enum TableWinds {
 
     public static TableWinds getFromCode(int code) {
         switch (code) {
-            default: return NONE;
-            case 1: return EAST;
-            case 2: return SOUTH;
-            case 3: return WEST;
-            case 4: return NORTH;
+            default:
+                return NONE;
+            case 1:
+                return EAST;
+            case 2:
+                return SOUTH;
+            case 3:
+                return WEST;
+            case 4:
+                return NORTH;
         }
     }
 }

@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import es.etologic.mahjongscoring2.data.repositories.RoundsRepository;
 import es.etologic.mahjongscoring2.domain.model.Round;
-import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class GetRoundsUseCase {

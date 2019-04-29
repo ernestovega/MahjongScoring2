@@ -8,7 +8,6 @@ package es.etologic.mahjongscoring2.app.base;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -51,7 +50,7 @@ public class BaseActivity extends DaggerAppCompatActivity {
     }
     public void goToActivity(Intent intent, int requestCode) {
         startActivity/*ForResult*/(intent/*, requestCode*/);
-//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        //        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
     @Override protected void onDestroy() {
         if (viewUnbinder != null) {
@@ -65,7 +64,7 @@ public class BaseActivity extends DaggerAppCompatActivity {
     private void showError(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppTheme);
         builder.setMessage(message)
-//                .create()
+                //                .create()
                 .show();
     }
     protected void showSnackbar(View view, String message) {

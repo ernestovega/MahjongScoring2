@@ -20,12 +20,10 @@ import es.etologic.mahjongscoring2.app.model.GameItemDiffUtilCallback;
 import es.etologic.mahjongscoring2.app.utils.DateTimeUtils;
 import es.etologic.mahjongscoring2.app.utils.StringUtils;
 import es.etologic.mahjongscoring2.domain.model.BestHand;
-import es.etologic.mahjongscoring2.domain.model.Game;
 import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static android.view.View.resolveSize;
 
 class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -49,7 +47,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.itemClickListener = listener;
     }
     void setGames(List<GameWithRounds> newGames) {
-        if(games == null) {
+        if (games == null) {
             saveNewGamesCopy(newGames);
             notifyItemRangeInserted(0, newGames.size());
         } else {
@@ -61,7 +59,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     private void saveNewGamesCopy(List<GameWithRounds> newGames) {
         List<GameWithRounds> newGamesCopy = new ArrayList<>(newGames.size());
-        for(GameWithRounds gameWithRounds : newGames) {
+        for (GameWithRounds gameWithRounds : newGames) {
             newGamesCopy.add(gameWithRounds.getCopy());
         }
         games = newGamesCopy;
@@ -88,7 +86,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void setFields(OldGameItemViewHolder itemViewHolder, GameWithRounds gameWithRounds, long duration, BestHand bestHand) {
         itemViewHolder.gameId = gameWithRounds.getGame().getGameId();
         itemViewHolder.tvStartDate.setText(gameWithRounds.getGame().getCreationDate() == null ? "-" : DateTimeUtils.getPrettyDate(gameWithRounds.getGame().getCreationDate()));
-        itemViewHolder.tvDuration.setText(DateTimeUtils.getPrettyTime(duration));
+        itemViewHolder.tvDuration.setText(String.format("#%s", String.valueOf(itemViewHolder.gameId)));//DateTimeUtils.getPrettyDuration(duration));
         itemViewHolder.tvEastPlayerName.setText(gameWithRounds.getGame().getNameP1() == null ? "-" : gameWithRounds.getGame().getNameP1());
         itemViewHolder.tvSouthPlayerName.setText(gameWithRounds.getGame().getNameP2() == null ? "-" : gameWithRounds.getGame().getNameP2());
         itemViewHolder.tvWestPlayerName.setText(gameWithRounds.getGame().getNameP3() == null ? "-" : gameWithRounds.getGame().getNameP3());
@@ -102,8 +100,8 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         setBestHand(itemViewHolder, bestHand);
     }
     private void setBestHand(OldGameItemViewHolder itemViewHolder, BestHand bestHand) {
-        if(bestHand == null || StringUtils.isEmpty(bestHand.getPlayerName()) ||
-                   bestHand.getHandValue() <= 0) {
+        if (bestHand == null || StringUtils.isEmpty(bestHand.getPlayerName()) ||
+                bestHand.getHandValue() <= 0) {
             itemViewHolder.llBestHandContainer.setVisibility(GONE);
         } else {
             itemViewHolder.llBestHandContainer.setVisibility(VISIBLE);
@@ -136,13 +134,13 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         @OnClick(R.id.btOldGameItemDelete) void onDeleteClick() {
-            if(itemClickListener != null) {
+            if (itemClickListener != null) {
                 itemClickListener.onOldGameItemDeleteClicked(gameId);
             }
         }
 
         @OnClick(R.id.btOldGameItemResume) void onResumeClick() {
-            if(itemClickListener != null) {
+            if (itemClickListener != null) {
                 itemClickListener.onOldGameItemResumeClicked(gameId);
             }
         }

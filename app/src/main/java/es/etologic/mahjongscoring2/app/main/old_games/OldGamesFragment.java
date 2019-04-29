@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,7 +32,6 @@ import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static es.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.NEW_GAME;
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 
@@ -91,7 +89,7 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
         recyclerView.setAdapter(rvAdapter);
     }
     private void setupViewModel() {
-        if(getActivity() != null) {
+        if (getActivity() != null) {
             activityViewModel = ViewModelProviders.of(getActivity(), mainActivityViewModelFactory).get(MainActivityViewModel.class);
             viewModel = ViewModelProviders.of(this, oldGamesViewModelFactory).get(OldGamesViewModel.class);
             viewModel.getError().observe(this, this::showError);
@@ -100,13 +98,8 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
             viewModel.getSnackbarMessage().observe(this, this::showSnackbar);
         }
     }
-    private void setupSwipeRefreshLayout() {
-        swipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
-        swipeRefreshLayout.setOnRefreshListener(() -> viewModel.getAllGames());
-    }
-    private void setToolbar() { activityViewModel.setToolbar(toolbar); }
     private void setGames(List<GameWithRounds> games) {
-        if(games == null || games.isEmpty()) {
+        if (games == null || games.isEmpty()) {
             emptyLayout.setVisibility(VISIBLE);
         } else {
             emptyLayout.setVisibility(GONE);
@@ -120,6 +113,11 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
     private void showSnackbar(String message) {
         Snackbar.make(toolbar, message, Snackbar.LENGTH_LONG).show();
     }
+    private void setupSwipeRefreshLayout() {
+        swipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
+        swipeRefreshLayout.setOnRefreshListener(() -> viewModel.getAllGames());
+    }
+    private void setToolbar() { activityViewModel.setToolbar(toolbar); }
     @Override
     public void onResume() {
         super.onResume();

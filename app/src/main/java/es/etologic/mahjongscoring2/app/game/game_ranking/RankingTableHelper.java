@@ -1,12 +1,20 @@
-package es.etologic.mahjongscoring2.domain.model;
+package es.etologic.mahjongscoring2.app.game.game_ranking;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
+import es.etologic.mahjongscoring2.app.utils.DateTimeUtils;
+import es.etologic.mahjongscoring2.domain.model.BestHand;
+import es.etologic.mahjongscoring2.domain.model.Game;
+import es.etologic.mahjongscoring2.domain.model.GameRounds;
+import es.etologic.mahjongscoring2.domain.model.GameWithRounds;
+import es.etologic.mahjongscoring2.domain.model.PlayerRanking;
+import es.etologic.mahjongscoring2.domain.model.RankingTable;
+import es.etologic.mahjongscoring2.domain.model.Round;
 
-public class RankingTableMapper {
+public class RankingTableHelper {
+
     private static final String FIRST_POSITION_POINTS = "4";
     private static final String SECOND_POSITION_POINTS = "2";
     private static final String THIRD_POSITION_POINTS = "1";
@@ -18,7 +26,7 @@ public class RankingTableMapper {
     private static final String DRAW_SECOND_2 = "1.5";
     private static final String DRAW_LAST_2 = "0.5";
 
-    public static RankingTable fromGame(GameWithRounds gameWithRounds) {
+    public static RankingTable generateRankingTable(GameWithRounds gameWithRounds) {
         List<PlayerRanking> sortedPlayersRankings = getSortedPlayersRankings(gameWithRounds.getGame(), gameWithRounds.getRounds());
         List<BestHand> bestHands = getBestHands(gameWithRounds.getRounds());
         return new RankingTable(
@@ -26,14 +34,14 @@ public class RankingTableMapper {
                 bestHands.isEmpty() ? "-" : String.valueOf(bestHands.get(0).getHandValue()),
                 gameWithRounds.getRounds().size(),
                 String.valueOf(gameWithRounds.getRounds().size()),
-                gameWithRounds.getPrettyDuration());
+                DateTimeUtils.getPrettyDuration(gameWithRounds.getRounds()));
     }
 
     private static List<PlayerRanking> getSortedPlayersRankings(Game game, List<Round> rounds) {
         List<PlayerRanking> playersRankings = setPlayersNamesAndScores(game, rounds);
         Collections.sort(playersRankings);
         Collections.reverse(playersRankings);
-        playersRankings = setPlayersTablePoints(playersRankings);
+        setPlayersTablePoints(playersRankings);
         return playersRankings;
     }
 
@@ -50,8 +58,7 @@ public class RankingTableMapper {
         return playersRankings;
     }
 
-    private static List<PlayerRanking> setPlayersTablePoints(
-            List<PlayerRanking> sorteredByScorePlayersRankings) {
+    private static List<PlayerRanking> setPlayersTablePoints(List<PlayerRanking> sorteredByScorePlayersRankings) {
         sorteredByScorePlayersRankings.get(0).setPoints(FIRST_POSITION_POINTS);
         sorteredByScorePlayersRankings.get(1).setPoints(SECOND_POSITION_POINTS);
         sorteredByScorePlayersRankings.get(2).setPoints(THIRD_POSITION_POINTS);
@@ -62,7 +69,7 @@ public class RankingTableMapper {
         String scorePlayerThird = sorteredByScorePlayersRankings.get(2).getScore();
         String scorePlayerFourth = sorteredByScorePlayersRankings.get(3).getScore();
 
-        if(scorePlayerFirst.equals(scorePlayerSecond) &&
+        if (scorePlayerFirst.equals(scorePlayerSecond) &&
                 scorePlayerSecond.equals(scorePlayerThird) &&
                 scorePlayerThird.equals(scorePlayerFourth)) {
             sorteredByScorePlayersRankings.get(0).setPoints(DRAW_4);
@@ -70,28 +77,28 @@ public class RankingTableMapper {
             sorteredByScorePlayersRankings.get(2).setPoints(DRAW_4);
             sorteredByScorePlayersRankings.get(3).setPoints(DRAW_4);
             return sorteredByScorePlayersRankings;
-        } else if(scorePlayerFirst.equals(scorePlayerSecond) &&
+        } else if (scorePlayerFirst.equals(scorePlayerSecond) &&
                 scorePlayerSecond.equals(scorePlayerThird)) {
             sorteredByScorePlayersRankings.get(0).setPoints(DRAW_FIRST_3);
             sorteredByScorePlayersRankings.get(1).setPoints(DRAW_FIRST_3);
             sorteredByScorePlayersRankings.get(2).setPoints(DRAW_FIRST_3);
             return sorteredByScorePlayersRankings;
-        } else if(scorePlayerSecond.equals(scorePlayerThird) &&
+        } else if (scorePlayerSecond.equals(scorePlayerThird) &&
                 scorePlayerThird.equals(scorePlayerFourth)) {
             sorteredByScorePlayersRankings.get(1).setPoints(DRAW_LAST_3);
             sorteredByScorePlayersRankings.get(2).setPoints(DRAW_LAST_3);
             sorteredByScorePlayersRankings.get(3).setPoints(DRAW_LAST_3);
             return sorteredByScorePlayersRankings;
         } else {
-            if(scorePlayerFirst.equals(scorePlayerSecond)) {
+            if (scorePlayerFirst.equals(scorePlayerSecond)) {
                 sorteredByScorePlayersRankings.get(0).setPoints(DRAW_FIRST_2);
                 sorteredByScorePlayersRankings.get(1).setPoints(DRAW_FIRST_2);
             }
-            if(scorePlayerSecond.equals(scorePlayerThird)) {
+            if (scorePlayerSecond.equals(scorePlayerThird)) {
                 sorteredByScorePlayersRankings.get(1).setPoints(DRAW_SECOND_2);
                 sorteredByScorePlayersRankings.get(2).setPoints(DRAW_SECOND_2);
             }
-            if(scorePlayerThird.equals(scorePlayerFourth)) {
+            if (scorePlayerThird.equals(scorePlayerFourth)) {
                 sorteredByScorePlayersRankings.get(2).setPoints(DRAW_LAST_2);
                 sorteredByScorePlayersRankings.get(3).setPoints(DRAW_LAST_2);
             }
@@ -101,15 +108,14 @@ public class RankingTableMapper {
 
     private static List<BestHand> getBestHands(List<Round> rounds) {
         List<BestHand> bestHands = new ArrayList<>();
-        for(Round round: rounds) {
+        for (Round round : rounds) {
             int roundHandPoints = round.getHandPoints();
-            TableWinds roundWinnerInitialPosition = round.getWinnerInitialPosition();
             BestHand bestHand = new BestHand();
             bestHand.setHandValue(roundHandPoints);
             bestHand.setPlayerInitialPosition(round.getWinnerInitialPosition());
-            if(bestHands.isEmpty() || roundHandPoints == bestHands.get(0).getHandValue()) {
+            if (bestHands.isEmpty() || roundHandPoints == bestHands.get(0).getHandValue()) {
                 bestHands.add(bestHand);
-            } else if(roundHandPoints > bestHands.get(0).getHandValue()) {
+            } else if (roundHandPoints > bestHands.get(0).getHandValue()) {
                 bestHands.clear();
                 bestHands.add(bestHand);
             }
