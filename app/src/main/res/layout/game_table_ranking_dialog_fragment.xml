@@ -272,8 +272,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tlRanking"
         android:layout_margin="@dimen/standard_margin"
-        android:layout_toStartOf="@+id/btRankingDialogResume"
-        android:layout_toLeftOf="@+id/btRankingDialogResume"
+        android:layout_toStartOf="@+id/btRankingDialogClose"
+        android:layout_toLeftOf="@+id/btRankingDialogClose"
         android:text="@string/exit" />
 
 </RelativeLayout>

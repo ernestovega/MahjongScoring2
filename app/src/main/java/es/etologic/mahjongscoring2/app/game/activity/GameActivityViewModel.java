@@ -6,7 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import java.util.List;
 
 import es.etologic.mahjongscoring2.app.base.BaseViewModel;
-import es.etologic.mahjongscoring2.app.game.game_ranking.RankingTableHelper;
+import es.etologic.mahjongscoring2.app.game.game_table.RankingTableHelper;
 import es.etologic.mahjongscoring2.app.model.DialogType;
 import es.etologic.mahjongscoring2.app.model.EnablingState;
 import es.etologic.mahjongscoring2.app.model.GamePages;
@@ -29,7 +29,6 @@ import es.etologic.mahjongscoring2.domain.use_cases.UpdateGameUseCase;
 import es.etologic.mahjongscoring2.domain.use_cases.UpdateRoundsUseCase;
 import io.reactivex.schedulers.Schedulers;
 
-import static es.etologic.mahjongscoring2.app.model.EnablingState.DISABLED;
 import static es.etologic.mahjongscoring2.app.model.EnablingState.ENABLED;
 import static es.etologic.mahjongscoring2.app.model.GamePages.LIST;
 import static es.etologic.mahjongscoring2.app.model.GamePages.TABLE;
@@ -40,6 +39,7 @@ import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
 import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.CANCEL;
 import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.HIDDEN;
 import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.PLAYER_PENALIZED;
+import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.RANKING;
 import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.EAST;
 import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NONE;
 import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NORTH;
@@ -60,7 +60,7 @@ public class GameActivityViewModel extends BaseViewModel {
     //Table Observables
     private MutableLiveData<ToolbarState> toolbarState = new MutableLiveData<>();
     private MutableLiveData<EnablingState> viewPagerPagingState = new MutableLiveData<>();
-    private MutableLiveData<GamePages> viewPagerPageToSee = new MutableLiveData<>();
+    private MutableLiveData<GamePages> currentViewPagerPage = new MutableLiveData<>();
     private MutableLiveData<FabMenuStates> fabMenuState = new MutableLiveData<>();
     private MutableLiveData<ShowState> fabMenuOpenState = new MutableLiveData<>();
     private MutableLiveData<Seat> eastSeat = new MutableLiveData<>();
@@ -108,8 +108,8 @@ public class GameActivityViewModel extends BaseViewModel {
     LiveData<ToolbarState> getToolbarState() {
         return toolbarState;
     }
-    LiveData<GamePages> getViewPagerPageToSee() {
-        return viewPagerPageToSee;
+    LiveData<GamePages> getCurrentViewPagerPage() {
+        return currentViewPagerPage;
     }
     public LiveData<Seat> getEastSeat() {
         return eastSeat;
@@ -166,32 +166,9 @@ public class GameActivityViewModel extends BaseViewModel {
             resetTable();
         } else {
             mCurrentRound = rounds.get(rounds.size() - 1);
-            resetTable();
-            disableSeats();
-            fabMenuState.postValue(HIDDEN);
+            resetTable(true);
+            fabMenuState.postValue(RANKING);
             showDialog.postValue(DialogType.SHOW_RANKING);
-        }
-    }
-    private void disableSeats() {
-        Seat eastSeatValue = eastSeat.getValue();
-        if (eastSeatValue != null) {
-            eastSeatValue.setState(SeatStates.DISABLED);
-            eastSeat.postValue(eastSeatValue);
-        }
-        Seat southSeatValue = southSeat.getValue();
-        if (southSeatValue != null) {
-            southSeatValue.setState(SeatStates.DISABLED);
-            southSeat.postValue(southSeatValue);
-        }
-        Seat northSeatValue = northSeat.getValue();
-        if (northSeatValue != null) {
-            northSeatValue.setState(SeatStates.DISABLED);
-            northSeat.postValue(northSeatValue);
-        }
-        Seat westSeatValue = westSeat.getValue();
-        if (westSeatValue != null) {
-            westSeatValue.setState(SeatStates.DISABLED);
-            westSeat.postValue(westSeatValue);
         }
     }
     //public void onRoundSwiped(int roundId) {
@@ -208,6 +185,9 @@ public class GameActivityViewModel extends BaseViewModel {
     //    }
     //}
     private void resetTable() {
+        resetTable(false);
+    }
+    private void resetTable(boolean seatsDisabled) {
         tableState = TableStates.NORMAL;
         selectedPlayerSeat.clear();
         mDiscarderCurrentSeat = NONE;
@@ -219,20 +199,20 @@ public class GameActivityViewModel extends BaseViewModel {
         showDialog.postValue(DialogType.NONE);
 
         roundNumber.postValue(mCurrentRound.getRoundId());
-        resetSeats();
+        resetSeats(seatsDisabled);
     }
-    private void resetSeats() {
-        eastSeat.postValue(buildNewSeat(EAST));
-        southSeat.postValue(buildNewSeat(SOUTH));
-        westSeat.postValue(buildNewSeat(WEST));
-        northSeat.postValue(buildNewSeat(NORTH));
+    private void resetSeats(boolean seatsDisabled) {
+        eastSeat.postValue(buildNewSeat(EAST, seatsDisabled));
+        southSeat.postValue(buildNewSeat(SOUTH, seatsDisabled));
+        westSeat.postValue(buildNewSeat(WEST, seatsDisabled));
+        northSeat.postValue(buildNewSeat(NORTH, seatsDisabled));
     }
-    private Seat buildNewSeat(TableWinds wind) {
+    private Seat buildNewSeat(TableWinds wind, boolean isDisabled) {
         TableWinds initialPosition = Game.getPlayerInitialSeatByCurrentSeat(wind, mCurrentRound.getRoundId());
         String name = gameWithRounds.getGame().getPlayerNameByInitialPosition(initialPosition);
         int points = gameWithRounds.getPlayersTotalPoints()[initialPosition.getIndex()];
         int penaltyPoints = mCurrentRound.getPlayersPenalties()[initialPosition.getIndex()];
-        return new Seat(wind, name, points, penaltyPoints, NORMAL);
+        return new Seat(wind, name, points, penaltyPoints, isDisabled ? SeatStates.DISABLED : NORMAL);
     }
     void loadGame(long gameId) {
         disposables.add(
@@ -463,7 +443,7 @@ public class GameActivityViewModel extends BaseViewModel {
     }
     private void requestDiscarder() {
         tableState = TableStates.REQUESTING_DISCARDER;
-        viewPagerPagingState.postValue(DISABLED);
+        viewPagerPagingState.postValue(EnablingState.DISABLED);
         toolbarState.postValue(ToolbarState.REQUEST_LOOSER);
         fabMenuState.postValue(CANCEL);
     }
@@ -472,18 +452,18 @@ public class GameActivityViewModel extends BaseViewModel {
         showDialog.postValue(DialogType.SHOW_RANKING);
     }
     //Others
-    public void seeListPage() {
-        viewPagerPageToSee.postValue(GamePages.LIST);
+    public void setCurrentViewPagerPage(GamePages page) {
+        currentViewPagerPage.postValue(page);
     }
     public void resumeGame() {
         //ToDo
     }
     public void exit() {
-        //ToDo
+        onBackPressed();
     }
     void onBackPressed() {
-        if (viewPagerPageToSee.getValue() == LIST) {
-            viewPagerPageToSee.postValue(TABLE);
+        if (currentViewPagerPage.getValue() == LIST) {
+            currentViewPagerPage.postValue(TABLE);
 
         } else if (fabMenuOpenState.getValue() == SHOW) {
             fabMenuOpenState.postValue(HIDE);

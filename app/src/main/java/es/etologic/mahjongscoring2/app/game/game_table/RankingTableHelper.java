@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.app.game.game_ranking;
+package es.etologic.mahjongscoring2.app.game.game_table;
 
 import java.util.ArrayList;
 import java.util.Collections;

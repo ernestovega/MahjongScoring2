@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/ivTableSeatEastSeatWindIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="@dimen/standard_margin"
+        android:scaleType="centerInside"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_east" />
+
+    <TextView
+        android:id="@+id/tvTableSeatEastPoints"
+        style="@style/tvTableSeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivTableSeatEastSeatWindIcon"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="@dimen/standard_margin"
+        android:textSize="@dimen/table_player_points_text_size"
+        tools:text="-000" />
+
+    <TextView
+        android:id="@+id/tvTableSeatEastPenaltyPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvTableSeatEastPoints"
+        android:layout_marginLeft="@dimen/half_standard_margin"
+        android:layout_marginBottom="24dp"
+        android:layout_toRightOf="@+id/tvTableSeatEastPoints"
+        android:textSize="@dimen/table_player_penalty_points_text_size"
+        android:textStyle="normal"
+        android:visibility="gone"
+        tools:ignore="RtlHardcoded"
+        tools:text="-000"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tvTableSeatEastName"
+        style="@style/tvTableSeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTableSeatEastPoints"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/table_player_name_text_size"
+        tools:text="@string/player_east_name" />
+
+</RelativeLayout>

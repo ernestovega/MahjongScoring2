@@ -87,7 +87,7 @@ public class GameActivity extends BaseActivity {
         viewModel.getViewPagerPagingState().observe(this, this::viewPagerPagingStateObserver);
         viewModel.getShowDialog().observe(this, this::showDialogObserver);
         viewModel.getToolbarState().observe(this, this::toolbarStateObserver);
-        viewModel.getViewPagerPageToSee().observe(this, this::viewPagerPageToSeeObserver);
+        viewModel.getCurrentViewPagerPage().observe(this, this::viewPagerPageToSeeObserver);
     }
     private void viewPagerPageToSeeObserver(GamePages gamePages) {
         if (gamePages != null) {
@@ -221,6 +221,9 @@ public class GameActivity extends BaseActivity {
             @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
             @Override public void onPageScrollStateChanged(int state) {}
             @Override public void onPageSelected(int position) {
+
+                viewModel.setCurrentViewPagerPage(GamePages.getFromCode(position));
+
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setHomeAsUpIndicator(position == 0 ?
                             R.drawable.ic_clear_white_24dp : R.drawable.ic_arrow_back_white_24dp);

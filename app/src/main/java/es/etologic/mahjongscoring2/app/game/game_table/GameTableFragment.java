@@ -25,13 +25,13 @@ import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModelFactory;
-import es.etologic.mahjongscoring2.app.game.game_ranking.GameRankingFragmentDialog;
 import es.etologic.mahjongscoring2.app.model.DialogType;
 import es.etologic.mahjongscoring2.app.model.EnablingState;
 import es.etologic.mahjongscoring2.app.model.ShowState;
 import es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates;
 
 import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static es.etologic.mahjongscoring2.app.model.EnablingState.DISABLED;
 import static es.etologic.mahjongscoring2.app.model.EnablingState.ENABLED;
@@ -48,7 +48,7 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
     @BindView(R.id.tvGameTableRoundNumberUp) TextView tvRoundNumberUp;
     @BindView(R.id.ivGameTableRoundWindDown) ImageView ivRoundWindDown;
     @BindView(R.id.tvGameTableRoundNumberDown) TextView tvRoundNumberDown;
-    @BindView(R.id.famGameTable) FloatingActionMenu fabMenu;
+    @BindView(R.id.famGameTable) FloatingActionMenu famMenu;
     @BindView(R.id.fabGameTablePenaltyCancel) FloatingActionButton fabPenaltyCancel;
     @BindView(R.id.fabGameTablePenalty) FloatingActionButton fabPenalty;
     @BindView(R.id.fabGameTableTsumo) FloatingActionButton fabTsumo;
@@ -86,8 +86,7 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
     @OnClick(R.id.fabGameTableCancel) public void onFabRankingClick() {
         activityViewModel.onFabRankingClicked();
     }
-    @OnClick(R.id.fabGameTableRanking
-    ) public void onFabCancelLooserSelectionClick() {
+    @OnClick(R.id.fabGameTableRanking) public void onFabCancelLooserSelectionClick() {
         activityViewModel.onFabCancelRequestingLooserClicked();
     }
     @Override public void onEastSeatClick() {
@@ -120,8 +119,8 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
         }
     }
     private void setupFabMenu() {
-        fabMenu.setClosedOnTouchOutside(true);
-        fabMenu.setOnMenuToggleListener(activityViewModel::onToggleFabMenu);
+        famMenu.setClosedOnTouchOutside(true);
+        famMenu.setOnMenuToggleListener(activityViewModel::onToggleFabMenu);
     }
     private void setupActivityViewModel() {
         //noinspection ConstantConditions
@@ -159,31 +158,31 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
                 applyFabMenuState(DISABLED, DISABLED, DISABLED, DISABLED);
                 fabRanking.setVisibility(GONE);
                 fabCancel.setVisibility(GONE);
-                fabMenu.setVisibility(VISIBLE);
+                famMenu.setVisibility(INVISIBLE);
                 break;
             case PLAYER_SELECTED:
                 applyFabMenuState(DISABLED, ENABLED, ENABLED, ENABLED);
                 fabRanking.setVisibility(GONE);
                 fabCancel.setVisibility(GONE);
-                fabMenu.setVisibility(VISIBLE);
+                famMenu.setVisibility(VISIBLE);
                 break;
             case PLAYER_PENALIZED:
                 applyFabMenuState(ENABLED, ENABLED, DISABLED, DISABLED);
                 fabRanking.setVisibility(GONE);
                 fabCancel.setVisibility(GONE);
-                fabMenu.setVisibility(VISIBLE);
+                famMenu.setVisibility(VISIBLE);
                 break;
             case RANKING:
                 fabRanking.setVisibility(VISIBLE);
-                fabMenu.setVisibility(GONE);
+                famMenu.setVisibility(GONE);
                 fabCancel.setVisibility(GONE);
             case HIDDEN:
                 fabRanking.setVisibility(GONE);
-                fabMenu.setVisibility(GONE);
+                famMenu.setVisibility(GONE);
                 fabCancel.setVisibility(GONE);
             case CANCEL:
                 fabRanking.setVisibility(GONE);
-                fabMenu.setVisibility(GONE);
+                famMenu.setVisibility(GONE);
                 fabCancel.setVisibility(VISIBLE);
                 break;
         }
@@ -205,9 +204,9 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
     }
     private void fabMenuOpenStateObserver(ShowState state) {
         if (state == SHOW) {
-            fabMenu.open(true);
+            famMenu.open(true);
         } else {
-            fabMenu.close(true);
+            famMenu.close(true);
         }
     }
     private void showDialogObserver(DialogType dialogType) {

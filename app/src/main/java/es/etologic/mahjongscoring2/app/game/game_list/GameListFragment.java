@@ -58,6 +58,7 @@ public class GameListFragment extends BaseFragment {
     private void setupRecyclerView() {
         rvGameList.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), VERTICAL, false);
+        layoutManager.setStackFromEnd(true);
         rvGameList.setLayoutManager(layoutManager);
         rvGameList.setAdapter(rvAdapter);
     }

@@ -11,182 +11,34 @@
         android:layout_height="@dimen/triple_standard_margin"
         android:layout_centerInParent="true" />
 
-    <!-- EAST -->
-    <ImageView
-        android:id="@+id/ivTableSeatEastSeatWindIcon"
+    <include
+        layout="@layout/game_table_seat_east"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/vTableSeatsCenter"
-        android:layout_centerHorizontal="true"
-        android:scaleType="centerInside"
-        tools:src="@drawable/ic_east" />
+        android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:id="@+id/tvTableSeatEastPoints"
-        style="@style/tvTableSeatEast"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivTableSeatEastSeatWindIcon"
-        android:textSize="@dimen/table_player_points_text_size"
-        tools:text="-000" />
-
-    <TextView
-        android:id="@+id/tvTableSeatEastPenaltyPoints"
-        style="@style/tvTableSeatEast"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivTableSeatEastSeatWindIcon"
-        android:layout_alignTop="@+id/tvTableSeatEastPoints"
-        android:layout_marginLeft="@dimen/half_standard_margin"
-        android:layout_toRightOf="@+id/tvTableSeatEastPoints"
-        android:textSize="@dimen/table_player_penalty_points_text_size"
-        android:textStyle="normal"
-        tools:ignore="RtlHardcoded"
-        tools:text="-000" />
-
-    <TextView
-        android:id="@+id/tvTableSeatEastName"
-        style="@style/tvTableSeatEast"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTableSeatEastPoints"
-        android:textSize="@dimen/table_player_name_text_size"
-        tools:text="@string/player_east_name" />
-
-    <!-- SOUTH -->
-    <ImageView
-        android:id="@+id/ivTableSeatSouthSeatWindIcon"
+    <include
+        layout="@layout/game_table_seat_south"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/vTableSeatsCenter"
-        android:rotation="-90"
-        android:scaleType="centerInside"
-        tools:ignore="RtlHardcoded"
-        tools:src="@drawable/ic_south" />
+        tools:ignore="RtlHardcoded" />
 
-    <es.etologic.mahjongscoring2.app.custom_views.VerticalTextView
-        android:id="@+id/tvTableSeatSouthPoints"
-        style="@style/tvTableSeatSouth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/ivTableSeatSouthSeatWindIcon"
-        android:textSize="@dimen/table_player_points_text_size"
-        tools:ignore="RtlHardcoded"
-        tools:text="-000" />
-
-    <es.etologic.mahjongscoring2.app.custom_views.VerticalTextView
-        android:id="@+id/tvTableSeatSouthPenaltyPoints"
-        style="@style/tvTableSeatSouth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/tvTableSeatSouthPoints"
-        android:layout_alignLeft="@+id/tvTableSeatSouthPoints"
-        android:layout_marginBottom="@dimen/half_standard_margin"
-        android:layout_toRightOf="@+id/ivTableSeatSouthSeatWindIcon"
-        android:textSize="@dimen/table_player_penalty_points_text_size"
-        android:textStyle="normal"
-        tools:ignore="RtlHardcoded"
-        tools:text="-000" />
-
-    <es.etologic.mahjongscoring2.app.custom_views.VerticalTextView
-        android:id="@+id/tvTableSeatSouthName"
-        style="@style/tvTableSeatSouth"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_toRightOf="@+id/tvTableSeatSouthPoints"
-        android:textSize="@dimen/table_player_name_text_size"
-        tools:ignore="RtlHardcoded"
-        tools:text="@string/player_south_name" />
-
-    <!-- WEST -->
-    <ImageView
-        android:id="@+id/ivTableSeatWestSeatWindIcon"
+    <include
+        layout="@layout/game_table_seat_west"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/vTableSeatsCenter"
-        android:layout_centerHorizontal="true"
-        android:rotation="180"
-        android:scaleType="centerInside"
-        tools:src="@drawable/ic_west" />
+        android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:id="@+id/tvTableSeatWestPoints"
-        style="@style/tvTableSeatWest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/ivTableSeatWestSeatWindIcon"
-        android:textSize="@dimen/table_player_points_text_size"
-        tools:text="-000" />
-
-    <TextView
-        android:id="@+id/tvTableSeatWestPenaltyPoints"
-        style="@style/tvTableSeatWest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/ivTableSeatWestSeatWindIcon"
-        android:layout_alignBottom="@+id/tvTableSeatWestPoints"
-        android:layout_marginRight="@dimen/half_standard_margin"
-        android:layout_toLeftOf="@+id/tvTableSeatWestPoints"
-        android:textSize="@dimen/table_player_penalty_points_text_size"
-        android:textStyle="normal"
-        tools:ignore="RtlHardcoded"
-        tools:text="-000" />
-
-    <TextView
-        android:id="@+id/tvTableSeatWestName"
-        style="@style/tvTableSeatWest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/tvTableSeatWestPoints"
-        android:textSize="@dimen/table_player_name_text_size"
-        tools:text="@string/player_west_name" />
-
-    <!-- NORTH -->
-    <ImageView
-        android:id="@+id/ivTableSeatNorthSeatWindIcon"
+    <include
+        layout="@layout/game_table_seat_north"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/vTableSeatsCenter"
-        android:rotation="90"
-        android:scaleType="centerInside"
-        tools:ignore="RtlHardcoded"
-        tools:src="@drawable/ic_north" />
-
-    <es.etologic.mahjongscoring2.app.custom_views.VerticalTextView
-        android:id="@+id/tvTableSeatNorthPoints"
-        style="@style/tvTableSeatNorth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/ivTableSeatNorthSeatWindIcon"
-        android:textSize="@dimen/table_player_points_text_size"
-        tools:ignore="RtlHardcoded"
-        tools:text="-000" />
-
-    <es.etologic.mahjongscoring2.app.custom_views.VerticalTextView
-        android:id="@+id/tvTableSeatNorthPenaltyPoints"
-        style="@style/tvTableSeatNorth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTableSeatNorthPoints"
-        android:layout_alignRight="@+id/tvTableSeatNorthPoints"
-        android:layout_marginTop="@dimen/half_standard_margin"
-        android:layout_toLeftOf="@+id/ivTableSeatNorthSeatWindIcon"
-        android:textSize="@dimen/table_player_penalty_points_text_size"
-        android:textStyle="normal"
-        tools:ignore="RtlHardcoded"
-        tools:text="-000" />
-
-    <es.etologic.mahjongscoring2.app.custom_views.VerticalTextView
-        android:id="@+id/tvTableSeatNorthName"
-        style="@style/tvTableSeatNorth"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_toLeftOf="@+id/tvTableSeatNorthPoints"
-        android:gravity="center"
-        android:textSize="@dimen/table_player_name_text_size"
-        tools:ignore="RtlHardcoded"
-        tools:text="@string/player_north_name" />
+        tools:ignore="RtlHardcoded" />
 
 </RelativeLayout>

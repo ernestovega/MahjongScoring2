@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.app.game.game_ranking;
+package es.etologic.mahjongscoring2.app.game.game_table;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -20,6 +20,7 @@ import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.R;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModelFactory;
+import es.etologic.mahjongscoring2.app.model.GamePages;
 import es.etologic.mahjongscoring2.domain.model.PlayerRanking;
 import es.etologic.mahjongscoring2.domain.model.RankingTable;
 
@@ -54,7 +55,8 @@ public class GameRankingFragmentDialog extends DialogFragment {
 
     //EVENTS
     @OnClick(R.id.btRankingDialogSeeList) public void onRankingDialogSeeListClick() {
-        activityViewModel.seeListPage();
+        activityViewModel.setCurrentViewPagerPage(GamePages.LIST);
+        dismiss();
     }
     @OnClick(R.id.btRankingDialogResume) public void onRankingDialogResumeClick() {
         activityViewModel.resumeGame();

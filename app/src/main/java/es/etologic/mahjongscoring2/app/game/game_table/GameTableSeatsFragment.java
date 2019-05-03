@@ -20,13 +20,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.R;
-import es.etologic.mahjongscoring2.app.custom_views.VerticalTextView;
 import es.etologic.mahjongscoring2.app.model.Seat;
 import es.etologic.mahjongscoring2.app.model.SeatStates;
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static es.etologic.mahjongscoring2.app.model.SeatStates.DISABLED;
 import static es.etologic.mahjongscoring2.app.model.SeatStates.NORMAL;
 import static es.etologic.mahjongscoring2.app.model.SeatStates.SELECTED;
 
@@ -46,17 +46,17 @@ public class GameTableSeatsFragment extends Fragment {
     @BindView(R.id.tvTableSeatEastPoints) TextView tvSeatEastPoints;
     @BindView(R.id.tvTableSeatEastPenaltyPoints) TextView tvSeatEastPenaltyPoints;
     @BindView(R.id.ivTableSeatSouthSeatWindIcon) ImageView ivSeatSouthWindIcon;
-    @BindView(R.id.tvTableSeatSouthName) VerticalTextView tvSeatSouthName;
-    @BindView(R.id.tvTableSeatSouthPoints) VerticalTextView tvSeatSouthPoints;
-    @BindView(R.id.tvTableSeatSouthPenaltyPoints) VerticalTextView tvSeatSouthPenaltyPoints;
+    @BindView(R.id.tvTableSeatSouthName) TextView tvSeatSouthName;
+    @BindView(R.id.tvTableSeatSouthPoints) TextView tvSeatSouthPoints;
+    @BindView(R.id.tvTableSeatSouthPenaltyPoints) TextView tvSeatSouthPenaltyPoints;
     @BindView(R.id.ivTableSeatWestSeatWindIcon) ImageView ivSeatWestWindIcon;
     @BindView(R.id.tvTableSeatWestName) TextView tvSeatWestName;
     @BindView(R.id.tvTableSeatWestPoints) TextView tvSeatWestPoints;
     @BindView(R.id.tvTableSeatWestPenaltyPoints) TextView tvSeatWestPenaltyPoints;
     @BindView(R.id.ivTableSeatNorthSeatWindIcon) ImageView ivSeatNorthWindIcon;
-    @BindView(R.id.tvTableSeatNorthName) VerticalTextView tvSeatNorthName;
-    @BindView(R.id.tvTableSeatNorthPoints) VerticalTextView tvSeatNorthPoints;
-    @BindView(R.id.tvTableSeatNorthPenaltyPoints) VerticalTextView tvSeatNorthPenaltyPoints;
+    @BindView(R.id.tvTableSeatNorthName) TextView tvSeatNorthName;
+    @BindView(R.id.tvTableSeatNorthPoints) TextView tvSeatNorthPoints;
+    @BindView(R.id.tvTableSeatNorthPenaltyPoints) TextView tvSeatNorthPenaltyPoints;
     //RESOURCES
     @BindDrawable(R.drawable.ic_east) Drawable eastIcon;
     @BindDrawable(R.drawable.ic_south) Drawable southIcon;
@@ -73,24 +73,28 @@ public class GameTableSeatsFragment extends Fragment {
     //FIELDS
     private Unbinder unbinder;
     private TableSeatsListener listener;
+    private SeatStates eastSeatState = NORMAL;
+    private SeatStates southSeatState = NORMAL;
+    private SeatStates westSeatState = NORMAL;
+    private SeatStates northSeatState = NORMAL;
 
     //EVENTS
-    @OnClick(R.id.ivTableSeatEastSeatWindIcon) void onTableSeatEastSeatWindIconClick() { if (listener != null) listener.onEastSeatClick();}
-    @OnClick(R.id.tvTableSeatEastName) void onTableSeatEastNameClick() { if (listener != null) listener.onEastSeatClick();}
-    @OnClick(R.id.tvTableSeatEastPoints) void onTableSeatEastPointsClick() { if (listener != null) listener.onEastSeatClick();}
-    @OnClick(R.id.tvTableSeatEastPenaltyPoints) void onTableSeatEastPenaltyPointsClick() { if (listener != null) listener.onEastSeatClick();}
-    @OnClick(R.id.ivTableSeatSouthSeatWindIcon) void onTableSeatSouthSeatWindIconClick() { if (listener != null) listener.onSouthSeatClick();}
-    @OnClick(R.id.tvTableSeatSouthName) void onTableSeatSouthNameClick() { if (listener != null) listener.onSouthSeatClick();}
-    @OnClick(R.id.tvTableSeatSouthPoints) void onTableSeatSouthPointsClick() { if (listener != null) listener.onSouthSeatClick();}
-    @OnClick(R.id.tvTableSeatSouthPenaltyPoints) void onTableSeatSouthPenaltyPointsClick() { if (listener != null) listener.onSouthSeatClick();}
-    @OnClick(R.id.ivTableSeatWestSeatWindIcon) void onTableSeatWestSeatWindIconClick() { if (listener != null) listener.onWestSeatClick();}
-    @OnClick(R.id.tvTableSeatWestName) void onTableSeatWestNameClick() { if (listener != null) listener.onWestSeatClick();}
-    @OnClick(R.id.tvTableSeatWestPoints) void onTableSeatWestPointsClick() { if (listener != null) listener.onWestSeatClick();}
-    @OnClick(R.id.tvTableSeatWestPenaltyPoints) void onTableSeatWestPenaltyPointsClick() { if (listener != null) listener.onWestSeatClick();}
-    @OnClick(R.id.ivTableSeatNorthSeatWindIcon) void onTableSeatNorthSeatWindIconClick() { if (listener != null) listener.onNorthSeatClick();}
-    @OnClick(R.id.tvTableSeatNorthName) void onTableSeatNorthNameClick() { if (listener != null) listener.onNorthSeatClick();}
-    @OnClick(R.id.tvTableSeatNorthPoints) void onTableSeatNorthPointsClick() { if (listener != null) listener.onNorthSeatClick();}
-    @OnClick(R.id.tvTableSeatNorthPenaltyPoints) void onTableSeatNorthPenaltyPointsClick() { if (listener != null) listener.onNorthSeatClick();}
+    @OnClick(R.id.ivTableSeatEastSeatWindIcon)   void onTableSeatEastSeatWindIconClick() {   if (listener != null && eastSeatState  != DISABLED) listener.onEastSeatClick();}
+    @OnClick(R.id.tvTableSeatEastName)           void onTableSeatEastNameClick() {           if (listener != null && eastSeatState  != DISABLED) listener.onEastSeatClick();}
+    @OnClick(R.id.tvTableSeatEastPoints)         void onTableSeatEastPointsClick() {         if (listener != null && eastSeatState  != DISABLED) listener.onEastSeatClick();}
+    @OnClick(R.id.tvTableSeatEastPenaltyPoints)  void onTableSeatEastPenaltyPointsClick() {  if (listener != null && eastSeatState  != DISABLED) listener.onEastSeatClick();}
+    @OnClick(R.id.ivTableSeatSouthSeatWindIcon)  void onTableSeatSouthSeatWindIconClick() {  if (listener != null && southSeatState != DISABLED) listener.onSouthSeatClick();}
+    @OnClick(R.id.tvTableSeatSouthName)          void onTableSeatSouthNameClick() {          if (listener != null && southSeatState != DISABLED) listener.onSouthSeatClick();}
+    @OnClick(R.id.tvTableSeatSouthPoints)        void onTableSeatSouthPointsClick() {        if (listener != null && southSeatState != DISABLED) listener.onSouthSeatClick();}
+    @OnClick(R.id.tvTableSeatSouthPenaltyPoints) void onTableSeatSouthPenaltyPointsClick() { if (listener != null && southSeatState != DISABLED) listener.onSouthSeatClick();}
+    @OnClick(R.id.ivTableSeatWestSeatWindIcon)   void onTableSeatWestSeatWindIconClick() {   if (listener != null && westSeatState  != DISABLED) listener.onWestSeatClick();}
+    @OnClick(R.id.tvTableSeatWestName)           void onTableSeatWestNameClick() {           if (listener != null && westSeatState  != DISABLED) listener.onWestSeatClick();}
+    @OnClick(R.id.tvTableSeatWestPoints)         void onTableSeatWestPointsClick() {         if (listener != null && westSeatState  != DISABLED) listener.onWestSeatClick();}
+    @OnClick(R.id.tvTableSeatWestPenaltyPoints)  void onTableSeatWestPenaltyPointsClick() {  if (listener != null && westSeatState  != DISABLED) listener.onWestSeatClick();}
+    @OnClick(R.id.ivTableSeatNorthSeatWindIcon)  void onTableSeatNorthSeatWindIconClick() {  if (listener != null && northSeatState != DISABLED) listener.onNorthSeatClick();}
+    @OnClick(R.id.tvTableSeatNorthName)          void onTableSeatNorthNameClick() {          if (listener != null && northSeatState != DISABLED) listener.onNorthSeatClick();}
+    @OnClick(R.id.tvTableSeatNorthPoints)        void onTableSeatNorthPointsClick() {        if (listener != null && northSeatState != DISABLED) listener.onNorthSeatClick();}
+    @OnClick(R.id.tvTableSeatNorthPenaltyPoints) void onTableSeatNorthPenaltyPointsClick() { if (listener != null && northSeatState != DISABLED) listener.onNorthSeatClick();}
 
     //PUBLIC METHODS
     void setTableSeatsListener(TableSeatsListener tableSeatsListener) {
@@ -102,7 +106,8 @@ public class GameTableSeatsFragment extends Fragment {
         setName(tvSeatEastName, seat.getName());
         setPoints(tvSeatEastPoints, seat.getPoints());
         setPenaltyPoints(tvSeatEastPenaltyPoints, seat.getPenalty());
-        setState(ivSeatEastWindIcon, tvSeatEastName, tvSeatEastPoints, seat.getState());
+        setState(ivSeatEastWindIcon, tvSeatEastName, tvSeatEastPoints, tvSeatEastPenaltyPoints, seat.getState());
+        eastSeatState = seat.getState();
     }
     private void setWindIcon(ImageView imageView, TableWinds wind) {
         switch (wind) {
@@ -133,25 +138,15 @@ public class GameTableSeatsFragment extends Fragment {
         textView.setTextColor(penaltyPoints < 0 ? redColor : greenColor);
         textView.setVisibility(penaltyPoints != 0 ? VISIBLE : GONE);
     }
-    private void setState(ImageView imageViewWind, TextView textViewName, TextView textViewPoints, SeatStates state) {
+    private void setState(ImageView imageViewWind, TextView textViewName, TextView textViewPoints, TextView textViewPenaltyPoints, SeatStates state) {
         if (state == NORMAL) {
             imageViewWind.clearColorFilter();
             textViewName.setTextColor(grayColor);
             textViewPoints.setTextColor(grayColor);
-            imageViewWind.setEnabled(true);
-            textViewName.setEnabled(true);
-            textViewPoints.setEnabled(true);
         } else if (state == SELECTED) {
             imageViewWind.setColorFilter(accentColor);
             textViewName.setTextColor(accentColor);
             textViewPoints.setTextColor(accentColor);
-            imageViewWind.setEnabled(true);
-            textViewName.setEnabled(true);
-            textViewPoints.setEnabled(true);
-        } else {
-            imageViewWind.setEnabled(false);
-            textViewName.setEnabled(false);
-            textViewPoints.setEnabled(false);
         }
     }
     void setSouthSeat(Seat seat) {
@@ -159,21 +154,24 @@ public class GameTableSeatsFragment extends Fragment {
         setName(tvSeatSouthName, seat.getName());
         setPoints(tvSeatSouthPoints, seat.getPoints());
         setPenaltyPoints(tvSeatSouthPenaltyPoints, seat.getPenalty());
-        setState(ivSeatSouthWindIcon, tvSeatSouthName, tvSeatSouthPoints, seat.getState());
+        setState(ivSeatSouthWindIcon, tvSeatSouthName, tvSeatSouthPoints, tvSeatSouthPenaltyPoints, seat.getState());
+        southSeatState = seat.getState();
     }
     void setWestSeat(Seat seat) {
         setWindIcon(ivSeatWestWindIcon, seat.getWind());
         setName(tvSeatWestName, seat.getName());
         setPoints(tvSeatWestPoints, seat.getPoints());
         setPenaltyPoints(tvSeatWestPenaltyPoints, seat.getPenalty());
-        setState(ivSeatWestWindIcon, tvSeatWestName, tvSeatWestPoints, seat.getState());
+        setState(ivSeatWestWindIcon, tvSeatWestName, tvSeatWestPoints, tvSeatWestPenaltyPoints, seat.getState());
+        westSeatState = seat.getState();
     }
     void setNorthSeat(Seat seat) {
         setWindIcon(ivSeatNorthWindIcon, seat.getWind());
         setName(tvSeatNorthName, seat.getName());
         setPoints(tvSeatNorthPoints, seat.getPoints());
         setPenaltyPoints(tvSeatNorthPenaltyPoints, seat.getPenalty());
-        setState(ivSeatNorthWindIcon, tvSeatNorthName, tvSeatNorthPoints, seat.getState());
+        setState(ivSeatNorthWindIcon, tvSeatNorthName, tvSeatNorthPoints, tvSeatNorthPenaltyPoints, seat.getState());
+        northSeatState = seat.getState();
     }
     //LIFECYCLE
     @Override
