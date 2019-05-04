@@ -8,7 +8,7 @@
     <View
         android:id="@+id/vTableSeatsCenter"
         android:layout_width="@dimen/triple_standard_margin"
-        android:layout_height="@dimen/triple_standard_margin"
+        android:layout_height="@dimen/standard_margin"
         android:layout_centerInParent="true" />
 
     <include

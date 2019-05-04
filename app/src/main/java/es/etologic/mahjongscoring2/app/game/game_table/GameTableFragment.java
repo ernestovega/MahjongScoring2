@@ -83,11 +83,11 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
     @OnClick(R.id.fabGameTableRon) public void onFabGameRonClick() {
         activityViewModel.onFabGameRonClicked();
     }
-    @OnClick(R.id.fabGameTableCancel) public void onFabRankingClick() {
-        activityViewModel.onFabRankingClicked();
-    }
-    @OnClick(R.id.fabGameTableRanking) public void onFabCancelLooserSelectionClick() {
+    @OnClick(R.id.fabGameTableCancel) public void onFabCancelLooserSelectionClick() {
         activityViewModel.onFabCancelRequestingLooserClicked();
+    }
+    @OnClick(R.id.fabGameTableRanking) public void onFabRankingClick() {
+        activityViewModel.onFabRankingClicked();
     }
     @Override public void onEastSeatClick() {
         activityViewModel.onSeatClicked(EAST);
@@ -111,12 +111,10 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
-        if (getActivity() != null) {
-            tableSeats = (GameTableSeatsFragment) getChildFragmentManager().findFragmentById(R.id.fGameTableSeats);
-            setupActivityViewModel();
-            setupFabMenu();
-            tableSeats.setTableSeatsListener(this);
-        }
+        tableSeats = (GameTableSeatsFragment) getChildFragmentManager().findFragmentById(R.id.fGameTableSeats);
+        setupActivityViewModel();
+        setupFabMenu();
+        tableSeats.setTableSeatsListener(this);
     }
     private void setupFabMenu() {
         famMenu.setClosedOnTouchOutside(true);
@@ -135,8 +133,13 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
         activityViewModel.getShowDialog().observe(this, this::showDialogObserver);
     }
     private void roundNumberObserver(int roundNumber) {
-        tvRoundNumberUp.setText(String.valueOf(roundNumber));
-        tvRoundNumberDown.setText(String.valueOf(roundNumber));
+        if (roundNumber == 16) {
+            tvRoundNumberUp.setText(String.format("%s - End", roundNumber));
+            tvRoundNumberDown.setText(String.format("%s - End", roundNumber));
+        } else {
+            tvRoundNumberUp.setText(String.valueOf(roundNumber));
+            tvRoundNumberDown.setText(String.valueOf(roundNumber));
+        }
         if (roundNumber < 5) {
             ivRoundWindUp.setImageDrawable(eastIcon);
             ivRoundWindDown.setImageDrawable(eastIcon);
@@ -158,24 +161,21 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
                 applyFabMenuState(DISABLED, DISABLED, DISABLED, DISABLED);
                 fabRanking.setVisibility(GONE);
                 fabCancel.setVisibility(GONE);
-                famMenu.setVisibility(INVISIBLE);
                 break;
             case PLAYER_SELECTED:
                 applyFabMenuState(DISABLED, ENABLED, ENABLED, ENABLED);
                 fabRanking.setVisibility(GONE);
                 fabCancel.setVisibility(GONE);
-                famMenu.setVisibility(VISIBLE);
                 break;
             case PLAYER_PENALIZED:
                 applyFabMenuState(ENABLED, ENABLED, DISABLED, DISABLED);
                 fabRanking.setVisibility(GONE);
                 fabCancel.setVisibility(GONE);
-                famMenu.setVisibility(VISIBLE);
                 break;
             case RANKING:
-                fabRanking.setVisibility(VISIBLE);
                 famMenu.setVisibility(GONE);
                 fabCancel.setVisibility(GONE);
+                fabRanking.setVisibility(VISIBLE);
             case HIDDEN:
                 fabRanking.setVisibility(GONE);
                 famMenu.setVisibility(GONE);
@@ -204,9 +204,19 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
     }
     private void fabMenuOpenStateObserver(ShowState state) {
         if (state == SHOW) {
-            famMenu.open(true);
+            if (famMenu.getVisibility() != VISIBLE) {
+                famMenu.setVisibility(VISIBLE);
+            }
+            if(!famMenu.isOpened()) {
+                famMenu.open(true);
+            }
         } else {
-            famMenu.close(true);
+            if(famMenu.isOpened()) {
+                famMenu.close(true);
+            }
+            if (famMenu.getVisibility() == VISIBLE) {
+                famMenu.setVisibility(INVISIBLE);
+            }
         }
     }
     private void showDialogObserver(DialogType dialogType) {

@@ -60,6 +60,7 @@ public class GameRounds {
                 return NORTH;
         }
     }
+
     public static TableWinds getSouthSeatPlayerByRound(int roundId) {
         switch (roundId) {
             case 1:
@@ -85,6 +86,7 @@ public class GameRounds {
                 return WEST;
         }
     }
+
     public static TableWinds getWestSeatPlayerByRound(int roundId) {
         switch (roundId) {
             case 1:
@@ -110,6 +112,7 @@ public class GameRounds {
                 return EAST;
         }
     }
+
     public static TableWinds getNorthSeatPlayerByRound(int roundId) {
         switch (roundId) {
             case 1:
@@ -176,6 +179,7 @@ public class GameRounds {
                 return NORTH;
         }
     }
+
     private static TableWinds getPlayerInitialPositionBySeatInRoundSouth(TableWinds seatPosition) {
         switch (seatPosition) {
             case EAST:
@@ -189,6 +193,7 @@ public class GameRounds {
                 return WEST;
         }
     }
+
     private static TableWinds getPlayerInitialPositionBySeatInRoundWest(TableWinds seatPosition) {
         switch (seatPosition) {
             case EAST:
@@ -202,6 +207,7 @@ public class GameRounds {
                 return EAST;
         }
     }
+
     private static TableWinds getPlayerInitialPositionBySeatInRoundNorth(TableWinds seatPosition) {
         switch (seatPosition) {
             case EAST:

@@ -88,6 +88,7 @@ public class GameActivity extends BaseActivity {
         viewModel.getShowDialog().observe(this, this::showDialogObserver);
         viewModel.getToolbarState().observe(this, this::toolbarStateObserver);
         viewModel.getCurrentViewPagerPage().observe(this, this::viewPagerPageToSeeObserver);
+        viewModel.getEndGameState().observe(this, s -> finish());
     }
     private void viewPagerPageToSeeObserver(GamePages gamePages) {
         if (gamePages != null) {
@@ -196,7 +197,9 @@ public class GameActivity extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.exit_game)
                 .setMessage(R.string.are_you_sure)
-                .setPositiveButton(R.string.exit, (dialog, which) -> finish()/*viewModel.endGame()*/)
+                .setPositiveButton(R.string.exit, (dialog, which) -> {
+                    viewModel.endGame();
+                })
                 .setNegativeButton(android.R.string.cancel, null)
                 .create()
                 .show();

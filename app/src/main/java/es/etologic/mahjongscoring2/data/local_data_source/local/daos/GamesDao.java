@@ -20,7 +20,7 @@ public interface GamesDao {
     @Query("SELECT * FROM Games WHERE gameId = :gameId")
     Game getOne(long gameId);
 
-    @Query("SELECT * FROM Games ORDER BY creationDate DESC")
+    @Query("SELECT * FROM Games ORDER BY startDate DESC")
     List<Game> getAll();
 
     @Update

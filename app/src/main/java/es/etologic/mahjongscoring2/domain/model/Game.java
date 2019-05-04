@@ -31,7 +31,8 @@ public class Game extends GameRounds {
     private String nameP2;
     private String nameP3;
     private String nameP4;
-    @TypeConverters({DateConverter.class}) private Date creationDate;
+    @TypeConverters({DateConverter.class}) private Date startDate;
+    @TypeConverters({DateConverter.class}) private Date endDate;
 
     //GETTERS & SETTERS
     public int getGameId() { return gameId; }
@@ -51,16 +52,18 @@ public class Game extends GameRounds {
     public void setNameP4(String nameP4) {
         this.nameP4 = nameP4;
     }
-    public Date getCreationDate() { return creationDate; }
+    public Date getStartDate() { return startDate; }
+    public Date getEndDate() { return endDate; }
+    public void setEndDate(Date date) { this.endDate = date; }
 
     //CONSTRUCTORS
-    public Game(final int gameId, String nameP1, String nameP2, String nameP3, String nameP4, Date creationDate) {
+    public Game(final int gameId, String nameP1, String nameP2, String nameP3, String nameP4, Date startDate) {
         this.gameId = gameId;
         this.nameP1 = nameP1;
         this.nameP2 = nameP2;
         this.nameP3 = nameP3;
         this.nameP4 = nameP4;
-        this.creationDate = creationDate;
+        this.startDate = startDate;
     }
 
     public Game(List<String> playersNames) {
@@ -69,7 +72,7 @@ public class Game extends GameRounds {
         this.nameP2 = playersNames.get(SOUTH.getIndex());
         this.nameP3 = playersNames.get(WEST.getIndex());
         this.nameP4 = playersNames.get(NORTH.getIndex());
-        this.creationDate = Calendar.getInstance().getTime();
+        this.startDate = Calendar.getInstance().getTime();
     }
 
     public String getPlayerNameByInitialPosition(TableWinds initialPosition) {
@@ -97,6 +100,6 @@ public class Game extends GameRounds {
         return names;
     }
     Game getCopy() {
-        return new Game(gameId, nameP1, nameP2, nameP3, nameP4, creationDate);
+        return new Game(gameId, nameP1, nameP2, nameP3, nameP4, startDate);
     }
 }

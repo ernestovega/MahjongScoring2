@@ -3,6 +3,7 @@ package es.etologic.mahjongscoring2.app.game.activity;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
+import java.util.Date;
 import java.util.List;
 
 import es.etologic.mahjongscoring2.app.base.BaseViewModel;
@@ -69,6 +70,7 @@ public class GameActivityViewModel extends BaseViewModel {
     private MutableLiveData<Seat> northSeat = new MutableLiveData<>();
     private MutableLiveData<Integer> roundNumber = new MutableLiveData<>();
     private MutableLiveData<DialogType> showDialog = new MutableLiveData<>();
+    private MutableLiveData<Boolean> endGameState = new MutableLiveData<>();
     //UseCases
     private CreateGameUseCase createGameUseCase;
     private GetGamesUseCase getGamesUseCase;
@@ -135,6 +137,9 @@ public class GameActivityViewModel extends BaseViewModel {
     public LiveData<DialogType> getShowDialog() {
         return showDialog;
     }
+    public LiveData<Boolean> getEndGameState() {
+        return endGameState;
+    }
 
     //METHODS
     void createGame() {
@@ -194,8 +199,8 @@ public class GameActivityViewModel extends BaseViewModel {
 
         toolbarState.postValue(ToolbarState.NORMAL);
         viewPagerPagingState.postValue(ENABLED);
-        fabMenuOpenState.postValue(HIDE);
         fabMenuState.postValue(FabMenuStates.NORMAL);
+        fabMenuOpenState.postValue(HIDE);
         showDialog.postValue(DialogType.NONE);
 
         roundNumber.postValue(mCurrentRound.getRoundId());
@@ -404,6 +409,7 @@ public class GameActivityViewModel extends BaseViewModel {
             setSelectedPlayerSeat(NONE);
             setSeatSelected(NONE);
             fabMenuState.postValue(FabMenuStates.NORMAL);
+            fabMenuOpenState.postValue(HIDE);
         }
     }
     public void onFabGamePenaltyCancelClicked() {
@@ -458,10 +464,7 @@ public class GameActivityViewModel extends BaseViewModel {
     public void resumeGame() {
         //ToDo
     }
-    public void exit() {
-        onBackPressed();
-    }
-    void onBackPressed() {
+    public void onBackPressed() {
         if (currentViewPagerPage.getValue() == LIST) {
             currentViewPagerPage.postValue(TABLE);
 
@@ -474,5 +477,14 @@ public class GameActivityViewModel extends BaseViewModel {
     }
     public RankingTable getRankingTable() {
         return RankingTableHelper.generateRankingTable(gameWithRounds);
+    }
+    void endGame() {
+        gameWithRounds.getGame().setEndDate(new Date());
+        disposables.add(
+                updateGameUseCase.updateGame(gameWithRounds.getGame())
+                        .subscribeOn(Schedulers.io())
+                        .doOnSubscribe(disposable -> progressState.postValue(SHOW))
+                        .doOnEvent((combinations, throwable) -> progressState.postValue(HIDE))
+                        .subscribe(g -> endGameState.postValue(true), t -> endGameState.postValue(false)));
     }
 }

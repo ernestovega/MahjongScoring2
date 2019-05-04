@@ -181,7 +181,10 @@
         android:layout_marginRight="@dimen/half_standard_margin"
         android:layout_marginBottom="@dimen/half_standard_margin"
         android:src="@drawable/ic_trophy_white_18dp"
-        android:visibility="gone" />
+        app:menu_colorNormal="@color/colorPrimary"
+        app:menu_colorPressed="@color/colorPrimaryDark"
+        app:menu_colorRipple="@color/colorPrimaryDark"
+        android:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/llGameTableRankingContainer"

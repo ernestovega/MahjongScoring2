@@ -65,7 +65,7 @@ public class GameRankingFragmentDialog extends DialogFragment {
         dismiss();
     }
     @OnClick(R.id.btRankingDialogExit) public void onRankingDialogExitClick() {
-        activityViewModel.exit();
+        activityViewModel.onBackPressed();
         dismiss();
     }
 

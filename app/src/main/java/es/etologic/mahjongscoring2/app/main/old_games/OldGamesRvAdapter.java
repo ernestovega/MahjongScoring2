@@ -85,7 +85,7 @@ class OldGamesRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     private void setFields(OldGameItemViewHolder itemViewHolder, GameWithRounds gameWithRounds, long duration, BestHand bestHand) {
         itemViewHolder.gameId = gameWithRounds.getGame().getGameId();
-        itemViewHolder.tvStartDate.setText(gameWithRounds.getGame().getCreationDate() == null ? "-" : DateTimeUtils.getPrettyDate(gameWithRounds.getGame().getCreationDate()));
+        itemViewHolder.tvStartDate.setText(gameWithRounds.getGame().getStartDate() == null ? "-" : DateTimeUtils.getPrettyDate(gameWithRounds.getGame().getStartDate()));
         itemViewHolder.tvDuration.setText(String.format("#%s", String.valueOf(itemViewHolder.gameId)));//DateTimeUtils.getPrettyDuration(duration));
         itemViewHolder.tvEastPlayerName.setText(gameWithRounds.getGame().getNameP1() == null ? "-" : gameWithRounds.getGame().getNameP1());
         itemViewHolder.tvSouthPlayerName.setText(gameWithRounds.getGame().getNameP2() == null ? "-" : gameWithRounds.getGame().getNameP2());
