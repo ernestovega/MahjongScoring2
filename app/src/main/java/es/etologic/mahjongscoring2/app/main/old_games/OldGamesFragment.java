@@ -83,7 +83,9 @@ public class OldGamesFragment extends BaseFragment implements OldGamesRvAdapter.
     }
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setReverseLayout(true);
+        recyclerView.setLayoutManager(layoutManager);
         rvAdapter = new OldGamesRvAdapter();
         rvAdapter.setOldGameItemListener(this);
         recyclerView.setAdapter(rvAdapter);

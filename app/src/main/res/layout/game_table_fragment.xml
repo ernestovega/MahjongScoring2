@@ -77,6 +77,18 @@
         android:layout_below="@+id/llGameTableRoundNumberAndIconContainerUp"
         android:layout_centerInParent="true" />
 
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fabGameDice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/half_standard_margin"
+        android:layout_marginRight="@dimen/half_standard_margin"
+        android:layout_marginBottom="@dimen/half_standard_margin"
+        android:src="@drawable/ic_dice_multiple_white_24dp"/>
+
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/famGameTable"
         android:layout_width="match_parent"
@@ -87,7 +99,7 @@
         android:paddingLeft="@dimen/half_standard_margin"
         android:paddingRight="@dimen/half_standard_margin"
         android:paddingBottom="@dimen/half_standard_margin"
-        android:src="@drawable/ic_add_white_24dp"
+        app:menu_icon="@drawable/ic_add_white_24dp"
         app:menu_animationDelayPerItem="20"
         app:menu_backgroundColor="@color/white_transparency"
         app:menu_colorNormal="@color/colorAccent"
@@ -181,10 +193,10 @@
         android:layout_marginRight="@dimen/half_standard_margin"
         android:layout_marginBottom="@dimen/half_standard_margin"
         android:src="@drawable/ic_trophy_white_18dp"
+        android:visibility="visible"
         app:menu_colorNormal="@color/colorPrimary"
         app:menu_colorPressed="@color/colorPrimaryDark"
-        app:menu_colorRipple="@color/colorPrimaryDark"
-        android:visibility="visible" />
+        app:menu_colorRipple="@color/colorPrimaryDark" />
 
     <LinearLayout
         android:id="@+id/llGameTableRankingContainer"

@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import es.etologic.mahjongscoring2.R;
+import es.etologic.mahjongscoring2.app.base.BaseFragment;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel;
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModelFactory;
 import es.etologic.mahjongscoring2.app.model.DialogType;
@@ -41,13 +41,14 @@ import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NORTH;
 import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.SOUTH;
 import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.WEST;
 
-public class GameTableFragment extends Fragment implements GameTableSeatsFragment.TableSeatsListener {
+public class GameTableFragment extends BaseFragment implements GameTableSeatsFragment.TableSeatsListener {
 
     //VIEWS
     @BindView(R.id.ivGameTableRoundWindUp) ImageView ivRoundWindUp;
     @BindView(R.id.tvGameTableRoundNumberUp) TextView tvRoundNumberUp;
     @BindView(R.id.ivGameTableRoundWindDown) ImageView ivRoundWindDown;
     @BindView(R.id.tvGameTableRoundNumberDown) TextView tvRoundNumberDown;
+    @BindView(R.id.fabGameDice) FloatingActionButton fabDice;
     @BindView(R.id.famGameTable) FloatingActionMenu famMenu;
     @BindView(R.id.fabGameTablePenaltyCancel) FloatingActionButton fabPenaltyCancel;
     @BindView(R.id.fabGameTablePenalty) FloatingActionButton fabPenalty;
@@ -68,6 +69,9 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
     private GameTableSeatsFragment tableSeats;
 
     //EVENTS
+    @OnClick(R.id.fabGameDice) public void onFamMenuDiceClick() {
+        activityViewModel.famMenuDiceClicked();
+    }
     @OnClick(R.id.fabGameTablePenaltyCancel) public void onFabGamePenaltyCancelClick() {
         activityViewModel.onFabGamePenaltyCancelClicked();
     }
@@ -173,17 +177,14 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
                 fabCancel.setVisibility(GONE);
                 break;
             case RANKING:
-                famMenu.setVisibility(GONE);
                 fabCancel.setVisibility(GONE);
                 fabRanking.setVisibility(VISIBLE);
-            case HIDDEN:
-                fabRanking.setVisibility(GONE);
+            case CANCEL_REQUEST_DISCARDER:
                 famMenu.setVisibility(GONE);
-                fabCancel.setVisibility(GONE);
-            case CANCEL:
+                fabDice.setVisibility(GONE);
                 fabRanking.setVisibility(GONE);
-                famMenu.setVisibility(GONE);
                 fabCancel.setVisibility(VISIBLE);
+                showSnackbar(fabCancel, getString(R.string.select_discarder_player));
                 break;
         }
     }
@@ -206,6 +207,7 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
         if (state == SHOW) {
             if (famMenu.getVisibility() != VISIBLE) {
                 famMenu.setVisibility(VISIBLE);
+                fabDice.setVisibility(GONE);
             }
             if(!famMenu.isOpened()) {
                 famMenu.open(true);
@@ -215,7 +217,8 @@ public class GameTableFragment extends Fragment implements GameTableSeatsFragmen
                 famMenu.close(true);
             }
             if (famMenu.getVisibility() == VISIBLE) {
-                famMenu.setVisibility(INVISIBLE);
+                famMenu.setVisibility(GONE);
+                fabDice.setVisibility(VISIBLE);
             }
         }
     }

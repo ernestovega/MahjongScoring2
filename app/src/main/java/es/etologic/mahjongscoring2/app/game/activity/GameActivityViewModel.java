@@ -37,8 +37,7 @@ import static es.etologic.mahjongscoring2.app.model.SeatStates.NORMAL;
 import static es.etologic.mahjongscoring2.app.model.SeatStates.SELECTED;
 import static es.etologic.mahjongscoring2.app.model.ShowState.HIDE;
 import static es.etologic.mahjongscoring2.app.model.ShowState.SHOW;
-import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.CANCEL;
-import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.HIDDEN;
+import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.CANCEL_REQUEST_DISCARDER;
 import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.PLAYER_PENALIZED;
 import static es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.RANKING;
 import static es.etologic.mahjongscoring2.domain.model.enums.TableWinds.EAST;
@@ -417,12 +416,10 @@ public class GameActivityViewModel extends BaseViewModel {
         resetTable();
     }
     public void onFabGamePenaltyClicked() {
-        fabMenuState.postValue(HIDDEN);
         tableState = TableStates.REQUESTING_PENALTY_POINTS;
         showDialog.postValue(DialogType.REQUEST_PENALTY_POINTS);
     }
     public void onFabGameWashoutClicked() {
-        fabMenuState.postValue(HIDDEN);
         saveCurrentRoundAndStartNext();
     }
     private void saveCurrentRoundAndStartNext() {
@@ -436,7 +433,6 @@ public class GameActivityViewModel extends BaseViewModel {
                         .subscribe(this::getGameSuccess, error::postValue));
     }
     public void onFabGameTsumoClicked() {
-        fabMenuState.postValue(HIDDEN);
         requestTsumoPoints();
     }
     private void requestTsumoPoints() {
@@ -444,14 +440,13 @@ public class GameActivityViewModel extends BaseViewModel {
         showDialog.postValue(DialogType.REQUEST_HAND_POINTS);
     }
     public void onFabGameRonClicked() {
-        fabMenuState.postValue(HIDDEN);
         requestDiscarder();
     }
     private void requestDiscarder() {
         tableState = TableStates.REQUESTING_DISCARDER;
         viewPagerPagingState.postValue(EnablingState.DISABLED);
-        toolbarState.postValue(ToolbarState.REQUEST_LOOSER);
-        fabMenuState.postValue(CANCEL);
+        toolbarState.postValue(ToolbarState.REQUEST_DISCARDER);
+        fabMenuState.postValue(CANCEL_REQUEST_DISCARDER);
     }
     public void onFabRankingClicked() {
         fabMenuState.postValue(FabMenuStates.RANKING);
@@ -486,5 +481,8 @@ public class GameActivityViewModel extends BaseViewModel {
                         .doOnSubscribe(disposable -> progressState.postValue(SHOW))
                         .doOnEvent((combinations, throwable) -> progressState.postValue(HIDE))
                         .subscribe(g -> endGameState.postValue(true), t -> endGameState.postValue(false)));
+    }
+    public void famMenuDiceClicked() {
+        showDialog.postValue(DialogType.ROLL_DICE);
     }
 }

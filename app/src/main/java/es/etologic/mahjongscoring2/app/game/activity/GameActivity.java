@@ -3,8 +3,11 @@ package es.etologic.mahjongscoring2.app.game.activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputEditText;
@@ -14,12 +17,19 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.inject.Inject;
 
@@ -38,6 +48,10 @@ import es.etologic.mahjongscoring2.app.model.EnablingState;
 import es.etologic.mahjongscoring2.app.model.GamePages;
 import es.etologic.mahjongscoring2.app.model.ToolbarState;
 import es.etologic.mahjongscoring2.app.utils.KeyboardUtils;
+import es.etologic.mahjongscoring2.app.utils.PreLollipopSoundPool;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class GameActivity extends BaseActivity {
 
@@ -58,6 +72,13 @@ public class GameActivity extends BaseActivity {
     private Unbinder unbinder;
     private GameActivityViewModel viewModel;
     private LinearLayout pointsDialogLayout, penaltyPointsDialogLayout, playersDialogLayout;
+    private AlertDialog diceDialog;
+    private SoundPool diceSound;       //For dice sound playing
+    private int sound_id;               //Used to control sound stream return by SoundPool
+    private Handler handler;            //Post message to start roll
+    private Timer timer = new Timer();  //Used to implement feedback to user
+    private boolean isRolling =false;   //Is die isRolling?
+    private ImageView ivDice1, ivDice2;
 
     //LIFECYCLE
     @Override
@@ -69,6 +90,7 @@ public class GameActivity extends BaseActivity {
         setupViewModel();
         setupViewPager();
         startGame();
+        initSound();
         initPlayersDialogLayout();
         initPointsDialogLayout();
         initPenaltyPointsDialogLayout();
@@ -102,6 +124,9 @@ public class GameActivity extends BaseActivity {
         switch (dialogType) {
             case PLAYERS_NAMES:
                 showPlayersDialog();
+                break;
+            case ROLL_DICE:
+                showRollDiceDialog();
                 break;
             case REQUEST_HAND_POINTS:
                 showRequestHandPointsDialog();
@@ -142,6 +167,97 @@ public class GameActivity extends BaseActivity {
         tiet1.requestFocus();
         tiet1.selectAll();
         KeyboardUtils.showKeyboard(tiet1);
+    }
+    private void showRollDiceDialog() {
+        if (diceDialog == null) {
+            ivDice1 = new ImageView(this);
+            ivDice2 = new ImageView(this);
+            ivDice1.setImageResource(R.drawable.dice3droll);
+            ivDice2.setImageResource(R.drawable.dice3droll);
+            HandleClick onClickListener = new HandleClick();
+            ivDice1.setOnClickListener(onClickListener);
+            ivDice2.setOnClickListener(onClickListener);
+
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.HORIZONTAL);
+            layout.setGravity(Gravity.CENTER);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
+            int margin = getResources().getDimensionPixelSize(R.dimen.standard_margin);
+            layoutParams.setMargins(margin, margin, margin, margin);
+            layout.setLayoutParams(layoutParams);
+
+            LinearLayout.LayoutParams ivDice1Params = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+            LinearLayout.LayoutParams ivDice2Params = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+            int marginDice = margin * 6;
+            ivDice1Params.setMargins(0, marginDice, margin, marginDice);
+            ivDice2Params.setMargins(margin, marginDice, 0, marginDice);
+            layout.addView(ivDice1, ivDice1Params);
+            layout.addView(ivDice2, ivDice2Params);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyleMM);
+            diceDialog = builder.setTitle("")
+                    .setView(layout)
+                    .setOnDismissListener(dialog -> diceSound.pause(sound_id))
+                    .create();
+            diceDialog.setOnShowListener(dialog -> {
+                ivDice1.setImageResource(R.drawable.dice3droll);
+                ivDice2.setImageResource(R.drawable.dice3droll);
+            });
+            diceDialog.getWindow().setLayout(300, 300);
+            handler = new Handler(callback);
+        }
+        diceDialog.show();
+    }
+    private class HandleClick implements View.OnClickListener {
+        public void onClick(View arg0) {
+            if (!isRolling) {
+                isRolling = true;
+                //Show isRolling image
+                ivDice1.setImageResource(R.drawable.dice3droll);
+                ivDice2.setImageResource(R.drawable.dice3droll);
+
+                diceSound.play(sound_id, 1.0f, 1.0f, 0, 0, 1.0f);
+                diceSound.play(sound_id, 1.0f, 1.0f, 0, 0, 1.0f);
+                timer.schedule(new Roll(), 400);
+            }
+        }
+    }
+    void initSound() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            AudioAttributes aa = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+            diceSound = new SoundPool.Builder().setAudioAttributes(aa).build();
+        } else {
+            diceSound = PreLollipopSoundPool.NewSoundPool();
+        }
+        sound_id= diceSound.load(this,R.raw.shake_dice,1);
+    }
+    //When pause completed message sent to callback
+    class Roll extends TimerTask {
+        public void run() {
+            handler.sendEmptyMessage(0);
+        }
+    }
+    //Receives message from timer to start dice roll
+    Handler.Callback callback = msg -> {
+        paintNewDice(ivDice1);
+        paintNewDice(ivDice2);
+        return true;
+    };
+    private void paintNewDice(ImageView imageView) {
+        int randomInt = new Random().nextInt(6) + 1;
+        switch (randomInt) {
+            case 1: imageView.setImageResource(R.drawable.one); break;
+            case 2: imageView.setImageResource(R.drawable.two); break;
+            case 3: imageView.setImageResource(R.drawable.three); break;
+            case 4: imageView.setImageResource(R.drawable.four); break;
+            case 5: imageView.setImageResource(R.drawable.five); break;
+            case 6: imageView.setImageResource(R.drawable.six); break;
+        }
+        isRolling = false;  //user can press again
     }
     private void showRequestHandPointsDialog() {
         if (pointsDialogLayout.getParent() != null) {
@@ -210,8 +326,8 @@ public class GameActivity extends BaseActivity {
             case NORMAL:
                 toolbar.setTitle(getString(R.string.game));
                 break;
-            case REQUEST_LOOSER:
-                toolbar.setTitle(getString(R.string.select_looser_player));
+            case REQUEST_DISCARDER:
+                toolbar.setTitle(getString(R.string.select_discarder));
                 break;
         }
     }
@@ -323,7 +439,7 @@ public class GameActivity extends BaseActivity {
         til4.setHint(getString(R.string.player_name));
         til4.addView(tiet4);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
         int margin = getResources().getDimensionPixelSize(R.dimen.standard_margin);
         int half_margin = getResources().getDimensionPixelSize(R.dimen.half_standard_margin);
         layoutParams.setMargins(margin, margin, margin, half_margin);
@@ -367,7 +483,7 @@ public class GameActivity extends BaseActivity {
         til.setHint(getString(R.string.enter_points));
         til.addView(tiet);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
         int margin = getResources().getDimensionPixelSize(R.dimen.standard_margin);
         int half_margin = getResources().getDimensionPixelSize(R.dimen.half_standard_margin);
         layoutParams.setMargins(margin, margin, margin, half_margin);
@@ -410,7 +526,7 @@ public class GameActivity extends BaseActivity {
         til.setHint(getString(R.string.enter_points));
         til.addView(tiet);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
         int margin = getResources().getDimensionPixelSize(R.dimen.standard_margin);
         int half_margin = getResources().getDimensionPixelSize(R.dimen.half_standard_margin);
         layoutParams.setMargins(margin, margin, margin, half_margin);
@@ -461,6 +577,8 @@ public class GameActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         unbinder.unbind();
+        diceSound.release();
+        timer.cancel();
         super.onDestroy();
     }
 }
