@@ -101,7 +101,7 @@
         android:paddingBottom="@dimen/half_standard_margin"
         app:menu_icon="@drawable/ic_add_white_24dp"
         app:menu_animationDelayPerItem="20"
-        app:menu_backgroundColor="@color/white_transparency"
+        app:menu_backgroundColor="@color/whiteTransparent"
         app:menu_colorNormal="@color/colorAccent"
         app:menu_colorPressed="@color/colorAccentDark"
         app:menu_colorRipple="@color/colorAccentDark"

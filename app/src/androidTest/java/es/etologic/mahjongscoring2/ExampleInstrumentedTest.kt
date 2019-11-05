@@ -1,0 +1,25 @@
+package es.etologic.mahjongscoring2
+
+import androidx.test.InstrumentationRegistry
+import androidx.test.runner.AndroidJUnit4
+import org.junit.Assert.assertEquals
+import org.junit.Test
+import org.junit.runner.RunWith
+
+/**
+ * Instrumented test, which will getAllCombinations on an Android device.
+ *
+ * @see [Testing documentation](http://d.android.com/tools/testing)
+ */
+@RunWith(AndroidJUnit4::class)
+class ExampleInstrumentedTest {
+
+    @Test
+    @Throws(Exception::class)
+    fun useAppContext() {
+        // Context of the app under test.
+        val appContext = InstrumentationRegistry.getTargetContext()
+
+        assertEquals("es.etologic.mahjongscoring2", appContext.packageName)
+    }
+}

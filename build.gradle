@@ -1,6 +1,8 @@
 buildscript {
+    ext.kotlin_version = '1.3.50'
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
+        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
     repositories {
         jcenter()
@@ -22,8 +24,8 @@ task clean(type: Delete) {
 
 ext {
     supportLibrariesVersion = '28.0.0'
-    daggerVersion = '2.19'
+    koin_version = '2.0.1'
     archComponentsPersistanceVersion = '1.1.1'
     archComponentsLifecycleVersion = '1.1.1'
-    butterknifeVersion = '9.0.0'
+    butterknifeVersion = '10.1.0'
 }

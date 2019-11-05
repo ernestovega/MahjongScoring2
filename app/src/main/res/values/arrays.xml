@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <array name="swipeRefreshColors">
-        <item>@color/colorPrimary</item>
-        <item>@color/purplePenalty</item>
-    </array>
-</resources>
