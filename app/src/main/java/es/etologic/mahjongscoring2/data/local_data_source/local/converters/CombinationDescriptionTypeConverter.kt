@@ -5,18 +5,24 @@ import es.etologic.mahjongscoring2.domain.model.Combination.CombinationDescripti
 import es.etologic.mahjongscoring2.domain.model.Combination.CombinationDescriptionType.DESCRIPTION
 import es.etologic.mahjongscoring2.domain.model.Combination.CombinationDescriptionType.IMAGE
 
-object CombinationDescriptionTypeConverter {
+class CombinationDescriptionTypeConverter {
     
-    @TypeConverter
-    fun toCombinationDescriptionType(code: Int): CombinationDescriptionType {
-        return when (code) {
-            0 -> IMAGE
-            else -> DESCRIPTION
+    companion object {
+        
+        @TypeConverter
+        @JvmStatic
+        fun toCombinationDescriptionType(code: Int): CombinationDescriptionType {
+            return when (code) {
+                0 -> IMAGE
+                else -> DESCRIPTION
+            }
         }
-    }
-    
-    @TypeConverter
-    fun toIntCode(combinationDescriptionType: CombinationDescriptionType): Int {
-        return combinationDescriptionType.code
+        
+        @TypeConverter
+        @JvmStatic
+        fun toIntCode(combinationDescriptionType: CombinationDescriptionType): Int {
+            return combinationDescriptionType.code
+        }
+        
     }
 }

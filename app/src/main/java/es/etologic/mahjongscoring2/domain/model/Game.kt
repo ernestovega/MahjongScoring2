@@ -8,9 +8,6 @@ import es.etologic.mahjongscoring2.data.local_data_source.local.converters.DateC
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds.*
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.List
-import kotlin.collections.toTypedArray
 
 @Entity(
     tableName = "Games",
@@ -31,20 +28,13 @@ class Game(
     }
     
     constructor(playersNames: List<String>) : this(
-        NOT_SET_GAME_ID, playersNames[EAST.index], playersNames[SOUTH.index], playersNames[WEST.index],
-        playersNames[NORTH.index], Calendar.getInstance().time
+        NOT_SET_GAME_ID, playersNames[EAST.code], playersNames[SOUTH.code], playersNames[WEST.code],
+        playersNames[NORTH.code], Calendar.getInstance().time
     )
     
     val copy: Game get() = Game(gameId, nameP1, nameP2, nameP3, nameP4, startDate)
     
-    fun getPlayersNames(): Array<String> {
-        val names = ArrayList<String>(4)
-        names[EAST.index] = nameP1
-        names[SOUTH.index] = nameP2
-        names[WEST.index] = nameP3
-        names[NORTH.index] = nameP4
-        return names.toTypedArray()
-    }
+    fun getPlayersNames(): Array<String> = arrayOf(nameP1, nameP2, nameP3, nameP4)
     
     fun getPlayerNameByInitialPosition(initialPosition: TableWinds): String {
         return when (initialPosition) {

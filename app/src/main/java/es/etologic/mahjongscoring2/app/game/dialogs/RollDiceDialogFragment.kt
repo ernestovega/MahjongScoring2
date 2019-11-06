@@ -2,7 +2,6 @@ package es.etologic.mahjongscoring2.app.game.dialogs
 
 import android.media.AudioAttributes
 import android.media.SoundPool
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -11,14 +10,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import es.etologic.mahjongscoring2.R
 import es.etologic.mahjongscoring2.app.base.BaseDialogFragment
-import es.etologic.mahjongscoring2.app.utils.PreLollipopSoundPool
 import kotlinx.android.synthetic.main.roll_dice_dialog_fragment.*
 import java.util.*
 
 class RollDiceDialogFragment : BaseDialogFragment(), View.OnClickListener {
     
     companion object {
-        val TAG: String = "RollDiceDialogFragment"
+        const val TAG: String = "RollDiceDialogFragment"
     }
     
     private lateinit var diceSound: SoundPool       //For dice sound playing
@@ -59,15 +57,11 @@ class RollDiceDialogFragment : BaseDialogFragment(), View.OnClickListener {
     }
     
     private fun initSound() {
-        diceSound = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val aa = AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build()
-            SoundPool.Builder().setAudioAttributes(aa).build()
-        } else {
-            PreLollipopSoundPool.newSoundPool()
-        }
+        val aa = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
+        diceSound = SoundPool.Builder().setAudioAttributes(aa).build()
         soundId = diceSound.load(context, R.raw.shake_dice, 1)
     }
     

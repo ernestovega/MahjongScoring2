@@ -1,30 +1,36 @@
 package es.etologic.mahjongscoring2.data.repositories
 
-import android.content.Context
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.PlayersDao
 import es.etologic.mahjongscoring2.domain.model.Player
 import io.reactivex.Single
 import javax.inject.Inject
 
-class PlayersRepository @Inject
-constructor(context: Context) : BaseRepository(context) { /*TODO ¿Qué pasa con posibles errores? Hacer pruebas forzando datos (tests unitarios!)*/
-    private var playersDao: PlayersDao? = null
+class PlayersRepository
+@Inject constructor() {
     
-    init {
-        playersDao = database?.playersDao
-    }
+    @Inject lateinit var playersDao: PlayersDao
     
-    fun insertOne(player: Player): Single<Long> = Single.fromCallable { playersDao?.insert(player) }
+    fun insertOne(player: Player): Single<Long> =
+        playersDao.insert(player)
     
-    fun getOne(playerId: Long): Single<Player> = Single.fromCallable { playersDao?.getOne(playerId) }
+    fun getOne(playerId: Long): Single<Player> =
+        playersDao.getOne(playerId)
     
-    fun getOne(playerName: String): Single<Player> = Single.fromCallable { playersDao?.getOne(playerName) }
+    fun getOne(playerName: String): Single<Player> =
+        playersDao.getOne(playerName)
     
-    fun getAllPlayers(): Single<List<Player>> = Single.fromCallable { playersDao?.getAll() ?: ArrayList() }
+    fun getAllPlayers(): Single<List<Player>> =
+        playersDao.getAll()
     
-    fun updateOne(player: Player): Single<Boolean> = Single.fromCallable { playersDao?.updateOne(player) == 1 }
+    fun updateOne(player: Player): Single<Boolean> =
+        playersDao.updateOne(player)
+            .map { it == 1 }
     
-    fun deleteOne(gameId: Long): Single<Boolean> = Single.fromCallable { playersDao?.deleteOne(gameId) == 1 }
+    fun deleteOne(gameId: Long): Single<Boolean> =
+        playersDao.deleteOne(gameId)
+            .map { it == 1 }
     
-    fun deleteAll(): Single<Boolean> = Single.fromCallable { playersDao?.deleteAll() != 0 }
+    fun deleteAll(): Single<Boolean> =
+        playersDao.deleteAll()
+            .map { it != 0 }
 }

@@ -3,6 +3,7 @@ package es.etologic.mahjongscoring2.injection
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
+import es.etologic.mahjongscoring2.data.local_data_source.local.AppDataBaseModule
 import javax.inject.Singleton
 
 @Singleton
@@ -10,10 +11,11 @@ import javax.inject.Singleton
     modules = [
         AndroidSupportInjectionModule::class,
         AppModule::class,
-        AppActivitiesBuilder::class]
+        AppActivitiesBuilder::class,
+        AppDataBaseModule::class]
 )
 interface AppComponent : AndroidInjector<MahjongScoringApp> {
     
-    @Component.Builder
-    abstract class Builder : AndroidInjector.Builder<MahjongScoringApp>()
+    @Component.Factory
+    abstract class Factory : AndroidInjector.Factory<MahjongScoringApp>
 }

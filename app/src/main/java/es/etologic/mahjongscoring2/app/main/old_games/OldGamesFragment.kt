@@ -78,17 +78,17 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         if (activity != null) {
             activityViewModel = ViewModelProviders.of(activity!!, mainActivityViewModelFactory).get(MainActivityViewModel::class.java)
             viewModel = ViewModelProviders.of(this, oldGamesViewModelFactory).get(OldGamesViewModel::class.java)
-            viewModel?.getError()?.observe(this, Observer { this.showError(it) })
-            viewModel?.getGames()?.observe(this, Observer { this.setGames(it) })
-            viewModel?.getSnackbarMessage()?.observe(this, Observer { this.showSnackbar(it) })
-            viewModel?.getProgressState()?.observe(this, Observer { this.toogleLocalProgress(it) })
+            viewModel?.getError()?.observe(this, Observer(this::showError))
+            viewModel?.getGames()?.observe(this, Observer(this::setGames))
+            viewModel?.getSnackbarMessage()?.observe(this, Observer(this::showSnackbar))
+            viewModel?.getProgressState()?.observe(this, Observer(this::toogleLocalProgress))
         }
     }
     
-    private fun setGames(games: List<GameWithRounds>?) {
-        if (games == null || games.isEmpty()) {
+    private fun setGames(games: List<GameWithRounds>) {
+        if (games.isEmpty())
             emptyLayoutOldGames?.visibility = VISIBLE
-        } else {
+        else {
             emptyLayoutOldGames?.visibility = GONE
             rvAdapter?.setGames(games)
         }

@@ -48,15 +48,19 @@ class GameActivity : BaseActivity() {
     private var pointsDialogLayout: LinearLayout? = null
     private var penaltyPointsDialogLayout: LinearLayout? = null
     private var playersDialogLayout: LinearLayout? = null
-    private val eastIconDrawable: Drawable? = ContextCompat.getDrawable(this, R.drawable.ic_east)
-    private val southIconDrawable: Drawable? = ContextCompat.getDrawable(this, R.drawable.ic_south)
-    private val westIconDrawable: Drawable? = ContextCompat.getDrawable(this, R.drawable.ic_west)
-    private val northIconDrawable: Drawable? = ContextCompat.getDrawable(this, R.drawable.ic_north)
+    private var eastIconDrawable: Drawable? = null
+    private var southIconDrawable: Drawable? = null
+    private var westIconDrawable: Drawable? = null
+    private var northIconDrawable: Drawable? = null
     
     //LIFECYCLE
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.game_activity)
+        eastIconDrawable = ContextCompat.getDrawable(this, R.drawable.ic_east)
+        southIconDrawable = ContextCompat.getDrawable(this, R.drawable.ic_south)
+        westIconDrawable = ContextCompat.getDrawable(this, R.drawable.ic_west)
+        northIconDrawable = ContextCompat.getDrawable(this, R.drawable.ic_north)
         setupToolbar()
         setupViewModel()
         setupViewPager()
@@ -108,10 +112,10 @@ class GameActivity : BaseActivity() {
         val tiet3 = ((playersDialogLayout?.getChildAt(2) as TextInputLayout).getChildAt(0) as FrameLayout).getChildAt(0) as TextInputEditText
         val tiet4 = ((playersDialogLayout?.getChildAt(3) as TextInputLayout).getChildAt(0) as FrameLayout).getChildAt(0) as TextInputEditText
         val playersNames = viewModel.getListNames().value
-        tiet1.setText(playersNames?.get(TableWinds.EAST.index) ?: "")
-        tiet2.setText(playersNames?.get(TableWinds.SOUTH.index) ?: "")
-        tiet3.setText(playersNames?.get(TableWinds.WEST.index) ?: "")
-        tiet4.setText(playersNames?.get(TableWinds.NORTH.index) ?: "")
+        tiet1.setText(playersNames?.get(TableWinds.EAST.code) ?: "")
+        tiet2.setText(playersNames?.get(TableWinds.SOUTH.code) ?: "")
+        tiet3.setText(playersNames?.get(TableWinds.WEST.code) ?: "")
+        tiet4.setText(playersNames?.get(TableWinds.NORTH.code) ?: "")
         builder.setTitle(R.string.players_names)
             .setCancelable(false)
             .setPositiveButton(android.R.string.ok) { _, _ ->

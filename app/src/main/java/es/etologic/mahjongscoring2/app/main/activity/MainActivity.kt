@@ -42,8 +42,12 @@ class MainActivity : BaseActivity() {
     private var lastBackPress: Long = 0
     
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme)
+        super.onCreate(savedInstanceState)
+    }
+    
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         setupViewModel()
         setupDrawer()
@@ -52,9 +56,9 @@ class MainActivity : BaseActivity() {
     
     private fun setupViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainActivityViewModel::class.java)
-        viewModel?.getCurrentScreen()?.observe(this, Observer { this.goToScreen(it) })
-        viewModel?.getCurrentGame()?.observe(this, Observer { this.goToGame(it) })
-        viewModel?.getCurrentToolbar()?.observe(this, Observer { this.setToolbar(it) })
+        viewModel?.getCurrentScreen()?.observe(this, Observer(this::goToScreen))
+        viewModel?.getCurrentGame()?.observe(this, Observer(this::goToGame))
+        viewModel?.getCurrentToolbar()?.observe(this, Observer(this::setToolbar))
     }
     
     private fun goToScreen(screen: MainScreens) {

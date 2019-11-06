@@ -8,23 +8,21 @@ import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject
 
-class CombinationsRepository @Inject
-constructor(private val context: Context) :
-    BaseRepository(context) { /*TODO ¿Qué pasa con posibles errores? Hacer pruebas forzando datos (tests unitarios!)*/
-    private val combinationsDao: CombinationsDao? = database?.combinationsDao
+class CombinationsRepository
+@Inject constructor(private val context: Context) {
+    
+    @Inject lateinit var combinationsDao: CombinationsDao
     
     fun getAll(): Single<List<Combination>> {
-        return combinationsDao?.let {
-            it.getAll().flatMap { combinations ->
-                if (combinations.size != 80) {
-                    it.bulkInsert(hardcodedCombinations()); return@flatMap it.getAll()
-                } else Single.just(combinations)
-            }
-        } ?: run { return Single.just(ArrayList()) }
+        return combinationsDao.getAll().map {
+            if (it.isEmpty())
+                combinationsDao.bulkInsert(hardcodedCombinations())
+            return@map it
+        }
     }
     
     fun getFiltered(filter: String): Single<List<Combination>> {
-        return combinationsDao?.getFiltered(String.format("%%%s%%", filter)) ?: Single.just(ArrayList())
+        return combinationsDao.getFiltered(String.format("%%%s%%", filter))
     }
     
     private fun hardcodedCombinations(): List<Combination> {

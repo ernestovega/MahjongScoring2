@@ -12,16 +12,16 @@ class GameWithRounds(@field:Embedded var game: Game) {
     
     fun getPlayersTotalPointsString(): Array<String> {
         val points = getPlayersTotalPoints()
-        return arrayOf(points[EAST.index].toString(), points[SOUTH.index].toString(), points[WEST.index].toString(), points[NORTH.index].toString())
+        return arrayOf(points[EAST.code].toString(), points[SOUTH.code].toString(), points[WEST.code].toString(), points[NORTH.code].toString())
     }
     
     fun getPlayersTotalPoints(): IntArray {
         val points = intArrayOf(0, 0, 0, 0)
         for (round in rounds) {
-            points[EAST.index] += round.pointsP1
-            points[SOUTH.index] += round.pointsP2
-            points[WEST.index] += round.pointsP3
-            points[NORTH.index] += round.pointsP4
+            points[EAST.code] += round.pointsP1
+            points[SOUTH.code] += round.pointsP2
+            points[WEST.code] += round.pointsP3
+            points[NORTH.code] += round.pointsP4
         }
         return points
     }

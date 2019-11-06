@@ -147,7 +147,7 @@ class GameActivityViewModel internal constructor(
     private fun buildNewSeat(wind: TableWinds, isDisabled: Boolean): Seat {
         val initialPosition = GameRounds.getPlayerInitialSeatByCurrentSeat(wind, mCurrentRound.roundId)
         val name = gameWithRounds.game.getPlayerNameByInitialPosition(initialPosition)
-        val points = gameWithRounds.getPlayersTotalPoints()[initialPosition.index]
+        val points = gameWithRounds.getPlayersTotalPoints()[initialPosition.code]
         val penaltyPoints = mCurrentRound.getPenaltyPointsFromInitialPlayerPosition(initialPosition)
         return Seat(wind, name, points, penaltyPoints, if (isDisabled) SeatStates.DISABLED else NORMAL)
     }

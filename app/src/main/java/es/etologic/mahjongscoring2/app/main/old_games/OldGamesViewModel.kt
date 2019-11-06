@@ -36,7 +36,10 @@ internal class OldGamesViewModel(
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnEvent { _, _ -> progressState.postValue(HIDE) }
-                .subscribe({ allGames.postValue(it) }, { error.postValue(it) })
+                .subscribe(allGames::postValue) {
+                    allGames.postValue(ArrayList())
+                    error.postValue(it)
+                }
         )
     }
 }
