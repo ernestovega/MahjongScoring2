@@ -14,7 +14,9 @@ import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
@@ -23,6 +25,7 @@ import com.google.android.material.textfield.TextInputLayout
 import es.etologic.mahjongscoring2.R
 import es.etologic.mahjongscoring2.app.base.BaseActivity
 import es.etologic.mahjongscoring2.app.base.ViewPagerAdapter
+import es.etologic.mahjongscoring2.app.game.dialogs.PlayersDialogFragment
 import es.etologic.mahjongscoring2.app.game.dialogs.RollDiceDialogFragment
 import es.etologic.mahjongscoring2.app.game.game_list.GameListFragment
 import es.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
@@ -32,7 +35,6 @@ import es.etologic.mahjongscoring2.app.model.EnablingState
 import es.etologic.mahjongscoring2.app.model.GamePages
 import es.etologic.mahjongscoring2.app.model.ToolbarState
 import es.etologic.mahjongscoring2.app.utils.KeyboardUtils
-import es.etologic.mahjongscoring2.domain.model.enums.TableWinds
 import kotlinx.android.synthetic.main.game_activity.*
 import javax.inject.Inject
 
@@ -47,13 +49,16 @@ class GameActivity : BaseActivity() {
     private lateinit var viewModel: GameActivityViewModel
     private var pointsDialogLayout: LinearLayout? = null
     private var penaltyPointsDialogLayout: LinearLayout? = null
-    private var playersDialogLayout: LinearLayout? = null
     private var eastIconDrawable: Drawable? = null
     private var southIconDrawable: Drawable? = null
     private var westIconDrawable: Drawable? = null
     private var northIconDrawable: Drawable? = null
     
     //LIFECYCLE
+    override fun onBackPressed() {
+        viewModel.onBackPressed()
+    }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.game_activity)
@@ -65,7 +70,6 @@ class GameActivity : BaseActivity() {
         setupViewModel()
         setupViewPager()
         startGame()
-        initPlayersDialogLayout()
         initPointsDialogLayout()
         initPenaltyPointsDialogLayout()
     }
@@ -104,31 +108,18 @@ class GameActivity : BaseActivity() {
         }
     }
     
+    private fun openDialog(activity: AppCompatActivity, dialogFragment: DialogFragment, tag: String) {
+//        val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
+//        val prev = activity.supportFragmentManager.findFragmentByTag(tag)
+//        if (prev != null) fragmentTransaction.remove(prev)
+////        fragmentTransaction.addToBackStack(null)
+//        fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+        dialogFragment.show(activity.supportFragmentManager, tag)
+    }
+    
     private fun showPlayersDialog() {
-        (playersDialogLayout?.parent as ViewGroup).removeView(playersDialogLayout)
-        val builder = AlertDialog.Builder(this, R.style.AlertDialogStyleMM)
-        val tiet1 = ((playersDialogLayout?.getChildAt(0) as TextInputLayout).getChildAt(0) as FrameLayout).getChildAt(0) as TextInputEditText
-        val tiet2 = ((playersDialogLayout?.getChildAt(1) as TextInputLayout).getChildAt(0) as FrameLayout).getChildAt(0) as TextInputEditText
-        val tiet3 = ((playersDialogLayout?.getChildAt(2) as TextInputLayout).getChildAt(0) as FrameLayout).getChildAt(0) as TextInputEditText
-        val tiet4 = ((playersDialogLayout?.getChildAt(3) as TextInputLayout).getChildAt(0) as FrameLayout).getChildAt(0) as TextInputEditText
-        val playersNames = viewModel.getListNames().value
-        tiet1.setText(playersNames?.get(TableWinds.EAST.code) ?: "")
-        tiet2.setText(playersNames?.get(TableWinds.SOUTH.code) ?: "")
-        tiet3.setText(playersNames?.get(TableWinds.WEST.code) ?: "")
-        tiet4.setText(playersNames?.get(TableWinds.NORTH.code) ?: "")
-        builder.setTitle(R.string.players_names)
-            .setCancelable(false)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                viewModel.onRequestPlayersResponse(tiet1.text, tiet2.text, tiet3.text, tiet4.text)
-                KeyboardUtils.hideKeyboard(tiet4)
-            }
-            .setNegativeButton(android.R.string.cancel) { _, _ -> KeyboardUtils.hideKeyboard(tiet4) }
-            .setView(playersDialogLayout)
-            .create()
-            .show()
-        tiet1.requestFocus()
-        tiet1.selectAll()
-        KeyboardUtils.showKeyboard(tiet1)
+        openDialog(this,
+            PlayersDialogFragment(), PlayersDialogFragment.TAG)
     }
     
     private fun showRollDiceDialog() {
@@ -245,86 +236,6 @@ class GameActivity : BaseActivity() {
         }
     }
     
-    @Suppress("LocalVariableName")
-    private fun initPlayersDialogLayout() {
-        val MAX_TIET_LINES = 1
-        val MAX_TIET_CHARS = 16
-        val tiet1 = TextInputEditText(this)
-        tiet1.inputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
-        tiet1.setLines(MAX_TIET_LINES)
-        tiet1.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MAX_TIET_CHARS))
-        tiet1.setCompoundDrawablesWithIntrinsicBounds(eastIconDrawable, null, null, null)
-        tiet1.compoundDrawablePadding = MAX_TIET_CHARS
-        tiet1.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus)
-                KeyboardUtils.showKeyboard(v)
-            else
-                KeyboardUtils.hideKeyboard(v)
-        }
-        val til1 = TextInputLayout(this)
-        til1.hint = getString(R.string.player_east_name)
-        til1.addView(tiet1)
-        val tiet2 = TextInputEditText(this)
-        tiet2.inputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
-        tiet2.setLines(MAX_TIET_LINES)
-        tiet2.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MAX_TIET_CHARS))
-        tiet2.setCompoundDrawablesWithIntrinsicBounds(southIconDrawable, null, null, null)
-        tiet2.compoundDrawablePadding = MAX_TIET_CHARS
-        tiet2.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus)
-                KeyboardUtils.showKeyboard(v)
-            else
-                KeyboardUtils.hideKeyboard(v)
-        }
-        val til2 = TextInputLayout(this)
-        til2.hint = getString(R.string.player_south_name)
-        til2.addView(tiet2)
-        val tiet3 = TextInputEditText(this)
-        tiet3.inputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
-        tiet3.setLines(MAX_TIET_LINES)
-        tiet3.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MAX_TIET_CHARS))
-        tiet3.setCompoundDrawablesWithIntrinsicBounds(westIconDrawable, null, null, null)
-        tiet3.compoundDrawablePadding = MAX_TIET_CHARS
-        tiet3.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus)
-                KeyboardUtils.showKeyboard(v)
-            else
-                KeyboardUtils.hideKeyboard(v)
-        }
-        val til3 = TextInputLayout(this)
-        til3.hint = getString(R.string.player_west_name)
-        til3.addView(tiet3)
-        val tiet4 = TextInputEditText(this)
-        tiet4.inputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
-        tiet4.setLines(MAX_TIET_LINES)
-        tiet4.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MAX_TIET_CHARS))
-        tiet4.setCompoundDrawablesWithIntrinsicBounds(northIconDrawable, null, null, null)
-        tiet4.compoundDrawablePadding = MAX_TIET_CHARS
-        tiet4.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus)
-                KeyboardUtils.showKeyboard(v)
-            else
-                KeyboardUtils.hideKeyboard(v)
-        }
-        val til4 = TextInputLayout(this)
-        til4.hint = getString(R.string.player_name)
-        til4.addView(tiet4)
-        val layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        val margin = resources.getDimensionPixelSize(R.dimen.standard_margin)
-        val half_margin = resources.getDimensionPixelSize(R.dimen.half_standard_margin)
-        layoutParams.setMargins(margin, margin, margin, half_margin)
-        layoutParams.marginStart = resources.getDimensionPixelSize(R.dimen.standard_margin)
-        layoutParams.marginEnd = margin
-        val layout = LinearLayout(this)
-        layout.orientation = LinearLayout.VERTICAL
-        layout.layoutParams = layoutParams
-        layout.addView(til1, layoutParams)
-        layout.addView(til2, layoutParams)
-        layout.addView(til3, layoutParams)
-        layout.addView(til4, layoutParams)
-        playersDialogLayout = layout
-    }
-    
     private fun initPointsDialogLayout() {
         val tiet = TextInputEditText(this)
         tiet.inputType = InputType.TYPE_CLASS_NUMBER
@@ -429,9 +340,5 @@ class GameActivity : BaseActivity() {
             //            case R.id.action_pause:
             else -> return super.onOptionsItemSelected(item)
         }
-    }
-    
-    override fun onBackPressed() {
-        viewModel.onBackPressed()
     }
 }

@@ -17,8 +17,10 @@ import es.etologic.mahjongscoring2.domain.model.BestHand
 import es.etologic.mahjongscoring2.domain.model.GameWithRounds
 import kotlinx.android.synthetic.main.oldgame_item.view.*
 import java.util.*
+import javax.inject.Inject
 
-internal class OldGamesRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+internal class OldGamesRvAdapter
+@Inject internal constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     
     internal interface GameItemListener {
         

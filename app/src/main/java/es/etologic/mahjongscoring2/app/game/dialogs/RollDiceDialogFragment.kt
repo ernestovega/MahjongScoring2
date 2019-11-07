@@ -13,7 +13,7 @@ import es.etologic.mahjongscoring2.app.base.BaseDialogFragment
 import kotlinx.android.synthetic.main.roll_dice_dialog_fragment.*
 import java.util.*
 
-class RollDiceDialogFragment : BaseDialogFragment(), View.OnClickListener {
+internal class RollDiceDialogFragment : BaseGameDialogFragment(), View.OnClickListener {
     
     companion object {
         const val TAG: String = "RollDiceDialogFragment"

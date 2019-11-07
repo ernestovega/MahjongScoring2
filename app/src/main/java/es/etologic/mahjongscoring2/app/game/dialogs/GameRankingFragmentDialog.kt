@@ -12,14 +12,11 @@ import es.etologic.mahjongscoring2.app.model.GamePages
 import kotlinx.android.synthetic.main.game_table_ranking_dialog_fragment.*
 import javax.inject.Inject
 
-class GameRankingFragmentDialog : androidx.fragment.app.DialogFragment() {
+internal class GameRankingFragmentDialog : BaseGameDialogFragment() {
     
     companion object {
         const val TAG = "GameRankingFragmentDialog"
     }
-    
-    @Inject internal lateinit var activityViewModelFactory: GameActivityViewModelFactory
-    private lateinit var activityViewModel: GameActivityViewModel
     
     //LIFECYCLE
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,7 +26,6 @@ class GameRankingFragmentDialog : androidx.fragment.app.DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         isCancelable = false
-        setupActivityViewModel()
         fillRankingViews()
         setOnClickListeners()
     }
@@ -49,11 +45,6 @@ class GameRankingFragmentDialog : androidx.fragment.app.DialogFragment() {
             activityViewModel.onBackPressed()
             dismiss()
         }
-    }
-    
-    private fun setupActivityViewModel() {
-        activity?.let { activityViewModel = ViewModelProviders.of(it, activityViewModelFactory).get(GameActivityViewModel::class.java) }
-            ?: run { dismiss() }
     }
     
     private fun fillRankingViews() {

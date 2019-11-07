@@ -25,24 +25,31 @@ import javax.inject.Inject
 
 class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     
-    private var rvAdapter: OldGamesRvAdapter? = null
+    @Inject internal lateinit var rvAdapter: OldGamesRvAdapter
     @Inject internal lateinit var mainActivityViewModelFactory: MainActivityViewModelFactory
-    private var activityViewModel: MainActivityViewModel? = null
     @Inject internal lateinit var oldGamesViewModelFactory: OldGamesViewModelFactory
-    private var viewModel: OldGamesViewModel? = null
+    private lateinit var activityViewModel: MainActivityViewModel
+    private lateinit var viewModel: OldGamesViewModel
+    
     
     override fun onOldGameItemDeleteClicked(gameId: Long) {
         val builder = AlertDialog.Builder(activity)
         builder.setTitle(R.string.delete_game)
             .setMessage(R.string.are_you_sure)
-            .setPositiveButton(R.string.delete) { _, _ -> viewModel?.deleteGame(gameId) }
+            .setPositiveButton(R.string.delete) { _, _ -> viewModel.deleteGame(gameId) }
             .setNegativeButton(android.R.string.cancel, null)
             .create()
             .show()
     }
     
     override fun onOldGameItemResumeClicked(gameId: Long) {
-        activityViewModel?.startGame(gameId)
+        activityViewModel.startGame(gameId)
+    }
+    
+    
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAllGames()
     }
     
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -58,19 +65,18 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         setOnClickListeners()
     }
     
+    
     private fun setOnClickListeners() {
         fabOldGames.setOnClickListener {
-            activityViewModel?.startGame(null)
+            activityViewModel.startGame(null)
         }
     }
     
     private fun setupRecyclerView() {
         recyclerViewOldGames?.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
-        layoutManager.reverseLayout = true
         recyclerViewOldGames?.layoutManager = layoutManager
-        rvAdapter = OldGamesRvAdapter()
-        rvAdapter?.setOldGameItemListener(this)
+        rvAdapter.setOldGameItemListener(this)
         recyclerViewOldGames?.adapter = rvAdapter
     }
     
@@ -78,10 +84,10 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         if (activity != null) {
             activityViewModel = ViewModelProviders.of(activity!!, mainActivityViewModelFactory).get(MainActivityViewModel::class.java)
             viewModel = ViewModelProviders.of(this, oldGamesViewModelFactory).get(OldGamesViewModel::class.java)
-            viewModel?.getError()?.observe(this, Observer(this::showError))
-            viewModel?.getGames()?.observe(this, Observer(this::setGames))
-            viewModel?.getSnackbarMessage()?.observe(this, Observer(this::showSnackbar))
-            viewModel?.getProgressState()?.observe(this, Observer(this::toogleLocalProgress))
+            viewModel.getError().observe(this, Observer(this::showError))
+            viewModel.getGames().observe(this, Observer(this::setGames))
+            viewModel.getSnackbarMessage().observe(this, Observer(this::showSnackbar))
+            viewModel.getProgressState().observe(this, Observer(this::toogleLocalProgress))
         }
     }
     
@@ -90,7 +96,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
             emptyLayoutOldGames?.visibility = VISIBLE
         else {
             emptyLayoutOldGames?.visibility = GONE
-            rvAdapter?.setGames(games)
+            rvAdapter.setGames(games)
         }
         toogleLocalProgress(HIDE)
     }
@@ -109,16 +115,11 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
                 ContextCompat.getColor(activity!!, R.color.colorPrimary),
                 ContextCompat.getColor(activity!!, R.color.purplePenalty)
             )
-            swipeRefreshLayoutOldGames?.setOnRefreshListener { viewModel?.getAllGames() }
+            swipeRefreshLayoutOldGames?.setOnRefreshListener { viewModel.getAllGames() }
         }
     }
     
     private fun setToolbar() {
-        activityViewModel?.setToolbar(toolbarOldGames)
-    }
-    
-    override fun onResume() {
-        super.onResume()
-        viewModel?.getAllGames()
+        activityViewModel.setToolbar(toolbarOldGames)
     }
 }

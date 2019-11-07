@@ -19,8 +19,8 @@ class GameListFragment : BaseFragment() {
     
     //Fields
     @Inject internal lateinit var activityViewModelFactory: GameActivityViewModelFactory
-    @Inject internal lateinit var rvAdapter: GameListRvAdapter
     private lateinit var activityViewModel: GameActivityViewModel
+    @Inject internal lateinit var rvAdapter: GameListRvAdapter
     
     //LIFECYCLE
     override fun onCreateView(

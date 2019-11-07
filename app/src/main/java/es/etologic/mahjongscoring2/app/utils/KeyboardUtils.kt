@@ -6,6 +6,13 @@ import android.view.inputmethod.InputMethodManager
 
 object KeyboardUtils {
     
+    fun toggleKeyboard(isShow: Boolean, viewInputMethod: View) {
+        if (isShow)
+            showKeyboard(viewInputMethod)
+        else
+            hideKeyboard(viewInputMethod)
+    }
+    
     fun showKeyboard(viewInputMethod: View) {
         val imm = viewInputMethod.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_NOT_ALWAYS)

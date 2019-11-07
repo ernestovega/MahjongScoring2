@@ -162,8 +162,8 @@ class GameActivityViewModel internal constructor(
         )
     }
     
-    //RequestPlayers  Dialog Responses
-    internal fun onRequestPlayersResponse(tiet1Text: Editable?, tiet2Text: Editable?, tiet3Text: Editable?, tiet4Text: Editable?) {
+    //PlayersDialogFragment
+    internal fun savePlayersNames(tiet1Text: Editable?, tiet2Text: Editable?, tiet3Text: Editable?, tiet4Text: Editable?) {
         val name1 = tiet1Text?.toString() ?: ""
         val name2 = tiet2Text?.toString() ?: ""
         val name3 = tiet3Text?.toString() ?: ""
