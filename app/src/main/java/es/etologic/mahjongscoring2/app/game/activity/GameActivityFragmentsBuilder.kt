@@ -4,6 +4,8 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import es.etologic.mahjongscoring2.app.game.dialogs.GameRankingFragmentDialog
 import es.etologic.mahjongscoring2.app.game.dialogs.PlayersDialogFragment
+import es.etologic.mahjongscoring2.app.game.dialogs.PenaltyDialogFragment
+import es.etologic.mahjongscoring2.app.game.dialogs.PointsDialogFragment
 import es.etologic.mahjongscoring2.app.game.dialogs.RollDiceDialogFragment
 import es.etologic.mahjongscoring2.app.game.game_list.GameListFragment
 import es.etologic.mahjongscoring2.app.game.game_list.GameListModule
@@ -30,4 +32,10 @@ abstract class GameActivityFragmentsBuilder {
     
     @ContributesAndroidInjector
     internal abstract fun providePlayersDialogFragment(): PlayersDialogFragment
+    
+    @ContributesAndroidInjector
+    internal abstract fun providePointsDialogFragment(): PointsDialogFragment
+    
+    @ContributesAndroidInjector
+    internal abstract fun providePenaltyDialogFragment(): PenaltyDialogFragment
 }

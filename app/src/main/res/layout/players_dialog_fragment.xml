@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/AlertDialogStyleMM"
     android:layout_width="match_parent"
@@ -12,110 +11,110 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/standard_margin"
-        android:layout_marginTop="@dimen/standard_margin"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:hint="@string/player_east_name">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietEast"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_east"
-            android:drawablePadding="@dimen/half_standard_margin"
-            android:inputType="textPersonName"
-            android:maxLength="16"
-            android:maxLines="1" />
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:hint="@string/player_east_name">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietPlayersDialogEast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_east"
+                android:drawablePadding="@dimen/half_standard_margin"
+                android:inputType="textPersonName"
+                android:maxLength="16"
+                android:maxLines="1" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/standard_margin"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:hint="@string/player_south_name">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietSouth"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_south"
-            android:drawablePadding="@dimen/half_standard_margin"
-            android:inputType="textPersonName"
-            android:maxLength="16"
-            android:maxLines="1" />
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:hint="@string/player_south_name">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietPlayersDialogSouth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_south"
+                android:drawablePadding="@dimen/half_standard_margin"
+                android:inputType="textPersonName"
+                android:maxLength="16"
+                android:maxLines="1" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/standard_margin"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:hint="@string/player_west_name">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietWest"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_west"
-            android:drawablePadding="@dimen/half_standard_margin"
-            android:inputType="textPersonName"
-            android:maxLength="16"
-            android:maxLines="1" />
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:hint="@string/player_west_name">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietPlayersDialogWest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_west"
+                android:drawablePadding="@dimen/half_standard_margin"
+                android:inputType="textPersonName"
+                android:maxLength="16"
+                android:maxLines="1" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/standard_margin"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:hint="@string/player_north_name">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietNorth"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_north"
-            android:drawablePadding="@dimen/half_standard_margin"
-            android:inputType="textPersonName"
-            android:maxLength="16"
-            android:maxLines="1" />
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:hint="@string/player_north_name">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietPlayersDialogNorth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_north"
+                android:drawablePadding="@dimen/half_standard_margin"
+                android:inputType="textPersonName"
+                android:maxLength="16"
+                android:maxLines="1" />
 
-    <!--    <LinearLayout-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_gravity="end"-->
-    <!--        android:layout_marginTop="@dimen/standard_margin"-->
-    <!--        android:orientation="horizontal">-->
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <!--        <Button-->
-    <!--            android:id="@+id/btCancel"-->
-    <!--            style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:textColor="@color/gray"-->
-    <!--            android:background="@android:color/transparent"-->
-    <!--            android:text="@android:string/cancel" />-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btOk"
-        style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="@dimen/standard_margin"
-        android:background="@android:color/transparent"
-        android:text="@android:string/ok" />
+            <Button
+                android:id="@+id/btPlayersDialogCancel"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="@string/close"
+                android:textColor="@color/grayMM" />
 
-    <!--    </LinearLayout>-->
+            <Button
+                android:id="@+id/btPlayersDialogSave"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/standard_margin"
+                android:background="@android:color/transparent"
+                android:text="@string/save" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

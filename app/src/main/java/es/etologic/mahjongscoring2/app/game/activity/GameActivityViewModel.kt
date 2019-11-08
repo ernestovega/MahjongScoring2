@@ -45,6 +45,7 @@ class GameActivityViewModel internal constructor(
     val listNames = MutableLiveData<Array<String>>()
     val listRounds = MutableLiveData<List<Round>>()
     val listTotals = MutableLiveData<Array<String>>()
+    
     //Table
     val toolbarState = MutableLiveData<ToolbarState>()
     val viewPagerPagingState = MutableLiveData<EnablingState>()
@@ -65,13 +66,16 @@ class GameActivityViewModel internal constructor(
     private var mDiscarderCurrentSeat = NONE
     
     //Observables
-    fun getListNames(): LiveData<Array<String>> = listNames
-    
-    internal fun getListRounds(): LiveData<List<Round>> = listRounds
-    internal fun getListTotals(): LiveData<Array<String>> = listTotals
     internal fun getViewPagerPagingState(): LiveData<EnablingState> = viewPagerPagingState
     internal fun getToolbarState(): LiveData<ToolbarState> = toolbarState
     internal fun getCurrentViewPagerPage(): LiveData<GamePages> = currentViewPagerPage
+    internal fun getShowDialog(): LiveData<DialogType> = showDialog
+    internal fun getEndGameState(): LiveData<Boolean> = endGameState
+    //list
+    fun getListNames(): LiveData<Array<String>> = listNames
+    internal fun getListRounds(): LiveData<List<Round>> = listRounds
+    internal fun getListTotals(): LiveData<Array<String>> = listTotals
+    //Table
     internal fun getEastSeat(): LiveData<Seat> = eastSeat
     internal fun getSouthSeat(): LiveData<Seat> = southSeat
     internal fun getWestSeat(): LiveData<Seat> = westSeat
@@ -79,8 +83,6 @@ class GameActivityViewModel internal constructor(
     internal fun getRoundNumber(): LiveData<Int> = roundNumber
     internal fun getFabMenuState(): LiveData<FabMenuStates> = fabMenuState
     internal fun getFabMenuOpenState(): LiveData<ShowState> = fabMenuOpenState
-    internal fun getShowDialog(): LiveData<DialogType> = showDialog
-    internal fun getEndGameState(): LiveData<Boolean> = endGameState
     
     //METHODS
     internal fun createGame() {
@@ -162,7 +164,9 @@ class GameActivityViewModel internal constructor(
         )
     }
     
-    //PlayersDialogFragment
+    //region DIALOGS
+    
+    //Players names
     internal fun savePlayersNames(tiet1Text: Editable?, tiet2Text: Editable?, tiet3Text: Editable?, tiet4Text: Editable?) {
         val name1 = tiet1Text?.toString() ?: ""
         val name2 = tiet2Text?.toString() ?: ""
@@ -207,7 +211,7 @@ class GameActivityViewModel internal constructor(
     }
     
     //RequestPenaltyPoints Dialog Responses
-    internal fun onRequestPenaltyPointsResponse(newPenaltyPointsInput: CharSequence?, isDividedEqually: Boolean) {
+    internal fun onRequestPenaltyResponse(newPenaltyPointsInput: CharSequence?, isDividedEqually: Boolean) {
         val penaltyPointsInput = newPenaltyPointsInput ?: "0"
         val penaltyPoints = convertInputValue(penaltyPointsInput.toString())
         if (penaltyPoints == null || penaltyPoints <= 0) {
@@ -237,7 +241,9 @@ class GameActivityViewModel internal constructor(
         
     }
     
-    internal fun onRequestPenaltyPointsCancel() = resetTable()
+    internal fun onRequestPenaltyCancel() = resetTable()
+    
+    //endregion
     
     //Seats
     fun onSeatClicked(seatPosition: TableWinds) {

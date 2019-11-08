@@ -9,11 +9,8 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import es.etologic.mahjongscoring2.R
-import es.etologic.mahjongscoring2.app.base.BaseFragment
-import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel
-import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModelFactory
+import es.etologic.mahjongscoring2.app.game.base.BaseGameActivityFragment
 import es.etologic.mahjongscoring2.app.game.dialogs.GameRankingFragmentDialog
 import es.etologic.mahjongscoring2.app.model.DialogType
 import es.etologic.mahjongscoring2.app.model.EnablingState
@@ -25,13 +22,10 @@ import es.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds.*
 import kotlinx.android.synthetic.main.game_table_fragment.*
-import javax.inject.Inject
 
-class GameTableFragment : BaseFragment(), GameTableSeatsFragment.TableSeatsListener {
+class GameTableFragment : BaseGameActivityFragment(), GameTableSeatsFragment.TableSeatsListener {
     
-    @Inject internal lateinit var activityViewModelFactory: GameActivityViewModelFactory
-    private lateinit var activityViewModel: GameActivityViewModel
-    private var tableSeats: GameTableSeatsFragment? = null
+    private lateinit var tableSeats: GameTableSeatsFragment
     private var eastIcon: Drawable? = null
     private var southIcon: Drawable? = null
     private var westIcon: Drawable? = null
@@ -66,14 +60,25 @@ class GameTableFragment : BaseFragment(), GameTableSeatsFragment.TableSeatsListe
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tableSeats = childFragmentManager.findFragmentById(R.id.fGameTableSeats) as GameTableSeatsFragment?
-        setupActivityViewModel()
+        tableSeats = childFragmentManager.findFragmentById(R.id.fGameTableSeats) as GameTableSeatsFragment
         setupFabMenu()
         setOnClickListeners()
+        setupActivityViewModelObservers()
+    }
+    
+    private fun setupActivityViewModelObservers() {
+        activityViewModel.getEastSeat().observe(this, Observer<Seat>(tableSeats::setEastSeat))
+        activityViewModel.getSouthSeat().observe(this, Observer<Seat>(tableSeats::setSouthSeat))
+        activityViewModel.getWestSeat().observe(this, Observer<Seat>(tableSeats::setWestSeat))
+        activityViewModel.getNorthSeat().observe(this, Observer<Seat>(tableSeats::setNorthSeat))
+        activityViewModel.getRoundNumber().observe(this, Observer<Int>(this::roundNumberObserver))
+        activityViewModel.getFabMenuState().observe(this, Observer<FabMenuStates>(this::fabMenuStateObserver))
+        activityViewModel.getFabMenuOpenState().observe(this, Observer<ShowState>(this::fabMenuOpenStateObserver))
+        activityViewModel.getShowDialog().observe(this, Observer<DialogType>(this::showDialogObserver))
     }
     
     private fun setOnClickListeners() {
-        tableSeats?.setTableSeatsListener(this)
+        tableSeats.setTableSeatsListener(this)
         
         fabGameDice?.setOnClickListener {
             activityViewModel.famMenuDiceClicked()
@@ -111,18 +116,6 @@ class GameTableFragment : BaseFragment(), GameTableSeatsFragment.TableSeatsListe
     private fun setupFabMenu() {
         famGameTable.setClosedOnTouchOutside(true)
         famGameTable.setOnMenuToggleListener { activityViewModel.onToggleFabMenu(it) }
-    }
-    
-    private fun setupActivityViewModel() {
-        activityViewModel = ViewModelProviders.of(this, activityViewModelFactory).get(GameActivityViewModel::class.java)
-        activityViewModel.roundNumber.observe(this, Observer { it?.let { it1 -> this.roundNumberObserver(it1) } })
-        activityViewModel.eastSeat.observe(this, Observer<Seat> { it?.let { it1 -> tableSeats?.setEastSeat(it1) } })
-        activityViewModel.southSeat.observe(this, Observer<Seat> { it?.let { it1 -> tableSeats?.setSouthSeat(it1) } })
-        activityViewModel.westSeat.observe(this, Observer<Seat> { it?.let { it1 -> tableSeats?.setWestSeat(it1) } })
-        activityViewModel.northSeat.observe(this, Observer<Seat> { it?.let { it1 -> tableSeats?.setNorthSeat(it1) } })
-        activityViewModel.fabMenuState.observe(this, Observer<FabMenuStates> { it?.let { it1 -> this.fabMenuStateObserver(it1) } })
-        activityViewModel.fabMenuOpenState.observe(this, Observer<ShowState> { it?.let { it1 -> this.fabMenuOpenStateObserver(it1) } })
-        activityViewModel.showDialog.observe(this, Observer<DialogType> { it?.let { it1 -> this.showDialogObserver(it1) } })
     }
     
     private fun roundNumberObserver(roundNumber: Int) {
@@ -188,12 +181,7 @@ class GameTableFragment : BaseFragment(), GameTableSeatsFragment.TableSeatsListe
         }
     }
     
-    private fun applyFabMenuState(
-        penaltyCancelState: EnablingState,
-        penaltyState: EnablingState,
-        tsumoState: EnablingState,
-        ronState: EnablingState
-    ) {
+    private fun applyFabMenuState(penaltyCancelState: EnablingState, penaltyState: EnablingState, tsumoState: EnablingState, ronState: EnablingState) {
         if (penaltyCancelState == ENABLED) {
             fabGameTablePenalty.isEnabled = true
             fabGameTablePenalty.visibility = VISIBLE
@@ -227,12 +215,7 @@ class GameTableFragment : BaseFragment(), GameTableSeatsFragment.TableSeatsListe
     }
     
     private fun showDialogObserver(dialogType: DialogType) {
-        if (dialogType == DialogType.SHOW_RANKING) {
-            showRankingDialog()
-        }
-    }
-    
-    private fun showRankingDialog() {
-        GameRankingFragmentDialog().show(childFragmentManager, GameRankingFragmentDialog.TAG)
+        if (dialogType == DialogType.SHOW_RANKING)
+            GameRankingFragmentDialog().show(childFragmentManager, GameRankingFragmentDialog.TAG)
     }
 }

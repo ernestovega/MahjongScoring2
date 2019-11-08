@@ -4,13 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
 import es.etologic.mahjongscoring2.R
-import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel
-import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModelFactory
+import es.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import es.etologic.mahjongscoring2.app.model.GamePages
 import kotlinx.android.synthetic.main.game_table_ranking_dialog_fragment.*
-import javax.inject.Inject
 
 internal class GameRankingFragmentDialog : BaseGameDialogFragment() {
     

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import es.etologic.mahjongscoring2.R
+import es.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import es.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
 import es.etologic.mahjongscoring2.app.utils.KeyboardUtils.showKeyboard
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds.*
@@ -29,22 +30,29 @@ internal class PlayersDialogFragment : BaseGameDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
-        tietEast.selectAll()
-        tietEast.requestFocus()
+        tietPlayersDialogEast.selectAll()
+        tietPlayersDialogEast.requestFocus()
         showKeyboard(view)
     }
     
     private fun setOnClickListeners() {
-        btOk?.setOnClickListener {
-            activityViewModel.savePlayersNames(tietEast.text, tietSouth.text, tietWest.text, tietNorth.text)
-            hideKeyboard(tietEast)
+        btPlayersDialogSave?.setOnClickListener {
+            activityViewModel.savePlayersNames(
+                tietPlayersDialogEast.text,
+                tietPlayersDialogSouth.text,
+                tietPlayersDialogWest.text,
+                tietPlayersDialogNorth.text
+            )
+            hideKeyboard(tietPlayersDialogEast)
         }
     }
     
-    internal fun setNames(names: Array<String>) {
-        tietEast.setText(names[EAST.code])
-        tietSouth.setText(names[SOUTH.code])
-        tietWest.setText(names[WEST.code])
-        tietNorth.setText(names[NORTH.code])
+    internal fun setNames(names: Array<String>?) {
+        if (names?.size == 4) {
+            tietPlayersDialogEast.setText(names[EAST.code])
+            tietPlayersDialogSouth.setText(names[SOUTH.code])
+            tietPlayersDialogWest.setText(names[WEST.code])
+            tietPlayersDialogNorth.setText(names[NORTH.code])
+        }
     }
 }

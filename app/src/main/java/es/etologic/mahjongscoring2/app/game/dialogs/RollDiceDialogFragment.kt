@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import es.etologic.mahjongscoring2.R
-import es.etologic.mahjongscoring2.app.base.BaseDialogFragment
+import es.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import kotlinx.android.synthetic.main.roll_dice_dialog_fragment.*
 import java.util.*
 

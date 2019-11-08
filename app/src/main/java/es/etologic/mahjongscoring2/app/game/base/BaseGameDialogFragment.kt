@@ -1,4 +1,4 @@
-package es.etologic.mahjongscoring2.app.game.dialogs
+package es.etologic.mahjongscoring2.app.game.base
 
 import android.os.Bundle
 import android.view.View

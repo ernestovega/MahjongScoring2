@@ -5,28 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import es.etologic.mahjongscoring2.R
-import es.etologic.mahjongscoring2.app.base.BaseFragment
-import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel
-import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModelFactory
+import es.etologic.mahjongscoring2.app.game.base.BaseGameActivityFragment
+import es.etologic.mahjongscoring2.domain.model.Round
 import kotlinx.android.synthetic.main.game_list_fragment.*
 import javax.inject.Inject
 
-class GameListFragment : BaseFragment() {
+class GameListFragment : BaseGameActivityFragment() {
     
-    //Fields
-    @Inject internal lateinit var activityViewModelFactory: GameActivityViewModelFactory
-    private lateinit var activityViewModel: GameActivityViewModel
     @Inject internal lateinit var rvAdapter: GameListRvAdapter
     
-    //LIFECYCLE
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.game_list_fragment, container, false)
     }
     
@@ -45,12 +36,9 @@ class GameListFragment : BaseFragment() {
     }
     
     private fun setupActivityViewModel() {
-        if (activity != null) {
-            activityViewModel = ViewModelProviders.of(activity!!, activityViewModelFactory).get(GameActivityViewModel::class.java)
-            activityViewModel.listNames.observe(this, Observer { it?.let { this.namesObserver(it) } })
-            activityViewModel.listRounds.observe(this, Observer { rvAdapter.updateCollection(it) })
-            activityViewModel.listTotals.observe(this, Observer { it?.let { this.totalsObserver(it) } })
-        }
+        activityViewModel.getListNames().observe(this, Observer<Array<String>>(this::namesObserver))
+        activityViewModel.getListRounds().observe(this, Observer<List<Round>>(rvAdapter::updateCollection))
+        activityViewModel.getListTotals().observe(this, Observer<Array<String>>(this::totalsObserver))
     }
     
     private fun namesObserver(names: Array<String>) {
