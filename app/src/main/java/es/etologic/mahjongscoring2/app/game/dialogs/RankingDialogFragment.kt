@@ -9,10 +9,10 @@ import es.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import es.etologic.mahjongscoring2.app.model.GamePages
 import kotlinx.android.synthetic.main.game_table_ranking_dialog_fragment.*
 
-internal class GameRankingFragmentDialog : BaseGameDialogFragment() {
+internal class RankingDialogFragment : BaseGameDialogFragment() {
     
     companion object {
-        const val TAG = "GameRankingFragmentDialog"
+        const val TAG = "RankingDialogFragment"
     }
     
     //LIFECYCLE

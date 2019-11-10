@@ -45,7 +45,6 @@ class GameActivityViewModel internal constructor(
     val listNames = MutableLiveData<Array<String>>()
     val listRounds = MutableLiveData<List<Round>>()
     val listTotals = MutableLiveData<Array<String>>()
-    
     //Table
     val toolbarState = MutableLiveData<ToolbarState>()
     val viewPagerPagingState = MutableLiveData<EnablingState>()
@@ -64,19 +63,23 @@ class GameActivityViewModel internal constructor(
     private var tableState = TableStates.NORMAL
     private var selectedPlayerSeat = SelectedPlayerSeat()
     private var mDiscarderCurrentSeat = NONE
+    private var gameId: Long = -1
     
     //Observables
     internal fun getViewPagerPagingState(): LiveData<EnablingState> = viewPagerPagingState
+    
     internal fun getToolbarState(): LiveData<ToolbarState> = toolbarState
     internal fun getCurrentViewPagerPage(): LiveData<GamePages> = currentViewPagerPage
     internal fun getShowDialog(): LiveData<DialogType> = showDialog
     internal fun getEndGameState(): LiveData<Boolean> = endGameState
     //list
     fun getListNames(): LiveData<Array<String>> = listNames
+    
     internal fun getListRounds(): LiveData<List<Round>> = listRounds
     internal fun getListTotals(): LiveData<Array<String>> = listTotals
     //Table
     internal fun getEastSeat(): LiveData<Seat> = eastSeat
+    
     internal fun getSouthSeat(): LiveData<Seat> = southSeat
     internal fun getWestSeat(): LiveData<Seat> = westSeat
     internal fun getNorthSeat(): LiveData<Seat> = northSeat
@@ -84,8 +87,28 @@ class GameActivityViewModel internal constructor(
     internal fun getFabMenuState(): LiveData<FabMenuStates> = fabMenuState
     internal fun getFabMenuOpenState(): LiveData<ShowState> = fabMenuOpenState
     
+    internal fun setGameId(gameId: Long) {
+        this.gameId = gameId
+    }
+    
     //METHODS
-    internal fun createGame() {
+    internal fun initGame() {
+        if (gameId < 0)
+            createGame()
+        else
+            loadGame()
+    }
+    
+    private fun loadGame() {
+        disposables.add(
+            getGamesUseCase.getGame(gameId)
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe { progressState.postValue(SHOW) }
+                .doOnEvent { _, _ -> progressState.postValue(HIDE) }
+                .subscribe(this::getGameSuccess, error::postValue))
+    }
+    
+    private fun createGame() {
         disposables.add(
             createGameUseCase.createGame()
                 .subscribeOn(Schedulers.io())
@@ -152,16 +175,6 @@ class GameActivityViewModel internal constructor(
         val points = gameWithRounds.getPlayersTotalPoints()[initialPosition.code]
         val penaltyPoints = mCurrentRound.getPenaltyPointsFromInitialPlayerPosition(initialPosition)
         return Seat(wind, name, points, penaltyPoints, if (isDisabled) SeatStates.DISABLED else NORMAL)
-    }
-    
-    internal fun loadGame(gameId: Long) {
-        disposables.add(
-            getGamesUseCase.getGame(gameId)
-                .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnEvent { _, _ -> progressState.postValue(HIDE) }
-                .subscribe({ this.getGameSuccess(it) }, { error.postValue(it) })
-        )
     }
     
     //region DIALOGS
@@ -242,7 +255,6 @@ class GameActivityViewModel internal constructor(
     }
     
     internal fun onRequestPenaltyCancel() = resetTable()
-    
     //endregion
     
     //Seats

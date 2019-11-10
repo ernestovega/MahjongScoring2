@@ -1,5 +1,6 @@
 package es.etologic.mahjongscoring2.app.game.game_table
 
+import android.R.color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,17 +12,26 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import es.etologic.mahjongscoring2.R
+import es.etologic.mahjongscoring2.R.drawable
 import es.etologic.mahjongscoring2.app.model.Seat
 import es.etologic.mahjongscoring2.app.model.SeatStates
 import es.etologic.mahjongscoring2.app.model.SeatStates.*
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds
 import kotlinx.android.synthetic.main.game_table_seat_east.*
+import kotlinx.android.synthetic.main.game_table_seat_east.view.*
 import kotlinx.android.synthetic.main.game_table_seat_north.*
+import kotlinx.android.synthetic.main.game_table_seat_north.view.*
 import kotlinx.android.synthetic.main.game_table_seat_south.*
+import kotlinx.android.synthetic.main.game_table_seat_south.view.*
 import kotlinx.android.synthetic.main.game_table_seat_west.*
+import kotlinx.android.synthetic.main.game_table_seat_west.view.*
 import java.util.*
 
 class GameTableSeatsFragment : androidx.fragment.app.Fragment() {
+    
+    companion object {
+        internal const val TAG = "GameTableSeatsFragment"
+    }
     
     internal interface TableSeatsListener {
         fun onEastSeatClick()
@@ -137,78 +147,45 @@ class GameTableSeatsFragment : androidx.fragment.app.Fragment() {
     //LIFECYCLE
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.game_table_seats_fragment, container, false)
+        initResources()
+        initListeners(view)
+        return view
+    }
+    
+    private fun initResources() {
         activity?.let {
-            eastIcon = ContextCompat.getDrawable(it, R.drawable.ic_east)
-            southIcon = ContextCompat.getDrawable(it, R.drawable.ic_south)
-            westIcon = ContextCompat.getDrawable(it, R.drawable.ic_west)
-            northIcon = ContextCompat.getDrawable(it, R.drawable.ic_north)
-            penaltyIcon = ContextCompat.getDrawable(it, R.drawable.ic_penalty_white)
-            tsumoIcon = ContextCompat.getDrawable(it, R.drawable.ic_trophy_white_18dp)
-            ronIcon = ContextCompat.getDrawable(it, R.drawable.ic_medal_white)
-            whiteColor = ContextCompat.getColor(it, android.R.color.white)
+            eastIcon = ContextCompat.getDrawable(it, drawable.ic_east)
+            southIcon = ContextCompat.getDrawable(it, drawable.ic_south)
+            westIcon = ContextCompat.getDrawable(it, drawable.ic_west)
+            northIcon = ContextCompat.getDrawable(it, drawable.ic_north)
+            penaltyIcon = ContextCompat.getDrawable(it, drawable.ic_penalty_white)
+            tsumoIcon = ContextCompat.getDrawable(it, drawable.ic_trophy_white_18dp)
+            ronIcon = ContextCompat.getDrawable(it, drawable.ic_medal_white)
+            whiteColor = ContextCompat.getColor(it, color.white)
             grayColor = ContextCompat.getColor(it, R.color.grayMM)
             accentColor = ContextCompat.getColor(it, R.color.colorAccent)
             redColor = ContextCompat.getColor(it, R.color.red)
             greenColor = ContextCompat.getColor(it, R.color.colorPrimary)
             purplePenalty = ContextCompat.getColor(it, R.color.purplePenalty)
         }
-        return view
     }
     
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setOnClickListeners()
-    }
-    
-    private fun setOnClickListeners() {
-    
-        ivTableSeatEastSeatWindIcon?.setOnClickListener {
-            if (eastSeatState != DISABLED) listener?.onEastSeatClick()
-        }
-        tvTableSeatEastName?.setOnClickListener {
-            if (eastSeatState != DISABLED) listener?.onEastSeatClick()
-        }
-        tvTableSeatEastPoints?.setOnClickListener {
-            if (eastSeatState != DISABLED) listener?.onEastSeatClick()
-        }
-        tvTableSeatEastPenaltyPoints?.setOnClickListener {
-            if (eastSeatState != DISABLED) listener?.onEastSeatClick()
-        }
-        ivTableSeatSouthSeatWindIcon?.setOnClickListener {
-            if (southSeatState != DISABLED) listener?.onSouthSeatClick()
-        }
-        tvTableSeatSouthName?.setOnClickListener {
-            if (southSeatState != DISABLED) listener?.onSouthSeatClick()
-        }
-        tvTableSeatSouthPoints?.setOnClickListener {
-            if (southSeatState != DISABLED) listener?.onSouthSeatClick()
-        }
-        tvTableSeatSouthPenaltyPoints?.setOnClickListener {
-            if (southSeatState != DISABLED) listener?.onSouthSeatClick()
-        }
-        ivTableSeatWestSeatWindIcon?.setOnClickListener {
-            if (westSeatState != DISABLED) listener?.onWestSeatClick()
-        }
-        tvTableSeatWestName?.setOnClickListener {
-            if (westSeatState != DISABLED) listener?.onWestSeatClick()
-        }
-        tvTableSeatWestPoints?.setOnClickListener {
-            if (westSeatState != DISABLED) listener?.onWestSeatClick()
-        }
-        tvTableSeatWestPenaltyPoints?.setOnClickListener {
-            if (westSeatState != DISABLED) listener?.onWestSeatClick()
-        }
-        ivTableSeatNorthSeatWindIcon?.setOnClickListener {
-            if (northSeatState != DISABLED) listener?.onNorthSeatClick()
-        }
-        tvTableSeatNorthName?.setOnClickListener {
-            if (northSeatState != DISABLED) listener?.onNorthSeatClick()
-        }
-        tvTableSeatNorthPoints?.setOnClickListener {
-            if (northSeatState != DISABLED) listener?.onNorthSeatClick()
-        }
-        tvTableSeatNorthPenaltyPoints?.setOnClickListener {
-            if (northSeatState != DISABLED) listener?.onNorthSeatClick()
-        }
+    private fun initListeners(view: View) {
+        view.ivTableSeatEastSeatWindIcon?.setOnClickListener {   if (eastSeatState  != DISABLED) listener?.onEastSeatClick() }
+        view.tvTableSeatEastName?.setOnClickListener {           if (eastSeatState  != DISABLED) listener?.onEastSeatClick() }
+        view.tvTableSeatEastPoints?.setOnClickListener {         if (eastSeatState  != DISABLED) listener?.onEastSeatClick() }
+        view.tvTableSeatEastPenaltyPoints?.setOnClickListener {  if (eastSeatState  != DISABLED) listener?.onEastSeatClick() }
+        view.ivTableSeatSouthSeatWindIcon?.setOnClickListener {  if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
+        view.tvTableSeatSouthName?.setOnClickListener {          if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
+        view.tvTableSeatSouthPoints?.setOnClickListener {        if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
+        view.tvTableSeatSouthPenaltyPoints?.setOnClickListener { if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
+        view.ivTableSeatWestSeatWindIcon?.setOnClickListener {   if (westSeatState  != DISABLED) listener?.onWestSeatClick() }
+        view.tvTableSeatWestName?.setOnClickListener {           if (westSeatState  != DISABLED) listener?.onWestSeatClick() }
+        view.tvTableSeatWestPoints?.setOnClickListener {         if (westSeatState  != DISABLED) listener?.onWestSeatClick() }
+        view.tvTableSeatWestPenaltyPoints?.setOnClickListener {  if (westSeatState  != DISABLED) listener?.onWestSeatClick() }
+        view.ivTableSeatNorthSeatWindIcon?.setOnClickListener {  if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
+        view.tvTableSeatNorthName?.setOnClickListener {          if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
+        view.tvTableSeatNorthPoints?.setOnClickListener {        if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
+        view.tvTableSeatNorthPenaltyPoints?.setOnClickListener { if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
     }
 }

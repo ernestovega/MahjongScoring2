@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import es.etologic.mahjongscoring2.R
 import es.etologic.mahjongscoring2.app.game.base.BaseGameActivityFragment
+import es.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment
 import es.etologic.mahjongscoring2.domain.model.Round
 import kotlinx.android.synthetic.main.game_list_fragment.*
+import kotlinx.android.synthetic.main.game_list_fragment.view.*
 import javax.inject.Inject
 
 class GameListFragment : BaseGameActivityFragment() {
@@ -18,24 +21,20 @@ class GameListFragment : BaseGameActivityFragment() {
     @Inject internal lateinit var rvAdapter: GameListRvAdapter
     
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.game_list_fragment, container, false)
+        val view = inflater.inflate(R.layout.game_list_fragment, container, false)
+        setupRecyclerView(view)
+        return view
     }
     
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-        setupActivityViewModel()
-    }
-    
-    private fun setupRecyclerView() {
-        rvGameList.setHasFixedSize(true)
+    private fun setupRecyclerView(view: View) {
+        view.rvGameList?.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         layoutManager.stackFromEnd = true
-        rvGameList.layoutManager = layoutManager
-        rvGameList.adapter = rvAdapter
+        view.rvGameList?.layoutManager = layoutManager
+        view.rvGameList?.adapter = rvAdapter
     }
     
-    private fun setupActivityViewModel() {
+    override fun setupActivityViewModelObservers() {
         activityViewModel.getListNames().observe(this, Observer<Array<String>>(this::namesObserver))
         activityViewModel.getListRounds().observe(this, Observer<List<Round>>(rvAdapter::updateCollection))
         activityViewModel.getListTotals().observe(this, Observer<Array<String>>(this::totalsObserver))

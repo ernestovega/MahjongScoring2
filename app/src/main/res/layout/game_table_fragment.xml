@@ -6,105 +6,88 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <LinearLayout
-        android:id="@+id/llGameTableRoundNumberAndIconContainerUp"
+    <FrameLayout
+        android:id="@+id/flGameTableSeats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/double_standard_margin"
-        android:layout_marginBottom="@dimen/double_standard_margin"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_above="@+id/llGameTableRoundNumberAndIconContainerFooter"
+        android:layout_below="@+id/llGameTableRoundNumberAndIconContainerHeader"
+        android:layout_centerInParent="true" />
 
-        <ImageView
-            android:id="@+id/ivGameTableRoundWindUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:rotation="180"
-            android:textColor="@color/gray2"
-            tools:src="@drawable/ic_east" />
+    <LinearLayout
+        android:id="@+id/llGameTableRoundNumberAndIconContainerHeader"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/table_header_height"
+        android:layout_alignParentTop="true"
+        android:gravity="end|center_vertical"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tvGameTableRoundNumberUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin"
-            android:rotation="180"
-            android:textColor="@color/gray2"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:drawablePadding="@dimen/half_standard_margin"
+            android:drawableTint="@color/grayMM"
+            android:rotation="215"
+            android:textColor="@color/grayMM"
             android:textSize="@dimen/table_player_round_num_text_size"
-            android:textStyle="bold"
+            tools:drawableStart="@drawable/ic_east"
+            tools:targetApi="m"
             tools:text="16" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llGameTableRoundNumberAndIconContainerDown"
+        android:id="@+id/llGameTableRoundNumberAndIconContainerFooter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/table_header_height"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/double_standard_margin"
-        android:layout_marginBottom="@dimen/double_standard_margin"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/ivGameTableRoundWindDown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tint="@color/gray2"
-            tools:src="@drawable/ic_east" />
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tvGameTableRoundNumberDown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin"
-            android:textColor="@color/gray2"
+            android:drawablePadding="@dimen/half_standard_margin"
+            android:drawableTint="@color/grayMM"
+            android:rotation="45"
+            android:textColor="@color/grayMM"
             android:textSize="@dimen/table_player_round_num_text_size"
-            android:textStyle="bold"
+            tools:drawableStart="@drawable/ic_east"
+            tools:targetApi="m"
             tools:text="16" />
 
     </LinearLayout>
-
-    <fragment
-        android:id="@+id/fGameTableSeats"
-        android:name="es.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/llGameTableRoundNumberAndIconContainerDown"
-        android:layout_below="@+id/llGameTableRoundNumberAndIconContainerUp"
-        android:layout_centerInParent="true" />
 
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fabGameDice"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/half_standard_margin"
         android:layout_marginRight="@dimen/half_standard_margin"
         android:layout_marginBottom="@dimen/half_standard_margin"
-        android:src="@drawable/ic_dice_multiple_white_24dp"/>
+        android:src="@drawable/ic_dice_multiple_white_24dp" />
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/famGameTable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:paddingLeft="@dimen/half_standard_margin"
         android:paddingRight="@dimen/half_standard_margin"
         android:paddingBottom="@dimen/half_standard_margin"
-        app:menu_icon="@drawable/ic_add_white_24dp"
         app:menu_animationDelayPerItem="20"
         app:menu_backgroundColor="@color/whiteTransparent"
         app:menu_colorNormal="@color/colorAccent"
         app:menu_colorPressed="@color/colorAccentDark"
         app:menu_colorRipple="@color/colorAccentDark"
+        app:menu_icon="@drawable/ic_add_white_24dp"
         app:menu_labels_colorNormal="@color/gray"
         app:menu_labels_colorRipple="@color/grayMM"
         app:menu_labels_ellipsize="end"
@@ -173,7 +156,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/half_standard_margin"
         android:layout_marginRight="@dimen/half_standard_margin"
@@ -187,7 +169,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/half_standard_margin"
         android:layout_marginRight="@dimen/half_standard_margin"

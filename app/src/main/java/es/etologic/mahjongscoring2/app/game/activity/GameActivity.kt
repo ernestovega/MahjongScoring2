@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
@@ -38,8 +37,6 @@ class GameActivity : BaseActivity() {
     
     @Inject internal lateinit var viewModelFactory: GameActivityViewModelFactory
     private lateinit var viewModel: GameActivityViewModel
-    private var pointsDialogLayout: LinearLayout? = null
-    private var penaltyPointsDialogLayout: LinearLayout? = null
     private var eastIconDrawable: Drawable? = null
     private var southIconDrawable: Drawable? = null
     private var westIconDrawable: Drawable? = null
@@ -192,11 +189,7 @@ class GameActivity : BaseActivity() {
     //    }*/
     
     private fun startGame() {
-        val gameId = intent.getLongExtra(ARG_KEY_GAME_ID, -1)
-        if (gameId < 0) {
-            viewModel.createGame()
-        } else {
-            viewModel.loadGame(gameId)
-        }
+        viewModel.setGameId(intent.getLongExtra(ARG_KEY_GAME_ID, -1))
+        viewModel.initGame()
     }
 }

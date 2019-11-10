@@ -1,6 +1,7 @@
 package es.etologic.mahjongscoring2.app.game.base
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import es.etologic.mahjongscoring2.app.base.BaseFragment
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel
@@ -17,4 +18,11 @@ abstract class BaseGameActivityFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         activityViewModel = ViewModelProviders.of(this, activityViewModelFactory).get(GameActivityViewModel::class.java)
     }
+    
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupActivityViewModelObservers()
+    }
+    
+    abstract fun setupActivityViewModelObservers()
 }

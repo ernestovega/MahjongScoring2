@@ -8,7 +8,7 @@
     <View
         android:id="@+id/vTableSeatsCenter"
         android:layout_width="@dimen/triple_standard_margin"
-        android:layout_height="@dimen/standard_margin"
+        android:layout_height="@dimen/triple_standard_margin"
         android:layout_centerInParent="true" />
 
     <include
@@ -19,19 +19,19 @@
         android:layout_centerHorizontal="true" />
 
     <include
+        layout="@layout/game_table_seat_west"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/vTableSeatsCenter"
+        android:layout_centerHorizontal="true" />
+
+    <include
         layout="@layout/game_table_seat_south"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/vTableSeatsCenter"
         tools:ignore="RtlHardcoded" />
-
-    <include
-        layout="@layout/game_table_seat_west"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/vTableSeatsCenter"
-        android:layout_centerHorizontal="true" />
 
     <include
         layout="@layout/game_table_seat_north"
