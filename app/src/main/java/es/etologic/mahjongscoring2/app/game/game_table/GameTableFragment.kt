@@ -94,28 +94,26 @@ class GameTableFragment : BaseGameActivityFragment() {
     
     private fun roundNumberObserver(roundNumber: Int) {
         if (roundNumber == 16) {
-            tvGameTableRoundNumberUp?.text = String.format("%s\nEnd", roundNumber)
-            tvGameTableRoundNumberDown?.text = String.format("%s\nEnd", roundNumber)
+            tvGameTableRoundNumberUp?.text = String.format("%s - End", roundNumber)
+            tvGameTableRoundNumberDown?.text = String.format("%s - End", roundNumber)
+            tvGameTableRoundNumberUp?.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+            tvGameTableRoundNumberDown?.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
         } else {
             tvGameTableRoundNumberUp?.text = roundNumber.toString()
             tvGameTableRoundNumberDown?.text = roundNumber.toString()
-        }
-        when {
-            roundNumber < 5 -> {
-                tvGameTableRoundNumberUp?.setCompoundDrawablesWithIntrinsicBounds(eastIcon, null, null, null)
-                tvGameTableRoundNumberDown?.setCompoundDrawablesWithIntrinsicBounds(eastIcon, null, null, null)
-            }
-            roundNumber < 9 -> {
-                tvGameTableRoundNumberUp?.setCompoundDrawablesWithIntrinsicBounds(southIcon, null, null, null)
-                tvGameTableRoundNumberDown?.setCompoundDrawablesWithIntrinsicBounds(southIcon, null, null, null)
-            }
-            roundNumber < 13 -> {
-                tvGameTableRoundNumberUp?.setCompoundDrawablesWithIntrinsicBounds(westIcon, null, null, null)
-                tvGameTableRoundNumberDown?.setCompoundDrawablesWithIntrinsicBounds(westIcon, null, null, null)
-            }
-            else -> {
-                tvGameTableRoundNumberUp?.setCompoundDrawablesWithIntrinsicBounds(northIcon, null, null, null)
-                tvGameTableRoundNumberDown?.setCompoundDrawablesWithIntrinsicBounds(northIcon, null, null, null)
+            when {
+                roundNumber < 5 -> {
+                    tvGameTableRoundNumberUp?.setCompoundDrawablesWithIntrinsicBounds(null, null, null, eastIcon)
+                    tvGameTableRoundNumberDown?.setCompoundDrawablesWithIntrinsicBounds(null, null, null, eastIcon) }
+                roundNumber < 9 -> {
+                    tvGameTableRoundNumberUp?.setCompoundDrawablesWithIntrinsicBounds(null, null, null, southIcon)
+                    tvGameTableRoundNumberDown?.setCompoundDrawablesWithIntrinsicBounds(null, null, null, southIcon) }
+                roundNumber < 13 -> {
+                    tvGameTableRoundNumberUp?.setCompoundDrawablesWithIntrinsicBounds(null, null, null, westIcon)
+                    tvGameTableRoundNumberDown?.setCompoundDrawablesWithIntrinsicBounds(null, null, null, westIcon) }
+                else -> {
+                    tvGameTableRoundNumberUp?.setCompoundDrawablesWithIntrinsicBounds(null, null, null, northIcon)
+                    tvGameTableRoundNumberDown?.setCompoundDrawablesWithIntrinsicBounds(null, null, null, northIcon) }
             }
         }
     }

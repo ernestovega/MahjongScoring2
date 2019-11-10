@@ -26,13 +26,14 @@
             android:id="@+id/tvGameTableRoundNumberUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/double_standard_margin"
             android:drawablePadding="@dimen/half_standard_margin"
             android:drawableTint="@color/grayMM"
+            android:gravity="center"
             android:rotation="215"
             android:textColor="@color/grayMM"
             android:textSize="@dimen/table_player_round_num_text_size"
-            tools:drawableStart="@drawable/ic_east"
+            tools:drawableBottom="@drawable/ic_east"
             tools:targetApi="m"
             tools:text="16" />
 
@@ -50,13 +51,14 @@
             android:id="@+id/tvGameTableRoundNumberDown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/double_standard_margin"
             android:drawablePadding="@dimen/half_standard_margin"
             android:drawableTint="@color/grayMM"
+            android:gravity="center"
             android:rotation="45"
             android:textColor="@color/grayMM"
             android:textSize="@dimen/table_player_round_num_text_size"
-            tools:drawableStart="@drawable/ic_east"
+            tools:drawableBottom="@drawable/ic_east"
             tools:targetApi="m"
             tools:text="16" />
 
