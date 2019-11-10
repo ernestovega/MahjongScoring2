@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AlertDialogStyleMM"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btHandActionsDialogPenalty"
+            style="@android:style/Widget.Material.Button.Colored"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/standard_margin"
+            android:layout_weight="1"
+            android:background="@drawable/button_rounded_corners_purple_dark"
+            android:elevation="@dimen/half_standard_margin"
+            android:text="@string/cancel_penalty"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:targetApi="m"
+            tools:visibility="visible"
+            tools:ignore="NestedWeights" />
+
+        <Button
+            android:id="@+id/btHandActionsDialogPenaltyCancel"
+            style="@android:style/Widget.Material.Button.Colored"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/standard_margin"
+            android:layout_weight="1"
+            android:background="@drawable/button_rounded_corners_purple"
+            android:elevation="@dimen/half_standard_margin"
+            android:text="@string/penalty"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            tools:targetApi="m" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btHandActionsDialogHu"
+        style="@android:style/Widget.Material.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/standard_margin"
+        android:layout_weight="4"
+        android:background="@drawable/button_rounded_corners_green"
+        android:elevation="@dimen/half_standard_margin"
+        android:text="@string/hu"
+        android:textSize="96sp"
+        android:textStyle="bold"
+        tools:targetApi="m" />
+
+    <Button
+        android:id="@+id/btHandActionsDialogWashout"
+        style="@android:style/Widget.Material.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/standard_margin"
+        android:layout_weight="2"
+        android:background="@drawable/button_rounded_corners_gray"
+        android:elevation="@dimen/half_standard_margin"
+        android:text="@string/draw"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        tools:targetApi="m" />
+
+</LinearLayout>

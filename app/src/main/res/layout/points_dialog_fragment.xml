@@ -2,56 +2,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/standard_margin"
+        android:layout_marginStart="@dimen/quadruple_standard_margin"
         android:layout_marginTop="@dimen/standard_margin"
+        android:layout_marginEnd="@dimen/quadruple_standard_margin"
         android:gravity="center"
-        android:layout_marginEnd="@dimen/standard_margin"
         android:hint="@string/hand_points">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tietPointsDialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:digits="0123456789"
             android:gravity="center"
             android:inputType="numberDecimal"
-            android:digits="0123456789"
             android:maxLength="4"
             android:maxLines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <include
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
         android:layout_marginTop="@dimen/standard_margin"
-        android:orientation="horizontal">
+        android:id="@+id/iPointsDialogCustomNumpad"
+        layout="@layout/custom_num_pad" />
 
-        <Button
-            android:id="@+id/btPointsDialogCancel"
-            style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:text="@string/close"
-            android:textColor="@color/grayMM" />
-
-        <Button
-            android:id="@+id/btPointsDialogSave"
-            style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/standard_margin"
-            android:background="@android:color/transparent"
-            android:text="@string/save" />
-
-    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/quadruple_standard_margin"
+        android:layout_marginTop="@dimen/double_standard_margin"
+        android:layout_marginEnd="@dimen/quadruple_standard_margin"
+        android:gravity="center"
+        android:text="@string/save"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:background="@drawable/button_rounded_corners_green"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored" />
 
 </LinearLayout>

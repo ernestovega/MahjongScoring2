@@ -17,7 +17,7 @@
     <!-- DIALOG -->
     <style name="AlertDialogStyleMM" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColorPrimary">@color/grayMM</item>
-        <item name="android:background">@android:color/white</item>
+        <item name="android:background">@color/grayLight</item>
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
@@ -62,6 +62,16 @@
         <item name="android:textStyle">bold</item>
         <item name="android:lines">1</item>
         <item name="android:includeFontPadding">true</item>
+    </style>
+
+    <style name="buttonNumPad">
+        <item name="android:background">@drawable/button_rounded_corners_gray</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:elevation">@dimen/half_standard_margin</item>
+        <item name="android:layout_marginStart">@dimen/quarter_standard_margin</item>
+        <item name="android:layout_marginEnd">@dimen/quarter_standard_margin</item>
     </style>
 
 </resources>

@@ -6,9 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import es.etologic.mahjongscoring2.app.base.BaseViewModel
 import es.etologic.mahjongscoring2.app.game.game_table.RankingTableHelper
 import es.etologic.mahjongscoring2.app.model.*
+import es.etologic.mahjongscoring2.app.model.DialogType.*
 import es.etologic.mahjongscoring2.app.model.EnablingState.ENABLED
 import es.etologic.mahjongscoring2.app.model.GamePages.LIST
 import es.etologic.mahjongscoring2.app.model.GamePages.TABLE
+import es.etologic.mahjongscoring2.app.model.HandActions.HU
+import es.etologic.mahjongscoring2.app.model.HandActions.PENALTY
 import es.etologic.mahjongscoring2.app.model.SeatStates.NORMAL
 import es.etologic.mahjongscoring2.app.model.SeatStates.SELECTED
 import es.etologic.mahjongscoring2.app.model.ShowState.HIDE
@@ -18,10 +21,11 @@ import es.etologic.mahjongscoring2.domain.model.GameRounds
 import es.etologic.mahjongscoring2.domain.model.GameWithRounds
 import es.etologic.mahjongscoring2.domain.model.RankingTable
 import es.etologic.mahjongscoring2.domain.model.Round
-import es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates
-import es.etologic.mahjongscoring2.domain.model.enums.FabMenuStates.*
+import es.etologic.mahjongscoring2.domain.model.enums.PlayerStates
+import es.etologic.mahjongscoring2.domain.model.enums.PlayerStates.PENALIZED
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds.*
+import es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NONE
 import es.etologic.mahjongscoring2.domain.use_cases.CreateGameUseCase
 import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase
 import es.etologic.mahjongscoring2.domain.use_cases.UpdateGameUseCase
@@ -37,40 +41,38 @@ class GameActivityViewModel internal constructor(
 ) : BaseViewModel() {
     
     companion object {
-        private const val MCR_MIN_POINTS = 8
         private const val MAX_MCR_HANDS_PER_GAME = 16
     }
     
     //List
-    val listNames = MutableLiveData<Array<String>>()
-    val listRounds = MutableLiveData<List<Round>>()
-    val listTotals = MutableLiveData<Array<String>>()
+    private val listNames = MutableLiveData<Array<String>>()
+    private val listRounds = MutableLiveData<List<Round>>()
+    private val listTotals = MutableLiveData<Array<String>>()
     //Table
-    val toolbarState = MutableLiveData<ToolbarState>()
-    val viewPagerPagingState = MutableLiveData<EnablingState>()
-    val currentViewPagerPage = MutableLiveData<GamePages>()
-    val fabMenuState = MutableLiveData<FabMenuStates>()
-    val fabMenuOpenState = MutableLiveData<ShowState>()
-    val eastSeat = MutableLiveData<Seat>()
-    val southSeat = MutableLiveData<Seat>()
-    val westSeat = MutableLiveData<Seat>()
-    val northSeat = MutableLiveData<Seat>()
-    val roundNumber = MutableLiveData<Int>()
-    val showDialog = MutableLiveData<DialogType>()
-    val endGameState = MutableLiveData<Boolean>()
+    private val toolbarState = MutableLiveData<ToolbarState>()
+    private val viewPagerPagingState = MutableLiveData<EnablingState>()
+    private val currentGameViewPagerPage = MutableLiveData<GamePages>()
+    private val currentWiningHandStepsViewPagerPage = MutableLiveData<WiningHandStepsPages>()
+    private val eastSeat = MutableLiveData<Seat>()
+    private val southSeat = MutableLiveData<Seat>()
+    private val westSeat = MutableLiveData<Seat>()
+    private val northSeat = MutableLiveData<Seat>()
+    private val roundNumber = MutableLiveData<Int>()
+    private val dialogToShow = MutableLiveData<DialogType>()
+    private val endGameState = MutableLiveData<Boolean>()
     private lateinit var gameWithRounds: GameWithRounds
     private var mCurrentRound = Round(0, 0)
-    private var tableState = TableStates.NORMAL
     private var selectedPlayerSeat = SelectedPlayerSeat()
     private var mDiscarderCurrentSeat = NONE
     private var gameId: Long = -1
+    private var selectedAction: HandActions? = null
     
     //Observables
     internal fun getViewPagerPagingState(): LiveData<EnablingState> = viewPagerPagingState
     
     internal fun getToolbarState(): LiveData<ToolbarState> = toolbarState
-    internal fun getCurrentViewPagerPage(): LiveData<GamePages> = currentViewPagerPage
-    internal fun getShowDialog(): LiveData<DialogType> = showDialog
+    internal fun getCurrentViewPagerPage(): LiveData<GamePages> = currentGameViewPagerPage
+    internal fun getShowDialog(): LiveData<DialogType> = dialogToShow
     internal fun getEndGameState(): LiveData<Boolean> = endGameState
     //list
     fun getListNames(): LiveData<Array<String>> = listNames
@@ -84,9 +86,8 @@ class GameActivityViewModel internal constructor(
     internal fun getWestSeat(): LiveData<Seat> = westSeat
     internal fun getNorthSeat(): LiveData<Seat> = northSeat
     internal fun getRoundNumber(): LiveData<Int> = roundNumber
-    internal fun getFabMenuState(): LiveData<FabMenuStates> = fabMenuState
-    internal fun getFabMenuOpenState(): LiveData<ShowState> = fabMenuOpenState
     
+    internal fun getSelectedHandAction(): HandActions? = selectedAction
     internal fun setGameId(gameId: Long) {
         this.gameId = gameId
     }
@@ -120,7 +121,7 @@ class GameActivityViewModel internal constructor(
     
     private fun createGameSuccess(gameWithRounds: GameWithRounds) {
         getGameSuccess(gameWithRounds)
-        showDialog.postValue(DialogType.PLAYERS_NAMES)
+        dialogToShow.postValue(PLAYERS)
     }
     
     private fun getGameSuccess(gameWithRounds: GameWithRounds) {
@@ -142,21 +143,17 @@ class GameActivityViewModel internal constructor(
         } else {
             mCurrentRound = rounds[rounds.size - 1]
             resetTable(true)
-            fabMenuState.postValue(RANKING)
-            showDialog.postValue(DialogType.SHOW_RANKING)
+            dialogToShow.postValue(RANKING)
         }
     }
     
     private fun resetTable(seatsDisabled: Boolean = false) {
-        tableState = TableStates.NORMAL
         selectedPlayerSeat.clear()
         mDiscarderCurrentSeat = NONE
         
         toolbarState.postValue(ToolbarState.NORMAL)
         viewPagerPagingState.postValue(ENABLED)
-        fabMenuState.postValue(FabMenuStates.NORMAL)
-        fabMenuOpenState.postValue(HIDE)
-        showDialog.postValue(DialogType.NONE)
+        dialogToShow.postValue(DialogType.NONE)
         
         roundNumber.postValue(mCurrentRound.roundId)
         resetSeats(seatsDisabled)
@@ -176,9 +173,7 @@ class GameActivityViewModel internal constructor(
         val penaltyPoints = mCurrentRound.getPenaltyPointsFromInitialPlayerPosition(initialPosition)
         return Seat(wind, name, points, penaltyPoints, if (isDisabled) SeatStates.DISABLED else NORMAL)
     }
-    
     //region DIALOGS
-    
     //Players names
     internal fun savePlayersNames(tiet1Text: Editable?, tiet2Text: Editable?, tiet3Text: Editable?, tiet4Text: Editable?) {
         val name1 = tiet1Text?.toString() ?: ""
@@ -200,42 +195,25 @@ class GameActivityViewModel internal constructor(
                     .subscribe({}, { error.postValue(it) })
             )
         } else {
-            showDialog.postValue(DialogType.PLAYERS_NAMES)
+            dialogToShow.postValue(PLAYERS)
         }
     }
     
     //RequestHandPoints  Dialog Responses
-    internal fun onRequestHandPointsResponse(newHandPointsInput: CharSequence?) {
-        val handPointsInput: CharSequence? = newHandPointsInput ?: "0"
-        val handPoints = convertInputValue(handPointsInput.toString())
-        if (handPoints == null || handPoints < MCR_MIN_POINTS) showDialog.postValue(DialogType.REQUEST_HAND_POINTS)
-        else if (tableState === TableStates.REQUESTING_RON_POINTS) saveRonRound(handPoints)
-        else if (tableState === TableStates.REQUESTING_TSUMO_POINTS) saveTsumoRound(handPoints)
-        else onRequestHandPointsCancel()
-    }
-    
-    internal fun onRequestHandPointsCancel() = resetTable()
-    
-    private fun saveTsumoRound(requestedPoints: Int) {
-        mCurrentRound.handPoints = requestedPoints
-        mCurrentRound.winnerInitialPosition = selectedPlayerSeat.initialSeat
-        mCurrentRound.setAllPlayersTsumoPoints(selectedPlayerSeat.initialSeat, requestedPoints)
-        saveCurrentRoundAndStartNext()
-    }
     
     //RequestPenaltyPoints Dialog Responses
     internal fun onRequestPenaltyResponse(newPenaltyPointsInput: CharSequence?, isDividedEqually: Boolean) {
         val penaltyPointsInput = newPenaltyPointsInput ?: "0"
         val penaltyPoints = convertInputValue(penaltyPointsInput.toString())
         if (penaltyPoints == null || penaltyPoints <= 0) {
-            showDialog.postValue(DialogType.REQUEST_PENALTY_POINTS)
+            dialogToShow.postValue(WINING_HAND)
         } else {
             if (isDividedEqually) {
                 if (penaltyPoints % 3 == 0) {
                     mCurrentRound.setAllPlayersPenaltyPoints(selectedPlayerSeat.initialSeat, penaltyPoints)
                     resetTable()
                 } else {
-                    showDialog.postValue(DialogType.REQUEST_PENALTY_POINTS)
+                    dialogToShow.postValue(WINING_HAND)
                 }
             } else {
                 mCurrentRound.setPlayerPenaltyPoints(selectedPlayerSeat.initialSeat, penaltyPoints)
@@ -253,27 +231,20 @@ class GameActivityViewModel internal constructor(
         }
         
     }
-    
-    internal fun onRequestPenaltyCancel() = resetTable()
     //endregion
     
     //Seats
     fun onSeatClicked(seatPosition: TableWinds) {
-        when (tableState) {
-            TableStates.NORMAL -> {
-                setSelectedPlayerSeat(seatPosition)
-                val isPlayerPenalized = mCurrentRound.isPenalizedPlayer(selectedPlayerSeat.initialSeat)
-                val newMenuState = if (isPlayerPenalized) PLAYER_PENALIZED else PLAYER_SELECTED
-                fabMenuState.postValue(newMenuState)
-                fabMenuOpenState.postValue(SHOW)
-            }
-            TableStates.REQUESTING_DISCARDER -> if (seatPosition !== selectedPlayerSeat.currentSeat) {
-                mDiscarderCurrentSeat = seatPosition
-                requestRonPoints()
-            }
-            TableStates.REQUESTING_RON_POINTS, TableStates.REQUESTING_TSUMO_POINTS, TableStates.REQUESTING_PENALTY_POINTS -> {
-            }
-        }
+        setSelectedPlayerSeat(seatPosition)
+        dialogToShow.postValue(HAND_ACTION)
+    }
+    
+    internal fun getSelectedPlayerState(): PlayerStates {
+        val isPlayerPenalized = mCurrentRound.isPenalizedPlayer(selectedPlayerSeat.initialSeat)
+        return if (isPlayerPenalized)
+            PENALIZED
+        else
+            PlayerStates.SELECTED
     }
     
     private fun setSelectedPlayerSeat(seatPosition: TableWinds) {
@@ -342,45 +313,23 @@ class GameActivityViewModel internal constructor(
         }
     }
     
-    private fun requestRonPoints() {
-        tableState = TableStates.REQUESTING_RON_POINTS
-        showDialog.postValue(DialogType.REQUEST_HAND_POINTS)
-    }
-    
-    private fun saveRonRound(requestedPoints: Int) {
-        mCurrentRound.handPoints = requestedPoints
-        mCurrentRound.winnerInitialPosition = selectedPlayerSeat.initialSeat
-        val discarderInitialSeat = GameRounds.getPlayerInitialSeatByCurrentSeat(mDiscarderCurrentSeat, mCurrentRound.roundId)
-        mCurrentRound.discarderInitialPosition = discarderInitialSeat
-        mCurrentRound.setAllPlayersRonPoints(selectedPlayerSeat.initialSeat, requestedPoints, discarderInitialSeat)
-        saveCurrentRoundAndStartNext()
-    }
-    
-    //Fabs
-    fun onFabCancelRequestingLooserClicked() {
-        resetTable()
-    }
-    
-    fun onToggleFabMenu(isOpened: Boolean) {
-        if (!isOpened && tableState === TableStates.NORMAL) {
-            setSelectedPlayerSeat(NONE)
-            setSeatSelected(NONE)
-            fabMenuState.postValue(FabMenuStates.NORMAL)
-            fabMenuOpenState.postValue(HIDE)
-        }
-    }
-    
-    fun onFabGamePenaltyCancelClicked() {
+    //Actions
+    fun onPenaltyCancelClicked() {
         mCurrentRound.cancelAllPlayersPenalties()
         resetTable()
     }
     
-    fun onFabGamePenaltyClicked() {
-        tableState = TableStates.REQUESTING_PENALTY_POINTS
-        showDialog.postValue(DialogType.REQUEST_PENALTY_POINTS)
+    fun onPenaltyClicked() {
+        selectedAction = PENALTY
+        dialogToShow.postValue(WINING_HAND)
     }
     
-    fun onFabGameWashoutClicked() {
+    fun onHuClicked() {
+        selectedAction = HU
+        dialogToShow.postValue(WINING_HAND)
+    }
+    
+    fun onWashoutClicked() {
         saveCurrentRoundAndStartNext()
     }
     
@@ -396,34 +345,37 @@ class GameActivityViewModel internal constructor(
         )
     }
     
-    fun onFabGameTsumoClicked() {
-        requestTsumoPoints()
+    fun diceClicked() {
+        dialogToShow.postValue(DICE)
     }
     
-    private fun requestTsumoPoints() {
-        tableState = TableStates.REQUESTING_TSUMO_POINTS
-        showDialog.postValue(DialogType.REQUEST_HAND_POINTS)
+    fun rankingClicked() {
+        dialogToShow.postValue(RANKING)
     }
     
-    fun onFabGameRonClicked() {
-        requestDiscarder()
+    internal fun saveRonRound(requestedPoints: Int) {
+        mCurrentRound.handPoints = requestedPoints
+        mCurrentRound.winnerInitialPosition = selectedPlayerSeat.initialSeat
+        val discarderInitialSeat = GameRounds.getPlayerInitialSeatByCurrentSeat(mDiscarderCurrentSeat, mCurrentRound.roundId)
+        mCurrentRound.discarderInitialPosition = discarderInitialSeat
+        mCurrentRound.setAllPlayersRonPoints(selectedPlayerSeat.initialSeat, requestedPoints, discarderInitialSeat)
+        saveCurrentRoundAndStartNext()
     }
     
-    private fun requestDiscarder() {
-        tableState = TableStates.REQUESTING_DISCARDER
-        viewPagerPagingState.postValue(EnablingState.DISABLED)
-        toolbarState.postValue(ToolbarState.REQUEST_DISCARDER)
-        fabMenuState.postValue(CANCEL_REQUEST_DISCARDER)
-    }
-    
-    fun onFabRankingClicked() {
-        fabMenuState.postValue(RANKING)
-        showDialog.postValue(DialogType.SHOW_RANKING)
+    internal fun saveTsumoRound(requestedPoints: Int) {
+        mCurrentRound.handPoints = requestedPoints
+        mCurrentRound.winnerInitialPosition = selectedPlayerSeat.initialSeat
+        mCurrentRound.setAllPlayersTsumoPoints(selectedPlayerSeat.initialSeat, requestedPoints)
+        saveCurrentRoundAndStartNext()
     }
     
     //Others
-    fun setCurrentViewPagerPage(page: GamePages) {
-        currentViewPagerPage.postValue(page)
+    fun setCurrentGameViewPagerPage(page: GamePages) {
+        currentGameViewPagerPage.postValue(page)
+    }
+    
+    fun setCurrentWiningHandStepsViewPagerPage(page: WiningHandStepsPages) {
+        currentWiningHandStepsViewPagerPage.postValue(page)
     }
     
     fun resumeGame() {
@@ -431,15 +383,10 @@ class GameActivityViewModel internal constructor(
     }
     
     fun onBackPressed() {
-        if (currentViewPagerPage.value === LIST) {
-            currentViewPagerPage.postValue(TABLE)
-            
-        } else if (fabMenuOpenState.value === SHOW) {
-            fabMenuOpenState.postValue(HIDE)
-            
-        } else {
-            showDialog.postValue(DialogType.EXIT)
-        }
+        if (currentGameViewPagerPage.value === LIST)
+            currentGameViewPagerPage.postValue(TABLE)
+        else
+            dialogToShow.postValue(EXIT)
     }
     
     internal fun endGame() {
@@ -451,10 +398,6 @@ class GameActivityViewModel internal constructor(
                 .doOnEvent { _, _ -> progressState.postValue(HIDE) }
                 .subscribe({ endGameState.postValue(true) }, { endGameState.postValue(false) })
         )
-    }
-    
-    fun famMenuDiceClicked() {
-        showDialog.postValue(DialogType.ROLL_DICE)
     }
     
     fun getRankingTable(): RankingTable? = RankingTableHelper.generateRankingTable(gameWithRounds)

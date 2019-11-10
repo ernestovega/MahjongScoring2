@@ -92,8 +92,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/double_standard_margin"
                     android:layout_marginEnd="@dimen/double_standard_margin"
-                    android:layout_marginLeft="@dimen/triple_standard_margin"
-                    android:layout_marginRight="@dimen/double_standard_margin"
                     android:layout_marginStart="@dimen/triple_standard_margin"
                     android:layout_marginTop="@dimen/double_standard_margin"
                     android:src="@drawable/arrow"
@@ -106,11 +104,10 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.github.clans.fab.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabOldGames"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fab_colorNormal="@color/colorAccent"
+        android:layout_width="@dimen/quadruple_standard_margin"
+        android:layout_height="@dimen/quadruple_standard_margin"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/double_standard_margin"
         android:src="@drawable/ic_play_arrow_white_24px"/>

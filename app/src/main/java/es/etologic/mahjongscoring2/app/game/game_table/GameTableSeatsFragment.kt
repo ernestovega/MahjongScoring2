@@ -171,21 +171,21 @@ class GameTableSeatsFragment : androidx.fragment.app.Fragment() {
     }
     
     private fun initListeners(view: View) {
-        view.ivTableSeatEastSeatWindIcon?.setOnClickListener {   if (eastSeatState  != DISABLED) listener?.onEastSeatClick() }
-        view.tvTableSeatEastName?.setOnClickListener {           if (eastSeatState  != DISABLED) listener?.onEastSeatClick() }
-        view.tvTableSeatEastPoints?.setOnClickListener {         if (eastSeatState  != DISABLED) listener?.onEastSeatClick() }
-        view.tvTableSeatEastPenaltyPoints?.setOnClickListener {  if (eastSeatState  != DISABLED) listener?.onEastSeatClick() }
-        view.ivTableSeatSouthSeatWindIcon?.setOnClickListener {  if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
-        view.tvTableSeatSouthName?.setOnClickListener {          if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
-        view.tvTableSeatSouthPoints?.setOnClickListener {        if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
+        view.ivTableSeatEastSeatWindIcon?.setOnClickListener { if (eastSeatState != DISABLED) listener?.onEastSeatClick() }
+        view.tvTableSeatEastName?.setOnClickListener { if (eastSeatState != DISABLED) listener?.onEastSeatClick() }
+        view.tvTableSeatEastPoints?.setOnClickListener { if (eastSeatState != DISABLED) listener?.onEastSeatClick() }
+        view.tvTableSeatEastPenaltyPoints?.setOnClickListener { if (eastSeatState != DISABLED) listener?.onEastSeatClick() }
+        view.ivTableSeatSouthSeatWindIcon?.setOnClickListener { if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
+        view.tvTableSeatSouthName?.setOnClickListener { if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
+        view.tvTableSeatSouthPoints?.setOnClickListener { if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
         view.tvTableSeatSouthPenaltyPoints?.setOnClickListener { if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
-        view.ivTableSeatWestSeatWindIcon?.setOnClickListener {   if (westSeatState  != DISABLED) listener?.onWestSeatClick() }
-        view.tvTableSeatWestName?.setOnClickListener {           if (westSeatState  != DISABLED) listener?.onWestSeatClick() }
-        view.tvTableSeatWestPoints?.setOnClickListener {         if (westSeatState  != DISABLED) listener?.onWestSeatClick() }
-        view.tvTableSeatWestPenaltyPoints?.setOnClickListener {  if (westSeatState  != DISABLED) listener?.onWestSeatClick() }
-        view.ivTableSeatNorthSeatWindIcon?.setOnClickListener {  if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
-        view.tvTableSeatNorthName?.setOnClickListener {          if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
-        view.tvTableSeatNorthPoints?.setOnClickListener {        if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
+        view.ivTableSeatWestSeatWindIcon?.setOnClickListener { if (westSeatState != DISABLED) listener?.onWestSeatClick() }
+        view.tvTableSeatWestName?.setOnClickListener { if (westSeatState != DISABLED) listener?.onWestSeatClick() }
+        view.tvTableSeatWestPoints?.setOnClickListener { if (westSeatState != DISABLED) listener?.onWestSeatClick() }
+        view.tvTableSeatWestPenaltyPoints?.setOnClickListener { if (westSeatState != DISABLED) listener?.onWestSeatClick() }
+        view.ivTableSeatNorthSeatWindIcon?.setOnClickListener { if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
+        view.tvTableSeatNorthName?.setOnClickListener { if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
+        view.tvTableSeatNorthPoints?.setOnClickListener { if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
         view.tvTableSeatNorthPenaltyPoints?.setOnClickListener { if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
     }
 }

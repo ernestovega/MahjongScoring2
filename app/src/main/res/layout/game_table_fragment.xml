@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
-
-    <FrameLayout
-        android:id="@+id/flGameTableSeats"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/llGameTableRoundNumberAndIconContainerFooter"
-        android:layout_below="@+id/llGameTableRoundNumberAndIconContainerHeader"
-        android:layout_centerInParent="true" />
 
     <LinearLayout
         android:id="@+id/llGameTableRoundNumberAndIconContainerHeader"
@@ -64,122 +55,31 @@
 
     </LinearLayout>
 
-    <com.github.clans.fab.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabGameDice"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/quadruple_standard_margin"
+        android:layout_height="@dimen/quadruple_standard_margin"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/half_standard_margin"
         android:layout_marginRight="@dimen/half_standard_margin"
         android:layout_marginBottom="@dimen/half_standard_margin"
-        android:src="@drawable/ic_dice_multiple_white_24dp" />
+        android:src="@drawable/ic_dice_multiple_white_24dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/famGameTable"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:paddingLeft="@dimen/half_standard_margin"
-        android:paddingRight="@dimen/half_standard_margin"
-        android:paddingBottom="@dimen/half_standard_margin"
-        app:menu_animationDelayPerItem="20"
-        app:menu_backgroundColor="@color/whiteTransparent"
-        app:menu_colorNormal="@color/colorAccent"
-        app:menu_colorPressed="@color/colorAccentDark"
-        app:menu_colorRipple="@color/colorAccentDark"
-        app:menu_icon="@drawable/ic_add_white_24dp"
-        app:menu_labels_colorNormal="@color/gray"
-        app:menu_labels_colorRipple="@color/grayMM"
-        app:menu_labels_ellipsize="end"
-        app:menu_labels_singleLine="true">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabGameTablePenaltyCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_penalty_white"
-            android:visibility="gone"
-            app:fab_colorNormal="@color/red"
-            app:fab_colorPressed="@color/redDark"
-            app:fab_colorRipple="@color/redDark"
-            app:fab_label="@string/cancel_penalty"
-            app:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabGameTablePenalty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_penalty_white"
-            app:fab_colorNormal="@color/colorPrimary"
-            app:fab_colorPressed="@color/colorPrimaryDark"
-            app:fab_colorRipple="@color/colorPrimaryDark"
-            app:fab_label="@string/isPenalized"
-            app:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabGameTableWashout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_flag_white"
-            app:fab_colorNormal="@color/colorPrimary"
-            app:fab_colorPressed="@color/colorPrimaryDark"
-            app:fab_colorRipple="@color/colorPrimaryDark"
-            app:fab_label="@string/draw"
-            app:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabGameTableTsumo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_trophy_white_18dp"
-            app:fab_colorNormal="@color/colorPrimary"
-            app:fab_colorPressed="@color/colorPrimaryDark"
-            app:fab_colorRipple="@color/colorPrimaryDark"
-            app:fab_label="@string/hu_selfpick"
-            app:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabGameTableRon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_medal_white"
-            app:fab_colorNormal="@color/colorPrimary"
-            app:fab_colorPressed="@color/colorPrimaryDark"
-            app:fab_colorRipple="@color/colorPrimaryDark"
-            app:fab_label="@string/hu_discard"
-            app:fab_size="mini" />
-
-    </com.github.clans.fab.FloatingActionMenu>
-
-    <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fabGameTableCancel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/half_standard_margin"
-        android:layout_marginRight="@dimen/half_standard_margin"
-        android:layout_marginBottom="@dimen/half_standard_margin"
-        android:rotation="45"
-        android:src="@drawable/fab_add"
-        android:visibility="gone" />
-
-    <com.github.clans.fab.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabGameTableRanking"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/quadruple_standard_margin"
+        android:layout_height="@dimen/quadruple_standard_margin"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/half_standard_margin"
         android:layout_marginRight="@dimen/half_standard_margin"
         android:layout_marginBottom="@dimen/half_standard_margin"
         android:src="@drawable/ic_trophy_white_18dp"
-        android:visibility="visible"
-        app:menu_colorNormal="@color/colorPrimary"
-        app:menu_colorPressed="@color/colorPrimaryDark"
-        app:menu_colorRipple="@color/colorPrimaryDark" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/llGameTableRankingContainer"

@@ -1,6 +1,7 @@
 package es.etologic.mahjongscoring2.app.model
 
 enum class GamePages(val code: Int) {
+    
     TABLE(0),
     LIST(1);
     

@@ -112,13 +112,13 @@ class GameActivity : BaseActivity() {
     
     private fun showDialogObserver(dialogType: DialogType) {
         when (dialogType) {
-            DialogType.PLAYERS_NAMES -> openPlayersDialogFragment()
-            DialogType.ROLL_DICE -> openDialog(PlayersDialogFragment(), RollDiceDialogFragment.TAG)
+            DialogType.PLAYERS -> openPlayersDialogFragment()
+            DialogType.DICE -> openDialog(PlayersDialogFragment(), RollDiceDialogFragment.TAG)
             DialogType.REQUEST_HAND_POINTS -> openDialog(PointsDialogFragment(), PointsDialogFragment.TAG)
-            DialogType.REQUEST_PENALTY_POINTS -> openDialog(PenaltyDialogFragment(), PenaltyDialogFragment.TAG)
+            DialogType.WINING_HAND -> openDialog(PenaltyDialogFragment(), PenaltyDialogFragment.TAG)
             DialogType.EXIT -> showDialogExitGame()
             DialogType.NONE -> return
-            DialogType.SHOW_RANKING -> return
+            DialogType.RANKING -> return
         }
     }
     private fun openPlayersDialogFragment() {
@@ -161,7 +161,7 @@ class GameActivity : BaseActivity() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageSelected(position: Int) {
-                viewModel.setCurrentViewPagerPage(GamePages.getFromCode(position))
+                viewModel.setCurrentGameViewPagerPage(GamePages.getFromCode(position))
                 supportActionBar?.setHomeAsUpIndicator(if (position == 0) R.drawable.ic_clear_white_24dp else R.drawable.ic_arrow_back_white_24dp)
             }
         })
@@ -172,7 +172,6 @@ class GameActivity : BaseActivity() {
         val adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(gameTableFragment, getString(R.string.table))
         adapter.addFragment(gameListFragment, getString(R.string.list))
-        
         return adapter
     }
     

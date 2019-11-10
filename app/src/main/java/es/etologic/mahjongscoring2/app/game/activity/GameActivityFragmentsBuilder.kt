@@ -2,10 +2,12 @@ package es.etologic.mahjongscoring2.app.game.activity
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import es.etologic.mahjongscoring2.app.game.dialogs.RankingDialogFragment
-import es.etologic.mahjongscoring2.app.game.dialogs.PlayersDialogFragment
+import es.etologic.mahjongscoring2.app.game.dialogs.*
+import es.etologic.mahjongscoring2.app.game.dialogs.DiscarderDialogFragment
 import es.etologic.mahjongscoring2.app.game.dialogs.PenaltyDialogFragment
+import es.etologic.mahjongscoring2.app.game.dialogs.PlayersDialogFragment
 import es.etologic.mahjongscoring2.app.game.dialogs.PointsDialogFragment
+import es.etologic.mahjongscoring2.app.game.dialogs.RankingDialogFragment
 import es.etologic.mahjongscoring2.app.game.dialogs.RollDiceDialogFragment
 import es.etologic.mahjongscoring2.app.game.game_list.GameListFragment
 import es.etologic.mahjongscoring2.app.game.game_list.GameListModule
@@ -38,4 +40,13 @@ abstract class GameActivityFragmentsBuilder {
     
     @ContributesAndroidInjector
     internal abstract fun providePenaltyDialogFragment(): PenaltyDialogFragment
+    
+    @ContributesAndroidInjector
+    internal abstract fun provideHandActionsDialogFragment(): HandActionsDialogFragment
+    
+    @ContributesAndroidInjector
+    internal abstract fun provideWiningHandStepsDialogFragment(): WiningHandStepsDialogFragment
+    
+    @ContributesAndroidInjector
+    internal abstract fun provideDiscarderDialogFragment(): DiscarderDialogFragment
 }
