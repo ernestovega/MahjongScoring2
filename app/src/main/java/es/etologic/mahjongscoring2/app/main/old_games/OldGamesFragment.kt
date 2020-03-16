@@ -9,7 +9,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import es.etologic.mahjongscoring2.R
@@ -25,13 +25,16 @@ import javax.inject.Inject
 
 class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     
-    @Inject internal lateinit var rvAdapter: OldGamesRvAdapter
-    @Inject internal lateinit var mainActivityViewModelFactory: MainActivityViewModelFactory
-    @Inject internal lateinit var oldGamesViewModelFactory: OldGamesViewModelFactory
+    @Inject
+    internal lateinit var rvAdapter: OldGamesRvAdapter
+    @Inject
+    internal lateinit var mainActivityViewModelFactory: MainActivityViewModelFactory
+    @Inject
+    internal lateinit var oldGamesViewModelFactory: OldGamesViewModelFactory
     private lateinit var activityViewModel: MainActivityViewModel
     private lateinit var viewModel: OldGamesViewModel
     
-    
+    //EVENTS
     override fun onOldGameItemDeleteClicked(gameId: Long) {
         val builder = AlertDialog.Builder(activity)
         builder.setTitle(R.string.delete_game)
@@ -46,7 +49,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         activityViewModel.startGame(gameId)
     }
     
-    
+    //LIFECYCLE
     override fun onResume() {
         super.onResume()
         viewModel.getAllGames()
@@ -65,13 +68,6 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         setOnClickListeners()
     }
     
-    
-    private fun setOnClickListeners() {
-        fabOldGames.setOnClickListener {
-            activityViewModel.startGame(null)
-        }
-    }
-    
     private fun setupRecyclerView() {
         recyclerViewOldGames?.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
@@ -82,12 +78,12 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     
     private fun setupViewModel() {
         if (activity != null) {
-            activityViewModel = ViewModelProviders.of(activity!!, mainActivityViewModelFactory).get(MainActivityViewModel::class.java)
-            viewModel = ViewModelProviders.of(this, oldGamesViewModelFactory).get(OldGamesViewModel::class.java)
-            viewModel.getError().observe(this, Observer(this::showError))
-            viewModel.getGames().observe(this, Observer(this::setGames))
-            viewModel.getSnackbarMessage().observe(this, Observer(this::showSnackbar))
-            viewModel.getProgressState().observe(this, Observer(this::toogleLocalProgress))
+            activityViewModel = ViewModelProvider(activity!!, mainActivityViewModelFactory).get(MainActivityViewModel::class.java)
+            viewModel = ViewModelProvider(this, oldGamesViewModelFactory).get(OldGamesViewModel::class.java)
+            viewModel.getError().observe(viewLifecycleOwner, Observer(this::showError))
+            viewModel.getGames().observe(viewLifecycleOwner, Observer(this::setGames))
+            viewModel.getSnackbarMessage().observe(viewLifecycleOwner, Observer(this::showSnackbar))
+            viewModel.getProgressState().observe(viewLifecycleOwner, Observer(this::toogleLocalProgress))
         }
     }
     
@@ -121,5 +117,11 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     
     private fun setToolbar() {
         activityViewModel.setToolbar(toolbarOldGames)
+    }
+    
+    private fun setOnClickListeners() {
+        fabOldGames.setOnClickListener {
+            activityViewModel.startNewGame()
+        }
     }
 }

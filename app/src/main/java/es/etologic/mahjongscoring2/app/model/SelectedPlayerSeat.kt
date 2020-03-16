@@ -1,6 +1,6 @@
 package es.etologic.mahjongscoring2.app.model
 
-import es.etologic.mahjongscoring2.domain.model.GameRounds
+import es.etologic.mahjongscoring2.app.utils.GameRoundsUtils
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NONE
 
@@ -11,7 +11,7 @@ class SelectedPlayerSeat(var currentSeat: TableWinds = NONE, var initialSeat: Ta
             clear()
         } else {
             this.currentSeat = currentSeat
-            this.initialSeat = GameRounds.getPlayerInitialSeatByCurrentSeat(currentSeat, roundId)
+            this.initialSeat = GameRoundsUtils.getPlayerInitialSeatByCurrentSeat(currentSeat, roundId)
         }
     }
     

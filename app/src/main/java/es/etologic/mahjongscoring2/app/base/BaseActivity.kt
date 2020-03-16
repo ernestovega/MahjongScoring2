@@ -33,7 +33,12 @@ open class BaseActivity : DaggerAppCompatActivity() {
     }
     
     protected fun goToActivity(intent: Intent, requestCode: Int) {
-        startActivity/*ForResult*/(intent/*, requestCode*/)
+        startActivityForResult(intent, requestCode)
+    }
+    
+    @Deprecated("Don' use", ReplaceWith("goToActivity(intent, requestCode)"))
+    override fun startActivity(intent: Intent?) {
+        super.startActivity(intent)
     }
     
     internal fun showError(throwable: Throwable?) {
@@ -41,7 +46,7 @@ open class BaseActivity : DaggerAppCompatActivity() {
         else throwable.message?.let { showError(it) }
     }
     
-    protected fun showError(message: String) {
+    private fun showError(message: String) {
         val builder = AlertDialog.Builder(this, R.style.AppTheme)
         builder.setMessage(message)
             .show()

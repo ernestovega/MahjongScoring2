@@ -21,7 +21,7 @@ class Game(
     var nameP4: String = "",
     @TypeConverters(DateConverter::class) val startDate: Date,
     @TypeConverters(DateConverter::class) var endDate: Date? = null
-) : GameRounds() {
+) {
     
     companion object {
         private const val NOT_SET_GAME_ID = 0

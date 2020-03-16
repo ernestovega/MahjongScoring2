@@ -39,7 +39,7 @@
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Medium</item>
     </style>
 
-    <style name="tvRankingDialogTableContent" parent="">
+    <style name="tvRankingDialogTableContent">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/grayMM</item>
@@ -64,14 +64,20 @@
         <item name="android:includeFontPadding">true</item>
     </style>
 
-    <style name="buttonNumPad">
-        <item name="android:background">@drawable/button_rounded_corners_gray</item>
-        <item name="android:textColor">@android:color/white</item>
+    <style name="buttonNumPad" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:elevation">@dimen/half_standard_margin</item>
         <item name="android:layout_marginStart">@dimen/quarter_standard_margin</item>
         <item name="android:layout_marginEnd">@dimen/quarter_standard_margin</item>
+    </style>
+
+    <style name="RippleForLayout">
+        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
     </style>
 
 </resources>

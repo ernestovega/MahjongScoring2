@@ -21,7 +21,7 @@ internal class CombinationsViewModel(
     
     fun getAll() {
         disposables.add(
-            getCombinationsUseCase.all
+            getCombinationsUseCase.getAll()
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnEvent { _, _ -> progressState.postValue(HIDE) }

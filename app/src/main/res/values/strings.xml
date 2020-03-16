@@ -202,6 +202,10 @@
     <string name="player_south_name">Player South name</string>
     <string name="player_west_name">Player West name</string>
     <string name="player_north_name">Player North name</string>
+    <string name="player_east">Player East</string>
+    <string name="player_south">Player South</string>
+    <string name="player_west">Player West</string>
+    <string name="player_north">Player North</string>
     <string name="equally_divided">Equally divided</string>
     <string name="players">Players</string>
     <string name="players_names">Players names</string>
@@ -210,7 +214,7 @@
     <string name="save">Save</string>
     <string name="hu">Hu</string>
     <string name="penalty">Penalty</string>
-    <string name="back"><![CDATA[<--]]></string>
+    <string name="back"><![CDATA[<—]]></string>
     <string name="zero">0</string>
     <string name="nine">9</string>
     <string name="eight">8</string>
@@ -221,5 +225,8 @@
     <string name="three">3</string>
     <string name="two">2</string>
     <string name="one">1</string>
+    <string name="select_action">Select action</string>
+    <string name="min_mcr_points">8</string>
+    <string name="x">x</string>
 
 </resources>

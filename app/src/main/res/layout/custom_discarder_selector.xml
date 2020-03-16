@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="@dimen/standard_margin">
+
+    <LinearLayout
+        android:id="@+id/llDiscarderSelectorWest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:tag="false">
+
+        <TextView
+            android:id="@+id/tvDiscarderSelectorWestName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/player_west"
+            android:textColor="@color/grayMM"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:textColor="@color/red" />
+
+        <TextView
+            android:id="@+id/tvDiscarderSelectorWestPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grayMM"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="-16"
+            tools:textColor="@color/red" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/llDiscarderSelectorNorth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:tag="false">
+
+            <TextView
+                android:id="@+id/tvDiscarderSelectorNorthName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/player_north"
+                android:textColor="@color/grayMM"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDiscarderSelectorNorthPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grayMM"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="-8"
+                tools:textColor="@color/red" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llDiscarderSelectorSouth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/triple_standard_margin"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:tag="false">
+
+            <TextView
+                android:id="@+id/tvDiscarderSelectorSouthName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/player_south"
+                android:textColor="@color/grayMM"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDiscarderSelectorSouthPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grayMM"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="-8"
+                tools:textColor="@color/red" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llDiscarderSelectorEast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:tag="false">
+
+        <TextView
+            android:id="@+id/tvDiscarderSelectorEastName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/player_east"
+            android:textColor="@color/grayMM"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/tvDiscarderSelectorEastPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grayMM"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="+32"
+            tools:textColor="@color/colorPrimary" />
+
+    </LinearLayout>
+
+</LinearLayout>

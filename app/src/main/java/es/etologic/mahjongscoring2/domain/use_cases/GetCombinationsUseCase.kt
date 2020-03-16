@@ -8,10 +8,7 @@ import javax.inject.Inject
 class GetCombinationsUseCase @Inject
 constructor(private val combinationsRepository: CombinationsRepository) {
     
-    val all: Single<List<Combination>>
-        get() = combinationsRepository.getAll()
+    internal fun getAll(): Single<List<Combination>> = combinationsRepository.getAll()
     
-    fun getSome(filter: String): Single<List<Combination>> {
-        return combinationsRepository.getFiltered(filter)
-    }
+    internal fun getSome(filter: String): Single<List<Combination>> = combinationsRepository.getFiltered(filter)
 }

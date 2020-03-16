@@ -5,9 +5,11 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <FrameLayout
-        android:id="@+id/flGameTableSeats"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fcvDiscarderDialog"
+        android:name="es.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment"
+        android:tag="GameTableSeatsFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -2,7 +2,7 @@ package es.etologic.mahjongscoring2.app.game.base
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import es.etologic.mahjongscoring2.app.base.BaseDialogFragment
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel
 import es.etologic.mahjongscoring2.app.game.activity.GameActivityViewModelFactory
@@ -20,6 +20,6 @@ internal abstract class BaseGameDialogFragment : BaseDialogFragment() {
         if (activity == null || !isAdded)
             dismiss()
         
-        activityViewModel = ViewModelProviders.of(activity!!, activityViewModelFactory).get(GameActivityViewModel::class.java)
+        activityViewModel = ViewModelProvider(activity!!, activityViewModelFactory).get(GameActivityViewModel::class.java)
     }
 }

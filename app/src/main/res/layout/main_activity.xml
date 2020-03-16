@@ -23,6 +23,7 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/main_drawer_header"
         app:itemBackground="@android:color/transparent"
+        android:background="@android:color/white"
         app:itemTextColor="@color/grayMM"
         app:itemIconTint="@color/grayMM"
         app:menu="@menu/main_drawer_menu"/>

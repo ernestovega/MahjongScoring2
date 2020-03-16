@@ -7,16 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import es.etologic.mahjongscoring2.R
 import es.etologic.mahjongscoring2.R.drawable
+import es.etologic.mahjongscoring2.R.layout
 import es.etologic.mahjongscoring2.app.game.base.BaseGameActivityFragment
 import es.etologic.mahjongscoring2.app.game.dialogs.RankingDialogFragment
 import es.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.TableSeatsListener
 import es.etologic.mahjongscoring2.app.model.DialogType
-import es.etologic.mahjongscoring2.app.model.Seat
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds.*
 import kotlinx.android.synthetic.main.game_table_fragment.*
-import kotlinx.android.synthetic.main.game_table_fragment.view.*
 
 class GameTableFragment : BaseGameActivityFragment() {
     
@@ -28,10 +26,10 @@ class GameTableFragment : BaseGameActivityFragment() {
     
     //LIFECYCLE
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.game_table_fragment, container, false)
+        val view = inflater.inflate(layout.game_table_fragment, container, false)
         initResources(inflater)
         initTableSeats()
-        setOnClickListeners(view)
+        initViewModel()
         return view
     }
     
@@ -43,31 +41,22 @@ class GameTableFragment : BaseGameActivityFragment() {
     }
     
     private fun initTableSeats() {
-        tableSeats = GameTableSeatsFragment()
-        childFragmentManager
-            .beginTransaction()
-            .replace(R.id.flGameTableSeats, tableSeats)
-            .commit()
+        tableSeats = childFragmentManager.findFragmentByTag(GameTableSeatsFragment.TAG) as GameTableSeatsFragment
     }
     
-    private fun setOnClickListeners(view: View) {
-        tableSeats.setTableSeatsListener(object : TableSeatsListener {
-            override fun onEastSeatClick() { activityViewModel.onSeatClicked(EAST) }
-            override fun onSouthSeatClick() { activityViewModel.onSeatClicked(SOUTH) }
-            override fun onWestSeatClick() { activityViewModel.onSeatClicked(WEST) }
-            override fun onNorthSeatClick() { activityViewModel.onSeatClicked(NORTH) }})
-        view.fabGameDice?.setOnClickListener { activityViewModel.diceClicked() }
-        view.fabGameTableRanking?.setOnClickListener { activityViewModel.rankingClicked() }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setOnClickListeners()
+        activityViewModel.loadGame()
     }
     
-    override fun setupActivityViewModelObservers() {
-        activityViewModel.getEastSeat().observe(this, Observer<Seat>(tableSeats::setEastSeat))
-        activityViewModel.getSouthSeat().observe(this, Observer<Seat>(tableSeats::setSouthSeat))
-        activityViewModel.getWestSeat().observe(this, Observer<Seat>(tableSeats::setWestSeat))
-        activityViewModel.getNorthSeat().observe(this, Observer<Seat>(tableSeats::setNorthSeat))
-        activityViewModel.getRoundNumber().observe(this, Observer<Int>(this::roundNumberObserver))
-        activityViewModel.getShowDialog().observe(this, Observer<DialogType>(this::showDialogObserver))
-        activityViewModel.initGame()
+    private fun initViewModel() {
+        activityViewModel.getEastSeat().observe(viewLifecycleOwner, Observer(tableSeats::setEastSeat))
+        activityViewModel.getSouthSeat().observe(viewLifecycleOwner, Observer(tableSeats::setSouthSeat))
+        activityViewModel.getWestSeat().observe(viewLifecycleOwner, Observer(tableSeats::setWestSeat))
+        activityViewModel.getNorthSeat().observe(viewLifecycleOwner, Observer(tableSeats::setNorthSeat))
+        activityViewModel.getRoundNumber().observe(viewLifecycleOwner, Observer(this::roundNumberObserver))
+        activityViewModel.getShowDialog().observe(viewLifecycleOwner, Observer(this::showDialogObserver))
     }
     
     private fun roundNumberObserver(roundNumber: Int) {
@@ -99,5 +88,15 @@ class GameTableFragment : BaseGameActivityFragment() {
     private fun showDialogObserver(dialogType: DialogType) {
         if (dialogType == DialogType.RANKING)
             RankingDialogFragment().show(childFragmentManager, RankingDialogFragment.TAG)
+    }
+    
+    private fun setOnClickListeners() {
+        tableSeats.setTableSeatsListener(object : TableSeatsListener {
+            override fun onEastSeatClick() { activityViewModel.onSeatClicked(EAST) }
+            override fun onSouthSeatClick() { activityViewModel.onSeatClicked(SOUTH) }
+            override fun onWestSeatClick() { activityViewModel.onSeatClicked(WEST) }
+            override fun onNorthSeatClick() { activityViewModel.onSeatClicked(NORTH) }})
+        fabGameDice?.setOnClickListener { /*activityViewModel.diceClicked()*/ }
+        fabGameTableRanking?.setOnClickListener { /*activityViewModel.rankingClicked()*/ }
     }
 }

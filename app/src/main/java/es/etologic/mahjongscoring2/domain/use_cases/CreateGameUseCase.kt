@@ -10,7 +10,7 @@ import javax.inject.Inject
 class CreateGameUseCase @Inject
 constructor(private val gamesRepository: GamesRepository) {
     
-    fun createGame(): Single<GameWithRounds> {
+    internal fun createGame(): Single<Long> {
         val playersNames = ArrayList<String>(4)
         playersNames.add("Player 1")
         playersNames.add("Player 2")
@@ -18,6 +18,5 @@ constructor(private val gamesRepository: GamesRepository) {
         playersNames.add("Player 4")
         val newGame = Game(playersNames)
         return gamesRepository.insertOne(newGame)
-            .flatMap { gamesRepository.getOneWithRounds(it) }
     }
 }

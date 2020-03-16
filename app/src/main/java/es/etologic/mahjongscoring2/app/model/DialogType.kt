@@ -5,7 +5,8 @@ enum class DialogType {
     PLAYERS,
     DICE,
     HAND_ACTION,
-    WINING_HAND,
+    HU,
+    PENALTY,
     RANKING,
     EXIT
 }

@@ -29,7 +29,7 @@ internal class RankingDialogFragment : BaseGameDialogFragment() {
     
     private fun setOnClickListeners() {
         btRankingDialogSeeList?.setOnClickListener {
-            activityViewModel.setCurrentGameViewPagerPage(GamePages.LIST)
+            activityViewModel.showPage(GamePages.LIST)
             dismiss()
         }
         btRankingDialogResume?.setOnClickListener {

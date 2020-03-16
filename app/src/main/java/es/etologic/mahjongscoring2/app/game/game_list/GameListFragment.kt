@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import es.etologic.mahjongscoring2.R
 import es.etologic.mahjongscoring2.app.game.base.BaseGameActivityFragment
-import es.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment
 import es.etologic.mahjongscoring2.domain.model.Round
 import kotlinx.android.synthetic.main.game_list_fragment.*
 import kotlinx.android.synthetic.main.game_list_fragment.view.*
@@ -23,6 +21,7 @@ class GameListFragment : BaseGameActivityFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.game_list_fragment, container, false)
         setupRecyclerView(view)
+        initViewModel()
         return view
     }
     
@@ -34,10 +33,10 @@ class GameListFragment : BaseGameActivityFragment() {
         view.rvGameList?.adapter = rvAdapter
     }
     
-    override fun setupActivityViewModelObservers() {
-        activityViewModel.getListNames().observe(this, Observer<Array<String>>(this::namesObserver))
-        activityViewModel.getListRounds().observe(this, Observer<List<Round>>(rvAdapter::updateCollection))
-        activityViewModel.getListTotals().observe(this, Observer<Array<String>>(this::totalsObserver))
+    private fun initViewModel() {
+        activityViewModel.getListNames().observe(viewLifecycleOwner, Observer(this::namesObserver))
+        activityViewModel.getListRounds().observe(viewLifecycleOwner, Observer(rvAdapter::updateCollection))
+        activityViewModel.getListTotals().observe(viewLifecycleOwner, Observer(this::totalsObserver))
     }
     
     private fun namesObserver(names: Array<String>) {

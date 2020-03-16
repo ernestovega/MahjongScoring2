@@ -42,11 +42,7 @@ internal class DiscarderDialogFragment : BaseGameDialogFragment() {
     }
     
     private fun initTableSeats() {
-        tableSeats = GameTableSeatsFragment()
-        childFragmentManager
-            .beginTransaction()
-            .replace(R.id.flGameTableSeats, tableSeats)
-            .commit()
+        tableSeats = childFragmentManager.findFragmentByTag(GameTableSeatsFragment.TAG) as GameTableSeatsFragment
     }
     
     private fun setOnClickListeners() {

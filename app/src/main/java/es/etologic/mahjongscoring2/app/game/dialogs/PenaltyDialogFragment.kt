@@ -36,12 +36,20 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
     
     private fun setOnClickListeners() {
         btPenaltyDialogSave?.setOnClickListener {
-            activityViewModel.onRequestPenaltyResponse(tietPenaltyDialog.text, cbPenaltyDialog.isChecked)
-            hideKeyboard(tietPenaltyDialog)
+            val penaltyPoints = Integer.valueOf(tietPenaltyDialog.text.toString())
+            if (penaltyPoints > 0)
+                if (cbPenaltyDialog.isChecked)
+                    if (penaltyPoints % 3 == 0) {
+                        activityViewModel.setCurrentPenaltyPoints(penaltyPoints, true)
+                        hideKeyboard(tietPenaltyDialog)
+                    } else {
+                        activityViewModel.setCurrentPenaltyPoints(penaltyPoints, false)
+                        hideKeyboard(tietPenaltyDialog)
+                    }
         }
         btPenaltyDialogCancel?.setOnClickListener {
-            activityViewModel.onRequestPenaltyCancel()
             hideKeyboard(tietPenaltyDialog)
+            dismiss()
         }
     }
 }

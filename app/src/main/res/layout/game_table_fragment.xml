@@ -30,6 +30,15 @@
 
     </LinearLayout>
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fcvGameTableSeats"
+        android:name="es.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment"
+        android:tag="GameTableSeatsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llGameTableRoundNumberAndIconContainerHeader"
+        android:layout_above="@+id/llGameTableRoundNumberAndIconContainerFooter" />
+
     <LinearLayout
         android:id="@+id/llGameTableRoundNumberAndIconContainerFooter"
         android:layout_width="match_parent"

@@ -8,7 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.etologic.mahjongscoring2.R
 import es.etologic.mahjongscoring2.app.base.BaseActivity
@@ -17,6 +17,11 @@ import kotlinx.android.synthetic.main.combinations_activity.*
 import javax.inject.Inject
 
 class CombinationsActivity : BaseActivity() {
+    
+    companion object {
+        internal const val TAG = "CombinationsActivity"
+        internal const val CODE = 2
+    }
     
     @Inject internal lateinit var combinationsViewModelFactory: CombinationsViewModelFactory
     internal var viewModel: CombinationsViewModel? = null
@@ -49,7 +54,7 @@ class CombinationsActivity : BaseActivity() {
     }
     
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this, combinationsViewModelFactory).get(CombinationsViewModel::class.java)
+        viewModel = ViewModelProvider(this, combinationsViewModelFactory).get(CombinationsViewModel::class.java)
         viewModel?.getFilteredCombinations()?.observe(this, Observer { rvAdapter.setCombinations(it) })
     }
     

@@ -9,6 +9,7 @@ import es.etologic.mahjongscoring2.app.game.dialogs.PlayersDialogFragment
 import es.etologic.mahjongscoring2.app.game.dialogs.PointsDialogFragment
 import es.etologic.mahjongscoring2.app.game.dialogs.RankingDialogFragment
 import es.etologic.mahjongscoring2.app.game.dialogs.RollDiceDialogFragment
+import es.etologic.mahjongscoring2.app.game.dialogs.winning_hand_dialog.WinningHandDialogFragment
 import es.etologic.mahjongscoring2.app.game.game_list.GameListFragment
 import es.etologic.mahjongscoring2.app.game.game_list.GameListModule
 import es.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
@@ -45,7 +46,7 @@ abstract class GameActivityFragmentsBuilder {
     internal abstract fun provideHandActionsDialogFragment(): HandActionsDialogFragment
     
     @ContributesAndroidInjector
-    internal abstract fun provideWiningHandStepsDialogFragment(): WiningHandStepsDialogFragment
+    internal abstract fun provideWiningHandStepsDialogFragment(): WinningHandDialogFragment
     
     @ContributesAndroidInjector
     internal abstract fun provideDiscarderDialogFragment(): DiscarderDialogFragment

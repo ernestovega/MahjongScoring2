@@ -1,6 +1,7 @@
 package es.etologic.mahjongscoring2.app.game.game_table
 
 import es.etologic.mahjongscoring2.app.utils.DateTimeUtils
+import es.etologic.mahjongscoring2.app.utils.GameRoundsUtils
 import es.etologic.mahjongscoring2.domain.model.*
 import java.util.*
 import java.util.Collections.reverse
@@ -42,10 +43,10 @@ object RankingTableHelper {
     
     private fun setPlayersNamesAndScores(game: Game, rounds: List<Round>): List<PlayerRanking> {
         val playersRankings = ArrayList<PlayerRanking>(4)
-        val totalScoreP1 = GameRounds.getTotalScoreP1(rounds)
-        val totalScoreP2 = GameRounds.getTotalScoreP2(rounds)
-        val totalScoreP3 = GameRounds.getTotalScoreP3(rounds)
-        val totalScoreP4 = GameRounds.getTotalScoreP4(rounds)
+        val totalScoreP1 = GameRoundsUtils.getTotalScoreP1(rounds)
+        val totalScoreP2 = GameRoundsUtils.getTotalScoreP2(rounds)
+        val totalScoreP3 = GameRoundsUtils.getTotalScoreP3(rounds)
+        val totalScoreP4 = GameRoundsUtils.getTotalScoreP4(rounds)
         playersRankings.add(PlayerRanking(game.nameP1, totalScoreP1.toString()))
         playersRankings.add(PlayerRanking(game.nameP2, totalScoreP2.toString()))
         playersRankings.add(PlayerRanking(game.nameP3, totalScoreP3.toString()))

@@ -8,6 +8,5 @@ import javax.inject.Inject
 class GetAllPlayersUseCase @Inject
 constructor(private val playersRepository: PlayersRepository) {
     
-    val all: Single<List<Player>>
-        get() = playersRepository.getAllPlayers()
+    internal fun getAll(): Single<List<Player>> = playersRepository.getAllPlayers()
 }

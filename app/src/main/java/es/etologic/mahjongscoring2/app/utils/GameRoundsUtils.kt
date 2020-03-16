@@ -1,9 +1,10 @@
-package es.etologic.mahjongscoring2.domain.model
+package es.etologic.mahjongscoring2.app.utils
 
+import es.etologic.mahjongscoring2.domain.model.Round
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds.*
 
-open class GameRounds {
+class GameRoundsUtils {
     
     companion object {
         
@@ -71,13 +72,23 @@ open class GameRounds {
             }
         }
         
-        fun getPlayerInitialSeatByCurrentSeat(seatPosition: TableWinds, roundId: Int): TableWinds {
+        fun getPlayerInitialSeatByCurrentSeat(currentSeatPosition: TableWinds, roundId: Int): TableWinds {
             return when (roundId) {
-                1, 2, 3, 4 -> getPlayerInitialPositionBySeatInRoundEast(seatPosition)
-                5, 6, 7, 8 -> getPlayerInitialPositionBySeatInRoundSouth(seatPosition)
-                9, 10, 11, 12 -> getPlayerInitialPositionBySeatInRoundWest(seatPosition)
-                13, 14, 15, 16 -> getPlayerInitialPositionBySeatInRoundNorth(seatPosition)
-                else -> getPlayerInitialPositionBySeatInRoundNorth(seatPosition)
+                1, 2, 3, 4 -> getPlayerInitialPositionBySeatInRoundEast(
+                    currentSeatPosition
+                )
+                5, 6, 7, 8 -> getPlayerInitialPositionBySeatInRoundSouth(
+                    currentSeatPosition
+                )
+                9, 10, 11, 12 -> getPlayerInitialPositionBySeatInRoundWest(
+                    currentSeatPosition
+                )
+                13, 14, 15, 16 -> getPlayerInitialPositionBySeatInRoundNorth(
+                    currentSeatPosition
+                )
+                else -> getPlayerInitialPositionBySeatInRoundNorth(
+                    currentSeatPosition
+                )
             }
         }
         

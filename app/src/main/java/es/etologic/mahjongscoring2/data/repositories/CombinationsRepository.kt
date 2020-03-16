@@ -11,14 +11,18 @@ import javax.inject.Inject
 class CombinationsRepository
 @Inject constructor(private val context: Context) {
     
-    @Inject lateinit var combinationsDao: CombinationsDao
+    @Inject
+    lateinit var combinationsDao: CombinationsDao
     
     fun getAll(): Single<List<Combination>> {
-        return combinationsDao.getAll().map {
-            if (it.isEmpty())
-                combinationsDao.bulkInsert(hardcodedCombinations())
-            return@map it
-        }
+        return combinationsDao.getAll()
+            .flatMap {
+                if (it.isEmpty()) {
+                    combinationsDao.bulkInsert(hardcodedCombinations())
+                    getAll()
+                } else
+                    Single.just(it)
+            }
     }
     
     fun getFiltered(filter: String): Single<List<Combination>> {
