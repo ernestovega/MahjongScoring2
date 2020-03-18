@@ -1,12 +1,13 @@
 package es.etologic.mahjongscoring2.app.custom_views
 
 import android.content.Context
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import es.etologic.mahjongscoring2.R
 import kotlinx.android.synthetic.main.custom_num_pad.view.*
 
-class CustomNumPad(context: Context?) : LinearLayout(context) {
+class CustomNumPad(context: Context, attributeSet: AttributeSet) : LinearLayout(context) {
     
     init {
         LayoutInflater.from(context).inflate(R.layout.custom_num_pad, this, true)

@@ -14,10 +14,9 @@ import androidx.viewpager.widget.ViewPager
 import es.etologic.mahjongscoring2.R
 import es.etologic.mahjongscoring2.app.base.BaseActivity
 import es.etologic.mahjongscoring2.app.base.ViewPagerAdapter
-import es.etologic.mahjongscoring2.app.game.dialogs.PenaltyDialogFragment
 import es.etologic.mahjongscoring2.app.game.dialogs.PlayersDialogFragment
-import es.etologic.mahjongscoring2.app.game.dialogs.PointsDialogFragment
 import es.etologic.mahjongscoring2.app.game.dialogs.RollDiceDialogFragment
+import es.etologic.mahjongscoring2.app.game.dialogs.winning_hand_dialog.WinningHandDialogFragment
 import es.etologic.mahjongscoring2.app.game.game_list.GameListFragment
 import es.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import es.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
@@ -134,8 +133,7 @@ class GameActivity : BaseActivity() {
         when (dialogType) {
             NAMES -> openPlayersDialogFragment()
             DICE -> openDialog(PlayersDialogFragment(), RollDiceDialogFragment.TAG)
-            HU -> openDialog(PointsDialogFragment(), PointsDialogFragment.TAG)
-            PENALTY -> openDialog(PenaltyDialogFragment(), PenaltyDialogFragment.TAG)
+            HAND_ACTION -> openDialog(WinningHandDialogFragment(), WinningHandDialogFragment.TAG)
             EXIT -> showDialogExitGame()
             RANKING -> return
             else -> return

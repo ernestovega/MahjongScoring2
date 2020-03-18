@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import es.etologic.mahjongscoring2.R
 import es.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
-import es.etologic.mahjongscoring2.app.model.DialogType.HAND_ACTION
-import es.etologic.mahjongscoring2.app.model.DialogType.PENALTY
 import es.etologic.mahjongscoring2.domain.model.enums.PlayerStates
 import kotlinx.android.synthetic.main.hand_actions_dialog_fragment.*
 
@@ -34,12 +32,12 @@ internal class HandActionsDialogFragment : BaseGameDialogFragment() {
     }
     
     private fun setOnClickListeners() {
-        btHandActionsDialogHu?.setOnClickListener { activityViewModel.showDialog(HAND_ACTION) }
+        btHandActionsDialogHu?.setOnClickListener {  }
         btHandActionsDialogWashout?.setOnClickListener { /*viewModel.saveDrawRound()*/ }
-        btHandActionsDialogPenalty?.setOnClickListener { activityViewModel.showDialog(HAND_ACTION) }
+        btHandActionsDialogPenalty?.setOnClickListener {  }
         if(activityViewModel.getSelectedPlayerState() == PlayerStates.PENALIZED) {
             btHandActionsDialogPenaltyCancel?.visibility = View.VISIBLE
-            btHandActionsDialogPenaltyCancel?.setOnClickListener { activityViewModel.showDialog(PENALTY) }
+            btHandActionsDialogPenaltyCancel?.setOnClickListener {  }
         }
     }
 }

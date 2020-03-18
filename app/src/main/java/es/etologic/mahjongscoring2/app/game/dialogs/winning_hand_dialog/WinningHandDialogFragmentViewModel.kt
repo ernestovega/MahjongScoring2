@@ -1,6 +1,5 @@
 package es.etologic.mahjongscoring2.app.game.dialogs.winning_hand_dialog
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import es.etologic.mahjongscoring2.app.base.BaseViewModel
 import es.etologic.mahjongscoring2.app.game.dialogs.winning_hand_dialog.WinningHandDialogFragmentViewModel.Companion.WinningHandPages.Companion.getType
@@ -14,10 +13,24 @@ class WinningHandDialogFragmentViewModel internal constructor(
     private val getGetCurrentGameUseCase: GetCurrentGameUseCase
 ) : BaseViewModel() {
     
+    companion object {
+        enum class WinningHandPages(val pageIndex: Int) {
+            HAND_ACTION(0),
+            POINTS(1);
+            
+            companion object {
+                private val map = values().associateBy(WinningHandPages::pageIndex)
+                internal fun getType(type: Int) = map[type] ?: HAND_ACTION
+            }
+        }
+    }
+    
     private val currentPage = MutableLiveData<WinningHandPages>()
     private lateinit var currentGame: GameWithRounds
     
-    internal fun getCurrentPage(): LiveData<WinningHandPages> = currentPage
+    internal fun setCurrentPage(pageIndex: Int) {
+        currentPage.postValue(getType(pageIndex))
+    }
     
     internal fun loadGame() {
         disposables.add(
@@ -34,25 +47,5 @@ class WinningHandDialogFragmentViewModel internal constructor(
                         progressState.postValue(HIDE)
                     })
         )
-    }
-    
-    internal fun setCurrentPage(page: WinningHandPages) {
-        currentPage.postValue(page)
-    }
-    
-    internal fun setCurrentPage(pageIndex: Int) {
-        currentPage.postValue(getType(pageIndex))
-    }
-    
-    companion object {
-        enum class WinningHandPages(val pageIndex: Int) {
-            DISCARDER(0),
-            POINTS(1);
-            
-            companion object {
-                private val map = values().associateBy(WinningHandPages::pageIndex)
-                internal fun getType(type: Int) = map[type] ?: DISCARDER
-            }
-        }
     }
 }

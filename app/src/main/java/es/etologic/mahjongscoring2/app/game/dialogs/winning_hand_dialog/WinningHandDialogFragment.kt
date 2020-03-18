@@ -20,6 +20,7 @@ import javax.inject.Inject
 internal class WinningHandDialogFragment : BaseGameDialogFragment() {
     
     companion object {
+        internal const val TAG = "WinningHandDialogFragment"
         private const val OFFSCREEN_PAGE_LIMIT = 1
     }
     @Inject
@@ -32,8 +33,8 @@ internal class WinningHandDialogFragment : BaseGameDialogFragment() {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupViewPager()
         setupViewModel()
+        setupViewPager()
         viewModel.loadGame()
     }
     
@@ -43,33 +44,32 @@ internal class WinningHandDialogFragment : BaseGameDialogFragment() {
     }
     
     private fun setupViewPager() {
-        siWiningHandStepsDialog?.setViewPager(viewPagerGame)
-        siWiningHandStepsDialog?.stepCount = 1
-        siWiningHandStepsDialog?.currentStep = 0
-        val vpAdapter = initAdapter()
-        tabLayoutGame?.setupWithViewPager(viewPagerGame)
-        viewPagerGame?.offscreenPageLimit = OFFSCREEN_PAGE_LIMIT
-        viewPagerGame?.adapter = vpAdapter
-        viewPagerGame?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-            override fun onPageScrollStateChanged(state: Int) {}
-            override fun onPageSelected(position: Int) {
-                viewModel.setCurrentPage(position)
-            }
-        })
+        if (vpWiningHandStepsDialog != null) {
+            val vpAdapter = initAdapter()
+            tabLayoutGame?.setupWithViewPager(vpWiningHandStepsDialog)
+            vpWiningHandStepsDialog?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+                override fun onPageScrollStateChanged(state: Int) {}
+                override fun onPageSelected(position: Int) {
+                    viewModel.setCurrentPage(position)
+                }
+            })
+            siWiningHandStepsDialog?.stepCount = 2
+            siWiningHandStepsDialog?.currentStep = 0
+            vpWiningHandStepsDialog?.offscreenPageLimit = OFFSCREEN_PAGE_LIMIT
+            vpWiningHandStepsDialog?.adapter = vpAdapter
+            siWiningHandStepsDialog?.setViewPager(vpWiningHandStepsDialog)
+        } else
+            dismiss()
     }
     
     private fun initAdapter(): PagerAdapter? {
-        val handActionsDialogFragment = HandActionsDialogFragment()
         val adapter = ViewPagerAdapter(childFragmentManager)
-        adapter.addFragment(handActionsDialogFragment, getString(R.string.select_action))
+        val handActionsDialogFragment = HandActionsDialogFragment()
         val pointsDialogFragment = PointsDialogFragment()
-        adapter.addFragment(pointsDialogFragment, getString(R.string.hand_points))
+        adapter.addFragment(handActionsDialogFragment, getString(R.string.select_action))
+        adapter.addFragment(pointsDialogFragment, getString(R.string.points))
         viewModel.setCurrentPage(0)
-//        val discarderDialogFragment = DiscarderDialogFragment()
-//        val pointsDialogFragment = PointsDialogFragment()
-//        adapter.addFragment(discarderDialogFragment, getString(R.string.select_discarder))
-//        adapter.addFragment(pointsDialogFragment, getString(R.string.hand_points))
         return adapter
     }
 }
