@@ -2,7 +2,7 @@ package es.etologic.mahjongscoring2.app.model
 
 enum class DialogType {
     NONE,
-    PLAYERS,
+    NAMES,
     DICE,
     HAND_ACTION,
     HU,

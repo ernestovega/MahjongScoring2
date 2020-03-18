@@ -7,7 +7,9 @@ import es.etologic.mahjongscoring2.domain.model.Combination
 import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CombinationsRepository
 @Inject constructor(private val context: Context) {
     

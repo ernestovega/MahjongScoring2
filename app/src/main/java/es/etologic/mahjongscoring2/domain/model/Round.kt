@@ -12,7 +12,7 @@ import es.etologic.mahjongscoring2.domain.model.enums.TableWinds.*
     foreignKeys = [ForeignKey(entity = Game::class, parentColumns = ["gameId"], childColumns = ["gameId"])],
     indices = [Index(value = ["gameId", "roundId"], unique = true)]
 )
-class Round(val gameId: Int, val roundId: Int) : RecyclerViewable<Round>() {
+class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
     
     companion object {
         
@@ -76,7 +76,7 @@ class Round(val gameId: Int, val roundId: Int) : RecyclerViewable<Round>() {
     var isBestHand = false
     
     private constructor(
-        gameId: Int,
+        gameId: Long,
         roundId: Int,
         handPoints: Int,
         winnerInitialPosition: TableWinds,

@@ -15,7 +15,7 @@ import es.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import es.etologic.mahjongscoring2.app.utils.StringUtils
 import es.etologic.mahjongscoring2.domain.model.BestHand
 import es.etologic.mahjongscoring2.domain.model.GameWithRounds
-import kotlinx.android.synthetic.main.oldgame_item.view.*
+import kotlinx.android.synthetic.main.main_oldgame_item.view.*
 import java.util.*
 import javax.inject.Inject
 
@@ -40,18 +40,14 @@ internal class OldGamesRvAdapter
     }
     
     fun setGames(newGames: List<GameWithRounds>) {
-        val result = DiffUtil.calculateDiff(
-            GameItemDiffUtilCallback(newGames, games), true
-        )
+        val result = DiffUtil.calculateDiff(GameItemDiffUtilCallback(newGames, games), true)
         saveNewGamesCopy(newGames)
         result.dispatchUpdatesTo(this)
     }
     
     private fun saveNewGamesCopy(newGames: List<GameWithRounds>) {
         val newGamesCopy = ArrayList<GameWithRounds>(newGames.size)
-        for (gameWithRounds in newGames) {
-            newGamesCopy.add(gameWithRounds.getCopy())
-        }
+        newGames.map { newGamesCopy.add(it.getCopy()) }
         games = newGamesCopy
     }
     
@@ -61,7 +57,7 @@ internal class OldGamesRvAdapter
     }
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.oldgame_item, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.main_oldgame_item, parent, false)
         return OldGameItemViewHolder(itemView)
     }
     

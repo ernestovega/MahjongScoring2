@@ -30,9 +30,7 @@
                     android:id="@+id/tvOldGameItemStartDate"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginLeft="@dimen/standard_margin"
                     android:layout_marginStart="@dimen/standard_margin"
                     android:gravity="center_vertical"
                     android:textColor="@android:color/white"
@@ -44,11 +42,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:layout_marginEnd="@dimen/standard_margin"
-                    android:layout_marginRight="@dimen/standard_margin"
                     android:layout_toEndOf="@+id/tvOldGameItemStartDate"
-                    android:layout_toRightOf="@+id/tvOldGameItemStartDate"
                     android:gravity="center_vertical|end"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
@@ -64,11 +59,11 @@
                 android:layout_below="@+id/rlOldGameItemTitleContainer"
                 android:baselineAligned="false"
                 android:orientation="horizontal"
-                android:paddingEnd="@dimen/standard_margin"
-                android:paddingLeft="@dimen/standard_margin"
-                android:paddingRight="@dimen/standard_margin"
                 android:paddingStart="@dimen/standard_margin"
-                android:paddingTop="@dimen/standard_margin">
+                android:paddingLeft="@dimen/standard_margin"
+                android:paddingTop="@dimen/standard_margin"
+                android:paddingEnd="@dimen/standard_margin"
+                android:paddingRight="@dimen/standard_margin">
 
                 <!-- SEATS -->
                 <LinearLayout
@@ -118,7 +113,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/half_standard_margin"
-                            android:layout_marginRight="@dimen/half_standard_margin"
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
@@ -219,7 +213,6 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/standard_margin"
                     android:layout_marginStart="@dimen/standard_margin"
                     android:layout_weight="1"
                     android:baselineAligned="false"
@@ -296,10 +289,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/llOldGameItemBodyContainer"
-                android:layout_marginEnd="@dimen/half_standard_margin"
-                android:layout_marginRight="@dimen/half_standard_margin"
-                android:layout_toLeftOf="@+id/btOldGameItemResume"
-                android:layout_toStartOf="@+id/btOldGameItemResume"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="@dimen/half_standard_margin"
                 android:text="@string/delete" />
 
             <Button
@@ -307,11 +298,9 @@
                 style="?android:buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_below="@+id/llOldGameItemBodyContainer"
-                android:layout_marginEnd="@dimen/half_standard_margin"
-                android:layout_marginRight="@dimen/half_standard_margin"
+                android:layout_marginStart="@dimen/half_standard_margin"
+                android:layout_toEndOf="@+id/btOldGameItemDelete"
                 android:text="@string/resume" />
 
         </RelativeLayout>

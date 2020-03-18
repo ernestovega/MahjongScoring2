@@ -1,6 +1,8 @@
 package es.etologic.mahjongscoring2.app.main.old_games
 
 import android.app.AlertDialog
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.*
 import com.google.android.material.snackbar.Snackbar
 import es.etologic.mahjongscoring2.R
 import es.etologic.mahjongscoring2.app.base.BaseFragment
@@ -20,7 +23,7 @@ import es.etologic.mahjongscoring2.app.model.ShowState
 import es.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import es.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import es.etologic.mahjongscoring2.domain.model.GameWithRounds
-import kotlinx.android.synthetic.main.oldgames_fragment.*
+import kotlinx.android.synthetic.main.main_oldgames_fragment.*
 import javax.inject.Inject
 
 class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
@@ -56,7 +59,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     }
     
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.oldgames_fragment, container, false)
+        return inflater.inflate(R.layout.main_oldgames_fragment, container, false)
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -109,7 +112,9 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         if (activity != null) {
             swipeRefreshLayoutOldGames?.setColorSchemeColors(
                 ContextCompat.getColor(activity!!, R.color.colorPrimary),
-                ContextCompat.getColor(activity!!, R.color.purplePenalty)
+                ContextCompat.getColor(activity!!, R.color.colorAccent),
+                ContextCompat.getColor(activity!!, R.color.purplePenalty),
+                ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
             )
             swipeRefreshLayoutOldGames?.setOnRefreshListener { viewModel.getAllGames() }
         }
@@ -120,7 +125,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     }
     
     private fun setOnClickListeners() {
-        fabOldGames.setOnClickListener {
+        fabOldGames?.setOnClickListener {
             activityViewModel.startNewGame()
         }
     }

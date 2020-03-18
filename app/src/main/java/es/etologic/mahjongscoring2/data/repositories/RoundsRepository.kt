@@ -3,7 +3,9 @@ package es.etologic.mahjongscoring2.data.repositories
 import es.etologic.mahjongscoring2.data.local_data_source.local.daos.RoundsDao
 import es.etologic.mahjongscoring2.domain.model.Round
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RoundsRepository
 @Inject constructor() {
     

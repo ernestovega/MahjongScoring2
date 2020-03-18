@@ -44,12 +44,6 @@ class GameTableFragment : BaseGameActivityFragment() {
         tableSeats = childFragmentManager.findFragmentByTag(GameTableSeatsFragment.TAG) as GameTableSeatsFragment
     }
     
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setOnClickListeners()
-        activityViewModel.loadGame()
-    }
-    
     private fun initViewModel() {
         activityViewModel.getEastSeat().observe(viewLifecycleOwner, Observer(tableSeats::setEastSeat))
         activityViewModel.getSouthSeat().observe(viewLifecycleOwner, Observer(tableSeats::setSouthSeat))
@@ -88,6 +82,12 @@ class GameTableFragment : BaseGameActivityFragment() {
     private fun showDialogObserver(dialogType: DialogType) {
         if (dialogType == DialogType.RANKING)
             RankingDialogFragment().show(childFragmentManager, RankingDialogFragment.TAG)
+    }
+    
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setOnClickListeners()
+        activityViewModel.loadGame()
     }
     
     private fun setOnClickListeners() {

@@ -7,13 +7,18 @@ import es.etologic.mahjongscoring2.domain.model.Game
 import es.etologic.mahjongscoring2.domain.model.GameWithRounds
 import io.reactivex.Single
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class GamesRepository
 @Inject constructor() {
     
     @Inject lateinit var gamesDao: GamesDao
     @Inject lateinit var roundsDao: RoundsDao
     @Inject lateinit var gameWithRoundsDao: GameWithRoundsDao
+    
+    fun getOne(gameId: Long): Single<Game> =
+        gamesDao.getOne(gameId)
     
     fun insertOne(game: Game): Single<Long> =
         gamesDao.insertOne(game)

@@ -21,14 +21,15 @@ import es.etologic.mahjongscoring2.domain.model.enums.PlayerStates.PENALIZED
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds.*
 import es.etologic.mahjongscoring2.domain.model.enums.TableWinds.NONE
+import es.etologic.mahjongscoring2.domain.use_cases.EndGameUseCase
 import es.etologic.mahjongscoring2.domain.use_cases.GetCurrentGameUseCase
 import es.etologic.mahjongscoring2.domain.use_cases.UpdateGameUseCase
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 
 class GameActivityViewModel internal constructor(
     private val getCurrentGameUseCase: GetCurrentGameUseCase,
-    private val updateGameUseCase: UpdateGameUseCase
+    private val updateGameUseCase: UpdateGameUseCase,
+    private val endGameUseCase: EndGameUseCase
 ) : BaseViewModel() {
     
     companion object {
@@ -79,7 +80,7 @@ class GameActivityViewModel internal constructor(
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnEvent { _, _ -> progressState.postValue(HIDE) }
-                .subscribe(this::getGameSuccess, error::postValue))
+                .subscribe(this::getGameSuccess, this::getGameFailure))
     }
     
     private fun getGameSuccess(gameWithRounds: GameWithRounds) {
@@ -90,11 +91,15 @@ class GameActivityViewModel internal constructor(
         createRoundOrFinish(gameWithRounds)
     }
     
+    private fun getGameFailure(throwable: Throwable) {
+        error.postValue(throwable)
+    }
+    
     private fun createRoundOrFinish(gameWithRounds: GameWithRounds) {
         val gameId = gameWithRounds.game.gameId
         val newRoundId: Int
         when {
-            gameWithRounds.rounds.isEmpty() -> dialogToShow.postValue(PLAYERS)
+            gameWithRounds.rounds.isEmpty() -> dialogToShow.postValue(NAMES)
             gameWithRounds.rounds.size < MAX_MCR_HANDS_PER_GAME -> {
                 newRoundId = gameWithRounds.rounds.size + 1
                 mCurrentRound = Round(gameId, newRoundId)
@@ -145,7 +150,7 @@ class GameActivityViewModel internal constructor(
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnEvent { _, _ -> progressState.postValue(HIDE) }
-                .subscribe({}, { error.postValue(it) })
+                .subscribe({}, error::postValue)
         )
     }
     
@@ -249,13 +254,12 @@ class GameActivityViewModel internal constructor(
     }
     
     internal fun endGame() {
-        gameWithRounds.game.endDate = Date()
         disposables.add(
-            updateGameUseCase.updateGame(gameWithRounds.game)
+            endGameUseCase.endGame(gameWithRounds.game.gameId)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnEvent { _, _ -> progressState.postValue(HIDE) }
-                .subscribe({ endGameState.postValue(true) }, { endGameState.postValue(false) })
+                .subscribe( { endGameState.postValue(true) }, { endGameState.postValue(false) })
         )
     }
     

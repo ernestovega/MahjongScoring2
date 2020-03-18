@@ -4,7 +4,9 @@ import es.etologic.mahjongscoring2.data.local_data_source.local.daos.PlayersDao
 import es.etologic.mahjongscoring2.domain.model.Player
 import io.reactivex.Single
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class PlayersRepository
 @Inject constructor() {
     

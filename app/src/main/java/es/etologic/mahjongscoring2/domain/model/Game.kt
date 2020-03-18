@@ -14,7 +14,7 @@ import java.util.*
     indices = [Index(value = ["gameId"], unique = true)]
 )
 class Game(
-    @field:PrimaryKey(autoGenerate = true) val gameId: Int,
+    @field:PrimaryKey(autoGenerate = true) val gameId: Long,
     var nameP1: String = "",
     var nameP2: String = "",
     var nameP3: String = "",
@@ -24,7 +24,7 @@ class Game(
 ) {
     
     companion object {
-        private const val NOT_SET_GAME_ID = 0
+        private const val NOT_SET_GAME_ID: Long = 0
     }
     
     constructor(playersNames: List<String>) : this(

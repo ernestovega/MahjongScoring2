@@ -22,6 +22,7 @@ import es.etologic.mahjongscoring2.app.game.game_list.GameListFragment
 import es.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import es.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
 import es.etologic.mahjongscoring2.app.model.DialogType
+import es.etologic.mahjongscoring2.app.model.DialogType.*
 import es.etologic.mahjongscoring2.app.model.GamePages
 import kotlinx.android.synthetic.main.game_activity.*
 import javax.inject.Inject
@@ -101,8 +102,8 @@ class GameActivity : BaseActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(GameActivityViewModel::class.java)
         viewModel.getError().observe(this, Observer(this::showError))
         viewModel.getCurrentViewPagerPage().observe(this, Observer { it?.let { viewPagerGame.currentItem = it.code } })
-        viewModel.getEndGameState().observe(this, Observer { gameFinished() })
-        viewModel.getShowDialog().observe(this, Observer { it?.let { this.showDialogObserver(it) } })
+        viewModel.getEndGameState().observe(this, Observer { finish() })
+        viewModel.getShowDialog().observe(this, Observer(this::showDialogObserver))
     }
     
     private fun setupViewPager() {
@@ -129,26 +130,14 @@ class GameActivity : BaseActivity() {
         return adapter
     }
     
-    private fun gameFinished(/*gameFinished: Boolean*/) {
-//        if (gameFinished != null) {
-//            if (gameFinished) finish();
-//            else {
-//                Snackbar.make(viewPager, R.string.error_updating_end_date, Snackbar.LENGTH_LONG)
-//                        .setActionTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
-//                        .setAction(R.string.exit, v -> finish())
-//                        .show();
-//            }
-//        }
-    }
-    
     private fun showDialogObserver(dialogType: DialogType) {
         when (dialogType) {
-            DialogType.PLAYERS -> openPlayersDialogFragment()
-            DialogType.DICE -> openDialog(PlayersDialogFragment(), RollDiceDialogFragment.TAG)
-            DialogType.HU -> openDialog(PointsDialogFragment(), PointsDialogFragment.TAG)
-            DialogType.PENALTY -> openDialog(PenaltyDialogFragment(), PenaltyDialogFragment.TAG)
-            DialogType.EXIT -> showDialogExitGame()
-            DialogType.RANKING -> return
+            NAMES -> openPlayersDialogFragment()
+            DICE -> openDialog(PlayersDialogFragment(), RollDiceDialogFragment.TAG)
+            HU -> openDialog(PointsDialogFragment(), PointsDialogFragment.TAG)
+            PENALTY -> openDialog(PenaltyDialogFragment(), PenaltyDialogFragment.TAG)
+            EXIT -> showDialogExitGame()
+            RANKING -> return
             else -> return
         }
     }

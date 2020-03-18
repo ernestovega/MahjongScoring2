@@ -24,7 +24,6 @@ class WinningHandDialogFragmentViewModel internal constructor(
             getGetCurrentGameUseCase.getCurrentGameWithRounds()
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnEvent { _, _ -> }
                 .subscribe(
                     {
                         currentGame = it

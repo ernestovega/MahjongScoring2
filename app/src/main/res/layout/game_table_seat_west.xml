@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivTableSeatWestSeatWindIcon"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="@dimen/standard_margin"
+        android:paddingBottom="@dimen/half_standard_margin"
         android:textSize="@dimen/table_player_points_text_size"
         tools:text="-000" />
 
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tvTableSeatWestPoints"
         android:layout_marginLeft="@dimen/half_standard_margin"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="12dp"
         android:layout_toRightOf="@+id/tvTableSeatWestPoints"
         android:textSize="@dimen/table_player_penalty_points_text_size"
         android:textStyle="normal"

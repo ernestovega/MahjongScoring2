@@ -1,44 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/standard_margin"
     android:background="@android:color/white">
 
-    <View
-        android:id="@+id/vTableSeatsCenter"
-        android:layout_width="@dimen/triple_standard_margin"
-        android:layout_height="@dimen/triple_standard_margin"
-        android:layout_centerInParent="true" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <include
-        layout="@layout/game_table_seat_east"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/vTableSeatsCenter"
-        android:layout_centerHorizontal="true" />
+        <include
+            layout="@layout/game_table_seat_west"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-    <include
-        layout="@layout/game_table_seat_west"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/vTableSeatsCenter"
-        android:layout_centerHorizontal="true" />
+        <View
+            android:layout_width="@dimen/triple_standard_margin"
+            android:layout_height="@dimen/triple_standard_margin" />
 
-    <include
-        layout="@layout/game_table_seat_south"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <include
+            layout="@layout/game_table_seat_east"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/vTableSeatsCenter"
-        tools:ignore="RtlHardcoded" />
+        android:baselineAligned="false"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <include
-        layout="@layout/game_table_seat_north"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/vTableSeatsCenter"
-        tools:ignore="RtlHardcoded" />
+        <include
+            layout="@layout/game_table_seat_north"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/purpleDark" />
+
+        <View
+            android:layout_width="@dimen/triple_standard_margin"
+            android:layout_height="@dimen/triple_standard_margin" />
+
+        <include
+            layout="@layout/game_table_seat_south"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary" />
+
+    </LinearLayout>
 
 </RelativeLayout>

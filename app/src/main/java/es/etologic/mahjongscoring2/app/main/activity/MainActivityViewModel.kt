@@ -28,9 +28,8 @@ internal constructor(
     }
     
     private val currentScreen = MutableLiveData<MainScreens>()
-    private val currentToolbar = MutableLiveData<Toolbar>()
-    
     internal fun getCurrentScreen(): LiveData<MainScreens> = currentScreen
+    private val currentToolbar = MutableLiveData<Toolbar>()
     internal fun getCurrentToolbar(): LiveData<Toolbar> = currentToolbar
     
     internal fun setToolbar(toolbar: Toolbar) {
@@ -38,15 +37,14 @@ internal constructor(
     }
     
     internal fun navigateTo(screen: MainScreens) {
-        if (currentScreen.value != screen)
-            currentScreen.postValue(screen)
+        currentScreen.postValue(screen)
     }
     
     internal fun startGame(gameId: Long) {
         disposables.add(
             updateCurrentGameUseCase.setCurrentGame(gameId)
                 .subscribeOn(Schedulers.io())
-                .subscribe({ navigateTo(GAME) }, error::postValue)
+                .subscribe({ navigateTo(GAME) }, { error.postValue(it) })
         )
     }
     

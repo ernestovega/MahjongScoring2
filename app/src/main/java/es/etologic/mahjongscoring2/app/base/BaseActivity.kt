@@ -32,7 +32,7 @@ open class BaseActivity : DaggerAppCompatActivity() {
         fragmentTransaction.commit()
     }
     
-    protected fun goToActivity(intent: Intent, requestCode: Int) {
+    fun goToActivity(intent: Intent, requestCode: Int) {
         startActivityForResult(intent, requestCode)
     }
     

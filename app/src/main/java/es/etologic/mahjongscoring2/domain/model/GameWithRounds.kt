@@ -55,7 +55,7 @@ class GameWithRounds(@field:Embedded var game: Game) {
     fun getCopy(): GameWithRounds {
         val gameWithRounds = GameWithRounds(game.copy)
         val newRounds = ArrayList<Round>(rounds.size)
-        for (round in rounds) newRounds.add(round.getCopy())
+        rounds.map { newRounds.add(it.getCopy()) }
         gameWithRounds.rounds = newRounds
         return gameWithRounds
     }
