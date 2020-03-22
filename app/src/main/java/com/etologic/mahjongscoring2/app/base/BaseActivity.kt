@@ -5,8 +5,6 @@
 
 package com.etologic.mahjongscoring2.app.base
 
-import android.R.animator.fade_in
-import android.R.animator.fade_out
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
@@ -39,8 +37,8 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     }
     
     internal fun goToActivity(intent: Intent, requestCode: Int) {
+//        overridePendingTransition(fade_in, fade_out)
         startActivityForResult(intent, requestCode)
-        overridePendingTransition(fade_in, fade_out)
     }
 
     internal fun goToFragment(@IdRes frameLayoutContainer: Int, fragment: BaseFragment, tag: String) {

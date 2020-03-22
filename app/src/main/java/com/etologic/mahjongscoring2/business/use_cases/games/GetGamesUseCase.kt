@@ -9,6 +9,4 @@ class GetGamesUseCase @Inject
 constructor(private val gamesRepository: GamesRepository) {
     
     fun getAllWithRounds(): Single<List<GameWithRounds>> = gamesRepository.getAllWithRounds()
-    
-    fun getGame(gameId: Long): Single<GameWithRounds> = gamesRepository.getOneWithRounds(gameId)
 }

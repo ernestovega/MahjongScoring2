@@ -27,10 +27,6 @@ class GamesRepository
         gamesDao.updateOne(game)
             .map { it == 1 }
     
-    fun deleteByGame(gameId: Long): Single<Boolean> =
-        roundsDao.deleteByGame(gameId)
-            .map { it >= 0 }
-    
     fun deleteOne(gameId: Long): Single<Boolean> =
         gamesDao.deleteOne(gameId)
             .map { it == 1 }

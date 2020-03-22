@@ -16,32 +16,22 @@ object GameNavigator {
     
     internal fun showDialog(dialogType: DialogType, activity: GameActivity) {
         when (dialogType) {
-            PLAYERS -> openDialog(PlayersDialogFragment(), PlayersDialogFragment.TAG, activity)
-            DICE -> openDialog(RollDiceDialogFragment(), RollDiceDialogFragment.TAG, activity)
-            HAND_ACTION -> openDialog(ActionDialogFragment(), ActionDialogFragment.TAG, activity)
-            HU -> openDialog(HuDialogFragment(), HuDialogFragment.TAG, activity)
-            PENALTY -> openDialog(PenaltyDialogFragment(), PenaltyDialogFragment.TAG, activity)
-            RANKING -> openDialog(RankingDialogFragment(), RankingDialogFragment.TAG, activity)
+            PLAYERS -> PlayersDialogFragment().show(activity.supportFragmentManager, PlayersDialogFragment.TAG)
+            DICE -> RollDiceDialogFragment().show(activity.supportFragmentManager, RollDiceDialogFragment.TAG)
+            HAND_ACTION -> ActionDialogFragment().show(activity.supportFragmentManager, ActionDialogFragment.TAG)
+            HU -> HuDialogFragment().show(activity.supportFragmentManager, HuDialogFragment.TAG)
+            PENALTY -> PenaltyDialogFragment().show(activity.supportFragmentManager, PenaltyDialogFragment.TAG)
+            RANKING -> RankingDialogFragment().show(activity.supportFragmentManager, RankingDialogFragment.TAG)
             EXIT -> showDialogExitGame(activity)
             else -> return
         }
-    }
-    
-    private fun openDialog(dialogFragment: DialogFragment, tag: String, activity: GameActivity) {
-        val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
-        val prev = activity.supportFragmentManager.findFragmentByTag(tag)
-        if (prev != null)
-            fragmentTransaction.remove(prev)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-        dialogFragment.show(activity.supportFragmentManager, tag)
     }
     
     private fun showDialogExitGame(activity: GameActivity) {
         val builder = AlertDialog.Builder(activity, R.style.AppTheme)
         builder.setTitle(R.string.exit_game)
             .setMessage(R.string.are_you_sure)
-            .setPositiveButton(R.string.exit) { _, _ -> /*activity.viewModel.endGame()*/ }
+            .setPositiveButton(R.string.exit) { _, _ -> activity.finish() }
             .setNegativeButton(android.R.string.cancel, null)
             .create()
             .show()

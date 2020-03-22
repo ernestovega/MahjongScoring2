@@ -19,7 +19,6 @@ open class BaseViewModel : ViewModel() {
     
     protected var disposables = CompositeDisposable()
     
-    
     override fun onCleared() {
         if (!disposables.isDisposed)
             disposables.dispose()

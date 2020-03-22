@@ -2,6 +2,7 @@ package com.etologic.mahjongscoring2.data_source.repositories
 
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.RoundsDao
 import com.etologic.mahjongscoring2.business.model.entities.Round
+import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,6 +31,10 @@ class RoundsRepository
     fun deleteOne(gameId: Long, roundId: Long) =
         roundsDao.deleteOne(gameId, roundId)
             .map { it == 1 }
+    
+    fun deleteByGame(gameId: Long): Single<Boolean> =
+        roundsDao.deleteByGame(gameId)
+            .map { it >= 0 }
     
     fun deleteAll() =
         roundsDao.deleteAll()

@@ -12,15 +12,13 @@ import javax.inject.Inject
 class CreateGameUseCase @Inject
 constructor(
     private val gamesRepository: GamesRepository,
-    private val roundsRepository: RoundsRepository,
-    private val currentGameRepository: CurrentGameRepository
+    private val roundsRepository: RoundsRepository
 ) {
     
     internal fun createGame(): Single<Long> =
         gamesRepository.insertOne(Game())
             .flatMap { gameId ->
-                val newRound = Round(gameId)
-                roundsRepository.insertOne(newRound)
+                roundsRepository.insertOne(Round(gameId))
                     .map { gameId }
             }
 }

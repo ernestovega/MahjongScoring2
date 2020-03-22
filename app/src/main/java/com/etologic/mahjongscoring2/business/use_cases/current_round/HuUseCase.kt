@@ -1,4 +1,4 @@
-package com.etologic.mahjongscoring2.business.use_cases.rounds.current_round
+package com.etologic.mahjongscoring2.business.use_cases.current_round
 
 import com.etologic.mahjongscoring2.app.utils.GameRoundsUtils.Companion.getPlayerInitialSeatByCurrentSeat
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
@@ -19,41 +19,38 @@ constructor(
     
     internal fun discard(huData: HuData): Single<GameWithRounds> =
         currentGameRepository.get()
-            .flatMap(gamesRepository::getOneWithRounds)
-            .map { currentGameWithRounds ->
+            .flatMap { currentGameWithRounds ->
                 val currentRound = currentGameWithRounds.rounds.last()
+                val gameId = currentRound.gameId
+                
                 currentRound.finishRoundByHuDiscard(
                     getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, currentRound.roundId),
                     getPlayerInitialSeatByCurrentSeat(huData.discarderCurrentSeat!!, currentRound.roundId),
                     huData.points
                 )
-                updateRoundAndCreateNextIfProceed(currentRound)
-                currentRound.gameId
+    
+                roundsRepository.updateOne(currentRound)
+                    .map { if (gameId < 16) roundsRepository.insertOne(Round(gameId, currentRound.roundId + 1)) }
+                    .map { gameId }
             }
             .flatMap(gamesRepository::getOneWithRounds)
+            .doOnSuccess { currentGameRepository.set(it) }
     
     internal fun selfpick(huData: HuData): Single<GameWithRounds> =
         currentGameRepository.get()
-            .flatMap(gamesRepository::getOneWithRounds)
             .flatMap { currentGameWithRounds ->
                 val currentRound = currentGameWithRounds.rounds.last()
+                val gameId = currentRound.gameId
+                
                 currentRound.finishRoundByHuSelfpick(
                     getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, currentRound.roundId),
                     huData.points
                 )
-                updateRoundAndCreateNextIfProceed(currentRound)
-                    .map { currentRound.gameId }
+    
+                roundsRepository.updateOne(currentRound)
+                    .map { if (gameId < 16) roundsRepository.insertOne(Round(gameId, currentRound.roundId + 1)) }
+                    .map { gameId }
             }
             .flatMap(gamesRepository::getOneWithRounds)
-    
-    private fun updateRoundAndCreateNextIfProceed(currentRound: Round): Single<Long> =
-        if (currentRound.gameId >= 16) {
-            roundsRepository.updateOne(currentRound)
-                .flatMap { roundsRepository.insertOne(Round(currentRound.gameId, currentRound.roundId + 1)) }
-                .map { currentRound.gameId }
-        } else {
-            currentRound.isEnded = true
-            roundsRepository.updateOne(currentRound)
-                .map { currentRound.gameId }
-        }
+            .doOnSuccess { currentGameRepository.set(it) }
 }

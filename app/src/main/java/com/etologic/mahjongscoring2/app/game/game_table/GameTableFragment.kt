@@ -21,10 +21,11 @@ import kotlinx.android.synthetic.main.game_table_fragment.*
 class GameTableFragment : BaseGameFragment() {
     
     private var tableSeats: GameTableSeatsFragment = GameTableSeatsFragment()
-    private var eastIcon: Drawable? = context?.let { getDrawable(it, drawable.ic_east) }
-    private var southIcon: Drawable? = context?.let { getDrawable(it, drawable.ic_south) }
-    private var westIcon: Drawable? = context?.let { getDrawable(it, drawable.ic_west) }
-    private var northIcon: Drawable? = context?.let { getDrawable(it, drawable.ic_north) }
+    
+    private var eastIcon: Drawable? = null
+    private var southIcon: Drawable? = null
+    private var westIcon: Drawable? = null
+    private var northIcon: Drawable? = null
     
     //LIFECYCLE
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,10 +34,18 @@ class GameTableFragment : BaseGameFragment() {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initResources()
         initTableSeats()
         setOnClickListeners()
         initViewModel()
         activityViewModel?.loadGame()
+    }
+    
+    private fun initResources() {
+        eastIcon = context?.let { getDrawable(it, drawable.ic_east) }
+        southIcon = context?.let { getDrawable(it, drawable.ic_south) }
+        westIcon = context?.let { getDrawable(it, drawable.ic_west) }
+        northIcon = context?.let { getDrawable(it, drawable.ic_north) }
     }
     
     private fun initTableSeats() {

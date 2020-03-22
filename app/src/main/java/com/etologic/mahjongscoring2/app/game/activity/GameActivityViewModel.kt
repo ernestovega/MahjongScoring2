@@ -3,9 +3,9 @@ package com.etologic.mahjongscoring2.app.game.activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
+import com.etologic.mahjongscoring2.app.game.game_table.RankingTableHelper.generateRankingTable
 import com.etologic.mahjongscoring2.app.model.DialogType
-import com.etologic.mahjongscoring2.app.model.DialogType.EXIT
-import com.etologic.mahjongscoring2.app.model.DialogType.HAND_ACTION
+import com.etologic.mahjongscoring2.app.model.DialogType.*
 import com.etologic.mahjongscoring2.app.model.GamePages
 import com.etologic.mahjongscoring2.app.model.GamePages.LIST
 import com.etologic.mahjongscoring2.app.model.GamePages.TABLE
@@ -15,20 +15,22 @@ import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.app.utils.GameRoundsUtils
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
+import com.etologic.mahjongscoring2.business.model.dtos.RankingData
 import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
-import com.etologic.mahjongscoring2.business.use_cases.games.current_game.GetCurrentGameUseCase
-import com.etologic.mahjongscoring2.business.use_cases.games.current_game.UpdateCurrentPlayersUseCase
-import com.etologic.mahjongscoring2.business.use_cases.rounds.current_round.DrawUseCase
-import com.etologic.mahjongscoring2.business.use_cases.rounds.current_round.HuUseCase
-import com.etologic.mahjongscoring2.business.use_cases.rounds.current_round.PenaltyUseCase
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
+import com.etologic.mahjongscoring2.business.use_cases.current_game.GetCurrentGameUseCase
+import com.etologic.mahjongscoring2.business.use_cases.current_game.SaveCurrentPlayersUseCase
+import com.etologic.mahjongscoring2.business.use_cases.current_round.DrawUseCase
+import com.etologic.mahjongscoring2.business.use_cases.current_round.HuUseCase
+import com.etologic.mahjongscoring2.business.use_cases.current_round.PenaltyUseCase
 import io.reactivex.schedulers.Schedulers
 
 class GameActivityViewModel internal constructor(
     private val getCurrentGameUseCase: GetCurrentGameUseCase,
-    private val updateCurrentPlayersUseCase: UpdateCurrentPlayersUseCase,
+    private val saveCurrentPlayersUseCase: SaveCurrentPlayersUseCase,
     private val huUseCase: HuUseCase,
     private val drawUseCase: DrawUseCase,
     private val penaltyUseCase: PenaltyUseCase
@@ -59,6 +61,8 @@ class GameActivityViewModel internal constructor(
     internal fun getCurrentPage(): LiveData<GamePages> = _currentPage
     private val _dialogToShow = MutableLiveData<DialogType>()
     internal fun getDialogToShow(): LiveData<DialogType> = _dialogToShow
+    private val _rankingData = MutableLiveData<RankingData>()
+    internal fun getRankingData(): LiveData<RankingData> = _rankingData
     
     //METHODS
     internal fun loadGame() {
@@ -69,7 +73,7 @@ class GameActivityViewModel internal constructor(
                 .doOnSuccess { _listNames.postValue(it.game.getPlayersNames()) }
                 .doOnSuccess { _listRounds.postValue(it.getRoundsWithBestHand()) }
                 .doOnSuccess { _listTotals.postValue(it.getPlayersTotalPointsString()) }
-                .doOnSuccess(this::resetTable)
+                .doOnSuccess { this.resetTable(it) }
                 .subscribe({ progressState.postValue(HIDE) }, this::showError)
         )
     }
@@ -81,7 +85,7 @@ class GameActivityViewModel internal constructor(
         _southSeat.postValue(buildNewSeat(gameWithRounds, SOUTH))
         _westSeat.postValue(buildNewSeat(gameWithRounds, WEST))
         _northSeat.postValue(buildNewSeat(gameWithRounds, NORTH))
-        if(currentRound.isEnded || currentRound.roundId == 16)
+        if (currentRound.isEnded || currentRound.roundId == 16)
             setSeatsDisabled()
     }
     
@@ -120,19 +124,19 @@ class GameActivityViewModel internal constructor(
     
     private fun setSeatsSelected(currentSeat: TableWinds) {
         _eastSeat.value?.let {
-            it.state = if(currentSeat == EAST) SELECTED else NORMAL
+            it.state = if (currentSeat == EAST) SELECTED else NORMAL
             _eastSeat.postValue(it)
         }
         _southSeat.value?.let {
-            it.state = if(currentSeat == SOUTH) SELECTED else NORMAL
+            it.state = if (currentSeat == SOUTH) SELECTED else NORMAL
             _eastSeat.postValue(it)
         }
         _westSeat.value?.let {
-            it.state = if(currentSeat == WEST) SELECTED else NORMAL
+            it.state = if (currentSeat == WEST) SELECTED else NORMAL
             _eastSeat.postValue(it)
         }
         _northSeat.value?.let {
-            it.state = if(currentSeat == NORTH) SELECTED else NORMAL
+            it.state = if (currentSeat == NORTH) SELECTED else NORMAL
             _eastSeat.postValue(it)
         }
     }
@@ -149,30 +153,23 @@ class GameActivityViewModel internal constructor(
             _dialogToShow.postValue(EXIT)
     }
     
-    //
+    internal fun loadRankingData() {
+        disposables.add(
+            getCurrentGameUseCase.getCurrentGameWithRounds()
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe { progressState.postValue(SHOW) }
+                .doOnSuccess{ _rankingData.postValue(generateRankingTable(it)) }
+                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+        )
+    }
     
-//    internal fun getRankingTable(): RankingData? = RankingTableHelper.generateRankingTable(gameWithRounds)
-
-//public void onRoundSwiped(int roundId) {
-//    try {
-//        mInteractor.deleteRound(mGame.getId(), roundId);
-//        refreshFragment();
-//        if(mView != null) {
-//            mView.refreshSeats();
-//        }
-//    } catch(DBException e) {
-//        if(mView != null) {
-//            mView.showDialogFinalizeGame(e.getMessage());
-//        }
-//    }
-//}
     internal fun showDialog(dialogType: DialogType) {
         _dialogToShow.postValue(dialogType)
     }
     
     internal fun savePlayersNames(names: Array<String>) {
         disposables.add(
-            updateCurrentPlayersUseCase.saveCurrentGamePlayersNames(names)
+            saveCurrentPlayersUseCase.saveCurrentGamePlayersNames(names)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess(this::resetTable)
@@ -220,7 +217,7 @@ class GameActivityViewModel internal constructor(
         )
     }
     
-        internal fun getSelectedSeat(): TableWinds =
+    internal fun getSelectedSeat(): TableWinds =
         when {
             _eastSeat.value?.state == SELECTED -> EAST
             _southSeat.value?.state == SELECTED -> SOUTH

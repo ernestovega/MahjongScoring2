@@ -5,6 +5,7 @@ import android.content.Intent.*
 import android.net.Uri
 import android.os.Build
 import android.os.Build.VERSION_CODES.LOLLIPOP
+import android.widget.Toast
 import com.etologic.mahjongscoring2.BuildConfig.APPLICATION_ID
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.anim.*

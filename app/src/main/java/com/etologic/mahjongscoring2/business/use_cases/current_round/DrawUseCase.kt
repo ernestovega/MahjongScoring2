@@ -1,4 +1,4 @@
-package com.etologic.mahjongscoring2.business.use_cases.rounds.current_round
+package com.etologic.mahjongscoring2.business.use_cases.current_round
 
 import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
 import com.etologic.mahjongscoring2.business.model.entities.Round
@@ -14,28 +14,19 @@ constructor(
     private val gamesRepository: GamesRepository,
     private val roundsRepository: RoundsRepository
 ) {
-    companion object {
-        private const val MAX_MCR_HANDS_PER_GAME = 16
-    }
     
     internal fun draw(): Single<GameWithRounds> =
         currentGameRepository.get()
-            .flatMap(gamesRepository::getOneWithRounds)
             .flatMap { currentGameWithRounds ->
                 val currentRound = currentGameWithRounds.rounds.last()
+                val gameId = currentRound.gameId
+                
                 currentRound.finishRound()
-                updateRoundAndCreateNextIfProceed(currentRound)
-                    .map { currentRound.gameId }
+                
+                roundsRepository.updateOne(currentRound)
+                    .map { if (gameId < 16) roundsRepository.insertOne(Round(gameId, currentRound.roundId + 1)) }
+                    .map { gameId }
             }
             .flatMap(gamesRepository::getOneWithRounds)
-    
-    private fun updateRoundAndCreateNextIfProceed(currentRound: Round): Single<Long> =
-        roundsRepository.updateOne(currentRound)
-            .flatMap {
-                if (currentRound.gameId < MAX_MCR_HANDS_PER_GAME)
-                    roundsRepository.insertOne(Round(currentRound.gameId, currentRound.roundId + 1))
-                        .map { currentRound.gameId }
-                else
-                    Single.just(currentRound.gameId)
-            }
+            .doOnSuccess { currentGameRepository.set(it) }
 }
