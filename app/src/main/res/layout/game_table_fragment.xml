@@ -5,6 +5,18 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabGameDiceUp"
+        android:layout_width="@dimen/quadruple_standard_margin"
+        android:layout_height="@dimen/quadruple_standard_margin"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/standard_margin"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:src="@drawable/ic_dice_multiple_white_24dp"
+        android:visibility="visible"
+        tools:visibility="visible" />
+
     <LinearLayout
         android:id="@+id/llGameTableRoundNumberAndIconContainerHeader"
         android:layout_width="match_parent"
@@ -32,12 +44,11 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcvGameTableSeats"
-        android:name="es.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment"
-        android:tag="GameTableSeatsFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/llGameTableRoundNumberAndIconContainerFooter"
         android:layout_below="@+id/llGameTableRoundNumberAndIconContainerHeader"
-        android:layout_above="@+id/llGameTableRoundNumberAndIconContainerFooter" />
+        android:tag="GameTableSeatsFragment" />
 
     <LinearLayout
         android:id="@+id/llGameTableRoundNumberAndIconContainerFooter"
@@ -65,42 +76,15 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabGameDice"
+        android:id="@+id/fabGameDiceDown"
         android:layout_width="@dimen/quadruple_standard_margin"
         android:layout_height="@dimen/quadruple_standard_margin"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/half_standard_margin"
-        android:layout_marginRight="@dimen/half_standard_margin"
-        android:layout_marginBottom="@dimen/half_standard_margin"
+        android:layout_marginEnd="@dimen/standard_margin"
+        android:layout_marginBottom="@dimen/standard_margin"
         android:src="@drawable/ic_dice_multiple_white_24dp"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:visibility="visible" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabGameTableRanking"
-        android:layout_width="@dimen/quadruple_standard_margin"
-        android:layout_height="@dimen/quadruple_standard_margin"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/half_standard_margin"
-        android:layout_marginRight="@dimen/half_standard_margin"
-        android:layout_marginBottom="@dimen/half_standard_margin"
-        android:src="@drawable/ic_trophy_white_18dp"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
-    <LinearLayout
-        android:id="@+id/llGameTableRankingContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDarkTransparent"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone">
-
-        <include layout="@layout/game_table_ranking_dialog_fragment" />
-
-    </LinearLayout>
 
 </RelativeLayout>

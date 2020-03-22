@@ -183,15 +183,15 @@
     <string name="cancel_penalty">Cancel penalty</string>
     <string name="isPenalized">Penalty</string>
     <string name="draw">Draw</string>
-    <string name="hu_selfpick">Selfpick Hu</string>
-    <string name="hu_discard">Discard Hu</string>
+    <string name="hu_selfpick">Hu\nSelf pick</string>
+    <string name="hu_discard">Hu\nDiscard</string>
     <string name="east">East</string>
     <string name="west">West</string>
     <string name="south">South</string>
     <string name="north">North</string>
     <string name="ups_something_wrong">Ups! Somenthing went wrong.</string>
     <string name="list">List</string>
-    <string name="select_discarder">Select discarder</string>
+    <string name="select_discarder">Select discarder. Selfpick if not:</string>
     <string name="select_discarder_player">Select discarder player</string>
     <string name="hand_points">Hand points</string>
     <string name="penalty_points">Penalty points</string>
@@ -228,5 +228,7 @@
     <string name="select_action">Select action</string>
     <string name="min_mcr_points">8</string>
     <string name="x">x</string>
+    <string name="confirm">Confirm</string>
+    <string name="end">End</string>
 
 </resources>

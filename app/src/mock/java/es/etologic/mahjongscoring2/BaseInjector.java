@@ -1,9 +1,9 @@
-package es.etologic.mahjongscoring2;
+package com.etologic.mahjongscoring2;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
 
-import es.etologic.mahjongscoring2.repository.MockLocalDataSource;
+import com.etologic.mahjongscoring2.repository.MockLocalDataSource;
 
 public class BaseInjector {
 

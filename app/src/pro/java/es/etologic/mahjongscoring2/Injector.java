@@ -1,10 +1,10 @@
-package es.etologic.mahjongscoring2;
+package com.etologic.mahjongscoring2;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
 
-import es.etologic.mahjongscoring2.app.main.old_games.OldGamesViewModelFactory;
-import es.etologic.mahjongscoring2.domain.use_cases.GetGamesUseCase;
+import com.etologic.mahjongscoring2.app.main.old_games.OldGamesViewModelFactory;
+import com.etologic.mahjongscoring2.business.use_cases.GetGamesUseCase;
 
 public class Injector {
 

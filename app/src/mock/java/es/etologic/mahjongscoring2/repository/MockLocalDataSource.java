@@ -1,14 +1,14 @@
-package es.etologic.mahjongscoring2.repository;
+package com.etologic.mahjongscoring2.repository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
-import es.etologic.mahjongscoring2.domain.model.Combination;
-import es.etologic.mahjongscoring2.domain.model.Game;
-import es.etologic.mahjongscoring2.domain.model.Player;
-import es.etologic.mahjongscoring2.domain.model.Round;
+import com.etologic.mahjongscoring2.business.model.Combination;
+import com.etologic.mahjongscoring2.business.model.Game;
+import com.etologic.mahjongscoring2.business.model.Player;
+import com.etologic.mahjongscoring2.business.model.Round;
 
 public class MockLocalDataSource implements ILocalDataSource {
 

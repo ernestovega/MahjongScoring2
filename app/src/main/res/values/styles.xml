@@ -1,27 +1,23 @@
 <resources>
 
-    <!-- APP THEME -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- BRANDED LAUNCH-->
     <style name="AppTheme.BrandedLaunch" parent="AppTheme">
         <item name="android:windowBackground">@drawable/layer_mm_logo</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <!-- DIALOG -->
     <style name="AlertDialogStyleMM" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColorPrimary">@color/grayMM</item>
-        <item name="android:background">@color/grayLight</item>
+        <item name="android:background">@android:color/white</item>
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
-    <!-- GAME HIDDEN DIALOG -->
     <style name="trRankingDialog">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

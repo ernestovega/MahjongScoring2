@@ -12,7 +12,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "es.etologic.mahjongscoring2"
+        applicationId "com.etologic.mahjongscoring2"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
@@ -46,16 +46,16 @@ android {
     productFlavors {
         dev {
             applicationIdSuffix ".Dev"
-            versionNameSuffix '-Dev'
+            versionNameSuffix ' Dev'
             buildConfigField "String", "PACKAGE_NAME", "\"com.mahjongscoring.activities\""
         }
         free {
-            applicationIdSuffix ".Free"
-            versionNameSuffix '-Free'
-            buildConfigField "String", "PACKAGE_NAME", "\"es.etologic.mahjongscoring.free\""
+            applicationIdSuffix ".free"
+            versionNameSuffix ' Free'
+            buildConfigField "String", "PACKAGE_NAME", "\"com.etologic.mahjongscoring.free\""
         }
         paid {
-            buildConfigField "String", "PACKAGE_NAME", "\"es.etologic.mahjongscoring\""//"\"com.mahjongscoring.activities\""
+            buildConfigField "String", "PACKAGE_NAME", "\"com.etologic.mahjongscoring\""//"\"com.mahjongscoring.activities\""
         }
     }
 
