@@ -141,15 +141,15 @@ class GameActivityViewModel internal constructor(
         }
         _southSeat.value?.let {
             it.state = if (currentSeat == SOUTH) SELECTED else NORMAL
-            _eastSeat.postValue(it)
+            _southSeat.postValue(it)
         }
         _westSeat.value?.let {
             it.state = if (currentSeat == WEST) SELECTED else NORMAL
-            _eastSeat.postValue(it)
+            _westSeat.postValue(it)
         }
         _northSeat.value?.let {
             it.state = if (currentSeat == NORTH) SELECTED else NORMAL
-            _eastSeat.postValue(it)
+            _northSeat.postValue(it)
         }
     }
     

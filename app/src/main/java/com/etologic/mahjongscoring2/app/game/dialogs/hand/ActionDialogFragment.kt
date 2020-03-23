@@ -8,6 +8,7 @@ import android.view.ViewGroup.LayoutParams
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.app.model.DialogType.HU
+import com.etologic.mahjongscoring2.app.model.DialogType.PENALTY
 import kotlinx.android.synthetic.main.game_hand_actions_dialog_fragment.*
 
 internal class ActionDialogFragment : BaseGameDialogFragment() {
@@ -27,7 +28,7 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     
     private fun initViews() {
         btHandActionsDialogPenalty?.setOnClickListener {
-            //ToDo: activityViewModel?.showPenaltyDialog()
+            activityViewModel?.showDialog(PENALTY)
             dismiss()
         }
         btHandActionsDialogHu?.setOnClickListener {
@@ -42,6 +43,6 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
 }

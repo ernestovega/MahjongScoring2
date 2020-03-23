@@ -184,17 +184,14 @@ class GameTableSeatsFragment : Fragment() {
         tvTableSeatEastName?.setOnClickListener { if (eastSeatState != DISABLED) listener?.onEastSeatClick() }
         tvTableSeatEastPoints?.setOnClickListener { if (eastSeatState != DISABLED) listener?.onEastSeatClick() }
         tvTableSeatEastPenaltyPoints?.setOnClickListener { if (eastSeatState != DISABLED) listener?.onEastSeatClick() }
-        
         ivTableSeatSouthSeatWindIcon?.setOnClickListener { if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
         tvTableSeatSouthName?.setOnClickListener { if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
         tvTableSeatSouthPoints?.setOnClickListener { if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
         tvTableSeatSouthPenaltyPoints?.setOnClickListener { if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
-        
         ivTableSeatWestSeatWindIcon?.setOnClickListener { if (westSeatState != DISABLED) listener?.onWestSeatClick() }
         tvTableSeatWestName?.setOnClickListener { if (westSeatState != DISABLED) listener?.onWestSeatClick() }
         tvTableSeatWestPoints?.setOnClickListener { if (westSeatState != DISABLED) listener?.onWestSeatClick() }
         tvTableSeatWestPenaltyPoints?.setOnClickListener { if (westSeatState != DISABLED) listener?.onWestSeatClick() }
-        
         ivTableSeatNorthSeatWindIcon?.setOnClickListener { if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
         tvTableSeatNorthName?.setOnClickListener { if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
         tvTableSeatNorthPoints?.setOnClickListener { if (northSeatState != DISABLED) listener?.onNorthSeatClick() }

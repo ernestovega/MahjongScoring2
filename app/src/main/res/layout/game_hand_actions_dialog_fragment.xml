@@ -1,34 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/AlertDialogStyleMM"
-    android:layout_width="wrap_content"
+    android:layout_width="240dp"
     android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/standard_margin">
 
-    <Button
+    <LinearLayout
         android:id="@+id/btHandActionsDialogPenalty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:icon="@drawable/ic_penalty_white"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        android:text="@string/penalty" />
+        style="@style/buttonHandAction">
 
-    <Button
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_penalty_white"
+            android:layout_marginBottom="@dimen/half_standard_margin" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="@string/penalty"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/btHandActionsDialogHu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:icon="@drawable/ic_trophy_white_18dp"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        android:text="@string/hu" />
+        style="@style/buttonHandAction">
 
-    <Button
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_trophy_white_18dp"
+            android:layout_marginBottom="@dimen/half_standard_margin" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="@string/mahjong"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/btHandActionsDialogDraw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:icon="@drawable/ic_add_white_24dp"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        android:text="@string/draw" />
+        style="@style/buttonHandAction">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_white_24dp"
+            android:layout_marginBottom="@dimen/half_standard_margin" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="@string/draw"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -55,7 +55,7 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     }
     
     internal fun showMessage(message: String) {
-        val builder = AlertDialog.Builder(this, R.style.AppTheme)
+        val builder = AlertDialog.Builder(this, R.style.AlertDialogStyleMM)
         builder.setMessage(message).show()
     }
     

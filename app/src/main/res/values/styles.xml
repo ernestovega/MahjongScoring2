@@ -18,14 +18,14 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
-    <style name="trRankingDialog">
+    <style name="trRankingDialog" parent="AppTheme">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:weightSum">12</item>
         <item name="android:layout_margin">@dimen/half_standard_margin</item>
     </style>
 
-    <style name="tvDialogRankingTableTitle">
+    <style name="tvDialogRankingTableTitle" parent="AppTheme">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/grayMM</item>
@@ -35,7 +35,7 @@
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Medium</item>
     </style>
 
-    <style name="tvRankingDialogTableContent">
+    <style name="tvRankingDialogTableContent" parent="AppTheme">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/grayMM</item>
@@ -44,7 +44,7 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="tvRankingDialogOthers">
+    <style name="tvRankingDialogOthers" parent="AppTheme">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/grayMM</item>
@@ -53,11 +53,28 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="tvTableSeat">
+    <style name="tvTableSeat" parent="AppTheme">
         <item name="android:textColor">@color/grayMM</item>
         <item name="android:textStyle">bold</item>
         <item name="android:lines">1</item>
         <item name="android:includeFontPadding">true</item>
+    </style>
+
+    <style name="buttonHandAction" parent="AppTheme">
+        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:elevation">4dp</item>
+        <item name="android:background">@drawable/button_rounded_corners_green</item>
+        <item name="android:paddingTop">@dimen/standard_and_half_margin</item>
+        <item name="android:paddingStart">@dimen/double_and_half_standard_margin</item>
+        <item name="android:paddingEnd">@dimen/double_and_half_standard_margin</item>
+        <item name="android:paddingBottom">@dimen/standard_and_half_margin</item>
+        <item name="android:layout_marginTop">@dimen/standard_and_half_margin</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
     </style>
 
     <style name="buttonNumPad" parent="Widget.AppCompat.Button.Borderless">
@@ -70,7 +87,7 @@
         <item name="android:layout_marginEnd">@dimen/quarter_standard_margin</item>
     </style>
 
-    <style name="RippleForLayout">
+    <style name="RippleForLayout" parent="AppTheme">
         <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>

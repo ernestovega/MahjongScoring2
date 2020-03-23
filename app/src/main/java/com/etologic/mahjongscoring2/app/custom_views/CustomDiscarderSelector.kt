@@ -13,7 +13,7 @@ import com.etologic.mahjongscoring2.business.model.enums.WinType.RON
 import com.etologic.mahjongscoring2.business.model.enums.WinType.TSUMO
 import kotlinx.android.synthetic.main.custom_discarder_selector.view.*
 
-class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : LinearLayout(context) {
+class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet) {
     
     private val grayColor = ContextCompat.getColor(context, R.color.grayMM)
     private val greenColor = ContextCompat.getColor(context, R.color.colorPrimary)

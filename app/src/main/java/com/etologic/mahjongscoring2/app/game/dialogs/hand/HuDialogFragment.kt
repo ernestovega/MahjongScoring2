@@ -24,7 +24,7 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         activityViewModel?.getSelectedSeat()?.let {
             activityViewModel?.getListNames()?.value?.let { names ->
-                cdsPointsDialog.initPlayers(names, it)
+                cdsPointsDialog?.initPlayers(names, it)
             }
         }
         setListeners()
