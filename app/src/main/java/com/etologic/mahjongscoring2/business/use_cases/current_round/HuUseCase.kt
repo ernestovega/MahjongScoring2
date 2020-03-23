@@ -30,11 +30,10 @@ constructor(
                 )
     
                 roundsRepository.updateOne(currentRound)
-                    .map { if (gameId < 16) roundsRepository.insertOne(Round(gameId, currentRound.roundId + 1)) }
-                    .map { gameId }
+                    .flatMap { if (gameId < 16) roundsRepository.insertOne(Round(gameId, currentRound.roundId + 1)) else Single.just(gameId) }
+                    .flatMap { gamesRepository.getOneWithRounds(gameId) }
+                    .flatMap { currentGameRepository.set(it) }
             }
-            .flatMap(gamesRepository::getOneWithRounds)
-            .doOnSuccess { currentGameRepository.set(it) }
     
     internal fun selfpick(huData: HuData): Single<GameWithRounds> =
         currentGameRepository.get()
@@ -48,9 +47,8 @@ constructor(
                 )
     
                 roundsRepository.updateOne(currentRound)
-                    .map { if (gameId < 16) roundsRepository.insertOne(Round(gameId, currentRound.roundId + 1)) }
-                    .map { gameId }
+                    .flatMap { if (gameId < 16) roundsRepository.insertOne(Round(gameId, currentRound.roundId + 1)) else Single.just(gameId) }
+                    .flatMap { gamesRepository.getOneWithRounds(gameId) }
+                    .flatMap { currentGameRepository.set(it) }
             }
-            .flatMap(gamesRepository::getOneWithRounds)
-            .doOnSuccess { currentGameRepository.set(it) }
 }

@@ -5,7 +5,7 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 
 open class HuData(
     internal val winnerCurrentSeat: TableWinds,
-    internal val discarderCurrentSeat: TableWinds? = NONE,
+    internal var discarderCurrentSeat: TableWinds? = NONE,
     internal val points: Int
 ) {
     

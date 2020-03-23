@@ -6,6 +6,7 @@ enum class DialogType {
     DICE,
     HAND_ACTION,
     HU,
+    CONFIRM_AND_DISCARDER,
     PENALTY,
     RANKING,
     EXIT

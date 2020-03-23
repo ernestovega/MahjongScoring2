@@ -231,5 +231,7 @@
     <string name="confirm">Confirm</string>
     <string name="end">End</string>
     <string name="mahjong">Mahjong</string>
+    <string name="backspace">Backspace</string>
+    <string name="clear">Clear</string>
 
 </resources>

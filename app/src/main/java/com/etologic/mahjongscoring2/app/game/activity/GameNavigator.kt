@@ -3,7 +3,8 @@ package com.etologic.mahjongscoring2.app.game.activity
 import androidx.appcompat.app.AlertDialog
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.game.dialogs.hand.ActionDialogFragment
-import com.etologic.mahjongscoring2.app.game.dialogs.hand.HuDialogFragment
+import com.etologic.mahjongscoring2.app.game.dialogs.hand.DiscarderConfirmDialogFragment
+import com.etologic.mahjongscoring2.app.game.dialogs.hand.PointsHuDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand.PenaltyDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.players.PlayersDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingDialogFragment
@@ -18,7 +19,8 @@ object GameNavigator {
             PLAYERS -> PlayersDialogFragment().show(activity.supportFragmentManager, PlayersDialogFragment.TAG)
             DICE -> RollDiceDialogFragment().show(activity.supportFragmentManager, RollDiceDialogFragment.TAG)
             HAND_ACTION -> ActionDialogFragment().show(activity.supportFragmentManager, ActionDialogFragment.TAG)
-            HU -> HuDialogFragment().show(activity.supportFragmentManager, HuDialogFragment.TAG)
+            HU -> PointsHuDialogFragment().show(activity.supportFragmentManager, PointsHuDialogFragment.TAG)
+            CONFIRM_AND_DISCARDER -> DiscarderConfirmDialogFragment().show(activity.supportFragmentManager, DiscarderConfirmDialogFragment.TAG)
             PENALTY -> PenaltyDialogFragment().show(activity.supportFragmentManager, PenaltyDialogFragment.TAG)
             RANKING -> RankingDialogFragment().show(activity.supportFragmentManager, RankingDialogFragment.TAG)
             EXIT -> showDialogExitGame(activity)

@@ -2,39 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
-    android:padding="@dimen/standard_margin"
     android:orientation="vertical">
 
-    <com.etologic.mahjongscoring2.app.custom_views.CustomNumPad
-        android:id="@+id/cnpPointsDialog"
-        android:layout_gravity="center"
+    <com.etologic.mahjongscoring2.app.custom_views.CustomDiscarderSelector
+        android:id="@+id/cdsDiscarderConfirmDialog"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_marginBottom="@dimen/standard_margin"
+        android:layout_gravity="center"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_gravity="end"
-        android:gravity="center_vertical|end"
-        android:orientation="horizontal"
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btPointsDialogCancel"
+            android:id="@+id/btDiscarderConfirmDialogCancel"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/btDiscarderConfirmDialogOk"
             android:text="@android:string/cancel"
             android:textColor="@color/colorAccent" />
 
         <Button
-            android:id="@+id/btPointsDialogOk"
+            android:id="@+id/btDiscarderConfirmDialogOk"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-2dp"
             android:text="@android:string/ok"
             android:textColor="@color/colorAccent" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

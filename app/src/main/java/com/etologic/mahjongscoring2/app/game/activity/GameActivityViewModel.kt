@@ -36,6 +36,8 @@ class GameActivityViewModel internal constructor(
     private val penaltyUseCase: PenaltyUseCase
 ) : BaseViewModel() {
     
+    internal var huPoints: Int? = null
+    
     //List
     private val _listNames = MutableLiveData<Array<String>>()
     internal fun getListNames(): LiveData<Array<String>> = _listNames
@@ -108,15 +110,15 @@ class GameActivityViewModel internal constructor(
         }
         _southSeat.value?.let {
             it.state = DISABLED
-            _eastSeat.postValue(it)
+            _southSeat.postValue(it)
         }
         _westSeat.value?.let {
             it.state = DISABLED
-            _eastSeat.postValue(it)
+            _westSeat.postValue(it)
         }
         _northSeat.value?.let {
             it.state = DISABLED
-            _eastSeat.postValue(it)
+            _northSeat.postValue(it)
         }
     }
     
@@ -165,20 +167,11 @@ class GameActivityViewModel internal constructor(
             _dialogToShow.postValue(EXIT)
     }
     
-    internal fun loadRankingData() {
-        disposables.add(
-            getCurrentGameUseCase.getCurrentGameWithRounds()
-                .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess { _rankingData.postValue(generateRankingTable(it)) }
-                .subscribe({ progressState.postValue(HIDE) }, this::showError)
-        )
-    }
-    
     internal fun showDialog(dialogType: DialogType) {
         _dialogToShow.postValue(dialogType)
     }
     
+    //OPERATIONS
     internal fun savePlayersNames(names: Array<String>) {
         disposables.add(
             saveCurrentPlayersUseCase.saveCurrentGamePlayersNames(names)
@@ -189,9 +182,9 @@ class GameActivityViewModel internal constructor(
         )
     }
     
-    internal fun saveRonRound(points: Int, discarderCurrentSeat: TableWinds) {
+    internal fun saveRonRound(discarderCurrentSeat: TableWinds, huPoints: Int) {
         disposables.add(
-            huUseCase.discard(HuData(getSelectedSeat(), discarderCurrentSeat, points))
+            huUseCase.discard(HuData(getSelectedSeat(), discarderCurrentSeat, huPoints))
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess(this::resetTable)
@@ -199,9 +192,9 @@ class GameActivityViewModel internal constructor(
         )
     }
     
-    internal fun saveTsumoRound(points: Int) {
+    internal fun saveTsumoRound(huPoints: Int) {
         disposables.add(
-            huUseCase.selfpick(HuData(getSelectedSeat(), points))
+            huUseCase.selfpick(HuData(getSelectedSeat(), huPoints))
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess(this::resetTable)
@@ -225,6 +218,16 @@ class GameActivityViewModel internal constructor(
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess(this::resetTable)
+                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+        )
+    }
+    
+    internal fun loadRankingData() {
+        disposables.add(
+            getCurrentGameUseCase.getCurrentGameWithRounds()
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe { progressState.postValue(SHOW) }
+                .doOnSuccess { _rankingData.postValue(generateRankingTable(it)) }
                 .subscribe({ progressState.postValue(HIDE) }, this::showError)
         )
     }

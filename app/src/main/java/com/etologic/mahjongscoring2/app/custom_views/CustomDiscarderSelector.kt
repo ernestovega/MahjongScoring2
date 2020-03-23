@@ -20,6 +20,7 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
     private val redColor = ContextCompat.getColor(context, R.color.red)
     private var winnerWind = NONE
     private var looserWind = NONE
+    private var huPoints = 0
     
     init {
         LayoutInflater.from(context).inflate(R.layout.custom_discarder_selector, this, true)
@@ -34,60 +35,63 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
     }
     
     private fun selectDiscarder(wind: TableWinds) {
-        if (wind != winnerWind) {
+        if (wind == winnerWind || wind == looserWind) {
+            looserWind = NONE
             resetPlayers()
-            
-            if (looserWind == wind)
-                looserWind = NONE
-            else {
-                looserWind = wind
-    
-                when (wind) {
-                    NONE,
-                    EAST -> {
-                        llDiscarderSelectorEast.tag = true
-                        tvDiscarderSelectorEastName.setTextColor(redColor)
-                        tvDiscarderSelectorEastPoints.setTextColor(redColor)
-                    }
-                    SOUTH -> {
-                        llDiscarderSelectorSouth.tag = true
-                        tvDiscarderSelectorSouthName.setTextColor(redColor)
-                        tvDiscarderSelectorSouthPoints.setTextColor(redColor)
-                    }
-                    WEST -> {
-                        llDiscarderSelectorWest.tag = true
-                        tvDiscarderSelectorWestName.setTextColor(redColor)
-                        tvDiscarderSelectorWestPoints.setTextColor(redColor)
-                    }
-                    NORTH -> {
-                        llDiscarderSelectorNorth.tag = true
-                        tvDiscarderSelectorNorthName.setTextColor(redColor)
-                        tvDiscarderSelectorNorthPoints.setTextColor(redColor)
-                    }
-                }
-            }
+        } else {
+            looserWind = wind
+            setRonPoints()
         }
     }
     
     private fun resetPlayers() {
         llDiscarderSelectorEast.tag = false
-        tvDiscarderSelectorEastName.setTextColor(if(winnerWind == EAST) greenColor else grayColor)
-        tvDiscarderSelectorEastPoints.setTextColor(if(winnerWind == EAST) greenColor else grayColor)
-        
         llDiscarderSelectorSouth.tag = false
-        tvDiscarderSelectorSouthName.setTextColor(if(winnerWind == SOUTH) greenColor else grayColor)
-        tvDiscarderSelectorSouthPoints.setTextColor(if(winnerWind == SOUTH) greenColor else grayColor)
-        
         llDiscarderSelectorWest.tag = false
-        tvDiscarderSelectorWestName.setTextColor(if(winnerWind == WEST) greenColor else grayColor)
-        tvDiscarderSelectorWestPoints.setTextColor(if(winnerWind == WEST) greenColor else grayColor)
-        
         llDiscarderSelectorNorth.tag = false
-        tvDiscarderSelectorNorthName.setTextColor(if(winnerWind == NORTH) greenColor else grayColor)
-        tvDiscarderSelectorNorthPoints.setTextColor(if(winnerWind == NORTH) greenColor else grayColor)
+        setTsumoPoints()
     }
     
-    internal fun initPlayers(namesList: Array<String>, winnerWind: TableWinds) {
+    private fun setTsumoPoints() {
+        tvDiscarderSelectorEastName.setTextColor(if (EAST == winnerWind) greenColor else grayColor)
+        tvDiscarderSelectorSouthName.setTextColor(if (SOUTH == winnerWind) greenColor else grayColor)
+        tvDiscarderSelectorWestName.setTextColor(if (WEST == winnerWind) greenColor else grayColor)
+        tvDiscarderSelectorNorthName.setTextColor(if (NORTH == winnerWind) greenColor else grayColor)
+        
+        tvDiscarderSelectorEastPoints.setTextColor(if (EAST == winnerWind) greenColor else grayColor)
+        tvDiscarderSelectorSouthPoints.setTextColor(if (SOUTH == winnerWind) greenColor else grayColor)
+        tvDiscarderSelectorWestPoints.setTextColor(if (WEST == winnerWind) greenColor else grayColor)
+        tvDiscarderSelectorNorthPoints.setTextColor(if (NORTH == winnerWind) greenColor else grayColor)
+        
+        tvDiscarderSelectorEastPoints.text = if (EAST == winnerWind) "+${(huPoints + 8) * 3}" else "-${(huPoints + 8)}"
+        tvDiscarderSelectorSouthPoints.text = if (SOUTH == winnerWind) "+${(huPoints + 8) * 3}" else "-${(huPoints + 8)}"
+        tvDiscarderSelectorWestPoints.text = if (WEST == winnerWind) "+${(huPoints + 8) * 3}" else "-${(huPoints + 8)}"
+        tvDiscarderSelectorNorthPoints.text = if (NORTH == winnerWind) "+${(huPoints + 8) * 3}" else "-${(huPoints + 8)}"
+    }
+    
+    private fun setRonPoints() {
+        tvDiscarderSelectorEastName.setTextColor(if (EAST == winnerWind) greenColor else if (EAST == looserWind) redColor else grayColor)
+        tvDiscarderSelectorSouthName.setTextColor(if (SOUTH == winnerWind) greenColor else if (SOUTH == looserWind) redColor else grayColor)
+        tvDiscarderSelectorWestName.setTextColor(if (WEST == winnerWind) greenColor else if (WEST == looserWind) redColor else grayColor)
+        tvDiscarderSelectorNorthName.setTextColor(if (NORTH == winnerWind) greenColor else if (NORTH == looserWind) redColor else grayColor)
+        
+        tvDiscarderSelectorEastPoints.setTextColor(if (EAST == winnerWind) greenColor else if (EAST == looserWind) redColor else grayColor)
+        tvDiscarderSelectorSouthPoints.setTextColor(if (SOUTH == winnerWind) greenColor else if (SOUTH == looserWind) redColor else grayColor)
+        tvDiscarderSelectorWestPoints.setTextColor(if (WEST == winnerWind) greenColor else if (WEST == looserWind) redColor else grayColor)
+        tvDiscarderSelectorNorthPoints.setTextColor(if (NORTH == winnerWind) greenColor else if (NORTH == looserWind) redColor else grayColor)
+        
+        tvDiscarderSelectorEastPoints.text =
+            if (EAST == winnerWind) "+${huPoints + 8 * 3}" else if (EAST == looserWind) "-${(huPoints + 8)}" else "-8"
+        tvDiscarderSelectorSouthPoints.text =
+            if (SOUTH == winnerWind) "+${(huPoints + 8) * 3}" else if (SOUTH == looserWind) "-${(huPoints + 8)}" else "-8"
+        tvDiscarderSelectorWestPoints.text =
+            if (WEST == winnerWind) "+${(huPoints + 8) * 3}" else if (WEST == looserWind) "-${(huPoints + 8)}" else "-8"
+        tvDiscarderSelectorNorthPoints.text =
+            if (NORTH == winnerWind) "+${(huPoints + 8) * 3}" else if (NORTH == looserWind) "-${(huPoints + 8)}" else "-8"
+    }
+    
+    internal fun initPlayers(namesList: Array<String>, huPoints: Int, winnerWind: TableWinds) {
+        this.huPoints = huPoints
         this.winnerWind = winnerWind
         resetPlayers()
         
@@ -96,18 +100,10 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
         tvDiscarderSelectorWestName?.text = namesList[2]
         tvDiscarderSelectorNorthName?.text = namesList[3]
         
-        tvDiscarderSelectorNorthPoints.text = "0"
-        tvDiscarderSelectorWestPoints.text = "0"
-        tvDiscarderSelectorSouthPoints.text = "0"
-        tvDiscarderSelectorEastPoints.text = "0"
+        setTsumoPoints()
     }
     
-    internal fun isRonOrTsumo(): WinType =
-        if (tvDiscarderSelectorEastName?.tag == true ||
-            tvDiscarderSelectorSouthName?.tag == true ||
-            tvDiscarderSelectorWestName?.tag == true ||
-            tvDiscarderSelectorNorthName?.tag == true
-        ) RON else TSUMO
+    internal fun isRonOrTsumo(): WinType = if (looserWind == NONE) TSUMO else RON
     
     internal fun togglePoints(isVisible: Boolean) {
         if (isVisible) {
@@ -123,12 +119,5 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
         }
     }
     
-    fun getDiscarderCurrentSeat(): TableWinds =
-        when {
-            tvDiscarderSelectorEastName?.tag == true -> EAST
-            tvDiscarderSelectorSouthName?.tag == true -> SOUTH
-            tvDiscarderSelectorWestName?.tag == true -> WEST
-            tvDiscarderSelectorNorthName?.tag == true -> NORTH
-            else -> NONE
-        }
+    internal fun getDiscarderCurrentSeat(): TableWinds = looserWind
 }

@@ -47,9 +47,4 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
 //            dismiss()
         }
     }
-    
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-    }
 }

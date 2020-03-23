@@ -30,7 +30,7 @@ class GameWithRounds(@field:Embedded var game: Game) {
     fun getRoundsWithBestHand(): List<Round> {
         val bestHand = getBestHand()
         for (round in rounds) {
-            val isBestHandRound = round.handPoints == bestHand.handValue && round.winnerInitialPosition === bestHand.playerInitialPosition
+            val isBestHandRound = round.handPoints >= bestHand.handValue && round.winnerInitialPosition == bestHand.playerInitialPosition
             round.isBestHand = isBestHandRound
         }
         return rounds

@@ -31,8 +31,7 @@ constructor(
                         points
                     )
                 roundsRepository.updateOne(currentRound)
-                    .map { currentRound.gameId }
+                    .flatMap { gamesRepository.getOneWithRounds(currentRound.gameId) }
+                    .flatMap { currentGameRepository.set(it) }
             }
-            .flatMap(gamesRepository::getOneWithRounds)
-            .doOnSuccess { currentGameRepository.set(it) }
 }

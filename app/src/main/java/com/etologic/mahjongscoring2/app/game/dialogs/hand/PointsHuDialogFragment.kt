@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
-import com.etologic.mahjongscoring2.business.model.enums.WinType.RON
+import com.etologic.mahjongscoring2.app.model.DialogType.CONFIRM_AND_DISCARDER
 import kotlinx.android.synthetic.main.game_points_dialog_fragment.*
 
-internal class HuDialogFragment : BaseGameDialogFragment() {
+internal class PointsHuDialogFragment : BaseGameDialogFragment() {
     
     companion object {
         const val TAG = "PointsFragment"
@@ -22,29 +22,20 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activityViewModel?.getSelectedSeat()?.let {
-            activityViewModel?.getListNames()?.value?.let { names ->
-                cdsPointsDialog?.initPlayers(names, it)
-            }
-        }
         setListeners()
     }
     
     private fun setListeners() {
         btPointsDialogCancel.setOnClickListener { dismiss() }
         btPointsDialogOk.setOnClickListener {
-            cnpPointsDialog?.getPoints()?.let {
-                if (cdsPointsDialog?.isRonOrTsumo() == RON)
-                    activityViewModel?.saveRonRound(it, cdsPointsDialog.getDiscarderCurrentSeat())
-                else
-                    activityViewModel?.saveTsumoRound(it)
+            val points = cnpPointsDialog?.getPoints()
+            if(points == null || points < 8 || points > 9999)
+                cnpPointsDialog?.setError()
+            else {
+                activityViewModel?.huPoints = points
+                activityViewModel?.showDialog(CONFIRM_AND_DISCARDER)
+                dismiss()
             }
-            dismiss()
         }
-    }
-    
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
     }
 }

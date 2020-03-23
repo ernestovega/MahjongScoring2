@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import com.etologic.mahjongscoring2.R
 import kotlinx.android.synthetic.main.custom_num_pad.view.*
 
-class CustomNumPad(context: Context, attributeSet: AttributeSet) : LinearLayout(context) {
+class CustomNumPad(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet) {
     
     init {
         LayoutInflater.from(context).inflate(R.layout.custom_num_pad, this, true)
@@ -16,24 +16,24 @@ class CustomNumPad(context: Context, attributeSet: AttributeSet) : LinearLayout(
     }
     
     private fun setListeners() {
-        btCustomNumPad1?.setOnClickListener { tvCustomNumPadDisplay?.text = String.format("%s1", getDisplayNum()) }
-        btCustomNumPad2?.setOnClickListener { tvCustomNumPadDisplay?.text = String.format("%s2", getDisplayNum()) }
-        btCustomNumPad3?.setOnClickListener { tvCustomNumPadDisplay?.text = String.format("%s3", getDisplayNum()) }
-        btCustomNumPad4?.setOnClickListener { tvCustomNumPadDisplay?.text = String.format("%s4", getDisplayNum()) }
-        btCustomNumPad5?.setOnClickListener { tvCustomNumPadDisplay?.text = String.format("%s5", getDisplayNum()) }
-        btCustomNumPad6?.setOnClickListener { tvCustomNumPadDisplay?.text = String.format("%s6", getDisplayNum()) }
-        btCustomNumPad7?.setOnClickListener { tvCustomNumPadDisplay?.text = String.format("%s7", getDisplayNum()) }
-        btCustomNumPad8?.setOnClickListener { tvCustomNumPadDisplay?.text = String.format("%s8", getDisplayNum()) }
-        btCustomNumPad9?.setOnClickListener { tvCustomNumPadDisplay?.text = String.format("%s9", getDisplayNum()) }
-        btCustomNumPad0?.setOnClickListener { tvCustomNumPadDisplay?.text = String.format("%s0", getDisplayNum()) }
-        btCustomNumPadDelete?.setOnClickListener { tvCustomNumPadDisplay?.text = "" }
-        btCustomNumPadBackspace?.setOnClickListener {
+        btCustomNumPad1?.setOnClickListener { etCustomNumPadDisplay?.setText(String.format("%s1", getDisplayNum())) }
+        btCustomNumPad2?.setOnClickListener { etCustomNumPadDisplay?.setText(String.format("%s2", getDisplayNum())) }
+        btCustomNumPad3?.setOnClickListener { etCustomNumPadDisplay?.setText(String.format("%s3", getDisplayNum())) }
+        btCustomNumPad4?.setOnClickListener { etCustomNumPadDisplay?.setText(String.format("%s4", getDisplayNum())) }
+        btCustomNumPad5?.setOnClickListener { etCustomNumPadDisplay?.setText(String.format("%s5", getDisplayNum())) }
+        btCustomNumPad6?.setOnClickListener { etCustomNumPadDisplay?.setText(String.format("%s6", getDisplayNum())) }
+        btCustomNumPad7?.setOnClickListener { etCustomNumPadDisplay?.setText(String.format("%s7", getDisplayNum())) }
+        btCustomNumPad8?.setOnClickListener { etCustomNumPadDisplay?.setText(String.format("%s8", getDisplayNum())) }
+        btCustomNumPad9?.setOnClickListener { etCustomNumPadDisplay?.setText(String.format("%s9", getDisplayNum())) }
+        btCustomNumPad0?.setOnClickListener { etCustomNumPadDisplay?.setText(String.format("%s0", getDisplayNum())) }
+        ibCustomNumPadDelete?.setOnClickListener { etCustomNumPadDisplay?.setText("") }
+        ibCustomNumPadBackspace?.setOnClickListener {
             if (getDisplayNum().isNotEmpty())
-                tvCustomNumPadDisplay?.text = getDisplayNum().substring(0, getDisplayNum().count() - 1)
+                etCustomNumPadDisplay?.setText(getDisplayNum().substring(0, getDisplayNum().count() - 1))
         }
     }
     
-    private fun getDisplayNum(): String = (tvCustomNumPadDisplay?.text ?: "").toString()
+    private fun getDisplayNum(): String = (etCustomNumPadDisplay?.text ?: "").toString()
     
     internal fun getPoints(): Int? =
         try {
@@ -42,11 +42,7 @@ class CustomNumPad(context: Context, attributeSet: AttributeSet) : LinearLayout(
             null
         }
     
-    internal fun addPointsChangedListener(textWatcher: TextWatcher) {
-        tvCustomNumPadDisplay?.addTextChangedListener(textWatcher)
-    }
-    
-    internal fun removePointsChangedListener(textWatcher: TextWatcher) {
-        tvCustomNumPadDisplay?.removeTextChangedListener(textWatcher)
+    internal fun setError() {
+        etCustomNumPadDisplay?.error = ""
     }
 }

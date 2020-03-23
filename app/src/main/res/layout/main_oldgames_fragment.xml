@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,86 +22,78 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="@string/old_games"
-            tools:ignore="UnusedAttribute"/>
+            tools:ignore="UnusedAttribute" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayoutOldGames"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:animateLayoutChanges="true">
 
-        <FrameLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewOldGames"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:animateLayoutChanges="true">
+            android:background="@color/grayLight"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewOldGames"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/grayLight"
-                android:scrollbarStyle="insideOverlay"
-                android:scrollbars="vertical"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        <LinearLayout
+            android:id="@+id/emptyLayoutOldGames"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:background="@android:color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
-            <LinearLayout
-                android:id="@+id/emptyLayoutOldGames"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="?attr/actionBarSize"
-                android:background="@android:color/white"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="gone"
-                tools:visibility="visible">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/double_standard_margin"
+                android:layout_marginLeft="@dimen/double_standard_margin"
+                android:layout_marginTop="120dp"
+                android:layout_marginEnd="@dimen/double_standard_margin"
+                android:layout_marginRight="@dimen/double_standard_margin"
+                android:src="@drawable/img_empty_box"
+                android:tint="@color/gray"
+                tools:ignore="ContentDescription" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/double_standard_margin"
-                    android:layout_marginLeft="@dimen/double_standard_margin"
-                    android:layout_marginRight="@dimen/double_standard_margin"
-                    android:layout_marginStart="@dimen/double_standard_margin"
-                    android:layout_marginTop="120dp"
-                    android:src="@drawable/img_empty_box"
-                    android:tint="@color/gray"
-                    tools:ignore="ContentDescription"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/double_standard_margin"
+                android:layout_marginLeft="@dimen/double_standard_margin"
+                android:layout_marginTop="@dimen/standard_margin"
+                android:layout_marginEnd="@dimen/double_standard_margin"
+                android:layout_marginRight="@dimen/double_standard_margin"
+                android:gravity="start"
+                android:lineSpacingExtra="@dimen/half_standard_margin"
+                android:text="@string/theres_no_games_yet_start_one"
+                android:textColor="@color/gray"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/double_standard_margin"
-                    android:layout_marginLeft="@dimen/double_standard_margin"
-                    android:layout_marginRight="@dimen/double_standard_margin"
-                    android:layout_marginStart="@dimen/double_standard_margin"
-                    android:layout_marginTop="@dimen/standard_margin"
-                    android:gravity="start"
-                    android:lineSpacingExtra="@dimen/half_standard_margin"
-                    android:text="@string/theres_no_games_yet_start_one"
-                    android:textColor="@color/gray"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/triple_standard_margin"
+                android:layout_marginTop="@dimen/double_standard_margin"
+                android:layout_marginEnd="@dimen/double_standard_margin"
+                android:layout_marginBottom="@dimen/double_standard_margin"
+                android:src="@drawable/arrow"
+                android:tint="@color/gray"
+                tools:ignore="ContentDescription" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/double_standard_margin"
-                    android:layout_marginEnd="@dimen/double_standard_margin"
-                    android:layout_marginStart="@dimen/triple_standard_margin"
-                    android:layout_marginTop="@dimen/double_standard_margin"
-                    android:src="@drawable/arrow"
-                    android:tint="@color/gray"
-                    tools:ignore="ContentDescription"/>
+        </LinearLayout>
 
-            </LinearLayout>
-
-        </FrameLayout>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabOldGames"
@@ -110,22 +101,22 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/double_standard_margin"
-        android:src="@drawable/ic_play_arrow_white_24px"/>
+        android:src="@drawable/ic_play_arrow_white_24px" />
 
     <LinearLayout
         android:id="@+id/llOldGamesProgress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:gravity="end|bottom"
         android:focusable="true"
+        android:gravity="end|bottom"
         android:visibility="gone"
         tools:visibility="visible">
 
         <ProgressBar
-            android:layout_margin="@dimen/double_standard_margin"
             android:layout_width="24dp"
-            android:layout_height="24dp" />
+            android:layout_height="24dp"
+            android:layout_margin="@dimen/double_standard_margin" />
 
     </LinearLayout>
 

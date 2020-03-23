@@ -74,10 +74,10 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
     var penaltyP3 = 0
     var penaltyP4 = 0
     var roundDuration: Long = 0
+    var isEnded = false
     
     @Ignore
     var isBestHand = false
-    var isEnded = false
     
     internal constructor(gameId: Long) : this(gameId, 1)
     
@@ -90,8 +90,8 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         pointsP1: Int, pointsP2: Int, pointsP3: Int, pointsP4: Int,
         penaltyP1: Int, penaltyP2: Int, penaltyP3: Int, penaltyP4: Int,
         roundDuration: Long,
-        isBestHand: Boolean,
-        isEnded: Boolean
+        isEnded: Boolean,
+        isBestHand: Boolean
     ) : this(gameId, roundId) {
         this.handPoints = handPoints
         this.winnerInitialPosition = winnerInitialPosition
@@ -105,8 +105,8 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         this.penaltyP3 = penaltyP3
         this.penaltyP4 = penaltyP4
         this.roundDuration = roundDuration
-        this.isBestHand = isBestHand
         this.isEnded = isEnded
+        this.isBestHand = isBestHand
     }
     
     override fun compareIdTo(`object`: Round): Boolean {
@@ -133,8 +133,8 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
             penaltyP3,
             penaltyP4,
             roundDuration,
-            isBestHand,
-            isEnded
+            isEnded,
+            isBestHand
         )
     }
     
