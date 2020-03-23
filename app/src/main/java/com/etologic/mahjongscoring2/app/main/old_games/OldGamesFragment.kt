@@ -14,12 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseFragment
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel
+import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModelFactory
 import com.etologic.mahjongscoring2.app.model.ShowState
-import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_oldgames_fragment.*
 import javax.inject.Inject
 
@@ -29,16 +28,15 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         const val TAG = "OldGamesFragment"
     }
     
-    @Inject
-    internal lateinit var rvAdapter: OldGamesRvAdapter
     
     @Inject
     internal lateinit var mainActivityViewModelFactory: MainActivityViewModelFactory
-    
     @Inject
     internal lateinit var oldGamesViewModelFactory: OldGamesViewModelFactory
     private lateinit var activityViewModel: MainActivityViewModel
     private lateinit var viewModel: OldGamesViewModel
+    @Inject
+    internal lateinit var rvAdapter: OldGamesRvAdapter
     
     //EVENTS
     override fun onOldGameItemDeleteClicked(gameId: Long) {
@@ -52,7 +50,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     }
     
     override fun onOldGameItemResumeClicked(gameId: Long) {
-        activityViewModel.startGame(gameId)
+        viewModel.startGame(gameId)
     }
     
     //LIFECYCLE
@@ -88,27 +86,23 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
             viewModel = ViewModelProvider(this, oldGamesViewModelFactory).get(OldGamesViewModel::class.java)
             viewModel.getError().observe(viewLifecycleOwner, Observer(this::showError))
             viewModel.getProgressState().observe(viewLifecycleOwner, Observer(this::toogleLocalProgress))
-            viewModel.getSnackbarMessage().observe(viewLifecycleOwner, Observer(this::showSnackbar))
-            viewModel.getGames().observe(viewLifecycleOwner, Observer(this::setGames))
+            viewModel.getSnackbarMessage().observe(viewLifecycleOwner, Observer { view?.let { view -> showSnackbar(view, it) } })
+            viewModel.getGames().observe(viewLifecycleOwner, Observer(this::gamesObserver))
+            viewModel.getStartGame().observe(viewLifecycleOwner, Observer { activityViewModel.navigateTo(GAME) })
         }
     }
     
-    private fun setGames(games: List<GameWithRounds>) {
+    private fun gamesObserver(games: List<GameWithRounds>) {
         if (games.isEmpty())
             emptyLayoutOldGames?.visibility = VISIBLE
         else {
             emptyLayoutOldGames?.visibility = GONE
             rvAdapter.setGames(games)
         }
-        toogleLocalProgress(HIDE)
     }
     
     private fun toogleLocalProgress(showState: ShowState) {
-        swipeRefreshLayoutOldGames?.isRefreshing = showState === SHOW
-    }
-    
-    private fun showSnackbar(message: String) {
-        Snackbar.make(toolbarOldGames, message, Snackbar.LENGTH_LONG).show()
+        llOldGamesProgress?.visibility = if (showState === SHOW) VISIBLE else GONE
     }
     
     private fun setupSwipeRefreshLayout() {
@@ -129,7 +123,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     
     private fun setOnClickListeners() {
         fabOldGames?.setOnClickListener {
-            activityViewModel.startNewGame()
+            viewModel.startNewGame()
         }
     }
 }

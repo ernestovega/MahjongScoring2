@@ -70,12 +70,24 @@ class GameActivityViewModel internal constructor(
             getCurrentGameUseCase.getCurrentGameWithRounds()
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess { _listNames.postValue(it.game.getPlayersNames()) }
-                .doOnSuccess { _listRounds.postValue(it.getRoundsWithBestHand()) }
-                .doOnSuccess { _listTotals.postValue(it.getPlayersTotalPointsString()) }
-                .doOnSuccess { this.resetTable(it) }
+                .doOnSuccess {
+                    _listNames.postValue(it.game.getPlayersNames())
+                    _listRounds.postValue(it.getRoundsWithBestHand())
+                    _listTotals.postValue(it.getPlayersTotalPointsString())
+                    this.resetTable(it)
+                    showPlayersDialogIfProceed(it)
+                }
                 .subscribe({ progressState.postValue(HIDE) }, this::showError)
         )
+    }
+    
+    private fun showPlayersDialogIfProceed(gameWithRounds: GameWithRounds) {
+        if (gameWithRounds.rounds.size == 1 &&
+            gameWithRounds.game.nameP1 == "Player 1" &&
+            gameWithRounds.game.nameP2 == "Player 2" &&
+            gameWithRounds.game.nameP3 == "Player 3" &&
+            gameWithRounds.game.nameP4 == "Player 4"
+        ) showDialog(PLAYERS)
     }
     
     private fun resetTable(gameWithRounds: GameWithRounds) {
@@ -158,7 +170,7 @@ class GameActivityViewModel internal constructor(
             getCurrentGameUseCase.getCurrentGameWithRounds()
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess{ _rankingData.postValue(generateRankingTable(it)) }
+                .doOnSuccess { _rankingData.postValue(generateRankingTable(it)) }
                 .subscribe({ progressState.postValue(HIDE) }, this::showError)
         )
     }

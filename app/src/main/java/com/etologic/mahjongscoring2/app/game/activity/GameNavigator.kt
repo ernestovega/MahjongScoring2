@@ -1,11 +1,10 @@
 package com.etologic.mahjongscoring2.app.game.activity
 
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.game.dialogs.hand.PenaltyDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand.ActionDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand.HuDialogFragment
+import com.etologic.mahjongscoring2.app.game.dialogs.hand.PenaltyDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.players.PlayersDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment
@@ -28,7 +27,7 @@ object GameNavigator {
     }
     
     private fun showDialogExitGame(activity: GameActivity) {
-        val builder = AlertDialog.Builder(activity, R.style.AppTheme)
+        val builder = AlertDialog.Builder(activity, android.R.style.Theme_Material_Dialog)
         builder.setTitle(R.string.exit_game)
             .setMessage(R.string.are_you_sure)
             .setPositiveButton(R.string.exit) { _, _ -> activity.finish() }

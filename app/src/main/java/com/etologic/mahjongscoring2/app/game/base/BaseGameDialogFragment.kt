@@ -6,9 +6,10 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModelFactory
+import dagger.android.support.DaggerAppCompatDialogFragment
 import javax.inject.Inject
 
-open class BaseGameDialogFragment : DialogFragment() {
+open class BaseGameDialogFragment : DaggerAppCompatDialogFragment() {
     
     @Inject
     internal lateinit var activityViewModelFactory: GameActivityViewModelFactory
@@ -16,6 +17,6 @@ open class BaseGameDialogFragment : DialogFragment() {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        activityViewModel = activity?.let { ViewModelProvider(it, activityViewModelFactory).get(GameActivityViewModel::class.java) }
+        activityViewModel = activity?.let { ViewModelProvider(it, activityViewModelFactory).get(GameActivityViewModel::class.java) }
     }
 }

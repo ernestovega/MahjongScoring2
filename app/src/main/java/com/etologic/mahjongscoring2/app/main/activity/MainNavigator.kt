@@ -5,12 +5,10 @@ import android.content.Intent.*
 import android.net.Uri
 import android.os.Build
 import android.os.Build.VERSION_CODES.LOLLIPOP
-import android.widget.Toast
 import com.etologic.mahjongscoring2.BuildConfig.APPLICATION_ID
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.anim.*
-import com.etologic.mahjongscoring2.R.id
-import com.etologic.mahjongscoring2.R.id.*
+import com.etologic.mahjongscoring2.R.id.frameLayoutMain
 import com.etologic.mahjongscoring2.app.game.activity.GameActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.EMAIL_ADDRESS
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.EMAIL_SUBJECT
@@ -41,7 +39,13 @@ object MainNavigator {
     }
     
     private fun goToOldGames(activity: MainActivity) {
-        activity.goToFragment(frameLayoutMain, OldGamesFragment(), OldGamesFragment.TAG)
+        activity.supportFragmentManager.beginTransaction().apply {
+            if (isEmpty) {
+                setCustomAnimations(enter_from_left, exit_to_right, enter_from_right, exit_to_left)
+                add(frameLayoutMain, OldGamesFragment(), OldGamesFragment.TAG)
+                commit()
+            }
+        }
     }
     
     private fun goToGame(activity: MainActivity) {

@@ -1,6 +1,5 @@
 package com.etologic.mahjongscoring2.app.main.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.MenuItem
@@ -10,12 +9,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat.START
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.*
 import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToScreen
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.main_drawer_oldgames_actionlayout.*
 import javax.inject.Inject
@@ -128,10 +127,5 @@ class MainActivity : BaseActivity() {
     
     private fun openDrawer() {
         if (drawerLayoutMain != null) drawerLayoutMain?.openDrawer(START, true)
-    }
-    
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        viewModel?.navigateTo(OLD_GAMES)
     }
 }

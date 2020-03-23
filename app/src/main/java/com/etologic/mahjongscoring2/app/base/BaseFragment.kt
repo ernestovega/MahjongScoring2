@@ -26,7 +26,7 @@ abstract class BaseFragment : DaggerFragment() {
         if (activity is BaseActivity) activity.showError(throwable)
     }
     
-    protected fun showMEssage(message: String) {
+    protected fun showMessage(message: String) {
         val activity = activity
         if (activity is BaseActivity) activity.showMessage(message)
     }

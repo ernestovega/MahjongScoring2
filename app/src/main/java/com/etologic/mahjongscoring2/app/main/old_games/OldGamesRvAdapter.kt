@@ -78,7 +78,7 @@ internal class OldGamesRvAdapter
     }
     
     private fun setFields(itemViewHolder: OldGameItemViewHolder, gameWithRounds: GameWithRounds, duration: Long, bestHand: BestHand) {
-        itemViewHolder.gameId = gameWithRounds.game.gameId.toLong()
+        itemViewHolder.gameId = gameWithRounds.game.gameId
         itemViewHolder.tvStartDate?.text =
             DateTimeUtils.getPrettyDate(gameWithRounds.game.startDate)
         itemViewHolder.tvDuration?.text = String.format("#%s", itemViewHolder.gameId.toString())//DateTimeUtils.getPrettyDuration(duration));

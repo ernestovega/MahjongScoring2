@@ -22,6 +22,7 @@ internal class PlayersDialogFragment : BaseGameDialogFragment() {
     override fun onStart() {
         super.onStart()
         dialog?.window?.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        isCancelable = false
     }
     
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -52,24 +53,29 @@ internal class PlayersDialogFragment : BaseGameDialogFragment() {
         tietPlayersDialogSouth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogSouth.selectAll() }
         tietPlayersDialogWest.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogWest.selectAll() }
         tietPlayersDialogNorth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogNorth.selectAll() }
-        btPlayersDialogCancel?.setOnClickListener { dismiss() }
-        btPlayersDialogSave?.setOnClickListener { dismiss() }
+        btPlayersDialogCancel?.setOnClickListener {
+            dismiss()
+        }
+        btPlayersDialogSave?.setOnClickListener {
+            activityViewModel?.savePlayersNames(
+                arrayOf(
+                    (tietPlayersDialogEast?.text ?: "").toString().trim(),
+                    (tietPlayersDialogSouth?.text ?: "").toString().trim(),
+                    (tietPlayersDialogWest?.text ?: "").toString().trim(),
+                    (tietPlayersDialogNorth?.text ?: "").toString().trim()
+                )
+            )
+            dismiss()
+        }
     }
     
     override fun dismiss() {
         hideKeyboard(tietPlayersDialogEast)
+        super.dismiss()
     }
     
     override fun onDismiss(dialog: DialogInterface) {
         hideKeyboard(tietPlayersDialogEast)
-        activityViewModel?.savePlayersNames(
-            arrayOf(
-                (tietPlayersDialogEast?.text ?: "").toString().trim(),
-                (tietPlayersDialogSouth?.text ?: "").toString().trim(),
-                (tietPlayersDialogWest?.text ?: "").toString().trim(),
-                (tietPlayersDialogNorth?.text ?: "").toString().trim()
-            )
-        )
         super.onDismiss(dialog)
     }
 }
