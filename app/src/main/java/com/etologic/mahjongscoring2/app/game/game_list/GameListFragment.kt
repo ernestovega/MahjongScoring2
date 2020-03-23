@@ -30,8 +30,7 @@ class GameListFragment : BaseGameFragment() {
     
     private fun setupRecyclerView(view: View) {
         view.rvGameList?.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        layoutManager.stackFromEnd = true
+        val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
         view.rvGameList?.layoutManager = layoutManager
         view.rvGameList?.adapter = rvAdapter
     }

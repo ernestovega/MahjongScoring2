@@ -18,7 +18,7 @@ import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import kotlinx.android.synthetic.main.game_table_fragment.*
 
-class GameTableFragment : BaseGameFragment() {
+class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     
     private var tableSeats: GameTableSeatsFragment = GameTableSeatsFragment()
     
@@ -26,6 +26,23 @@ class GameTableFragment : BaseGameFragment() {
     private var southIcon: Drawable? = null
     private var westIcon: Drawable? = null
     private var northIcon: Drawable? = null
+    
+    //EVENTS
+    override fun onEastSeatClick() {
+        activityViewModel?.onSeatClicked(EAST)
+    }
+    
+    override fun onSouthSeatClick() {
+        activityViewModel?.onSeatClicked(SOUTH)
+    }
+    
+    override fun onWestSeatClick() {
+        activityViewModel?.onSeatClicked(WEST)
+    }
+    
+    override fun onNorthSeatClick() {
+        activityViewModel?.onSeatClicked(NORTH)
+    }
     
     //LIFECYCLE
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,27 +66,14 @@ class GameTableFragment : BaseGameFragment() {
     }
     
     private fun initTableSeats() {
-        tableSeats.let { childFragmentManager.beginTransaction().add(R.id.fcvGameTableSeats, it, TAG).commit() }
+        childFragmentManager.beginTransaction()
+            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+            .add(R.id.fcvGameTableSeats, tableSeats, TAG)
+            .commit()
     }
     
     private fun setOnClickListeners() {
-        tableSeats.setTableSeatsListener(object : TableSeatsListener {
-            override fun onEastSeatClick() {
-                activityViewModel?.onSeatClicked(EAST)
-            }
-            
-            override fun onSouthSeatClick() {
-                activityViewModel?.onSeatClicked(SOUTH)
-            }
-            
-            override fun onWestSeatClick() {
-                activityViewModel?.onSeatClicked(WEST)
-            }
-            
-            override fun onNorthSeatClick() {
-                activityViewModel?.onSeatClicked(NORTH)
-            }
-        })
+        tableSeats.setTableSeatsListener(this)
         fabGameDiceUp?.setOnClickListener { activityViewModel?.showDialog(DICE) }
         fabGameDiceDown?.setOnClickListener { activityViewModel?.showDialog(DICE) }
     }

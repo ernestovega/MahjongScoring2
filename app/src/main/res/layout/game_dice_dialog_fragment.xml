@@ -4,20 +4,17 @@
     android:id="@+id/crllRollDiceDialogContainer"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="48dp"
-    android:background="@color/grayMM"
     android:gravity="center"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="48dp">
 
     <ImageView
         android:id="@+id/ivDice1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
-        android:contentDescription="Dice 1"
         app:srcCompat="@drawable/one" />
 
     <ImageView
@@ -25,10 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
-        android:contentDescription="Dice 2"
         app:srcCompat="@drawable/one" />
 
 </com.google.android.material.circularreveal.CircularRevealLinearLayout>

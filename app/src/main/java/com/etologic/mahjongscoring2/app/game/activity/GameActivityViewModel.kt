@@ -125,7 +125,7 @@ class GameActivityViewModel internal constructor(
         val name = gameWithRounds.game.getPlayerNameByInitialPosition(initialPosition)
         val points = gameWithRounds.getPlayersTotalPoints()[initialPosition.code]
         val penaltyPoints = gameWithRounds.rounds.last().getPenaltyPointsFromInitialPlayerPosition(initialPosition)
-        return Seat(wind, name, points, penaltyPoints, DISABLED)
+        return Seat(wind, name, points, penaltyPoints, NORMAL)
     }
     
     //SELECTED PLAYER/SEAT
