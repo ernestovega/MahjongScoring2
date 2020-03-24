@@ -1,6 +1,5 @@
 package com.etologic.mahjongscoring2.business.use_cases.current_round
 
-import com.etologic.mahjongscoring2.app.utils.GameRoundsUtils.Companion.getPlayerInitialSeatByCurrentSeat
 import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.data_source.repositories.CurrentGameRepository
@@ -22,12 +21,12 @@ constructor(
                 val currentRound = currentGameWithRounds.rounds.last()
                 if (isDivided)
                     currentRound.setAllPlayersPenaltyPoints(
-                        getPlayerInitialSeatByCurrentSeat(penalizedPlayerCurrentSeat, currentRound.roundId),
+                        currentGameWithRounds.getPlayerInitialSeatByCurrentSeat(penalizedPlayerCurrentSeat, currentRound.roundId),
                         points
                     )
                 else
                     currentRound.setPlayerPenaltyPoints(
-                        getPlayerInitialSeatByCurrentSeat(penalizedPlayerCurrentSeat, currentRound.roundId),
+                        currentGameWithRounds.getPlayerInitialSeatByCurrentSeat(penalizedPlayerCurrentSeat, currentRound.roundId),
                         points
                     )
                 roundsRepository.updateOne(currentRound)

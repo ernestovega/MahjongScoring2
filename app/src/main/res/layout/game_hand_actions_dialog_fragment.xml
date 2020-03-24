@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/AlertDialogStyleMM"
     android:layout_width="240dp"
     android:layout_height="wrap_content"
@@ -10,11 +11,13 @@
 
     <LinearLayout
         android:id="@+id/btHandActionsDialogPenalty"
-        style="@style/buttonHandAction">
+        style="@style/buttonHandAction"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
             android:src="@drawable/ic_penalty_white"
             android:layout_marginBottom="@dimen/half_standard_margin" />
 
@@ -25,19 +28,22 @@
             android:text="@string/penalty"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
-            android:textSize="21sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/btHandActionsDialogHu"
-        style="@style/buttonHandAction">
+        style="@style/buttonHandAction"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
             android:src="@drawable/ic_trophy_white_18dp"
+            android:layout_marginTop="@dimen/quarter_standard_margin"
             android:layout_marginBottom="@dimen/half_standard_margin" />
 
         <TextView
@@ -47,6 +53,7 @@
             android:text="@string/mahjong"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
+            android:layout_marginBottom="@dimen/quarter_standard_margin"
             android:textSize="21sp"
             android:textStyle="bold" />
 
@@ -54,12 +61,14 @@
 
     <LinearLayout
         android:id="@+id/btHandActionsDialogDraw"
-        style="@style/buttonHandAction">
+        style="@style/buttonHandAction"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_white_24dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_flag_white"
             android:layout_marginBottom="@dimen/half_standard_margin" />
 
         <TextView

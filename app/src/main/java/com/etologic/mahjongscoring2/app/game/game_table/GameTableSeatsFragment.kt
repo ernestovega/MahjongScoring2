@@ -38,15 +38,15 @@ class GameTableSeatsFragment : Fragment() {
         fun onNorthSeatClick()
     }
     
-    private var eastIcon: Drawable? = context?.let { getDrawable(it, R.drawable.ic_east) }
-    private var southIcon: Drawable? = context?.let { getDrawable(it, R.drawable.ic_south) }
-    private var westIcon: Drawable? = context?.let { getDrawable(it, R.drawable.ic_west) }
-    private var northIcon: Drawable? = context?.let { getDrawable(it, R.drawable.ic_north) }
-    private var grayColor: Int? = context?.let { getColor(it, color.grayMM) }
-    private var accentColor: Int? = context?.let { getColor(it, color.colorAccent) }
-    private var redColor: Int? = context?.let { getColor(it, color.red) }
-    private var greenColor: Int? = context?.let { getColor(it, color.colorPrimary) }
-    private var purplePenalty: Int? = context?.let { getColor(it, color.purplePenalty) }
+    private var eastIcon: Drawable? = null
+    private var southIcon: Drawable? = null
+    private var westIcon: Drawable? = null
+    private var northIcon: Drawable? = null
+    private var grayColor: Int? = null
+    private var accentColor: Int? = null
+    private var redColor: Int? = null
+    private var greenColor: Int? = null
+    private var purplePenalty: Int? = null
     private var listener: TableSeatsListener? = null
     private var eastSeatState: SeatStates = NORMAL
     private var southSeatState: SeatStates = NORMAL
@@ -176,6 +176,17 @@ class GameTableSeatsFragment : Fragment() {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        context?.let {
+            eastIcon = getDrawable(it, R.drawable.ic_east)
+            southIcon = getDrawable(it, R.drawable.ic_south)
+            westIcon = getDrawable(it, R.drawable.ic_west)
+            northIcon = getDrawable(it, R.drawable.ic_north)
+            grayColor = getColor(it, color.grayMM)
+            accentColor = getColor(it, color.colorAccent)
+            redColor = getColor(it, color.red)
+            greenColor = getColor(it, color.colorPrimary)
+            purplePenalty = getColor(it, color.purplePenalty)
+        }
         initListeners()
     }
     

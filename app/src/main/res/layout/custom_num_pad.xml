@@ -12,7 +12,7 @@
         android:id="@+id/etCustomNumPadDisplay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/quarter_standard_margin"
+        android:layout_margin="@dimen/half_standard_margin"
         android:background="@drawable/outlined_rounded_corners_gray"
         android:clickable="false"
         android:enabled="false"
@@ -124,6 +124,7 @@
         <ImageButton
             android:id="@+id/ibCustomNumPadBackspace"
             style="@style/buttonNumPad"
+            android:padding="@dimen/quarter_standard_margin"
             android:contentDescription="@string/backspace"
             android:src="@drawable/ic_backspace_white_24dp" />
 

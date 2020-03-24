@@ -34,6 +34,44 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
         llDiscarderSelectorNorth.setOnClickListener { selectDiscarder(NORTH) }
     }
     
+    internal fun initPlayers(namesList: Array<String>, huPoints: Int, winnerWind: TableWinds) {
+        this.huPoints = huPoints
+        this.winnerWind = winnerWind
+        
+        resetPlayers()
+        
+        tvDiscarderSelectorEastName?.text = namesList[0]
+        tvDiscarderSelectorSouthName?.text = namesList[1]
+        tvDiscarderSelectorWestName?.text = namesList[2]
+        tvDiscarderSelectorNorthName?.text = namesList[3]
+    }
+    
+    private fun resetPlayers() {
+        llDiscarderSelectorEast.tag = false
+        llDiscarderSelectorSouth.tag = false
+        llDiscarderSelectorWest.tag = false
+        llDiscarderSelectorNorth.tag = false
+        setTsumo()
+    }
+    
+    internal fun isRonOrTsumo(): WinType = if (looserWind == NONE) TSUMO else RON
+    
+    internal fun togglePoints(isVisible: Boolean) {
+        if (isVisible) {
+            tvDiscarderSelectorEastPoints.visibility = VISIBLE
+            tvDiscarderSelectorSouthPoints.visibility = VISIBLE
+            tvDiscarderSelectorWestPoints.visibility = VISIBLE
+            tvDiscarderSelectorNorthPoints.visibility = VISIBLE
+        } else {
+            tvDiscarderSelectorEastPoints.visibility = GONE
+            tvDiscarderSelectorSouthPoints.visibility = GONE
+            tvDiscarderSelectorWestPoints.visibility = GONE
+            tvDiscarderSelectorNorthPoints.visibility = GONE
+        }
+    }
+    
+    internal fun getDiscarderCurrentSeat(): TableWinds = looserWind
+    
     private fun selectDiscarder(wind: TableWinds) {
         if (wind == winnerWind || wind == looserWind) {
             looserWind = NONE
@@ -44,15 +82,7 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
         }
     }
     
-    private fun resetPlayers() {
-        llDiscarderSelectorEast.tag = false
-        llDiscarderSelectorSouth.tag = false
-        llDiscarderSelectorWest.tag = false
-        llDiscarderSelectorNorth.tag = false
-        setTsumoPoints()
-    }
-    
-    private fun setTsumoPoints() {
+    private fun setTsumo() {
         tvDiscarderSelectorEastName.setTextColor(if (EAST == winnerWind) greenColor else grayColor)
         tvDiscarderSelectorSouthName.setTextColor(if (SOUTH == winnerWind) greenColor else grayColor)
         tvDiscarderSelectorWestName.setTextColor(if (WEST == winnerWind) greenColor else grayColor)
@@ -89,35 +119,4 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
         tvDiscarderSelectorNorthPoints.text =
             if (NORTH == winnerWind) "+${(huPoints + 8) * 3}" else if (NORTH == looserWind) "-${(huPoints + 8)}" else "-8"
     }
-    
-    internal fun initPlayers(namesList: Array<String>, huPoints: Int, winnerWind: TableWinds) {
-        this.huPoints = huPoints
-        this.winnerWind = winnerWind
-        resetPlayers()
-        
-        tvDiscarderSelectorEastName?.text = namesList[0]
-        tvDiscarderSelectorSouthName?.text = namesList[1]
-        tvDiscarderSelectorWestName?.text = namesList[2]
-        tvDiscarderSelectorNorthName?.text = namesList[3]
-        
-        setTsumoPoints()
-    }
-    
-    internal fun isRonOrTsumo(): WinType = if (looserWind == NONE) TSUMO else RON
-    
-    internal fun togglePoints(isVisible: Boolean) {
-        if (isVisible) {
-            tvDiscarderSelectorEastPoints.visibility = VISIBLE
-            tvDiscarderSelectorSouthPoints.visibility = VISIBLE
-            tvDiscarderSelectorWestPoints.visibility = VISIBLE
-            tvDiscarderSelectorNorthPoints.visibility = VISIBLE
-        } else {
-            tvDiscarderSelectorEastPoints.visibility = GONE
-            tvDiscarderSelectorSouthPoints.visibility = GONE
-            tvDiscarderSelectorWestPoints.visibility = GONE
-            tvDiscarderSelectorNorthPoints.visibility = GONE
-        }
-    }
-    
-    internal fun getDiscarderCurrentSeat(): TableWinds = looserWind
 }

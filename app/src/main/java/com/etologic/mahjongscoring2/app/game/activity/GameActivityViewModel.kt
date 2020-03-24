@@ -13,7 +13,6 @@ import com.etologic.mahjongscoring2.app.model.Seat
 import com.etologic.mahjongscoring2.app.model.SeatStates.*
 import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
-import com.etologic.mahjongscoring2.app.utils.GameRoundsUtils
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
 import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
@@ -36,6 +35,7 @@ class GameActivityViewModel internal constructor(
     private val penaltyUseCase: PenaltyUseCase
 ) : BaseViewModel() {
     
+    internal var listNamesByCurrentSeat: Array<String>? = null
     internal var huPoints: Int? = null
     
     //List
@@ -73,26 +73,15 @@ class GameActivityViewModel internal constructor(
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess {
-                    _listNames.postValue(it.game.getPlayersNames())
-                    _listRounds.postValue(it.getRoundsWithBestHand())
-                    _listTotals.postValue(it.getPlayersTotalPointsString())
-                    this.resetTable(it)
+                    updateTableAndList(it)
+                    saveNamesByCurrentSeat(it)
                     showPlayersDialogIfProceed(it)
                 }
                 .subscribe({ progressState.postValue(HIDE) }, this::showError)
         )
     }
     
-    private fun showPlayersDialogIfProceed(gameWithRounds: GameWithRounds) {
-        if (gameWithRounds.rounds.size == 1 &&
-            gameWithRounds.game.nameP1 == "Player 1" &&
-            gameWithRounds.game.nameP2 == "Player 2" &&
-            gameWithRounds.game.nameP3 == "Player 3" &&
-            gameWithRounds.game.nameP4 == "Player 4"
-        ) showDialog(PLAYERS)
-    }
-    
-    private fun resetTable(gameWithRounds: GameWithRounds) {
+    private fun updateTableAndList(gameWithRounds: GameWithRounds) {
         val currentRound = gameWithRounds.rounds.last()
         _currentRound.postValue(currentRound)
         _eastSeat.postValue(buildNewSeat(gameWithRounds, EAST))
@@ -101,6 +90,15 @@ class GameActivityViewModel internal constructor(
         _northSeat.postValue(buildNewSeat(gameWithRounds, NORTH))
         if (currentRound.isEnded || currentRound.roundId == 16)
             setSeatsDisabled()
+        updateList(gameWithRounds)
+    }
+    
+    private fun buildNewSeat(gameWithRounds: GameWithRounds, wind: TableWinds): Seat {
+        val initialPosition = gameWithRounds.getPlayerInitialSeatByCurrentSeat(wind, gameWithRounds.rounds.last().roundId)
+        val name = gameWithRounds.game.getPlayerNameByInitialPosition(initialPosition)
+        val points = gameWithRounds.getPlayersTotalPoints()[initialPosition.code]
+        val penaltyPoints = gameWithRounds.rounds.last().getPenaltyPointsFromInitialPlayerPosition(initialPosition)
+        return Seat(wind, name, points, penaltyPoints, NORMAL)
     }
     
     private fun setSeatsDisabled() {
@@ -122,12 +120,23 @@ class GameActivityViewModel internal constructor(
         }
     }
     
-    private fun buildNewSeat(gameWithRounds: GameWithRounds, wind: TableWinds): Seat {
-        val initialPosition = GameRoundsUtils.getPlayerInitialSeatByCurrentSeat(wind, gameWithRounds.rounds.last().roundId)
-        val name = gameWithRounds.game.getPlayerNameByInitialPosition(initialPosition)
-        val points = gameWithRounds.getPlayersTotalPoints()[initialPosition.code]
-        val penaltyPoints = gameWithRounds.rounds.last().getPenaltyPointsFromInitialPlayerPosition(initialPosition)
-        return Seat(wind, name, points, penaltyPoints, NORMAL)
+    private fun updateList(it: GameWithRounds) {
+        _listNames.postValue(it.getPlayersNamesByCurrentSeat())
+        _listRounds.postValue(it.getRoundsWithBestHand())
+        _listTotals.postValue(it.getPlayersTotalPointsString())
+    }
+    
+    private fun saveNamesByCurrentSeat(gameWithRounds: GameWithRounds) {
+        listNamesByCurrentSeat = gameWithRounds.getPlayersNamesByCurrentSeat()
+    }
+    
+    private fun showPlayersDialogIfProceed(gameWithRounds: GameWithRounds) {
+        if (gameWithRounds.rounds.size == 1 &&
+            gameWithRounds.game.nameP1 == "Player 1" &&
+            gameWithRounds.game.nameP2 == "Player 2" &&
+            gameWithRounds.game.nameP3 == "Player 3" &&
+            gameWithRounds.game.nameP4 == "Player 4"
+        ) showDialog(PLAYERS)
     }
     
     //SELECTED PLAYER/SEAT
@@ -155,6 +164,28 @@ class GameActivityViewModel internal constructor(
         }
     }
     
+    private fun unselectedSelectedSeat() {
+        when (getSelectedSeat()) {
+            EAST -> _eastSeat.value?.let {
+                it.state = NORMAL
+                _eastSeat.postValue(it)
+            }
+            SOUTH -> _southSeat.value?.let {
+                it.state = NORMAL
+                _eastSeat.postValue(it)
+            }
+            WEST -> _westSeat.value?.let {
+                it.state = NORMAL
+                _eastSeat.postValue(it)
+            }
+            NORTH -> _northSeat.value?.let {
+                it.state = NORMAL
+                _eastSeat.postValue(it)
+            }
+            NONE -> {}
+        }
+    }
+    
     //NAVIGATION
     internal fun showPage(page: GamePages) {
         _currentPage.postValue(page)
@@ -177,7 +208,7 @@ class GameActivityViewModel internal constructor(
             saveCurrentPlayersUseCase.saveCurrentGamePlayersNames(names)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(this::resetTable)
+                .doOnSuccess(this::updateTableAndList)
                 .subscribe({ progressState.postValue(HIDE) }, this::showError)
         )
     }
@@ -187,7 +218,7 @@ class GameActivityViewModel internal constructor(
             huUseCase.discard(HuData(getSelectedSeat(), discarderCurrentSeat, huPoints))
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(this::resetTable)
+                .doOnSuccess(this::updateTableAndList)
                 .subscribe({ progressState.postValue(HIDE) }, this::showError)
         )
     }
@@ -197,7 +228,7 @@ class GameActivityViewModel internal constructor(
             huUseCase.selfpick(HuData(getSelectedSeat(), huPoints))
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(this::resetTable)
+                .doOnSuccess(this::updateTableAndList)
                 .subscribe({ progressState.postValue(HIDE) }, this::showError)
         )
     }
@@ -207,17 +238,17 @@ class GameActivityViewModel internal constructor(
             drawUseCase.draw()
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(this::resetTable)
+                .doOnSuccess(this::updateTableAndList)
                 .subscribe({ progressState.postValue(HIDE) }, this::showError)
         )
     }
     
-    internal fun savePenalty(penalizedPlayerCurrentSeat: TableWinds, points: Int, isDivided: Boolean) {
+    internal fun savePenalty(points: Int, isDivided: Boolean) {
         disposables.add(
-            penaltyUseCase.penalty(penalizedPlayerCurrentSeat, points, isDivided)
+            penaltyUseCase.penalty(getSelectedSeat(), points, isDivided)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(this::resetTable)
+                .doOnSuccess(this::updateTableAndList)
                 .subscribe({ progressState.postValue(HIDE) }, this::showError)
         )
     }
@@ -240,4 +271,8 @@ class GameActivityViewModel internal constructor(
             _northSeat.value?.state == SELECTED -> NORTH
             else -> NONE
         }
+    
+    internal fun handDialogCanceled() {
+        unselectedSelectedSeat()
+    }
 }

@@ -1,5 +1,6 @@
 package com.etologic.mahjongscoring2.app.game.dialogs.hand
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,8 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
         const val TAG = "HandActionsDialogFragment"
     }
     
+    private var isDialogCancelled = true
+    
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.game_hand_actions_dialog_fragment, container, false)
     }
@@ -29,14 +32,17 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     private fun initViews() {
         btHandActionsDialogPenalty?.setOnClickListener {
             activityViewModel?.showDialog(PENALTY)
+            isDialogCancelled = false
             dismiss()
         }
         btHandActionsDialogHu?.setOnClickListener {
             activityViewModel?.showDialog(HU)
+            isDialogCancelled = false
             dismiss()
         }
         btHandActionsDialogDraw?.setOnClickListener {
             activityViewModel?.saveDrawRound()
+            isDialogCancelled = false
             dismiss()
         }
     }
@@ -44,5 +50,10 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     override fun onStart() {
         super.onStart()
         dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    }
+    
+    override fun onDismiss(dialog: DialogInterface) {
+        if(isDialogCancelled) activityViewModel?.handDialogCanceled()
+        super.onDismiss(dialog)
     }
 }

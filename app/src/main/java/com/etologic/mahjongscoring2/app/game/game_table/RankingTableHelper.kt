@@ -1,16 +1,13 @@
 package com.etologic.mahjongscoring2.app.game.game_table
 
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
-import com.etologic.mahjongscoring2.app.utils.GameRoundsUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
-import com.etologic.mahjongscoring2.business.model.entities.Game
 import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import java.util.*
 import java.util.Collections.reverse
-import java.util.Collections.sort
 
 object RankingTableHelper {
     
@@ -27,7 +24,7 @@ object RankingTableHelper {
     
     fun generateRankingTable(gameWithRounds: GameWithRounds?): RankingData? {
         if (gameWithRounds == null) return null
-        val sortedPlayersRankings = getSortedPlayersRankings(gameWithRounds.game, gameWithRounds.rounds)
+        val sortedPlayersRankings = getSortedPlayersRankings(gameWithRounds, gameWithRounds.rounds)
         val bestHands = getBestHands(gameWithRounds.rounds)
         return RankingData(
             sortedPlayersRankings,
@@ -38,24 +35,24 @@ object RankingTableHelper {
         )
     }
     
-    private fun getSortedPlayersRankings(game: Game, rounds: List<Round>): List<PlayerRanking> {
-        val playersRankings = setPlayersNamesAndScores(game, rounds)
+    private fun getSortedPlayersRankings(gameWithRounds: GameWithRounds, rounds: List<Round>): List<PlayerRanking> {
+        val playersRankings = setPlayersNamesAndScores(gameWithRounds, rounds)
         playersRankings.sortedWith(compareBy(PlayerRanking::points, PlayerRanking::score))
         reverse(playersRankings)
         setPlayersTablePoints(playersRankings)
         return playersRankings
     }
     
-    private fun setPlayersNamesAndScores(game: Game, rounds: List<Round>): List<PlayerRanking> {
+    private fun setPlayersNamesAndScores(gameWithRounds: GameWithRounds, rounds: List<Round>): List<PlayerRanking> {
         val playersRankings = ArrayList<PlayerRanking>(4)
-        val totalScoreP1 = GameRoundsUtils.getTotalScoreP1(rounds)
-        val totalScoreP2 = GameRoundsUtils.getTotalScoreP2(rounds)
-        val totalScoreP3 = GameRoundsUtils.getTotalScoreP3(rounds)
-        val totalScoreP4 = GameRoundsUtils.getTotalScoreP4(rounds)
-        playersRankings.add(PlayerRanking(game.nameP1, totalScoreP1.toString()))
-        playersRankings.add(PlayerRanking(game.nameP2, totalScoreP2.toString()))
-        playersRankings.add(PlayerRanking(game.nameP3, totalScoreP3.toString()))
-        playersRankings.add(PlayerRanking(game.nameP4, totalScoreP4.toString()))
+        val totalScoreP1 = gameWithRounds.getTotalScoreP1(rounds)
+        val totalScoreP2 = gameWithRounds.getTotalScoreP2(rounds)
+        val totalScoreP3 = gameWithRounds.getTotalScoreP3(rounds)
+        val totalScoreP4 = gameWithRounds.getTotalScoreP4(rounds)
+        playersRankings.add(PlayerRanking(gameWithRounds.game.nameP1, totalScoreP1.toString()))
+        playersRankings.add(PlayerRanking(gameWithRounds.game.nameP2, totalScoreP2.toString()))
+        playersRankings.add(PlayerRanking(gameWithRounds.game.nameP3, totalScoreP3.toString()))
+        playersRankings.add(PlayerRanking(gameWithRounds.game.nameP4, totalScoreP4.toString()))
         return playersRankings
     }
     

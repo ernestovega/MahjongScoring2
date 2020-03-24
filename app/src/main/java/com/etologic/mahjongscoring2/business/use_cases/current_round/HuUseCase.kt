@@ -1,6 +1,5 @@
 package com.etologic.mahjongscoring2.business.use_cases.current_round
 
-import com.etologic.mahjongscoring2.app.utils.GameRoundsUtils.Companion.getPlayerInitialSeatByCurrentSeat
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
 import com.etologic.mahjongscoring2.business.model.entities.Round
@@ -24,8 +23,8 @@ constructor(
                 val gameId = currentRound.gameId
                 
                 currentRound.finishRoundByHuDiscard(
-                    getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, currentRound.roundId),
-                    getPlayerInitialSeatByCurrentSeat(huData.discarderCurrentSeat!!, currentRound.roundId),
+                    currentGameWithRounds.getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, currentRound.roundId),
+                    currentGameWithRounds.getPlayerInitialSeatByCurrentSeat(huData.discarderCurrentSeat!!, currentRound.roundId),
                     huData.points
                 )
     
@@ -42,7 +41,7 @@ constructor(
                 val gameId = currentRound.gameId
                 
                 currentRound.finishRoundByHuSelfpick(
-                    getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, currentRound.roundId),
+                    currentGameWithRounds.getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, currentRound.roundId),
                     huData.points
                 )
     

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -66,6 +67,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupViewModel()
+        setupSwipeRefreshLayout()
         setToolbar()
         setOnClickListeners()
     }
@@ -100,11 +102,24 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     }
     
     private fun toogleLocalProgress(showState: ShowState) {
+        swipeRefreshLayoutOldGames.isRefreshing = showState == SHOW
         llOldGamesProgress?.visibility = if (showState === SHOW) VISIBLE else GONE
     }
     
     private fun setToolbar() {
         activityViewModel.setToolbar(toolbarOldGames)
+    }
+    
+    private fun setupSwipeRefreshLayout() {
+        if (activity != null) {
+            swipeRefreshLayoutOldGames?.setColorSchemeColors(
+                ContextCompat.getColor(activity!!, R.color.colorPrimary),
+                ContextCompat.getColor(activity!!, R.color.colorAccent),
+                ContextCompat.getColor(activity!!, R.color.purplePenalty),
+                ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
+            )
+            swipeRefreshLayoutOldGames?.setOnRefreshListener { viewModel.getAllGames() }
+        }
     }
     
     private fun setOnClickListeners() {

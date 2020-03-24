@@ -1,5 +1,6 @@
 package com.etologic.mahjongscoring2.app.game.dialogs.hand
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,8 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
     companion object {
         const val TAG = "PointsFragment"
     }
+    
+    private var isDialogCancelled = true
     
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.game_penalty_dialog_fragment, container, false)
@@ -35,16 +38,20 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
             if (penaltyPoints > 0)
                 if (cbPenaltyDialog.isChecked)
                     if (penaltyPoints % 3 == 0) {
-//                        activityViewModel?.setCurrentPenaltyPoints(penaltyPoints, true)
+                        activityViewModel?.savePenalty(penaltyPoints, true)
                         hideKeyboard(tietPenaltyDialog)
-                    } else {
-//                        activityViewModel?.setCurrentPenaltyPoints(penaltyPoints, false)
-                        hideKeyboard(tietPenaltyDialog)
+                        isDialogCancelled = false
+                        dismiss()
                     }
         }
         btPenaltyDialogCancel?.setOnClickListener {
             hideKeyboard(tietPenaltyDialog)
-//            dismiss()
+            dismiss()
         }
+    }
+    
+    override fun onDismiss(dialog: DialogInterface) {
+        if(isDialogCancelled) activityViewModel?.handDialogCanceled()
+        super.onDismiss(dialog)
     }
 }
