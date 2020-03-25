@@ -11,3 +11,4 @@ local.properties
 /captures
 *.iml
 /*.iml
+/app/schemas/com.etologic.mahjongscoring2.data.local_data_source.local.AppDatabase/1.json
