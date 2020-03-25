@@ -1,11 +1,13 @@
 package com.etologic.mahjongscoring2.app.game.dialogs.hand
 
+import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.app.model.DialogType.HU
@@ -27,9 +29,25 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        setListeners()
     }
     
     private fun initViews() {
+        btHandActionsDialogPenaltiesCancel?.visibility = if(activityViewModel?.thereArePenaltiesCurrently() == true) VISIBLE else GONE
+    }
+    
+    private fun setListeners() {
+        btHandActionsDialogPenaltiesCancel?.setOnClickListener {
+            isDialogCancelled = false
+            AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
+                .setTitle(R.string.cancel_penalties)
+                .setMessage(R.string.are_you_sure)
+                .setPositiveButton(android.R.string.ok) { _, _ -> activityViewModel?.cancelPenalties() }
+                .setNegativeButton(R.string.close, null)
+                .setOnDismissListener { this.dismiss() }
+                .create()
+                .show()
+        }
         btHandActionsDialogPenalty?.setOnClickListener {
             activityViewModel?.showDialog(PENALTY)
             isDialogCancelled = false

@@ -29,8 +29,8 @@ object GameNavigator {
     }
     
     private fun showDialogExitGame(activity: GameActivity) {
-        val builder = AlertDialog.Builder(activity, android.R.style.Theme_Material_Dialog)
-        builder.setTitle(R.string.exit_game)
+        AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
+            .setTitle(R.string.exit_game)
             .setMessage(R.string.are_you_sure)
             .setPositiveButton(R.string.exit) { _, _ -> activity.finish() }
             .setNegativeButton(android.R.string.cancel, null)

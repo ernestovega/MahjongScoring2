@@ -60,15 +60,15 @@ internal class GameListRvAdapter
     }
     
     private fun setWinnerColor(item: Round, mHolder: ItemViewHolder) {
-        (if (item.winnerInitialPosition == EAST) greenMM else grayMM)?.let { mHolder.tvPointsP1.setTextColor(it) }
-        (if (item.winnerInitialPosition == SOUTH) greenMM else grayMM)?.let { mHolder.tvPointsP2.setTextColor(it) }
-        (if (item.winnerInitialPosition == WEST) greenMM else grayMM)?.let { mHolder.tvPointsP3.setTextColor(it) }
-        (if (item.winnerInitialPosition == NORTH) greenMM else grayMM)?.let { mHolder.tvPointsP4.setTextColor(it) }
+        (if (item.winnerInitialSeat == EAST) greenMM else grayMM)?.let { mHolder.tvPointsP1.setTextColor(it) }
+        (if (item.winnerInitialSeat == SOUTH) greenMM else grayMM)?.let { mHolder.tvPointsP2.setTextColor(it) }
+        (if (item.winnerInitialSeat == WEST) greenMM else grayMM)?.let { mHolder.tvPointsP3.setTextColor(it) }
+        (if (item.winnerInitialSeat == NORTH) greenMM else grayMM)?.let { mHolder.tvPointsP4.setTextColor(it) }
     }
     
     private fun setLooserColor(item: Round, mHolder: ItemViewHolder) {
         red?.let {
-            when (item.discarderInitialPosition) {
+            when (item.discarderInitialSeat) {
                 EAST -> mHolder.tvPointsP1.setTextColor(it)
                 SOUTH -> mHolder.tvPointsP2.setTextColor(it)
                 WEST -> mHolder.tvPointsP3.setTextColor(it)

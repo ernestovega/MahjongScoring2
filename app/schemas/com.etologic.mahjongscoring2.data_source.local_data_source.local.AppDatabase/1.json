@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ea3611fbb8e77cfab683ca527299a93b",
+    "identityHash": "5b1c8016cba7c708dd3be54c4d20fe71",
     "entities": [
       {
         "tableName": "Games",
@@ -65,23 +65,23 @@
       },
       {
         "tableName": "Rounds",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`handPoints` INTEGER NOT NULL, `winnerInitialPosition` INTEGER NOT NULL, `discarderInitialPosition` INTEGER NOT NULL, `pointsP1` INTEGER NOT NULL, `pointsP2` INTEGER NOT NULL, `pointsP3` INTEGER NOT NULL, `pointsP4` INTEGER NOT NULL, `penaltyP1` INTEGER NOT NULL, `penaltyP2` INTEGER NOT NULL, `penaltyP3` INTEGER NOT NULL, `penaltyP4` INTEGER NOT NULL, `roundDuration` INTEGER NOT NULL, `isEnded` INTEGER NOT NULL, `gameId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, PRIMARY KEY(`gameId`, `roundId`), FOREIGN KEY(`gameId`) REFERENCES `Games`(`gameId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`winnerInitialSeat` INTEGER NOT NULL, `discarderInitialSeat` INTEGER NOT NULL, `handPoints` INTEGER NOT NULL, `pointsP1` INTEGER NOT NULL, `pointsP2` INTEGER NOT NULL, `pointsP3` INTEGER NOT NULL, `pointsP4` INTEGER NOT NULL, `penaltyP1` INTEGER NOT NULL, `penaltyP2` INTEGER NOT NULL, `penaltyP3` INTEGER NOT NULL, `penaltyP4` INTEGER NOT NULL, `roundDuration` INTEGER NOT NULL, `isEnded` INTEGER NOT NULL, `gameId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, PRIMARY KEY(`gameId`, `roundId`), FOREIGN KEY(`gameId`) REFERENCES `Games`(`gameId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
+          {
+            "fieldPath": "winnerInitialSeat",
+            "columnName": "winnerInitialSeat",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "discarderInitialSeat",
+            "columnName": "discarderInitialSeat",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "handPoints",
             "columnName": "handPoints",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "winnerInitialPosition",
-            "columnName": "winnerInitialPosition",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "discarderInitialPosition",
-            "columnName": "discarderInitialPosition",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -253,7 +253,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ea3611fbb8e77cfab683ca527299a93b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5b1c8016cba7c708dd3be54c4d20fe71')"
     ]
   }
 }

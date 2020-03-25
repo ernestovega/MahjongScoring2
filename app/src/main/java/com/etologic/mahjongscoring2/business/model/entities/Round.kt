@@ -2,6 +2,12 @@ package com.etologic.mahjongscoring2.business.model.entities
 
 import androidx.room.*
 import com.etologic.mahjongscoring2.app.base.RecyclerViewable
+import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.POINTS_DISCARD_NEUTRAL_PLAYERS
+import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.getHuDiscardDiscarderPoints
+import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.getHuDiscardWinnerPoints
+import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.getHuSelfpickDiscarderPoints
+import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.getHuSelfpickWinnerPoints
+import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.getPenaltyOtherPlayersPoints
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.converters.TableWindsConverter
@@ -15,10 +21,6 @@ import com.etologic.mahjongscoring2.data_source.local_data_source.local.converte
 class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
     
     companion object {
-        
-        private const val HU_BASE_POINTS = 8
-        private const val NUM_NO_WINNER_PLAYERS = 3
-        private const val NUM_NO_WINNER_AND_NO_LOOSER_PLAYERS_IN_RON = 2
         
         fun areEqual(rounds1: List<Round>?, rounds2: List<Round>?): Boolean {
             if (rounds1 == null && rounds2 == null) {
@@ -43,8 +45,8 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
             return round1.gameId == round2.gameId &&
                 round1.roundId == round2.roundId &&
                 round1.handPoints == round2.handPoints &&
-                round1.winnerInitialPosition === round2.winnerInitialPosition &&
-                round1.discarderInitialPosition === round2.discarderInitialPosition &&
+                round1.winnerInitialSeat === round2.winnerInitialSeat &&
+                round1.discarderInitialSeat === round2.discarderInitialSeat &&
                 round1.pointsP1 == round2.pointsP1 &&
                 round1.pointsP2 == round2.pointsP2 &&
                 round1.pointsP3 == round2.pointsP3 &&
@@ -58,13 +60,12 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         }
     }
     
+    @TypeConverters(TableWindsConverter::class)
+    var winnerInitialSeat = NONE
+    
+    @TypeConverters(TableWindsConverter::class)
+    var discarderInitialSeat = NONE
     var handPoints = 0
-    
-    @TypeConverters(TableWindsConverter::class)
-    var winnerInitialPosition = NONE
-    
-    @TypeConverters(TableWindsConverter::class)
-    var discarderInitialPosition = NONE
     var pointsP1 = 0
     var pointsP2 = 0
     var pointsP3 = 0
@@ -94,8 +95,8 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         isBestHand: Boolean
     ) : this(gameId, roundId) {
         this.handPoints = handPoints
-        this.winnerInitialPosition = winnerInitialPosition
-        this.discarderInitialPosition = discarderInitialPosition
+        this.winnerInitialSeat = winnerInitialPosition
+        this.discarderInitialSeat = discarderInitialPosition
         this.pointsP1 = pointsP1
         this.pointsP2 = pointsP2
         this.pointsP3 = pointsP3
@@ -122,8 +123,8 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
             gameId,
             roundId,
             handPoints,
-            winnerInitialPosition,
-            discarderInitialPosition,
+            winnerInitialSeat,
+            discarderInitialSeat,
             pointsP1,
             pointsP2,
             pointsP3,
@@ -138,46 +139,43 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         )
     }
     
-    fun finishRoundByHuDiscard(winnerInitialPosition: TableWinds, looserInitialPosition: TableWinds, winnerHandPoints: Int) {
-        this.winnerInitialPosition = winnerInitialPosition
-        this.discarderInitialPosition = looserInitialPosition
-        this.handPoints = winnerHandPoints
-        val looserTotalPoints = winnerHandPoints + HU_BASE_POINTS
-        val winnerTotalPoints = looserTotalPoints + HU_BASE_POINTS * NUM_NO_WINNER_AND_NO_LOOSER_PLAYERS_IN_RON
-        if (EAST === winnerInitialPosition)
-            pointsP1 += winnerTotalPoints
-        else
-            pointsP1 -= if (EAST === looserInitialPosition) looserTotalPoints else HU_BASE_POINTS
-        if (SOUTH === winnerInitialPosition)
-            pointsP2 += winnerTotalPoints
-        else
-            pointsP2 -= if (SOUTH === looserInitialPosition) looserTotalPoints else HU_BASE_POINTS
-        if (WEST === winnerInitialPosition)
-            pointsP3 += winnerTotalPoints
-        else
-            pointsP3 -= if (WEST === looserInitialPosition) looserTotalPoints else HU_BASE_POINTS
-        if (NORTH === winnerInitialPosition)
-            pointsP4 += winnerTotalPoints
-        else
-            pointsP4 -= if (NORTH === looserInitialPosition) looserTotalPoints else HU_BASE_POINTS
-        
+    internal fun finishRoundByHuDiscard(winnerInitialSeat: TableWinds, discarderInitialSeat: TableWinds, huPoints: Int) {
+        this.winnerInitialSeat = winnerInitialSeat
+        this.discarderInitialSeat = discarderInitialSeat
+        handPoints = huPoints
+        pointsP1 += calculateDiscardSeatPoints(EAST, huPoints)
+        pointsP2 += calculateDiscardSeatPoints(SOUTH, huPoints)
+        pointsP3 += calculateDiscardSeatPoints(WEST, huPoints)
+        pointsP4 += calculateDiscardSeatPoints(NORTH, huPoints)
         finishRound()
     }
     
-    fun finishRoundByHuSelfpick(winnerInitialPosition: TableWinds, winnerHandPoints: Int) {
-        this.winnerInitialPosition = winnerInitialPosition
-        this.handPoints = winnerHandPoints
-        val looserTotalPoints = winnerHandPoints + HU_BASE_POINTS
-        val winnerTotalPoints = looserTotalPoints * NUM_NO_WINNER_PLAYERS
-        pointsP1 += if (EAST === winnerInitialPosition) winnerTotalPoints else -looserTotalPoints
-        pointsP2 += if (SOUTH === winnerInitialPosition) winnerTotalPoints else -looserTotalPoints
-        pointsP3 += if (WEST === winnerInitialPosition) winnerTotalPoints else -looserTotalPoints
-        pointsP4 += if (NORTH === winnerInitialPosition) winnerTotalPoints else -looserTotalPoints
+    private fun calculateDiscardSeatPoints(seat: TableWinds, huPoints: Int): Int {
+        return when (seat) {
+            winnerInitialSeat -> getHuDiscardWinnerPoints(huPoints)
+            discarderInitialSeat -> getHuDiscardDiscarderPoints(huPoints)
+            else -> POINTS_DISCARD_NEUTRAL_PLAYERS
+        }
+    }
     
+    internal fun finishRoundByHuSelfpick(winnerInitialSeat: TableWinds, huPoints: Int) {
+        this.winnerInitialSeat = winnerInitialSeat
+        this.handPoints = huPoints
+        pointsP1 += calculateSelfpickSeatPoints(EAST, huPoints)
+        pointsP2 += calculateSelfpickSeatPoints(SOUTH, huPoints)
+        pointsP3 += calculateSelfpickSeatPoints(WEST, huPoints)
+        pointsP4 += calculateSelfpickSeatPoints(NORTH, huPoints)
         finishRound()
     }
     
-    fun setPlayerPenaltyPoints(penalizedPlayerInitialPosition: TableWinds, penaltyPoints: Int) {
+    private fun calculateSelfpickSeatPoints(seat: TableWinds, huPoints: Int): Int {
+        return if (seat == winnerInitialSeat)
+            getHuSelfpickWinnerPoints(huPoints)
+        else
+            getHuSelfpickDiscarderPoints(huPoints)
+    }
+    
+    internal fun setPlayerPenaltyPoints(penalizedPlayerInitialPosition: TableWinds, penaltyPoints: Int) {
         when (penalizedPlayerInitialPosition) {
             EAST -> penaltyP1 -= penaltyPoints
             SOUTH -> penaltyP2 -= penaltyPoints
@@ -186,31 +184,22 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         }
     }
     
-    fun setAllPlayersPenaltyPoints(penalizedPlayerInitialPosition: TableWinds, penaltyPoints: Int) {
-        val noPenalizedPlayerPoints = penaltyPoints / NUM_NO_WINNER_PLAYERS
-        penaltyP1 -= if (EAST === penalizedPlayerInitialPosition) penaltyPoints else -noPenalizedPlayerPoints
-        penaltyP2 -= if (SOUTH === penalizedPlayerInitialPosition) penaltyPoints else -noPenalizedPlayerPoints
-        penaltyP3 -= if (WEST === penalizedPlayerInitialPosition) penaltyPoints else -noPenalizedPlayerPoints
-        penaltyP4 -= if (NORTH === penalizedPlayerInitialPosition) penaltyPoints else -noPenalizedPlayerPoints
+    internal fun setAllPlayersPenaltyPoints(penalizedPlayerInitialSeat: TableWinds, penaltyPoints: Int) {
+        val noPenalizedPlayerPoints = getPenaltyOtherPlayersPoints(penaltyPoints)
+        penaltyP1 += if (EAST === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
+        penaltyP2 += if (SOUTH === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
+        penaltyP3 += if (WEST === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
+        penaltyP4 += if (NORTH === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
     }
     
-    fun cancelAllPlayersPenalties() {
+    internal fun cancelAllPlayersPenalties() {
         penaltyP1 = 0
         penaltyP2 = 0
         penaltyP3 = 0
         penaltyP4 = 0
     }
     
-    fun isPenalizedPlayer(playerInitialPosition: TableWinds): Boolean {
-        return when (playerInitialPosition) {
-            EAST -> penaltyP1 < 0
-            SOUTH -> penaltyP2 < 0
-            WEST -> penaltyP3 < 0
-            else -> penaltyP4 < 0
-        }
-    }
-    
-    fun getPenaltyPointsFromInitialPlayerPosition(playerInitialPosition: TableWinds): Int {
+    internal fun getPenaltyPointsFromInitialPlayerPosition(playerInitialPosition: TableWinds): Int {
         return when (playerInitialPosition) {
             EAST -> penaltyP1
             SOUTH -> penaltyP2
@@ -219,7 +208,7 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         }
     }
     
-    fun finishRound() {
+    internal fun finishRound() {
         applyPlayersPenalties()
 //        roundDuration =
         isEnded = true

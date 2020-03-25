@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
@@ -34,15 +33,19 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
     
     private fun setOnClickListeners() {
         btPenaltyDialogSave?.setOnClickListener {
-            val penaltyPoints = Integer.valueOf(tietPenaltyDialog.text.toString())
-            if (penaltyPoints > 0)
-                if (cbPenaltyDialog.isChecked)
+            val penaltyPoints = Integer.valueOf(tietPenaltyDialog?.text.toString())
+            if (penaltyPoints > 0) {
+                if (cbPenaltyDialog?.isChecked == true) {
                     if (penaltyPoints % 3 == 0) {
-                        activityViewModel?.savePenalty(penaltyPoints, true)
-                        hideKeyboard(tietPenaltyDialog)
-                        isDialogCancelled = false
-                        dismiss()
+                        saveAndFinish(penaltyPoints, true)
+                    } else {
+                        tietPenaltyDialog?.error = ""
+                        cbPenaltyDialog?.error = ""
                     }
+                } else
+                    saveAndFinish(penaltyPoints, false)
+            } else
+                tietPenaltyDialog.error = ""
         }
         btPenaltyDialogCancel?.setOnClickListener {
             hideKeyboard(tietPenaltyDialog)
@@ -50,8 +53,15 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
         }
     }
     
+    private fun saveAndFinish(penaltyPoints: Int, isDivided: Boolean) {
+        activityViewModel?.savePenalty(penaltyPoints, isDivided)
+        tietPenaltyDialog?.let { hideKeyboard(it) }
+        isDialogCancelled = false
+        dismiss()
+    }
+    
     override fun onDismiss(dialog: DialogInterface) {
-        if(isDialogCancelled) activityViewModel?.handDialogCanceled()
+        if (isDialogCancelled) activityViewModel?.handDialogCanceled()
         super.onDismiss(dialog)
     }
 }

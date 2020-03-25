@@ -108,7 +108,7 @@ object RankingTableHelper {
             val roundHandPoints = round.handPoints
             val bestHand = BestHand()
             bestHand.handValue = roundHandPoints
-            bestHand.playerInitialPosition = round.winnerInitialPosition
+            bestHand.playerInitialPosition = round.winnerInitialSeat
             if (bestHands.isEmpty() || roundHandPoints == bestHands[0].handValue) {
                 bestHands.add(bestHand)
             } else if (roundHandPoints > bestHands[0].handValue) {

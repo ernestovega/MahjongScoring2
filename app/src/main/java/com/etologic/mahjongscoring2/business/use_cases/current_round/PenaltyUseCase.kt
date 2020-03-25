@@ -33,4 +33,14 @@ constructor(
                     .flatMap { gamesRepository.getOneWithRounds(currentRound.gameId) }
                     .flatMap { currentGameRepository.set(it) }
             }
+    
+    internal fun cancelPenalties(): Single<GameWithRounds> =
+        currentGameRepository.get()
+            .flatMap { currentGameWithRounds ->
+                val currentRound = currentGameWithRounds.rounds.last()
+                currentRound.cancelAllPlayersPenalties()
+                roundsRepository.updateOne(currentRound)
+                    .flatMap { gamesRepository.getOneWithRounds(currentRound.gameId) }
+                    .flatMap { currentGameRepository.set(it) }
+            }
 }

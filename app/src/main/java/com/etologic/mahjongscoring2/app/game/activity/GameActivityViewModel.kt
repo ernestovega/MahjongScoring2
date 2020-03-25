@@ -35,8 +35,11 @@ class GameActivityViewModel internal constructor(
     private val penaltyUseCase: PenaltyUseCase
 ) : BaseViewModel() {
     
-    internal var listNamesByCurrentSeat: Array<String>? = null
-    internal var huPoints: Int? = null
+    //Navigation
+    private val _currentPage = MutableLiveData<GamePages>()
+    internal fun getCurrentPage(): LiveData<GamePages> = _currentPage
+    private val _dialogToShow = MutableLiveData<DialogType>()
+    internal fun getDialogToShow(): LiveData<DialogType> = _dialogToShow
     
     //List
     private val _listNames = MutableLiveData<Array<String>>()
@@ -58,13 +61,11 @@ class GameActivityViewModel internal constructor(
     private val _currentRound = MutableLiveData<Round>()
     internal fun getCurrentRound(): LiveData<Round> = _currentRound
     
-    //Navigation
-    private val _currentPage = MutableLiveData<GamePages>()
-    internal fun getCurrentPage(): LiveData<GamePages> = _currentPage
-    private val _dialogToShow = MutableLiveData<DialogType>()
-    internal fun getDialogToShow(): LiveData<DialogType> = _dialogToShow
+    //DTOs
     private val _rankingData = MutableLiveData<RankingData>()
     internal fun getRankingData(): LiveData<RankingData> = _rankingData
+    internal var listNamesByCurrentSeat: Array<String>? = null
+    internal var huPoints: Int? = null
     
     //METHODS
     internal fun loadGame() {
@@ -74,7 +75,6 @@ class GameActivityViewModel internal constructor(
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess {
                     updateTableAndList(it)
-                    saveNamesByCurrentSeat(it)
                     showPlayersDialogIfProceed(it)
                 }
                 .subscribe({ progressState.postValue(HIDE) }, this::showError)
@@ -82,6 +82,7 @@ class GameActivityViewModel internal constructor(
     }
     
     private fun updateTableAndList(gameWithRounds: GameWithRounds) {
+        listNamesByCurrentSeat = gameWithRounds.getPlayersNamesByCurrentSeat()
         val currentRound = gameWithRounds.rounds.last()
         _currentRound.postValue(currentRound)
         _eastSeat.postValue(buildNewSeat(gameWithRounds, EAST))
@@ -121,13 +122,9 @@ class GameActivityViewModel internal constructor(
     }
     
     private fun updateList(it: GameWithRounds) {
-        _listNames.postValue(it.getPlayersNamesByCurrentSeat())
+        _listNames.postValue(it.game.getPlayersNames())
         _listRounds.postValue(it.getRoundsWithBestHand())
         _listTotals.postValue(it.getPlayersTotalPointsString())
-    }
-    
-    private fun saveNamesByCurrentSeat(gameWithRounds: GameWithRounds) {
-        listNamesByCurrentSeat = gameWithRounds.getPlayersNamesByCurrentSeat()
     }
     
     private fun showPlayersDialogIfProceed(gameWithRounds: GameWithRounds) {
@@ -172,17 +169,19 @@ class GameActivityViewModel internal constructor(
             }
             SOUTH -> _southSeat.value?.let {
                 it.state = NORMAL
-                _eastSeat.postValue(it)
+                _southSeat.postValue(it)
             }
             WEST -> _westSeat.value?.let {
                 it.state = NORMAL
-                _eastSeat.postValue(it)
+                _westSeat.postValue(it)
             }
             NORTH -> _northSeat.value?.let {
                 it.state = NORMAL
-                _eastSeat.postValue(it)
+                _northSeat.postValue(it)
             }
-            NONE -> {}
+            NONE -> {
+                loadGame()
+            }
         }
     }
     
@@ -253,6 +252,16 @@ class GameActivityViewModel internal constructor(
         )
     }
     
+    internal fun cancelPenalties() {
+        disposables.add(
+            penaltyUseCase.cancelPenalties()
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe { progressState.postValue(SHOW) }
+                .doOnSuccess(this::updateTableAndList)
+                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+        )
+    }
+    
     internal fun loadRankingData() {
         disposables.add(
             getCurrentGameUseCase.getCurrentGameWithRounds()
@@ -275,4 +284,10 @@ class GameActivityViewModel internal constructor(
     internal fun handDialogCanceled() {
         unselectedSelectedSeat()
     }
+    
+    internal fun thereArePenaltiesCurrently(): Boolean =
+        (_eastSeat.value?.penalty ?: 0) != 0 ||
+            (_southSeat.value?.penalty ?: 0) != 0 ||
+            (_westSeat.value?.penalty ?: 0) != 0 ||
+            (_northSeat.value?.penalty ?: 0) != 0
 }

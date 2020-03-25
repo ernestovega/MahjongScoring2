@@ -34,8 +34,8 @@ class GameItemDiffUtilCallback(private val newList: List<GameWithRounds>, privat
             oldGame.game.nameP4 == newGame.game.nameP4 &&
             DateTimeUtils.areEqual(oldGame.game.startDate, newGame.game.startDate) &&
             arePlayersTotalsPointsEquals(
-                oldGame.getPlayersTotalPointsString(),
-                newGame.getPlayersTotalPointsString()
+                oldGame.getPlayersTotalPointsStringByCurrentSeat(),
+                newGame.getPlayersTotalPointsStringByCurrentSeat()
             ) &&
             areBestHandsEqual(oldGame.getBestHand(), newGame.getBestHand())
             && Round.areEqual(oldGame.rounds, newGame.rounds))

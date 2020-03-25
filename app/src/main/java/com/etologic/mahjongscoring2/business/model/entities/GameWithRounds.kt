@@ -23,16 +23,72 @@ class GameWithRounds(@field:Embedded var game: Game) {
     internal fun getPlayersNamesByCurrentSeat(): Array<String> {
         val namesListByCurrentSeat = arrayOf("", "", "", "")
         val roundId = rounds.last().roundId
-        namesListByCurrentSeat[getEastPlayerCurrentSeat(roundId).code] = game.nameP1
-        namesListByCurrentSeat[getSouthSeatPlayerByRound(roundId).code] = game.nameP2
-        namesListByCurrentSeat[getWestSeatPlayerByRound(roundId).code] = game.nameP3
-        namesListByCurrentSeat[getNorthSeatPlayerByRound(roundId).code] = game.nameP4
+        namesListByCurrentSeat[getInitialEastPlayerCurrentSeat(roundId).code] = game.nameP1
+        namesListByCurrentSeat[getInitialSouthPlayerCurrentSeat(roundId).code] = game.nameP2
+        namesListByCurrentSeat[getInitialWestPlayerCurrentSeat(roundId).code] = game.nameP3
+        namesListByCurrentSeat[getInitialNorthPlayerCurrentSeat(roundId).code] = game.nameP4
         return namesListByCurrentSeat
+    }
+    
+    internal fun getPlayersTotalPointsStringByCurrentSeat(): Array<String> {
+        val points = getPlayersTotalPoints()
+        val pointsByCurrentSeat: Array<String> = arrayOf("", "", "", "")
+        val roundId = rounds.last().roundId
+        pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(roundId).code] = points[EAST.code].toString()
+        pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(roundId).code] = points[SOUTH.code].toString()
+        pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(roundId).code] = points[WEST.code].toString()
+        pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(roundId).code] = points[NORTH.code].toString()
+        return pointsByCurrentSeat
+    }
+    
+    private fun getInitialEastPlayerCurrentSeat(roundId: Int): TableWinds {
+        return when (roundId) {
+            1, 2, 3, 4 -> EAST
+            5, 6, 7, 8 -> SOUTH
+            9, 10, 11, 12 -> WEST
+            13, 14, 15, 16 -> NORTH
+            else -> EAST
+        }
+    }
+    
+    private fun getInitialSouthPlayerCurrentSeat(roundId: Int): TableWinds {
+        return when (roundId) {
+            1, 2, 3, 4 -> SOUTH
+            5, 6, 7, 8 -> EAST
+            9, 10, 11, 12 -> NORTH
+            13, 14, 15, 16 -> WEST
+            else -> SOUTH
+        }
+    }
+    
+    private fun getInitialWestPlayerCurrentSeat(roundId: Int): TableWinds {
+        return when (roundId) {
+            1, 2, 3, 4 -> WEST
+            5, 6, 7, 8 -> NORTH
+            9, 10, 11, 12 -> SOUTH
+            13, 14, 15, 16 -> EAST
+            else -> WEST
+        }
+    }
+    
+    private fun getInitialNorthPlayerCurrentSeat(roundId: Int): TableWinds {
+        return when (roundId) {
+            1, 2, 3, 4 -> NORTH
+            5, 6, 7, 8 -> WEST
+            9, 10, 11, 12 -> EAST
+            13, 14, 15, 16 -> SOUTH
+            else -> NORTH
+        }
     }
     
     internal fun getPlayersTotalPointsString(): Array<String> {
         val points = getPlayersTotalPoints()
-        return arrayOf(points[EAST.code].toString(), points[SOUTH.code].toString(), points[WEST.code].toString(), points[NORTH.code].toString())
+        return arrayOf(
+            points[EAST.code].toString(),
+            points[SOUTH.code].toString(),
+            points[WEST.code].toString(),
+            points[NORTH.code].toString()
+        )
     }
     
     internal fun getPlayersTotalPoints(): IntArray {
@@ -48,9 +104,11 @@ class GameWithRounds(@field:Embedded var game: Game) {
     
     internal fun getRoundsWithBestHand(): List<Round> {
         val bestHand = getBestHand()
-        for (round in rounds) {
-            val isBestHandRound = round.handPoints >= bestHand.handValue && round.winnerInitialPosition == bestHand.playerInitialPosition
-            round.isBestHand = isBestHandRound
+        if (bestHand.handValue >= MIN_MCR_POINTS) {
+            for (round in rounds) {
+                val isBestHandRound = round.handPoints >= bestHand.handValue && round.winnerInitialSeat == bestHand.playerInitialPosition
+                round.isBestHand = isBestHandRound
+            }
         }
         return rounds
     }
@@ -60,7 +118,7 @@ class GameWithRounds(@field:Embedded var game: Game) {
         for (round in rounds) {
             if (round.handPoints > bestHand.handValue) {
                 bestHand.handValue = round.handPoints
-                bestHand.playerName = game.getPlayerNameByInitialPosition(round.winnerInitialPosition)
+                bestHand.playerName = game.getPlayerNameByInitialPosition(round.winnerInitialSeat)
             }
         }
         return bestHand
@@ -94,46 +152,6 @@ class GameWithRounds(@field:Embedded var game: Game) {
         var totalPoints = 0
         for (round in rounds) totalPoints += round.pointsP4
         return totalPoints
-    }
-    
-    internal fun getEastPlayerCurrentSeat(roundId: Int): TableWinds {
-        return when (roundId) {
-            1, 2, 3, 4 -> EAST
-            5, 6, 7, 8 -> SOUTH
-            9, 10, 11, 12 -> WEST
-            13, 14, 15, 16 -> NORTH
-            else -> EAST
-        }
-    }
-    
-    internal fun getSouthSeatPlayerByRound(roundId: Int): TableWinds {
-        return when (roundId) {
-            1, 2, 3, 4 -> SOUTH
-            5, 6, 7, 8 -> EAST
-            9, 10, 11, 12 -> NORTH
-            13, 14, 15, 16 -> WEST
-            else -> SOUTH
-        }
-    }
-    
-    internal fun getWestSeatPlayerByRound(roundId: Int): TableWinds {
-        return when (roundId) {
-            1, 2, 3, 4 -> WEST
-            5, 6, 7, 8 -> NORTH
-            9, 10, 11, 12 -> SOUTH
-            13, 14, 15, 16 -> EAST
-            else -> WEST
-        }
-    }
-    
-    internal fun getNorthSeatPlayerByRound(roundId: Int): TableWinds {
-        return when (roundId) {
-            1, 2, 3, 4 -> NORTH
-            5, 6, 7, 8 -> WEST
-            9, 10, 11, 12 -> EAST
-            13, 14, 15, 16 -> SOUTH
-            else -> NORTH
-        }
     }
     
     internal fun getPlayerInitialSeatByCurrentSeat(currentSeatPosition: TableWinds, roundId: Int): TableWinds {
@@ -194,5 +212,24 @@ class GameWithRounds(@field:Embedded var game: Game) {
             NORTH -> SOUTH
             else -> SOUTH
         }
+    }
+    
+    internal companion object {
+    
+        internal const val MAX_MCR_ROUNDS = 16
+        internal const val MIN_MCR_POINTS = 8
+        internal const val NUM_NO_WINNER_PLAYERS = 3
+        internal const val NUM_DISCARD_NEUTRAL_PLAYERS = 2
+        internal const val POINTS_DISCARD_NEUTRAL_PLAYERS = -8
+    
+        internal fun getHuSelfpickWinnerPoints(huPoints: Int) = (huPoints + 8) * 3
+    
+        internal fun getHuSelfpickDiscarderPoints(huPoints: Int) = -(huPoints + 8)
+    
+        internal fun getHuDiscardWinnerPoints(huPoints: Int) = huPoints + (8 * 3)
+    
+        internal fun getHuDiscardDiscarderPoints(huPoints: Int) = -(huPoints + 8)
+    
+        internal fun getPenaltyOtherPlayersPoints(penaltyPoints: Int) = penaltyPoints / NUM_NO_WINNER_PLAYERS
     }
 }

@@ -86,7 +86,7 @@ internal class OldGamesRvAdapter
         itemViewHolder.tvSouthPlayerName?.text = gameWithRounds.game.nameP2
         itemViewHolder.tvWestPlayerName?.text = gameWithRounds.game.nameP3
         itemViewHolder.tvNorthPlayerName?.text = gameWithRounds.game.nameP4
-        val playersTotalPoints = gameWithRounds.getPlayersTotalPointsString()
+        val playersTotalPoints = gameWithRounds.getPlayersTotalPointsStringByCurrentSeat()
         itemViewHolder.tvEastPlayerPoints?.text = playersTotalPoints[0]
         itemViewHolder.tvSouthPlayerPoints?.text = playersTotalPoints[1]
         itemViewHolder.tvWestPlayerPoints?.text = playersTotalPoints[2]
