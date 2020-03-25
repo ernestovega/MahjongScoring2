@@ -9,7 +9,7 @@
         android:id="@+id/llGameTableRoundNumberAndIconContainerHeader"
         android:layout_width="match_parent"
         android:layout_height="@dimen/table_header_height"
-        android:gravity="bottom"
+        android:gravity="center_vertical"
         android:layout_alignParentTop="true">
 
         <TextView
@@ -58,7 +58,7 @@
         android:id="@+id/llGameTableRoundNumberAndIconContainerFooter"
         android:layout_width="match_parent"
         android:layout_height="@dimen/table_header_height"
-        android:gravity="top"
+        android:gravity="center_vertical"
         android:layout_alignParentBottom="true">
 
         <TextView

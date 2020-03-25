@@ -6,7 +6,7 @@ import com.etologic.mahjongscoring2.app.game.dialogs.hand.ActionDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand.DiscarderDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand.PointsHuDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand.PenaltyDialogFragment
-import com.etologic.mahjongscoring2.app.game.dialogs.players.PlayersDialogFragment
+import com.etologic.mahjongscoring2.app.game.dialogs.names.NamesDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment
 import com.etologic.mahjongscoring2.app.model.DialogType
@@ -16,7 +16,7 @@ object GameNavigator {
     
     internal fun showDialog(dialogType: DialogType, activity: GameActivity) {
         when (dialogType) {
-            PLAYERS -> PlayersDialogFragment().show(activity.supportFragmentManager, PlayersDialogFragment.TAG)
+            PLAYERS -> NamesDialogFragment().show(activity.supportFragmentManager, NamesDialogFragment.TAG)
             DICE -> RollDiceDialogFragment().show(activity.supportFragmentManager, RollDiceDialogFragment.TAG)
             HAND_ACTION -> ActionDialogFragment().show(activity.supportFragmentManager, ActionDialogFragment.TAG)
             HU -> PointsHuDialogFragment().show(activity.supportFragmentManager, PointsHuDialogFragment.TAG)

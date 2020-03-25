@@ -1,4 +1,4 @@
-package com.etologic.mahjongscoring2.app.game.dialogs.players
+package com.etologic.mahjongscoring2.app.game.dialogs.names
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -13,7 +13,7 @@ import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.showKeyboard
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import kotlinx.android.synthetic.main.game_players_dialog_fragment.*
 
-internal class PlayersDialogFragment : BaseGameDialogFragment() {
+internal class NamesDialogFragment : BaseGameDialogFragment() {
     
     companion object {
         const val TAG = "PlayersDialogFragment"
@@ -22,7 +22,6 @@ internal class PlayersDialogFragment : BaseGameDialogFragment() {
     override fun onStart() {
         super.onStart()
         dialog?.window?.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        isCancelable = false
     }
     
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

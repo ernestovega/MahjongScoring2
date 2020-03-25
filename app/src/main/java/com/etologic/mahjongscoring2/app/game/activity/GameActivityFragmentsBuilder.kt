@@ -3,7 +3,7 @@ package com.etologic.mahjongscoring2.app.game.activity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import com.etologic.mahjongscoring2.app.game.dialogs.hand.PenaltyDialogFragment
-import com.etologic.mahjongscoring2.app.game.dialogs.players.PlayersDialogFragment
+import com.etologic.mahjongscoring2.app.game.dialogs.names.NamesDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand.PointsHuDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment
@@ -35,7 +35,7 @@ abstract class GameActivityFragmentsBuilder {
     internal abstract fun providePenaltyFragment(): PenaltyDialogFragment
     
     @ContributesAndroidInjector
-    internal abstract fun providePlayersDialogFragment(): PlayersDialogFragment
+    internal abstract fun providePlayersDialogFragment(): NamesDialogFragment
     
     @ContributesAndroidInjector
     internal abstract fun provideRankingDialogFactory(): RankingDialogFragment
