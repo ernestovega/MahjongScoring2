@@ -68,7 +68,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="end|center_vertical"
-                    android:paddingLeft="@dimen/half_standard_margin"
                     android:paddingStart="@dimen/half_standard_margin"
                     android:textColor="@color/gray"
                     tools:ignore="RtlSymmetry"

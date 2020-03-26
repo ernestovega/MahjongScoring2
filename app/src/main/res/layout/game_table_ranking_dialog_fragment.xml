@@ -28,7 +28,7 @@
         <TableRow style="@style/trRankingDialog">
 
             <TextView
-                android:id="@+id/tvNamePlayerFirst"
+                android:id="@+id/tvRankingDialogPlayer1Name"
                 style="@style/tvRankingDialogTableContent"
                 android:layout_weight="7"
                 android:text="Player 1"
@@ -36,7 +36,7 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/tvPointsPlayerFirst"
+                android:id="@+id/tvRankingDialogPlayer1Points"
                 style="@style/tvRankingDialogTableContent"
                 android:layout_weight="2"
                 android:text="4"
@@ -44,7 +44,7 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/tvScorePlayerFirst"
+                android:id="@+id/tvRankingDialogPlayer1Score"
                 style="@style/tvRankingDialogTableContent"
                 android:layout_weight="3"
                 android:text="200"
@@ -54,7 +54,7 @@
         <TableRow style="@style/trRankingDialog">
 
             <TextView
-                android:id="@+id/tvNamePlayerSecond"
+                android:id="@+id/tvRankingDialogPlayer2Name"
                 style="@style/tvRankingDialogTableContent"
                 android:layout_weight="7"
                 android:text="Player 2"
@@ -62,7 +62,7 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/tvPointsPlayerSecond"
+                android:id="@+id/tvRankingDialogPlayer2Points"
                 style="@style/tvRankingDialogTableContent"
                 android:layout_weight="2"
                 android:text="2"
@@ -70,7 +70,7 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/tvScorePlayerSecond"
+                android:id="@+id/tvRankingDialogPlayer2Score"
                 style="@style/tvRankingDialogTableContent"
                 android:layout_weight="3"
                 android:text="100"
@@ -80,7 +80,7 @@
         <TableRow style="@style/trRankingDialog">
 
             <TextView
-                android:id="@+id/tvNamePlayerThird"
+                android:id="@+id/tvRankingDialogPlayer3Name"
                 style="@style/tvRankingDialogTableContent"
                 android:layout_weight="7"
                 android:text="Player 3"
@@ -88,7 +88,7 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/tvPointsPlayerThird"
+                android:id="@+id/tvRankingDialogPlayer3Points"
                 style="@style/tvRankingDialogTableContent"
                 android:layout_weight="2"
                 android:text="1"
@@ -96,7 +96,7 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/tvScorePlayerThird"
+                android:id="@+id/tvRankingDialogPlayer3Score"
                 style="@style/tvRankingDialogTableContent"
                 android:layout_weight="3"
                 android:text="-100"
@@ -106,7 +106,7 @@
         <TableRow style="@style/trRankingDialog">
 
             <TextView
-                android:id="@+id/tvNamePlayerFourth"
+                android:id="@+id/tvRankingDialogPlayer4Name"
                 style="@style/tvRankingDialogTableContent"
                 android:layout_weight="7"
                 android:text="Player 4"
@@ -114,7 +114,7 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/tvPointsPlayerFourth"
+                android:id="@+id/tvRankingDialogPlayer4Points"
                 style="@style/tvRankingDialogTableContent"
                 android:layout_weight="2"
                 android:text="0"
@@ -122,11 +122,12 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/tvScorePlayerFourth"
+                android:id="@+id/tvRankingDialogPlayer4Score"
                 style="@style/tvRankingDialogTableContent"
                 android:layout_weight="3"
                 android:text="-200"
                 tools:ignore="HardcodedText" />
+
         </TableRow>
 
         <TableRow style="@style/trRankingDialog">
@@ -148,13 +149,12 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/textview_ranking_titulo_numero_rondas"
                 style="@style/tvRankingDialogOthers"
                 android:layout_weight="5"
                 android:text="@string/rounds" />
 
             <TextView
-                android:id="@+id/tvNumRounds"
+                android:id="@+id/tvRankingDialogNumRounds"
                 style="@style/tvRankingDialogOthers"
                 android:layout_weight="5"
                 android:text="16"
@@ -175,13 +175,12 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/textview_ranking_titulo_mejorjugada"
                 style="@style/tvRankingDialogOthers"
                 android:layout_weight="5"
                 android:text="@string/best_hand" />
 
             <TextView
-                android:id="@+id/tvBestHandPlayerPoints"
+                android:id="@+id/tvRankingDialogBestHandPlayerPoints"
                 style="@style/tvRankingDialogOthers"
                 android:layout_weight="5"
                 android:text="119"
@@ -230,10 +229,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tlRanking"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/standard_margin"
         android:layout_marginEnd="@dimen/standard_margin"
-        android:layout_marginRight="@dimen/standard_margin"
         android:layout_marginBottom="@dimen/standard_margin"
         android:text="@string/see_list" />
 
@@ -245,10 +242,8 @@
         android:layout_below="@+id/tlRanking"
         android:layout_marginTop="@dimen/standard_margin"
         android:layout_marginEnd="@dimen/standard_margin"
-        android:layout_marginRight="@dimen/standard_margin"
         android:layout_marginBottom="@dimen/standard_margin"
         android:layout_toStartOf="@+id/btRankingDialogSeeList"
-        android:layout_toLeftOf="@+id/btRankingDialogSeeList"
         android:text="@string/resume" />
 
     <Button
@@ -259,10 +254,8 @@
         android:layout_below="@+id/tlRanking"
         android:layout_marginTop="@dimen/standard_margin"
         android:layout_marginEnd="@dimen/standard_margin"
-        android:layout_marginRight="@dimen/standard_margin"
         android:layout_marginBottom="@dimen/standard_margin"
         android:layout_toStartOf="@+id/btRankingDialogResume"
-        android:layout_toLeftOf="@+id/btRankingDialogResume"
         android:text="@string/close" />
 
     <Button
@@ -273,7 +266,6 @@
         android:layout_below="@+id/tlRanking"
         android:layout_margin="@dimen/standard_margin"
         android:layout_toStartOf="@+id/btRankingDialogClose"
-        android:layout_toLeftOf="@+id/btRankingDialogClose"
         android:text="@string/exit" />
 
 </RelativeLayout>

@@ -102,7 +102,7 @@ class GameWithRounds(@field:Embedded var game: Game) {
         return points
     }
     
-    internal fun getRoundsWithBestHand(): List<Round> {
+    internal fun getEndedRoundsWithBestHand(): List<Round> {
         val bestHand = getBestHand()
         if (bestHand.handValue >= MIN_MCR_POINTS) {
             for (round in rounds) {
@@ -110,7 +110,7 @@ class GameWithRounds(@field:Embedded var game: Game) {
                 round.isBestHand = isBestHandRound
             }
         }
-        return rounds
+        return rounds.dropLastWhile { !it.isEnded }
     }
     
     internal fun getBestHand(): BestHand {

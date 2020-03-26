@@ -9,9 +9,9 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.HU
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.PENALTY
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
-import com.etologic.mahjongscoring2.app.model.DialogType.HU
-import com.etologic.mahjongscoring2.app.model.DialogType.PENALTY
 import kotlinx.android.synthetic.main.game_hand_actions_dialog_fragment.*
 
 internal class ActionDialogFragment : BaseGameDialogFragment() {
@@ -49,12 +49,12 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
                 .show()
         }
         btHandActionsDialogPenalty?.setOnClickListener {
-            activityViewModel?.showDialog(PENALTY)
+            activityViewModel?.navigateTo(PENALTY)
             isDialogCancelled = false
             dismiss()
         }
         btHandActionsDialogHu?.setOnClickListener {
-            activityViewModel?.showDialog(HU)
+            activityViewModel?.navigateTo(HU)
             isDialogCancelled = false
             dismiss()
         }

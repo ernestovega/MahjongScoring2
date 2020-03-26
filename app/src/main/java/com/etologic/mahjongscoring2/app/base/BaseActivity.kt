@@ -67,6 +67,6 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     }
     
     internal fun toggleProgress(showState: ShowState) {
-        llProgress?.visibility = if (showState === SHOW) VISIBLE else GONE
+//        llProgress?.visibility = if (showState === SHOW) VISIBLE else GONE
     }
 }

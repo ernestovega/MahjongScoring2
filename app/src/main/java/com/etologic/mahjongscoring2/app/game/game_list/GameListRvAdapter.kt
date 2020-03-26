@@ -1,5 +1,6 @@
 package com.etologic.mahjongscoring2.app.game.game_list
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -28,16 +29,16 @@ internal class GameListRvAdapter
     
     //Lifecycle
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        initResources(parent.context)
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.game_list_round_item, parent, false)
-        initResources(itemView)
         return ItemViewHolder(itemView)
     }
     
-    private fun initResources(itemView: View) {
-        accent = ContextCompat.getColor(itemView.context, color.colorAccent)
-        greenMM = ContextCompat.getColor(itemView.context, color.colorPrimary)
-        grayMM = ContextCompat.getColor(itemView.context, color.grayMM)
-        red = ContextCompat.getColor(itemView.context, color.red)
+    private fun initResources(context: Context) {
+        accent = ContextCompat.getColor(context, color.colorAccent)
+        greenMM = ContextCompat.getColor(context, color.colorPrimary)
+        grayMM = ContextCompat.getColor(context, color.grayMM)
+        red = ContextCompat.getColor(context, color.red)
     }
     
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -72,7 +73,8 @@ internal class GameListRvAdapter
                 EAST -> mHolder.tvPointsP1.setTextColor(it)
                 SOUTH -> mHolder.tvPointsP2.setTextColor(it)
                 WEST -> mHolder.tvPointsP3.setTextColor(it)
-                else -> mHolder.tvPointsP4.setTextColor(it)
+                NORTH -> mHolder.tvPointsP4.setTextColor(it)
+                else -> {}
             }
         }
     }

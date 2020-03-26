@@ -3,12 +3,9 @@ package com.etologic.mahjongscoring2.app.game.activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.app.game.game_table.RankingTableHelper.generateRankingTable
-import com.etologic.mahjongscoring2.app.model.DialogType
-import com.etologic.mahjongscoring2.app.model.DialogType.*
-import com.etologic.mahjongscoring2.app.model.GamePages
-import com.etologic.mahjongscoring2.app.model.GamePages.LIST
-import com.etologic.mahjongscoring2.app.model.GamePages.TABLE
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GamePages.TABLE
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.*
+import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper.generateRankingTable
 import com.etologic.mahjongscoring2.app.model.Seat
 import com.etologic.mahjongscoring2.app.model.SeatStates.*
 import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
@@ -22,7 +19,6 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.use_cases.current_game.GetCurrentGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_game.SaveCurrentPlayersUseCase
-import com.etologic.mahjongscoring2.business.use_cases.current_round.DrawUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_round.HuUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_round.PenaltyUseCase
 import io.reactivex.schedulers.Schedulers
@@ -31,15 +27,43 @@ class GameActivityViewModel internal constructor(
     private val getCurrentGameUseCase: GetCurrentGameUseCase,
     private val saveCurrentPlayersUseCase: SaveCurrentPlayersUseCase,
     private val huUseCase: HuUseCase,
-    private val drawUseCase: DrawUseCase,
     private val penaltyUseCase: PenaltyUseCase
 ) : BaseViewModel() {
+    
+    enum class GameScreens {
+        PLAYERS,
+        DICE,
+        HAND_ACTION,
+        HU,
+        DISCARDER,
+        PENALTY,
+        RANKING,
+        EXIT
+    }
+    
+    enum class GamePages(val code: Int) {
+        TABLE(0),
+        LIST(1);
+        
+        companion object {
+            fun getFromCode(code: Int): GamePages {
+                return when (code) {
+                    0 -> TABLE
+                    1 -> LIST
+                    else -> TABLE
+                }
+            }
+        }
+    }
+    
     
     //Navigation
     private val _currentPage = MutableLiveData<GamePages>()
     internal fun getCurrentPage(): LiveData<GamePages> = _currentPage
-    private val _dialogToShow = MutableLiveData<DialogType>()
-    internal fun getDialogToShow(): LiveData<DialogType> = _dialogToShow
+    private val _dialogToShow = MutableLiveData<GameScreens>()
+    internal fun getDialogToShow(): LiveData<GameScreens> = _dialogToShow
+    private val _rankingData = MutableLiveData<RankingData>()
+    internal fun getRankingData(): LiveData<RankingData> = _rankingData
     
     //List
     private val _listNames = MutableLiveData<Array<String>>()
@@ -51,19 +75,17 @@ class GameActivityViewModel internal constructor(
     
     //Table
     private val _eastSeat = MutableLiveData<Seat>()
-    internal fun getEastSeat(): LiveData<Seat> = _eastSeat
+    internal fun eastSeatObservable(): LiveData<Seat> = _eastSeat
     private val _southSeat = MutableLiveData<Seat>()
-    internal fun getSouthSeat(): LiveData<Seat> = _southSeat
+    internal fun southSeatObservable(): LiveData<Seat> = _southSeat
     private val _westSeat = MutableLiveData<Seat>()
-    internal fun getWestSeat(): LiveData<Seat> = _westSeat
+    internal fun westSeatObservable(): LiveData<Seat> = _westSeat
     private val _northSeat = MutableLiveData<Seat>()
-    internal fun getNorthSeat(): LiveData<Seat> = _northSeat
+    internal fun northSeatObservable(): LiveData<Seat> = _northSeat
     private val _currentRound = MutableLiveData<Round>()
     internal fun getCurrentRound(): LiveData<Round> = _currentRound
     
     //DTOs
-    private val _rankingData = MutableLiveData<RankingData>()
-    internal fun getRankingData(): LiveData<RankingData> = _rankingData
     internal var listNamesByCurrentSeat: Array<String>? = null
     internal var huPoints: Int? = null
     
@@ -85,12 +107,21 @@ class GameActivityViewModel internal constructor(
         listNamesByCurrentSeat = gameWithRounds.getPlayersNamesByCurrentSeat()
         val currentRound = gameWithRounds.rounds.last()
         _currentRound.postValue(currentRound)
-        _eastSeat.postValue(buildNewSeat(gameWithRounds, EAST))
-        _southSeat.postValue(buildNewSeat(gameWithRounds, SOUTH))
-        _westSeat.postValue(buildNewSeat(gameWithRounds, WEST))
-        _northSeat.postValue(buildNewSeat(gameWithRounds, NORTH))
-        if (currentRound.isEnded || currentRound.roundId == 16)
-            setSeatsDisabled()
+        val newEastSeat = buildNewSeat(gameWithRounds, EAST)
+        val newSouthSeat = buildNewSeat(gameWithRounds, SOUTH)
+        val newWestSeat = buildNewSeat(gameWithRounds, WEST)
+        val newNorthSeat = buildNewSeat(gameWithRounds, NORTH)
+        if (currentRound.isEnded) {
+            setSeatDisabled(newEastSeat, _eastSeat)
+            setSeatDisabled(newSouthSeat, _southSeat)
+            setSeatDisabled(newWestSeat, _westSeat)
+            setSeatDisabled(newNorthSeat, _northSeat)
+            _dialogToShow.postValue(RANKING)
+        }
+        _eastSeat.postValue(newEastSeat)
+        _southSeat.postValue(newSouthSeat)
+        _westSeat.postValue(newWestSeat)
+        _northSeat.postValue(newNorthSeat)
         updateList(gameWithRounds)
     }
     
@@ -102,28 +133,15 @@ class GameActivityViewModel internal constructor(
         return Seat(wind, name, points, penaltyPoints, NORMAL)
     }
     
-    private fun setSeatsDisabled() {
-        _eastSeat.value?.let {
-            it.state = DISABLED
-            _eastSeat.postValue(it)
-        }
-        _southSeat.value?.let {
-            it.state = DISABLED
-            _southSeat.postValue(it)
-        }
-        _westSeat.value?.let {
-            it.state = DISABLED
-            _westSeat.postValue(it)
-        }
-        _northSeat.value?.let {
-            it.state = DISABLED
-            _northSeat.postValue(it)
-        }
+    private fun setSeatDisabled(seat: Seat, mutableLiveData: MutableLiveData<Seat>) {
+        seat.state = DISABLED
+        seat.wind = NONE
+        mutableLiveData.postValue(seat)
     }
     
     private fun updateList(it: GameWithRounds) {
         _listNames.postValue(it.game.getPlayersNames())
-        _listRounds.postValue(it.getRoundsWithBestHand())
+        _listRounds.postValue(it.getEndedRoundsWithBestHand())
         _listTotals.postValue(it.getPlayersTotalPointsString())
     }
     
@@ -133,7 +151,7 @@ class GameActivityViewModel internal constructor(
             gameWithRounds.game.nameP2 == "Player 2" &&
             gameWithRounds.game.nameP3 == "Player 3" &&
             gameWithRounds.game.nameP4 == "Player 4"
-        ) showDialog(PLAYERS)
+        ) navigateTo(PLAYERS)
     }
     
     //SELECTED PLAYER/SEAT
@@ -190,15 +208,8 @@ class GameActivityViewModel internal constructor(
         _currentPage.postValue(page)
     }
     
-    internal fun onBackPressed() {
-        if (_currentPage.value === LIST)
-            _currentPage.postValue(TABLE)
-        else
-            _dialogToShow.postValue(EXIT)
-    }
-    
-    internal fun showDialog(dialogType: DialogType) {
-        _dialogToShow.postValue(dialogType)
+    internal fun navigateTo(gameScreens: GameScreens) {
+        _dialogToShow.postValue(gameScreens)
     }
     
     //OPERATIONS
@@ -234,7 +245,7 @@ class GameActivityViewModel internal constructor(
     
     internal fun saveDrawRound() {
         disposables.add(
-            drawUseCase.draw()
+            huUseCase.draw()
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess(this::updateTableAndList)

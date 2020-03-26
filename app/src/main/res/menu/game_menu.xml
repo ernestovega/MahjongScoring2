@@ -1,33 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_end_game"
+        android:icon="@drawable/ic_flag_white_24dp"
+        android:title="@string/end"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_combinations"
         android:icon="@drawable/ic_library_books_white_24dp"
         android:title="@string/combinations"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_players"
-        android:icon="@drawable/ic_person_add_white_24dp"
+        android:icon="@drawable/ic_people_white_24dp"
         android:title="@string/edit_names"
-        app:showAsAction="collapseActionView"/>
-
-    <item
-        android:id="@+id/action_play"
-        android:icon="@drawable/ic_play_arrow_white_24px"
-        android:title="@string/play"
-        android:visible="false"
-        app:showAsAction="ifRoom"/>
-
-    <item
-        android:id="@+id/action_pause"
-        android:icon="@drawable/ic_pause_white_24dp"
-        android:title="@string/pause"
-        android:visible="false"
-        app:showAsAction="ifRoom"
-        tools:ignore="AlwaysShowAction"/>
+        app:showAsAction="ifRoom" />
 
 </menu>

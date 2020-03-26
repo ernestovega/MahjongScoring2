@@ -10,11 +10,15 @@ import androidx.viewpager.widget.ViewPager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.base.ViewPagerAdapter
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GamePages.Companion.getFromCode
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GamePages.LIST
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GamePages.TABLE
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.EXIT
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.PLAYERS
 import com.etologic.mahjongscoring2.app.game.game_list.GameListFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
+import com.etologic.mahjongscoring2.app.main.activity.MainActivity
 import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
-import com.etologic.mahjongscoring2.app.model.DialogType.PLAYERS
-import com.etologic.mahjongscoring2.app.model.GamePages
 import kotlinx.android.synthetic.main.game_activity.*
 import javax.inject.Inject
 
@@ -29,9 +33,20 @@ class GameActivity : BaseActivity() {
     @Inject
     internal lateinit var viewModelFactory: GameActivityViewModelFactory
     internal lateinit var viewModel: GameActivityViewModel
+    private var lastBackPress: Long = 0
     
     override fun onBackPressed() {
-        viewModel.onBackPressed()
+        if (viewPagerGame.currentItem == LIST.code)
+            viewModel.showPage(TABLE)
+        else {
+            val currentTimeMillis = System.currentTimeMillis()
+            if (currentTimeMillis - lastBackPress > MainActivity.LAST_BACKPRESSED_MIN_TIME) {
+                showSnackbar(viewPagerGame, getString(R.string.press_again_to_exit))
+                lastBackPress = currentTimeMillis
+            }
+            else
+                viewModel.navigateTo(EXIT)
+        }
     }
     
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -43,7 +58,10 @@ class GameActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                if(viewPagerGame.currentItem == TABLE.code)
+                    viewModel.navigateTo(EXIT)
+                else
+                    onBackPressed()
                 true
             }
             R.id.action_combinations -> {
@@ -51,11 +69,11 @@ class GameActivity : BaseActivity() {
                 true
             }
             R.id.action_players -> {
-                viewModel.showDialog(PLAYERS)
+                viewModel.navigateTo(PLAYERS)
                 true
             }
             else -> super.onOptionsItemSelected(item)
-    }
+        }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +96,7 @@ class GameActivity : BaseActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(GameActivityViewModel::class.java)
         viewModel.getError().observe(this, Observer(this::showError))
         viewModel.getProgressState().observe(this, Observer(this::toggleProgress))
-        viewModel.getSnackbarMessage().observe(this, Observer { this.showSnackbar(llProgress, it) })
+        viewModel.getSnackbarMessage().observe(this, Observer { message -> viewPagerGame?.let { this.showSnackbar(it, message) } })
         viewModel.getDialogToShow().observe(this, Observer { GameNavigator.showDialog(it, this) })
         viewModel.getCurrentPage().observe(this, Observer { it?.let { viewPagerGame.currentItem = it.code } })
     }
@@ -92,7 +110,7 @@ class GameActivity : BaseActivity() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageSelected(position: Int) {
-                viewModel.showPage(GamePages.getFromCode(position))
+                viewModel.showPage(getFromCode(position))
                 supportActionBar?.setHomeAsUpIndicator(if (position == 0) R.drawable.ic_clear_white_24dp else R.drawable.ic_arrow_back_white_24dp)
             }
         })

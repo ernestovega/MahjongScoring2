@@ -1,66 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
     android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
+    <com.etologic.mahjongscoring2.app.custom_views.CustomNumPad
+        android:id="@+id/cnpPenaltyDialog"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/standard_margin"
-        android:layout_marginTop="@dimen/standard_margin"
         android:gravity="center"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:hint="@string/penalty_points">
+        android:inputType="numberDecimal"
+        android:maxLength="4"
+        android:maxLines="1" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tietPenaltyDialog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:inputType="numberDecimal"
-            android:digits="0123456789"
-            android:maxLength="4"
-            android:maxLines="1" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/cbPenaltyDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/equally_divided"
-            android:layout_marginTop="@dimen/half_standard_margin"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:checked="true"/>
+            android:layout_toStartOf="@+id/btPenaltyDialogCancel"
+            android:layout_centerVertical="true"
+            android:checked="true"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:text="@string/divided" />
 
-        <LinearLayout
+        <Button
+            android:id="@+id/btPenaltyDialogCancel"
+            style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/standard_margin"
-            android:orientation="horizontal">
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/btPenaltyDialogSave"
+            android:background="@android:color/transparent"
+            android:text="@string/close"
+            android:textColor="@color/grayMM"
+            tools:ignore="RelativeOverlap" />
 
-            <Button
-                android:id="@+id/btPenaltyDialogCancel"
-                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="@string/close"
-                android:textColor="@color/grayMM" />
+        <Button
+            android:id="@+id/btPenaltyDialogSave"
+            style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:text="@string/save" />
 
-            <Button
-                android:id="@+id/btPenaltyDialogSave"
-                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="@dimen/standard_margin"
-                android:background="@android:color/transparent"
-                android:text="@string/save" />
-
-        </LinearLayout>
-
-    </com.google.android.material.textfield.TextInputLayout>
+    </RelativeLayout>
 
 </LinearLayout>

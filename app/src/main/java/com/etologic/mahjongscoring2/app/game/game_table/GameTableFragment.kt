@@ -2,7 +2,6 @@ package com.etologic.mahjongscoring2.app.game.game_table
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.TypedValue
 import android.util.TypedValue.*
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +13,12 @@ import androidx.core.content.ContextCompat.getDrawable
 import androidx.lifecycle.Observer
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.*
+import com.etologic.mahjongscoring2.R.drawable.*
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.DICE
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.RANKING
 import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.Companion.TAG
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.TableSeatsListener
-import com.etologic.mahjongscoring2.app.model.DialogType.DICE
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import com.google.android.material.badge.BadgeDrawable.*
@@ -64,10 +65,10 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     }
     
     private fun initResources() {
-        eastIcon = context?.let { getDrawable(it, drawable.ic_east) }
-        southIcon = context?.let { getDrawable(it, drawable.ic_south) }
-        westIcon = context?.let { getDrawable(it, drawable.ic_west) }
-        northIcon = context?.let { getDrawable(it, drawable.ic_north) }
+        eastIcon = context?.let { getDrawable(it, ic_east) }
+        southIcon = context?.let { getDrawable(it, ic_south) }
+        westIcon = context?.let { getDrawable(it, ic_west) }
+        northIcon = context?.let { getDrawable(it, ic_north) }
     }
     
     private fun initTableSeats() {
@@ -79,25 +80,43 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     
     private fun setOnClickListeners() {
         tableSeats.setTableSeatsListener(this)
-        fabGameTableDice?.setOnClickListener { activityViewModel?.showDialog(DICE) }
+        fabGameTable?.setOnClickListener { activityViewModel?.navigateTo(DICE) }
     }
     
     private fun initViewModel() {
+        activityViewModel?.eastSeatObservable()?.observe(viewLifecycleOwner, Observer(tableSeats::setEastSeat))
+        activityViewModel?.southSeatObservable()?.observe(viewLifecycleOwner, Observer(tableSeats::setSouthSeat))
+        activityViewModel?.westSeatObservable()?.observe(viewLifecycleOwner, Observer(tableSeats::setWestSeat))
+        activityViewModel?.northSeatObservable()?.observe(viewLifecycleOwner, Observer(tableSeats::setNorthSeat))
         activityViewModel?.getCurrentRound()?.observe(viewLifecycleOwner, Observer(this::currentRoundObserver))
-        activityViewModel?.getEastSeat()?.observe(viewLifecycleOwner, Observer(tableSeats::setEastSeat))
-        activityViewModel?.getSouthSeat()?.observe(viewLifecycleOwner, Observer(tableSeats::setSouthSeat))
-        activityViewModel?.getWestSeat()?.observe(viewLifecycleOwner, Observer(tableSeats::setWestSeat))
-        activityViewModel?.getNorthSeat()?.observe(viewLifecycleOwner, Observer(tableSeats::setNorthSeat))
     }
     
     private fun currentRoundObserver(currentRound: Round) {
         val roundId = currentRound.roundId
-        moveDice(roundId)
+        setFab(roundId, currentRound.isEnded)
         setRoundNumsAndWinds(currentRound, roundId)
     }
     
+    private fun setFab(roundId: Int, isEnded: Boolean) {
+        if(isEnded) {
+            if(fabGameTable?.tag != "ic_trophy_white_18dp") {
+                fabGameTable?.tag = "ic_trophy_white_18dp"
+                fabGameTable?.setImageResource(ic_trophy_white_18dp)
+                fabGameTable?.setOnClickListener { activityViewModel?.navigateTo(RANKING) }
+                setFabPosition(BOTTOM_END)
+            }
+        } else {
+            if(fabGameTable?.tag != "ic_dice_multiple_white_24dp") {
+                fabGameTable?.tag = "ic_dice_multiple_white_24dp"
+                fabGameTable?.setImageResource(ic_dice_multiple_white_24dp)
+                fabGameTable?.setOnClickListener { activityViewModel?.navigateTo(DICE) }
+            }
+            moveDice(roundId)
+        }
+    }
+    
     private fun moveDice(roundId: Int) {
-        when(roundId) {
+        when (roundId) {
             1 -> setFabPosition(BOTTOM_END)
             2 -> setFabPosition(TOP_END)
             3 -> setFabPosition(TOP_START)
@@ -155,7 +174,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
                 params.addRule(ALIGN_PARENT_START)
             }
         }
-        fabGameTableDice?.layoutParams = params
+        fabGameTable?.layoutParams = params
     }
     
     private fun setRoundNumsAndWinds(currentRound: Round, roundId: Int) {

@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R.layout
 import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment
+import com.etologic.mahjongscoring2.business.model.entities.Round
 import kotlinx.android.synthetic.main.game_list_fragment.*
 import kotlinx.android.synthetic.main.game_list_fragment.view.*
 import javax.inject.Inject
@@ -30,15 +30,20 @@ class GameListFragment : BaseGameFragment() {
     
     private fun setupRecyclerView(view: View) {
         view.rvGameList?.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
+        val layoutManager = LinearLayoutManager(context)
         view.rvGameList?.layoutManager = layoutManager
         view.rvGameList?.adapter = rvAdapter
     }
     
     private fun initViewModel() {
         activityViewModel?.getListNames()?.observe(viewLifecycleOwner, Observer(this::namesObserver))
-        activityViewModel?.getListRounds()?.observe(viewLifecycleOwner, Observer(rvAdapter::updateCollection))
+        activityViewModel?.getListRounds()?.observe(viewLifecycleOwner, Observer(this::roundsListObserver))
         activityViewModel?.getListTotals()?.observe(viewLifecycleOwner, Observer(this::totalsObserver))
+    }
+    
+    private fun roundsListObserver(roundsList: List<Round>) {
+        rvAdapter.updateCollection(roundsList)
+        if(roundsList.isNotEmpty()) rvGameList.smoothScrollToPosition(roundsList.size - 1)
     }
     
     private fun namesObserver(names: Array<String>) {

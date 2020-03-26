@@ -1,11 +1,11 @@
 package com.etologic.mahjongscoring2.app.game.game_table
 
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.Icon
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,6 +19,7 @@ import com.etologic.mahjongscoring2.app.model.Seat
 import com.etologic.mahjongscoring2.app.model.SeatStates
 import com.etologic.mahjongscoring2.app.model.SeatStates.*
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import kotlinx.android.synthetic.main.game_table_seat_east.*
 import kotlinx.android.synthetic.main.game_table_seat_north.*
 import kotlinx.android.synthetic.main.game_table_seat_south.*
@@ -96,12 +97,18 @@ class GameTableSeatsFragment : Fragment() {
     
     private fun setWindIcon(imageView: ImageView?, wind: TableWinds?) {
         when (wind) {
-            TableWinds.EAST -> imageView?.setImageDrawable(eastIcon)
-            TableWinds.SOUTH -> imageView?.setImageDrawable(southIcon)
-            TableWinds.WEST -> imageView?.setImageDrawable(westIcon)
-            TableWinds.NORTH -> imageView?.setImageDrawable(northIcon)
-            else -> return
+            EAST -> setWind(imageView, eastIcon)
+            SOUTH -> setWind(imageView, southIcon)
+            WEST -> setWind(imageView, westIcon)
+            NORTH -> setWind(imageView, northIcon)
+            else -> imageView?.visibility = INVISIBLE
         }
+    }
+    
+    private fun setWind(imageView: ImageView?, icon: Drawable?) {
+        if (imageView?.visibility != VISIBLE)
+            imageView?.visibility = VISIBLE
+        imageView?.setImageDrawable(icon)
     }
     
     private fun setName(textView: TextView, name: String?) {
@@ -125,6 +132,7 @@ class GameTableSeatsFragment : Fragment() {
                 grayColor?.let {
                     tvName.setTextColor(it)
                     tvPoints.setTextColor(it)
+                    tvPenaltyPoints.setTextColor(it)
                 }
                 purplePenalty?.let { tvPenaltyPoints.setTextColor(it) }
             }
@@ -137,7 +145,7 @@ class GameTableSeatsFragment : Fragment() {
                 }
             }
             DISABLED -> {
-                greenColor?.let {
+                grayColor?.let {
                     ivWind?.setColorFilter(it)
                     tvName.setTextColor(it)
                     tvPoints.setTextColor(it)

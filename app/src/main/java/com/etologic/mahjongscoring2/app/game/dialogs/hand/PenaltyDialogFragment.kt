@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
-import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
-import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.showKeyboard
+import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
+import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.NUM_NO_WINNER_PLAYERS
 import kotlinx.android.synthetic.main.game_penalty_dialog_fragment.*
 
 internal class PenaltyDialogFragment : BaseGameDialogFragment() {
@@ -26,36 +26,29 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
-        tietPenaltyDialog?.selectAll()
-        tietPenaltyDialog?.requestFocus()
-        showKeyboard(view)
     }
     
     private fun setOnClickListeners() {
         btPenaltyDialogSave?.setOnClickListener {
-            val penaltyPoints = Integer.valueOf(tietPenaltyDialog?.text.toString())
+            val penaltyPoints = cnpPenaltyDialog?.getPoints() ?: 0
             if (penaltyPoints > 0) {
                 if (cbPenaltyDialog?.isChecked == true) {
-                    if (penaltyPoints % 3 == 0) {
+                    if (penaltyPoints % NUM_NO_WINNER_PLAYERS == 0)
                         saveAndFinish(penaltyPoints, true)
-                    } else {
-                        tietPenaltyDialog?.error = ""
+                    else {
+                        cnpPenaltyDialog?.setError()
                         cbPenaltyDialog?.error = ""
                     }
                 } else
                     saveAndFinish(penaltyPoints, false)
             } else
-                tietPenaltyDialog.error = ""
+                cnpPenaltyDialog?.setError()
         }
-        btPenaltyDialogCancel?.setOnClickListener {
-            hideKeyboard(tietPenaltyDialog)
-            dismiss()
-        }
+        btPenaltyDialogCancel?.setOnClickListener { dismiss() }
     }
     
     private fun saveAndFinish(penaltyPoints: Int, isDivided: Boolean) {
         activityViewModel?.savePenalty(penaltyPoints, isDivided)
-        tietPenaltyDialog?.let { hideKeyboard(it) }
         isDialogCancelled = false
         dismiss()
     }

@@ -56,7 +56,8 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
                 round1.penaltyP3 == round2.penaltyP3 &&
                 round1.penaltyP4 == round2.penaltyP4 &&
                 round1.roundDuration == round2.roundDuration &&
-                round1.isBestHand == round2.isBestHand
+                round1.isBestHand == round2.isBestHand &&
+                round1.isEnded == round2.isEnded
         }
     }
     
@@ -210,7 +211,6 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
     
     internal fun finishRound() {
         applyPlayersPenalties()
-//        roundDuration =
         isEnded = true
     }
     

@@ -5,16 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams
 import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.DISCARDER
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
-import com.etologic.mahjongscoring2.app.model.DialogType.CONFIRM_AND_DISCARDER
 import kotlinx.android.synthetic.main.game_points_dialog_fragment.*
 
 internal class PointsHuDialogFragment : BaseGameDialogFragment() {
     
     companion object {
-        const val TAG = "PointsFragment"
+        const val TAG = "PointsHuDialogFragment"
     }
     
     private var isDialogCancelled = true
@@ -36,7 +35,7 @@ internal class PointsHuDialogFragment : BaseGameDialogFragment() {
                 cnpPointsDialog?.setError()
             else {
                 activityViewModel?.huPoints = points
-                activityViewModel?.showDialog(CONFIRM_AND_DISCARDER)
+                activityViewModel?.navigateTo(DISCARDER)
                 isDialogCancelled = false
                 dismiss()
             }

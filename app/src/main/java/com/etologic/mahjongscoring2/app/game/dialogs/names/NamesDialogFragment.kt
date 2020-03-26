@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.game_players_dialog_fragment.*
 internal class NamesDialogFragment : BaseGameDialogFragment() {
     
     companion object {
-        const val TAG = "PlayersDialogFragment"
+        const val TAG = "NamesDialogFragment"
     }
     
     override fun onStart() {

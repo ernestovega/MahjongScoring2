@@ -32,7 +32,7 @@ class MainActivity : BaseActivity() {
         internal const val PLAY_STORE_URL_BASE = "http://play.google.com/store/apps/details?id="
         internal const val EMAIL_SUBJECT = "Mahjong Scoring 2"
         internal const val EMAIL_ADDRESS = "mahjongmadrid@gmail.com"
-        private const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
+        internal const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
     }
     
     @Inject internal lateinit var viewModelFactory: MainActivityViewModelFactory

@@ -11,16 +11,12 @@ internal class TableWindsConverter {
         @TypeConverter
         @JvmStatic
         fun toStatus(status: Int): TableWinds {
-            return if (status == EAST.code) {
-                EAST
-            } else if (status == SOUTH.code) {
-                SOUTH
-            } else if (status == WEST.code) {
-                WEST
-            } else if (status == NORTH.code) {
-                NORTH
-            } else {
-                NONE
+            return when (status) {
+                EAST.code -> EAST
+                SOUTH.code -> SOUTH
+                WEST.code -> WEST
+                NORTH.code -> NORTH
+                else -> NONE
             }
         }
         

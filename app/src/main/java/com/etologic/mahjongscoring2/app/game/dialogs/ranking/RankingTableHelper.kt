@@ -1,4 +1,4 @@
-package com.etologic.mahjongscoring2.app.game.game_table
+package com.etologic.mahjongscoring2.app.game.dialogs.ranking
 
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
@@ -24,8 +24,13 @@ object RankingTableHelper {
     
     fun generateRankingTable(gameWithRounds: GameWithRounds?): RankingData? {
         if (gameWithRounds == null) return null
-        val sortedPlayersRankings = getSortedPlayersRankings(gameWithRounds, gameWithRounds.rounds)
-        val bestHands = getBestHands(gameWithRounds.rounds)
+        val sortedPlayersRankings =
+            getSortedPlayersRankings(
+                gameWithRounds,
+                gameWithRounds.rounds
+            )
+        val bestHands =
+            getBestHands(gameWithRounds.rounds)
         return RankingData(
             sortedPlayersRankings,
             if (bestHands.isEmpty()) "-" else bestHands[0].handValue.toString(),
@@ -36,7 +41,10 @@ object RankingTableHelper {
     }
     
     private fun getSortedPlayersRankings(gameWithRounds: GameWithRounds, rounds: List<Round>): List<PlayerRanking> {
-        val playersRankings = setPlayersNamesAndScores(gameWithRounds, rounds)
+        val playersRankings = setPlayersNamesAndScores(
+            gameWithRounds,
+            rounds
+        )
         playersRankings.sortedWith(compareBy(PlayerRanking::points, PlayerRanking::score))
         reverse(playersRankings)
         setPlayersTablePoints(playersRankings)
@@ -57,10 +65,14 @@ object RankingTableHelper {
     }
     
     private fun setPlayersTablePoints(sorteredByScorePlayersRankings: List<PlayerRanking>): List<PlayerRanking> {
-        sorteredByScorePlayersRankings[0].points = FIRST_POSITION_POINTS
-        sorteredByScorePlayersRankings[1].points = SECOND_POSITION_POINTS
-        sorteredByScorePlayersRankings[2].points = THIRD_POSITION_POINTS
-        sorteredByScorePlayersRankings[3].points = FOURTH_POSITION_POINTS
+        sorteredByScorePlayersRankings[0].points =
+            FIRST_POSITION_POINTS
+        sorteredByScorePlayersRankings[1].points =
+            SECOND_POSITION_POINTS
+        sorteredByScorePlayersRankings[2].points =
+            THIRD_POSITION_POINTS
+        sorteredByScorePlayersRankings[3].points =
+            FOURTH_POSITION_POINTS
         val scorePlayerFirst = sorteredByScorePlayersRankings[0].score
         val scorePlayerSecond = sorteredByScorePlayersRankings[1].score
         val scorePlayerThird = sorteredByScorePlayersRankings[2].score
@@ -70,33 +82,49 @@ object RankingTableHelper {
             scorePlayerSecond == scorePlayerThird &&
             scorePlayerThird == scorePlayerFourth
         ) {
-            sorteredByScorePlayersRankings[0].points = DRAW_4
-            sorteredByScorePlayersRankings[1].points = DRAW_4
-            sorteredByScorePlayersRankings[2].points = DRAW_4
-            sorteredByScorePlayersRankings[3].points = DRAW_4
+            sorteredByScorePlayersRankings[0].points =
+                DRAW_4
+            sorteredByScorePlayersRankings[1].points =
+                DRAW_4
+            sorteredByScorePlayersRankings[2].points =
+                DRAW_4
+            sorteredByScorePlayersRankings[3].points =
+                DRAW_4
             return sorteredByScorePlayersRankings
         } else if (scorePlayerFirst == scorePlayerSecond && scorePlayerSecond == scorePlayerThird) {
-            sorteredByScorePlayersRankings[0].points = DRAW_FIRST_3
-            sorteredByScorePlayersRankings[1].points = DRAW_FIRST_3
-            sorteredByScorePlayersRankings[2].points = DRAW_FIRST_3
+            sorteredByScorePlayersRankings[0].points =
+                DRAW_FIRST_3
+            sorteredByScorePlayersRankings[1].points =
+                DRAW_FIRST_3
+            sorteredByScorePlayersRankings[2].points =
+                DRAW_FIRST_3
             return sorteredByScorePlayersRankings
         } else if (scorePlayerSecond == scorePlayerThird && scorePlayerThird == scorePlayerFourth) {
-            sorteredByScorePlayersRankings[1].points = DRAW_LAST_3
-            sorteredByScorePlayersRankings[2].points = DRAW_LAST_3
-            sorteredByScorePlayersRankings[3].points = DRAW_LAST_3
+            sorteredByScorePlayersRankings[1].points =
+                DRAW_LAST_3
+            sorteredByScorePlayersRankings[2].points =
+                DRAW_LAST_3
+            sorteredByScorePlayersRankings[3].points =
+                DRAW_LAST_3
             return sorteredByScorePlayersRankings
         } else {
             if (scorePlayerFirst == scorePlayerSecond) {
-                sorteredByScorePlayersRankings[0].points = DRAW_FIRST_2
-                sorteredByScorePlayersRankings[1].points = DRAW_FIRST_2
+                sorteredByScorePlayersRankings[0].points =
+                    DRAW_FIRST_2
+                sorteredByScorePlayersRankings[1].points =
+                    DRAW_FIRST_2
             }
             if (scorePlayerSecond == scorePlayerThird) {
-                sorteredByScorePlayersRankings[1].points = DRAW_SECOND_2
-                sorteredByScorePlayersRankings[2].points = DRAW_SECOND_2
+                sorteredByScorePlayersRankings[1].points =
+                    DRAW_SECOND_2
+                sorteredByScorePlayersRankings[2].points =
+                    DRAW_SECOND_2
             }
             if (scorePlayerThird == scorePlayerFourth) {
-                sorteredByScorePlayersRankings[2].points = DRAW_LAST_2
-                sorteredByScorePlayersRankings[3].points = DRAW_LAST_2
+                sorteredByScorePlayersRankings[2].points =
+                    DRAW_LAST_2
+                sorteredByScorePlayersRankings[3].points =
+                    DRAW_LAST_2
             }
         }
         return sorteredByScorePlayersRankings

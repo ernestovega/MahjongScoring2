@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.etologic.mahjongscoring2.business.use_cases.current_game.GetCurrentGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_game.SaveCurrentPlayersUseCase
-import com.etologic.mahjongscoring2.business.use_cases.current_round.DrawUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_round.HuUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_round.PenaltyUseCase
 import javax.inject.Inject
@@ -14,7 +13,6 @@ class GameActivityViewModelFactory
     private val getCurrentGameUseCase: GetCurrentGameUseCase,
     private val saveCurrentPlayersUseCase: SaveCurrentPlayersUseCase,
     private val huUseCase: HuUseCase,
-    private val drawUseCase: DrawUseCase,
     private val penaltyUseCase: PenaltyUseCase
 ) : ViewModelProvider.NewInstanceFactory() {
     
@@ -24,7 +22,6 @@ class GameActivityViewModelFactory
             getCurrentGameUseCase,
             saveCurrentPlayersUseCase,
             huUseCase,
-            drawUseCase,
             penaltyUseCase
         ) as T
     }

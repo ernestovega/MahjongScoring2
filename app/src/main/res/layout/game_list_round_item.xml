@@ -47,7 +47,6 @@
             android:layout_width="@dimen/standard_margin"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/standard_margin"
-            android:layout_marginRight="@dimen/standard_margin"
             android:gravity="center"
             android:lines="1" />
 
@@ -62,7 +61,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin"
             android:layout_weight="1">
 
             <TextView
@@ -78,9 +76,7 @@
                 android:layout_width="@dimen/standard_margin"
                 android:layout_height="@dimen/standard_margin"
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP1"
-                android:layout_toRightOf="@+id/tvGameListItemRoundPointsP1"
                 android:src="@drawable/ic_penalty_purple"
-                android:tint="@color/red"
                 android:visibility="gone"
                 tools:ignore="ContentDescription" />
 
@@ -90,7 +86,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin"
             android:layout_weight="1">
 
             <TextView
@@ -106,9 +101,7 @@
                 android:layout_width="@dimen/standard_margin"
                 android:layout_height="@dimen/standard_margin"
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP2"
-                android:layout_toRightOf="@+id/tvGameListItemRoundPointsP2"
                 android:src="@drawable/ic_penalty_purple"
-                android:tint="@color/red"
                 android:visibility="gone"
                 tools:ignore="ContentDescription" />
 
@@ -118,7 +111,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin"
             android:layout_weight="1">
 
             <TextView
@@ -134,9 +126,7 @@
                 android:layout_width="@dimen/standard_margin"
                 android:layout_height="@dimen/standard_margin"
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP3"
-                android:layout_toRightOf="@+id/tvGameListItemRoundPointsP3"
                 android:src="@drawable/ic_penalty_purple"
-                android:tint="@color/red"
                 android:visibility="gone"
                 tools:ignore="ContentDescription" />
 
@@ -146,7 +136,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin"
             android:layout_weight="1">
 
             <TextView
@@ -162,9 +151,7 @@
                 android:layout_width="@dimen/standard_margin"
                 android:layout_height="@dimen/standard_margin"
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP4"
-                android:layout_toRightOf="@+id/tvGameListItemRoundPointsP4"
                 android:src="@drawable/ic_penalty_purple"
-                android:tint="@color/red"
                 android:visibility="gone"
                 tools:ignore="ContentDescription" />
 

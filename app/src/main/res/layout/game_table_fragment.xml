@@ -42,7 +42,8 @@
             android:textSize="@dimen/table_player_round_num_text_size"
             tools:drawableBottom="@drawable/ic_east"
             tools:targetApi="m"
-            tools:text="16" />
+            tools:text="16"
+            tools:ignore="RelativeOverlap" />
 
     </RelativeLayout>
 
@@ -98,12 +99,13 @@
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabGameTableDice"
+        android:id="@+id/fabGameTable"
         android:layout_width="@dimen/quadruple_standard_margin"
         android:layout_height="@dimen/quadruple_standard_margin"
         tools:layout_alignParentEnd="true"
         tools:layout_alignParentBottom="true"
         android:layout_margin="@dimen/standard_margin"
-        android:src="@drawable/ic_dice_multiple_white_24dp" />
+        android:src="@drawable/ic_dice_multiple_white_24dp"
+        android:tag="ic_dice_multiple_white_24dp"/>
 
 </RelativeLayout>
