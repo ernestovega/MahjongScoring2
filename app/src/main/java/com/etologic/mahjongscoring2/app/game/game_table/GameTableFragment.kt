@@ -2,7 +2,8 @@ package com.etologic.mahjongscoring2.app.game.game_table
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.TypedValue.*
+import android.util.TypedValue.COMPLEX_UNIT_DIP
+import android.util.TypedValue.applyDimension
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.VISIBLE
@@ -12,13 +13,15 @@ import android.widget.RelativeLayout.*
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.lifecycle.Observer
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.R.*
 import com.etologic.mahjongscoring2.R.drawable.*
+import com.etologic.mahjongscoring2.R.layout
+import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.DICE
 import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.RANKING
 import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.Companion.TAG
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.TableSeatsListener
+import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import com.google.android.material.badge.BadgeDrawable.*
@@ -26,8 +29,16 @@ import kotlinx.android.synthetic.main.game_table_fragment.*
 
 class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     
-    private var tableSeats: GameTableSeatsFragment = GameTableSeatsFragment()
+    enum class GameTablePages(val code: Int) {
+        TABLE(0),
+        LIST(1);
+        
+        companion object {
+            fun getFromCode(code: Int): GameTablePages = if (code == 1) LIST else TABLE
+        }
+    }
     
+    private var tableSeats: GameTableSeatsFragment = GameTableSeatsFragment()
     private var eastIcon: Drawable? = null
     private var southIcon: Drawable? = null
     private var westIcon: Drawable? = null
@@ -98,15 +109,16 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     }
     
     private fun setFab(roundId: Int, isEnded: Boolean) {
-        if(isEnded) {
-            if(fabGameTable?.tag != "ic_trophy_white_18dp") {
+        if (isEnded) {
+            if (fabGameTable?.tag != "ic_trophy_white_18dp") {
                 fabGameTable?.tag = "ic_trophy_white_18dp"
                 fabGameTable?.setImageResource(ic_trophy_white_18dp)
                 fabGameTable?.setOnClickListener { activityViewModel?.navigateTo(RANKING) }
                 setFabPosition(BOTTOM_END)
             }
+            
         } else {
-            if(fabGameTable?.tag != "ic_dice_multiple_white_24dp") {
+            if (fabGameTable?.tag != "ic_dice_multiple_white_24dp") {
                 fabGameTable?.tag = "ic_dice_multiple_white_24dp"
                 fabGameTable?.setImageResource(ic_dice_multiple_white_24dp)
                 fabGameTable?.setOnClickListener { activityViewModel?.navigateTo(DICE) }
@@ -140,7 +152,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
         val params = LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
         val standarMarginInPx = applyDimension(COMPLEX_UNIT_DIP, 16f, resources.displayMetrics).toInt()
         params.setMargins(standarMarginInPx, standarMarginInPx, standarMarginInPx, standarMarginInPx)
-        when(position) {
+        when (position) {
             BOTTOM_END -> {
                 tvGameTableRoundNumberBottomEnd.visibility = GONE
                 tvGameTableRoundNumberTopStart.visibility = VISIBLE
@@ -178,7 +190,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     }
     
     private fun setRoundNumsAndWinds(currentRound: Round, roundId: Int) {
-        if (currentRound.isEnded || roundId >= 16) {
+        if (currentRound.isEnded || roundId >= MAX_MCR_ROUNDS) {
             val endString = getString(string.end)
             tvGameTableRoundNumberTopStart?.text = endString
             tvGameTableRoundNumberTopEnd?.text = endString

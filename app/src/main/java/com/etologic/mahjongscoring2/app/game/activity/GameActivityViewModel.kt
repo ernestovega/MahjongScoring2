@@ -3,9 +3,9 @@ package com.etologic.mahjongscoring2.app.game.activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GamePages.TABLE
 import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.*
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper.generateRankingTable
+import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages
 import com.etologic.mahjongscoring2.app.model.Seat
 import com.etologic.mahjongscoring2.app.model.SeatStates.*
 import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
@@ -19,18 +19,19 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.use_cases.current_game.GetCurrentGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_game.SaveCurrentPlayersUseCase
-import com.etologic.mahjongscoring2.business.use_cases.current_round.HuUseCase
+import com.etologic.mahjongscoring2.business.use_cases.current_round.GameActionsUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_round.PenaltyUseCase
 import io.reactivex.schedulers.Schedulers
 
 class GameActivityViewModel internal constructor(
     private val getCurrentGameUseCase: GetCurrentGameUseCase,
     private val saveCurrentPlayersUseCase: SaveCurrentPlayersUseCase,
-    private val huUseCase: HuUseCase,
+    private val gameActionsUseCase: GameActionsUseCase,
     private val penaltyUseCase: PenaltyUseCase
 ) : BaseViewModel() {
     
     enum class GameScreens {
+        COMBINATIONS,
         PLAYERS,
         DICE,
         HAND_ACTION,
@@ -41,30 +42,13 @@ class GameActivityViewModel internal constructor(
         EXIT
     }
     
-    enum class GamePages(val code: Int) {
-        TABLE(0),
-        LIST(1);
-        
-        companion object {
-            fun getFromCode(code: Int): GamePages {
-                return when (code) {
-                    0 -> TABLE
-                    1 -> LIST
-                    else -> TABLE
-                }
-            }
-        }
-    }
-    
-    
     //Navigation
-    private val _currentPage = MutableLiveData<GamePages>()
-    internal fun getCurrentPage(): LiveData<GamePages> = _currentPage
+    private val _currentPage = MutableLiveData<GameTablePages>()
+    internal fun getCurrentPage(): LiveData<GameTablePages> = _currentPage
     private val _dialogToShow = MutableLiveData<GameScreens>()
     internal fun getDialogToShow(): LiveData<GameScreens> = _dialogToShow
     private val _rankingData = MutableLiveData<RankingData>()
     internal fun getRankingData(): LiveData<RankingData> = _rankingData
-    
     //List
     private val _listNames = MutableLiveData<Array<String>>()
     internal fun getListNames(): LiveData<Array<String>> = _listNames
@@ -72,7 +56,6 @@ class GameActivityViewModel internal constructor(
     internal fun getListRounds(): LiveData<List<Round>> = _listRounds
     private val _listTotals = MutableLiveData<Array<String>>()
     internal fun getListTotals(): LiveData<Array<String>> = _listTotals
-    
     //Table
     private val _eastSeat = MutableLiveData<Seat>()
     internal fun eastSeatObservable(): LiveData<Seat> = _eastSeat
@@ -96,33 +79,62 @@ class GameActivityViewModel internal constructor(
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess {
-                    updateTableAndList(it)
                     showPlayersDialogIfProceed(it)
+                    updateTableAndList(it)
                 }
                 .subscribe({ progressState.postValue(HIDE) }, this::showError)
         )
     }
     
+    private fun showPlayersDialogIfProceed(gameWithRounds: GameWithRounds) {
+        if (gameWithRounds.rounds.size == 1 &&
+            gameWithRounds.game.nameP1 == "Player 1" &&
+            gameWithRounds.game.nameP2 == "Player 2" &&
+            gameWithRounds.game.nameP3 == "Player 3" &&
+            gameWithRounds.game.nameP4 == "Player 4"
+        ) navigateTo(PLAYERS)
+    }
+    
     private fun updateTableAndList(gameWithRounds: GameWithRounds) {
+        updateList(gameWithRounds)
+        updateTable(gameWithRounds)
         listNamesByCurrentSeat = gameWithRounds.getPlayersNamesByCurrentSeat()
+    }
+    
+    private fun updateList(it: GameWithRounds) {
+        _listNames.postValue(it.game.getPlayersNames())
+        _listRounds.postValue(it.getEndedRoundsWithBestHand())
+        _listTotals.postValue(it.getPlayersTotalPointsString())
+    }
+    
+    private fun updateTable(gameWithRounds: GameWithRounds) {
         val currentRound = gameWithRounds.rounds.last()
+        updateRoundStuff(currentRound)
+        updateSeats(gameWithRounds, currentRound.isEnded)
+    }
+    
+    private fun updateRoundStuff(currentRound: Round) {
         _currentRound.postValue(currentRound)
+    }
+    
+    private fun updateSeats(gameWithRounds: GameWithRounds, isEnded: Boolean) {
         val newEastSeat = buildNewSeat(gameWithRounds, EAST)
         val newSouthSeat = buildNewSeat(gameWithRounds, SOUTH)
         val newWestSeat = buildNewSeat(gameWithRounds, WEST)
         val newNorthSeat = buildNewSeat(gameWithRounds, NORTH)
-        if (currentRound.isEnded) {
+    
+        if (isEnded) {
             setSeatDisabled(newEastSeat, _eastSeat)
             setSeatDisabled(newSouthSeat, _southSeat)
             setSeatDisabled(newWestSeat, _westSeat)
             setSeatDisabled(newNorthSeat, _northSeat)
             _dialogToShow.postValue(RANKING)
         }
+    
         _eastSeat.postValue(newEastSeat)
         _southSeat.postValue(newSouthSeat)
         _westSeat.postValue(newWestSeat)
         _northSeat.postValue(newNorthSeat)
-        updateList(gameWithRounds)
     }
     
     private fun buildNewSeat(gameWithRounds: GameWithRounds, wind: TableWinds): Seat {
@@ -137,21 +149,6 @@ class GameActivityViewModel internal constructor(
         seat.state = DISABLED
         seat.wind = NONE
         mutableLiveData.postValue(seat)
-    }
-    
-    private fun updateList(it: GameWithRounds) {
-        _listNames.postValue(it.game.getPlayersNames())
-        _listRounds.postValue(it.getEndedRoundsWithBestHand())
-        _listTotals.postValue(it.getPlayersTotalPointsString())
-    }
-    
-    private fun showPlayersDialogIfProceed(gameWithRounds: GameWithRounds) {
-        if (gameWithRounds.rounds.size == 1 &&
-            gameWithRounds.game.nameP1 == "Player 1" &&
-            gameWithRounds.game.nameP2 == "Player 2" &&
-            gameWithRounds.game.nameP3 == "Player 3" &&
-            gameWithRounds.game.nameP4 == "Player 4"
-        ) navigateTo(PLAYERS)
     }
     
     //SELECTED PLAYER/SEAT
@@ -204,7 +201,7 @@ class GameActivityViewModel internal constructor(
     }
     
     //NAVIGATION
-    internal fun showPage(page: GamePages) {
+    internal fun showPage(page: GameTablePages) {
         _currentPage.postValue(page)
     }
     
@@ -213,6 +210,26 @@ class GameActivityViewModel internal constructor(
     }
     
     //OPERATIONS
+    internal fun resumeGame() {
+        disposables.add(
+            gameActionsUseCase.resume()
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe { progressState.postValue(SHOW) }
+                .doOnSuccess(this::updateTableAndList)
+                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+        )
+    }
+    
+    internal fun endGame() {
+        disposables.add(
+            gameActionsUseCase.end()
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe { progressState.postValue(SHOW) }
+                .doOnSuccess(this::updateTableAndList)
+                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+        )
+    }
+    
     internal fun savePlayersNames(names: Array<String>) {
         disposables.add(
             saveCurrentPlayersUseCase.saveCurrentGamePlayersNames(names)
@@ -225,7 +242,7 @@ class GameActivityViewModel internal constructor(
     
     internal fun saveRonRound(discarderCurrentSeat: TableWinds, huPoints: Int) {
         disposables.add(
-            huUseCase.discard(HuData(getSelectedSeat(), discarderCurrentSeat, huPoints))
+            gameActionsUseCase.discard(HuData(getSelectedSeat(), discarderCurrentSeat, huPoints))
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess(this::updateTableAndList)
@@ -235,7 +252,7 @@ class GameActivityViewModel internal constructor(
     
     internal fun saveTsumoRound(huPoints: Int) {
         disposables.add(
-            huUseCase.selfpick(HuData(getSelectedSeat(), huPoints))
+            gameActionsUseCase.selfpick(HuData(getSelectedSeat(), huPoints))
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess(this::updateTableAndList)
@@ -245,7 +262,7 @@ class GameActivityViewModel internal constructor(
     
     internal fun saveDrawRound() {
         disposables.add(
-            huUseCase.draw()
+            gameActionsUseCase.draw()
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess(this::updateTableAndList)

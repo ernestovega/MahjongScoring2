@@ -10,7 +10,7 @@ import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import io.reactivex.Single
 import javax.inject.Inject
 
-class HuUseCase @Inject
+class GameActionsUseCase @Inject
 constructor(
     private val currentGameRepository: CurrentGameRepository,
     private val gamesRepository: GamesRepository,
@@ -49,13 +49,13 @@ constructor(
             .flatMap { currentGameWithRounds ->
                 val currentRound = currentGameWithRounds.rounds.last()
                 
-                currentRound.finishRound()
+                currentRound.finishRoundApplyingPenalties()
                 
                 finishCurrentRound(currentRound, currentRound.gameId)
             }
     
-    private fun finishCurrentRound(currentRound: Round, gameId: Long): Single<GameWithRounds> {
-        return roundsRepository.updateOne(currentRound)
+    private fun finishCurrentRound(currentRound: Round, gameId: Long): Single<GameWithRounds> =
+        roundsRepository.updateOne(currentRound)
             .flatMap {
                 if (currentRound.roundId < MAX_MCR_ROUNDS)
                     roundsRepository.insertOne(Round(gameId, currentRound.roundId + 1))
@@ -64,5 +64,28 @@ constructor(
             }
             .flatMap { gamesRepository.getOneWithRounds(gameId) }
             .flatMap { currentGameRepository.set(it) }
-    }
+    
+    internal fun end(): Single<GameWithRounds> =
+        currentGameRepository.get()
+            .flatMap { currentGameWithRounds ->
+                val currentRound = currentGameWithRounds.rounds.last()
+            
+                currentRound.endRound()
+    
+                roundsRepository.updateOne(currentRound)
+                    .flatMap { gamesRepository.getOneWithRounds(currentRound.gameId) }
+                    .flatMap { currentGameRepository.set(it) }
+            }
+    
+    internal fun resume(): Single<GameWithRounds> =
+        currentGameRepository.get()
+            .flatMap { currentGameWithRounds ->
+                val currentRound = currentGameWithRounds.rounds.last()
+            
+                currentRound.resumeRound()
+            
+                roundsRepository.updateOne(currentRound)
+                    .flatMap { gamesRepository.getOneWithRounds(currentRound.gameId) }
+                    .flatMap { currentGameRepository.set(it) }
+            }
 }

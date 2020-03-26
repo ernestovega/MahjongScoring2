@@ -1,7 +1,6 @@
 package com.etologic.mahjongscoring2.app.game.game_table
 
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.Icon
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -43,7 +42,8 @@ class GameTableSeatsFragment : Fragment() {
     private var southIcon: Drawable? = null
     private var westIcon: Drawable? = null
     private var northIcon: Drawable? = null
-    private var grayColor: Int? = null
+    private var grayNormalColor: Int? = null
+    private var grayDisabledColor: Int? = null
     private var accentColor: Int? = null
     private var redColor: Int? = null
     private var greenColor: Int? = null
@@ -129,7 +129,7 @@ class GameTableSeatsFragment : Fragment() {
         when (state) {
             NORMAL -> {
                 ivWind?.clearColorFilter()
-                grayColor?.let {
+                grayNormalColor?.let {
                     tvName.setTextColor(it)
                     tvPoints.setTextColor(it)
                     tvPenaltyPoints.setTextColor(it)
@@ -145,7 +145,7 @@ class GameTableSeatsFragment : Fragment() {
                 }
             }
             DISABLED -> {
-                grayColor?.let {
+                grayDisabledColor?.let {
                     ivWind?.setColorFilter(it)
                     tvName.setTextColor(it)
                     tvPoints.setTextColor(it)
@@ -189,7 +189,8 @@ class GameTableSeatsFragment : Fragment() {
             southIcon = getDrawable(it, R.drawable.ic_south)
             westIcon = getDrawable(it, R.drawable.ic_west)
             northIcon = getDrawable(it, R.drawable.ic_north)
-            grayColor = getColor(it, color.grayMM)
+            grayNormalColor = getColor(it, color.grayMM)
+            grayDisabledColor = getColor(it, color.gray)
             accentColor = getColor(it, color.colorAccent)
             redColor = getColor(it, color.red)
             greenColor = getColor(it, color.colorPrimary)

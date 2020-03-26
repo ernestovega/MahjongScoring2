@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item
-        android:id="@+id/action_end_game"
-        android:icon="@drawable/ic_flag_white_24dp"
-        android:title="@string/end"
-        app:showAsAction="always" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <item
         android:id="@+id/action_combinations"
@@ -18,6 +13,20 @@
         android:id="@+id/action_players"
         android:icon="@drawable/ic_people_white_24dp"
         android:title="@string/edit_names"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_resume_game"
+        android:icon="@drawable/ic_play_arrow_white_24px"
+        android:title="@string/end"
+        android:visible="false"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_end_game"
+        android:icon="@drawable/ic_stop_white_24dp"
+        android:title="@string/end"
+        android:visible="true"
+        app:showAsAction="never" />
 
 </menu>

@@ -1,6 +1,5 @@
 package com.etologic.mahjongscoring2.app.game.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,15 +9,15 @@ import androidx.viewpager.widget.ViewPager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.base.ViewPagerAdapter
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GamePages.Companion.getFromCode
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GamePages.LIST
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GamePages.TABLE
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.EXIT
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.PLAYERS
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.*
 import com.etologic.mahjongscoring2.app.game.game_list.GameListFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
+import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.Companion.getFromCode
+import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
+import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.TABLE
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity
-import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
+import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.MAX_MCR_ROUNDS
+import com.etologic.mahjongscoring2.business.model.entities.Round
 import kotlinx.android.synthetic.main.game_activity.*
 import javax.inject.Inject
 
@@ -29,6 +28,11 @@ class GameActivity : BaseActivity() {
         internal const val CODE = 3
         private const val OFFSCREEN_PAGE_LIMIT = 1
     }
+    
+    private var shouldBeShownResumeButton: Boolean = false
+    private var shouldBeShownEndButton: Boolean = false
+    private var endGameItem: MenuItem? = null
+    private var resumeGameItem: MenuItem? = null
     
     @Inject
     internal lateinit var viewModelFactory: GameActivityViewModelFactory
@@ -52,6 +56,13 @@ class GameActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.game_menu, menu)
         super.onCreateOptionsMenu(menu)
+        
+        resumeGameItem = menu.findItem(R.id.action_resume_game)
+        endGameItem = menu.findItem(R.id.action_end_game)
+        
+        resumeGameItem?.isVisible = shouldBeShownResumeButton
+        endGameItem?.isVisible = shouldBeShownEndButton
+        
         return true
     }
     
@@ -65,7 +76,15 @@ class GameActivity : BaseActivity() {
                 true
             }
             R.id.action_combinations -> {
-                goToActivity(Intent(this, CombinationsActivity::class.java), CombinationsActivity.CODE)
+                viewModel.navigateTo(COMBINATIONS)
+                true
+            }
+            R.id.action_end_game -> {
+                viewModel.endGame()
+                true
+            }
+            R.id.action_resume_game -> {
+                viewModel.resumeGame()
                 true
             }
             R.id.action_players -> {
@@ -78,9 +97,14 @@ class GameActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.game_activity)
+        initViewModel()
         setupToolbar()
-        setupViewModel()
         setupViewPager()
+        observeViewModel()
+    }
+    
+    private fun initViewModel() {
+        viewModel = ViewModelProvider(this, viewModelFactory).get(GameActivityViewModel::class.java)
     }
     
     private fun setupToolbar() {
@@ -92,13 +116,20 @@ class GameActivity : BaseActivity() {
         }
     }
     
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory).get(GameActivityViewModel::class.java)
+    private fun observeViewModel() {
         viewModel.getError().observe(this, Observer(this::showError))
         viewModel.getProgressState().observe(this, Observer(this::toggleProgress))
         viewModel.getSnackbarMessage().observe(this, Observer { message -> viewPagerGame?.let { this.showSnackbar(it, message) } })
         viewModel.getDialogToShow().observe(this, Observer { GameNavigator.showDialog(it, this) })
         viewModel.getCurrentPage().observe(this, Observer { it?.let { viewPagerGame.currentItem = it.code } })
+        viewModel.getCurrentRound().observe(this, Observer(this::currentRoundObserver))
+    }
+    
+    private fun currentRoundObserver(currentRound: Round) {
+        shouldBeShownResumeButton = if(currentRound.isEnded) currentRound.roundId < MAX_MCR_ROUNDS else false
+        shouldBeShownEndButton = !currentRound.isEnded
+        resumeGameItem?.isVisible = shouldBeShownResumeButton
+        endGameItem?.isVisible = shouldBeShownEndButton
     }
     
     private fun setupViewPager() {

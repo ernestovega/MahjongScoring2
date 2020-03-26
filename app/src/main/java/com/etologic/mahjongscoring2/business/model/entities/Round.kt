@@ -148,7 +148,7 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         pointsP2 += calculateDiscardSeatPoints(SOUTH, huPoints)
         pointsP3 += calculateDiscardSeatPoints(WEST, huPoints)
         pointsP4 += calculateDiscardSeatPoints(NORTH, huPoints)
-        finishRound()
+        finishRoundApplyingPenalties()
     }
     
     private fun calculateDiscardSeatPoints(seat: TableWinds, huPoints: Int): Int {
@@ -166,7 +166,7 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         pointsP2 += calculateSelfpickSeatPoints(SOUTH, huPoints)
         pointsP3 += calculateSelfpickSeatPoints(WEST, huPoints)
         pointsP4 += calculateSelfpickSeatPoints(NORTH, huPoints)
-        finishRound()
+        finishRoundApplyingPenalties()
     }
     
     private fun calculateSelfpickSeatPoints(seat: TableWinds, huPoints: Int): Int {
@@ -209,9 +209,9 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         }
     }
     
-    internal fun finishRound() {
+    internal fun finishRoundApplyingPenalties() {
         applyPlayersPenalties()
-        isEnded = true
+        endRound()
     }
     
     private fun applyPlayersPenalties() {
@@ -219,5 +219,13 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         pointsP2 += penaltyP2
         pointsP3 += penaltyP3
         pointsP4 += penaltyP4
+    }
+    
+    internal fun endRound() {
+        isEnded = true
+    }
+    
+    internal fun resumeRound() {
+        isEnded = false
     }
 }
