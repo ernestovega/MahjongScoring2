@@ -121,9 +121,9 @@
         tools:visibility="visible">
 
         <ProgressBar
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="@dimen/double_standard_margin" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="@dimen/double_standard_margin_minus_two" />
 
     </LinearLayout>
 

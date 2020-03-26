@@ -14,7 +14,7 @@ import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import kotlinx.android.synthetic.main.game_dice_dialog_fragment.*
 import java.util.*
 
-internal class RollDiceDialogFragment : BaseGameDialogFragment(), View.OnClickListener {
+internal class RollDiceDialogFragment : BaseGameDialogFragment() {
     
     companion object {
         const val TAG: String = "RollDiceDialogFragment"
@@ -22,28 +22,23 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment(), View.OnClickLi
     
     private lateinit var diceSound: SoundPool       //For dice sound playing
     private var soundId: Int = 0               //Used to control sound stream return by SoundPool
-    private lateinit var handler: Handler            //Post message to start roll
+    private lateinit var handler12: Handler            //Post message to start roll
+    private lateinit var handler34: Handler            //Post message to start roll
     private val timer = Timer()  //Used to implement feedback to user
     private var isRolling = false   //Is die isRolling?
     
-    override fun onClick(v: View?) {
-        if (!isRolling) {
-            isRolling = true
-            //Show isRolling image
-            ivDice1.setImageResource(R.drawable.dice3droll)
-            ivDice2.setImageResource(R.drawable.dice3droll)
-            
-            diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
-            diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
-            timer.schedule(Roll(), 400)
+    //When pause completed message sent to callback
+    private inner class Roll12 : TimerTask() {
+        
+        override fun run() {
+            handler12.sendEmptyMessage(0)
         }
     }
     
-    //When pause completed message sent to callback
-    private inner class Roll : TimerTask() {
+    private inner class Roll34 : TimerTask() {
         
         override fun run() {
-            handler.sendEmptyMessage(0)
+            handler34.sendEmptyMessage(0)
         }
     }
     
@@ -67,16 +62,53 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment(), View.OnClickLi
     }
     
     private fun initDice() {
-        handler = Handler {
+        handler12 = Handler {
             //Receives message from timer to start dice roll
             rollNewDice(ivDice1)
             rollNewDice(ivDice2)
             true
         }
-        ivDice1.setOnClickListener(this)
-        ivDice2.setOnClickListener(this)
+        ivDice1.setOnClickListener { listener12() }
+        ivDice2.setOnClickListener { listener12() }
         ivDice1.setImageResource(R.drawable.dice3droll)
         ivDice2.setImageResource(R.drawable.dice3droll)
+        
+        handler34 = Handler {
+            //Receives message from timer to start dice roll
+            rollNewDice(ivDice3)
+            rollNewDice(ivDice4)
+            true
+        }
+        ivDice3.setOnClickListener { listener34() }
+        ivDice4.setOnClickListener { listener34() }
+        ivDice3.setImageResource(R.drawable.dice3droll)
+        ivDice4.setImageResource(R.drawable.dice3droll)
+    }
+    
+    private fun listener12() {
+        if (!isRolling) {
+            isRolling = true
+            //Show isRolling image
+            ivDice1?.setImageResource(R.drawable.dice3droll)
+            ivDice2?.setImageResource(R.drawable.dice3droll)
+        
+            diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
+            diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
+            timer.schedule(Roll12(), 400)
+        }
+    }
+    
+    private fun listener34() {
+        if (!isRolling) {
+            isRolling = true
+            //Show isRolling image
+            ivDice3?.setImageResource(R.drawable.dice3droll)
+            ivDice4?.setImageResource(R.drawable.dice3droll)
+        
+            diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
+            diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
+            timer.schedule(Roll34(), 400)
+        }
     }
     
     private fun rollNewDice(imageView: ImageView) {

@@ -125,6 +125,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
             }
             moveDice(roundId)
         }
+        if (fabGameTable?.visibility != VISIBLE) fabGameTable?.visibility = VISIBLE
     }
     
     private fun moveDice(roundId: Int) {

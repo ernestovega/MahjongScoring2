@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@android:color/white">
 
     <TableLayout
         android:id="@+id/tlRanking"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="480dp"
         android:orientation="horizontal"
@@ -20,7 +20,7 @@
                 android:layout_weight="12"
                 android:text="@string/final_results"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/grayMM"
                 android:textStyle="bold" />
 
         </TableRow>
@@ -193,46 +193,7 @@
 
         </TableRow>
 
-        <!--<TableRow style="@style/trRankingDialog">-->
-
-        <!--<View-->
-        <!--style="@style/tvRankingDialogOthers"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/textview_ranking_titulo_fecha_inicio"-->
-        <!--style="@style/tvRankingDialogOthers"-->
-        <!--android:layout_weight="5"-->
-        <!--android:text="@string/duration" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/tvDuration"-->
-        <!--style="@style/tvRankingDialogOthers"-->
-        <!--android:layout_weight="5"-->
-        <!--android:text="1h 57m"-->
-        <!--tools:ignore="HardcodedText" />-->
-
-        <!--<View-->
-        <!--style="@style/tvRankingDialogOthers"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1" />-->
-
-        <!--</TableRow>-->
-
     </TableLayout>
-
-    <Button
-        android:id="@+id/btRankingDialogList"
-        style="?android:buttonBarButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tlRanking"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/standard_margin"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:layout_marginBottom="@dimen/standard_margin"
-        android:text="@string/list" />
 
     <Button
         android:id="@+id/btRankingDialogResume"
@@ -241,31 +202,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tlRanking"
         android:layout_marginTop="@dimen/standard_margin"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:layout_marginBottom="@dimen/standard_margin"
-        android:layout_toStartOf="@+id/btRankingDialogList"
+        android:layout_toStartOf="@+id/btRankingDialogOk"
         android:text="@string/resume" />
 
     <Button
-        android:id="@+id/btRankingDialogClose"
+        android:id="@+id/btRankingDialogOk"
         style="?android:buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tlRanking"
-        android:layout_marginTop="@dimen/standard_margin"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:layout_marginBottom="@dimen/standard_margin"
-        android:layout_toStartOf="@+id/btRankingDialogResume"
-        android:text="@string/close" />
-
-    <Button
-        android:id="@+id/btRankingDialogExit"
-        style="?android:buttonBarButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tlRanking"
+        android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/standard_margin"
-        android:layout_toStartOf="@+id/btRankingDialogClose"
-        android:text="@string/exit" />
+        android:text="@android:string/ok" />
 
 </RelativeLayout>

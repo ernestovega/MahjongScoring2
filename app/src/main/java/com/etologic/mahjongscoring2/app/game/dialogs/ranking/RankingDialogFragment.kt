@@ -9,9 +9,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import androidx.lifecycle.Observer
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.EXIT
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
-import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
 import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.MAX_MCR_ROUNDS
 import kotlinx.android.synthetic.main.game_table_ranking_dialog_fragment.*
@@ -29,25 +27,17 @@ internal class RankingDialogFragment : BaseGameDialogFragment() {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        isCancelable = false
         setOnClickListeners()
         initObservers()
         activityViewModel?.loadRankingData()
     }
     
     private fun setOnClickListeners() {
-        btRankingDialogList?.setOnClickListener {
-            activityViewModel?.showPage(LIST)
-            dismiss()
-        }
         btRankingDialogResume?.setOnClickListener {
             activityViewModel?.resumeGame()
-        }
-        btRankingDialogClose?.setOnClickListener {
             dismiss()
         }
-        btRankingDialogExit?.setOnClickListener {
-            activityViewModel?.navigateTo(EXIT)
+        btRankingDialogOk?.setOnClickListener {
             dismiss()
         }
     }

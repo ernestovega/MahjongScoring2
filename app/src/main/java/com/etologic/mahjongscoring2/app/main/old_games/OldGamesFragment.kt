@@ -17,6 +17,7 @@ import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModelFactory
 import com.etologic.mahjongscoring2.app.model.ShowState
+import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
 import kotlinx.android.synthetic.main.main_oldgames_fragment.*
@@ -28,13 +29,14 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         const val TAG = "OldGamesFragment"
     }
     
-    
     @Inject
     internal lateinit var mainActivityViewModelFactory: MainActivityViewModelFactory
+    
     @Inject
     internal lateinit var oldGamesViewModelFactory: OldGamesViewModelFactory
     private lateinit var activityViewModel: MainActivityViewModel
     private lateinit var viewModel: OldGamesViewModel
+    
     @Inject
     internal lateinit var rvAdapter: OldGamesRvAdapter
     
@@ -102,7 +104,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     }
     
     private fun toogleLocalProgress(showState: ShowState) {
-        swipeRefreshLayoutOldGames.isRefreshing = showState == SHOW
+        swipeRefreshLayoutOldGames.isRefreshing = false
         llOldGamesProgress?.visibility = if (showState === SHOW) VISIBLE else GONE
     }
     
