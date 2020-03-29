@@ -1,6 +1,6 @@
 package com.etologic.mahjongscoring2.data_source.repositories
 
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -9,11 +9,11 @@ import javax.inject.Singleton
 class CurrentGameRepository
 @Inject constructor(private val memoryDataSource: CurrentGameMemoryDataSource) {
     
-    internal fun get(): Single<GameWithRounds> =
+    internal fun get(): Single<Table> =
         memoryDataSource.get()
     
-    internal fun set(gameWithRounds: GameWithRounds): Single<GameWithRounds> =
-        memoryDataSource.set(gameWithRounds)
+    internal fun set(table: Table): Single<Table> =
+        memoryDataSource.set(table)
     
     internal fun invalidate(): Single<Boolean> =
         memoryDataSource.invalidate()

@@ -1,9 +1,6 @@
 package com.etologic.mahjongscoring2.business.use_cases.current_game
 
-import com.etologic.mahjongscoring2.app.utils.GameRoundsUtils
-import com.etologic.mahjongscoring2.app.utils.GameRoundsUtils.Companion
-import com.etologic.mahjongscoring2.business.model.dtos.HuData
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.data_source.repositories.CurrentGameRepository
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import io.reactivex.Single
@@ -14,7 +11,7 @@ class SetCurrentGameUseCase
     private val currentGameRepository: CurrentGameRepository,
     private val gamesRepository: GamesRepository
 ) {
-    internal fun setCurrentGame(gameId: Long): Single<GameWithRounds> =
+    internal fun setCurrentGame(gameId: Long): Single<Table> =
         gamesRepository.getOneWithRounds(gameId)
             .flatMap { currentGameRepository.set(it) }
 }

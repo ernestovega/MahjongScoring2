@@ -16,14 +16,15 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.drawable.*
 import com.etologic.mahjongscoring2.R.layout
 import com.etologic.mahjongscoring2.R.string
+import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.DICE
 import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.RANKING
 import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.Companion.TAG
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.TableSeatsListener
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.MAX_MCR_ROUNDS
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.google.android.material.badge.BadgeDrawable.*
 import kotlinx.android.synthetic.main.game_table_fragment.*
 
@@ -45,20 +46,8 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     private var northIcon: Drawable? = null
     
     //EVENTS
-    override fun onEastSeatClick() {
-        activityViewModel?.onSeatClicked(EAST)
-    }
-    
-    override fun onSouthSeatClick() {
-        activityViewModel?.onSeatClicked(SOUTH)
-    }
-    
-    override fun onWestSeatClick() {
-        activityViewModel?.onSeatClicked(WEST)
-    }
-    
-    override fun onNorthSeatClick() {
-        activityViewModel?.onSeatClicked(NORTH)
+    override fun onSeatClick(wind: TableWinds) {
+        activityViewModel?.onSeatClicked(wind)
     }
     
     //LIFECYCLE
@@ -71,8 +60,8 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
         initResources()
         initTableSeats()
         setOnClickListeners()
-        initViewModel()
-        activityViewModel?.loadGame()
+        startObservingGame()
+        activityViewModel?.loadTable()
     }
     
     private fun initResources() {
@@ -91,18 +80,20 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     
     private fun setOnClickListeners() {
         tableSeats.setTableSeatsListener(this)
-        fabGameTable?.setOnClickListener { activityViewModel?.navigateTo(DICE) }
+        fabGameTable?.setOnSecureClickListener { activityViewModel?.navigateTo(DICE) }
     }
     
-    private fun initViewModel() {
-        activityViewModel?.eastSeatObservable()?.observe(viewLifecycleOwner, Observer(tableSeats::setEastSeat))
-        activityViewModel?.southSeatObservable()?.observe(viewLifecycleOwner, Observer(tableSeats::setSouthSeat))
-        activityViewModel?.westSeatObservable()?.observe(viewLifecycleOwner, Observer(tableSeats::setWestSeat))
-        activityViewModel?.northSeatObservable()?.observe(viewLifecycleOwner, Observer(tableSeats::setNorthSeat))
-        activityViewModel?.getCurrentRound()?.observe(viewLifecycleOwner, Observer(this::currentRoundObserver))
+    private fun startObservingGame() {
+        activityViewModel?.getCurrentTable()?.observe(viewLifecycleOwner, Observer(this::gameObserver))
     }
     
-    private fun currentRoundObserver(currentRound: Round) {
+    private fun gameObserver(it: Table) {
+        tableSeats.setSeats(it)
+        this.setRoundStuff(it)
+    }
+    
+    private fun setRoundStuff(table: Table) {
+        val currentRound = table.rounds.last()
         val roundId = currentRound.roundId
         setFab(roundId, currentRound.isEnded)
         setRoundNumsAndWinds(currentRound, roundId)
@@ -113,7 +104,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
             if (fabGameTable?.tag != "ic_trophy_white_18dp") {
                 fabGameTable?.tag = "ic_trophy_white_18dp"
                 fabGameTable?.setImageResource(ic_trophy_white_18dp)
-                fabGameTable?.setOnClickListener { activityViewModel?.navigateTo(RANKING) }
+                fabGameTable?.setOnSecureClickListener { activityViewModel?.navigateTo(RANKING) }
                 setFabPosition(BOTTOM_END)
             }
             
@@ -121,7 +112,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
             if (fabGameTable?.tag != "ic_dice_multiple_white_24dp") {
                 fabGameTable?.tag = "ic_dice_multiple_white_24dp"
                 fabGameTable?.setImageResource(ic_dice_multiple_white_24dp)
-                fabGameTable?.setOnClickListener { activityViewModel?.navigateTo(DICE) }
+                fabGameTable?.setOnSecureClickListener { activityViewModel?.navigateTo(DICE) }
             }
             moveDice(roundId)
         }
@@ -191,7 +182,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     }
     
     private fun setRoundNumsAndWinds(currentRound: Round, roundId: Int) {
-        if (currentRound.isEnded || roundId >= MAX_MCR_ROUNDS) {
+        if (currentRound.isEnded) {
             val endString = getString(string.end)
             tvGameTableRoundNumberTopStart?.text = endString
             tvGameTableRoundNumberTopEnd?.text = endString

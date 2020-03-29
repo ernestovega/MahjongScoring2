@@ -186,5 +186,11 @@
     <string name="mahjong">Mahjong</string>
     <string name="backspace">Backspace</string>
     <string name="clear">Clear</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="action">Action</string>
+    <string name="ok">OK</string>
+    <string name="discarder">Discarder</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

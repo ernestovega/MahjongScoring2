@@ -1,8 +1,8 @@
 package com.etologic.mahjongscoring2.business.use_cases.current_round
 
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.MAX_MCR_ROUNDS
+import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.data_source.repositories.CurrentGameRepository
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
@@ -17,7 +17,7 @@ constructor(
     private val roundsRepository: RoundsRepository
 ) {
     
-    internal fun discard(huData: HuData): Single<GameWithRounds> =
+    internal fun discard(huData: HuData): Single<Table> =
         currentGameRepository.get()
             .flatMap { currentGameWithRounds ->
                 val currentRound = currentGameWithRounds.rounds.last()
@@ -31,7 +31,7 @@ constructor(
                 finishCurrentRound(currentRound, currentRound.gameId)
             }
     
-    internal fun selfpick(huData: HuData): Single<GameWithRounds> =
+    internal fun selfpick(huData: HuData): Single<Table> =
         currentGameRepository.get()
             .flatMap { currentGameWithRounds ->
                 val currentRound = currentGameWithRounds.rounds.last()
@@ -44,7 +44,7 @@ constructor(
                 finishCurrentRound(currentRound, currentRound.gameId)
             }
     
-    internal fun draw(): Single<GameWithRounds> =
+    internal fun draw(): Single<Table> =
         currentGameRepository.get()
             .flatMap { currentGameWithRounds ->
                 val currentRound = currentGameWithRounds.rounds.last()
@@ -54,7 +54,7 @@ constructor(
                 finishCurrentRound(currentRound, currentRound.gameId)
             }
     
-    private fun finishCurrentRound(currentRound: Round, gameId: Long): Single<GameWithRounds> =
+    private fun finishCurrentRound(currentRound: Round, gameId: Long): Single<Table> =
         roundsRepository.updateOne(currentRound)
             .flatMap {
                 if (currentRound.roundId < MAX_MCR_ROUNDS)
@@ -63,9 +63,9 @@ constructor(
                     Single.just(gameId)
             }
             .flatMap { gamesRepository.getOneWithRounds(gameId) }
-            .flatMap { currentGameRepository.set(it) }
+            .doOnSuccess { currentGameRepository.set(it) }
     
-    internal fun end(): Single<GameWithRounds> =
+    internal fun end(): Single<Table> =
         currentGameRepository.get()
             .flatMap { currentGameWithRounds ->
                 val currentRound = currentGameWithRounds.rounds.last()
@@ -74,10 +74,10 @@ constructor(
     
                 roundsRepository.updateOne(currentRound)
                     .flatMap { gamesRepository.getOneWithRounds(currentRound.gameId) }
-                    .flatMap { currentGameRepository.set(it) }
+                    .doOnSuccess { currentGameRepository.set(it) }
             }
     
-    internal fun resume(): Single<GameWithRounds> =
+    internal fun resume(): Single<Table> =
         currentGameRepository.get()
             .flatMap { currentGameWithRounds ->
                 val currentRound = currentGameWithRounds.rounds.last()
@@ -86,6 +86,6 @@ constructor(
             
                 roundsRepository.updateOne(currentRound)
                     .flatMap { gamesRepository.getOneWithRounds(currentRound.gameId) }
-                    .flatMap { currentGameRepository.set(it) }
+                    .doOnSuccess { currentGameRepository.set(it) }
             }
 }

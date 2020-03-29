@@ -34,14 +34,12 @@ class CombinationsRepository
     
     private fun hardcodedCombinations(): List<Combination> {
         val combinations = ArrayList<Combination>()
-        combinations.add(
-            Combination(
+        combinations.add(Combination(
                 1,
                 0,
                 context.getString(string.pure_double_chow),
                 drawable.pure_double_chow
-            )
-        )
+            ))
         combinations.add(
             Combination(
                 1,

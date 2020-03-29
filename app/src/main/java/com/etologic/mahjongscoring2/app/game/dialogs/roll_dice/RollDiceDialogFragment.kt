@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.widget.ImageView
 import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import kotlinx.android.synthetic.main.game_dice_dialog_fragment.*
 import java.util.*
@@ -68,8 +69,8 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
             rollNewDice(ivDice2)
             true
         }
-        ivDice1.setOnClickListener { listener12() }
-        ivDice2.setOnClickListener { listener12() }
+        ivDice1.setOnSecureClickListener { listener12() }
+        ivDice2.setOnSecureClickListener { listener12() }
         ivDice1.setImageResource(R.drawable.dice3droll)
         ivDice2.setImageResource(R.drawable.dice3droll)
         
@@ -79,8 +80,8 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
             rollNewDice(ivDice4)
             true
         }
-        ivDice3.setOnClickListener { listener34() }
-        ivDice4.setOnClickListener { listener34() }
+        ivDice3.setOnSecureClickListener { listener34() }
+        ivDice4.setOnSecureClickListener { listener34() }
         ivDice3.setImageResource(R.drawable.dice3droll)
         ivDice4.setImageResource(R.drawable.dice3droll)
     }

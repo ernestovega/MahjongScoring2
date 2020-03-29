@@ -3,10 +3,10 @@ package com.etologic.mahjongscoring2.app.model
 import androidx.recyclerview.widget.DiffUtil
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Round
 
-class GameItemDiffUtilCallback(private val newList: List<GameWithRounds>, private val oldList: List<GameWithRounds>) : DiffUtil.Callback() {
+class GameItemDiffUtilCallback(private val newList: List<Table>, private val oldList: List<Table>) : DiffUtil.Callback() {
     
     companion object {
         private const val NUM_GAME_PLAYERS = 4
@@ -42,8 +42,8 @@ class GameItemDiffUtilCallback(private val newList: List<GameWithRounds>, privat
     }
     
     private fun arePlayersTotalsPointsEquals(
-        oldPlayersTotalPoints: Array<String>,
-        newPlayersTotalPoints: Array<String>
+        oldPlayersTotalPoints: List<String>,
+        newPlayersTotalPoints: List<String>
     ): Boolean {
         for (i in 0 until NUM_GAME_PLAYERS) {
             if (oldPlayersTotalPoints[i] != newPlayersTotalPoints[i]) {

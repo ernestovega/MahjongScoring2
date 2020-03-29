@@ -4,7 +4,7 @@ import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.Gam
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.GamesDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.RoundsDao
 import com.etologic.mahjongscoring2.business.model.entities.Game
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,9 +31,9 @@ class GamesRepository
         gamesDao.deleteOne(gameId)
             .map { it == 1 }
     
-    fun getOneWithRounds(gameId: Long): Single<GameWithRounds> =
+    fun getOneWithRounds(gameId: Long): Single<Table> =
         gameWithRoundsDao.getGameWithRoundsOrderedByDateDesc(gameId)
     
-    fun getAllWithRounds(): Single<List<GameWithRounds>> =
+    fun getAllWithRounds(): Single<List<Table>> =
         gameWithRoundsDao.getAllGamesWithRounds()
 }

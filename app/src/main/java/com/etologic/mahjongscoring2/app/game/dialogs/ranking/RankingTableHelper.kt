@@ -4,7 +4,7 @@ import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import java.util.*
 import java.util.Collections.reverse
@@ -22,27 +22,27 @@ object RankingTableHelper {
     private const val DRAW_SECOND_2 = "1.5"
     private const val DRAW_LAST_2 = "0.5"
     
-    fun generateRankingTable(gameWithRounds: GameWithRounds?): RankingData? {
-        if (gameWithRounds == null) return null
+    fun generateRankingTable(table: Table?): RankingData? {
+        if (table == null) return null
         val sortedPlayersRankings =
             getSortedPlayersRankings(
-                gameWithRounds,
-                gameWithRounds.rounds
+                table,
+                table.rounds
             )
         val bestHands =
-            getBestHands(gameWithRounds.rounds)
+            getBestHands(table.rounds)
         return RankingData(
             sortedPlayersRankings,
             if (bestHands.isEmpty()) "-" else bestHands[0].handValue.toString(),
-            gameWithRounds.rounds.size,
-            gameWithRounds.rounds.size.toString(),
-            DateTimeUtils.getPrettyDuration(gameWithRounds.rounds)
+            table.rounds.size,
+            table.rounds.size.toString(),
+            DateTimeUtils.getPrettyDuration(table.rounds)
         )
     }
     
-    private fun getSortedPlayersRankings(gameWithRounds: GameWithRounds, rounds: List<Round>): List<PlayerRanking> {
+    private fun getSortedPlayersRankings(table: Table, rounds: List<Round>): List<PlayerRanking> {
         val playersRankings = setPlayersNamesAndScores(
-            gameWithRounds,
+            table,
             rounds
         )
         playersRankings.sortedWith(compareBy(PlayerRanking::points, PlayerRanking::score))
@@ -51,16 +51,16 @@ object RankingTableHelper {
         return playersRankings
     }
     
-    private fun setPlayersNamesAndScores(gameWithRounds: GameWithRounds, rounds: List<Round>): List<PlayerRanking> {
+    private fun setPlayersNamesAndScores(table: Table, rounds: List<Round>): List<PlayerRanking> {
         val playersRankings = ArrayList<PlayerRanking>(4)
-        val totalScoreP1 = gameWithRounds.getTotalScoreP1(rounds)
-        val totalScoreP2 = gameWithRounds.getTotalScoreP2(rounds)
-        val totalScoreP3 = gameWithRounds.getTotalScoreP3(rounds)
-        val totalScoreP4 = gameWithRounds.getTotalScoreP4(rounds)
-        playersRankings.add(PlayerRanking(gameWithRounds.game.nameP1, totalScoreP1.toString()))
-        playersRankings.add(PlayerRanking(gameWithRounds.game.nameP2, totalScoreP2.toString()))
-        playersRankings.add(PlayerRanking(gameWithRounds.game.nameP3, totalScoreP3.toString()))
-        playersRankings.add(PlayerRanking(gameWithRounds.game.nameP4, totalScoreP4.toString()))
+        val totalScoreP1 = table.getTotalScoreP1(rounds)
+        val totalScoreP2 = table.getTotalScoreP2(rounds)
+        val totalScoreP3 = table.getTotalScoreP3(rounds)
+        val totalScoreP4 = table.getTotalScoreP4(rounds)
+        playersRankings.add(PlayerRanking(table.game.nameP1, totalScoreP1.toString()))
+        playersRankings.add(PlayerRanking(table.game.nameP2, totalScoreP2.toString()))
+        playersRankings.add(PlayerRanking(table.game.nameP3, totalScoreP3.toString()))
+        playersRankings.add(PlayerRanking(table.game.nameP4, totalScoreP4.toString()))
         return playersRankings
     }
     

@@ -16,8 +16,8 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTa
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.TABLE
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.MAX_MCR_ROUNDS
-import com.etologic.mahjongscoring2.business.model.entities.Round
+import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_ROUNDS
 import kotlinx.android.synthetic.main.game_activity.*
 import javax.inject.Inject
 
@@ -122,14 +122,16 @@ class GameActivity : BaseActivity() {
         viewModel.getSnackbarMessage().observe(this, Observer { message -> viewPagerGame?.let { this.showSnackbar(it, message) } })
         viewModel.getDialogToShow().observe(this, Observer { GameNavigator.showDialog(it, this) })
         viewModel.getCurrentPage().observe(this, Observer { it?.let { viewPagerGame.currentItem = it.code } })
-        viewModel.getCurrentRound().observe(this, Observer(this::currentRoundObserver))
+        viewModel.getCurrentTable().observe(this, Observer(this::currentRoundObserver))
     }
     
-    private fun currentRoundObserver(currentRound: Round) {
+    private fun currentRoundObserver(currentTable: Table) {
+        val currentRound = currentTable.rounds.last()
         shouldBeShownResumeButton = if(currentRound.isEnded) currentRound.roundId < MAX_MCR_ROUNDS else false
         shouldBeShownEndButton = !currentRound.isEnded
         resumeGameItem?.isVisible = shouldBeShownResumeButton
         endGameItem?.isVisible = shouldBeShownEndButton
+        if(currentRound.isEnded) viewModel?.navigateTo(RANKING)
     }
     
     private fun setupViewPager() {

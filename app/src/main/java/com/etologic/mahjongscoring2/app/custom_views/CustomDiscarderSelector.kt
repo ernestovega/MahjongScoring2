@@ -7,11 +7,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.POINTS_DISCARD_NEUTRAL_PLAYERS
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.getHuDiscardDiscarderPoints
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.getHuDiscardWinnerPoints
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.getHuSelfpickDiscarderPoints
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.getHuSelfpickWinnerPoints
+import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.POINTS_DISCARD_NEUTRAL_PLAYERS
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardDiscarderPoints
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardWinnerPoints
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfpickDiscarderPoints
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfpickWinnerPoints
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import kotlinx.android.synthetic.main.custom_discarder_selector.view.*
@@ -51,10 +52,10 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
     }
     
     private fun setListeners() {
-        llDiscarderSelectorEast.setOnClickListener { selectDiscarder(EAST) }
-        llDiscarderSelectorSouth.setOnClickListener { selectDiscarder(SOUTH) }
-        llDiscarderSelectorWest.setOnClickListener { selectDiscarder(WEST) }
-        llDiscarderSelectorNorth.setOnClickListener { selectDiscarder(NORTH) }
+        llDiscarderSelectorEast.setOnSecureClickListener { selectDiscarder(EAST) }
+        llDiscarderSelectorSouth.setOnSecureClickListener { selectDiscarder(SOUTH) }
+        llDiscarderSelectorWest.setOnSecureClickListener { selectDiscarder(WEST) }
+        llDiscarderSelectorNorth.setOnSecureClickListener { selectDiscarder(NORTH) }
     }
     
     private fun setupSelfpick() {

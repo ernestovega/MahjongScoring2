@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
+import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.*
 import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToScreen
 import com.google.android.material.snackbar.Snackbar
@@ -99,7 +100,7 @@ class MainActivity : BaseActivity() {
     private fun setOldGamesActionNewGameListener() {
 //        val oldGamesItem = navigationViewMain?.menu?.findItem(R.id.nav_oldgames)
 //        oldGamesItem?.actionView?.findViewById<View>(R.id.
-        ibMainDrawerOldGamesActionLayoutNewGame?.setOnClickListener { viewModel?.startNewGame() }//closeDrawer() }
+        ibMainDrawerOldGamesActionLayoutNewGame?.setOnSecureClickListener { viewModel?.startNewGame() }//closeDrawer() }
     }
     
     private fun setMenuItemSelectedListener() {

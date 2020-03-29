@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R.layout
 import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import kotlinx.android.synthetic.main.game_list_fragment.*
 import kotlinx.android.synthetic.main.game_list_fragment.view.*
@@ -36,9 +37,13 @@ class GameListFragment : BaseGameFragment() {
     }
     
     private fun initViewModel() {
-        activityViewModel?.getListNames()?.observe(viewLifecycleOwner, Observer(this::namesObserver))
-        activityViewModel?.getListRounds()?.observe(viewLifecycleOwner, Observer(this::roundsListObserver))
-        activityViewModel?.getListTotals()?.observe(viewLifecycleOwner, Observer(this::totalsObserver))
+        activityViewModel?.getCurrentTable()?.observe(viewLifecycleOwner, Observer(this::gameObserver))
+    }
+    
+    private fun gameObserver(table: Table) {
+        roundsListObserver(table.getEndedRoundsWithBestHand())
+        namesObserver(table.game.getPlayersNames())
+        totalsObserver(table.getPlayersTotalPointsString())
     }
     
     private fun roundsListObserver(roundsList: List<Round>) {

@@ -2,12 +2,12 @@ package com.etologic.mahjongscoring2.business.model.entities
 
 import androidx.room.*
 import com.etologic.mahjongscoring2.app.base.RecyclerViewable
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.POINTS_DISCARD_NEUTRAL_PLAYERS
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.getHuDiscardDiscarderPoints
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.getHuDiscardWinnerPoints
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.getHuSelfpickDiscarderPoints
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.getHuSelfpickWinnerPoints
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds.Companion.getPenaltyOtherPlayersPoints
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.POINTS_DISCARD_NEUTRAL_PLAYERS
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardDiscarderPoints
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardWinnerPoints
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfpickDiscarderPoints
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfpickWinnerPoints
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getPenaltyOtherPlayersPoints
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.converters.TableWindsConverter
@@ -228,4 +228,6 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
     internal fun resumeRound() {
         isEnded = false
     }
+    
+    internal fun areTherePenalties(): Boolean = penaltyP1 > 0 || penaltyP2 > 0 || penaltyP3 > 0 || penaltyP4 > 0
 }

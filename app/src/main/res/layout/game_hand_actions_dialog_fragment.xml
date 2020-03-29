@@ -1,113 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/AlertDialogStyleMM"
-    android:layout_width="240dp"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="@dimen/standard_margin">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tvHandActionsDialogTitle"
+        android:textColor="@color/grayMM"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/double_standard_margin"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpHandActionsDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/llTabBarContainer"
+        android:layout_below="@id/tvHandActionsDialogTitle" />
 
     <LinearLayout
-        android:id="@+id/btHandActionsDialogPenaltiesCancel"
-        style="@style/buttonHandAction"
-        android:background="@drawable/button_rounded_corners_purple"
-        android:visibility="gone"
-        android:padding="@dimen/half_standard_margin"
-        tools:ignore="UseCompoundDrawables">
+        android:id="@+id/llTabBarContainer"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/standard_margin"
+        android:layout_alignParentBottom="true">
 
-        <ImageView
+        <Button
+            android:id="@+id/bHandActionsDialogBack"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_penalty_white"
-            android:layout_marginBottom="@dimen/half_standard_margin" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:text="@string/cancel_penalties"
-            android:textAllCaps="true"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:includeFontPadding="false"
+            android:background="@drawable/button_rounded_corners_gray"
+            android:layout_height="wrap_content"
+            android:text="@string/back" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tlHandActionsDialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp" />
+
+        <Button
+            android:id="@+id/bHandActionsDialogNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_rounded_corners_accent"
+            android:text="@string/next"
+            android:includeFontPadding="false"
+            tools:ignore="RelativeOverlap" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/btHandActionsDialogPenalty"
-        style="@style/buttonHandAction"
-        tools:ignore="UseCompoundDrawables">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_penalty_white"
-            android:layout_marginBottom="@dimen/half_standard_margin" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:text="@string/penalty"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/btHandActionsDialogHu"
-        style="@style/buttonHandAction"
-        tools:ignore="UseCompoundDrawables">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_trophy_white_18dp"
-            android:layout_marginTop="@dimen/quarter_standard_margin"
-            android:layout_marginBottom="@dimen/half_standard_margin" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:text="@string/mahjong"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="@dimen/quarter_standard_margin"
-            android:textSize="21sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/btHandActionsDialogDraw"
-        style="@style/buttonHandAction"
-        tools:ignore="UseCompoundDrawables">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_flag_white"
-            android:layout_marginBottom="@dimen/half_standard_margin" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:text="@string/draw"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textSize="21sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

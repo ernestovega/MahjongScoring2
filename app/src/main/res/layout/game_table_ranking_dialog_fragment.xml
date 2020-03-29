@@ -213,6 +213,6 @@
         android:layout_below="@+id/tlRanking"
         android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/standard_margin"
-        android:text="@android:string/ok" />
+        android:text="@string/ok" />
 
 </RelativeLayout>

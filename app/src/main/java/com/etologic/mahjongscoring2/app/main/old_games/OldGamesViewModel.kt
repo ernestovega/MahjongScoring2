@@ -3,10 +3,9 @@ package com.etologic.mahjongscoring2.app.main.old_games
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.use_cases.current_game.SetCurrentGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.games.CreateGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.games.DeleteGameUseCase
@@ -20,8 +19,8 @@ internal class OldGamesViewModel(
     private val setCurrentGameUseCase: SetCurrentGameUseCase
 ) : BaseViewModel() {
     
-    private val _allGames = MutableLiveData<List<GameWithRounds>>()
-    internal fun getGames(): LiveData<List<GameWithRounds>> = _allGames
+    private val _allGames = MutableLiveData<List<Table>>()
+    internal fun getGames(): LiveData<List<Table>> = _allGames
     private val _startGame = MutableLiveData<Boolean>()
     internal fun getStartGame(): LiveData<Boolean> = _startGame
     

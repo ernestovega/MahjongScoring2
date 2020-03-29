@@ -1,6 +1,6 @@
 package com.etologic.mahjongscoring2.business.use_cases.current_game
 
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.data_source.repositories.CurrentGameRepository
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import io.reactivex.Single
@@ -12,7 +12,7 @@ constructor(
     private val gamesRepository: GamesRepository
 ) {
     
-    internal fun saveCurrentGamePlayersNames(names: Array<String>): Single<GameWithRounds> =
+    internal fun saveCurrentGamePlayersNames(names: Array<String>): Single<Table> =
         currentGameRepository.get()
             .flatMap { currentGameWithRounds ->
                 currentGameWithRounds.game.nameP1 = names[0]

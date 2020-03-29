@@ -10,11 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.model.GameItemDiffUtilCallback
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.app.utils.StringUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import kotlinx.android.synthetic.main.main_oldgame_item.view.*
 import java.util.*
 import javax.inject.Inject
@@ -29,7 +30,7 @@ internal class OldGamesRvAdapter
     }
     
     private var itemClickListener: GameItemListener? = null
-    private var games: List<GameWithRounds> = ArrayList()
+    private var games: List<Table> = ArrayList()
     
     init {
         games = ArrayList()
@@ -39,14 +40,14 @@ internal class OldGamesRvAdapter
         this.itemClickListener = listener
     }
     
-    fun setGames(newGames: List<GameWithRounds>) {
+    fun setGames(newGames: List<Table>) {
         val result = DiffUtil.calculateDiff(GameItemDiffUtilCallback(newGames, games), true)
         saveNewGamesCopy(newGames)
         result.dispatchUpdatesTo(this)
     }
     
-    private fun saveNewGamesCopy(newGames: List<GameWithRounds>) {
-        val newGamesCopy = ArrayList<GameWithRounds>(newGames.size)
+    private fun saveNewGamesCopy(newGames: List<Table>) {
+        val newGamesCopy = ArrayList<Table>(newGames.size)
         newGames.map { newGamesCopy.add(it.getCopy()) }
         games = newGamesCopy
     }
@@ -67,31 +68,31 @@ internal class OldGamesRvAdapter
         val duration = gameWithRounds.getDuration()
         val bestHand = gameWithRounds.getBestHand()
         setFields(itemViewHolder, gameWithRounds, duration, bestHand)
-        itemViewHolder.btItemResume?.setOnClickListener {
+        itemViewHolder.btItemResume?.setOnSecureClickListener {
             if (itemViewHolder.gameId != null)
                 itemClickListener?.onOldGameItemResumeClicked(itemViewHolder.gameId!!)
         }
-        itemViewHolder.btItemDelete?.setOnClickListener {
+        itemViewHolder.btItemDelete?.setOnSecureClickListener {
             if (itemViewHolder.gameId != null)
                 itemClickListener?.onOldGameItemDeleteClicked(itemViewHolder.gameId!!)
         }
     }
     
-    private fun setFields(itemViewHolder: OldGameItemViewHolder, gameWithRounds: GameWithRounds, duration: Long, bestHand: BestHand) {
-        itemViewHolder.gameId = gameWithRounds.game.gameId
+    private fun setFields(itemViewHolder: OldGameItemViewHolder, table: Table, duration: Long, bestHand: BestHand) {
+        itemViewHolder.gameId = table.game.gameId
         itemViewHolder.tvStartDate?.text =
-            DateTimeUtils.getPrettyDate(gameWithRounds.game.startDate)
+            DateTimeUtils.getPrettyDate(table.game.startDate)
         itemViewHolder.tvDuration?.text = String.format("#%s", itemViewHolder.gameId.toString())//DateTimeUtils.getPrettyDuration(duration));
-        itemViewHolder.tvEastPlayerName?.text = gameWithRounds.game.nameP1
-        itemViewHolder.tvSouthPlayerName?.text = gameWithRounds.game.nameP2
-        itemViewHolder.tvWestPlayerName?.text = gameWithRounds.game.nameP3
-        itemViewHolder.tvNorthPlayerName?.text = gameWithRounds.game.nameP4
-        val playersTotalPoints = gameWithRounds.getPlayersTotalPointsStringByCurrentSeat()
+        itemViewHolder.tvEastPlayerName?.text = table.game.nameP1
+        itemViewHolder.tvSouthPlayerName?.text = table.game.nameP2
+        itemViewHolder.tvWestPlayerName?.text = table.game.nameP3
+        itemViewHolder.tvNorthPlayerName?.text = table.game.nameP4
+        val playersTotalPoints = table.getPlayersTotalPointsStringByCurrentSeat()
         itemViewHolder.tvEastPlayerPoints?.text = playersTotalPoints[0]
         itemViewHolder.tvSouthPlayerPoints?.text = playersTotalPoints[1]
         itemViewHolder.tvWestPlayerPoints?.text = playersTotalPoints[2]
         itemViewHolder.tvNorthPlayerPoints?.text = playersTotalPoints[3]
-        itemViewHolder.tvRoundNumber?.text = gameWithRounds.rounds.size.toString()
+        itemViewHolder.tvRoundNumber?.text = table.rounds.size.toString()
         setBestHand(itemViewHolder, bestHand)
     }
     

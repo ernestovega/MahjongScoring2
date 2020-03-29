@@ -14,9 +14,10 @@ import androidx.fragment.app.Fragment
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.color
 import com.etologic.mahjongscoring2.R.layout
-import com.etologic.mahjongscoring2.app.model.Seat
+import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.model.SeatStates
 import com.etologic.mahjongscoring2.app.model.SeatStates.*
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import kotlinx.android.synthetic.main.game_table_seat_east.*
@@ -32,12 +33,10 @@ class GameTableSeatsFragment : Fragment() {
     }
     
     internal interface TableSeatsListener {
-        fun onEastSeatClick()
-        fun onSouthSeatClick()
-        fun onWestSeatClick()
-        fun onNorthSeatClick()
+        fun onSeatClick(wind: TableWinds)
     }
     
+    //RESOURCES
     private var eastIcon: Drawable? = null
     private var southIcon: Drawable? = null
     private var westIcon: Drawable? = null
@@ -48,51 +47,84 @@ class GameTableSeatsFragment : Fragment() {
     private var redColor: Int? = null
     private var greenColor: Int? = null
     private var purplePenalty: Int? = null
+    //FIELDS
     private var listener: TableSeatsListener? = null
-    private var eastSeatState: SeatStates = NORMAL
-    private var southSeatState: SeatStates = NORMAL
-    private var westSeatState: SeatStates = NORMAL
-    private var northSeatState: SeatStates = NORMAL
+    private var selectedPlayer: TableWinds = NONE
+    private var areSeatsDisabled: Boolean = false
     
     //PUBLIC
     internal fun setTableSeatsListener(tableSeatsListener: TableSeatsListener) {
         listener = tableSeatsListener
     }
     
-    internal fun setEastSeat(seat: Seat) {
-        setWindIcon(ivTableSeatEastSeatWindIcon, seat.wind)
-        setName(tvTableSeatEastName, seat.name)
-        setPoints(tvTableSeatEastPoints, seat.points)
-        setPenaltyPoints(tvTableSeatEastPenaltyPoints, seat.penalty)
-        setState(ivTableSeatEastSeatWindIcon, tvTableSeatEastName, tvTableSeatEastPoints, tvTableSeatEastPenaltyPoints, seat.state)
-        eastSeatState = seat.state
+    internal fun setSeats(table: Table) {
+        selectedPlayer = NONE
+        setStates(getSeatsStates(table))
+        setPoints(table.getPlayersTotalPointsStringByCurrentSeat())
+        setPenalties(table.getPlayersPenaltiesByCurrentSeat())
+        setWinds(table.getSeatsCurrentWind(table.rounds.last().roundId))
+        setNames(table.getPlayersNamesByCurrentSeat())
     }
     
-    internal fun setSouthSeat(seat: Seat) {
-        setWindIcon(ivTableSeatSouthSeatWindIcon, seat.wind)
-        setName(tvTableSeatSouthName, seat.name)
-        setPoints(tvTableSeatSouthPoints, seat.points)
-        setPenaltyPoints(tvTableSeatSouthPenaltyPoints, seat.penalty)
-        setState(ivTableSeatSouthSeatWindIcon, tvTableSeatSouthName, tvTableSeatSouthPoints, tvTableSeatSouthPenaltyPoints, seat.state)
-        southSeatState = seat.state
+    private fun getSeatsStates(table: Table): Array<SeatStates> {
+        return when {
+            selectedPlayer == NONE -> arrayOf(NORMAL, NORMAL, NORMAL, NORMAL)
+            selectedPlayer == EAST -> arrayOf(SELECTED, NORMAL, NORMAL, NORMAL)
+            selectedPlayer == SOUTH -> arrayOf(NORMAL, SELECTED, NORMAL, NORMAL)
+            selectedPlayer == WEST -> arrayOf(NORMAL, NORMAL, SELECTED, NORMAL)
+            selectedPlayer == NORTH -> arrayOf(NORMAL, NORMAL, NORMAL, SELECTED)
+            table.rounds.last().isEnded -> arrayOf(DISABLED, DISABLED, DISABLED, DISABLED)
+            else -> arrayOf(NORMAL, NORMAL, NORMAL, NORMAL)
+        }
     }
     
-    internal fun setWestSeat(seat: Seat) {
-        setWindIcon(ivTableSeatWestSeatWindIcon, seat.wind)
-        setName(tvTableSeatWestName, seat.name)
-        setPoints(tvTableSeatWestPoints, seat.points)
-        setPenaltyPoints(tvTableSeatWestPenaltyPoints, seat.penalty)
-        setState(ivTableSeatWestSeatWindIcon, tvTableSeatWestName, tvTableSeatWestPoints, tvTableSeatWestPenaltyPoints, seat.state)
-        westSeatState = seat.state
+    private fun setStates(states: Array<SeatStates>) {
+        areSeatsDisabled = states[0] == DISABLED &&  states[1] == DISABLED &&  states[2] == DISABLED &&  states[3] == DISABLED
+        setState(ivTableSeatEastSeatWindIcon, tvTableSeatEastName, tvTableSeatEastPoints, tvTableSeatEastPenaltyPoints, states[0])
+        setState(ivTableSeatSouthSeatWindIcon, tvTableSeatSouthName, tvTableSeatSouthPoints, tvTableSeatSouthPenaltyPoints, states[1])
+        setState(ivTableSeatWestSeatWindIcon, tvTableSeatWestName, tvTableSeatWestPoints, tvTableSeatWestPenaltyPoints, states[2])
+        setState(ivTableSeatNorthSeatWindIcon, tvTableSeatNorthName, tvTableSeatNorthPoints, tvTableSeatNorthPenaltyPoints, states[3])
     }
     
-    internal fun setNorthSeat(seat: Seat) {
-        setWindIcon(ivTableSeatNorthSeatWindIcon, seat.wind)
-        setName(tvTableSeatNorthName, seat.name)
-        setPoints(tvTableSeatNorthPoints, seat.points)
-        setPenaltyPoints(tvTableSeatNorthPenaltyPoints, seat.penalty)
-        setState(ivTableSeatNorthSeatWindIcon, tvTableSeatNorthName, tvTableSeatNorthPoints, tvTableSeatNorthPenaltyPoints, seat.state)
-        northSeatState = seat.state
+    private fun setState(ivWind: ImageView?, tvName: TextView, tvPoints: TextView, tvPenaltyPoints: TextView, state: SeatStates?) {
+        val stateColor = when (state) {
+            SELECTED -> accentColor
+            DISABLED -> grayDisabledColor
+            else -> grayNormalColor
+        }
+        stateColor?.let {
+            ivWind?.setColorFilter(it)
+            tvName.setTextColor(it)
+            tvPoints.setTextColor(it)
+            tvPenaltyPoints.setTextColor(if (state != NORMAL || purplePenalty == null) it else purplePenalty!!)
+        }
+    }
+    
+    private fun setPoints(points: List<String>) {
+        tvTableSeatEastPoints.text = points[EAST.code]
+        tvTableSeatSouthPoints.text = points[SOUTH.code]
+        tvTableSeatWestPoints.text = points[WEST.code]
+        tvTableSeatNorthPoints.text = points[NORTH.code]
+    }
+    
+    private fun setPenalties(penalties: Array<Int>) {
+        setPenaltyPoints(tvTableSeatEastPenaltyPoints, penalties[EAST.code])
+        setPenaltyPoints(tvTableSeatSouthPenaltyPoints, penalties[SOUTH.code])
+        setPenaltyPoints(tvTableSeatWestPenaltyPoints, penalties[WEST.code])
+        setPenaltyPoints(tvTableSeatNorthPenaltyPoints, penalties[NORTH.code])
+    }
+    
+    private fun setPenaltyPoints(textView: TextView, penaltyPoints: Int) {
+        textView.text = String.format(getDefault(), "%+d", penaltyPoints)
+        (if (penaltyPoints < 0) redColor else greenColor)?.let { textView.setTextColor(it) }
+        textView.visibility = if (penaltyPoints != 0) VISIBLE else GONE
+    }
+    
+    private fun setWinds(winds: Array<TableWinds>) {
+        setWindIcon(ivTableSeatEastSeatWindIcon, winds[EAST.code])
+        setWindIcon(ivTableSeatSouthSeatWindIcon, winds[SOUTH.code])
+        setWindIcon(ivTableSeatWestSeatWindIcon, winds[WEST.code])
+        setWindIcon(ivTableSeatNorthSeatWindIcon, winds[NORTH.code])
     }
     
     private fun setWindIcon(imageView: ImageView?, wind: TableWinds?) {
@@ -101,7 +133,7 @@ class GameTableSeatsFragment : Fragment() {
             SOUTH -> setWind(imageView, southIcon)
             WEST -> setWind(imageView, westIcon)
             NORTH -> setWind(imageView, northIcon)
-            else -> imageView?.visibility = INVISIBLE
+            NONE -> imageView?.visibility = INVISIBLE
         }
     }
     
@@ -111,70 +143,15 @@ class GameTableSeatsFragment : Fragment() {
         imageView?.setImageDrawable(icon)
     }
     
+    private fun setNames(names: Array<String>) {
+        setName(tvTableSeatEastName, names[EAST.code])
+        setName(tvTableSeatSouthName, names[SOUTH.code])
+        setName(tvTableSeatWestName, names[WEST.code])
+        setName(tvTableSeatNorthName, names[NORTH.code])
+    }
+    
     private fun setName(textView: TextView, name: String?) {
         textView.text = name ?: ""
-    }
-    
-    private fun setPoints(textView: TextView, points: Int) {
-        textView.text = String.format(getDefault(), "%d", points)
-    }
-    
-    private fun setPenaltyPoints(textView: TextView, penaltyPoints: Int) {
-        textView.text = String.format(getDefault(), "%+d", penaltyPoints)
-        (if (penaltyPoints < 0) redColor else greenColor)?.let { textView.setTextColor(it) }
-        textView.visibility = if (penaltyPoints != 0) VISIBLE else GONE
-    }
-    
-    private fun setState(ivWind: ImageView?, tvName: TextView, tvPoints: TextView, tvPenaltyPoints: TextView, state: SeatStates?) {
-        when (state) {
-            NORMAL -> {
-                ivWind?.clearColorFilter()
-                grayNormalColor?.let {
-                    tvName.setTextColor(it)
-                    tvPoints.setTextColor(it)
-                    tvPenaltyPoints.setTextColor(it)
-                }
-                purplePenalty?.let { tvPenaltyPoints.setTextColor(it) }
-            }
-            SELECTED -> {
-                accentColor?.let {
-                    ivWind?.setColorFilter(it)
-                    tvName.setTextColor(it)
-                    tvPoints.setTextColor(it)
-                    tvPenaltyPoints.setTextColor(it)
-                }
-            }
-            DISABLED -> {
-                grayDisabledColor?.let {
-                    ivWind?.setColorFilter(it)
-                    tvName.setTextColor(it)
-                    tvPoints.setTextColor(it)
-                    tvPenaltyPoints.setTextColor(it)
-                }
-            }
-        }
-    }
-    
-    private fun disableListeners() {
-        ivTableSeatEastSeatWindIcon?.setOnClickListener {}
-        tvTableSeatEastName?.setOnClickListener {}
-        tvTableSeatEastPoints?.setOnClickListener {}
-        tvTableSeatEastPenaltyPoints?.setOnClickListener {}
-        
-        ivTableSeatSouthSeatWindIcon?.setOnClickListener {}
-        tvTableSeatSouthName?.setOnClickListener {}
-        tvTableSeatSouthPoints?.setOnClickListener {}
-        tvTableSeatSouthPenaltyPoints?.setOnClickListener {}
-        
-        ivTableSeatWestSeatWindIcon?.setOnClickListener {}
-        tvTableSeatWestName?.setOnClickListener {}
-        tvTableSeatWestPoints?.setOnClickListener {}
-        tvTableSeatWestPenaltyPoints?.setOnClickListener {}
-        
-        ivTableSeatNorthSeatWindIcon?.setOnClickListener {}
-        tvTableSeatNorthName?.setOnClickListener {}
-        tvTableSeatNorthPoints?.setOnClickListener {}
-        tvTableSeatNorthPenaltyPoints?.setOnClickListener {}
     }
     
     //LIFECYCLE
@@ -200,21 +177,21 @@ class GameTableSeatsFragment : Fragment() {
     }
     
     private fun initListeners() {
-        ivTableSeatEastSeatWindIcon?.setOnClickListener { if (eastSeatState != DISABLED) listener?.onEastSeatClick() }
-        tvTableSeatEastName?.setOnClickListener { if (eastSeatState != DISABLED) listener?.onEastSeatClick() }
-        tvTableSeatEastPoints?.setOnClickListener { if (eastSeatState != DISABLED) listener?.onEastSeatClick() }
-        tvTableSeatEastPenaltyPoints?.setOnClickListener { if (eastSeatState != DISABLED) listener?.onEastSeatClick() }
-        ivTableSeatSouthSeatWindIcon?.setOnClickListener { if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
-        tvTableSeatSouthName?.setOnClickListener { if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
-        tvTableSeatSouthPoints?.setOnClickListener { if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
-        tvTableSeatSouthPenaltyPoints?.setOnClickListener { if (southSeatState != DISABLED) listener?.onSouthSeatClick() }
-        ivTableSeatWestSeatWindIcon?.setOnClickListener { if (westSeatState != DISABLED) listener?.onWestSeatClick() }
-        tvTableSeatWestName?.setOnClickListener { if (westSeatState != DISABLED) listener?.onWestSeatClick() }
-        tvTableSeatWestPoints?.setOnClickListener { if (westSeatState != DISABLED) listener?.onWestSeatClick() }
-        tvTableSeatWestPenaltyPoints?.setOnClickListener { if (westSeatState != DISABLED) listener?.onWestSeatClick() }
-        ivTableSeatNorthSeatWindIcon?.setOnClickListener { if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
-        tvTableSeatNorthName?.setOnClickListener { if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
-        tvTableSeatNorthPoints?.setOnClickListener { if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
-        tvTableSeatNorthPenaltyPoints?.setOnClickListener { if (northSeatState != DISABLED) listener?.onNorthSeatClick() }
+        ivTableSeatEastSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = EAST; listener?.onSeatClick(EAST) } }
+        tvTableSeatEastName?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = EAST; listener?.onSeatClick(EAST) } }
+        tvTableSeatEastPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = EAST; listener?.onSeatClick(EAST) } }
+        tvTableSeatEastPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = EAST; listener?.onSeatClick(EAST) } }
+        ivTableSeatSouthSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = SOUTH; listener?.onSeatClick(SOUTH) } }
+        tvTableSeatSouthName?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = SOUTH; listener?.onSeatClick(SOUTH) } }
+        tvTableSeatSouthPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = SOUTH; listener?.onSeatClick(SOUTH) } }
+        tvTableSeatSouthPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = SOUTH; listener?.onSeatClick(SOUTH) } }
+        ivTableSeatWestSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = WEST; listener?.onSeatClick(WEST) } }
+        tvTableSeatWestName?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = WEST; listener?.onSeatClick(WEST) } }
+        tvTableSeatWestPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = WEST; listener?.onSeatClick(WEST) } }
+        tvTableSeatWestPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = WEST; listener?.onSeatClick(WEST) } }
+        ivTableSeatNorthSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = NORTH; listener?.onSeatClick(NORTH) } }
+        tvTableSeatNorthName?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = NORTH; listener?.onSeatClick(NORTH) } }
+        tvTableSeatNorthPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = NORTH; listener?.onSeatClick(NORTH) } }
+        tvTableSeatNorthPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = NORTH; listener?.onSeatClick(NORTH) } }
     }
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.showKeyboard
@@ -38,7 +39,7 @@ internal class NamesDialogFragment : BaseGameDialogFragment() {
     }
     
     private fun printNames() {
-        val names = activityViewModel?.getListNames()?.value
+        val names = activityViewModel?.getNamesByInitialPosition()
         names?. let {
             tietPlayersDialogEast?.setText(it[EAST.code])
             tietPlayersDialogSouth?.setText(it[SOUTH.code])
@@ -52,10 +53,10 @@ internal class NamesDialogFragment : BaseGameDialogFragment() {
         tietPlayersDialogSouth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogSouth.selectAll() }
         tietPlayersDialogWest.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogWest.selectAll() }
         tietPlayersDialogNorth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogNorth.selectAll() }
-        btPlayersDialogCancel?.setOnClickListener {
+        btPlayersDialogCancel?.setOnSecureClickListener {
             dismiss()
         }
-        btPlayersDialogSave?.setOnClickListener {
+        btPlayersDialogSave?.setOnSecureClickListener {
             activityViewModel?.savePlayersNames(
                 arrayOf(
                     (tietPlayersDialogEast?.text ?: "").toString().trim(),

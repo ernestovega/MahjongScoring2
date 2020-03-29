@@ -12,6 +12,7 @@
         android:id="@+id/llDiscarderSelectorWest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="@dimen/standard_margin"
         android:gravity="center"
         android:orientation="vertical"
         android:tag="false">
@@ -23,7 +24,7 @@
             android:text="@string/player_west"
             android:textColor="@color/grayMM"
             android:textSize="20sp"
-            android:textStyle="bold"
+
             tools:textColor="@color/red" />
 
         <TextView
@@ -32,7 +33,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/grayMM"
             android:textSize="18sp"
-            android:textStyle="bold"
+
             tools:text="-16"
             tools:textColor="@color/red" />
 
@@ -42,12 +43,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/double_standard_margin"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:id="@+id/llDiscarderSelectorNorth"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
             android:tag="false">
@@ -56,10 +59,10 @@
                 android:id="@+id/tvDiscarderSelectorNorthName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:lines="1"
                 android:text="@string/player_north"
                 android:textColor="@color/grayMM"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tvDiscarderSelectorNorthPoints"
@@ -67,7 +70,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/grayMM"
                 android:textSize="18sp"
-                android:textStyle="bold"
                 tools:text="-8"
                 tools:textColor="@color/red" />
 
@@ -75,9 +77,10 @@
 
         <LinearLayout
             android:id="@+id/llDiscarderSelectorSouth"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/triple_standard_margin"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
             android:tag="false">
@@ -86,10 +89,10 @@
                 android:id="@+id/tvDiscarderSelectorSouthName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:lines="1"
                 android:text="@string/player_south"
                 android:textColor="@color/grayMM"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tvDiscarderSelectorSouthPoints"
@@ -97,7 +100,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/grayMM"
                 android:textSize="18sp"
-                android:textStyle="bold"
                 tools:text="-8"
                 tools:textColor="@color/red" />
 
@@ -121,7 +123,6 @@
             android:text="@string/player_east"
             android:textColor="@color/grayMM"
             android:textSize="20sp"
-            android:textStyle="bold"
             tools:textColor="@color/colorPrimary" />
 
         <TextView
@@ -130,7 +131,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/grayMM"
             android:textSize="18sp"
-            android:textStyle="bold"
             tools:text="+32"
             tools:textColor="@color/colorPrimary" />
 

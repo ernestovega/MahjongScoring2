@@ -1,18 +1,17 @@
 package com.etologic.mahjongscoring2.data_source.repositories
 
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import io.reactivex.Single
-import java.lang.Boolean.TRUE
 import javax.inject.Inject
 
 class CurrentGameMemoryDataSource
 @Inject constructor() {
     
-    private var currentGame: GameWithRounds? = null
+    private var currentGame: Table? = null
     
-    internal fun get(): Single<GameWithRounds> = Single.just(currentGame)
+    internal fun get(): Single<Table> = Single.just(currentGame)
     
-    internal fun set(game: GameWithRounds): Single<GameWithRounds> {
+    internal fun set(game: Table): Single<Table> {
         currentGame = game
         return Single.just(currentGame)
     }

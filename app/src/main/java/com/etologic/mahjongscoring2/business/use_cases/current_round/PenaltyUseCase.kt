@@ -1,6 +1,6 @@
 package com.etologic.mahjongscoring2.business.use_cases.current_round
 
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.data_source.repositories.CurrentGameRepository
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
@@ -15,7 +15,7 @@ constructor(
     private val roundsRepository: RoundsRepository
 ) {
     
-    fun penalty(penalizedPlayerCurrentSeat: TableWinds, points: Int, isDivided: Boolean): Single<GameWithRounds> =
+    fun penalty(penalizedPlayerCurrentSeat: TableWinds, points: Int, isDivided: Boolean): Single<Table> =
         currentGameRepository.get()
             .flatMap { currentGameWithRounds ->
                 val currentRound = currentGameWithRounds.rounds.last()
@@ -34,7 +34,7 @@ constructor(
                     .flatMap { currentGameRepository.set(it) }
             }
     
-    internal fun cancelPenalties(): Single<GameWithRounds> =
+    internal fun cancelPenalties(): Single<Table> =
         currentGameRepository.get()
             .flatMap { currentGameWithRounds ->
                 val currentRound = currentGameWithRounds.rounds.last()

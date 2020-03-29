@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.model.ShowState
 import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
@@ -80,7 +81,7 @@ internal class CombinationsRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHol
         
         myHolder.flImageOrDescriptionContainer?.visibility = if (imageOrDescriptionShowState === SHOW) VISIBLE else GONE
         
-        myHolder.llContainer?.setOnClickListener {
+        myHolder.llContainer?.setOnSecureClickListener {
             myHolder.flImageOrDescriptionContainer?.visibility = if (myHolder.cardView?.height == cardViewMinHeight) VISIBLE else GONE
         }
     }

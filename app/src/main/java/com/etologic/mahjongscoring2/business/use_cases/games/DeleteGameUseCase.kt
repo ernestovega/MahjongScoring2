@@ -1,6 +1,6 @@
 package com.etologic.mahjongscoring2.business.use_cases.games
 
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import io.reactivex.Single
@@ -12,7 +12,7 @@ constructor(
     private val roundsRepository: RoundsRepository
 ) {
     
-    fun deleteGame(gameId: Long): Single<List<GameWithRounds>> =
+    fun deleteGame(gameId: Long): Single<List<Table>> =
         roundsRepository.deleteByGame(gameId)
             .flatMap { gamesRepository.deleteOne(gameId) }
             .flatMap { gamesRepository.getAllWithRounds() }

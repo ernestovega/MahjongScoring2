@@ -13,13 +13,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseFragment
+import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModelFactory
 import com.etologic.mahjongscoring2.app.model.ShowState
-import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
-import com.etologic.mahjongscoring2.business.model.entities.GameWithRounds
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import kotlinx.android.synthetic.main.main_oldgames_fragment.*
 import javax.inject.Inject
 
@@ -94,7 +94,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         }
     }
     
-    private fun gamesObserver(games: List<GameWithRounds>) {
+    private fun gamesObserver(games: List<Table>) {
         if (games.isEmpty())
             emptyLayoutOldGames?.visibility = VISIBLE
         else {
@@ -125,7 +125,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     }
     
     private fun setOnClickListeners() {
-        fabOldGames?.setOnClickListener {
+        fabOldGames?.setOnSecureClickListener {
             viewModel.startNewGame()
         }
     }
