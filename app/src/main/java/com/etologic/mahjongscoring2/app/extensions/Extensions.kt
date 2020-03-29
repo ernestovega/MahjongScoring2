@@ -53,7 +53,7 @@ internal fun TabLayout.Tab.getTextView(): TextView {
 }
 
 //VIEW ANIMATIONS
-internal fun View.collapse(duration: Int = 800) {
+internal fun View.collapse(duration: Int = 0) {
     val initialHeight = measuredHeight
     val va = ValueAnimator.ofInt(initialHeight, 0)
     va.addUpdateListener { animation ->
@@ -74,7 +74,7 @@ internal fun View.collapse(duration: Int = 800) {
     va.start()
 }
 
-internal fun View.expand(duration: Int = 800) {
+internal fun View.expand(duration: Int = 0) {
     measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     val targetHeight = measuredHeight
     

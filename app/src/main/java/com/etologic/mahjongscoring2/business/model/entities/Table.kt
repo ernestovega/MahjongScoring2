@@ -3,6 +3,7 @@ package com.etologic.mahjongscoring2.business.model.entities
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
+import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import java.util.*
@@ -30,7 +31,7 @@ class Table(@field:Embedded var game: Game) {
         return namesListByCurrentSeat
     }
     
-    internal fun getPlayersTotalPointsByCurrentSeat(): Array<Int> {
+    private fun getPlayersTotalPointsByCurrentSeat(): Array<Int> {
         val points = getPlayersTotalPoints()
         val pointsByCurrentSeat = arrayOf(0, 0, 0, 0)
         val roundId = rounds.last().roundId
@@ -240,6 +241,34 @@ class Table(@field:Embedded var game: Game) {
             4, 8, 12, 16 -> arrayOf(SOUTH, WEST, NORTH, EAST)
             else -> arrayOf()
         }
+    
+    internal fun finishCurrentRoundByHuDiscard(huData: HuData): Table {
+        val currentRound = rounds.last()
+        currentRound.finishRoundByHuDiscard(
+            getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, currentRound.roundId),
+            getPlayerInitialSeatByCurrentSeat(huData.discarderCurrentSeat!!, currentRound.roundId),
+            huData.points
+        )
+        currentRound.setTotalsPoints(getPlayersTotalPoints())
+        return this
+    }
+    
+    internal fun finishCurrentRoundByHuSelfpick(huData: HuData): Table {
+        val currentRound = rounds.last()
+        currentRound.finishRoundByHuSelfpick(
+            getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, currentRound.roundId),
+            huData.points
+        )
+        currentRound.setTotalsPoints(getPlayersTotalPoints())
+        return this
+    }
+    
+    internal fun finishCurrentRoundByDraw(): Table {
+        val currentRound = rounds.last()
+        currentRound.finishRoundByDraw()
+        currentRound.setTotalsPoints(getPlayersTotalPoints())
+        return this
+    }
     
     internal companion object {
         

@@ -19,50 +19,34 @@ constructor(
     
     internal fun discard(huData: HuData): Single<Table> =
         currentGameRepository.get()
-            .flatMap { currentGameWithRounds ->
-                val currentRound = currentGameWithRounds.rounds.last()
-                
-                currentRound.finishRoundByHuDiscard(
-                    currentGameWithRounds.getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, currentRound.roundId),
-                    currentGameWithRounds.getPlayerInitialSeatByCurrentSeat(huData.discarderCurrentSeat!!, currentRound.roundId),
-                    huData.points
-                )
-                
-                finishCurrentRound(currentRound, currentRound.gameId)
+            .flatMap {
+                it.finishCurrentRoundByHuDiscard(huData)
+                finishCurrentRound(it.rounds.last())
             }
     
     internal fun selfpick(huData: HuData): Single<Table> =
         currentGameRepository.get()
-            .flatMap { currentGameWithRounds ->
-                val currentRound = currentGameWithRounds.rounds.last()
-                
-                currentRound.finishRoundByHuSelfpick(
-                    currentGameWithRounds.getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, currentRound.roundId),
-                    huData.points
-                )
-                
-                finishCurrentRound(currentRound, currentRound.gameId)
+            .flatMap {
+                it.finishCurrentRoundByHuSelfpick(huData)
+                finishCurrentRound(it.rounds.last())
             }
     
     internal fun draw(): Single<Table> =
         currentGameRepository.get()
-            .flatMap { currentGameWithRounds ->
-                val currentRound = currentGameWithRounds.rounds.last()
-                
-                currentRound.finishRoundApplyingPenalties()
-                
-                finishCurrentRound(currentRound, currentRound.gameId)
+            .flatMap {
+                it.finishCurrentRoundByDraw()
+                finishCurrentRound(it.rounds.last())
             }
     
-    private fun finishCurrentRound(currentRound: Round, gameId: Long): Single<Table> =
+    private fun finishCurrentRound(currentRound: Round): Single<Table> =
         roundsRepository.updateOne(currentRound)
             .flatMap {
                 if (currentRound.roundId < MAX_MCR_ROUNDS)
-                    roundsRepository.insertOne(Round(gameId, currentRound.roundId + 1))
+                    roundsRepository.insertOne(Round(currentRound.gameId, currentRound.roundId + 1))
                 else
-                    Single.just(gameId)
+                    Single.just(currentRound.gameId)
             }
-            .flatMap { gamesRepository.getOneWithRounds(gameId) }
+            .flatMap { gamesRepository.getOneWithRounds(currentRound.gameId) }
             .doOnSuccess { currentGameRepository.set(it) }
     
     internal fun end(): Single<Table> =

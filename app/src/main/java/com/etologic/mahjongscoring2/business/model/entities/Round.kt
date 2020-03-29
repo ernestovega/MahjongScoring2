@@ -23,22 +23,20 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
     companion object {
         
         fun areEqual(rounds1: List<Round>?, rounds2: List<Round>?): Boolean {
-            if (rounds1 == null && rounds2 == null) {
+            if (rounds1 == null && rounds2 == null)
                 return true
-            } else if (rounds1 != null && rounds2 != null) {
-                if (rounds1.size != rounds2.size) {
+            else if (rounds1 != null && rounds2 != null) {
+                if (rounds1.size != rounds2.size)
                     return false
-                } else {
+                else {
                     for (i in rounds1.indices) {
-                        if (!areEqual(rounds1[i], rounds2[i])) {
+                        if (!areEqual(rounds1[i], rounds2[i]))
                             return false
-                        }
                     }
                     return true
                 }
-            } else {
+            } else
                 return false
-            }
         }
         
         private fun areEqual(round1: Round, round2: Round): Boolean {
@@ -51,12 +49,17 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
                 round1.pointsP2 == round2.pointsP2 &&
                 round1.pointsP3 == round2.pointsP3 &&
                 round1.pointsP4 == round2.pointsP4 &&
+                round1.totalPointsP1 == round2.totalPointsP1 &&
+                round1.totalPointsP2 == round2.totalPointsP2 &&
+                round1.totalPointsP3 == round2.totalPointsP3 &&
+                round1.totalPointsP4 == round2.totalPointsP4 &&
                 round1.penaltyP1 == round2.penaltyP1 &&
                 round1.penaltyP2 == round2.penaltyP2 &&
                 round1.penaltyP3 == round2.penaltyP3 &&
                 round1.penaltyP4 == round2.penaltyP4 &&
                 round1.roundDuration == round2.roundDuration &&
                 round1.isBestHand == round2.isBestHand &&
+                round1.isExpanded == round2.isExpanded &&
                 round1.isEnded == round2.isEnded
         }
     }
@@ -71,6 +74,10 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
     var pointsP2 = 0
     var pointsP3 = 0
     var pointsP4 = 0
+    var totalPointsP1 = 0
+    var totalPointsP2 = 0
+    var totalPointsP3 = 0
+    var totalPointsP4 = 0
     var penaltyP1 = 0
     var penaltyP2 = 0
     var penaltyP3 = 0
@@ -80,6 +87,8 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
     
     @Ignore
     var isBestHand = false
+    @Ignore
+    var isExpanded = false
     
     internal constructor(gameId: Long) : this(gameId, 1)
     
@@ -90,10 +99,12 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         winnerInitialPosition: TableWinds,
         discarderInitialPosition: TableWinds,
         pointsP1: Int, pointsP2: Int, pointsP3: Int, pointsP4: Int,
+        totalPointsP1: Int, totalPointsP2: Int, totalPointsP3: Int, totalPointsP4: Int,
         penaltyP1: Int, penaltyP2: Int, penaltyP3: Int, penaltyP4: Int,
         roundDuration: Long,
         isEnded: Boolean,
-        isBestHand: Boolean
+        isBestHand: Boolean,
+        isExpanded: Boolean
     ) : this(gameId, roundId) {
         this.handPoints = handPoints
         this.winnerInitialSeat = winnerInitialPosition
@@ -102,6 +113,10 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         this.pointsP2 = pointsP2
         this.pointsP3 = pointsP3
         this.pointsP4 = pointsP4
+        this.totalPointsP1 = totalPointsP1
+        this.totalPointsP2 = totalPointsP2
+        this.totalPointsP3 = totalPointsP3
+        this.totalPointsP4 = totalPointsP4
         this.penaltyP1 = penaltyP1
         this.penaltyP2 = penaltyP2
         this.penaltyP3 = penaltyP3
@@ -109,6 +124,7 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         this.roundDuration = roundDuration
         this.isEnded = isEnded
         this.isBestHand = isBestHand
+        this.isExpanded = isExpanded
     }
     
     override fun compareIdTo(`object`: Round): Boolean {
@@ -130,17 +146,26 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
             pointsP2,
             pointsP3,
             pointsP4,
+            totalPointsP1,
+            totalPointsP2,
+            totalPointsP3,
+            totalPointsP4,
             penaltyP1,
             penaltyP2,
             penaltyP3,
             penaltyP4,
             roundDuration,
             isEnded,
-            isBestHand
+            isBestHand,
+            isExpanded
         )
     }
     
-    internal fun finishRoundByHuDiscard(winnerInitialSeat: TableWinds, discarderInitialSeat: TableWinds, huPoints: Int) {
+    internal fun finishRoundByHuDiscard(
+        winnerInitialSeat: TableWinds,
+        discarderInitialSeat: TableWinds,
+        huPoints: Int
+    ) {
         this.winnerInitialSeat = winnerInitialSeat
         this.discarderInitialSeat = discarderInitialSeat
         handPoints = huPoints
@@ -176,6 +201,10 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
             getHuSelfpickDiscarderPoints(huPoints)
     }
     
+    internal fun finishRoundByDraw() {
+        finishRoundApplyingPenalties()
+    }
+    
     internal fun setPlayerPenaltyPoints(penalizedPlayerInitialPosition: TableWinds, penaltyPoints: Int) {
         when (penalizedPlayerInitialPosition) {
             EAST -> penaltyP1 -= penaltyPoints
@@ -200,15 +229,6 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         penaltyP4 = 0
     }
     
-    internal fun getPenaltyPointsFromInitialPlayerPosition(playerInitialPosition: TableWinds): Int {
-        return when (playerInitialPosition) {
-            EAST -> penaltyP1
-            SOUTH -> penaltyP2
-            WEST -> penaltyP3
-            else -> penaltyP4
-        }
-    }
-    
     internal fun finishRoundApplyingPenalties() {
         applyPlayersPenalties()
         endRound()
@@ -230,4 +250,11 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
     }
     
     internal fun areTherePenalties(): Boolean = penaltyP1 > 0 || penaltyP2 > 0 || penaltyP3 > 0 || penaltyP4 > 0
+    
+    internal fun setTotalsPoints(playersTotalPoints: IntArray) {
+        totalPointsP1 = playersTotalPoints[EAST.code]
+        totalPointsP2 = playersTotalPoints[SOUTH.code]
+        totalPointsP3 = playersTotalPoints[WEST.code]
+        totalPointsP4 = playersTotalPoints[NORTH.code]
+    }
 }

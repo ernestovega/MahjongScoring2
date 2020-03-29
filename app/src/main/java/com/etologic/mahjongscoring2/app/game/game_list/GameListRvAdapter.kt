@@ -7,12 +7,14 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.color
 import com.etologic.mahjongscoring2.app.base.BaseRvAdapter
+import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import kotlinx.android.synthetic.main.game_list_round_item.view.*
@@ -44,10 +46,13 @@ internal class GameListRvAdapter
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val round = collection[position]
         val myHolder = holder as ItemViewHolder
+        holder.round = round
         fillTexts(round, myHolder)
         setWinnerColor(round, myHolder)
         setLooserColor(round, myHolder)
         setPenaltiesIcons(round, myHolder)
+        holder.llTotalsContainer.visibility = if(round.isExpanded) VISIBLE else GONE
+        
     }
     
     private fun fillTexts(item: Round, mHolder: ItemViewHolder) {
@@ -58,6 +63,10 @@ internal class GameListRvAdapter
         mHolder.tvPointsP2.text = item.pointsP2.toString()
         mHolder.tvPointsP3.text = item.pointsP3.toString()
         mHolder.tvPointsP4.text = item.pointsP4.toString()
+        mHolder.tvTotalPointsP1.text = item.totalPointsP1.toString()
+        mHolder.tvTotalPointsP2.text = item.totalPointsP2.toString()
+        mHolder.tvTotalPointsP3.text = item.totalPointsP3.toString()
+        mHolder.tvTotalPointsP4.text = item.totalPointsP4.toString()
     }
     
     private fun setWinnerColor(item: Round, mHolder: ItemViewHolder) {
@@ -86,15 +95,10 @@ internal class GameListRvAdapter
         mHolder.ivPenaltyP4.visibility = if (item.penaltyP4 < 0) VISIBLE else GONE
     }
     
-    /*TODO:@Override
-    public int getSwipeLayoutResourceId(int position) {
-        return 0;
-    }*/
     //VIEWHOLDER
     internal inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         
-        //TODO: @BindView (R.id.slGameList) SwipeLayout swipeLayout;
-        //TODO: @BindView(R.id.ibDeleteItem) ImageButton ibDeleteItem;
+        var llContainer: LinearLayout = view.llGameListItemContainer
         var tvRoundNum: TextView = view.tvGameListItemRoundNumber
         var tvHandPoints: TextView = view.tvGameListItemHandPoints
         var tvPointsP1: TextView = view.tvGameListItemRoundPointsP1
@@ -105,6 +109,19 @@ internal class GameListRvAdapter
         var ivPenaltyP2: ImageView = view.ivGameListItemPenaltyIconP2
         var ivPenaltyP3: ImageView = view.ivGameListItemPenaltyIconP3
         var ivPenaltyP4: ImageView = view.ivGameListItemPenaltyIconP4
+        var llTotalsContainer: LinearLayout = view.llGameListItemRoundTotalsContainer
+        var tvTotalPointsP1: TextView = view.tvGameListItemRoundTotalPointsP1
+        var tvTotalPointsP2: TextView = view.tvGameListItemRoundTotalPointsP2
+        var tvTotalPointsP3: TextView = view.tvGameListItemRoundTotalPointsP3
+        var tvTotalPointsP4: TextView = view.tvGameListItemRoundTotalPointsP4
+        lateinit var round: Round
+        
+        init {
+            llContainer.setOnSecureClickListener {
+                round.isExpanded = !round.isExpanded
+                notifyDataSetChanged()
+            }
+        }
     }
     
 }
