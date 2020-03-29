@@ -46,7 +46,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
             .setTitle(R.string.delete_game)
             .setMessage(R.string.are_you_sure)
             .setPositiveButton(R.string.delete) { _, _ -> viewModel.deleteGame(gameId) }
-            .setNegativeButton(android.R.string.cancel, null)
+            .setNegativeButton(R.string.cancel, null)
             .create()
             .show()
     }

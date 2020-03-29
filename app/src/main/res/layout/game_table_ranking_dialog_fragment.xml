@@ -174,17 +174,48 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <TextView
+            <LinearLayout
                 style="@style/tvRankingDialogOthers"
-                android:layout_weight="5"
-                android:text="@string/best_hand" />
+                android:layout_weight="10"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvRankingDialogBestHandPlayerPoints"
-                style="@style/tvRankingDialogOthers"
-                android:layout_weight="5"
-                android:text="119"
-                tools:ignore="HardcodedText" />
+                <TextView
+                    style="@style/tvRankingDialogOthers"
+                    android:layout_weight="1"
+                    android:text="@string/best_hand" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvRankingDialogBestHandPlayerPoints"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grayMM"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:text="119"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/tvRankingDialogBestHandPlayerName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grayMM"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:text="Juanito"
+                        tools:ignore="HardcodedText" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <View
                 style="@style/tvRankingDialogOthers"

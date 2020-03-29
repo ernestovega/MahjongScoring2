@@ -17,7 +17,7 @@
         android:enabled="false"
         android:focusable="false"
         android:gravity="center"
-        android:hint="@string/eight"
+        android:hint="@string/points"
         android:importantForAutofill="no"
         android:inputType="none"
         android:lines="1"

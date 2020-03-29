@@ -15,6 +15,7 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
     
     companion object {
         const val TAG = "PointsFragment"
+        private const val INITIAL_PENALTY_POINTS = 30
     }
     
     private var isDialogCancelled = true
@@ -26,6 +27,7 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
+        cnpPenaltyDialog?.setHint(INITIAL_PENALTY_POINTS)
     }
     
     private fun setOnClickListeners() {

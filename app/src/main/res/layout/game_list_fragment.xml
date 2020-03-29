@@ -11,7 +11,8 @@
         android:layout_alignParentTop="true"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
-        android:padding="@dimen/standard_margin">
+        android:paddingStart="@dimen/standard_margin"
+        android:paddingEnd="@dimen/standard_margin">
 
         <TextView
             android:layout_width="@dimen/standard_margin"
@@ -21,7 +22,6 @@
             android:lines="1"
             android:text="@string/number_symbol"
             android:textColor="@android:color/white" />
-
 
         <TextView
             android:layout_width="@dimen/triple_standard_margin"

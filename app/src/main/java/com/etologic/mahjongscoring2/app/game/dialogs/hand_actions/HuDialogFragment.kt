@@ -28,6 +28,7 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setListeners()
+        cnpPointsDialog?.setHint(MIN_MCR_POINTS)
     }
     
     private fun setListeners() {

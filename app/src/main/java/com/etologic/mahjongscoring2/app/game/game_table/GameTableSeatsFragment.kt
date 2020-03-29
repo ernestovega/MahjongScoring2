@@ -57,6 +57,20 @@ class GameTableSeatsFragment : Fragment() {
         listener = tableSeatsListener
     }
     
+    internal fun updateSeatState(wind: TableWinds) {
+        selectedPlayer = wind
+        setStates(getSeatsStates())
+    }
+    
+    private fun getSeatsStates(): Array<SeatStates> =
+        when (selectedPlayer) {
+            NONE -> arrayOf(NORMAL, NORMAL, NORMAL, NORMAL)
+            EAST -> arrayOf(SELECTED, NORMAL, NORMAL, NORMAL)
+            SOUTH -> arrayOf(NORMAL, SELECTED, NORMAL, NORMAL)
+            WEST -> arrayOf(NORMAL, NORMAL, SELECTED, NORMAL)
+            NORTH -> arrayOf(NORMAL, NORMAL, NORMAL, SELECTED)
+        }
+    
     internal fun setSeats(table: Table) {
         selectedPlayer = NONE
         setStates(getSeatsStates(table))
@@ -66,17 +80,11 @@ class GameTableSeatsFragment : Fragment() {
         setNames(table.getPlayersNamesByCurrentSeat())
     }
     
-    private fun getSeatsStates(table: Table): Array<SeatStates> {
-        return when {
-            selectedPlayer == NONE -> arrayOf(NORMAL, NORMAL, NORMAL, NORMAL)
-            selectedPlayer == EAST -> arrayOf(SELECTED, NORMAL, NORMAL, NORMAL)
-            selectedPlayer == SOUTH -> arrayOf(NORMAL, SELECTED, NORMAL, NORMAL)
-            selectedPlayer == WEST -> arrayOf(NORMAL, NORMAL, SELECTED, NORMAL)
-            selectedPlayer == NORTH -> arrayOf(NORMAL, NORMAL, NORMAL, SELECTED)
-            table.rounds.last().isEnded -> arrayOf(DISABLED, DISABLED, DISABLED, DISABLED)
-            else -> arrayOf(NORMAL, NORMAL, NORMAL, NORMAL)
-        }
-    }
+    private fun getSeatsStates(table: Table): Array<SeatStates> =
+        if(table.rounds.last().isEnded)
+            arrayOf(DISABLED, DISABLED, DISABLED, DISABLED)
+        else
+            getSeatsStates()
     
     private fun setStates(states: Array<SeatStates>) {
         areSeatsDisabled = states[0] == DISABLED &&  states[1] == DISABLED &&  states[2] == DISABLED &&  states[3] == DISABLED
@@ -177,21 +185,21 @@ class GameTableSeatsFragment : Fragment() {
     }
     
     private fun initListeners() {
-        ivTableSeatEastSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = EAST; listener?.onSeatClick(EAST) } }
-        tvTableSeatEastName?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = EAST; listener?.onSeatClick(EAST) } }
-        tvTableSeatEastPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = EAST; listener?.onSeatClick(EAST) } }
-        tvTableSeatEastPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = EAST; listener?.onSeatClick(EAST) } }
-        ivTableSeatSouthSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = SOUTH; listener?.onSeatClick(SOUTH) } }
-        tvTableSeatSouthName?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = SOUTH; listener?.onSeatClick(SOUTH) } }
-        tvTableSeatSouthPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = SOUTH; listener?.onSeatClick(SOUTH) } }
-        tvTableSeatSouthPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = SOUTH; listener?.onSeatClick(SOUTH) } }
-        ivTableSeatWestSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = WEST; listener?.onSeatClick(WEST) } }
-        tvTableSeatWestName?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = WEST; listener?.onSeatClick(WEST) } }
-        tvTableSeatWestPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = WEST; listener?.onSeatClick(WEST) } }
-        tvTableSeatWestPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = WEST; listener?.onSeatClick(WEST) } }
-        ivTableSeatNorthSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = NORTH; listener?.onSeatClick(NORTH) } }
-        tvTableSeatNorthName?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = NORTH; listener?.onSeatClick(NORTH) } }
-        tvTableSeatNorthPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = NORTH; listener?.onSeatClick(NORTH) } }
-        tvTableSeatNorthPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) { selectedPlayer = NORTH; listener?.onSeatClick(NORTH) } }
+        ivTableSeatEastSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
+        tvTableSeatEastName?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
+        tvTableSeatEastPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
+        tvTableSeatEastPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
+        ivTableSeatSouthSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
+        tvTableSeatSouthName?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
+        tvTableSeatSouthPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
+        tvTableSeatSouthPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
+        ivTableSeatWestSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
+        tvTableSeatWestName?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
+        tvTableSeatWestPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
+        tvTableSeatWestPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
+        ivTableSeatNorthSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
+        tvTableSeatNorthName?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
+        tvTableSeatNorthPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
+        tvTableSeatNorthPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
     }
 }

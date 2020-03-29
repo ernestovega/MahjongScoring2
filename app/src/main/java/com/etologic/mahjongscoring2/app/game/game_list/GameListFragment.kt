@@ -37,10 +37,10 @@ class GameListFragment : BaseGameFragment() {
     }
     
     private fun initViewModel() {
-        activityViewModel?.getCurrentTable()?.observe(viewLifecycleOwner, Observer(this::gameObserver))
+        activityViewModel?.getCurrentTable()?.observe(viewLifecycleOwner, Observer(this::tableObserver))
     }
     
-    private fun gameObserver(table: Table) {
+    private fun tableObserver(table: Table) {
         roundsListObserver(table.getEndedRoundsWithBestHand())
         namesObserver(table.game.getPlayersNames())
         totalsObserver(table.getPlayersTotalPointsString())

@@ -10,7 +10,7 @@ import io.reactivex.Single
 interface GameWithRoundsDao {
     
     @Transaction
-    @Query("SELECT * from Games")
+    @Query("SELECT * from Games ORDER BY startDate DESC")
     fun getAllGamesWithRounds(): Single<List<Table>>
     
     @Transaction

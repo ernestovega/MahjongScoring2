@@ -30,10 +30,11 @@ object RankingTableHelper {
                 table.rounds
             )
         val bestHands =
-            getBestHands(table.rounds)
+            getBestHands(table)
         return RankingData(
             sortedPlayersRankings,
             if (bestHands.isEmpty()) "-" else bestHands[0].handValue.toString(),
+            if (bestHands.isEmpty()) "-" else bestHands[0].playerName,
             table.rounds.size,
             table.rounds.size.toString(),
             DateTimeUtils.getPrettyDuration(table.rounds)
@@ -130,13 +131,14 @@ object RankingTableHelper {
         return sorteredByScorePlayersRankings
     }
     
-    private fun getBestHands(rounds: List<Round>): List<BestHand> {
+    private fun getBestHands(table: Table): List<BestHand> {
         val bestHands = ArrayList<BestHand>()
-        for (round in rounds) {
+        for (round in table.rounds) {
             val roundHandPoints = round.handPoints
             val bestHand = BestHand()
             bestHand.handValue = roundHandPoints
             bestHand.playerInitialPosition = round.winnerInitialSeat
+            bestHand.playerName = table.game.getPlayerNameByInitialPosition(bestHand.playerInitialPosition)
             if (bestHands.isEmpty() || roundHandPoints == bestHands[0].handValue) {
                 bestHands.add(bestHand)
             } else if (roundHandPoints > bestHands[0].handValue) {

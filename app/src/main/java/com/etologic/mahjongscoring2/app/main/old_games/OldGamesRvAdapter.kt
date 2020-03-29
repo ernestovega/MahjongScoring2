@@ -41,7 +41,7 @@ internal class OldGamesRvAdapter
     }
     
     fun setGames(newGames: List<Table>) {
-        val result = DiffUtil.calculateDiff(GameItemDiffUtilCallback(newGames, games), true)
+        val result = DiffUtil.calculateDiff(GameItemDiffUtilCallback(newGames, games), false)
         saveNewGamesCopy(newGames)
         result.dispatchUpdatesTo(this)
     }

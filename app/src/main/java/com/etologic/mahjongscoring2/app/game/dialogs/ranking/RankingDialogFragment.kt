@@ -66,6 +66,7 @@ internal class RankingDialogFragment : BaseGameDialogFragment() {
         tvRankingDialogPlayer4Score?.text = playerFourth.score
         
         tvRankingDialogBestHandPlayerPoints?.text = rankingData.bestHandPlayerPoints
+        tvRankingDialogBestHandPlayerName?.text = rankingData.bestHandPlayerName
         
         tvRankingDialogNumRounds?.text = rankingData.sNumRounds
     }

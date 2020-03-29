@@ -60,7 +60,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
         initResources()
         initTableSeats()
         setOnClickListeners()
-        startObservingGame()
+        startObservingTable()
         activityViewModel?.loadTable()
     }
     
@@ -83,8 +83,9 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
         fabGameTable?.setOnSecureClickListener { activityViewModel?.navigateTo(DICE) }
     }
     
-    private fun startObservingGame() {
+    private fun startObservingTable() {
         activityViewModel?.getCurrentTable()?.observe(viewLifecycleOwner, Observer(this::gameObserver))
+        activityViewModel?.getSelectedSeat()?.observe(viewLifecycleOwner, Observer(tableSeats::updateSeatState))
     }
     
     private fun gameObserver(it: Table) {

@@ -44,8 +44,13 @@ class GameActivityViewModel internal constructor(
     internal fun getDialogToShow(): LiveData<GameScreens> = _dialogToShow
     private val _currentTable = MutableLiveData<Table>()
     internal fun getCurrentTable(): LiveData<Table> = _currentTable
-    internal var selectedSeat: TableWinds = NONE
+    private var _selectedSeat = MutableLiveData<TableWinds>()
+    internal fun getSelectedSeat(): LiveData<TableWinds> = _selectedSeat
     internal var huPoints = 0
+    
+    init {
+        _selectedSeat.postValue(NONE)
+    }
     
     //METHODS
     internal fun loadTable() {
@@ -72,12 +77,12 @@ class GameActivityViewModel internal constructor(
     
     //SELECTED PLAYER/SEAT
     internal fun onSeatClicked(wind: TableWinds) {
-        selectedSeat = wind
+        _selectedSeat.postValue(wind)
         _dialogToShow.postValue(HAND_ACTION)
     }
     
     internal fun unselectedSelectedSeat() {
-        selectedSeat = NONE
+        _selectedSeat.postValue(NONE)
         _currentTable.postValue(_currentTable.value)
     }
     
@@ -123,7 +128,7 @@ class GameActivityViewModel internal constructor(
     
     internal fun saveRonRound(discarderCurrentSeat: TableWinds, huPoints: Int) {
         disposables.add(
-            gameActionsUseCase.discard(HuData(selectedSeat, discarderCurrentSeat, huPoints))
+            gameActionsUseCase.discard(HuData(_selectedSeat.value!!, discarderCurrentSeat, huPoints))
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess(_currentTable::postValue)
@@ -133,7 +138,7 @@ class GameActivityViewModel internal constructor(
     
     internal fun saveTsumoRound(huPoints: Int) {
         disposables.add(
-            gameActionsUseCase.selfpick(HuData(selectedSeat, huPoints))
+            gameActionsUseCase.selfpick(HuData(_selectedSeat.value!!, huPoints))
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess(_currentTable::postValue)
@@ -153,7 +158,7 @@ class GameActivityViewModel internal constructor(
     
     internal fun savePenalty(points: Int, isDivided: Boolean) {
         disposables.add(
-            penaltyUseCase.penalty(selectedSeat, points, isDivided)
+            penaltyUseCase.penalty(_selectedSeat.value!!, points, isDivided)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess(_currentTable::postValue)

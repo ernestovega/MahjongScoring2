@@ -31,7 +31,7 @@ internal class DiscarderDialogFragment : BaseGameDialogFragment() {
             cdsDiscarderConfirmDialog.initPlayers(
                 activityViewModel!!.getNamesByCurrentSeat(),
                 activityViewModel!!.huPoints,
-                activityViewModel!!.selectedSeat)
+                activityViewModel!!.getSelectedSeat().value!!)
         else
             dismiss()
     }

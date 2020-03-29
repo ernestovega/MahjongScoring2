@@ -59,8 +59,8 @@ class Table(@field:Embedded var game: Game) {
         when (roundId) {
             1, 2, 3, 4 -> EAST
             5, 6, 7, 8 -> SOUTH
-            9, 10, 11, 12 -> WEST
-            13, 14, 15, 16 -> NORTH
+            9, 10, 11, 12 -> NORTH
+            13, 14, 15, 16 -> WEST
             else -> EAST
         }
     
@@ -68,8 +68,8 @@ class Table(@field:Embedded var game: Game) {
         return when (roundId) {
             1, 2, 3, 4 -> SOUTH
             5, 6, 7, 8 -> EAST
-            9, 10, 11, 12 -> NORTH
-            13, 14, 15, 16 -> WEST
+            9, 10, 11, 12 -> WEST
+            13, 14, 15, 16 -> NORTH
             else -> SOUTH
         }
     }
@@ -78,8 +78,8 @@ class Table(@field:Embedded var game: Game) {
         return when (roundId) {
             1, 2, 3, 4 -> WEST
             5, 6, 7, 8 -> NORTH
-            9, 10, 11, 12 -> SOUTH
-            13, 14, 15, 16 -> EAST
+            9, 10, 11, 12 -> EAST
+            13, 14, 15, 16 -> SOUTH
             else -> WEST
         }
     }
@@ -88,8 +88,8 @@ class Table(@field:Embedded var game: Game) {
         return when (roundId) {
             1, 2, 3, 4 -> NORTH
             5, 6, 7, 8 -> WEST
-            9, 10, 11, 12 -> EAST
-            13, 14, 15, 16 -> SOUTH
+            9, 10, 11, 12 -> SOUTH
+            13, 14, 15, 16 -> EAST
             else -> NORTH
         }
     }
@@ -123,10 +123,10 @@ class Table(@field:Embedded var game: Game) {
                 round.isBestHand = isBestHandRound
             }
         }
-        if (rounds.last().isEnded) {
+        if (!rounds.last().isEnded) {
             val mutableRounds = rounds.toMutableList()
             mutableRounds.removeAt(rounds.size - 1)
-            rounds = mutableRounds
+            return mutableRounds
         }
         return rounds
     }

@@ -43,9 +43,8 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
             AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
                 .setTitle(R.string.cancel_penalties)
                 .setMessage(R.string.are_you_sure)
-                .setPositiveButton(android.R.string.ok) { _, _ -> activityViewModel?.cancelPenalties() }
+                .setPositiveButton(R.string.ok) { _, _ -> activityViewModel?.cancelPenalties(); this.dismiss() }
                 .setNegativeButton(R.string.close, null)
-                .setOnDismissListener { this.dismiss() }
                 .create()
                 .show()
         }
