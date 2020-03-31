@@ -51,8 +51,8 @@ constructor(
     
     internal fun end(): Single<Table> =
         currentGameRepository.get()
-            .flatMap { currentGameWithRounds ->
-                val currentRound = currentGameWithRounds.rounds.last()
+            .flatMap { table ->
+                val currentRound = table.rounds.last()
             
                 currentRound.endRound()
     
@@ -63,13 +63,24 @@ constructor(
     
     internal fun resume(): Single<Table> =
         currentGameRepository.get()
-            .flatMap { currentGameWithRounds ->
-                val currentRound = currentGameWithRounds.rounds.last()
+            .flatMap { table ->
+                val currentRound = table.rounds.last()
             
                 currentRound.resumeRound()
             
                 roundsRepository.updateOne(currentRound)
                     .flatMap { gamesRepository.getOneWithRounds(currentRound.gameId) }
+                    .doOnSuccess { currentGameRepository.set(it) }
+            }
+    
+    internal fun removeRound(roundId: Int): Single<Table> =
+        currentGameRepository.get()
+            .flatMap { table ->
+                roundsRepository.deleteOne(table.game.gameId, roundId)
+                    .flatMap { gamesRepository.getOneWithRounds(table.game.gameId) }
+                    .map { table.resetTotals() }
+                    .map { table2 -> table2.rounds.forEach { roundsRepository.updateOne(it).blockingGet() } }
+                    .flatMap { gamesRepository.getOneWithRounds(table.game.gameId) }
                     .doOnSuccess { currentGameRepository.set(it) }
             }
 }

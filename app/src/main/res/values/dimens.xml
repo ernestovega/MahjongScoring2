@@ -8,6 +8,7 @@
     <dimen name="standard_and_half_margin">24dp</dimen>
     <dimen name="double_standard_margin_minus_two">30dp</dimen>
     <dimen name="double_standard_margin">32dp</dimen>
+    <dimen name="double_and_half_standard_margin">40dp</dimen>
     <dimen name="triple_standard_margin">48dp</dimen>
     <dimen name="quadruple_standard_margin">64dp</dimen>
     <dimen name="quintuple_margin">80dp</dimen>

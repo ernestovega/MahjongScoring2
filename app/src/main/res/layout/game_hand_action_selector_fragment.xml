@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:id="@+id/btHandActionsDialogPenaltiesCancel"
-        style="@style/buttonHandAction"
+        style="@style/ButtonHandAction"
         android:background="@drawable/button_rounded_corners_purple"
         android:visibility="gone"
         android:padding="@dimen/half_standard_margin"
@@ -38,7 +38,7 @@
 
     <LinearLayout
         android:id="@+id/btHandActionsDialogPenalty"
-        style="@style/buttonHandAction"
+        style="@style/ButtonHandAction"
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
@@ -61,8 +61,32 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/btHandActionsDialogDraw"
+        style="@style/ButtonHandAction"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_flag_white"
+            android:layout_marginBottom="@dimen/half_standard_margin" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="@string/draw"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/btHandActionsDialogHu"
-        style="@style/buttonHandAction"
+        style="@style/ButtonHandAction"
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
@@ -81,30 +105,6 @@
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:layout_marginBottom="@dimen/quarter_standard_margin"
-            android:textSize="21sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/btHandActionsDialogDraw"
-        style="@style/buttonHandAction"
-        tools:ignore="UseCompoundDrawables">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_flag_white"
-            android:layout_marginBottom="@dimen/half_standard_margin" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:text="@string/draw"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
             android:textSize="21sp"
             android:textStyle="bold" />
 

@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.layout
 import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment
+import com.etologic.mahjongscoring2.app.game.game_list.GameListRvAdapter.GameListItemListener
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import kotlinx.android.synthetic.main.game_list_fragment.*
@@ -34,6 +37,20 @@ class GameListFragment : BaseGameFragment() {
         val layoutManager = LinearLayoutManager(context)
         view.rvGameList?.layoutManager = layoutManager
         view.rvGameList?.adapter = rvAdapter
+        rvAdapter.setItemListener(object: GameListItemListener {
+            override fun onMenuClick(view: View, roundId: Int) {
+                val popup = PopupMenu(context!!, view)
+                popup.menuInflater.inflate(R.menu.game_list_item_menu, popup.menu)
+                popup.setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.game_list_item_menu_remove -> { activityViewModel?.removeRound(roundId) }
+                        R.id.game_list_item_menu_edit -> { activityViewModel?.editRound(roundId) }
+                    }
+                    true
+                }
+                popup.show()
+            }
+        })
     }
     
     private fun initViewModel() {

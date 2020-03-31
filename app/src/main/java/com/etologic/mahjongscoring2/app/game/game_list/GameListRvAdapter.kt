@@ -6,6 +6,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -23,11 +24,20 @@ import javax.inject.Inject
 internal class GameListRvAdapter
 @Inject constructor() : BaseRvAdapter<Round>() {
     
+    internal interface GameListItemListener {
+        fun onMenuClick(view: View, roundId: Int)
+    }
+    
     //Fields
     private var greenMM: Int? = null
     private var grayMM: Int? = null
     private var red: Int? = null
     private var accent: Int? = null
+    private var itemListener: GameListItemListener? = null
+    
+    internal fun setItemListener(listener: GameListItemListener) {
+        itemListener = listener
+    }
     
     //Lifecycle
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -46,27 +56,25 @@ internal class GameListRvAdapter
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val round = collection[position]
         val myHolder = holder as ItemViewHolder
-        holder.round = round
         fillTexts(round, myHolder)
         setWinnerColor(round, myHolder)
         setLooserColor(round, myHolder)
         setPenaltiesIcons(round, myHolder)
-        holder.llTotalsContainer.visibility = if(round.isExpanded) VISIBLE else GONE
-        
+        holder.llContainer.setOnSecureClickListener { itemListener?.onMenuClick(holder.tvRoundNum, round.roundId) }
     }
     
     private fun fillTexts(item: Round, mHolder: ItemViewHolder) {
         mHolder.tvRoundNum.text = item.roundId.toString()
         mHolder.tvHandPoints.text = item.handPoints.toString()
         (if (item.isBestHand) accent else grayMM)?.let { mHolder.tvHandPoints.setTextColor(it) }
-        mHolder.tvPointsP1.text = item.pointsP1.toString()
-        mHolder.tvPointsP2.text = item.pointsP2.toString()
-        mHolder.tvPointsP3.text = item.pointsP3.toString()
-        mHolder.tvPointsP4.text = item.pointsP4.toString()
-        mHolder.tvTotalPointsP1.text = item.totalPointsP1.toString()
-        mHolder.tvTotalPointsP2.text = item.totalPointsP2.toString()
-        mHolder.tvTotalPointsP3.text = item.totalPointsP3.toString()
-        mHolder.tvTotalPointsP4.text = item.totalPointsP4.toString()
+        mHolder.tvPointsP1.text = String.format("%+d", item.pointsP1)
+        mHolder.tvPointsP2.text = String.format("%+d", item.pointsP2)
+        mHolder.tvPointsP3.text = String.format("%+d", item.pointsP3)
+        mHolder.tvPointsP4.text = String.format("%+d", item.pointsP4)
+        mHolder.tvTotalPointsP1.text = String.format("%+d", item.totalPointsP1)
+        mHolder.tvTotalPointsP2.text = String.format("%+d", item.totalPointsP2)
+        mHolder.tvTotalPointsP3.text = String.format("%+d", item.totalPointsP3)
+        mHolder.tvTotalPointsP4.text = String.format("%+d", item.totalPointsP4)
     }
     
     private fun setWinnerColor(item: Round, mHolder: ItemViewHolder) {
@@ -83,7 +91,8 @@ internal class GameListRvAdapter
                 SOUTH -> mHolder.tvPointsP2.setTextColor(it)
                 WEST -> mHolder.tvPointsP3.setTextColor(it)
                 NORTH -> mHolder.tvPointsP4.setTextColor(it)
-                else -> {}
+                else -> {
+                }
             }
         }
     }
@@ -97,7 +106,7 @@ internal class GameListRvAdapter
     
     //VIEWHOLDER
     internal inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        
+    
         var llContainer: LinearLayout = view.llGameListItemContainer
         var tvRoundNum: TextView = view.tvGameListItemRoundNumber
         var tvHandPoints: TextView = view.tvGameListItemHandPoints
@@ -109,19 +118,10 @@ internal class GameListRvAdapter
         var ivPenaltyP2: ImageView = view.ivGameListItemPenaltyIconP2
         var ivPenaltyP3: ImageView = view.ivGameListItemPenaltyIconP3
         var ivPenaltyP4: ImageView = view.ivGameListItemPenaltyIconP4
-        var llTotalsContainer: LinearLayout = view.llGameListItemRoundTotalsContainer
         var tvTotalPointsP1: TextView = view.tvGameListItemRoundTotalPointsP1
         var tvTotalPointsP2: TextView = view.tvGameListItemRoundTotalPointsP2
         var tvTotalPointsP3: TextView = view.tvGameListItemRoundTotalPointsP3
         var tvTotalPointsP4: TextView = view.tvGameListItemRoundTotalPointsP4
-        lateinit var round: Round
-        
-        init {
-            llContainer.setOnSecureClickListener {
-                round.isExpanded = !round.isExpanded
-                notifyDataSetChanged()
-            }
-        }
     }
     
 }

@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/tvTableSeatNorthPoints"
-        style="@style/tvTableSeat"
+        style="@style/TextViewTableSeat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivTableSeatNorthSeatWindIcon"
@@ -43,7 +43,7 @@
 
     <TextView
         android:id="@+id/tvTableSeatNorthName"
-        style="@style/tvTableSeat"
+        style="@style/TextViewTableSeat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTableSeatNorthPoints"

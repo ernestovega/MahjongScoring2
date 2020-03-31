@@ -39,17 +39,17 @@
 
         <Button
             android:id="@+id/btCustomNumPad1"
-            style="@style/buttonNumPad"
+            style="@style/ButtonNumPad"
             android:text="@string/one" />
 
         <Button
             android:id="@+id/btCustomNumPad2"
-            style="@style/buttonNumPad"
+            style="@style/ButtonNumPad"
             android:text="@string/two" />
 
         <Button
             android:id="@+id/btCustomNumPad3"
-            style="@style/buttonNumPad"
+            style="@style/ButtonNumPad"
             android:text="@string/three" />
 
     </LinearLayout>
@@ -62,17 +62,17 @@
 
         <Button
             android:id="@+id/btCustomNumPad4"
-            style="@style/buttonNumPad"
+            style="@style/ButtonNumPad"
             android:text="@string/four" />
 
         <Button
             android:id="@+id/btCustomNumPad5"
-            style="@style/buttonNumPad"
+            style="@style/ButtonNumPad"
             android:text="@string/five" />
 
         <Button
             android:id="@+id/btCustomNumPad6"
-            style="@style/buttonNumPad"
+            style="@style/ButtonNumPad"
             android:text="@string/six" />
 
     </LinearLayout>
@@ -85,17 +85,17 @@
 
         <Button
             android:id="@+id/btCustomNumPad7"
-            style="@style/buttonNumPad"
+            style="@style/ButtonNumPad"
             android:text="@string/seven" />
 
         <Button
             android:id="@+id/btCustomNumPad8"
-            style="@style/buttonNumPad"
+            style="@style/ButtonNumPad"
             android:text="@string/eight" />
 
         <Button
             android:id="@+id/btCustomNumPad9"
-            style="@style/buttonNumPad"
+            style="@style/ButtonNumPad"
             android:text="@string/nine" />
 
     </LinearLayout>
@@ -108,19 +108,19 @@
 
         <ImageButton
             android:id="@+id/ibCustomNumPadBackspace"
-            style="@style/buttonNumPad"
+            style="@style/ButtonNumPad"
             android:padding="@dimen/quarter_standard_margin"
             android:contentDescription="@string/backspace"
             android:src="@drawable/ic_backspace_white_24dp" />
 
         <Button
             android:id="@+id/btCustomNumPad0"
-            style="@style/buttonNumPad"
+            style="@style/ButtonNumPad"
             android:text="@string/zero" />
 
         <ImageButton
             android:id="@+id/ibCustomNumPadDelete"
-            style="@style/buttonNumPad"
+            style="@style/ButtonNumPad"
             android:layout_height="match_parent"
             android:contentDescription="@string/clear"
             android:src="@drawable/ic_clear_white_24dp"

@@ -95,7 +95,7 @@ class GameActivityViewModel internal constructor(
         _dialogToShow.postValue(gameScreens)
     }
     
-    //OPERATIONS
+    //GAME OPERATIONS
     internal fun resumeGame() {
         disposables.add(
             gameActionsUseCase.resume()
@@ -126,6 +126,7 @@ class GameActivityViewModel internal constructor(
         )
     }
     
+    //ROUND OPERATIONS
     internal fun saveRonRound(discarderCurrentSeat: TableWinds, huPoints: Int) {
         disposables.add(
             gameActionsUseCase.discard(HuData(_selectedSeat.value!!, discarderCurrentSeat, huPoints))
@@ -176,6 +177,21 @@ class GameActivityViewModel internal constructor(
         )
     }
     
+    internal fun removeRound(roundId: Int) {
+        disposables.add(
+            gameActionsUseCase.removeRound(roundId)
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe { progressState.postValue(SHOW) }
+                .doOnSuccess(_currentTable::postValue)
+                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+        )
+    }
+    
+    internal fun editRound(roundId: Int) {
+    
+    }
+    
+    //QUERYS
     internal fun loadRankingData() =
         getCurrentGameUseCase.getCurrentGameWithRounds()
             .subscribeOn(Schedulers.io())

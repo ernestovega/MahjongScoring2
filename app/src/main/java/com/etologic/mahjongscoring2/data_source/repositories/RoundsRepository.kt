@@ -12,31 +12,31 @@ class RoundsRepository
     
     @Inject lateinit var roundsDao: RoundsDao
     
-    fun insertOne(round: Round) =
+    internal fun insertOne(round: Round) =
         roundsDao.insertOne(round)
     
-    fun getOne(gameId: Long, roundId: Long) =
+    internal fun getOne(gameId: Long, roundId: Int) =
         roundsDao.getOne(gameId, roundId)
     
-    fun getAll() =
+    internal fun getAll() =
         roundsDao.getAll()
     
-    fun getRoundsByGame(gameId: Long) =
+    internal fun getRoundsByGame(gameId: Long) =
         roundsDao.getAllByGame(gameId)
     
-    fun updateOne(round: Round) =
+    internal fun updateOne(round: Round) =
         roundsDao.updateOne(round)
             .map { it == 1 }
     
-    fun deleteOne(gameId: Long, roundId: Long) =
+    internal fun deleteOne(gameId: Long, roundId: Int) =
         roundsDao.deleteOne(gameId, roundId)
             .map { it == 1 }
     
-    fun deleteByGame(gameId: Long): Single<Boolean> =
+    internal fun deleteByGame(gameId: Long): Single<Boolean> =
         roundsDao.deleteByGame(gameId)
             .map { it >= 0 }
     
-    fun deleteAll() =
+    internal fun deleteAll() =
         roundsDao.deleteAll()
             .map { it != 0 }
 }

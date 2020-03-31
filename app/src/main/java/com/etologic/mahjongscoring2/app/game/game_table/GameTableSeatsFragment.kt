@@ -115,7 +115,7 @@ class GameTableSeatsFragment : Fragment() {
         tvTableSeatNorthPoints.text = points[NORTH.code]
     }
     
-    private fun setPenalties(penalties: Array<Int>) {
+    private fun setPenalties(penalties: IntArray) {
         setPenaltyPoints(tvTableSeatEastPenaltyPoints, penalties[EAST.code])
         setPenaltyPoints(tvTableSeatSouthPenaltyPoints, penalties[SOUTH.code])
         setPenaltyPoints(tvTableSeatWestPenaltyPoints, penalties[WEST.code])

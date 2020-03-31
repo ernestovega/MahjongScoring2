@@ -17,20 +17,20 @@ class GamesRepository
     @Inject lateinit var roundsDao: RoundsDao
     @Inject lateinit var gameWithRoundsDao: GameWithRoundsDao
     
-    fun insertOne(game: Game): Single<Long> =
+    internal fun insertOne(game: Game): Single<Long> =
         gamesDao.insertOne(game)
     
-    fun updateOne(game: Game): Single<Boolean> =
+    internal fun updateOne(game: Game): Single<Boolean> =
         gamesDao.updateOne(game)
             .map { it == 1 }
     
-    fun deleteOne(gameId: Long): Single<Boolean> =
+    internal fun deleteOne(gameId: Long): Single<Boolean> =
         gamesDao.deleteOne(gameId)
             .map { it == 1 }
     
-    fun getOneWithRounds(gameId: Long): Single<Table> =
+    internal fun getOneWithRounds(gameId: Long): Single<Table> =
         gameWithRoundsDao.getGameWithRoundsOrderedByDateDesc(gameId)
     
-    fun getAllWithRounds(): Single<List<Table>> =
+    internal fun getAllWithRounds(): Single<List<Table>> =
         gameWithRoundsDao.getAllGamesWithRounds()
 }

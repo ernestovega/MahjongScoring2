@@ -31,9 +31,9 @@ class Table(@field:Embedded var game: Game) {
         return namesListByCurrentSeat
     }
     
-    private fun getPlayersTotalPointsByCurrentSeat(): Array<Int> {
+    private fun getPlayersTotalPointsByCurrentSeat(): IntArray {
         val points = getPlayersTotalPoints()
-        val pointsByCurrentSeat = arrayOf(0, 0, 0, 0)
+        val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
         val roundId = rounds.last().roundId
         pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(roundId).code] = points[EAST.code]
         pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(roundId).code] = points[SOUTH.code]
@@ -45,8 +45,8 @@ class Table(@field:Embedded var game: Game) {
     internal fun getPlayersTotalPointsStringByCurrentSeat(): List<String> =
         getPlayersTotalPointsByCurrentSeat().map { String.format(Locale.getDefault(), "%d", it) }
     
-    internal fun getPlayersPenaltiesByCurrentSeat(): Array<Int> {
-        val pointsByCurrentSeat = arrayOf(0, 0, 0, 0)
+    internal fun getPlayersPenaltiesByCurrentSeat(): IntArray {
+        val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
         val currentRound = rounds.last()
         val roundId = currentRound.roundId
         pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(roundId).code] = currentRound.penaltyP1
@@ -105,13 +105,13 @@ class Table(@field:Embedded var game: Game) {
         )
     }
     
-    private fun getPlayersTotalPoints(): IntArray {
+    internal fun getPlayersTotalPoints(): IntArray {
         val points = intArrayOf(0, 0, 0, 0)
-        for (round in rounds) {
-            points[EAST.code] += round.pointsP1
-            points[SOUTH.code] += round.pointsP2
-            points[WEST.code] += round.pointsP3
-            points[NORTH.code] += round.pointsP4
+        rounds.forEach {
+            points[EAST.code] += it.pointsP1
+            points[SOUTH.code] += it.pointsP2
+            points[WEST.code] += it.pointsP3
+            points[NORTH.code] += it.pointsP4
         }
         return points
     }
@@ -149,47 +149,13 @@ class Table(@field:Embedded var game: Game) {
         return gameDuration
     }
     
-    internal fun getTotalScoreP1(rounds: List<Round>): Int {
-        var totalPoints = 0
-        for (round in rounds) totalPoints += round.pointsP1
-        return totalPoints
-    }
-    
-    internal fun getTotalScoreP2(rounds: List<Round>): Int {
-        var totalPoints = 0
-        for (round in rounds) totalPoints += round.pointsP2
-        return totalPoints
-    }
-    
-    internal fun getTotalScoreP3(rounds: List<Round>): Int {
-        var totalPoints = 0
-        for (round in rounds) totalPoints += round.pointsP3
-        return totalPoints
-    }
-    
-    internal fun getTotalScoreP4(rounds: List<Round>): Int {
-        var totalPoints = 0
-        for (round in rounds) totalPoints += round.pointsP4
-        return totalPoints
-    }
-    
     internal fun getPlayerInitialSeatByCurrentSeat(currentSeatPosition: TableWinds, roundId: Int): TableWinds {
         return when (roundId) {
-            1, 2, 3, 4 -> getPlayerInitialPositionBySeatInRoundEast(
-                currentSeatPosition
-            )
-            5, 6, 7, 8 -> getPlayerInitialPositionBySeatInRoundSouth(
-                currentSeatPosition
-            )
-            9, 10, 11, 12 -> getPlayerInitialPositionBySeatInRoundWest(
-                currentSeatPosition
-            )
-            13, 14, 15, 16 -> getPlayerInitialPositionBySeatInRoundNorth(
-                currentSeatPosition
-            )
-            else -> getPlayerInitialPositionBySeatInRoundNorth(
-                currentSeatPosition
-            )
+            1, 2, 3, 4 -> getPlayerInitialPositionBySeatInRoundEast(currentSeatPosition)
+            5, 6, 7, 8 -> getPlayerInitialPositionBySeatInRoundSouth(currentSeatPosition)
+            9, 10, 11, 12 -> getPlayerInitialPositionBySeatInRoundWest(currentSeatPosition)
+            13, 14, 15, 16 -> getPlayerInitialPositionBySeatInRoundNorth(currentSeatPosition)
+            else -> getPlayerInitialPositionBySeatInRoundNorth(currentSeatPosition)
         }
     }
     
@@ -233,14 +199,15 @@ class Table(@field:Embedded var game: Game) {
         }
     }
     
-    internal fun getSeatsCurrentWind(roundId: Int): Array<TableWinds> =
-        when (roundId) {
+    internal fun getSeatsCurrentWind(roundId: Int): Array<TableWinds> {
+        return when (roundId) {
             1, 5, 9, 13 -> arrayOf(EAST, SOUTH, WEST, NORTH)
             2, 6, 10, 14 -> arrayOf(NORTH, EAST, SOUTH, WEST)
             3, 7, 11, 15 -> arrayOf(WEST, NORTH, EAST, SOUTH)
             4, 8, 12, 16 -> arrayOf(SOUTH, WEST, NORTH, EAST)
             else -> arrayOf()
         }
+}
     
     internal fun finishCurrentRoundByHuDiscard(huData: HuData): Table {
         val currentRound = rounds.last()
@@ -270,22 +237,46 @@ class Table(@field:Embedded var game: Game) {
         return this
     }
     
+    internal fun resetTotals(): Table {
+        rounds.forEachIndexed { index, round ->
+            if(round.isEnded) {
+                val newRoundTotals = getTotalPointsUntilRound(index)
+                round.totalPointsP1 = newRoundTotals[0]
+                round.totalPointsP2 = newRoundTotals[1]
+                round.totalPointsP3 = newRoundTotals[2]
+                round.totalPointsP4 = newRoundTotals[3]
+            }
+        }
+        return this
+    }
+    
+    private fun getTotalPointsUntilRound(index: Int): IntArray {
+        val totalPoints = intArrayOf(0,0,0,0)
+        for (i in 0..index) {
+            totalPoints[0]+= rounds[i].pointsP1
+            totalPoints[1]+= rounds[i].pointsP2
+            totalPoints[2]+= rounds[i].pointsP3
+            totalPoints[3]+= rounds[i].pointsP4
+        }
+        return totalPoints
+    }
+    
     internal companion object {
         
+        internal const val NUM_MCR_PLAYERS = 4
         internal const val MAX_MCR_ROUNDS = 16
         internal const val MIN_MCR_POINTS = 8
         internal const val MAX_MCR_POINTS = 9999
         internal const val NUM_NO_WINNER_PLAYERS = 3
-        internal const val NUM_DISCARD_NEUTRAL_PLAYERS = 2
         internal const val POINTS_DISCARD_NEUTRAL_PLAYERS = -8
         
-        internal fun getHuSelfpickWinnerPoints(huPoints: Int) = (huPoints + 8) * 3
+        internal fun getHuSelfpickWinnerPoints(huPoints: Int) = (huPoints + MIN_MCR_POINTS) * NUM_NO_WINNER_PLAYERS
         
-        internal fun getHuSelfpickDiscarderPoints(huPoints: Int) = -(huPoints + 8)
+        internal fun getHuSelfpickDiscarderPoints(huPoints: Int) = -(huPoints + MIN_MCR_POINTS)
         
-        internal fun getHuDiscardWinnerPoints(huPoints: Int) = huPoints + (8 * 3)
+        internal fun getHuDiscardWinnerPoints(huPoints: Int) = huPoints + (MIN_MCR_POINTS * NUM_NO_WINNER_PLAYERS)
         
-        internal fun getHuDiscardDiscarderPoints(huPoints: Int) = -(huPoints + 8)
+        internal fun getHuDiscardDiscarderPoints(huPoints: Int) = -(huPoints + MIN_MCR_POINTS)
         
         internal fun getPenaltyOtherPlayersPoints(penaltyPoints: Int) = penaltyPoints / NUM_NO_WINNER_PLAYERS
     }

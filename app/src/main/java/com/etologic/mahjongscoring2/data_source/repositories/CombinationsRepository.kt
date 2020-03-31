@@ -17,22 +17,22 @@ class CombinationsRepository
     @Inject
     lateinit var combinationsDao: CombinationsDao
     
-    fun getAll(): Single<List<Combination>> {
+    internal fun getAll(): Single<List<Combination>> {
         return combinationsDao.getAll()
             .flatMap {
                 if (it.isEmpty()) {
-                    combinationsDao.bulkInsert(hardcodedCombinations())
+                    combinationsDao.bulkInsert(getHardcodedCombinations())
                     getAll()
                 } else
                     Single.just(it)
             }
     }
     
-    fun getFiltered(filter: String): Single<List<Combination>> {
+    internal fun getFiltered(filter: String): Single<List<Combination>> {
         return combinationsDao.getFiltered(String.format("%%%s%%", filter))
     }
     
-    private fun hardcodedCombinations(): List<Combination> {
+    private fun getHardcodedCombinations(): List<Combination> {
         val combinations = ArrayList<Combination>()
         combinations.add(Combination(
                 1,

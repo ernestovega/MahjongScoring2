@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:id="@+id/llGameListHeader"
@@ -17,28 +18,28 @@
         <TextView
             android:layout_width="@dimen/standard_margin"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/standard_margin"
             android:gravity="center"
+            android:layout_marginEnd="@dimen/half_standard_margin"
             android:lines="1"
             android:text="@string/number_symbol"
             android:textColor="@android:color/white" />
 
         <TextView
-            android:layout_width="@dimen/triple_standard_margin"
+            android:layout_width="@dimen/double_standard_margin"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/half_standard_margin"
             android:gravity="center"
-            android:text="@string/points"
+            android:text="@string/pts"
             android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/tvGameListHeaderNameP1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/half_standard_margin"
             android:layout_weight="1"
             android:gravity="center"
-            android:lines="1"
+            android:lines="2"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -46,10 +47,10 @@
             android:id="@+id/tvGameListHeaderNameP2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/half_standard_margin"
             android:layout_weight="1"
             android:gravity="center"
-            android:lines="1"
+            android:lines="2"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -57,10 +58,10 @@
             android:id="@+id/tvGameListHeaderNameP3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/half_standard_margin"
             android:layout_weight="1"
             android:gravity="center"
-            android:lines="1"
+            android:lines="2"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -70,7 +71,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:lines="1"
+            android:lines="2"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -90,7 +91,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/llGameListFooter"
         android:layout_below="@+id/llGameListHeader"
-        android:background="@android:color/white" />
+        android:background="@android:color/white"
+        tools:listitem="@layout/game_list_round_item" />
 
     <LinearLayout
         android:id="@+id/llGameListFooter"

@@ -1,15 +1,15 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
     <style name="AppTheme.BrandedLaunch" parent="AppTheme">
         <item name="android:windowBackground">@drawable/layer_mm_logo</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="RippleEffect" parent="AppTheme">
+        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
     </style>
 
     <style name="AlertDialogStyleMM" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -18,14 +18,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="trRankingDialog" parent="AppTheme">
+    <style name="TableRowRankingDialog" parent="AppTheme">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:weightSum">12</item>
         <item name="android:layout_margin">@dimen/half_standard_margin</item>
     </style>
 
-    <style name="tvRankingDialogTableContent" parent="AppTheme">
+    <style name="TextViewRankingDialogTableContent" parent="AppTheme">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/grayMM</item>
@@ -43,17 +43,14 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="tvTableSeat" parent="AppTheme">
+    <style name="TextViewTableSeat" parent="AppTheme">
         <item name="android:textColor">@color/grayMM</item>
         <item name="android:textStyle">bold</item>
         <item name="android:lines">1</item>
         <item name="android:includeFontPadding">true</item>
     </style>
 
-    <style name="buttonHandAction" parent="AppTheme">
-        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
+    <style name="ButtonHandAction" parent="RippleEffect">
         <item name="android:elevation">8dp</item>
         <item name="android:background">@drawable/button_rounded_corners_green</item>
         <item name="android:paddingTop">@dimen/standard_and_half_margin</item>
@@ -67,10 +64,7 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="buttonNumPad">
-        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
+    <style name="ButtonNumPad" parent="RippleEffect">
         <item name="android:elevation">4dp</item>
         <item name="android:backgroundTint">@color/colorPrimary</item>
         <item name="android:layout_width">64dp</item>
@@ -78,6 +72,14 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextViewGameListItemTotal">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:lines">1</item>
     </style>
 
 </resources>

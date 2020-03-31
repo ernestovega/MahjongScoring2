@@ -13,7 +13,7 @@
         android:orientation="horizontal"
         android:padding="20dp">
 
-        <TableRow style="@style/trRankingDialog">
+        <TableRow style="@style/TableRowRankingDialog">
 
             <TextView
                 android:layout_marginBottom="@dimen/half_standard_margin"
@@ -25,11 +25,11 @@
 
         </TableRow>
 
-        <TableRow style="@style/trRankingDialog">
+        <TableRow style="@style/TableRowRankingDialog">
 
             <TextView
                 android:id="@+id/tvRankingDialogPlayer1Name"
-                style="@style/tvRankingDialogTableContent"
+                style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="7"
                 android:text="Player 1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -37,7 +37,7 @@
 
             <TextView
                 android:id="@+id/tvRankingDialogPlayer1Points"
-                style="@style/tvRankingDialogTableContent"
+                style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="2"
                 android:text="4"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -45,17 +45,17 @@
 
             <TextView
                 android:id="@+id/tvRankingDialogPlayer1Score"
-                style="@style/tvRankingDialogTableContent"
+                style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="3"
                 android:text="200"
                 tools:ignore="HardcodedText" />
         </TableRow>
 
-        <TableRow style="@style/trRankingDialog">
+        <TableRow style="@style/TableRowRankingDialog">
 
             <TextView
                 android:id="@+id/tvRankingDialogPlayer2Name"
-                style="@style/tvRankingDialogTableContent"
+                style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="7"
                 android:text="Player 2"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -63,7 +63,7 @@
 
             <TextView
                 android:id="@+id/tvRankingDialogPlayer2Points"
-                style="@style/tvRankingDialogTableContent"
+                style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="2"
                 android:text="2"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -71,17 +71,17 @@
 
             <TextView
                 android:id="@+id/tvRankingDialogPlayer2Score"
-                style="@style/tvRankingDialogTableContent"
+                style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="3"
                 android:text="100"
                 tools:ignore="HardcodedText" />
         </TableRow>
 
-        <TableRow style="@style/trRankingDialog">
+        <TableRow style="@style/TableRowRankingDialog">
 
             <TextView
                 android:id="@+id/tvRankingDialogPlayer3Name"
-                style="@style/tvRankingDialogTableContent"
+                style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="7"
                 android:text="Player 3"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -89,7 +89,7 @@
 
             <TextView
                 android:id="@+id/tvRankingDialogPlayer3Points"
-                style="@style/tvRankingDialogTableContent"
+                style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="2"
                 android:text="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -97,17 +97,17 @@
 
             <TextView
                 android:id="@+id/tvRankingDialogPlayer3Score"
-                style="@style/tvRankingDialogTableContent"
+                style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="3"
                 android:text="-100"
                 tools:ignore="HardcodedText" />
         </TableRow>
 
-        <TableRow style="@style/trRankingDialog">
+        <TableRow style="@style/TableRowRankingDialog">
 
             <TextView
                 android:id="@+id/tvRankingDialogPlayer4Name"
-                style="@style/tvRankingDialogTableContent"
+                style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="7"
                 android:text="Player 4"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -115,7 +115,7 @@
 
             <TextView
                 android:id="@+id/tvRankingDialogPlayer4Points"
-                style="@style/tvRankingDialogTableContent"
+                style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="2"
                 android:text="0"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -123,14 +123,14 @@
 
             <TextView
                 android:id="@+id/tvRankingDialogPlayer4Score"
-                style="@style/tvRankingDialogTableContent"
+                style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="3"
                 android:text="-200"
                 tools:ignore="HardcodedText" />
 
         </TableRow>
 
-        <TableRow style="@style/trRankingDialog">
+        <TableRow style="@style/TableRowRankingDialog">
 
             <View
                 android:layout_width="0dp"
@@ -141,7 +141,7 @@
                 android:background="@color/grayLight" />
         </TableRow>
 
-        <TableRow style="@style/trRankingDialog">
+        <TableRow style="@style/TableRowRankingDialog">
 
             <View
                 style="@style/tvRankingDialogOthers"
@@ -167,7 +167,7 @@
 
         </TableRow>
 
-        <TableRow style="@style/trRankingDialog">
+        <TableRow style="@style/TableRowRankingDialog">
 
             <View
                 style="@style/tvRankingDialogOthers"

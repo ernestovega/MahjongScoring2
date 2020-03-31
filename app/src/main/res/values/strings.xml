@@ -192,5 +192,10 @@
     <string name="ok">OK</string>
     <string name="discarder">Discarder</string>
     <string name="cancel">Cancel</string>
+    <string name="options">Options</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
+    <string name="score">Score</string>
+    <string name="pts">Pts</string>
 
 </resources>
