@@ -23,7 +23,7 @@ class Table(@field:Embedded var game: Game) {
     
     internal fun getPlayersNamesByCurrentSeat(): Array<String> {
         val namesListByCurrentSeat = arrayOf("", "", "", "")
-        val roundId = rounds.last().roundId
+        val roundId = rounds.size
         namesListByCurrentSeat[getInitialEastPlayerCurrentSeat(roundId).code] = game.nameP1
         namesListByCurrentSeat[getInitialSouthPlayerCurrentSeat(roundId).code] = game.nameP2
         namesListByCurrentSeat[getInitialWestPlayerCurrentSeat(roundId).code] = game.nameP3
@@ -34,7 +34,7 @@ class Table(@field:Embedded var game: Game) {
     private fun getPlayersTotalPointsByCurrentSeat(): IntArray {
         val points = getPlayersTotalPoints()
         val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
-        val roundId = rounds.last().roundId
+        val roundId = rounds.size
         pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(roundId).code] = points[EAST.code]
         pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(roundId).code] = points[SOUTH.code]
         pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(roundId).code] = points[WEST.code]
@@ -48,7 +48,7 @@ class Table(@field:Embedded var game: Game) {
     internal fun getPlayersPenaltiesByCurrentSeat(): IntArray {
         val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
         val currentRound = rounds.last()
-        val roundId = currentRound.roundId
+        val roundId = rounds.size
         pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(roundId).code] = currentRound.penaltyP1
         pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(roundId).code] = currentRound.penaltyP2
         pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(roundId).code] = currentRound.penaltyP3
@@ -116,7 +116,13 @@ class Table(@field:Embedded var game: Game) {
         return points
     }
     
-    internal fun getEndedRoundsWithBestHand(): List<Round> {
+    internal fun getEndedRoundsWithBestHandAndTotals(): List<Round> {
+        setBestHand()
+        setTotals()
+        return getCopyWithoutLastRoundIfNotEnded()
+    }
+    
+    private fun setBestHand() {
         val bestHand = getBestHand()
         if (bestHand.handValue >= MIN_MCR_POINTS) {
             for (round in rounds) {
@@ -124,6 +130,32 @@ class Table(@field:Embedded var game: Game) {
                 round.isBestHand = isBestHandRound
             }
         }
+    }
+    
+    private fun setTotals() {
+        rounds.forEachIndexed { index, round ->
+            if(round.isEnded) {
+                val newRoundTotals = getTotalPointsUntilRound(index)
+                round.totalPointsP1 = newRoundTotals[0]
+                round.totalPointsP2 = newRoundTotals[1]
+                round.totalPointsP3 = newRoundTotals[2]
+                round.totalPointsP4 = newRoundTotals[3]
+            }
+        }
+    }
+    
+    private fun getTotalPointsUntilRound(index: Int): IntArray {
+        val totalPoints = intArrayOf(0,0,0,0)
+        for (i in 0..index) {
+            totalPoints[0]+= rounds[i].pointsP1
+            totalPoints[1]+= rounds[i].pointsP2
+            totalPoints[2]+= rounds[i].pointsP3
+            totalPoints[3]+= rounds[i].pointsP4
+        }
+        return totalPoints
+    }
+    
+    private fun getCopyWithoutLastRoundIfNotEnded(): List<Round> {
         if (!rounds.last().isEnded) {
             val mutableRounds = rounds.toMutableList()
             mutableRounds.removeAt(rounds.size - 1)
@@ -212,8 +244,8 @@ class Table(@field:Embedded var game: Game) {
     internal fun finishCurrentRoundByHuDiscard(huData: HuData): Table {
         val currentRound = rounds.last()
         currentRound.finishRoundByHuDiscard(
-            getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, currentRound.roundId),
-            getPlayerInitialSeatByCurrentSeat(huData.discarderCurrentSeat!!, currentRound.roundId),
+            getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, rounds.size),
+            getPlayerInitialSeatByCurrentSeat(huData.discarderCurrentSeat!!, rounds.size),
             huData.points
         )
         currentRound.setTotalsPoints(getPlayersTotalPoints())
@@ -223,7 +255,7 @@ class Table(@field:Embedded var game: Game) {
     internal fun finishCurrentRoundByHuSelfpick(huData: HuData): Table {
         val currentRound = rounds.last()
         currentRound.finishRoundByHuSelfpick(
-            getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, currentRound.roundId),
+            getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, rounds.size),
             huData.points
         )
         currentRound.setTotalsPoints(getPlayersTotalPoints())
@@ -235,30 +267,6 @@ class Table(@field:Embedded var game: Game) {
         currentRound.finishRoundByDraw()
         currentRound.setTotalsPoints(getPlayersTotalPoints())
         return this
-    }
-    
-    internal fun resetTotals(): Table {
-        rounds.forEachIndexed { index, round ->
-            if(round.isEnded) {
-                val newRoundTotals = getTotalPointsUntilRound(index)
-                round.totalPointsP1 = newRoundTotals[0]
-                round.totalPointsP2 = newRoundTotals[1]
-                round.totalPointsP3 = newRoundTotals[2]
-                round.totalPointsP4 = newRoundTotals[3]
-            }
-        }
-        return this
-    }
-    
-    private fun getTotalPointsUntilRound(index: Int): IntArray {
-        val totalPoints = intArrayOf(0,0,0,0)
-        for (i in 0..index) {
-            totalPoints[0]+= rounds[i].pointsP1
-            totalPoints[1]+= rounds[i].pointsP2
-            totalPoints[2]+= rounds[i].pointsP3
-            totalPoints[3]+= rounds[i].pointsP4
-        }
-        return totalPoints
     }
     
     internal companion object {

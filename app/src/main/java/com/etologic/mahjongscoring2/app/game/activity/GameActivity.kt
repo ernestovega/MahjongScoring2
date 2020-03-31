@@ -127,11 +127,11 @@ class GameActivity : BaseActivity() {
     
     private fun currentRoundObserver(currentTable: Table) {
         val currentRound = currentTable.rounds.last()
-        shouldBeShownResumeButton = if(currentRound.isEnded) currentRound.roundId < MAX_MCR_ROUNDS else false
+        shouldBeShownResumeButton = if(currentRound.isEnded) currentTable.rounds.size < MAX_MCR_ROUNDS else false
         shouldBeShownEndButton = !currentRound.isEnded
         resumeGameItem?.isVisible = shouldBeShownResumeButton
         endGameItem?.isVisible = shouldBeShownEndButton
-        if(currentRound.isEnded) viewModel?.navigateTo(RANKING)
+        if(currentRound.isEnded) viewModel.navigateTo(RANKING)
     }
     
     private fun setupViewPager() {

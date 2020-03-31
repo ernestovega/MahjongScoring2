@@ -34,7 +34,7 @@ internal class AppDataBaseModule {
     }
     
     @Provides
-    internal fun provideGameWithRoundsDao(dataBase: AppDatabase): GameWithRoundsDao {
-        return dataBase.gameWithRoundsDao
+    internal fun provideGameWithRoundsDao(dataBase: AppDatabase): TableDao {
+        return dataBase.tableDao
     }
 }

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -25,7 +24,7 @@ internal class GameListRvAdapter
 @Inject constructor() : BaseRvAdapter<Round>() {
     
     internal interface GameListItemListener {
-        fun onMenuClick(view: View, roundId: Int)
+        fun onClick(view: View, roundId: Int)
     }
     
     //Fields
@@ -56,15 +55,16 @@ internal class GameListRvAdapter
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val round = collection[position]
         val myHolder = holder as ItemViewHolder
-        fillTexts(round, myHolder)
+        val roundNum = position + 1
+        fillTexts(roundNum, round, myHolder)
         setWinnerColor(round, myHolder)
         setLooserColor(round, myHolder)
         setPenaltiesIcons(round, myHolder)
-        holder.llContainer.setOnSecureClickListener { itemListener?.onMenuClick(holder.tvRoundNum, round.roundId) }
+        holder.llContainer.setOnSecureClickListener { itemListener?.onClick(holder.tvRoundNum, round.roundId) }
     }
     
-    private fun fillTexts(item: Round, mHolder: ItemViewHolder) {
-        mHolder.tvRoundNum.text = item.roundId.toString()
+    private fun fillTexts(roundNum: Int, item: Round, mHolder: ItemViewHolder) {
+        mHolder.tvRoundNum.text = roundNum.toString()
         mHolder.tvHandPoints.text = item.handPoints.toString()
         (if (item.isBestHand) accent else grayMM)?.let { mHolder.tvHandPoints.setTextColor(it) }
         mHolder.tvPointsP1.text = String.format("%+d", item.pointsP1)

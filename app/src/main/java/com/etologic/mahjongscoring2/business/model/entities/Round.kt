@@ -11,57 +11,17 @@ import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getP
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.converters.TableWindsConverter
+import java.util.*
 
 @Entity(
     tableName = "Rounds",
-    primaryKeys = ["gameId", "roundId"],
     foreignKeys = [ForeignKey(entity = Game::class, parentColumns = ["gameId"], childColumns = ["gameId"])],
     indices = [Index(value = ["gameId", "roundId"], unique = true)]
 )
-class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
-    
-    companion object {
-        
-        fun areEqual(rounds1: List<Round>?, rounds2: List<Round>?): Boolean {
-            if (rounds1 == null && rounds2 == null)
-                return true
-            else if (rounds1 != null && rounds2 != null) {
-                if (rounds1.size != rounds2.size)
-                    return false
-                else {
-                    for (i in rounds1.indices) {
-                        if (!areEqual(rounds1[i], rounds2[i]))
-                            return false
-                    }
-                    return true
-                }
-            } else
-                return false
-        }
-        
-        private fun areEqual(round1: Round, round2: Round): Boolean {
-            return round1.gameId == round2.gameId &&
-                round1.roundId == round2.roundId &&
-                round1.handPoints == round2.handPoints &&
-                round1.winnerInitialSeat === round2.winnerInitialSeat &&
-                round1.discarderInitialSeat === round2.discarderInitialSeat &&
-                round1.pointsP1 == round2.pointsP1 &&
-                round1.pointsP2 == round2.pointsP2 &&
-                round1.pointsP3 == round2.pointsP3 &&
-                round1.pointsP4 == round2.pointsP4 &&
-                round1.totalPointsP1 == round2.totalPointsP1 &&
-                round1.totalPointsP2 == round2.totalPointsP2 &&
-                round1.totalPointsP3 == round2.totalPointsP3 &&
-                round1.totalPointsP4 == round2.totalPointsP4 &&
-                round1.penaltyP1 == round2.penaltyP1 &&
-                round1.penaltyP2 == round2.penaltyP2 &&
-                round1.penaltyP3 == round2.penaltyP3 &&
-                round1.penaltyP4 == round2.penaltyP4 &&
-                round1.roundDuration == round2.roundDuration &&
-                round1.isBestHand == round2.isBestHand &&
-                round1.isEnded == round2.isEnded
-        }
-    }
+class Round(
+    val gameId: Long,
+    @field:PrimaryKey(autoGenerate = true) val roundId: Int
+) : RecyclerViewable<Round>() {
     
     @TypeConverters(TableWindsConverter::class)
     var winnerInitialSeat = NONE
@@ -73,10 +33,10 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
     var pointsP2 = 0
     var pointsP3 = 0
     var pointsP4 = 0
-    var totalPointsP1 = 0
-    var totalPointsP2 = 0
-    var totalPointsP3 = 0
-    var totalPointsP4 = 0
+    @Ignore var totalPointsP1 = 0
+    @Ignore var totalPointsP2 = 0
+    @Ignore var totalPointsP3 = 0
+    @Ignore var totalPointsP4 = 0
     var penaltyP1 = 0
     var penaltyP2 = 0
     var penaltyP3 = 0
@@ -87,7 +47,7 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
     @Ignore
     var isBestHand = false
     
-    internal constructor(gameId: Long) : this(gameId, 1)
+    internal constructor(gameId: Long) : this(gameId, NOT_SET_ROUND_ID)
     
     private constructor(
         gameId: Long,
@@ -250,5 +210,50 @@ class Round(val gameId: Long, val roundId: Int) : RecyclerViewable<Round>() {
         totalPointsP2 = playersTotalPoints[SOUTH.code]
         totalPointsP3 = playersTotalPoints[WEST.code]
         totalPointsP4 = playersTotalPoints[NORTH.code]
+    }
+    
+    companion object {
+        
+        private const val NOT_SET_ROUND_ID: Int = 0
+        
+        fun areEqual(rounds1: List<Round>?, rounds2: List<Round>?): Boolean {
+            if (rounds1 == null && rounds2 == null)
+                return true
+            else if (rounds1 != null && rounds2 != null) {
+                if (rounds1.size != rounds2.size)
+                    return false
+                else {
+                    for (i in rounds1.indices) {
+                        if (!areEqual(rounds1[i], rounds2[i]))
+                            return false
+                    }
+                    return true
+                }
+            } else
+                return false
+        }
+        
+        private fun areEqual(round1: Round, round2: Round): Boolean {
+            return round1.gameId == round2.gameId &&
+                round1.roundId == round2.roundId &&
+                round1.handPoints == round2.handPoints &&
+                round1.winnerInitialSeat === round2.winnerInitialSeat &&
+                round1.discarderInitialSeat === round2.discarderInitialSeat &&
+                round1.pointsP1 == round2.pointsP1 &&
+                round1.pointsP2 == round2.pointsP2 &&
+                round1.pointsP3 == round2.pointsP3 &&
+                round1.pointsP4 == round2.pointsP4 &&
+                round1.totalPointsP1 == round2.totalPointsP1 &&
+                round1.totalPointsP2 == round2.totalPointsP2 &&
+                round1.totalPointsP3 == round2.totalPointsP3 &&
+                round1.totalPointsP4 == round2.totalPointsP4 &&
+                round1.penaltyP1 == round2.penaltyP1 &&
+                round1.penaltyP2 == round2.penaltyP2 &&
+                round1.penaltyP3 == round2.penaltyP3 &&
+                round1.penaltyP4 == round2.penaltyP4 &&
+                round1.roundDuration == round2.roundDuration &&
+                round1.isBestHand == round2.isBestHand &&
+                round1.isEnded == round2.isEnded
+        }
     }
 }

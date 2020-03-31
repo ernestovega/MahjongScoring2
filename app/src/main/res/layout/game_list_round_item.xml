@@ -4,204 +4,193 @@
     android:id="@+id/llGameListItemContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_marginStart="@dimen/standard_margin"
+    android:layout_marginTop="@dimen/standard_margin"
+    android:layout_marginEnd="@dimen/standard_margin"
+    android:orientation="vertical">
 
+    <!-- ROUND DATA -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:background="@android:color/white"
+        android:orientation="horizontal">
 
-        <!-- ROUND DATA -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/standard_margin"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"
-            android:background="@android:color/white"
-            android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvGameListItemRoundNumber"
+            android:layout_width="@dimen/standard_margin"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/half_standard_margin"
+            android:gravity="center"
+            android:lines="1"
+            tools:text="16" />
+
+        <TextView
+            android:id="@+id/tvGameListItemHandPoints"
+            android:layout_width="@dimen/double_standard_margin"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/half_standard_margin"
+            android:gravity="center"
+            android:lines="1"
+            android:textSize="16sp"
+            tools:text="8" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/half_standard_margin"
+            android:layout_weight="1">
 
             <TextView
-                android:id="@+id/tvGameListItemRoundNumber"
-                android:layout_width="@dimen/standard_margin"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/half_standard_margin"
-                android:gravity="center"
+                android:id="@+id/tvGameListItemRoundPointsP1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:lines="1"
-                tools:text="16" />
-
-            <TextView
-                android:id="@+id/tvGameListItemHandPoints"
-                android:layout_width="@dimen/double_standard_margin"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/half_standard_margin"
-                android:gravity="center"
                 android:textSize="16sp"
-                android:lines="1"
-                tools:text="8" />
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_marginEnd="@dimen/half_standard_margin"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/tvGameListItemRoundPointsP1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textSize="16sp"
-                    android:lines="1"
-                    android:textStyle="bold"
-                    tools:text="+38" />
-
-                <ImageView
-                    android:id="@+id/ivGameListItemPenaltyIconP1"
-                    android:layout_width="@dimen/standard_margin"
-                    android:layout_height="@dimen/standard_margin"
-                    android:layout_toEndOf="@+id/tvGameListItemRoundPointsP1"
-                    android:src="@drawable/ic_whistle_black_24"
-                    android:tint="@color/purplePenalty"
-                    android:visibility="gone"
-                    tools:ignore="ContentDescription"
-                    tools:text="16"
-                    tools:visibility="visible" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/half_standard_margin"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/tvGameListItemRoundPointsP2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:layout_centerInParent="true"
-                    android:lines="1"
-                    android:textStyle="bold"
-                    tools:text="-16" />
-
-                <ImageView
-                    android:id="@+id/ivGameListItemPenaltyIconP2"
-                    android:layout_width="@dimen/standard_margin"
-                    android:layout_height="@dimen/standard_margin"
-                    android:layout_toEndOf="@+id/tvGameListItemRoundPointsP2"
-                    android:src="@drawable/ic_whistle_black_24"
-                    android:tint="@color/purplePenalty"
-                    android:visibility="gone"
-                    tools:ignore="ContentDescription" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/half_standard_margin"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/tvGameListItemRoundPointsP3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:layout_centerInParent="true"
-                    android:lines="1"
-                    android:textStyle="bold"
-                    tools:text="-16" />
-
-                <ImageView
-                    android:id="@+id/ivGameListItemPenaltyIconP3"
-                    android:layout_width="@dimen/standard_margin"
-                    android:layout_height="@dimen/standard_margin"
-                    android:layout_toEndOf="@+id/tvGameListItemRoundPointsP3"
-                    android:src="@drawable/ic_whistle_black_24"
-                    android:tint="@color/purplePenalty"
-                    android:visibility="gone"
-                    tools:ignore="ContentDescription" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/tvGameListItemRoundPointsP4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:lines="1"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    tools:text="-16" />
-
-                <ImageView
-                    android:id="@+id/ivGameListItemPenaltyIconP4"
-                    android:layout_width="@dimen/standard_margin"
-                    android:layout_height="@dimen/standard_margin"
-                    android:layout_toEndOf="@+id/tvGameListItemRoundPointsP4"
-                    android:src="@drawable/ic_whistle_black_24"
-                    android:tint="@color/purplePenalty"
-                    android:visibility="gone"
-                    tools:ignore="ContentDescription" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <!-- ROUND TOTALS -->
-        <LinearLayout
-            android:id="@+id/llGameListItemRoundTotalsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"
-            android:layout_marginTop="@dimen/half_standard_margin"
-            android:layout_marginBottom="@dimen/standard_margin"
-            android:background="@android:color/white"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="@dimen/standard_margin"
-                android:layout_marginEnd="@dimen/half_standard_margin"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:layout_width="@dimen/double_standard_margin"
-                android:layout_marginEnd="@dimen/half_standard_margin"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:id="@+id/tvGameListItemRoundTotalPointsP1"
-                style="@style/TextViewGameListItemTotal"
-                android:layout_marginEnd="@dimen/half_standard_margin"
+                android:textStyle="bold"
                 tools:text="+38" />
 
-            <TextView
-                android:id="@+id/tvGameListItemRoundTotalPointsP2"
-                style="@style/TextViewGameListItemTotal"
-                android:layout_marginEnd="@dimen/half_standard_margin"
-                tools:text="-16" />
+            <ImageView
+                android:id="@+id/ivGameListItemPenaltyIconP1"
+                android:layout_width="@dimen/standard_margin"
+                android:layout_height="@dimen/standard_margin"
+                android:layout_toEndOf="@+id/tvGameListItemRoundPointsP1"
+                android:src="@drawable/ic_whistle_black_24"
+                android:tint="@color/purplePenalty"
+                android:visibility="gone"
+                tools:ignore="ContentDescription"
+                tools:text="16"
+                tools:visibility="visible" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/half_standard_margin"
+            android:layout_weight="1">
 
             <TextView
-                android:id="@+id/tvGameListItemRoundTotalPointsP3"
-                style="@style/TextViewGameListItemTotal"
-                android:layout_marginEnd="@dimen/half_standard_margin"
+                android:id="@+id/tvGameListItemRoundPointsP2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:lines="1"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 tools:text="-16" />
+
+            <ImageView
+                android:id="@+id/ivGameListItemPenaltyIconP2"
+                android:layout_width="@dimen/standard_margin"
+                android:layout_height="@dimen/standard_margin"
+                android:layout_toEndOf="@+id/tvGameListItemRoundPointsP2"
+                android:src="@drawable/ic_whistle_black_24"
+                android:tint="@color/purplePenalty"
+                android:visibility="gone"
+                tools:ignore="ContentDescription" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/half_standard_margin"
+            android:layout_weight="1">
 
             <TextView
-                android:id="@+id/tvGameListItemRoundTotalPointsP4"
-                style="@style/TextViewGameListItemTotal"
+                android:id="@+id/tvGameListItemRoundPointsP3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:lines="1"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 tools:text="-16" />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/ivGameListItemPenaltyIconP3"
+                android:layout_width="@dimen/standard_margin"
+                android:layout_height="@dimen/standard_margin"
+                android:layout_toEndOf="@+id/tvGameListItemRoundPointsP3"
+                android:src="@drawable/ic_whistle_black_24"
+                android:tint="@color/purplePenalty"
+                android:visibility="gone"
+                tools:ignore="ContentDescription" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tvGameListItemRoundPointsP4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:lines="1"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="-16" />
+
+            <ImageView
+                android:id="@+id/ivGameListItemPenaltyIconP4"
+                android:layout_width="@dimen/standard_margin"
+                android:layout_height="@dimen/standard_margin"
+                android:layout_toEndOf="@+id/tvGameListItemRoundPointsP4"
+                android:src="@drawable/ic_whistle_black_24"
+                android:tint="@color/purplePenalty"
+                android:visibility="gone"
+                tools:ignore="ContentDescription" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- ROUND TOTALS -->
+    <LinearLayout
+        android:id="@+id/llGameListItemRoundTotalsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/half_standard_margin"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/standard_margin"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/half_standard_margin" />
+
+        <TextView
+            android:layout_width="@dimen/double_standard_margin"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/half_standard_margin" />
+
+        <TextView
+            android:id="@+id/tvGameListItemRoundTotalPointsP1"
+            style="@style/TextViewGameListItemTotal"
+            android:layout_marginEnd="@dimen/half_standard_margin"
+            tools:text="+38" />
+
+        <TextView
+            android:id="@+id/tvGameListItemRoundTotalPointsP2"
+            style="@style/TextViewGameListItemTotal"
+            android:layout_marginEnd="@dimen/half_standard_margin"
+            tools:text="-16" />
+
+        <TextView
+            android:id="@+id/tvGameListItemRoundTotalPointsP3"
+            style="@style/TextViewGameListItemTotal"
+            android:layout_marginEnd="@dimen/half_standard_margin"
+            tools:text="-16" />
+
+        <TextView
+            android:id="@+id/tvGameListItemRoundTotalPointsP4"
+            style="@style/TextViewGameListItemTotal"
+            tools:text="-16" />
 
     </LinearLayout>
 

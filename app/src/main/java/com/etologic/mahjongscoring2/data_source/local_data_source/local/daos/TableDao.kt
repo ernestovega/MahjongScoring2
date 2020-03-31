@@ -7,13 +7,13 @@ import com.etologic.mahjongscoring2.business.model.entities.Table
 import io.reactivex.Single
 
 @Dao
-interface GameWithRoundsDao {
+interface TableDao {
     
     @Transaction
     @Query("SELECT * from Games ORDER BY startDate DESC")
-    fun getAllGamesWithRounds(): Single<List<Table>>
+    fun getAllTables(): Single<List<Table>>
     
     @Transaction
     @Query("SELECT * from Games WHERE gameId = :gameId ORDER BY startDate")
-    fun getGameWithRoundsOrderedByDateDesc(gameId: Long): Single<Table>
+    fun getTablesOrderedByDateDesc(gameId: Long): Single<Table>
 }

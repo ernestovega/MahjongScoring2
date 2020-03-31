@@ -38,7 +38,7 @@ class GameListFragment : BaseGameFragment() {
         view.rvGameList?.layoutManager = layoutManager
         view.rvGameList?.adapter = rvAdapter
         rvAdapter.setItemListener(object: GameListItemListener {
-            override fun onMenuClick(view: View, roundId: Int) {
+            override fun onClick(view: View, roundId: Int) {
                 val popup = PopupMenu(context!!, view)
                 popup.menuInflater.inflate(R.menu.game_list_item_menu, popup.menu)
                 popup.setOnMenuItemClickListener {
@@ -58,7 +58,7 @@ class GameListFragment : BaseGameFragment() {
     }
     
     private fun tableObserver(table: Table) {
-        roundsListObserver(table.getEndedRoundsWithBestHand())
+        roundsListObserver(table.getEndedRoundsWithBestHandAndTotals())
         namesObserver(table.game.getPlayersNames())
         totalsObserver(table.getPlayersTotalPointsString())
     }

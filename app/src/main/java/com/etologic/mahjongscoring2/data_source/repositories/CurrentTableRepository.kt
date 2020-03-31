@@ -5,9 +5,8 @@ import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class CurrentGameRepository
-@Inject constructor(private val memoryDataSource: CurrentGameMemoryDataSource) {
+class CurrentTableRepository
+@Inject constructor(private val memoryDataSource: CurrentTableMemoryDataSource) {
     
     internal fun get(): Single<Table> =
         memoryDataSource.get()

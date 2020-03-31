@@ -22,5 +22,5 @@ abstract class AppDatabase : RoomDatabase() {
     internal abstract val combinationsDao: CombinationsDao
     internal abstract val gamesDao: GamesDao
     internal abstract val roundsDao: RoundsDao
-    internal abstract val gameWithRoundsDao: GameWithRoundsDao
+    internal abstract val tableDao: TableDao
 }

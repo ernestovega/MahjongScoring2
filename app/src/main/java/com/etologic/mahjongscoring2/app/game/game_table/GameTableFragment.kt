@@ -95,7 +95,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     
     private fun setRoundStuff(table: Table) {
         val currentRound = table.rounds.last()
-        val roundId = currentRound.roundId
+        val roundId = table.rounds.size
         setFab(roundId, currentRound.isEnded)
         setRoundNumsAndWinds(currentRound, roundId)
     }

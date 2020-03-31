@@ -76,7 +76,7 @@ class GameTableSeatsFragment : Fragment() {
         setStates(getSeatsStates(table))
         setPoints(table.getPlayersTotalPointsStringByCurrentSeat())
         setPenalties(table.getPlayersPenaltiesByCurrentSeat())
-        setWinds(table.getSeatsCurrentWind(table.rounds.last().roundId))
+        setWinds(table.getSeatsCurrentWind(table.rounds.size))
         setNames(table.getPlayersNamesByCurrentSeat())
     }
     
