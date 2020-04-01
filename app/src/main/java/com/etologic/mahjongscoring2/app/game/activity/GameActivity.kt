@@ -15,7 +15,6 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.Companion.getFromCode
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.TABLE
-import com.etologic.mahjongscoring2.app.main.activity.MainActivity
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_ROUNDS
 import kotlinx.android.synthetic.main.game_activity.*
@@ -27,6 +26,7 @@ class GameActivity : BaseActivity() {
         internal const val TAG = "GameActivity"
         internal const val CODE = 3
         private const val OFFSCREEN_PAGE_LIMIT = 1
+        internal const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
     }
     
     private var shouldBeShownResumeButton: Boolean = false
@@ -44,7 +44,7 @@ class GameActivity : BaseActivity() {
             viewModel.showPage(TABLE)
         else {
             val currentTimeMillis = System.currentTimeMillis()
-            if (currentTimeMillis - lastBackPress > MainActivity.LAST_BACKPRESSED_MIN_TIME) {
+            if (currentTimeMillis - lastBackPress > LAST_BACKPRESSED_MIN_TIME) {
                 showSnackbar(viewPagerGame, getString(R.string.press_again_to_exit))
                 lastBackPress = currentTimeMillis
             }
@@ -120,7 +120,7 @@ class GameActivity : BaseActivity() {
         viewModel.getError().observe(this, Observer(this::showError))
         viewModel.getProgressState().observe(this, Observer(this::toggleProgress))
         viewModel.getSnackbarMessage().observe(this, Observer { message -> viewPagerGame?.let { this.showSnackbar(it, message) } })
-        viewModel.getDialogToShow().observe(this, Observer { GameNavigator.showDialog(it, this) })
+        viewModel.getCurrentScreen().observe(this, Observer { GameNavigator.showDialog(it, this) })
         viewModel.getCurrentPage().observe(this, Observer { it?.let { viewPagerGame.currentItem = it.code } })
         viewModel.getCurrentTable().observe(this, Observer(this::currentRoundObserver))
     }

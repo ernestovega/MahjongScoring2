@@ -1,5 +1,6 @@
 package com.etologic.mahjongscoring2.app.game.game_list
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +12,18 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.layout
 import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.game.game_list.GameListRvAdapter.GameListItemListener
-import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Round
+import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 import kotlinx.android.synthetic.main.game_list_fragment.*
 import kotlinx.android.synthetic.main.game_list_fragment.view.*
 import javax.inject.Inject
 
 class GameListFragment : BaseGameFragment() {
     
+    companion object {
+        private const val LAST_REMOVE_PRESSED_MIN_TIME = LENGTH_LONG
+    }
     @Inject
     internal lateinit var rvAdapter: GameListRvAdapter
     
@@ -43,8 +48,15 @@ class GameListFragment : BaseGameFragment() {
                 popup.menuInflater.inflate(R.menu.game_list_item_menu, popup.menu)
                 popup.setOnMenuItemClickListener {
                     when (it.itemId) {
-                        R.id.game_list_item_menu_remove -> { activityViewModel?.removeRound(roundId) }
-                        R.id.game_list_item_menu_edit -> { activityViewModel?.editRound(roundId) }
+                        R.id.game_list_item_menu_remove -> {
+                            AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
+                                .setTitle(R.string.remove_round)
+                                .setMessage(R.string.are_you_sure)
+                                .setPositiveButton(R.string.ok) { _, _ -> activityViewModel?.removeRound(roundId) }
+                                .setNegativeButton(R.string.close, null)
+                                .create()
+                                .show()
+                        }
                     }
                     true
                 }

@@ -11,7 +11,6 @@ import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getP
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.converters.TableWindsConverter
-import java.util.*
 
 @Entity(
     tableName = "Rounds",

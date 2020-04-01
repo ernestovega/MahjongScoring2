@@ -1,7 +1,7 @@
 package com.etologic.mahjongscoring2.business.use_cases.current_round
 
+import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.Table
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.data_source.repositories.CurrentTableRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import com.etologic.mahjongscoring2.data_source.repositories.TablesRepository
@@ -15,19 +15,19 @@ constructor(
     private val roundsRepository: RoundsRepository
 ) {
     
-    fun penalty(penalizedPlayerCurrentSeat: TableWinds, points: Int, isDivided: Boolean): Single<Table> =
+    internal fun penalty(penaltyData: PenaltyData): Single<Table> =
         currentTableRepository.get()
             .flatMap { currentTable ->
                 val currentRound = currentTable.rounds.last()
-                if (isDivided)
+                if (penaltyData.isDivided)
                     currentRound.setAllPlayersPenaltyPoints(
-                        currentTable.getPlayerInitialSeatByCurrentSeat(penalizedPlayerCurrentSeat, currentTable.rounds.size),
-                        points
+                        currentTable.getPlayerInitialSeatByCurrentSeat(penaltyData.penalizedPlayerCurrentSeat, currentTable.rounds.size),
+                        penaltyData.points
                     )
                 else
                     currentRound.setPlayerPenaltyPoints(
-                        currentTable.getPlayerInitialSeatByCurrentSeat(penalizedPlayerCurrentSeat, currentTable.rounds.size),
-                        points
+                        currentTable.getPlayerInitialSeatByCurrentSeat(penaltyData.penalizedPlayerCurrentSeat, currentTable.rounds.size),
+                        penaltyData.points
                     )
                 roundsRepository.updateOne(currentRound)
                     .flatMap { tablesRepository.getTable(currentRound.gameId) }

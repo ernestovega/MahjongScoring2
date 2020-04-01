@@ -3,13 +3,13 @@ package com.etologic.mahjongscoring2.app.game.activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.HAND_ACTION
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.PLAYERS
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.*
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages
 import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
+import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
@@ -40,12 +40,13 @@ class GameActivityViewModel internal constructor(
     
     private val _currentPage = MutableLiveData<GameTablePages>()
     internal fun getCurrentPage(): LiveData<GameTablePages> = _currentPage
-    private val _dialogToShow = MutableLiveData<GameScreens>()
-    internal fun getDialogToShow(): LiveData<GameScreens> = _dialogToShow
+    private val _currentScreen = MutableLiveData<GameScreens>()
+    internal fun getCurrentScreen(): LiveData<GameScreens> = _currentScreen
     private val _currentTable = MutableLiveData<Table>()
     internal fun getCurrentTable(): LiveData<Table> = _currentTable
     private var _selectedSeat = MutableLiveData<TableWinds>()
     internal fun getSelectedSeat(): LiveData<TableWinds> = _selectedSeat
+    //DTOs
     internal var huPoints = 0
     
     init {
@@ -78,7 +79,7 @@ class GameActivityViewModel internal constructor(
     //SELECTED PLAYER/SEAT
     internal fun onSeatClicked(wind: TableWinds) {
         _selectedSeat.postValue(wind)
-        _dialogToShow.postValue(HAND_ACTION)
+        _currentScreen.postValue(HAND_ACTION)
     }
     
     internal fun unselectedSelectedSeat() {
@@ -92,7 +93,7 @@ class GameActivityViewModel internal constructor(
     }
     
     internal fun navigateTo(gameScreens: GameScreens) {
-        _dialogToShow.postValue(gameScreens)
+        _currentScreen.postValue(gameScreens)
     }
     
     //GAME OPERATIONS
@@ -157,9 +158,10 @@ class GameActivityViewModel internal constructor(
         )
     }
     
-    internal fun savePenalty(points: Int, isDivided: Boolean) {
+    internal fun savePenalty(penaltyData: PenaltyData) {
+        penaltyData.penalizedPlayerCurrentSeat = _selectedSeat.value!!
         disposables.add(
-            penaltyUseCase.penalty(_selectedSeat.value!!, points, isDivided)
+            penaltyUseCase.penalty(penaltyData)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess(_currentTable::postValue)
@@ -185,10 +187,6 @@ class GameActivityViewModel internal constructor(
                 .doOnSuccess(_currentTable::postValue)
                 .subscribe({ progressState.postValue(HIDE) }, this::showError)
         )
-    }
-    
-    internal fun editRound(roundId: Int) {
-    
     }
     
     //QUERYS

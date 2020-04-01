@@ -65,9 +65,8 @@ internal class OldGamesRvAdapter
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val itemViewHolder = holder as OldGameItemViewHolder
         val gameWithRounds = games[position]
-        val duration = gameWithRounds.getDuration()
         val bestHand = gameWithRounds.getBestHand()
-        setFields(itemViewHolder, gameWithRounds, duration, bestHand)
+        setFields(itemViewHolder, gameWithRounds, bestHand)
         itemViewHolder.btItemResume?.setOnSecureClickListener {
             if (itemViewHolder.gameId != null)
                 itemClickListener?.onOldGameItemResumeClicked(itemViewHolder.gameId!!)
@@ -78,11 +77,14 @@ internal class OldGamesRvAdapter
         }
     }
     
-    private fun setFields(itemViewHolder: OldGameItemViewHolder, table: Table, duration: Long, bestHand: BestHand) {
+    private fun setFields(
+        itemViewHolder: OldGameItemViewHolder,
+        table: Table,
+        bestHand: BestHand
+    ) {
         itemViewHolder.gameId = table.game.gameId
-        itemViewHolder.tvStartDate?.text =
-            DateTimeUtils.getPrettyDate(table.game.startDate)
-        itemViewHolder.tvDuration?.text = String.format("#%s", itemViewHolder.gameId.toString())//DateTimeUtils.getPrettyDuration(duration));
+        itemViewHolder.tvStartDate?.text = DateTimeUtils.getPrettyDate(table.game.startDate)
+        itemViewHolder.tvDuration?.text = String.format("#%s", itemViewHolder.gameId.toString())
         itemViewHolder.tvEastPlayerName?.text = table.game.nameP1
         itemViewHolder.tvSouthPlayerName?.text = table.game.nameP2
         itemViewHolder.tvWestPlayerName?.text = table.game.nameP3

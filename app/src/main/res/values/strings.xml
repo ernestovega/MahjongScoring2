@@ -197,5 +197,7 @@
     <string name="remove">Remove</string>
     <string name="score">Score</string>
     <string name="pts">Pts</string>
+    <string name="press_again_to_remove">Press again to remove</string>
+    <string name="remove_round">Remove round</string>
 
 </resources>

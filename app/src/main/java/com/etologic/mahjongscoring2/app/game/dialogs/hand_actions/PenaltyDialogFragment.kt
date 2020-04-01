@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.NUM_NO_WINNER_PLAYERS
 import kotlinx.android.synthetic.main.game_penalty_dialog_fragment.*
 
@@ -50,7 +51,7 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
     }
     
     private fun saveAndFinish(penaltyPoints: Int, isDivided: Boolean) {
-        activityViewModel?.savePenalty(penaltyPoints, isDivided)
+        activityViewModel?.savePenalty(PenaltyData(penaltyPoints, isDivided))
         isDialogCancelled = false
         dismiss()
     }
