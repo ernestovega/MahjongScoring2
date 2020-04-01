@@ -4,9 +4,11 @@
     android:id="@+id/llGameListItemContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/standard_margin"
-    android:layout_marginTop="@dimen/standard_margin"
-    android:layout_marginEnd="@dimen/standard_margin"
+    android:paddingStart="@dimen/standard_margin"
+    android:paddingBottom="@dimen/half_standard_margin"
+    android:paddingTop="@dimen/half_standard_margin"
+    android:paddingEnd="@dimen/standard_margin"
+    style="@style/RippleEffect"
     android:orientation="vertical">
 
     <!-- ROUND DATA -->
