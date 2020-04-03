@@ -47,6 +47,7 @@
         <item name="android:textColor">@color/grayMM</item>
         <item name="android:textStyle">bold</item>
         <item name="android:lines">1</item>
+        <item name="android:maxLength">9</item>
         <item name="android:includeFontPadding">true</item>
     </style>
 

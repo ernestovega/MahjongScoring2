@@ -1,10 +1,13 @@
 package com.etologic.mahjongscoring2.data_source.local_data_source.local
 
 import androidx.room.Room
+import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.CombinationsDao
+import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.GamesDao
+import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.RoundsDao
+import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.TableDao
+import com.etologic.mahjongscoring2.injection.MahjongScoringApp
 import dagger.Module
 import dagger.Provides
-import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.*
-import com.etologic.mahjongscoring2.injection.MahjongScoringApp
 import javax.inject.Singleton
 
 @Module

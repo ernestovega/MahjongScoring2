@@ -8,8 +8,7 @@
             android:id="@+id/nav_oldgames"
             android:icon="@drawable/ic_history_black_24px"
             android:title="@string/old_games"
-            android:visible="false"
-            app:actionLayout="@layout/main_drawer_oldgames_actionlayout"/>
+            android:visible="false" />
 
         <item
             android:id="@+id/nav_combinations"

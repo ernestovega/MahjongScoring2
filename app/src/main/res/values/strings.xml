@@ -190,14 +190,15 @@
     <string name="next">Next</string>
     <string name="action">Action</string>
     <string name="ok">OK</string>
-    <string name="discarder">Discarder</string>
+    <string name="discarder_">Discarder?</string>
     <string name="cancel">Cancel</string>
     <string name="options">Options</string>
     <string name="edit">Edit</string>
-    <string name="remove">Remove</string>
     <string name="score">Score</string>
     <string name="pts">Pts</string>
     <string name="press_again_to_remove">Press again to remove</string>
-    <string name="remove_round">Remove round</string>
+    <string name="delete_round">Delete round</string>
+    <string name="first">First</string>
+    <string name="second">Second</string>
 
 </resources>

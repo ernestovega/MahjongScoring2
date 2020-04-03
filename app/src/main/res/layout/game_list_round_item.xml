@@ -9,6 +9,7 @@
     android:paddingTop="@dimen/half_standard_margin"
     android:paddingEnd="@dimen/standard_margin"
     style="@style/RippleEffect"
+    android:elevation="@dimen/half_standard_margin"
     android:orientation="vertical">
 
     <!-- ROUND DATA -->
@@ -20,7 +21,7 @@
 
         <TextView
             android:id="@+id/tvGameListItemRoundNumber"
-            android:layout_width="@dimen/standard_margin"
+            android:layout_width="16sp"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/half_standard_margin"
             android:gravity="center"

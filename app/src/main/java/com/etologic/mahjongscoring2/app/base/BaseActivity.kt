@@ -10,17 +10,13 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.annotation.IdRes
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.anim.*
 import com.etologic.mahjongscoring2.app.model.ShowState
-import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.main_activity.*
 import org.apache.commons.lang3.StringUtils
 
 @SuppressLint("Registered")
@@ -37,7 +33,6 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     }
     
     internal fun goToActivity(intent: Intent, requestCode: Int) {
-//        overridePendingTransition(fade_in, fade_out)
         startActivityForResult(intent, requestCode)
     }
 

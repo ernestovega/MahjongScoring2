@@ -38,7 +38,7 @@
             android:animateLayoutChanges="true">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewOldGames"
+                android:id="@+id/rvOldGames"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/grayLight"

@@ -6,6 +6,9 @@ import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.etologic.mahjongscoring2.business.model.enums.GameStartType
+import com.etologic.mahjongscoring2.business.model.enums.GameStartType.NEW
+import com.etologic.mahjongscoring2.business.model.enums.GameStartType.RESUME
 import com.etologic.mahjongscoring2.business.use_cases.current_game.SetCurrentGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.games.CreateGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.games.DeleteGameUseCase
@@ -21,8 +24,8 @@ internal class OldGamesViewModel(
     
     private val _allGames = MutableLiveData<List<Table>>()
     internal fun getGames(): LiveData<List<Table>> = _allGames
-    private val _startGame = MutableLiveData<Boolean>()
-    internal fun getStartGame(): LiveData<Boolean> = _startGame
+    private val _startGame = MutableLiveData<GameStartType>()
+    internal fun getStartGame(): LiveData<GameStartType> = _startGame
     
     fun deleteGame(gameId: Long) {
         disposables.add(
@@ -52,7 +55,7 @@ internal class OldGamesViewModel(
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .doOnSuccess{ progressState.postValue(HIDE) }
-                .subscribe({ _startGame.postValue(true) }, this::showError)
+                .subscribe({ _startGame.postValue(RESUME) }, this::showError)
         )
     }
     
@@ -63,7 +66,7 @@ internal class OldGamesViewModel(
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .flatMap(setCurrentGameUseCase::setCurrentGame)
                 .doOnSuccess{ progressState.postValue(HIDE) }
-                .subscribe({ _startGame.postValue(true) }, this::showError)
+                .subscribe({ _startGame.postValue(NEW) }, this::showError)
         )
     }
 }

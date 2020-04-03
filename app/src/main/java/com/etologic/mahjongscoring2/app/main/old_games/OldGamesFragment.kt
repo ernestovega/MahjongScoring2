@@ -20,6 +20,8 @@ import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModelFacto
 import com.etologic.mahjongscoring2.app.model.ShowState
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.etologic.mahjongscoring2.business.model.enums.GameStartType
+import com.etologic.mahjongscoring2.business.model.enums.GameStartType.NEW
 import kotlinx.android.synthetic.main.main_oldgames_fragment.*
 import javax.inject.Inject
 
@@ -75,11 +77,11 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     }
     
     private fun setupRecyclerView() {
-        recyclerViewOldGames?.setHasFixedSize(true)
+        rvOldGames?.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
-        recyclerViewOldGames?.layoutManager = layoutManager
+        rvOldGames?.layoutManager = layoutManager
         rvAdapter.setOldGameItemListener(this)
-        recyclerViewOldGames?.adapter = rvAdapter
+        rvOldGames?.adapter = rvAdapter
     }
     
     private fun setupViewModel() {
@@ -90,8 +92,13 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
             viewModel.getProgressState().observe(viewLifecycleOwner, Observer(this::toogleLocalProgress))
             viewModel.getSnackbarMessage().observe(viewLifecycleOwner, Observer { view?.let { view -> showSnackbar(view, it) } })
             viewModel.getGames().observe(viewLifecycleOwner, Observer(this::gamesObserver))
-            viewModel.getStartGame().observe(viewLifecycleOwner, Observer { activityViewModel.navigateTo(GAME) })
+            viewModel.getStartGame().observe(viewLifecycleOwner, Observer(this::startGameObserver))
         }
+    }
+    
+    private fun toogleLocalProgress(showState: ShowState) {
+        swipeRefreshLayoutOldGames.isRefreshing = false
+        llOldGamesProgress?.visibility = if (showState === SHOW) VISIBLE else GONE
     }
     
     private fun gamesObserver(games: List<Table>) {
@@ -100,12 +107,16 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         else {
             emptyLayoutOldGames?.visibility = GONE
             rvAdapter.setGames(games)
+            if(activityViewModel.lastGameStartType == NEW) {
+                activityViewModel.lastGameStartType = null
+                rvOldGames?.smoothScrollToPosition(0)
+            }
         }
     }
     
-    private fun toogleLocalProgress(showState: ShowState) {
-        swipeRefreshLayoutOldGames.isRefreshing = false
-        llOldGamesProgress?.visibility = if (showState === SHOW) VISIBLE else GONE
+    private fun startGameObserver(gameStartType: GameStartType) {
+        activityViewModel.lastGameStartType = gameStartType
+        activityViewModel.navigateTo(GAME)
     }
     
     private fun setToolbar() {

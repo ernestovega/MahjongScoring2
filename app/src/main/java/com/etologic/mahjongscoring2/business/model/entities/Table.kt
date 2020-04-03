@@ -95,13 +95,13 @@ class Table(@field:Embedded var game: Game) {
         }
     }
     
-    internal fun getPlayersTotalPointsString(): Array<String> {
+    internal fun getPlayersTotalPointsStringSigned(): Array<String> {
         val points = getPlayersTotalPoints()
         return arrayOf(
-            points[EAST.code].toString(),
-            points[SOUTH.code].toString(),
-            points[WEST.code].toString(),
-            points[NORTH.code].toString()
+            String.format("%+d", points[EAST.code]),
+            String.format("%+d", points[SOUTH.code]),
+            String.format("%+d", points[WEST.code]),
+            String.format("%+d", points[NORTH.code])
         )
     }
     
@@ -173,12 +173,6 @@ class Table(@field:Embedded var game: Game) {
             }
         }
         return bestHand
-    }
-    
-    internal fun getDuration(): Long {
-        var gameDuration: Long = 0
-        for (round in rounds) gameDuration += round.roundDuration
-        return gameDuration
     }
     
     internal fun getPlayerInitialSeatByCurrentSeat(currentSeatPosition: TableWinds, roundId: Int): TableWinds {

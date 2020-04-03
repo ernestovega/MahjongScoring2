@@ -1,6 +1,8 @@
 package com.etologic.mahjongscoring2.app.custom_views
 
 import android.content.Context
+import android.graphics.Typeface.BOLD_ITALIC
+import android.graphics.Typeface.NORMAL
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
@@ -16,13 +18,9 @@ import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import kotlinx.android.synthetic.main.custom_discarder_selector.view.*
-import java.util.*
 
 class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet) {
     
-    companion object {
-        private const val FORMAT_PLACEHOLDER_SIGNED_NUMBER = "%+d"
-    }
     private var grayColor = ContextCompat.getColor(context, R.color.grayMM)
     private var greenColor = ContextCompat.getColor(context, R.color.colorPrimary)
     private var redColor = ContextCompat.getColor(context, R.color.red)
@@ -59,25 +57,31 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
     }
     
     private fun setupSelfpick() {
-        setSelfpickSeat(tvDiscarderSelectorEastName, tvDiscarderSelectorEastPoints, EAST)
-        setSelfpickSeat(tvDiscarderSelectorSouthName, tvDiscarderSelectorSouthPoints, SOUTH)
-        setSelfpickSeat(tvDiscarderSelectorWestName, tvDiscarderSelectorWestPoints, WEST)
-        setSelfpickSeat(tvDiscarderSelectorNorthName, tvDiscarderSelectorNorthPoints, NORTH)
+        setSelfpickSeats(tvDiscarderSelectorEastName, tvDiscarderSelectorEastPoints, EAST)
+        setSelfpickSeats(tvDiscarderSelectorSouthName, tvDiscarderSelectorSouthPoints, SOUTH)
+        setSelfpickSeats(tvDiscarderSelectorWestName, tvDiscarderSelectorWestPoints, WEST)
+        setSelfpickSeats(tvDiscarderSelectorNorthName, tvDiscarderSelectorNorthPoints, NORTH)
     }
     
-    private fun setSelfpickSeat(textView: TextView?, tvPoints: TextView?, wind: TableWinds) {
-        val color = if (wind == winnerWind) greenColor else grayColor
-        textView?.setTextColor(color)
+    private fun setSelfpickSeats(tvName: TextView?, tvPoints: TextView?, wind: TableWinds) {
+        if(wind == winnerWind) setSeatTextsStyles(tvName, tvPoints, greenColor, BOLD_ITALIC)
+        else setSeatTextsStyles(tvName, tvPoints, grayColor, NORMAL)
+        tvPoints?.text = getSelfpickSeatPointsText(wind)
+    }
+    
+    private fun setSeatTextsStyles(tvName: TextView?, tvPoints: TextView?, color: Int, textStyle: Int) {
+        tvName?.setTextColor(color)
         tvPoints?.setTextColor(color)
-        tvPoints?.text =
-            String.format(
-                Locale.getDefault(),
-                FORMAT_PLACEHOLDER_SIGNED_NUMBER,
-                if (wind == winnerWind)
-                    getHuSelfpickWinnerPoints(huPoints)
-                else
-                    getHuSelfpickDiscarderPoints(huPoints)
-            )
+        tvName?.setTypeface(null, textStyle)
+        tvPoints?.setTypeface(null, textStyle)
+    }
+    
+    private fun getSelfpickSeatPointsText(wind: TableWinds): String {
+        return String.format(
+            "%+d",
+            if (wind == winnerWind) getHuSelfpickWinnerPoints(huPoints)
+            else getHuSelfpickDiscarderPoints(huPoints)
+        )
     }
     
     private fun selectDiscarder(wind: TableWinds) {
@@ -98,12 +102,17 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
     }
     
     private fun setDiscardSeat(tvName: TextView?, tvPoints: TextView?, wind: TableWinds) {
-        val color = if (wind == winnerWind) greenColor else if (wind == looserWind) redColor else grayColor
-        tvName?.setTextColor(color)
-        tvPoints?.setTextColor(color)
-        tvPoints?.text = String.format(
-            Locale.getDefault(),
-            FORMAT_PLACEHOLDER_SIGNED_NUMBER,
+        when (wind) {
+            winnerWind -> setSeatTextsStyles(tvName, tvPoints, greenColor, BOLD_ITALIC)
+            looserWind -> setSeatTextsStyles(tvName, tvPoints, redColor, BOLD_ITALIC)
+            else -> setSeatTextsStyles(tvName, tvPoints, grayColor, NORMAL)
+        }
+        tvPoints?.text = getDiscardSeatPointsText(wind)
+    }
+    
+    private fun getDiscardSeatPointsText(wind: TableWinds): String {
+        return String.format(
+            "%+d",
             when (wind) {
                 winnerWind -> getHuDiscardWinnerPoints(huPoints)
                 looserWind -> getHuDiscardDiscarderPoints(huPoints)

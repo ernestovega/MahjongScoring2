@@ -1,7 +1,5 @@
 package com.etologic.mahjongscoring2.injection
 
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import com.etologic.mahjongscoring2.app.game.activity.GameActivity
 import com.etologic.mahjongscoring2.app.game.activity.GameActivityFragmentsBuilder
 import com.etologic.mahjongscoring2.app.game.activity.GameActivityModule
@@ -10,6 +8,8 @@ import com.etologic.mahjongscoring2.app.main.activity.MainActivityFragmentsBuild
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityModule
 import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
 import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivityModule
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
 @Module
 internal abstract class AppActivitiesBuilder {

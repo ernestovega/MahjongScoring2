@@ -1,9 +1,9 @@
 package com.etologic.mahjongscoring2.injection
 
+import com.etologic.mahjongscoring2.data_source.local_data_source.local.AppDataBaseModule
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
-import com.etologic.mahjongscoring2.data_source.local_data_source.local.AppDataBaseModule
 import javax.inject.Singleton
 
 @Singleton

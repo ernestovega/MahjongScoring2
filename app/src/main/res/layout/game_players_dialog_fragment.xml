@@ -2,97 +2,99 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/AlertDialogStyleMM"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/standard_margin">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginTop="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"
-            android:hint="@string/player_east_name">
+            android:layout_marginTop="@dimen/double_standard_margin"
+            android:layout_marginStart="@dimen/double_standard_margin"
+            android:layout_marginEnd="@dimen/double_standard_margin"
+            android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tietPlayersDialogEast"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_east"
-                android:drawablePadding="@dimen/half_standard_margin"
-                android:inputType="textPersonName"
-                android:maxLength="16"
-                android:maxLines="1" />
+                android:hint="@string/player_east_name">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietPlayersDialogEast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_east"
+                    android:drawablePadding="@dimen/standard_margin"
+                    android:inputType="textPersonName|textAutoComplete"
+                    android:maxLength="8"
+                    android:maxLines="1" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"
-            android:hint="@string/player_south_name">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tietPlayersDialogSouth"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_south"
-                android:drawablePadding="@dimen/half_standard_margin"
-                android:inputType="textPersonName"
-                android:maxLength="16"
-                android:maxLines="1" />
+                android:hint="@string/player_south_name">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietPlayersDialogSouth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_south"
+                    android:drawablePadding="@dimen/standard_margin"
+                    android:inputType="textPersonName|textAutoComplete"
+                    android:maxLength="8"
+                    android:maxLines="1" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"
-            android:hint="@string/player_west_name">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tietPlayersDialogWest"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_west"
-                android:drawablePadding="@dimen/half_standard_margin"
-                android:inputType="textPersonName"
-                android:maxLength="16"
-                android:maxLines="1" />
+                android:hint="@string/player_west_name">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietPlayersDialogWest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_west"
+                    android:drawablePadding="@dimen/standard_margin"
+                    android:inputType="textPersonName|textAutoComplete"
+                    android:maxLength="8"
+                    android:maxLines="1" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"
-            android:hint="@string/player_north_name">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tietPlayersDialogNorth"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_north"
-                android:drawablePadding="@dimen/half_standard_margin"
-                android:inputType="textPersonName"
-                android:maxLength="16"
-                android:maxLines="1" />
+                android:hint="@string/player_north_name">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietPlayersDialogNorth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_north"
+                    android:drawablePadding="@dimen/standard_margin"
+                    android:inputType="textPersonName|textAutoComplete"
+                    android:maxLength="8"
+                    android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/half_standard_margin"
+            android:layout_marginTop="@dimen/half_standard_margin"
+            android:layout_marginBottom="@dimen/half_standard_margin"
             android:orientation="horizontal">
 
             <Button
@@ -110,7 +112,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginTop="@dimen/standard_margin"
                 android:background="@android:color/transparent"
                 android:text="@string/save" />
 

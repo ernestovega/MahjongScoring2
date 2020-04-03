@@ -2,9 +2,9 @@ package com.etologic.mahjongscoring2.business.model.entities
 
 import androidx.annotation.DrawableRes
 import androidx.room.*
-import com.etologic.mahjongscoring2.data_source.local_data_source.local.converters.CombinationDescriptionTypeConverter
 import com.etologic.mahjongscoring2.business.model.entities.Combination.CombinationDescriptionType.DESCRIPTION
 import com.etologic.mahjongscoring2.business.model.entities.Combination.CombinationDescriptionType.IMAGE
+import com.etologic.mahjongscoring2.data_source.local_data_source.local.converters.CombinationDescriptionTypeConverter
 
 @Entity(tableName = "Combinations", indices = [Index(value = ["combinationName"], unique = true)])
 class Combination(

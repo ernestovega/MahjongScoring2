@@ -1,17 +1,17 @@
 package com.etologic.mahjongscoring2.app.game.activity
 
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
-import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.PenaltyDialogFragment
-import com.etologic.mahjongscoring2.app.game.dialogs.names.NamesDialogFragment
-import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.HuDialogFragment
-import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingDialogFragment
-import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.ActionDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.DiscarderDialogFragment
+import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.HuDialogFragment
+import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.PenaltyDialogFragment
+import com.etologic.mahjongscoring2.app.game.dialogs.names.NamesDialogFragment
+import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingDialogFragment
+import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment
 import com.etologic.mahjongscoring2.app.game.game_list.GameListFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class GameActivityFragmentsBuilder {

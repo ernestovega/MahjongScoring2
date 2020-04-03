@@ -1,6 +1,5 @@
 package com.etologic.mahjongscoring2.business.use_cases.games
 
-import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.data_source.repositories.TablesRepository
 import io.reactivex.Single

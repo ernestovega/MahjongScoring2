@@ -3,8 +3,8 @@ package com.etologic.mahjongscoring2.data_source.repositories
 import android.content.Context
 import com.etologic.mahjongscoring2.R.drawable
 import com.etologic.mahjongscoring2.R.string
-import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.CombinationsDao
 import com.etologic.mahjongscoring2.business.model.entities.Combination
+import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.CombinationsDao
 import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject

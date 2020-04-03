@@ -3,7 +3,8 @@ package com.etologic.mahjongscoring2.app.game.activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.*
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.HAND_ACTION
+import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.PLAYERS
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages
 import com.etologic.mahjongscoring2.app.model.ShowState.HIDE

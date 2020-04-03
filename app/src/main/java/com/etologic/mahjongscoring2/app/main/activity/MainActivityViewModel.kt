@@ -7,15 +7,12 @@ import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
+import com.etologic.mahjongscoring2.business.model.enums.GameStartType
 import com.etologic.mahjongscoring2.business.use_cases.current_game.SetCurrentGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.games.CreateGameUseCase
 import io.reactivex.schedulers.Schedulers
 
-class MainActivityViewModel
-internal constructor(
-    private val createGameUseCase: CreateGameUseCase,
-    private val setCurrentGameUseCase: SetCurrentGameUseCase
-) : BaseViewModel() {
+class MainActivityViewModel internal constructor() : BaseViewModel() {
     
     enum class MainScreens {
         OLD_GAMES,
@@ -31,6 +28,7 @@ internal constructor(
     internal fun getCurrentScreen(): LiveData<MainScreens> = currentScreen
     private val currentToolbar = MutableLiveData<Toolbar>()
     internal fun getCurrentToolbar(): LiveData<Toolbar> = currentToolbar
+    internal var lastGameStartType: GameStartType? = null
     
     internal fun setToolbar(toolbar: Toolbar) {
         currentToolbar.postValue(toolbar)
@@ -38,16 +36,5 @@ internal constructor(
     
     internal fun navigateTo(screen: MainScreens) {
         currentScreen.postValue(screen)
-    }
-    
-    internal fun startNewGame() {
-        disposables.add(
-            createGameUseCase.createGame()
-                .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .flatMap(setCurrentGameUseCase::setCurrentGame)
-                .doOnSuccess{ progressState.postValue(HIDE) }
-                .subscribe({ navigateTo(GAME) }, this::showError)
-        )
     }
 }

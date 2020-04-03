@@ -3,8 +3,8 @@ package com.etologic.mahjongscoring2.app.model
 import androidx.recyclerview.widget.DiffUtil
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
-import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Round
+import com.etologic.mahjongscoring2.business.model.entities.Table
 
 class GameItemDiffUtilCallback(private val newList: List<Table>, private val oldList: List<Table>) : DiffUtil.Callback() {
     

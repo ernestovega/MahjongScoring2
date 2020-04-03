@@ -2,19 +2,11 @@ package com.etologic.mahjongscoring2.app.main.activity
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.etologic.mahjongscoring2.business.use_cases.games.CreateGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_game.SetCurrentGameUseCase
+import com.etologic.mahjongscoring2.business.use_cases.games.CreateGameUseCase
 
-class MainActivityViewModelFactory(
-    private val createGameUseCase: CreateGameUseCase,
-    private val setCurrentGameUseCase: SetCurrentGameUseCase
-) : ViewModelProvider.NewInstanceFactory() {
+class MainActivityViewModelFactory : ViewModelProvider.NewInstanceFactory() {
     
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainActivityViewModel(
-            createGameUseCase,
-            setCurrentGameUseCase
-        ) as T
-    }
+    override fun <T : ViewModel> create(modelClass: Class<T>): T = MainActivityViewModel() as T
 }

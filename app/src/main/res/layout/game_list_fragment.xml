@@ -16,7 +16,7 @@
         android:paddingEnd="@dimen/standard_margin">
 
         <TextView
-            android:layout_width="@dimen/standard_margin"
+            android:layout_width="16sp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_marginEnd="@dimen/half_standard_margin"
@@ -99,16 +99,19 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/triple_standard_margin"
         android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
         android:background="@color/colorPrimary"
-        android:orientation="horizontal"
-        android:padding="@dimen/standard_margin">
+        android:paddingStart="@dimen/standard_margin"
+        android:paddingEnd="@dimen/standard_margin"
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="@dimen/quintuple_margin"
+            android:layout_width="@dimen/quadruple_standard_margin"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/standard_margin"
             android:gravity="center"
             android:lines="1"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:text="@string/totals"
             android:textColor="@android:color/white" />
 
@@ -116,33 +119,36 @@
             android:id="@+id/tvGameListFooterTotalPointsP1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/half_standard_margin"
             android:layout_weight="1"
             android:gravity="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:lines="1"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/tvGameListFooterTotalPointsP2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/half_standard_margin"
             android:layout_weight="1"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:gravity="center"
             android:lines="1"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/tvGameListFooterTotalPointsP3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/half_standard_margin"
             android:layout_weight="1"
             android:gravity="center"
             android:lines="1"
             android:textColor="@android:color/white"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -153,6 +159,7 @@
             android:gravity="center"
             android:lines="1"
             android:textColor="@android:color/white"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
     </LinearLayout>

@@ -6,13 +6,25 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/triple_standard_margin"
+        android:layout_marginTop="@dimen/triple_standard_margin"
+        android:text="@string/first" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/standard_margin"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="@dimen/triple_standard_margin">
+        android:paddingStart="@dimen/triple_standard_margin"
+        android:paddingTop="@dimen/standard_margin"
+        android:paddingEnd="@dimen/triple_standard_margin"
+        android:paddingBottom="@dimen/triple_standard_margin">
 
         <ImageView
             android:id="@+id/ivDice1"
@@ -34,14 +46,23 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/triple_standard_margin"
+        android:text="@string/second" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/standard_margin"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingTop="@dimen/standard_margin"
         android:paddingStart="@dimen/triple_standard_margin"
+        android:paddingTop="@dimen/standard_margin"
         android:paddingEnd="@dimen/triple_standard_margin"
         android:paddingBottom="@dimen/triple_standard_margin">
 

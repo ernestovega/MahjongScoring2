@@ -22,8 +22,8 @@ import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.Game
 import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.Companion.TAG
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.TableSeatsListener
-import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Round
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.google.android.material.badge.BadgeDrawable.*
 import kotlinx.android.synthetic.main.game_table_fragment.*

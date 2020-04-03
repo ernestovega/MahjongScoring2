@@ -1,5 +1,6 @@
 package com.etologic.mahjongscoring2.app.game.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -47,8 +48,7 @@ class GameActivity : BaseActivity() {
             if (currentTimeMillis - lastBackPress > LAST_BACKPRESSED_MIN_TIME) {
                 showSnackbar(viewPagerGame, getString(R.string.press_again_to_exit))
                 lastBackPress = currentTimeMillis
-            }
-            else
+            } else
                 viewModel.navigateTo(EXIT)
         }
     }
@@ -66,10 +66,10 @@ class GameActivity : BaseActivity() {
         return true
     }
     
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        when (item.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             android.R.id.home -> {
-                if(viewPagerGame.currentItem == TABLE.code)
+                if (viewPagerGame.currentItem == TABLE.code)
                     viewModel.navigateTo(EXIT)
                 else
                     onBackPressed()
@@ -93,6 +93,7 @@ class GameActivity : BaseActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

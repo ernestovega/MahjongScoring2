@@ -61,6 +61,7 @@ internal class GameListRvAdapter
         setLooserColor(round, myHolder)
         setPenaltiesIcons(round, myHolder)
         holder.llContainer.setOnSecureClickListener { itemListener?.onClick(holder.tvRoundNum, round.roundId) }
+        holder.llContainer.setOnLongClickListener { itemListener?.onClick(holder.tvRoundNum, round.roundId); true }
     }
     
     private fun fillTexts(roundNum: Int, item: Round, mHolder: ItemViewHolder) {

@@ -71,9 +71,7 @@ constructor(
     internal fun removeRound(roundToRemoveId: Int): Single<Table> =
         currentTableRepository.get()
             .flatMap { table ->
-                val lastRound = table.rounds.last()
-                
-                if (roundToRemoveId == lastRound.roundId && lastRound.isEnded)
+                if (table.rounds.last().isEnded)
                     roundsRepository.insertOne(Round(table.game.gameId)).blockingGet()
                 
                 roundsRepository.deleteOne(table.game.gameId, roundToRemoveId)
@@ -81,10 +79,9 @@ constructor(
                     .doOnSuccess { currentTableRepository.set(it) }
             }
     
-    private fun createRoundIfLessThanMaxMcrHands(table: Table): Single<Long> {
-        return if (table.rounds.size < MAX_MCR_ROUNDS)
+    private fun createRoundIfLessThanMaxMcrHands(table: Table): Single<Long> =
+        if (table.rounds.size < MAX_MCR_ROUNDS)
             roundsRepository.insertOne(Round(table.game.gameId))
         else
             Single.just(table.game.gameId)
-    }
 }

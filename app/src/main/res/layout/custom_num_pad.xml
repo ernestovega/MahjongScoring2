@@ -119,11 +119,9 @@
             android:text="@string/zero" />
 
         <ImageButton
-            android:id="@+id/ibCustomNumPadDelete"
             style="@style/ButtonNumPad"
             android:layout_height="match_parent"
-            android:contentDescription="@string/clear"
-            android:src="@drawable/ic_clear_white_24dp"
+            android:importantForAccessibility="no"
             android:visibility="invisible" />
 
     </LinearLayout>

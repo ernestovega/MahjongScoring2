@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.etologic.mahjongscoring2.app.model.ShowState
-import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.main_activity.*
 
 abstract class BaseFragment : DaggerFragment() {
     
