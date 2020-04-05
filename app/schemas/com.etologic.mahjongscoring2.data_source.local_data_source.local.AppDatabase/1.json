@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e17216cbd776803de68d73224886a936",
+    "identityHash": "91908254b42e9c293a0fbe09b88476f3",
     "entities": [
       {
         "tableName": "Games",
@@ -65,7 +65,7 @@
       },
       {
         "tableName": "Rounds",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`winnerInitialSeat` INTEGER NOT NULL, `discarderInitialSeat` INTEGER NOT NULL, `handPoints` INTEGER NOT NULL, `pointsP1` INTEGER NOT NULL, `pointsP2` INTEGER NOT NULL, `pointsP3` INTEGER NOT NULL, `pointsP4` INTEGER NOT NULL, `penaltyP1` INTEGER NOT NULL, `penaltyP2` INTEGER NOT NULL, `penaltyP3` INTEGER NOT NULL, `penaltyP4` INTEGER NOT NULL, `roundDuration` INTEGER NOT NULL, `isEnded` INTEGER NOT NULL, `gameId` INTEGER NOT NULL, `roundId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`gameId`) REFERENCES `Games`(`gameId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`winnerInitialSeat` INTEGER NOT NULL, `discarderInitialSeat` INTEGER NOT NULL, `handPoints` INTEGER NOT NULL, `pointsP1` INTEGER NOT NULL, `pointsP2` INTEGER NOT NULL, `pointsP3` INTEGER NOT NULL, `pointsP4` INTEGER NOT NULL, `penaltyP1` INTEGER NOT NULL, `penaltyP2` INTEGER NOT NULL, `penaltyP3` INTEGER NOT NULL, `penaltyP4` INTEGER NOT NULL, `isEnded` INTEGER NOT NULL, `gameId` INTEGER NOT NULL, `roundId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`gameId`) REFERENCES `Games`(`gameId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "winnerInitialSeat",
@@ -130,12 +130,6 @@
           {
             "fieldPath": "penaltyP4",
             "columnName": "penaltyP4",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "roundDuration",
-            "columnName": "roundDuration",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -252,7 +246,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e17216cbd776803de68d73224886a936')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '91908254b42e9c293a0fbe09b88476f3')"
     ]
   }
 }

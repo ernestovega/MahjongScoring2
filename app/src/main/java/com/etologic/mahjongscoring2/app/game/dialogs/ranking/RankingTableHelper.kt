@@ -1,6 +1,5 @@
 package com.etologic.mahjongscoring2.app.game.dialogs.ranking
 
-import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
@@ -31,8 +30,7 @@ object RankingTableHelper {
             if (bestHands.isEmpty()) "-" else bestHands[0].handValue.toString(),
             if (bestHands.isEmpty()) "-" else bestHands[0].playerName,
             table.rounds.size,
-            table.rounds.size.toString(),
-            DateTimeUtils.getPrettyDuration(table.rounds)
+            table.rounds.size.toString()
         )
     }
     

@@ -5,7 +5,6 @@ class RankingData(
     val bestHandPlayerPoints: String,
     val bestHandPlayerName: String,
     val numRounds: Int,
-    val sNumRounds: String,
-    val duration: String
+    val sNumRounds: String
 )
 

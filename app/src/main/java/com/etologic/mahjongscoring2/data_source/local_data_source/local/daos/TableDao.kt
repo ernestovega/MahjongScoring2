@@ -11,9 +11,9 @@ interface TableDao {
     
     @Transaction
     @Query("SELECT * from Games ORDER BY startDate DESC")
-    fun getAllTables(): Single<List<Table>>
+    fun getTablesSortedByDateDesc(): Single<List<Table>>
     
     @Transaction
     @Query("SELECT * from Games WHERE gameId = :gameId ORDER BY startDate")
-    fun getTablesOrderedByDateDesc(gameId: Long): Single<Table>
+    fun getTable(gameId: Long): Single<Table>
 }

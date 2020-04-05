@@ -1,6 +1,13 @@
 package com.etologic.mahjongscoring2.app.game.activity
 
-import android.content.Intent
+import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
+import android.hardware.Sensor
+import android.hardware.Sensor.TYPE_ACCELEROMETER
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -18,6 +25,8 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTa
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.TABLE
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_ROUNDS
+import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation.LANDSCAPE
+import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation.PORTRAIT
 import kotlinx.android.synthetic.main.game_activity.*
 import javax.inject.Inject
 
@@ -128,11 +137,11 @@ class GameActivity : BaseActivity() {
     
     private fun currentRoundObserver(currentTable: Table) {
         val currentRound = currentTable.rounds.last()
-        shouldBeShownResumeButton = if(currentRound.isEnded) currentTable.rounds.size < MAX_MCR_ROUNDS else false
+        shouldBeShownResumeButton = if (currentRound.isEnded) currentTable.rounds.size < MAX_MCR_ROUNDS else false
         shouldBeShownEndButton = !currentRound.isEnded
         resumeGameItem?.isVisible = shouldBeShownResumeButton
         endGameItem?.isVisible = shouldBeShownEndButton
-        if(currentRound.isEnded) viewModel.navigateTo(RANKING)
+        if (currentRound.isEnded) viewModel.navigateTo(RANKING)
     }
     
     private fun setupViewPager() {
@@ -157,5 +166,38 @@ class GameActivity : BaseActivity() {
         adapter.addFragment(gameTableFragment, getString(R.string.table))
         adapter.addFragment(gameListFragment, getString(R.string.list))
         return adapter
+    }
+    
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig.orientation == ORIENTATION_LANDSCAPE)
+            viewModel.setScreenOrientation(LANDSCAPE)
+        else
+            viewModel.setScreenOrientation(PORTRAIT)
+    }
+    
+    override fun onResume() {
+        super.onResume()
+        val sensorManager = this.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        sensorManager.registerListener(
+            object : SensorEventListener {
+                var orientation = -1
+                override fun onSensorChanged(event: SensorEvent) {
+                    orientation =
+                        if (event.values[1] < 6.5 && event.values[1] > -6.5) {
+                            if (orientation != 1)
+                                viewModel.setScreenOrientation(LANDSCAPE)
+                            LANDSCAPE.code
+                        } else {
+                            if (orientation != 0)
+                                viewModel.setScreenOrientation(PORTRAIT)
+                            PORTRAIT.code
+                        }
+                }
+                
+                override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+            },
+            sensorManager.getDefaultSensor(TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME
+        )
     }
 }

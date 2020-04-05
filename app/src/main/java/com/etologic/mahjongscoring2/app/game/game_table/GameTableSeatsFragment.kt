@@ -2,6 +2,7 @@ package com.etologic.mahjongscoring2.app.game.game_table
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.*
@@ -18,6 +19,9 @@ import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.model.SeatStates
 import com.etologic.mahjongscoring2.app.model.SeatStates.*
 import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation
+import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation.LANDSCAPE
+import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation.PORTRAIT
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import kotlinx.android.synthetic.main.game_table_seat_east.*
@@ -47,6 +51,7 @@ class GameTableSeatsFragment : Fragment() {
     private var redColor: Int? = null
     private var greenColor: Int? = null
     private var purplePenalty: Int? = null
+    
     //FIELDS
     private var listener: TableSeatsListener? = null
     private var selectedPlayer: TableWinds = NONE
@@ -81,13 +86,13 @@ class GameTableSeatsFragment : Fragment() {
     }
     
     private fun getSeatsStates(table: Table): Array<SeatStates> =
-        if(table.rounds.last().isEnded)
+        if (table.rounds.last().isEnded)
             arrayOf(DISABLED, DISABLED, DISABLED, DISABLED)
         else
             getSeatsStates()
     
     private fun setStates(states: Array<SeatStates>) {
-        areSeatsDisabled = states[0] == DISABLED &&  states[1] == DISABLED &&  states[2] == DISABLED &&  states[3] == DISABLED
+        areSeatsDisabled = states[0] == DISABLED && states[1] == DISABLED && states[2] == DISABLED && states[3] == DISABLED
         setState(ivTableSeatEastSeatWindIcon, tvTableSeatEastName, tvTableSeatEastPoints, tvTableSeatEastPenaltyPoints, states[0])
         setState(ivTableSeatSouthSeatWindIcon, tvTableSeatSouthName, tvTableSeatSouthPoints, tvTableSeatSouthPenaltyPoints, states[1])
         setState(ivTableSeatWestSeatWindIcon, tvTableSeatWestName, tvTableSeatWestPoints, tvTableSeatWestPenaltyPoints, states[2])
@@ -201,5 +206,26 @@ class GameTableSeatsFragment : Fragment() {
         tvTableSeatNorthName?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
         tvTableSeatNorthPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
         tvTableSeatNorthPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
+    }
+    
+    internal fun updateSeatsOrientation(screenOrientation: ScreenOrientation) {
+        when (screenOrientation) {
+            PORTRAIT -> {
+                rlTableSeatSouthContainer?.rotation = -90f
+                rlTableSeatSouthContainer?.gravity = Gravity.END
+                rlTableSeatWestContainer?.rotation = 180f
+                rlTableSeatWestContainer?.gravity = Gravity.BOTTOM
+                rlTableSeatNorthContainer?.rotation = 90f
+                rlTableSeatNorthContainer?.gravity = Gravity.START
+            }
+            LANDSCAPE -> {
+                rlTableSeatSouthContainer?.rotation = 90f
+                rlTableSeatSouthContainer?.gravity = Gravity.START
+                rlTableSeatWestContainer?.rotation = -180f
+                rlTableSeatWestContainer?.gravity = Gravity.TOP
+                rlTableSeatNorthContainer?.rotation = -90f
+                rlTableSeatNorthContainer?.gravity = Gravity.END
+            }
+        }
     }
 }

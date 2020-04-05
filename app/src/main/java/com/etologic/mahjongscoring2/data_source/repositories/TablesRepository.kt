@@ -13,8 +13,9 @@ class TablesRepository
     @Inject lateinit var tableDao: TableDao
     
     internal fun getTable(gameId: Long): Single<Table> =
-        tableDao.getTablesOrderedByDateDesc(gameId)
+        tableDao.getTable(gameId)
+            .map { it.initBestHandAndTotalsAndRoundNumbers() }
     
     internal fun getAllTables(): Single<List<Table>> =
-        tableDao.getAllTables()
+        tableDao.getTablesSortedByDateDesc()
 }

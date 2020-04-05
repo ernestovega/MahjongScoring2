@@ -66,7 +66,7 @@ class GameListFragment : BaseGameFragment() {
     }
     
     private fun tableObserver(table: Table) {
-        roundsListObserver(table.getEndedRoundsWithBestHandAndTotals())
+        roundsListObserver(table.getEndedRounds())
         namesObserver(table.game.getPlayersNames())
         totalsObserver(table.getPlayersTotalPointsStringSigned())
     }

@@ -13,6 +13,50 @@ class Table(@field:Embedded var game: Game) {
     @Relation(parentColumn = "gameId", entityColumn = "gameId")
     var rounds: List<Round> = ArrayList()
     
+    internal fun initBestHandAndTotalsAndRoundNumbers(): Table {
+        setBestHand()
+        setTotals()
+        setRoundNumbers()
+        return this
+    }
+    
+    private fun setBestHand() {
+        val bestHand = getBestHand()
+        if (bestHand.handValue >= MIN_MCR_POINTS) {
+            for (round in rounds) {
+                val isBestHandRound = round.handPoints >= bestHand.handValue && round.winnerInitialSeat == bestHand.playerInitialPosition
+                round.isBestHand = isBestHandRound
+            }
+        }
+    }
+    
+    private fun setTotals() {
+        rounds.forEachIndexed { index, round ->
+            if(round.isEnded) {
+                val newRoundTotals = getTotalPointsUntilRound(index)
+                round.totalPointsP1 = newRoundTotals[0]
+                round.totalPointsP2 = newRoundTotals[1]
+                round.totalPointsP3 = newRoundTotals[2]
+                round.totalPointsP4 = newRoundTotals[3]
+            }
+        }
+    }
+    
+    private fun getTotalPointsUntilRound(index: Int): IntArray {
+        val totalPoints = intArrayOf(0,0,0,0)
+        for (i in 0..index) {
+            totalPoints[0]+= rounds[i].pointsP1
+            totalPoints[1]+= rounds[i].pointsP2
+            totalPoints[2]+= rounds[i].pointsP3
+            totalPoints[3]+= rounds[i].pointsP4
+        }
+        return totalPoints
+    }
+    
+    private fun setRoundNumbers() {
+        rounds.forEachIndexed { index, round -> round.roundNumber = index + 1 }
+    }
+    
     internal fun getCopy(): Table {
         val gameWithRounds = Table(game.copy)
         val newRounds = ArrayList<Round>(rounds.size)
@@ -42,8 +86,9 @@ class Table(@field:Embedded var game: Game) {
         return pointsByCurrentSeat
     }
     
-    internal fun getPlayersTotalPointsStringByCurrentSeat(): List<String> =
-        getPlayersTotalPointsByCurrentSeat().map { String.format(Locale.getDefault(), "%d", it) }
+    internal fun getPlayersTotalPointsStringByCurrentSeat(): List<String> {
+        return getPlayersTotalPointsByCurrentSeat().map { String.format(Locale.getDefault(), "%d", it) }
+    }
     
     internal fun getPlayersPenaltiesByCurrentSeat(): IntArray {
         val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
@@ -56,14 +101,15 @@ class Table(@field:Embedded var game: Game) {
         return pointsByCurrentSeat
     }
     
-    private fun getInitialEastPlayerCurrentSeat(roundId: Int): TableWinds =
-        when (roundId) {
+    private fun getInitialEastPlayerCurrentSeat(roundId: Int): TableWinds {
+        return when (roundId) {
             1, 2, 3, 4 -> EAST
             5, 6, 7, 8 -> SOUTH
             9, 10, 11, 12 -> NORTH
             13, 14, 15, 16 -> WEST
             else -> EAST
         }
+    }
     
     private fun getInitialSouthPlayerCurrentSeat(roundId: Int): TableWinds {
         return when (roundId) {
@@ -116,43 +162,8 @@ class Table(@field:Embedded var game: Game) {
         return points
     }
     
-    internal fun getEndedRoundsWithBestHandAndTotals(): List<Round> {
-        setBestHand()
-        setTotals()
+    internal fun getEndedRounds(): List<Round> {
         return getCopyWithoutLastRoundIfNotEnded()
-    }
-    
-    private fun setBestHand() {
-        val bestHand = getBestHand()
-        if (bestHand.handValue >= MIN_MCR_POINTS) {
-            for (round in rounds) {
-                val isBestHandRound = round.handPoints >= bestHand.handValue && round.winnerInitialSeat == bestHand.playerInitialPosition
-                round.isBestHand = isBestHandRound
-            }
-        }
-    }
-    
-    private fun setTotals() {
-        rounds.forEachIndexed { index, round ->
-            if(round.isEnded) {
-                val newRoundTotals = getTotalPointsUntilRound(index)
-                round.totalPointsP1 = newRoundTotals[0]
-                round.totalPointsP2 = newRoundTotals[1]
-                round.totalPointsP3 = newRoundTotals[2]
-                round.totalPointsP4 = newRoundTotals[3]
-            }
-        }
-    }
-    
-    private fun getTotalPointsUntilRound(index: Int): IntArray {
-        val totalPoints = intArrayOf(0,0,0,0)
-        for (i in 0..index) {
-            totalPoints[0]+= rounds[i].pointsP1
-            totalPoints[1]+= rounds[i].pointsP2
-            totalPoints[2]+= rounds[i].pointsP3
-            totalPoints[3]+= rounds[i].pointsP4
-        }
-        return totalPoints
     }
     
     private fun getCopyWithoutLastRoundIfNotEnded(): List<Round> {

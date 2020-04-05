@@ -22,6 +22,8 @@ class Round(
     @field:PrimaryKey(autoGenerate = true) val roundId: Int
 ) : RecyclerViewable<Round>() {
     
+    @Ignore var roundNumber: Int = 0
+    
     @TypeConverters(TableWindsConverter::class)
     var winnerInitialSeat = NONE
     
@@ -40,7 +42,6 @@ class Round(
     var penaltyP2 = 0
     var penaltyP3 = 0
     var penaltyP4 = 0
-    var roundDuration: Long = 0
     var isEnded = false
     
     @Ignore
@@ -51,16 +52,17 @@ class Round(
     private constructor(
         gameId: Long,
         roundId: Int,
+        roundNumber: Int,
         handPoints: Int,
         winnerInitialPosition: TableWinds,
         discarderInitialPosition: TableWinds,
         pointsP1: Int, pointsP2: Int, pointsP3: Int, pointsP4: Int,
         totalPointsP1: Int, totalPointsP2: Int, totalPointsP3: Int, totalPointsP4: Int,
         penaltyP1: Int, penaltyP2: Int, penaltyP3: Int, penaltyP4: Int,
-        roundDuration: Long,
         isEnded: Boolean,
         isBestHand: Boolean
     ) : this(gameId, roundId) {
+        this.roundNumber = roundNumber
         this.handPoints = handPoints
         this.winnerInitialSeat = winnerInitialPosition
         this.discarderInitialSeat = discarderInitialPosition
@@ -76,7 +78,6 @@ class Round(
         this.penaltyP2 = penaltyP2
         this.penaltyP3 = penaltyP3
         this.penaltyP4 = penaltyP4
-        this.roundDuration = roundDuration
         this.isEnded = isEnded
         this.isBestHand = isBestHand
     }
@@ -93,6 +94,7 @@ class Round(
         return Round(
             gameId,
             roundId,
+            roundNumber,
             handPoints,
             winnerInitialSeat,
             discarderInitialSeat,
@@ -108,7 +110,6 @@ class Round(
             penaltyP2,
             penaltyP3,
             penaltyP4,
-            roundDuration,
             isEnded,
             isBestHand
         )
@@ -182,7 +183,7 @@ class Round(
         penaltyP4 = 0
     }
     
-    internal fun finishRoundApplyingPenalties() {
+    private fun finishRoundApplyingPenalties() {
         applyPlayersPenalties()
         endRound()
     }
@@ -235,6 +236,7 @@ class Round(
         private fun areEqual(round1: Round, round2: Round): Boolean {
             return round1.gameId == round2.gameId &&
                 round1.roundId == round2.roundId &&
+                round1.roundNumber == round2.roundNumber &&
                 round1.handPoints == round2.handPoints &&
                 round1.winnerInitialSeat === round2.winnerInitialSeat &&
                 round1.discarderInitialSeat === round2.discarderInitialSeat &&
@@ -250,7 +252,6 @@ class Round(
                 round1.penaltyP2 == round2.penaltyP2 &&
                 round1.penaltyP3 == round2.penaltyP3 &&
                 round1.penaltyP4 == round2.penaltyP4 &&
-                round1.roundDuration == round2.roundDuration &&
                 round1.isBestHand == round2.isBestHand &&
                 round1.isEnded == round2.isEnded
         }

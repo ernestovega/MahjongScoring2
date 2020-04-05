@@ -12,6 +12,7 @@ import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.use_cases.current_game.GetCurrentGameUseCase
@@ -47,6 +48,8 @@ class GameActivityViewModel internal constructor(
     internal fun getCurrentTable(): LiveData<Table> = _currentTable
     private var _selectedSeat = MutableLiveData<TableWinds>()
     internal fun getSelectedSeat(): LiveData<TableWinds> = _selectedSeat
+    private var _screenOrientation = MutableLiveData<ScreenOrientation>()
+    internal fun getScreenOrientation(): LiveData<ScreenOrientation> = _screenOrientation
     //DTOs
     internal var huPoints = 0
     
@@ -215,4 +218,8 @@ class GameActivityViewModel internal constructor(
             .subscribeOn(Schedulers.io())
             .map { it.game.getPlayersNames() }
             .blockingGet()
+    
+    internal fun setScreenOrientation(screenOrientation: ScreenOrientation) {
+        _screenOrientation.postValue(screenOrientation)
+    }
 }

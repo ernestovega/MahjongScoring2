@@ -55,8 +55,7 @@ internal class GameListRvAdapter
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val round = collection[position]
         val myHolder = holder as ItemViewHolder
-        val roundNum = position + 1
-        fillTexts(roundNum, round, myHolder)
+        fillTexts(round, myHolder)
         setWinnerColor(round, myHolder)
         setLooserColor(round, myHolder)
         setPenaltiesIcons(round, myHolder)
@@ -64,8 +63,8 @@ internal class GameListRvAdapter
         holder.llContainer.setOnLongClickListener { itemListener?.onClick(holder.tvRoundNum, round.roundId); true }
     }
     
-    private fun fillTexts(roundNum: Int, item: Round, mHolder: ItemViewHolder) {
-        mHolder.tvRoundNum.text = roundNum.toString()
+    private fun fillTexts(item: Round, mHolder: ItemViewHolder) {
+        mHolder.tvRoundNum.text = item.roundNumber.toString()
         mHolder.tvHandPoints.text = item.handPoints.toString()
         (if (item.isBestHand) accent else grayMM)?.let { mHolder.tvHandPoints.setTextColor(it) }
         mHolder.tvPointsP1.text = String.format("%+d", item.pointsP1)
