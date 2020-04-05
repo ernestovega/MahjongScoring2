@@ -1,13 +1,12 @@
 package com.etologic.mahjongscoring2.app.game.activity
 
 import android.content.Context
-import android.content.res.Configuration
-import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.hardware.Sensor
 import android.hardware.Sensor.TYPE_ACCELEROMETER
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.hardware.SensorManager.SENSOR_DELAY_UI
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -28,6 +27,7 @@ import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_
 import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation.LANDSCAPE
 import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation.PORTRAIT
 import kotlinx.android.synthetic.main.game_activity.*
+import java.lang.System.currentTimeMillis
 import javax.inject.Inject
 
 class GameActivity : BaseActivity() {
@@ -53,7 +53,7 @@ class GameActivity : BaseActivity() {
         if (viewPagerGame.currentItem == LIST.code)
             viewModel.showPage(TABLE)
         else {
-            val currentTimeMillis = System.currentTimeMillis()
+            val currentTimeMillis = currentTimeMillis()
             if (currentTimeMillis - lastBackPress > LAST_BACKPRESSED_MIN_TIME) {
                 showSnackbar(viewPagerGame, getString(R.string.press_again_to_exit))
                 lastBackPress = currentTimeMillis
@@ -168,36 +168,33 @@ class GameActivity : BaseActivity() {
         return adapter
     }
     
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        if (newConfig.orientation == ORIENTATION_LANDSCAPE)
-            viewModel.setScreenOrientation(LANDSCAPE)
-        else
-            viewModel.setScreenOrientation(PORTRAIT)
-    }
-    
     override fun onResume() {
         super.onResume()
         val sensorManager = this.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         sensorManager.registerListener(
             object : SensorEventListener {
-                var orientation = -1
+                private var lastOrientationChangeTimestamp: Long = 0
+                private var orientation = -1
                 override fun onSensorChanged(event: SensorEvent) {
-                    orientation =
-                        if (event.values[1] < 6.5 && event.values[1] > -6.5) {
-                            if (orientation != 1)
+                    if (event.sensor.type == TYPE_ACCELEROMETER && (currentTimeMillis() - lastOrientationChangeTimestamp) > 250) {
+                        if (event.values[1] < 5.5 && event.values[1] > -5.5 && event.values[2] < 8 && event.values[2] > -8) {
+                            if (orientation != LANDSCAPE.code) {
                                 viewModel.setScreenOrientation(LANDSCAPE)
-                            LANDSCAPE.code
+                                lastOrientationChangeTimestamp = currentTimeMillis()
+                            }
                         } else {
-                            if (orientation != 0)
+                            if (orientation != PORTRAIT.code) {
                                 viewModel.setScreenOrientation(PORTRAIT)
-                            PORTRAIT.code
+                                lastOrientationChangeTimestamp = currentTimeMillis()
+                            }
                         }
+                    }
                 }
                 
                 override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
             },
-            sensorManager.getDefaultSensor(TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME
+            sensorManager.getDefaultSensor(TYPE_ACCELEROMETER),
+            SENSOR_DELAY_UI
         )
     }
 }

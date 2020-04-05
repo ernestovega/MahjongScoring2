@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.getColor
@@ -209,22 +210,19 @@ class GameTableSeatsFragment : Fragment() {
     }
     
     internal fun updateSeatsOrientation(screenOrientation: ScreenOrientation) {
+        
         when (screenOrientation) {
             PORTRAIT -> {
-                rlTableSeatSouthContainer?.rotation = -90f
-                rlTableSeatSouthContainer?.gravity = Gravity.END
-                rlTableSeatWestContainer?.rotation = 180f
-                rlTableSeatWestContainer?.gravity = Gravity.BOTTOM
-                rlTableSeatNorthContainer?.rotation = 90f
-                rlTableSeatNorthContainer?.gravity = Gravity.START
+                rlTableSeatEastContainer?.gravity = Gravity.BOTTOM
+                rlTableSeatSouthContainer?.rotation = 0f
+                rlTableSeatWestContainer?.rotation = 0f
+                rlTableSeatNorthContainer?.rotation = 0f
             }
             LANDSCAPE -> {
-                rlTableSeatSouthContainer?.rotation = 90f
-                rlTableSeatSouthContainer?.gravity = Gravity.START
-                rlTableSeatWestContainer?.rotation = -180f
-                rlTableSeatWestContainer?.gravity = Gravity.TOP
-                rlTableSeatNorthContainer?.rotation = -90f
-                rlTableSeatNorthContainer?.gravity = Gravity.END
+                rlTableSeatEastContainer?.gravity = Gravity.TOP
+                rlTableSeatSouthContainer?.rotation = -90f
+                rlTableSeatWestContainer?.rotation = 180f
+                rlTableSeatNorthContainer?.rotation = 90f
             }
         }
     }
