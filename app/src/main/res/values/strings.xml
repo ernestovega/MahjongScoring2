@@ -200,5 +200,6 @@
     <string name="delete_round">Delete round</string>
     <string name="first">First</string>
     <string name="second">Second</string>
+    <string name="rotate_seats">Rotate seats</string>
 
 </resources>

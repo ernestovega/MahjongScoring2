@@ -210,7 +210,6 @@ class GameTableSeatsFragment : Fragment() {
     }
     
     internal fun updateSeatsOrientation(screenOrientation: ScreenOrientation) {
-        
         when (screenOrientation) {
             PORTRAIT -> {
                 rlTableSeatEastContainer?.gravity = Gravity.BOTTOM

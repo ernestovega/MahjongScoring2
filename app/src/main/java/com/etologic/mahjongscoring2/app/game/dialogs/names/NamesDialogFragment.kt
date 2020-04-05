@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
@@ -27,8 +28,8 @@ internal class NamesDialogFragment : BaseGameDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
         printNames()
-        tietPlayersDialogEast.selectAll()
-        tietPlayersDialogEast.requestFocus()
+        tietPlayersDialogEast?.selectAll()
+        tietPlayersDialogEast?.requestFocus()
         showKeyboard(view)
     }
     
@@ -43,13 +44,11 @@ internal class NamesDialogFragment : BaseGameDialogFragment() {
     }
     
     private fun setOnClickListeners() {
-        tietPlayersDialogEast.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogEast.selectAll() }
-        tietPlayersDialogSouth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogSouth.selectAll() }
-        tietPlayersDialogWest.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogWest.selectAll() }
-        tietPlayersDialogNorth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogNorth.selectAll() }
-        btPlayersDialogCancel?.setOnSecureClickListener {
-            dismiss()
-        }
+        tietPlayersDialogEast?.setOnFocusChangeListener { _ , isFocused -> if (isFocused) tietPlayersDialogEast?.selectAll() }
+        tietPlayersDialogSouth?.setOnFocusChangeListener { _ , isFocused -> if (isFocused) tietPlayersDialogSouth?.selectAll() }
+        tietPlayersDialogWest?.setOnFocusChangeListener { _ , isFocused -> if (isFocused) tietPlayersDialogWest?.selectAll() }
+        tietPlayersDialogNorth?.setOnFocusChangeListener { _ , isFocused -> if (isFocused) tietPlayersDialogNorth?.selectAll() }
+        btPlayersDialogCancel?.setOnSecureClickListener { dismiss() }
         btPlayersDialogSave?.setOnSecureClickListener {
             activityViewModel?.savePlayersNames(
                 arrayOf(

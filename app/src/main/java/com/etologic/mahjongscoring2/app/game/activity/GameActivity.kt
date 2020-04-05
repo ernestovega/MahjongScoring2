@@ -1,12 +1,5 @@
 package com.etologic.mahjongscoring2.app.game.activity
 
-import android.content.Context
-import android.hardware.Sensor
-import android.hardware.Sensor.TYPE_ACCELEROMETER
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
-import android.hardware.SensorManager.SENSOR_DELAY_UI
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -24,8 +17,6 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTa
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.TABLE
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_ROUNDS
-import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation.LANDSCAPE
-import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation.PORTRAIT
 import kotlinx.android.synthetic.main.game_activity.*
 import java.lang.System.currentTimeMillis
 import javax.inject.Inject
@@ -82,6 +73,10 @@ class GameActivity : BaseActivity() {
                     viewModel.navigateTo(EXIT)
                 else
                     onBackPressed()
+                true
+            }
+            R.id.action_ratate_seats -> {
+                viewModel.changeSeatsRotation()
                 true
             }
             R.id.action_combinations -> {
@@ -166,35 +161,5 @@ class GameActivity : BaseActivity() {
         adapter.addFragment(gameTableFragment, getString(R.string.table))
         adapter.addFragment(gameListFragment, getString(R.string.list))
         return adapter
-    }
-    
-    override fun onResume() {
-        super.onResume()
-        val sensorManager = this.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        sensorManager.registerListener(
-            object : SensorEventListener {
-                private var lastOrientationChangeTimestamp: Long = 0
-                private var orientation = -1
-                override fun onSensorChanged(event: SensorEvent) {
-                    if (event.sensor.type == TYPE_ACCELEROMETER && (currentTimeMillis() - lastOrientationChangeTimestamp) > 250) {
-                        if (event.values[1] < 5.5 && event.values[1] > -5.5 && event.values[2] < 8 && event.values[2] > -8) {
-                            if (orientation != LANDSCAPE.code) {
-                                viewModel.setScreenOrientation(LANDSCAPE)
-                                lastOrientationChangeTimestamp = currentTimeMillis()
-                            }
-                        } else {
-                            if (orientation != PORTRAIT.code) {
-                                viewModel.setScreenOrientation(PORTRAIT)
-                                lastOrientationChangeTimestamp = currentTimeMillis()
-                            }
-                        }
-                    }
-                }
-                
-                override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
-            },
-            sensorManager.getDefaultSensor(TYPE_ACCELEROMETER),
-            SENSOR_DELAY_UI
-        )
     }
 }
