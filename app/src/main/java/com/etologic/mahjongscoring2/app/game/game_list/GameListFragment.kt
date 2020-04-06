@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
@@ -73,7 +75,12 @@ class GameListFragment : BaseGameFragment() {
     
     private fun roundsListObserver(roundsList: List<Round>) {
         rvAdapter.updateCollection(roundsList)
-        if(roundsList.isNotEmpty()) rvGameList.smoothScrollToPosition(roundsList.size - 1)
+        if(roundsList.isEmpty()) {
+            rlGameListEmptyState?.visibility = VISIBLE
+        } else {
+            if(rlGameListEmptyState?.visibility == VISIBLE) rlGameListEmptyState?.visibility = GONE
+            rvGameList.smoothScrollToPosition(roundsList.size - 1)
+        }
     }
     
     private fun namesObserver(names: Array<String>) {

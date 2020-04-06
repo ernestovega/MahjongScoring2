@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@android:color/white">
 
     <LinearLayout
@@ -18,8 +18,8 @@
         <TextView
             android:layout_width="16sp"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:layout_marginEnd="@dimen/half_standard_margin"
+            android:gravity="center"
             android:lines="1"
             android:text="@string/number_symbol"
             android:textColor="@android:color/white" />
@@ -94,26 +94,63 @@
         android:background="@android:color/white"
         tools:listitem="@layout/game_list_round_item" />
 
+    <RelativeLayout
+        android:id="@+id/rlGameListEmptyState"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/llGameListFooter"
+        android:layout_below="@+id/llGameListHeader">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/vGameListEmptyStateCenter"
+            android:layout_marginStart="@dimen/double_standard_margin"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="-32dp"
+            android:layout_toStartOf="@+id/vGameListEmptyStateCenter"
+            android:rotation="160"
+            android:src="@drawable/arrow"
+            android:tint="@color/gray"
+            tools:ignore="ContentDescription" />
+
+        <View
+            android:id="@+id/vGameListEmptyStateCenter"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vGameListEmptyStateCenter"
+            android:layout_centerHorizontal="true"
+            android:importantForAccessibility="no"
+            android:src="@drawable/img_empty_box"
+            android:tint="@color/gray" />
+
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/llGameListFooter"
         android:layout_width="match_parent"
         android:layout_height="@dimen/triple_standard_margin"
         android:layout_alignParentBottom="true"
-        android:gravity="center_vertical"
         android:background="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingStart="@dimen/standard_margin"
-        android:paddingEnd="@dimen/standard_margin"
-        android:orientation="horizontal">
+        android:paddingEnd="@dimen/standard_margin">
 
         <TextView
             android:layout_width="@dimen/quadruple_standard_margin"
             android:layout_height="match_parent"
             android:gravity="center"
             android:lines="1"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:text="@string/totals"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvGameListFooterTotalPointsP1"
@@ -122,10 +159,10 @@
             android:layout_marginEnd="@dimen/half_standard_margin"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:lines="1"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvGameListFooterTotalPointsP2"
@@ -133,11 +170,11 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/half_standard_margin"
             android:layout_weight="1"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:gravity="center"
             android:lines="1"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvGameListFooterTotalPointsP3"
