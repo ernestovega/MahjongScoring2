@@ -5,8 +5,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
@@ -39,11 +38,13 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     
     private fun setListeners() {
         btHandActionsDialogPenaltiesCancel?.setOnSecureClickListener {
-            isDialogCancelled = false
             AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
                 .setTitle(R.string.cancel_penalties)
                 .setMessage(R.string.are_you_sure)
-                .setPositiveButton(R.string.ok) { _, _ -> activityViewModel?.cancelPenalties(); this.dismiss() }
+                .setPositiveButton(R.string.ok) { _, _ ->
+                    activityViewModel?.cancelPenalties()
+                    this.dismiss()
+                }
                 .setNegativeButton(R.string.close, null)
                 .create()
                 .show()
@@ -71,7 +72,8 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     }
     
     override fun onDismiss(dialog: DialogInterface) {
-        if(isDialogCancelled) activityViewModel?.unselectedSelectedSeat()
+        if(isDialogCancelled)
+            activityViewModel?.unselectedSelectedSeat()
         super.onDismiss(dialog)
     }
 }

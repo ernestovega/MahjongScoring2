@@ -5,98 +5,84 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <RelativeLayout
-        android:id="@+id/llGameTableRoundNumberAndIconContainerHeader"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/table_header_height"
-        android:layout_alignParentTop="true"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:id="@+id/tvGameTableRoundNumberTopStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="@dimen/double_standard_margin"
-            android:drawablePadding="@dimen/half_standard_margin"
-            android:drawableTint="@color/grayMM"
-            android:gravity="center"
-            android:rotation="-215"
-            android:textColor="@color/grayMM"
-            android:textSize="@dimen/table_player_round_num_text_size"
-            tools:drawableBottom="@drawable/ic_east"
-            tools:targetApi="m"
-            tools:text="16" />
-
-        <TextView
-            android:id="@+id/tvGameTableRoundNumberTopEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/double_standard_margin"
-            android:drawablePadding="@dimen/half_standard_margin"
-            android:drawableTint="@color/grayMM"
-            android:gravity="center"
-            android:rotation="215"
-            android:textColor="@color/grayMM"
-            android:textSize="@dimen/table_player_round_num_text_size"
-            tools:drawableBottom="@drawable/ic_east"
-            tools:ignore="RelativeOverlap"
-            tools:targetApi="m"
-            tools:text="16" />
-
-    </RelativeLayout>
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcvGameTableSeats"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/llGameTableRoundNumberAndIconContainerFooter"
-        android:layout_below="@+id/llGameTableRoundNumberAndIconContainerHeader"
+        android:layout_height="match_parent"
         android:tag="GameTableSeatsFragment" />
 
-    <RelativeLayout
-        android:id="@+id/llGameTableRoundNumberAndIconContainerFooter"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/table_header_height"
+    <TextView
+        android:id="@+id/tvGameTableRoundNumberTopStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/double_standard_margin"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:drawablePadding="@dimen/half_standard_margin"
+        android:drawableTint="@color/grayMM"
+        android:gravity="center"
+        android:rotation="-215"
+        android:textColor="@color/grayMM"
+        android:textSize="@dimen/table_player_round_num_text_size"
+        tools:drawableBottom="@drawable/ic_east"
+        tools:targetApi="m"
+        tools:text="16" />
+
+    <TextView
+        android:id="@+id/tvGameTableRoundNumberTopEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_marginEnd="@dimen/double_standard_margin"
+        android:drawablePadding="@dimen/half_standard_margin"
+        android:drawableTint="@color/grayMM"
+        android:gravity="center"
+        android:rotation="215"
+        android:textColor="@color/grayMM"
+        android:textSize="@dimen/table_player_round_num_text_size"
+        tools:drawableBottom="@drawable/ic_east"
+        tools:ignore="RelativeOverlap"
+        tools:targetApi="m"
+        tools:text="16" />
+
+    <TextView
+        android:id="@+id/tvGameTableRoundNumberBottomStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:gravity="center_vertical">
+        android:layout_marginStart="@dimen/double_standard_margin"
+        android:layout_marginBottom="@dimen/standard_margin"
+        android:drawablePadding="@dimen/half_standard_margin"
+        android:drawableTint="@color/grayMM"
+        android:gravity="center"
+        android:rotation="45"
+        android:textColor="@color/grayMM"
+        android:textSize="@dimen/table_player_round_num_text_size"
+        tools:drawableBottom="@drawable/ic_east"
+        tools:targetApi="m"
+        tools:text="16" />
 
-        <TextView
-            android:id="@+id/tvGameTableRoundNumberBottomStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="@dimen/double_standard_margin"
-            android:drawablePadding="@dimen/half_standard_margin"
-            android:drawableTint="@color/grayMM"
-            android:gravity="center"
-            android:rotation="45"
-            android:textColor="@color/grayMM"
-            android:textSize="@dimen/table_player_round_num_text_size"
-            tools:drawableBottom="@drawable/ic_east"
-            tools:targetApi="m"
-            tools:text="16" />
-
-        <TextView
-            android:id="@+id/tvGameTableRoundNumberBottomEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/double_standard_margin"
-            android:drawablePadding="@dimen/half_standard_margin"
-            android:drawableTint="@color/grayMM"
-            android:gravity="center"
-            android:rotation="-45"
-            android:textColor="@color/grayMM"
-            android:textSize="@dimen/table_player_round_num_text_size"
-            android:visibility="gone"
-            tools:drawableBottom="@drawable/ic_east"
-            tools:ignore="RelativeOverlap"
-            tools:targetApi="m"
-            tools:text="16" />
-
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/tvGameTableRoundNumberBottomEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/double_standard_margin"
+        android:layout_marginBottom="@dimen/standard_margin"
+        android:drawablePadding="@dimen/half_standard_margin"
+        android:drawableTint="@color/grayMM"
+        android:gravity="center"
+        android:rotation="-45"
+        android:textColor="@color/grayMM"
+        android:textSize="@dimen/table_player_round_num_text_size"
+        android:visibility="gone"
+        tools:drawableBottom="@drawable/ic_east"
+        tools:ignore="RelativeOverlap"
+        tools:targetApi="m"
+        tools:text="16" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabGameTable"

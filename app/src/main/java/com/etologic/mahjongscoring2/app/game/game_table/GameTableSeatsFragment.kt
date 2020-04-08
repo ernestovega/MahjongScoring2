@@ -2,12 +2,13 @@ package com.etologic.mahjongscoring2.app.game.game_table
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.Gravity
+import android.util.TypedValue
+import android.view.Gravity.BOTTOM
+import android.view.Gravity.TOP
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.getColor
@@ -110,7 +111,6 @@ class GameTableSeatsFragment : Fragment() {
             ivWind?.setColorFilter(it)
             tvName.setTextColor(it)
             tvPoints.setTextColor(it)
-            tvPenaltyPoints.setTextColor(if (state != NORMAL || purplePenalty == null) it else purplePenalty!!)
         }
     }
     
@@ -212,13 +212,18 @@ class GameTableSeatsFragment : Fragment() {
     internal fun updateSeatsOrientation(screenOrientation: ScreenOrientation) {
         when (screenOrientation) {
             PORTRAIT -> {
-                rlTableSeatEastContainer?.gravity = Gravity.BOTTOM
+                val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16f * 2, resources.displayMetrics).toInt()
+                rlTableSeatEastContainer?.setPadding(0, margin, 0, 0)
+                rlTableSeatWestContainer?.setPadding(0, 0, 0, margin)
+                rlTableSeatWestContainer?.gravity = BOTTOM
                 rlTableSeatSouthContainer?.rotation = 0f
                 rlTableSeatWestContainer?.rotation = 0f
                 rlTableSeatNorthContainer?.rotation = 0f
             }
             LANDSCAPE -> {
-                rlTableSeatEastContainer?.gravity = Gravity.TOP
+                rlTableSeatEastContainer?.setPadding(0, 0, 0, 0)
+                rlTableSeatWestContainer?.setPadding(0, 0, 0, 0)
+                rlTableSeatWestContainer?.gravity = TOP
                 rlTableSeatSouthContainer?.rotation = -90f
                 rlTableSeatWestContainer?.rotation = 180f
                 rlTableSeatNorthContainer?.rotation = 90f

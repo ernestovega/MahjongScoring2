@@ -203,7 +203,7 @@ class Round(
         isEnded = false
     }
     
-    internal fun areTherePenalties(): Boolean = penaltyP1 > 0 || penaltyP2 > 0 || penaltyP3 > 0 || penaltyP4 > 0
+    internal fun areTherePenalties(): Boolean = penaltyP1 != 0 || penaltyP2 != 0 || penaltyP3 != 0 || penaltyP4 != 0
     
     internal fun setTotalsPoints(playersTotalPoints: IntArray) {
         totalPointsP1 = playersTotalPoints[EAST.code]

@@ -150,7 +150,7 @@
     <string name="points">Points</string>
     <string name="number_symbol">#</string>
     <string name="final_results">Final results</string>
-    <string name="cancel_penalties">Cancel penalties</string>
+    <string name="cancel_penalties">Cancel all penalties</string>
     <string name="draw">Draw</string>
     <string name="east">East</string>
     <string name="west">West</string>

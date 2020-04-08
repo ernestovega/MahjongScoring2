@@ -36,7 +36,7 @@ object RankingTableHelper {
     
     private fun getSortedPlayersRankings(table: Table): List<PlayerRanking> {
         val playersRankings = setPlayersNamesAndScores(table)
-        playersRankings.sortedWith(compareBy(PlayerRanking::points, PlayerRanking::score))
+        playersRankings.sortedByDescending { it.score }
         reverse(playersRankings)
         setPlayersTablePoints(playersRankings)
         return playersRankings
