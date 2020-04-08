@@ -29,8 +29,8 @@
 
     <View
         android:id="@+id/vGameTableSeatEastAuxStart"
-        android:layout_above="@+id/tvTableSeatEastName"
         style="@style/auxView"
+        android:layout_above="@+id/tvTableSeatEastName"
         android:layout_below="@+id/ivTableSeatEastSeatWindIcon"
         android:layout_centerHorizontal="true"
         android:layout_toStartOf="@+id/tvTableSeatEastPoints" />

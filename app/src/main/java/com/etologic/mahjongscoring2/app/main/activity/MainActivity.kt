@@ -22,6 +22,7 @@ class MainActivity : BaseActivity() {
     
     companion object {
         internal const val TAG = "MainActivity"
+        
         @Suppress("unused")
         internal const val CODE = 1
         internal const val GREEN_BOOK_CODE = 11

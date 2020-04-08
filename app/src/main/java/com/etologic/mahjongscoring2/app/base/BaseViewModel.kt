@@ -13,6 +13,7 @@ open class BaseViewModel : ViewModel() {
     protected var disposables = CompositeDisposable()
     protected var progressState = MutableLiveData<ShowState>()
     internal fun getProgressState(): LiveData<ShowState> = progressState
+    
     @Suppress("MemberVisibilityCanBePrivate")
     protected var snackbarMessage = MutableLiveData<String>()
     internal fun getSnackbarMessage(): LiveData<String> = snackbarMessage
