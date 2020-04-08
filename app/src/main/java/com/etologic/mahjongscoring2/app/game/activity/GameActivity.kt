@@ -76,6 +76,7 @@ class GameActivity : BaseActivity() {
                 true
             }
             R.id.action_ratate_seats -> {
+                if (viewPagerGame.currentItem == LIST.code) viewModel.showPage(TABLE)
                 viewModel.changeSeatsRotation()
                 true
             }
