@@ -13,6 +13,9 @@ import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_ROUNDS
 import kotlinx.android.synthetic.main.game_table_ranking_dialog_fragment.*
+import java.lang.String.format
+import java.util.*
+import java.util.Locale.*
 
 internal class RankingDialogFragment : BaseGameDialogFragment() {
     
@@ -47,7 +50,6 @@ internal class RankingDialogFragment : BaseGameDialogFragment() {
         val playerThird = rankingData.sortedPlayersRankings[2]
         val playerFourth = rankingData.sortedPlayersRankings[3]
         
-//            tvDuration?.setText(rankingTable.getDuration());
         btRankingDialogResume?.visibility = if (rankingData.numRounds < MAX_MCR_ROUNDS) VISIBLE else GONE
         
         tvRankingDialogPlayer1Name?.text = playerFirst.name
@@ -60,10 +62,10 @@ internal class RankingDialogFragment : BaseGameDialogFragment() {
         tvRankingDialogPlayer3Points?.text = playerThird.points
         tvRankingDialogPlayer4Points?.text = playerFourth.points
         
-        tvRankingDialogPlayer1Score?.text = playerFirst.score
-        tvRankingDialogPlayer2Score?.text = playerSecond.score
-        tvRankingDialogPlayer3Score?.text = playerThird.score
-        tvRankingDialogPlayer4Score?.text = playerFourth.score
+        tvRankingDialogPlayer1Score?.text = format(getDefault(),"%+d", playerFirst.score)
+        tvRankingDialogPlayer2Score?.text = format(getDefault(),"%+d", playerSecond.score)
+        tvRankingDialogPlayer3Score?.text = format(getDefault(),"%+d", playerThird.score)
+        tvRankingDialogPlayer4Score?.text = format(getDefault(),"%+d", playerFourth.score)
         
         tvRankingDialogBestHandPlayerPoints?.text = rankingData.bestHandPlayerPoints
         tvRankingDialogBestHandPlayerName?.text = rankingData.bestHandPlayerName

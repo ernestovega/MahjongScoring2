@@ -80,21 +80,21 @@
                         <ImageView
                             android:layout_width="@dimen/standard_margin"
                             android:layout_height="@dimen/standard_margin"
-                            android:contentDescription="@string/east"
-                            android:src="@drawable/ic_east" />
+                            android:contentDescription="@string/west"
+                            android:src="@drawable/ic_west" />
 
                         <TextView
-                            android:id="@+id/tvOlgGameItemPlayerEastName"
+                            android:id="@+id/tvOlgGameItemPlayerWestName"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:lines="1"
                             android:textStyle="bold"
-                            tools:text="East playerplayer" />
+                            tools:text="West player" />
 
                         <TextView
-                            android:id="@+id/tvOldGameItemPlayerEastPoints"
+                            android:id="@+id/tvOldGameItemPlayerWestPoints"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -112,38 +112,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/half_standard_margin"
-                            android:layout_weight="1"
-                            android:gravity="center_horizontal"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="@dimen/standard_margin"
-                                android:layout_height="@dimen/standard_margin"
-                                android:contentDescription="@string/south"
-                                android:src="@drawable/ic_south" />
-
-                            <TextView
-                                android:id="@+id/tvOlgGameItemPlayerSouthName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:textStyle="bold"
-                                tools:text="South playerplayerplayerplayer" />
-
-                            <TextView
-                                android:id="@+id/tvOldGameItemPlayerSouthPoints"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                tools:text="100" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
@@ -173,6 +141,38 @@
 
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="@dimen/standard_margin"
+                                android:layout_height="@dimen/standard_margin"
+                                android:contentDescription="@string/south"
+                                android:src="@drawable/ic_south" />
+
+                            <TextView
+                                android:id="@+id/tvOlgGameItemPlayerSouthName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:textStyle="bold"
+                                tools:text="South playerplayerplayerplayer" />
+
+                            <TextView
+                                android:id="@+id/tvOldGameItemPlayerSouthPoints"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                tools:text="100" />
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -184,21 +184,21 @@
                         <ImageView
                             android:layout_width="@dimen/standard_margin"
                             android:layout_height="@dimen/standard_margin"
-                            android:contentDescription="@string/west"
-                            android:src="@drawable/ic_west" />
+                            android:contentDescription="@string/east"
+                            android:src="@drawable/ic_east" />
 
                         <TextView
-                            android:id="@+id/tvOlgGameItemPlayerWestName"
+                            android:id="@+id/tvOlgGameItemPlayerEastName"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:lines="1"
                             android:textStyle="bold"
-                            tools:text="West player" />
+                            tools:text="East playerplayer" />
 
                         <TextView
-                            android:id="@+id/tvOldGameItemPlayerWestPoints"
+                            android:id="@+id/tvOldGameItemPlayerEastPoints"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
