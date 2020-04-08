@@ -40,7 +40,7 @@ class GameListFragment : BaseGameFragment() {
         val layoutManager = LinearLayoutManager(context)
         view.rvGameList?.layoutManager = layoutManager
         view.rvGameList?.adapter = rvAdapter
-        rvAdapter.setItemListener(object: GameListItemListener {
+        rvAdapter.setItemListener(object : GameListItemListener {
             override fun onClick(view: View, roundId: Int) {
                 val popup = PopupMenu(context!!, view)
                 popup.menuInflater.inflate(R.menu.game_list_item_menu, popup.menu)
@@ -75,10 +75,10 @@ class GameListFragment : BaseGameFragment() {
     
     private fun roundsListObserver(roundsList: List<Round>) {
         rvAdapter.updateCollection(roundsList)
-        if(roundsList.isEmpty()) {
+        if (roundsList.isEmpty()) {
             rlGameListEmptyState?.visibility = VISIBLE
         } else {
-            if(rlGameListEmptyState?.visibility == VISIBLE) rlGameListEmptyState?.visibility = GONE
+            if (rlGameListEmptyState?.visibility == VISIBLE) rlGameListEmptyState?.visibility = GONE
             rvGameList.smoothScrollToPosition(roundsList.size - 1)
         }
     }

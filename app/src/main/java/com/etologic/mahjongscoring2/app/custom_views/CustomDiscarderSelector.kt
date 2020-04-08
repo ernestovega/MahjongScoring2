@@ -64,7 +64,7 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
     }
     
     private fun setSelfpickSeats(tvName: TextView?, tvPoints: TextView?, wind: TableWinds) {
-        if(wind == winnerWind) setSeatTextsStyles(tvName, tvPoints, greenColor, BOLD_ITALIC)
+        if (wind == winnerWind) setSeatTextsStyles(tvName, tvPoints, greenColor, BOLD_ITALIC)
         else setSeatTextsStyles(tvName, tvPoints, grayColor, NORMAL)
         tvPoints?.text = getSelfpickSeatPointsText(wind)
     }

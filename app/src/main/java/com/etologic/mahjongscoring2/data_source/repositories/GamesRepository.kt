@@ -12,9 +12,14 @@ import javax.inject.Singleton
 class GamesRepository
 @Inject constructor() {
     
-    @Inject lateinit var gamesDao: GamesDao
-    @Inject lateinit var roundsDao: RoundsDao
-    @Inject lateinit var tableDao: TableDao
+    @Inject
+    lateinit var gamesDao: GamesDao
+    
+    @Inject
+    lateinit var roundsDao: RoundsDao
+    
+    @Inject
+    lateinit var tableDao: TableDao
     
     internal fun insertOne(game: Game): Single<Long> =
         gamesDao.insertOne(game)

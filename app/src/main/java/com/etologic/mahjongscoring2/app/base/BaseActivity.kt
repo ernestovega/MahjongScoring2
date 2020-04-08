@@ -13,7 +13,6 @@ import android.view.View
 import androidx.annotation.IdRes
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.anim.*
-import com.etologic.mahjongscoring2.app.model.ShowState
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 import dagger.android.support.DaggerAppCompatActivity
@@ -35,7 +34,8 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     internal fun goToActivity(intent: Intent, requestCode: Int) {
         startActivityForResult(intent, requestCode)
     }
-
+    
+    @Suppress("unused")
     internal fun goToFragment(@IdRes frameLayoutContainer: Int, fragment: BaseFragment, tag: String) {
         supportFragmentManager.beginTransaction().apply {
             setCustomAnimations(enter_from_left, exit_to_right, enter_from_right, exit_to_left)
@@ -59,9 +59,5 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
             val text = if (StringUtils.isBlank(message)) "" else message
             Snackbar.make(it, text, LENGTH_LONG).show()
         }
-    }
-    
-    internal fun toggleProgress(showState: ShowState) {
-//        llProgress?.visibility = if (showState === SHOW) VISIBLE else GONE
     }
 }

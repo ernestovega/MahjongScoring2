@@ -17,9 +17,4 @@ class CurrentTableMemoryDataSource
         currentGame = game
         return Single.just(currentGame)
     }
-    
-    internal fun invalidate(): Single<Boolean> {
-        currentGame = null
-        return Single.just(true)
-    }
 }

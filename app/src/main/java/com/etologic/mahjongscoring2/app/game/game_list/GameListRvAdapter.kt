@@ -106,7 +106,7 @@ internal class GameListRvAdapter
     
     //VIEWHOLDER
     internal inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    
+        
         var llContainer: LinearLayout = view.llGameListItemContainer
         var tvRoundNum: TextView = view.tvGameListItemRoundNumber
         var tvHandPoints: TextView = view.tvGameListItemHandPoints

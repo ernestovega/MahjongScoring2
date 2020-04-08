@@ -20,8 +20,10 @@ import com.etologic.mahjongscoring2.business.model.entities.Combination
 import com.etologic.mahjongscoring2.business.model.entities.Combination.CombinationDescriptionType.IMAGE
 import kotlinx.android.synthetic.main.combination_item.view.*
 import java.util.*
+import javax.inject.Inject
 
-internal class CombinationsRvAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+internal class CombinationsRvAdapter
+@Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     
     private var combinations: List<Combination> = ArrayList()
     private var imageOrDescriptionShowState = HIDE

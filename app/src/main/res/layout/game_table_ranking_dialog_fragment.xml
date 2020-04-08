@@ -31,7 +31,7 @@
                 android:id="@+id/tvRankingDialogPlayer1Name"
                 style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="7"
-                android:text="Player 1"
+                tools:text="Player 1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:ignore="HardcodedText" />
 
@@ -39,7 +39,7 @@
                 android:id="@+id/tvRankingDialogPlayer1Points"
                 style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="2"
-                android:text="4"
+                tools:text="4"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:ignore="HardcodedText" />
 
@@ -47,7 +47,7 @@
                 android:id="@+id/tvRankingDialogPlayer1Score"
                 style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="3"
-                android:text="200"
+                tools:text="200"
                 tools:ignore="HardcodedText" />
         </TableRow>
 
@@ -57,7 +57,7 @@
                 android:id="@+id/tvRankingDialogPlayer2Name"
                 style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="7"
-                android:text="Player 2"
+                tools:text="Player 2"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:ignore="HardcodedText" />
 
@@ -65,7 +65,7 @@
                 android:id="@+id/tvRankingDialogPlayer2Points"
                 style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="2"
-                android:text="2"
+                tools:text="2"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:ignore="HardcodedText" />
 
@@ -73,7 +73,7 @@
                 android:id="@+id/tvRankingDialogPlayer2Score"
                 style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="3"
-                android:text="100"
+                tools:text="100"
                 tools:ignore="HardcodedText" />
         </TableRow>
 
@@ -83,7 +83,7 @@
                 android:id="@+id/tvRankingDialogPlayer3Name"
                 style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="7"
-                android:text="Player 3"
+                tools:text="Player 3"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:ignore="HardcodedText" />
 
@@ -91,7 +91,7 @@
                 android:id="@+id/tvRankingDialogPlayer3Points"
                 style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="2"
-                android:text="1"
+                tools:text="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:ignore="HardcodedText" />
 
@@ -99,7 +99,7 @@
                 android:id="@+id/tvRankingDialogPlayer3Score"
                 style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="3"
-                android:text="-100"
+                tools:text="-100"
                 tools:ignore="HardcodedText" />
         </TableRow>
 
@@ -109,7 +109,7 @@
                 android:id="@+id/tvRankingDialogPlayer4Name"
                 style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="7"
-                android:text="Player 4"
+                tools:text="Player 4"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:ignore="HardcodedText" />
 
@@ -117,7 +117,7 @@
                 android:id="@+id/tvRankingDialogPlayer4Points"
                 style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="2"
-                android:text="0"
+                tools:text="0"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:ignore="HardcodedText" />
 
@@ -125,7 +125,7 @@
                 android:id="@+id/tvRankingDialogPlayer4Score"
                 style="@style/TextViewRankingDialogTableContent"
                 android:layout_weight="3"
-                android:text="-200"
+                tools:text="-200"
                 tools:ignore="HardcodedText" />
 
         </TableRow>
@@ -157,7 +157,7 @@
                 android:id="@+id/tvRankingDialogNumRounds"
                 style="@style/tvRankingDialogOthers"
                 android:layout_weight="5"
-                android:text="16"
+                tools:text="16"
                 tools:ignore="HardcodedText" />
 
             <View
@@ -186,31 +186,31 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tvRankingDialogBestHandPlayerPoints"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/grayMM"
-                        android:maxLines="1"
                         android:ellipsize="end"
                         android:gravity="center"
-                        android:text="119"
+                        android:maxLines="1"
+                        tools:text="119"
+                        android:textColor="@color/grayMM"
                         tools:ignore="HardcodedText" />
 
                     <TextView
                         android:id="@+id/tvRankingDialogBestHandPlayerName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/grayMM"
-                        android:maxLines="1"
                         android:ellipsize="end"
                         android:gravity="center"
-                        android:text="Juanito"
+                        android:maxLines="1"
+                        tools:text="Juanito"
+                        android:textColor="@color/grayMM"
                         tools:ignore="HardcodedText" />
 
                 </LinearLayout>

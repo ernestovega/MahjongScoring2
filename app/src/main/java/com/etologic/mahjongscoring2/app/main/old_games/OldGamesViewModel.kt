@@ -54,7 +54,7 @@ internal class OldGamesViewModel(
             setCurrentGameUseCase.setCurrentGame(gameId)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess{ progressState.postValue(HIDE) }
+                .doOnSuccess { progressState.postValue(HIDE) }
                 .subscribe({ _startGame.postValue(RESUME) }, this::showError)
         )
     }
@@ -65,7 +65,7 @@ internal class OldGamesViewModel(
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { progressState.postValue(SHOW) }
                 .flatMap(setCurrentGameUseCase::setCurrentGame)
-                .doOnSuccess{ progressState.postValue(HIDE) }
+                .doOnSuccess { progressState.postValue(HIDE) }
                 .subscribe({ _startGame.postValue(NEW) }, this::showError)
         )
     }

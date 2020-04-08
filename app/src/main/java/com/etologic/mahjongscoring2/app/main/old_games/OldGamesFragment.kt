@@ -7,18 +7,16 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseFragment
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel
-import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.GAME
+import com.etologic.mahjongscoring2.app.main.activity.MainActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModelFactory
-import com.etologic.mahjongscoring2.app.model.ShowState
-import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.enums.GameStartType
 import com.etologic.mahjongscoring2.business.model.enums.GameStartType.NEW
@@ -36,7 +34,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     
     @Inject
     internal lateinit var oldGamesViewModelFactory: OldGamesViewModelFactory
-    private lateinit var activityViewModel: MainActivityViewModel
+    private lateinit var activityViewModel: MainViewModel
     private lateinit var viewModel: OldGamesViewModel
     
     @Inject
@@ -86,19 +84,14 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     
     private fun setupViewModel() {
         if (activity != null) {
-            activityViewModel = ViewModelProvider(activity!!, mainActivityViewModelFactory).get(MainActivityViewModel::class.java)
+            activityViewModel = ViewModelProvider(activity!!, mainActivityViewModelFactory).get(MainViewModel::class.java)
             viewModel = ViewModelProvider(this, oldGamesViewModelFactory).get(OldGamesViewModel::class.java)
             viewModel.getError().observe(viewLifecycleOwner, Observer(this::showError))
-            viewModel.getProgressState().observe(viewLifecycleOwner, Observer(this::toogleLocalProgress))
+            viewModel.getProgressState().observe(viewLifecycleOwner, Observer((activity as MainActivity)::toggleProgress))
             viewModel.getSnackbarMessage().observe(viewLifecycleOwner, Observer { view?.let { view -> showSnackbar(view, it) } })
             viewModel.getGames().observe(viewLifecycleOwner, Observer(this::gamesObserver))
             viewModel.getStartGame().observe(viewLifecycleOwner, Observer(this::startGameObserver))
         }
-    }
-    
-    private fun toogleLocalProgress(showState: ShowState) {
-        swipeRefreshLayoutOldGames.isRefreshing = false
-        llOldGamesProgress?.visibility = if (showState === SHOW) VISIBLE else GONE
     }
     
     private fun gamesObserver(games: List<Table>) {
@@ -107,7 +100,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         else {
             emptyLayoutOldGames?.visibility = GONE
             rvAdapter.setGames(games)
-            if(activityViewModel.lastGameStartType == NEW) {
+            if (activityViewModel.lastGameStartType == NEW) {
                 activityViewModel.lastGameStartType = null
                 rvOldGames?.smoothScrollToPosition(0)
             }
@@ -124,14 +117,9 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     }
     
     private fun setupSwipeRefreshLayout() {
-        if (activity != null) {
-            swipeRefreshLayoutOldGames?.setColorSchemeColors(
-                ContextCompat.getColor(activity!!, R.color.colorPrimary),
-                ContextCompat.getColor(activity!!, R.color.colorAccent),
-                ContextCompat.getColor(activity!!, R.color.purplePenalty),
-                ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
-            )
-            swipeRefreshLayoutOldGames?.setOnRefreshListener { viewModel.getAllGames() }
+        swipeRefreshLayoutOldGames?.setOnRefreshListener {
+            viewModel.getAllGames()
+            swipeRefreshLayoutOldGames.isRefreshing = false
         }
     }
     

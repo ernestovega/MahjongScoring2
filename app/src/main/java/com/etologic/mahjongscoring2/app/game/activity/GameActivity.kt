@@ -3,18 +3,21 @@ package com.etologic.mahjongscoring2.app.game.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.base.ViewPagerAdapter
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.*
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.*
 import com.etologic.mahjongscoring2.app.game.game_list.GameListFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.Companion.getFromCode
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.TABLE
+import com.etologic.mahjongscoring2.app.model.ShowState
+import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_ROUNDS
 import kotlinx.android.synthetic.main.game_activity.*
@@ -37,7 +40,7 @@ class GameActivity : BaseActivity() {
     
     @Inject
     internal lateinit var viewModelFactory: GameActivityViewModelFactory
-    internal lateinit var viewModel: GameActivityViewModel
+    internal lateinit var viewModel: GameViewModel
     private var lastBackPress: Long = 0
     
     override fun onBackPressed() {
@@ -110,7 +113,7 @@ class GameActivity : BaseActivity() {
     }
     
     private fun initViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory).get(GameActivityViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(GameViewModel::class.java)
     }
     
     private fun setupToolbar() {
@@ -133,10 +136,13 @@ class GameActivity : BaseActivity() {
     
     private fun currentRoundObserver(currentTable: Table) {
         val currentRound = currentTable.rounds.last()
+        
         shouldBeShownResumeButton = if (currentRound.isEnded) currentTable.rounds.size < MAX_MCR_ROUNDS else false
-        shouldBeShownEndButton = !currentRound.isEnded
+        shouldBeShownEndButton = !currentRound.isEnded && currentTable.rounds.size > 1
+        
         resumeGameItem?.isVisible = shouldBeShownResumeButton
         endGameItem?.isVisible = shouldBeShownEndButton
+        
         if (currentRound.isEnded) viewModel.navigateTo(RANKING)
     }
     
@@ -162,5 +168,9 @@ class GameActivity : BaseActivity() {
         adapter.addFragment(gameTableFragment, getString(R.string.table))
         adapter.addFragment(gameListFragment, getString(R.string.list))
         return adapter
+    }
+    
+    private fun toggleProgress(showState: ShowState) {
+        llGameProgress?.visibility = if (showState === SHOW) View.VISIBLE else View.GONE
     }
 }

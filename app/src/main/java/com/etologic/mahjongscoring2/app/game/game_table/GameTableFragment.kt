@@ -17,8 +17,8 @@ import com.etologic.mahjongscoring2.R.drawable.*
 import com.etologic.mahjongscoring2.R.layout
 import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.DICE
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.RANKING
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.DICE
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.RANKING
 import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.Companion.TAG
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.TableSeatsListener

@@ -10,7 +10,8 @@ import javax.inject.Singleton
 class RoundsRepository
 @Inject constructor() {
     
-    @Inject lateinit var roundsDao: RoundsDao
+    @Inject
+    lateinit var roundsDao: RoundsDao
     
     internal fun insertOne(round: Round) =
         roundsDao.insertOne(round)

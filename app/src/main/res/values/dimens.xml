@@ -8,10 +8,8 @@
     <dimen name="standard_and_half_margin">24dp</dimen>
     <dimen name="double_standard_margin_minus_two">30dp</dimen>
     <dimen name="double_standard_margin">32dp</dimen>
-    <dimen name="double_and_half_standard_margin">40dp</dimen>
     <dimen name="triple_standard_margin">48dp</dimen>
     <dimen name="quadruple_standard_margin">64dp</dimen>
-    <dimen name="quintuple_margin">80dp</dimen>
 
     <!-- TOOLBAR-->
     <dimen name="toolbar_elevation">4dp</dimen>
@@ -30,8 +28,5 @@
     <dimen name="table_player_name_text_size">32sp</dimen>
     <dimen name="table_player_penalty_points_text_size">20sp</dimen>
     <dimen name="table_player_round_num_text_size">28sp</dimen>
-    <dimen name="table_header_height">88dp</dimen>
-    <dimen name="list_item_spacing">16dp</dimen>
-    <dimen name="list_item_spacing_half">8dp</dimen>
 
 </resources>

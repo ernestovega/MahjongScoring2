@@ -25,10 +25,10 @@
             android:id="@+id/cbPenaltyDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/btPenaltyDialogCancel"
             android:layout_centerVertical="true"
-            android:checked="true"
             android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_toStartOf="@+id/btPenaltyDialogCancel"
+            android:checked="true"
             android:text="@string/divided" />
 
         <Button

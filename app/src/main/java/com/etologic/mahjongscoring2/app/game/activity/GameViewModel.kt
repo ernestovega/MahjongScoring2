@@ -3,8 +3,8 @@ package com.etologic.mahjongscoring2.app.game.activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.HAND_ACTION
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.PLAYERS
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HAND_ACTION
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PLAYERS
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages
 import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
@@ -23,7 +23,7 @@ import com.etologic.mahjongscoring2.business.use_cases.current_round.GameActions
 import com.etologic.mahjongscoring2.business.use_cases.current_round.PenaltyUseCase
 import io.reactivex.schedulers.Schedulers
 
-class GameActivityViewModel internal constructor(
+class GameViewModel internal constructor(
     private val getCurrentGameUseCase: GetCurrentGameUseCase,
     private val saveCurrentPlayersUseCase: SaveCurrentPlayersUseCase,
     private val gameActionsUseCase: GameActionsUseCase,
@@ -52,6 +52,7 @@ class GameActivityViewModel internal constructor(
     internal fun getSelectedSeat(): LiveData<TableWinds> = _selectedSeat
     private var _seatsRotation = MutableLiveData<ScreenOrientation>()
     internal fun getScreenOrientation(): LiveData<ScreenOrientation> = _seatsRotation
+    
     //DTOs
     internal var huPoints = 0
     
@@ -76,10 +77,10 @@ class GameActivityViewModel internal constructor(
     
     private fun showPlayersDialogIfProceed(table: Table) {
         if (table.rounds.size == 1 &&
-            table.game.nameP1 == "Player 1" &&
-            table.game.nameP2 == "Player 2" &&
-            table.game.nameP3 == "Player 3" &&
-            table.game.nameP4 == "Player 4"
+            table.game.nameP1.isBlank() &&
+            table.game.nameP2.isBlank() &&
+            table.game.nameP3.isBlank() &&
+            table.game.nameP4.isBlank()
         ) navigateTo(PLAYERS)
     }
     
@@ -213,7 +214,7 @@ class GameActivityViewModel internal constructor(
         getCurrentGameUseCase.getCurrentGameWithRounds()
             .subscribeOn(Schedulers.io())
             .map { it.getPlayersNamesByCurrentSeat() }
-            .onErrorReturnItem(arrayOf("","","",""))
+            .onErrorReturnItem(arrayOf("", "", "", ""))
             .blockingGet()
     
     internal fun getNamesByInitialPosition(): Array<String> =
@@ -223,6 +224,6 @@ class GameActivityViewModel internal constructor(
             .blockingGet()
     
     internal fun changeSeatsRotation() {
-        _seatsRotation.postValue(if(_seatsRotation.value == LANDSCAPE) PORTRAIT else LANDSCAPE)
+        _seatsRotation.postValue(if (_seatsRotation.value == LANDSCAPE) PORTRAIT else LANDSCAPE)
     }
 }

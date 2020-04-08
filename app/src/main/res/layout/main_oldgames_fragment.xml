@@ -110,21 +110,4 @@
         android:layout_margin="@dimen/double_standard_margin"
         android:src="@drawable/ic_play_arrow_white_24px" />
 
-    <LinearLayout
-        android:id="@+id/llOldGamesProgress"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="end|bottom"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <ProgressBar
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_margin="@dimen/double_standard_margin_minus_two" />
-
-    </LinearLayout>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

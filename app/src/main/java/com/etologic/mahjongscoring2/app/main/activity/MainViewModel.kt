@@ -4,15 +4,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.GAME
-import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
-import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.business.model.enums.GameStartType
-import com.etologic.mahjongscoring2.business.use_cases.current_game.SetCurrentGameUseCase
-import com.etologic.mahjongscoring2.business.use_cases.games.CreateGameUseCase
-import io.reactivex.schedulers.Schedulers
 
-class MainActivityViewModel internal constructor() : BaseViewModel() {
+class MainViewModel internal constructor() : BaseViewModel() {
     
     enum class MainScreens {
         OLD_GAMES,

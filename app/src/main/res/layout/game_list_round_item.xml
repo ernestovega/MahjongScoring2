@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/llGameListItemContainer"
+    style="@style/RippleEffect"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:elevation="@dimen/half_standard_margin"
+    android:orientation="vertical"
     android:paddingStart="@dimen/standard_margin"
-    android:paddingBottom="@dimen/half_standard_margin"
     android:paddingTop="@dimen/half_standard_margin"
     android:paddingEnd="@dimen/standard_margin"
-    style="@style/RippleEffect"
-    android:elevation="@dimen/half_standard_margin"
-    android:orientation="vertical">
+    android:paddingBottom="@dimen/half_standard_margin">
 
     <!-- ROUND DATA -->
     <LinearLayout
@@ -155,7 +155,6 @@
 
     <!-- ROUND TOTALS -->
     <LinearLayout
-        android:id="@+id/llGameListItemRoundTotalsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/half_standard_margin"

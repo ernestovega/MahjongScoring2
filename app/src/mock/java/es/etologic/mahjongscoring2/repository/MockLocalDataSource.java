@@ -1,14 +1,14 @@
 package com.etologic.mahjongscoring2.repository;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Random;
-
 import com.etologic.mahjongscoring2.business.model.Combination;
 import com.etologic.mahjongscoring2.business.model.Game;
 import com.etologic.mahjongscoring2.business.model.Player;
 import com.etologic.mahjongscoring2.business.model.Round;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
 
 public class MockLocalDataSource implements ILocalDataSource {
 
@@ -81,26 +81,47 @@ public class MockLocalDataSource implements ILocalDataSource {
         games.add(game5);
         return games;
     }
-
-    @Override
-    public boolean deleteGame(long gameId) {
-        return true;
+    private List<Round> getRandomRounds(int gameId) {
+        Random random = new Random();
+        List<Round> rounds = new ArrayList<>();
+        for (int i = 1; i <= random.nextInt(16) + 1; i++) {
+            Round round = new Round(gameId, i);
+            int handPoints = random.nextInt(93) + 8;
+            int winnerInitialPosition = random.nextInt(4) + 1;
+            if (random.nextInt(2) == 0) {
+                round.setAllPlayersTsumoPoints(winnerInitialPosition, handPoints);
+            } else {
+                int looserInitialPosition;
+                do {
+                    looserInitialPosition = random.nextInt(4) + 1;
+                } while (looserInitialPosition == winnerInitialPosition);
+                round.setAllPlayersRonPoints(winnerInitialPosition, handPoints,
+                        looserInitialPosition);
+            }
+            rounds.add(round);
+        }
+        return rounds;
     }
 
     //endregion
 
     //region PLAYERS
-
+    @Override
+    public boolean deleteGame(long gameId) {
+        return true;
+    }
     @Override
     public boolean insertPlayer(Player player) {
         return true;
     }
-
     @Override
     public Player getPlayer(String playerName) {
         return new Player(playerName);
     }
 
+    //endregion
+
+    //region COMBINATIONS
     @Override
     public List<Player> getAllPlayers() {
         List<Player> players = new ArrayList<>();
@@ -122,36 +143,10 @@ public class MockLocalDataSource implements ILocalDataSource {
 
     //endregion
 
-    //region COMBINATIONS
-
+    //region Private
     @Override
     public List<Combination> getAllCombinations() {
         return new ArrayList<>();
-    }
-
-    //endregion
-
-    //region Private
-
-    private List<Round> getRandomRounds(int gameId) {
-        Random random = new Random();
-        List<Round> rounds = new ArrayList<>();
-        for(int i = 1; i <= random.nextInt(16) + 1; i++) {
-            Round round = new Round(gameId, i);
-            int handPoints = random.nextInt(93) + 8;
-            int winnerInitialPosition = random.nextInt(4) + 1;
-            if(random.nextInt(2) == 0) {
-                round.setAllPlayersTsumoPoints(winnerInitialPosition, handPoints);
-            } else {
-                int looserInitialPosition;
-                do { looserInitialPosition = random.nextInt(4) + 1;
-                } while(looserInitialPosition == winnerInitialPosition);
-                round.setAllPlayersRonPoints(winnerInitialPosition, handPoints,
-                        looserInitialPosition);
-            }
-            rounds.add(round);
-        }
-        return rounds;
     }
 
     //endregion

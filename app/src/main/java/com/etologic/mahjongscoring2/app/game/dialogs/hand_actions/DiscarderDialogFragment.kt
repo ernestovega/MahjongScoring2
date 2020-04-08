@@ -31,7 +31,8 @@ internal class DiscarderDialogFragment : BaseGameDialogFragment() {
             cdsDiscarderConfirmDialog.initPlayers(
                 activityViewModel!!.getNamesByCurrentSeat(),
                 activityViewModel!!.huPoints,
-                activityViewModel!!.getSelectedSeat().value!!)
+                activityViewModel!!.getSelectedSeat().value!!
+            )
         else
             dismiss()
     }
@@ -52,7 +53,7 @@ internal class DiscarderDialogFragment : BaseGameDialogFragment() {
     }
     
     override fun onDismiss(dialog: DialogInterface) {
-        if(isDialogCancelled) activityViewModel?.unselectedSelectedSeat()
+        if (isDialogCancelled) activityViewModel?.unselectedSelectedSeat()
         super.onDismiss(dialog)
     }
 }

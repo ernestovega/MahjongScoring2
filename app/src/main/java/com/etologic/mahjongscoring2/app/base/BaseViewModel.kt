@@ -10,25 +10,25 @@ import io.reactivex.disposables.CompositeDisposable
 
 open class BaseViewModel : ViewModel() {
     
+    protected var disposables = CompositeDisposable()
     protected var progressState = MutableLiveData<ShowState>()
     internal fun getProgressState(): LiveData<ShowState> = progressState
+    @Suppress("MemberVisibilityCanBePrivate")
     protected var snackbarMessage = MutableLiveData<String>()
     internal fun getSnackbarMessage(): LiveData<String> = snackbarMessage
     private var error = MutableLiveData<Throwable>()
     internal fun getError(): LiveData<Throwable> = error
     
-    protected var disposables = CompositeDisposable()
+    internal fun showError(throwable: Throwable) {
+        progressState.postValue(HIDE)
+        error.postValue(throwable)
+        if (BuildConfig.DEBUG)
+            throwable.printStackTrace()
+    }
     
     override fun onCleared() {
         if (!disposables.isDisposed)
             disposables.dispose()
         super.onCleared()
-    }
-    
-    internal fun showError(throwable: Throwable) {
-        progressState.postValue(HIDE)
-        error.postValue(throwable)
-        if(BuildConfig.DEBUG)
-            throwable.printStackTrace()
     }
 }

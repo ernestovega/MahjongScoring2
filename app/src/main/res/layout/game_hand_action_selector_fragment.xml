@@ -13,16 +13,16 @@
         android:id="@+id/btHandActionsDialogPenaltiesCancel"
         style="@style/ButtonHandAction"
         android:background="@drawable/button_rounded_corners_purple"
-        android:visibility="gone"
         android:padding="@dimen/half_standard_margin"
+        android:visibility="gone"
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/half_standard_margin"
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_penalty_white"
-            android:layout_marginBottom="@dimen/half_standard_margin" />
+            android:src="@drawable/ic_penalty_white" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,9 +44,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/half_standard_margin"
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_penalty_white"
-            android:layout_marginBottom="@dimen/half_standard_margin" />
+            android:src="@drawable/ic_penalty_white" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,9 +68,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/half_standard_margin"
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_flag_white"
-            android:layout_marginBottom="@dimen/half_standard_margin" />
+            android:src="@drawable/ic_flag_white" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -92,19 +92,19 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_trophy_white_18dp"
             android:layout_marginTop="@dimen/quarter_standard_margin"
-            android:layout_marginBottom="@dimen/half_standard_margin" />
+            android:layout_marginBottom="@dimen/half_standard_margin"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_trophy_white_18dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/quarter_standard_margin"
             android:lines="1"
             android:text="@string/mahjong"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
-            android:layout_marginBottom="@dimen/quarter_standard_margin"
             android:textSize="21sp"
             android:textStyle="bold" />
 

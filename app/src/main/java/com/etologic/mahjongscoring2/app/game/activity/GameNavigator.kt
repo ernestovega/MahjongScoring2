@@ -1,8 +1,8 @@
 package com.etologic.mahjongscoring2.app.game.activity
 
 import android.content.Intent
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.*
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.*
 import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.ActionDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.DiscarderDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.HuDialogFragment

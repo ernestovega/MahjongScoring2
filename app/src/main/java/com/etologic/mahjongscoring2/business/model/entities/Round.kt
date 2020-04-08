@@ -22,7 +22,8 @@ class Round(
     @field:PrimaryKey(autoGenerate = true) val roundId: Int
 ) : RecyclerViewable<Round>() {
     
-    @Ignore var roundNumber: Int = 0
+    @Ignore
+    var roundNumber: Int = 0
     
     @TypeConverters(TableWindsConverter::class)
     var winnerInitialSeat = NONE
@@ -34,10 +35,18 @@ class Round(
     var pointsP2 = 0
     var pointsP3 = 0
     var pointsP4 = 0
-    @Ignore var totalPointsP1 = 0
-    @Ignore var totalPointsP2 = 0
-    @Ignore var totalPointsP3 = 0
-    @Ignore var totalPointsP4 = 0
+    
+    @Ignore
+    var totalPointsP1 = 0
+    
+    @Ignore
+    var totalPointsP2 = 0
+    
+    @Ignore
+    var totalPointsP3 = 0
+    
+    @Ignore
+    var totalPointsP4 = 0
     var penaltyP1 = 0
     var penaltyP2 = 0
     var penaltyP3 = 0
@@ -185,7 +194,7 @@ class Round(
     
     private fun finishRoundApplyingPenalties() {
         applyPlayersPenalties()
-        endRound()
+        isEnded = true
     }
     
     private fun applyPlayersPenalties() {
@@ -193,14 +202,6 @@ class Round(
         pointsP2 += penaltyP2
         pointsP3 += penaltyP3
         pointsP4 += penaltyP4
-    }
-    
-    internal fun endRound() {
-        isEnded = true
-    }
-    
-    internal fun resumeRound() {
-        isEnded = false
     }
     
     internal fun areTherePenalties(): Boolean = penaltyP1 != 0 || penaltyP2 != 0 || penaltyP3 != 0 || penaltyP4 != 0

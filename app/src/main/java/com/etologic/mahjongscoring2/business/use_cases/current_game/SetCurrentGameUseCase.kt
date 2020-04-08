@@ -11,6 +11,7 @@ class SetCurrentGameUseCase
     private val currentTableRepository: CurrentTableRepository,
     private val tablesRepository: TablesRepository
 ) {
+    
     internal fun setCurrentGame(gameId: Long): Single<Table> =
         tablesRepository.getTable(gameId)
             .flatMap { currentTableRepository.set(it) }

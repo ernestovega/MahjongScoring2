@@ -32,7 +32,7 @@ class Table(@field:Embedded var game: Game) {
     
     private fun setTotals() {
         rounds.forEachIndexed { index, round ->
-            if(round.isEnded) {
+            if (round.isEnded) {
                 val newRoundTotals = getTotalPointsUntilRound(index)
                 round.totalPointsP1 = newRoundTotals[0]
                 round.totalPointsP2 = newRoundTotals[1]
@@ -43,12 +43,12 @@ class Table(@field:Embedded var game: Game) {
     }
     
     private fun getTotalPointsUntilRound(index: Int): IntArray {
-        val totalPoints = intArrayOf(0,0,0,0)
+        val totalPoints = intArrayOf(0, 0, 0, 0)
         for (i in 0..index) {
-            totalPoints[0]+= rounds[i].pointsP1
-            totalPoints[1]+= rounds[i].pointsP2
-            totalPoints[2]+= rounds[i].pointsP3
-            totalPoints[3]+= rounds[i].pointsP4
+            totalPoints[0] += rounds[i].pointsP1
+            totalPoints[1] += rounds[i].pointsP2
+            totalPoints[2] += rounds[i].pointsP3
+            totalPoints[3] += rounds[i].pointsP4
         }
         return totalPoints
     }
@@ -244,7 +244,7 @@ class Table(@field:Embedded var game: Game) {
             4, 8, 12, 16 -> arrayOf(SOUTH, WEST, NORTH, EAST)
             else -> arrayOf()
         }
-}
+    }
     
     internal fun finishCurrentRoundByHuDiscard(huData: HuData): Table {
         val currentRound = rounds.last()

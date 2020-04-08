@@ -23,8 +23,11 @@ class CombinationsActivity : BaseActivity() {
         internal const val CODE = 2
     }
     
-    @Inject internal lateinit var combinationsViewModelFactory: CombinationsViewModelFactory
+    @Inject
+    internal lateinit var combinationsViewModelFactory: CombinationsViewModelFactory
     internal var viewModel: CombinationsViewModel? = null
+    
+    @Inject
     internal lateinit var rvAdapter: CombinationsRvAdapter
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,10 +50,7 @@ class CombinationsActivity : BaseActivity() {
         val layoutManager = LinearLayoutManager(this)
         recyclerViewCombinations?.layoutManager = layoutManager
         val handler = Handler()
-        handler.post {
-            rvAdapter = CombinationsRvAdapter()
-            recyclerViewCombinations?.adapter = rvAdapter
-        }
+        handler.post { recyclerViewCombinations?.adapter = rvAdapter }
     }
     
     private fun setupViewModel() {

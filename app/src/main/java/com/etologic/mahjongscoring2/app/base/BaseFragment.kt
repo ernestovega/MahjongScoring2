@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.etologic.mahjongscoring2.app.model.ShowState
 import dagger.android.support.DaggerFragment
 
 abstract class BaseFragment : DaggerFragment() {
@@ -32,10 +31,5 @@ abstract class BaseFragment : DaggerFragment() {
     protected fun showSnackbar(view: View, message: String) {
         val activity = activity
         if (activity is BaseActivity) activity.showSnackbar(view, message)
-    }
-    
-    protected fun toggleActivityProgress(showState: ShowState) {
-        val activity = activity
-        if (activity is BaseActivity) activity.toggleProgress(showState)
     }
 }

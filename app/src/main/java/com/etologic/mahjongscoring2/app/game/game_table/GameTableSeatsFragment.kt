@@ -95,13 +95,13 @@ class GameTableSeatsFragment : Fragment() {
     
     private fun setStates(states: Array<SeatStates>) {
         areSeatsDisabled = states[0] == DISABLED && states[1] == DISABLED && states[2] == DISABLED && states[3] == DISABLED
-        setState(ivTableSeatEastSeatWindIcon, tvTableSeatEastName, tvTableSeatEastPoints, tvTableSeatEastPenaltyPoints, states[0])
-        setState(ivTableSeatSouthSeatWindIcon, tvTableSeatSouthName, tvTableSeatSouthPoints, tvTableSeatSouthPenaltyPoints, states[1])
-        setState(ivTableSeatWestSeatWindIcon, tvTableSeatWestName, tvTableSeatWestPoints, tvTableSeatWestPenaltyPoints, states[2])
-        setState(ivTableSeatNorthSeatWindIcon, tvTableSeatNorthName, tvTableSeatNorthPoints, tvTableSeatNorthPenaltyPoints, states[3])
+        setState(ivTableSeatEastSeatWindIcon, tvTableSeatEastName, tvTableSeatEastPoints, states[0])
+        setState(ivTableSeatSouthSeatWindIcon, tvTableSeatSouthName, tvTableSeatSouthPoints, states[1])
+        setState(ivTableSeatWestSeatWindIcon, tvTableSeatWestName, tvTableSeatWestPoints, states[2])
+        setState(ivTableSeatNorthSeatWindIcon, tvTableSeatNorthName, tvTableSeatNorthPoints, states[3])
     }
     
-    private fun setState(ivWind: ImageView?, tvName: TextView, tvPoints: TextView, tvPenaltyPoints: TextView, state: SeatStates?) {
+    private fun setState(ivWind: ImageView?, tvName: TextView, tvPoints: TextView, state: SeatStates?) {
         val stateColor = when (state) {
             SELECTED -> accentColor
             DISABLED -> grayDisabledColor

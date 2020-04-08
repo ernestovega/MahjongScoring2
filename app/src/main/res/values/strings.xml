@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Mahjong Scoring 2</string>
+    <string name="app_name">Mahjong Scoring</string>
 
     <!-- BASE FRAGMENT -->
 
     <!-- MAIN ACTIVITY -->
-    <string name="close_drawer">Close Drawer menu</string>
-    <string name="open_drawer">Open Drawer menu</string>
+    <string name="close_drawer">Close menu</string>
+    <string name="open_drawer">Open menu</string>
     <string name="old_games">Old games</string>
     <string name="combinations">Combinations</string>
     <string name="green_book">Green Book</string>
@@ -21,6 +21,65 @@
     <string name="resume">Resume</string>
     <string name="delete_game">Delete game</string>
     <string name="are_you_sure">Are you sure?</string>
+
+    <!-- COMBINATIONS -->
+
+    <string name="search">Search</string>
+    <string name="combination_name">Combination name</string>
+    <string name="toggle_descriptions">Toogle descriptions</string>
+
+    <!-- CONTACT -->
+    <string name="no_email_apps_founded">Couldn\'t find email apps</string>
+
+    <!-- GAME -->
+    <string name="table">Table</string>
+    <string name="game">Game</string>
+    <string name="totals">Totals</string>
+    <string name="points">Points</string>
+    <string name="number_symbol">#</string>
+    <string name="final_results">Final results</string>
+    <string name="cancel_penalties">Cancel all penalties</string>
+    <string name="draw">Draw</string>
+    <string name="east">East</string>
+    <string name="west">West</string>
+    <string name="south">South</string>
+    <string name="north">North</string>
+    <string name="ups_something_wrong">Ups! Somenthing went wrong.</string>
+    <string name="list">List</string>
+    <string name="close">Close</string>
+    <string name="player_east_name">Player East name</string>
+    <string name="player_south_name">Player South name</string>
+    <string name="player_west_name">Player West name</string>
+    <string name="player_north_name">Player North name</string>
+    <string name="player_east">Player East</string>
+    <string name="player_south">Player South</string>
+    <string name="player_west">Player West</string>
+    <string name="player_north">Player North</string>
+    <string name="divided">Divided</string>
+    <string name="edit_names">Edit names</string>
+    <string name="save">Save</string>
+    <string name="penalty">Penalty</string>
+    <string name="zero">0</string>
+    <string name="nine">9</string>
+    <string name="eight">8</string>
+    <string name="seven">7</string>
+    <string name="six">6</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="three">3</string>
+    <string name="two">2</string>
+    <string name="one">1</string>
+    <string name="end">End</string>
+    <string name="mahjong">Mahjong</string>
+    <string name="backspace">Backspace</string>
+    <string name="ok">OK</string>
+    <string name="discarder_">Discarder?</string>
+    <string name="cancel">Cancel</string>
+    <string name="pts">Pts</string>
+    <string name="delete_round">Delete round</string>
+    <string name="first">First</string>
+    <string name="second">Second</string>
+    <string name="rotate_seats">Rotate seats</string>
 
     <!--COMBINATIONS-->
 
@@ -128,78 +187,5 @@
     <string name="description_last_tile_claim">Win with last discard tile</string>
     <string name="description_out_with_replacement_tile">Win with Kong extra tile</string>
     <string name="description_robbing_the_kong">Win with other player Kong extension tile</string>
-
-    <string name="search">Search</string>
-    <string name="combination_name">Combination name</string>
-    <string name="toggle_descriptions">Toogle descriptions</string>
-
-    <!-- GREEN BOOK -->
-
-    <!-- CONTACT -->
-    <string name="no_email_apps_founded">Couldn\'t find email apps</string>
-
-    <!-- GAME -->
-    <string name="table">Table</string>
-    <string name="game">Game</string>
-    <string name="play">Play</string>
-    <string name="pause">Pause</string>
-    <string name="exit">Exit</string>
-    <string name="exit_game">Exit game</string>
-    <string name="totals">Totals</string>
-    <string name="no_rounds_yet">There aren´t rounds yet</string>
-    <string name="points">Points</string>
-    <string name="number_symbol">#</string>
-    <string name="final_results">Final results</string>
-    <string name="cancel_penalties">Cancel all penalties</string>
-    <string name="draw">Draw</string>
-    <string name="east">East</string>
-    <string name="west">West</string>
-    <string name="south">South</string>
-    <string name="north">North</string>
-    <string name="ups_something_wrong">Ups! Somenthing went wrong.</string>
-    <string name="list">List</string>
-    <string name="penalty_points">Penalty points</string>
-    <string name="close">Close</string>
-    <string name="player_east_name">Player East name</string>
-    <string name="player_south_name">Player South name</string>
-    <string name="player_west_name">Player West name</string>
-    <string name="player_north_name">Player North name</string>
-    <string name="player_east">Player East</string>
-    <string name="player_south">Player South</string>
-    <string name="player_west">Player West</string>
-    <string name="player_north">Player North</string>
-    <string name="divided">Divided</string>
-    <string name="edit_names">Edit names</string>
-    <string name="save">Save</string>
-    <string name="penalty">Penalty</string>
-    <string name="zero">0</string>
-    <string name="nine">9</string>
-    <string name="eight">8</string>
-    <string name="seven">7</string>
-    <string name="six">6</string>
-    <string name="four">4</string>
-    <string name="five">5</string>
-    <string name="three">3</string>
-    <string name="two">2</string>
-    <string name="one">1</string>
-    <string name="end">End</string>
-    <string name="mahjong">Mahjong</string>
-    <string name="backspace">Backspace</string>
-    <string name="clear">Clear</string>
-    <string name="back">Back</string>
-    <string name="next">Next</string>
-    <string name="action">Action</string>
-    <string name="ok">OK</string>
-    <string name="discarder_">Discarder?</string>
-    <string name="cancel">Cancel</string>
-    <string name="options">Options</string>
-    <string name="edit">Edit</string>
-    <string name="score">Score</string>
-    <string name="pts">Pts</string>
-    <string name="press_again_to_remove">Press again to remove</string>
-    <string name="delete_round">Delete round</string>
-    <string name="first">First</string>
-    <string name="second">Second</string>
-    <string name="rotate_seats">Rotate seats</string>
 
 </resources>

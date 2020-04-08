@@ -69,10 +69,10 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
             rollNewDice(ivDice2)
             true
         }
-        ivDice1.setOnSecureClickListener { listener12() }
-        ivDice2.setOnSecureClickListener { listener12() }
-        ivDice1.setImageResource(R.drawable.dice3droll)
-        ivDice2.setImageResource(R.drawable.dice3droll)
+        ivDice1?.setOnSecureClickListener { listener12() }
+        ivDice2?.setOnSecureClickListener { listener12() }
+        ivDice1?.setImageResource(R.drawable.dice3droll)
+        ivDice2?.setImageResource(R.drawable.dice3droll)
         
         handler34 = Handler {
             //Receives message from timer to start dice roll
@@ -80,10 +80,10 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
             rollNewDice(ivDice4)
             true
         }
-        ivDice3.setOnSecureClickListener { listener34() }
-        ivDice4.setOnSecureClickListener { listener34() }
-        ivDice3.setImageResource(R.drawable.dice3droll)
-        ivDice4.setImageResource(R.drawable.dice3droll)
+        ivDice3?.setOnSecureClickListener { listener34() }
+        ivDice4?.setOnSecureClickListener { listener34() }
+        ivDice3?.setImageResource(R.drawable.dice3droll)
+        ivDice4?.setImageResource(R.drawable.dice3droll)
     }
     
     private fun listener12() {
@@ -92,7 +92,7 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
             //Show isRolling image
             ivDice1?.setImageResource(R.drawable.dice3droll)
             ivDice2?.setImageResource(R.drawable.dice3droll)
-        
+            
             diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
             diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
             timer.schedule(Roll12(), 400)
@@ -105,7 +105,7 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
             //Show isRolling image
             ivDice3?.setImageResource(R.drawable.dice3droll)
             ivDice4?.setImageResource(R.drawable.dice3droll)
-        
+            
             diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
             diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
             timer.schedule(Roll34(), 400)
@@ -114,13 +114,34 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
     
     private fun rollNewDice(imageView: ImageView) {
         when (Random().nextInt(6)) {
-            0 -> imageView.setImageResource(R.drawable.one)
-            1 -> imageView.setImageResource(R.drawable.two)
-            2 -> imageView.setImageResource(R.drawable.three)
-            3 -> imageView.setImageResource(R.drawable.four)
-            4 -> imageView.setImageResource(R.drawable.five)
-            5 -> imageView.setImageResource(R.drawable.six)
-            else -> imageView.setImageResource(R.drawable.one)
+            0 -> {
+                imageView.setImageResource(R.drawable.one)
+                imageView.contentDescription = getString(R.string.one)
+            }
+            1 -> {
+                imageView.setImageResource(R.drawable.two)
+                imageView.contentDescription = getString(R.string.two)
+            }
+            2 -> {
+                imageView.setImageResource(R.drawable.three)
+                imageView.contentDescription = getString(R.string.three)
+            }
+            3 -> {
+                imageView.setImageResource(R.drawable.four)
+                imageView.contentDescription = getString(R.string.four)
+            }
+            4 -> {
+                imageView.setImageResource(R.drawable.five)
+                imageView.contentDescription = getString(R.string.five)
+            }
+            5 -> {
+                imageView.setImageResource(R.drawable.six)
+                imageView.contentDescription = getString(R.string.six)
+            }
+            else -> {
+                imageView.setImageResource(R.drawable.one)
+                imageView.contentDescription = getString(R.string.one)
+            }
         }
         isRolling = false  //user can press again
     }

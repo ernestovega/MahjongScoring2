@@ -12,7 +12,4 @@ class CurrentTableRepository
     
     internal fun set(table: Table): Single<Table> =
         memoryDataSource.set(table)
-    
-    internal fun invalidate(): Single<Boolean> =
-        memoryDataSource.invalidate()
 }

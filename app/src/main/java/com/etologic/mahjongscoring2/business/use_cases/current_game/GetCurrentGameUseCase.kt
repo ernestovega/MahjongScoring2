@@ -10,5 +10,6 @@ constructor(
     private val currentTableRepository: CurrentTableRepository
 ) {
     
-    internal fun getCurrentGameWithRounds(): Single<Table> = currentTableRepository.get()
+    internal fun getCurrentGameWithRounds(): Single<Table> =
+        currentTableRepository.get()
 }

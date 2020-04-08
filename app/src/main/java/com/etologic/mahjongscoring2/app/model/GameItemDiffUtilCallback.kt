@@ -5,12 +5,9 @@ import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.NUM_MCR_PLAYERS
 
 class GameItemDiffUtilCallback(private val newList: List<Table>, private val oldList: List<Table>) : DiffUtil.Callback() {
-    
-    companion object {
-        private const val NUM_GAME_PLAYERS = 4
-    }
     
     override fun getOldListSize(): Int {
         return oldList.size
@@ -45,7 +42,7 @@ class GameItemDiffUtilCallback(private val newList: List<Table>, private val old
         oldPlayersTotalPoints: List<String>,
         newPlayersTotalPoints: List<String>
     ): Boolean {
-        for (i in 0 until NUM_GAME_PLAYERS) {
+        for (i in 0 until NUM_MCR_PLAYERS) {
             if (oldPlayersTotalPoints[i] != newPlayersTotalPoints[i]) {
                 return false
             }

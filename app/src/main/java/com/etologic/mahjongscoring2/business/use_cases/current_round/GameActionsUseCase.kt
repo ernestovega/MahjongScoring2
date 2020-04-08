@@ -19,53 +19,44 @@ constructor(
     
     internal fun discard(huData: HuData): Single<Table> =
         currentTableRepository.get()
-            .flatMap {
-                it.finishCurrentRoundByHuDiscard(huData)
-                finishCurrentRound(it)
+            .flatMap { table ->
+                table.finishCurrentRoundByHuDiscard(huData)
+                roundsRepository.updateOne(table.rounds.last())
+                    .flatMap { createRoundIfLessThanMaxMcrHands(table) }
+                    .flatMap { updateCurrentTable(table.game.gameId) }
             }
     
     internal fun selfpick(huData: HuData): Single<Table> =
         currentTableRepository.get()
-            .flatMap {
-                it.finishCurrentRoundByHuSelfpick(huData)
-                finishCurrentRound(it)
+            .flatMap { table ->
+                table.finishCurrentRoundByHuSelfpick(huData)
+                roundsRepository.updateOne(table.rounds.last())
+                    .flatMap { createRoundIfLessThanMaxMcrHands(table) }
+                    .flatMap { updateCurrentTable(table.game.gameId) }
             }
     
     internal fun draw(): Single<Table> =
         currentTableRepository.get()
-            .flatMap {
-                it.finishCurrentRoundByDraw()
-                finishCurrentRound(it)
+            .flatMap { table ->
+                table.finishCurrentRoundByDraw()
+                roundsRepository.updateOne(table.rounds.last())
+                    .flatMap { createRoundIfLessThanMaxMcrHands(table) }
+                    .flatMap { updateCurrentTable(table.game.gameId) }
             }
-    
-    private fun finishCurrentRound(table: Table): Single<Table> =
-        roundsRepository.updateOne(table.rounds.last())
-            .flatMap { createRoundIfLessThanMaxMcrHands(table) }
-            .flatMap { tablesRepository.getTable(table.game.gameId) }
-            .doOnSuccess { currentTableRepository.set(it) }
     
     internal fun end(): Single<Table> =
         currentTableRepository.get()
             .flatMap { table ->
-                val currentRound = table.rounds.last()
-                
-                currentRound.endRound()
-                
-                roundsRepository.updateOne(currentRound)
-                    .flatMap { tablesRepository.getTable(currentRound.gameId) }
-                    .doOnSuccess { currentTableRepository.set(it) }
+                if(table.rounds.size == 1) roundsRepository.insertOne(Round(table.game.gameId)).blockingGet()
+                roundsRepository.deleteOne(table.game.gameId, table.rounds.last().roundId)
+                    .flatMap { updateCurrentTable(table.game.gameId) }
             }
     
     internal fun resume(): Single<Table> =
         currentTableRepository.get()
             .flatMap { table ->
-                val currentRound = table.rounds.last()
-                
-                currentRound.resumeRound()
-                
-                roundsRepository.updateOne(currentRound)
-                    .flatMap { tablesRepository.getTable(currentRound.gameId) }
-                    .doOnSuccess { currentTableRepository.set(it) }
+                createRoundIfLessThanMaxMcrHands(table)
+                    .flatMap { updateCurrentTable(table.game.gameId) }
             }
     
     internal fun removeRound(roundToRemoveId: Int): Single<Table> =
@@ -75,8 +66,7 @@ constructor(
                     roundsRepository.insertOne(Round(table.game.gameId)).blockingGet()
                 
                 roundsRepository.deleteOne(table.game.gameId, roundToRemoveId)
-                    .flatMap { tablesRepository.getTable(table.game.gameId) }
-                    .doOnSuccess { currentTableRepository.set(it) }
+                    .flatMap { updateCurrentTable(table.game.gameId) }
             }
     
     private fun createRoundIfLessThanMaxMcrHands(table: Table): Single<Long> =
@@ -84,4 +74,8 @@ constructor(
             roundsRepository.insertOne(Round(table.game.gameId))
         else
             Single.just(table.game.gameId)
+    
+    private fun updateCurrentTable(gameId: Long): Single<Table> =
+        tablesRepository.getTable(gameId)
+            .doOnSuccess { currentTableRepository.set(it) }
 }

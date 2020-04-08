@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.DISCARDER
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.DISCARDER
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_POINTS
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MIN_MCR_POINTS
@@ -35,7 +35,7 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
         btPointsDialogCancel.setOnSecureClickListener { dismiss() }
         btPointsDialogOk.setOnSecureClickListener {
             val points = cnpPointsDialog?.getPoints()
-            if(points == null || points < MIN_MCR_POINTS || points > MAX_MCR_POINTS)
+            if (points == null || points < MIN_MCR_POINTS || points > MAX_MCR_POINTS)
                 cnpPointsDialog?.setError()
             else {
                 activityViewModel?.huPoints = points
@@ -47,7 +47,7 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
     }
     
     override fun onDismiss(dialog: DialogInterface) {
-        if(isDialogCancelled) activityViewModel?.unselectedSelectedSeat()
+        if (isDialogCancelled) activityViewModel?.unselectedSelectedSeat()
         super.onDismiss(dialog)
     }
 }

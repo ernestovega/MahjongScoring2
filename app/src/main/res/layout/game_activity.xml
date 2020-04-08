@@ -47,4 +47,21 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/llGameProgress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="end|bottom"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ProgressBar
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="@dimen/double_standard_margin_minus_two" />
+
+    </LinearLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

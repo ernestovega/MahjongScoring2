@@ -17,8 +17,8 @@ import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.GRE
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.MARKET_URI_BASE
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.PLAY_STORE_URL_BASE
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.RATE_CODE
-import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens
-import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.*
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.*
 import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
 import com.etologic.mahjongscoring2.app.main.old_games.OldGamesFragment
 import com.google.android.material.snackbar.Snackbar

@@ -10,7 +10,8 @@ import javax.inject.Singleton
 class TablesRepository
 @Inject constructor() {
     
-    @Inject lateinit var tableDao: TableDao
+    @Inject
+    lateinit var tableDao: TableDao
     
     internal fun getTable(gameId: Long): Single<Table> =
         tableDao.getTable(gameId)

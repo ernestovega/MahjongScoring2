@@ -77,14 +77,6 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:keepScreenOn="false"
-        android:text="@string/no_rounds_yet" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGameList"
         android:layout_width="match_parent"

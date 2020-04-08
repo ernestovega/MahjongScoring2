@@ -18,7 +18,7 @@ class GameActivityViewModelFactory
     
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return GameActivityViewModel(
+        return GameViewModel(
             getCurrentGameUseCase,
             saveCurrentPlayersUseCase,
             gameActionsUseCase,

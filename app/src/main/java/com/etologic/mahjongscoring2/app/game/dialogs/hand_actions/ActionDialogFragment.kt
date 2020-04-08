@@ -5,12 +5,13 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.HU
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityViewModel.GameScreens.PENALTY
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HU
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PENALTY
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import kotlinx.android.synthetic.main.game_hand_action_selector_fragment.*
 
@@ -33,7 +34,7 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     }
     
     private fun initViews() {
-        btHandActionsDialogPenaltiesCancel?.visibility = if(activityViewModel?.thereArePenaltiesCurrently() == true) VISIBLE else GONE
+        btHandActionsDialogPenaltiesCancel?.visibility = if (activityViewModel?.thereArePenaltiesCurrently() == true) VISIBLE else GONE
     }
     
     private fun setListeners() {
@@ -72,7 +73,7 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     }
     
     override fun onDismiss(dialog: DialogInterface) {
-        if(isDialogCancelled)
+        if (isDialogCancelled)
             activityViewModel?.unselectedSelectedSeat()
         super.onDismiss(dialog)
     }

@@ -3,6 +3,7 @@ package com.etologic.mahjongscoring2.app.main.activity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
@@ -12,8 +13,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
-import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModel.MainScreens.*
 import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToScreen
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.*
+import com.etologic.mahjongscoring2.app.model.ShowState
+import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_activity.*
 import javax.inject.Inject
@@ -22,6 +25,7 @@ class MainActivity : BaseActivity() {
     
     companion object {
         internal const val TAG = "MainActivity"
+        @Suppress("unused")
         internal const val CODE = 1
         internal const val GREEN_BOOK_CODE = 11
         internal const val RATE_CODE = 12
@@ -34,8 +38,9 @@ class MainActivity : BaseActivity() {
         internal const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
     }
     
-    @Inject internal lateinit var viewModelFactory: MainActivityViewModelFactory
-    private var viewModel: MainActivityViewModel? = null
+    @Inject
+    internal lateinit var viewModelFactory: MainActivityViewModelFactory
+    private var viewModel: MainViewModel? = null
     private var lastBackPress: Long = 0
     
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -52,7 +57,7 @@ class MainActivity : BaseActivity() {
     }
     
     private fun setupViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         viewModel?.getProgressState()?.observe(this, Observer(this::toggleProgress))
         viewModel?.getCurrentToolbar()?.observe(this, Observer(this::setToolbar))
         viewModel?.getCurrentScreen()?.observe(this, Observer { goToScreen(it, this) })
@@ -73,7 +78,9 @@ class MainActivity : BaseActivity() {
         }
     }
     
-    internal fun closeDrawer() { drawerLayoutMain.closeDrawer(START, true) }
+    private fun closeDrawer() {
+        drawerLayoutMain.closeDrawer(START, true)
+    }
     
     private fun setToolbar(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
@@ -119,5 +126,9 @@ class MainActivity : BaseActivity() {
     
     private fun openDrawer() {
         if (drawerLayoutMain != null) drawerLayoutMain?.openDrawer(START, true)
+    }
+    
+    internal fun toggleProgress(showState: ShowState) {
+        llMainProgress?.visibility = if (showState === SHOW) View.VISIBLE else View.GONE
     }
 }
