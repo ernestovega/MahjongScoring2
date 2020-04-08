@@ -3,7 +3,6 @@ package com.etologic.mahjongscoring2.app.main.activity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
@@ -15,8 +14,6 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToScreen
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.*
-import com.etologic.mahjongscoring2.app.model.ShowState
-import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_activity.*
 import javax.inject.Inject
@@ -51,6 +48,7 @@ class MainActivity : BaseActivity() {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        progressBar = pbMain
         setupViewModel()
         setupDrawer()
         viewModel?.navigateTo(OLD_GAMES)
@@ -126,9 +124,5 @@ class MainActivity : BaseActivity() {
     
     private fun openDrawer() {
         if (drawerLayoutMain != null) drawerLayoutMain?.openDrawer(START, true)
-    }
-    
-    internal fun toggleProgress(showState: ShowState) {
-        llMainProgress?.visibility = if (showState === SHOW) View.VISIBLE else View.GONE
     }
 }

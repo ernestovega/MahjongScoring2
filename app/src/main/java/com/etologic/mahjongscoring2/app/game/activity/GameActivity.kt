@@ -3,7 +3,6 @@ package com.etologic.mahjongscoring2.app.game.activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
@@ -16,8 +15,6 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.Companion.getFromCode
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.TABLE
-import com.etologic.mahjongscoring2.app.model.ShowState
-import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_ROUNDS
 import kotlinx.android.synthetic.main.game_activity.*
@@ -106,6 +103,7 @@ class GameActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.game_activity)
+        progressBar = pbGame
         initViewModel()
         setupToolbar()
         setupViewPager()
@@ -168,9 +166,5 @@ class GameActivity : BaseActivity() {
         adapter.addFragment(gameTableFragment, getString(R.string.table))
         adapter.addFragment(gameListFragment, getString(R.string.list))
         return adapter
-    }
-    
-    private fun toggleProgress(showState: ShowState) {
-        llGameProgress?.visibility = if (showState === SHOW) View.VISIBLE else View.GONE
     }
 }

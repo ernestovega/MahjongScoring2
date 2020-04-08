@@ -47,7 +47,7 @@ constructor(
     internal fun end(): Single<Table> =
         currentTableRepository.get()
             .flatMap { table ->
-                if(table.rounds.size == 1) roundsRepository.insertOne(Round(table.game.gameId)).blockingGet()
+                if (table.rounds.size == 1) roundsRepository.insertOne(Round(table.game.gameId)).blockingGet()
                 roundsRepository.deleteOne(table.game.gameId, table.rounds.last().roundId)
                     .flatMap { updateCurrentTable(table.game.gameId) }
             }

@@ -47,21 +47,13 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/llGameProgress"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="end|bottom"
+    <ProgressBar
+        android:id="@+id/pbGame"
+        android:layout_gravity="end|bottom"
         android:visibility="gone"
-        tools:visibility="visible">
-
-        <ProgressBar
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_margin="@dimen/double_standard_margin_minus_two" />
-
-    </LinearLayout>
+        tools:visibility="visible"
+        android:layout_width="@dimen/progress_size"
+        android:layout_height="@dimen/progress_size"
+        android:layout_margin="@dimen/progress_margin" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -194,18 +194,26 @@ class GameTableSeatsFragment : Fragment() {
         ivTableSeatEastSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
         tvTableSeatEastName?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
         tvTableSeatEastPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
+        vGameTableSeatEastAuxStart?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
+        vGameTableSeatEastAuxEnd?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
         tvTableSeatEastPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
         ivTableSeatSouthSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
         tvTableSeatSouthName?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
         tvTableSeatSouthPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
+        vGameTableSeatSouthAuxStart?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
+        vGameTableSeatSouthAuxEnd?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
         tvTableSeatSouthPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
         ivTableSeatWestSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
         tvTableSeatWestName?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
         tvTableSeatWestPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
+        vGameTableSeatWestAuxStart?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
+        vGameTableSeatWestAuxEnd?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
         tvTableSeatWestPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
         ivTableSeatNorthSeatWindIcon?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
         tvTableSeatNorthName?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
         tvTableSeatNorthPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
+        vGameTableSeatNorthAuxStart?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
+        vGameTableSeatNorthAuxEnd?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
         tvTableSeatNorthPenaltyPoints?.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
     }
     

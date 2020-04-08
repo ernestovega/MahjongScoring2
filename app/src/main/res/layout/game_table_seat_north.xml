@@ -41,6 +41,20 @@
         tools:text="-000"
         tools:visibility="visible" />
 
+    <View
+        android:id="@+id/vGameTableSeatNorthAuxStart"
+        style="@style/auxView"
+        android:layout_above="@+id/tvTableSeatNorthName"
+        android:layout_below="@+id/ivTableSeatNorthSeatWindIcon"
+        android:layout_toStartOf="@+id/tvTableSeatNorthPoints" />
+
+    <View
+        android:id="@+id/vGameTableSeatNorthAuxEnd"
+        style="@style/auxView"
+        android:layout_above="@+id/tvTableSeatNorthName"
+        android:layout_below="@+id/ivTableSeatNorthSeatWindIcon"
+        android:layout_toEndOf="@+id/tvTableSeatNorthPoints" />
+
     <TextView
         android:id="@+id/tvTableSeatNorthName"
         style="@style/TextViewTableSeat"

@@ -26,6 +26,20 @@
         android:textSize="@dimen/table_player_points_text_size"
         tools:text="-000" />
 
+    <View
+        android:id="@+id/vGameTableSeatSouthAuxStart"
+        style="@style/auxView"
+        android:layout_above="@+id/tvTableSeatSouthName"
+        android:layout_below="@+id/ivTableSeatSouthSeatWindIcon"
+        android:layout_toStartOf="@+id/tvTableSeatSouthPoints" />
+
+    <View
+        android:id="@+id/vGameTableSeatSouthAuxEnd"
+        style="@style/auxView"
+        android:layout_above="@+id/tvTableSeatSouthName"
+        android:layout_below="@+id/ivTableSeatSouthSeatWindIcon"
+        android:layout_toEndOf="@+id/tvTableSeatSouthPoints" />
+
     <TextView
         android:id="@+id/tvTableSeatSouthPenaltyPoints"
         android:layout_width="wrap_content"

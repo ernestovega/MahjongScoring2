@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tvDiceDialogFirst"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
@@ -34,8 +35,8 @@
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            tools:src="@drawable/one"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/one" />
 
         <ImageView
             android:id="@+id/ivDice2"
@@ -44,12 +45,13 @@
             android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            tools:src="@drawable/one"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/one" />
 
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tvDiceDialogSecond"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"

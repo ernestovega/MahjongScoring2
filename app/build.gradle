@@ -36,7 +36,7 @@ android {
         }
         release {
             debuggable false
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -83,8 +83,8 @@ dependencies {
     //ARCH COMPONENTS
     def room_version = "2.2.5"
     implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
     def lifecycle_version = "2.2.0"
     implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
@@ -106,7 +106,4 @@ dependencies {
 
     //UTILS
     implementation "org.apache.commons:commons-lang3:3.9"
-
-    //STEPPER
-    implementation 'com.github.badoualy:stepper-indicator:1.0.7'
 }
