@@ -34,7 +34,7 @@
     <string name="search">Buscar</string>
     <string name="combination_name">Nombre de la combinación</string>
     <string name="toggle_descriptions">Mostrar/ocultar descripciones</string>
-    <string name="no_email_apps_founded">No se pudo encontrar aplicaciones de correo</string>
+    <string name="no_email_apps_founded">No se pudo encontrar aplicación de correo</string>
     <string name="table">Mesa</string>
     <string name="game">Partida</string>
     <string name="totals">Totales</string>
@@ -67,8 +67,8 @@
     <string name="eight">8</string>
     <string name="seven">7</string>
     <string name="six">6</string>
-    <string name="four">4</string>
-    <string name="five">5</string>
+    <string name="four">5</string>
+    <string name="five">4</string>
     <string name="three">3</string>
     <string name="two">2</string>
     <string name="one">1</string>
@@ -108,7 +108,7 @@
     <string name="all_simples">Todo simples</string>
     <string name="outside_hand">Mano exterior</string>
     <string name="fully_concealed_hand">Mano completamente oculta</string>
-    <string name="two_melded_kongs">Dos kons expuestos</string>
+    <string name="two_melded_kongs">Dos kongs expuestos</string>
     <string name="last_tile">Última ficha</string>
     <string name="all_pungs">Todo pungs</string>
     <string name="half_flush">Mano semipuro</string>
@@ -157,8 +157,9 @@
     <string name="little_three_dragons">Tres pequeños dragones</string>
     <string name="four_concealed_pungs">Cuatro pongs ocultos</string>
     <string name="pure_terminal_chows">Chows terminales puros</string>
-    <string name="big_four_winds">Cuatro grandes vientos</string>
     <string name="big_three_dragons">Tres grandes dragones</string>
+    <string name="thirteen_orphans">Trece huérfanos</string>
+    <string name="big_four_winds">Cuatro grandes vientos</string>
     <string name="all_green">Todo verde</string>
     <string name="nine_gates">Nueve puertas</string>
     <string name="four_kongs">Cuatro kongs</string>

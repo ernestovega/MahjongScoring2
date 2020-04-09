@@ -33,7 +33,7 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="search">Search</string>
     <string name="combination_name">Combination name</string>
-    <string name="toggle_descriptions">Toogle descriptions</string>
+    <string name="toggle_descriptions">Toggle descriptions</string>
     <string name="no_email_apps_founded">Could not find email apps</string>
     <string name="table">Table</string>
     <string name="game">Game</string>
@@ -67,8 +67,8 @@
     <string name="eight">8</string>
     <string name="seven">7</string>
     <string name="six">6</string>
-    <string name="four">4</string>
-    <string name="five">5</string>
+    <string name="four">5</string>
+    <string name="five">4</string>
     <string name="three">3</string>
     <string name="two">2</string>
     <string name="one">1</string>
@@ -157,8 +157,9 @@
     <string name="little_three_dragons">Little three dragons</string>
     <string name="four_concealed_pungs">Four concealed pungs</string>
     <string name="pure_terminal_chows">Pure terminal chows</string>
-    <string name="big_four_winds">Big four winds</string>
     <string name="big_three_dragons">Big three dragons</string>
+    <string name="thirteen_orphans">Thirteen orphans</string>
+    <string name="big_four_winds">Big four winds</string>
     <string name="all_green">All green</string>
     <string name="nine_gates">Nine gates</string>
     <string name="four_kongs">Four Kongs</string>

@@ -17,6 +17,7 @@
 package com.etologic.mahjongscoring2.data_source.repositories
 
 import android.content.Context
+import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.drawable
 import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.business.model.entities.Combination
@@ -646,8 +647,8 @@ class CombinationsRepository
             Combination(
                 88,
                 0,
-                context.getString(string.big_four_winds),
-                drawable.big_four_winds
+                context.getString(string.thirteen_orphans),
+                drawable.thirteen_orphans
             )
         )
         combinations.add(
@@ -656,6 +657,14 @@ class CombinationsRepository
                 0,
                 context.getString(string.big_three_dragons),
                 drawable.big_three_dragons
+            )
+        )
+        combinations.add(
+            Combination(
+                88,
+                0,
+                context.getString(string.big_four_winds),
+                drawable.big_four_winds
             )
         )
         combinations.add(
