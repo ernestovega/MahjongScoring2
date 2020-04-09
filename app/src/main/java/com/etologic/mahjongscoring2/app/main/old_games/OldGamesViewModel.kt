@@ -67,9 +67,9 @@ internal class OldGamesViewModel(
         )
     }
     
-    internal fun startNewGame() {
+    internal fun startNewGame(defaultNames: Array<String>) {
         disposables.add(
-            createGameUseCase.createGame()
+            createGameUseCase.createGame(defaultNames)
                 .subscribeOn(Schedulers.io())
                 .flatMap(setCurrentGameUseCase::setCurrentGame)
                 .subscribe({ _startGame.postValue(NEW) }, this::showError)

@@ -16,28 +16,32 @@
 */
 package com.etologic.mahjongscoring2.app.game.activity
 
+import android.content.Context
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.etologic.mahjongscoring2.business.use_cases.current_game.GetCurrentGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_game.SaveCurrentPlayersUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_round.GameActionsUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_round.PenaltyUseCase
-import dagger.Module
-import dagger.Provides
+import javax.inject.Inject
 
-@Module
-class GameActivityModule {
+class GameViewModelFactory
+@Inject internal constructor(
+    private val context: Context,
+    private val getCurrentGameUseCase: GetCurrentGameUseCase,
+    private val saveCurrentPlayersUseCase: SaveCurrentPlayersUseCase,
+    private val gameActionsUseCase: GameActionsUseCase,
+    private val penaltyUseCase: PenaltyUseCase
+) : ViewModelProvider.NewInstanceFactory() {
     
-    @Provides
-    internal fun provideGameViewModelFactory(
-        getCurrentGameUseCase: GetCurrentGameUseCase,
-        saveCurrentPlayersUseCase: SaveCurrentPlayersUseCase,
-        gameActionsUseCase: GameActionsUseCase,
-        penaltyUseCase: PenaltyUseCase
-    ): GameActivityViewModelFactory {
-        return GameActivityViewModelFactory(
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return GameViewModel(
+            context,
             getCurrentGameUseCase,
             saveCurrentPlayersUseCase,
             gameActionsUseCase,
             penaltyUseCase
-        )
+        ) as T
     }
 }

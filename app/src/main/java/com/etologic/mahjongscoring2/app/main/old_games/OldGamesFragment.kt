@@ -27,6 +27,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.R.string.player_one
 import com.etologic.mahjongscoring2.app.base.BaseFragment
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModelFactory
@@ -54,6 +55,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     
     @Inject
     internal lateinit var rvAdapter: OldGamesRvAdapter
+    private lateinit var defaultNames: Array<String>
     
     //EVENTS
     override fun onOldGameItemDeleteClicked(gameId: Long) {
@@ -82,6 +84,8 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        defaultNames =
+            arrayOf(getString(player_one), getString(R.string.player_two), getString(R.string.player_three), getString(R.string.player_four))
         setupRecyclerView()
         setupViewModel()
         setupSwipeRefreshLayout()
@@ -139,7 +143,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     
     private fun setOnClickListeners() {
         fabOldGames?.setOnSecureClickListener {
-            viewModel.startNewGame()
+            viewModel.startNewGame(defaultNames)
         }
     }
 }

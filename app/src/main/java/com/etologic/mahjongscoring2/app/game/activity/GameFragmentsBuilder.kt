@@ -30,7 +30,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-abstract class GameActivityFragmentsBuilder {
+abstract class GameFragmentsBuilder {
     
     @ContributesAndroidInjector
     internal abstract fun provideGameListFragmentFactory(): GameListFragment

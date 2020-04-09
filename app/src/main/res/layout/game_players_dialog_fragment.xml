@@ -44,8 +44,8 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_east"
                     android:drawablePadding="@dimen/standard_margin"
-                    android:inputType="textPersonName|textAutoComplete"
-                    android:maxLength="8"
+                    android:inputType="textPersonName|textAutoComplete|textCapSentences"
+                    android:maxLength="14"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -61,8 +61,8 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_south"
                     android:drawablePadding="@dimen/standard_margin"
-                    android:inputType="textPersonName|textAutoComplete"
-                    android:maxLength="8"
+                    android:inputType="textPersonName|textAutoComplete|textCapSentences"
+                    android:maxLength="14"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -78,8 +78,8 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_west"
                     android:drawablePadding="@dimen/standard_margin"
-                    android:inputType="textPersonName|textAutoComplete"
-                    android:maxLength="8"
+                    android:inputType="textPersonName|textAutoComplete|textCapSentences"
+                    android:maxLength="14"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -95,8 +95,8 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_north"
                     android:drawablePadding="@dimen/standard_margin"
-                    android:inputType="textPersonName|textAutoComplete"
-                    android:maxLength="8"
+                    android:inputType="textPersonName|textAutoComplete|textCapSentences"
+                    android:maxLength="14"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/half_standard_margin"
-            android:layout_marginEnd="@dimen/half_standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
             android:layout_marginBottom="@dimen/half_standard_margin"
             android:orientation="horizontal">
 

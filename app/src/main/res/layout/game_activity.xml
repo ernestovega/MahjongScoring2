@@ -62,13 +62,4 @@
 
     </RelativeLayout>
 
-    <ProgressBar
-        android:id="@+id/pbGame"
-        android:layout_width="@dimen/progress_size"
-        android:layout_height="@dimen/progress_size"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/progress_margin"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

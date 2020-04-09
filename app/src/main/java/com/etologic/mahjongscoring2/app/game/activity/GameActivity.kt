@@ -52,7 +52,7 @@ class GameActivity : BaseActivity() {
     private var resumeGameItem: MenuItem? = null
     
     @Inject
-    internal lateinit var viewModelFactory: GameActivityViewModelFactory
+    internal lateinit var viewModelFactory: GameViewModelFactory
     internal lateinit var viewModel: GameViewModel
     private var lastBackPress: Long = 0
     
@@ -93,7 +93,7 @@ class GameActivity : BaseActivity() {
             }
             R.id.action_ratate_seats -> {
                 if (viewPagerGame.currentItem == LIST.code) viewModel.showPage(TABLE)
-                viewModel.changeSeatsRotation()
+                viewModel.toggleSeatsRotation()
                 true
             }
             R.id.action_combinations -> {

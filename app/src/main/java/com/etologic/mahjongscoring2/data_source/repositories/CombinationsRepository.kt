@@ -17,7 +17,6 @@
 package com.etologic.mahjongscoring2.data_source.repositories
 
 import android.content.Context
-import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.drawable
 import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.business.model.entities.Combination

@@ -24,10 +24,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup.VISIBLE
 import android.widget.ImageView
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment.DiceNumber.*
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import kotlinx.android.synthetic.main.game_dice_dialog_fragment.*
 import java.util.*
 
@@ -37,12 +40,35 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
         const val TAG: String = "RollDiceDialogFragment"
     }
     
+    private enum class DiceNumber(val code: Int) {
+        ONE(1),
+        TWO(2),
+        THREE(3),
+        FOUR(4),
+        FIVE(5),
+        SIX(6);
+        
+        companion object {
+            internal fun getRandom(): DiceNumber =
+                when (Random().nextInt(6)) {
+                    1 -> ONE
+                    2 -> TWO
+                    3 -> THREE
+                    4 -> FOUR
+                    5 -> FIVE
+                    6 -> SIX
+                    else -> ONE
+                }
+        }
+    }
+    
     private lateinit var diceSound: SoundPool       //For dice sound playing
     private var soundId: Int = 0               //Used to control sound stream return by SoundPool
     private lateinit var handler12: Handler            //Post message to start roll
     private lateinit var handler34: Handler            //Post message to start roll
     private val timer = Timer()  //Used to implement feedback to user
     private var isRolling = false   //Is die isRolling?
+    private var zero: String? = null
     
     //When pause completed message sent to callback
     private inner class Roll12 : TimerTask() {
@@ -65,6 +91,7 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        zero = resources.getString(R.string.zero)
         initSound()
         initDice()
     }
@@ -83,12 +110,24 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
             //Receives message from timer to start dice roll
             rollNewDice(ivDice1)
             rollNewDice(ivDice2)
+            
+            tvDiceDialogSecond?.text = getSecondThrowerName()
+            if (tvDiceDialogSecond?.visibility != VISIBLE) tvDiceDialogSecond?.visibility = VISIBLE
+            if (ivDice3?.visibility != VISIBLE) ivDice3?.visibility = VISIBLE
+            if (ivDice4?.visibility != VISIBLE) ivDice4?.visibility = VISIBLE
+            
             true
         }
         ivDice1?.setOnSecureClickListener { listener12() }
         ivDice2?.setOnSecureClickListener { listener12() }
         ivDice1?.setImageResource(R.drawable.dice3droll)
         ivDice2?.setImageResource(R.drawable.dice3droll)
+        ivDice1?.contentDescription = zero
+        ivDice2?.contentDescription = zero
+        ivDice1?.tag = 0
+        ivDice2?.tag = 0
+        
+        tvDiceDialogFirst?.text = activityViewModel?.getNamesByCurrentSeat()?.get(0) ?: getString(R.string.first)
         
         handler34 = Handler {
             //Receives message from timer to start dice roll
@@ -100,17 +139,48 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
         ivDice4?.setOnSecureClickListener { listener34() }
         ivDice3?.setImageResource(R.drawable.dice3droll)
         ivDice4?.setImageResource(R.drawable.dice3droll)
+        ivDice3?.tag = zero
+        ivDice4?.tag = zero
+        ivDice3?.contentDescription = zero
+        ivDice4?.contentDescription = zero
+    }
+    
+    private fun getSecondThrowerName(): String {
+        val secondSeat = when (ivDice1.tag as Int + ivDice2.tag as Int) {
+            5, 9 -> EAST.code
+            2, 6, 10 -> SOUTH.code
+            3, 7, 11 -> WEST.code
+            4, 8, 12 -> NORTH.code
+            else -> null
+        }
+        val namesCurrentSeat = activityViewModel?.getNamesByCurrentSeat()
+        return if (secondSeat != null && namesCurrentSeat != null)
+            namesCurrentSeat[secondSeat]
+        else
+            getString(R.string.second)
     }
     
     private fun listener12() {
         if (!isRolling) {
             isRolling = true
-            //Show isRolling image
+            
+            tvDiceDialogSecond?.text = ""
             ivDice1?.setImageResource(R.drawable.dice3droll)
             ivDice2?.setImageResource(R.drawable.dice3droll)
+            ivDice3?.setImageResource(R.drawable.dice3droll)
+            ivDice4?.setImageResource(R.drawable.dice3droll)
+            ivDice1?.contentDescription = zero
+            ivDice2?.contentDescription = zero
+            ivDice3?.tag = zero
+            ivDice4?.tag = zero
+            ivDice1?.tag = 0
+            ivDice2?.tag = 0
+            ivDice3?.contentDescription = zero
+            ivDice4?.contentDescription = zero
             
             diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
             diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
+            
             timer.schedule(Roll12(), 400)
         }
     }
@@ -121,6 +191,10 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
             //Show isRolling image
             ivDice3?.setImageResource(R.drawable.dice3droll)
             ivDice4?.setImageResource(R.drawable.dice3droll)
+            ivDice3?.contentDescription = zero
+            ivDice4?.contentDescription = zero
+            ivDice3?.tag = 0
+            ivDice4?.tag = 0
             
             diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
             diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
@@ -129,34 +203,36 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
     }
     
     private fun rollNewDice(imageView: ImageView) {
-        when (Random().nextInt(6)) {
-            0 -> {
+        when (DiceNumber.getRandom()) {
+            ONE -> {
                 imageView.setImageResource(R.drawable.one)
                 imageView.contentDescription = getString(R.string.one)
+                imageView.tag = ONE.code
             }
-            1 -> {
+            TWO -> {
                 imageView.setImageResource(R.drawable.two)
                 imageView.contentDescription = getString(R.string.two)
+                imageView.tag = TWO.code
             }
-            2 -> {
+            THREE -> {
                 imageView.setImageResource(R.drawable.three)
                 imageView.contentDescription = getString(R.string.three)
+                imageView.tag = THREE.code
             }
-            3 -> {
+            FOUR -> {
                 imageView.setImageResource(R.drawable.four)
                 imageView.contentDescription = getString(R.string.four)
+                imageView.tag = FOUR.code
             }
-            4 -> {
+            FIVE -> {
                 imageView.setImageResource(R.drawable.five)
                 imageView.contentDescription = getString(R.string.five)
+                imageView.tag = FIVE.code
             }
-            5 -> {
+            SIX -> {
                 imageView.setImageResource(R.drawable.six)
                 imageView.contentDescription = getString(R.string.six)
-            }
-            else -> {
-                imageView.setImageResource(R.drawable.one)
-                imageView.contentDescription = getString(R.string.one)
+                imageView.tag = SIX.code
             }
         }
         isRolling = false  //user can press again

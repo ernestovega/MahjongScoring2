@@ -43,8 +43,4 @@
     <dimen name="table_player_penalty_points_text_size">20sp</dimen>
     <dimen name="table_player_round_num_text_size">28sp</dimen>
 
-    <!--  PROGRESS  -->
-    <dimen name="progress_size">80dp</dimen>
-    <dimen name="progress_margin">4dp</dimen>
-
 </resources>

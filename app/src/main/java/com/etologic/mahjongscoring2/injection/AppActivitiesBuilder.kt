@@ -17,8 +17,8 @@
 package com.etologic.mahjongscoring2.injection
 
 import com.etologic.mahjongscoring2.app.game.activity.GameActivity
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityFragmentsBuilder
-import com.etologic.mahjongscoring2.app.game.activity.GameActivityModule
+import com.etologic.mahjongscoring2.app.game.activity.GameFragmentsBuilder
+import com.etologic.mahjongscoring2.app.game.activity.GameModule
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityFragmentsBuilder
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityModule
@@ -36,6 +36,6 @@ internal abstract class AppActivitiesBuilder {
     @ContributesAndroidInjector(modules = [CombinationsActivityModule::class])
     internal abstract fun bindCombinationsActivity(): CombinationsActivity
     
-    @ContributesAndroidInjector(modules = [GameActivityModule::class, GameActivityFragmentsBuilder::class])
+    @ContributesAndroidInjector(modules = [GameModule::class, GameFragmentsBuilder::class])
     internal abstract fun bindGameActivity(): GameActivity
 }

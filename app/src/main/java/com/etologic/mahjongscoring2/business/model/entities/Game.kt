@@ -42,12 +42,12 @@ class Game(
         private const val NOT_SET_GAME_ID: Long = 0
     }
     
-    constructor() : this(
+    constructor(defaultNames: Array<String>) : this(
         NOT_SET_GAME_ID,
-        "Player 1",
-        "Player 2",
-        "Player 3",
-        "Player 4",
+        defaultNames[0],
+        defaultNames[1],
+        defaultNames[2],
+        defaultNames[3],
         Calendar.getInstance().time
     )
     

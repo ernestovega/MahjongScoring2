@@ -29,8 +29,8 @@ constructor(
     private val roundsRepository: RoundsRepository
 ) {
     
-    internal fun createGame(): Single<Long> =
-        gamesRepository.insertOne(Game())
+    internal fun createGame(defaultNames: Array<String>): Single<Long> =
+        gamesRepository.insertOne(Game(defaultNames))
             .flatMap { gameId ->
                 roundsRepository.insertOne(Round(gameId))
                     .map { gameId }

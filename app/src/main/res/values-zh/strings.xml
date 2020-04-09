@@ -15,6 +15,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
+    <!--  Translations v2.0.0  -->
     <string name="app_name">国际麻将计分器</string>
     <string name="close_drawer">关闭菜单</string>
     <string name="open_drawer">打开菜单</string>
@@ -58,6 +59,10 @@
     <string name="player_south">南风玩家</string>
     <string name="player_west">西风玩家</string>
     <string name="player_north">北风玩家</string>
+    <string name="player_one">一风玩家</string>
+    <string name="player_two">二风玩家</string>
+    <string name="player_three">三风玩家</string>
+    <string name="player_four">四风玩家</string>
     <string name="divided">平分</string>
     <string name="edit_names">编辑姓名</string>
     <string name="save">保存</string>
@@ -67,8 +72,8 @@
     <string name="eight">8</string>
     <string name="seven">7</string>
     <string name="six">6</string>
-    <string name="four">5</string>
-    <string name="five">4</string>
+    <string name="five">5</string>
+    <string name="four">4</string>
     <string name="three">3</string>
     <string name="two">2</string>
     <string name="one">1</string>

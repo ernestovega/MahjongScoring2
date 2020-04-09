@@ -15,6 +15,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
+    <!--  Translations V2.0.0  -->
     <string name="app_name">Mahjong Scoring MCR</string>
     <string name="close_drawer">Close menu</string>
     <string name="open_drawer">Open menu</string>
@@ -58,6 +59,10 @@
     <string name="player_south">Player South</string>
     <string name="player_west">Player West</string>
     <string name="player_north">Player North</string>
+    <string name="player_one">Player A</string>
+    <string name="player_two">Player B</string>
+    <string name="player_three">Player C</string>
+    <string name="player_four">Player D</string>
     <string name="divided">Divided</string>
     <string name="edit_names">Edit names</string>
     <string name="save">Save</string>
@@ -67,8 +72,8 @@
     <string name="eight">8</string>
     <string name="seven">7</string>
     <string name="six">6</string>
-    <string name="four">5</string>
-    <string name="five">4</string>
+    <string name="five">5</string>
+    <string name="four">4</string>
     <string name="three">3</string>
     <string name="two">2</string>
     <string name="one">1</string>

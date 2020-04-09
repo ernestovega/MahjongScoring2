@@ -16,8 +16,10 @@
 */
 package com.etologic.mahjongscoring2.app.game.activity
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HAND_ACTION
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PLAYERS
@@ -38,6 +40,7 @@ import com.etologic.mahjongscoring2.business.use_cases.current_round.PenaltyUseC
 import io.reactivex.schedulers.Schedulers
 
 class GameViewModel internal constructor(
+    contextForResources: Context,
     private val getCurrentGameUseCase: GetCurrentGameUseCase,
     private val saveCurrentPlayersUseCase: SaveCurrentPlayersUseCase,
     private val gameActionsUseCase: GameActionsUseCase,
@@ -56,6 +59,10 @@ class GameViewModel internal constructor(
         EXIT
     }
     
+    private var playerOneLiteral: String? = null
+    private var playerTwoLiteral: String? = null
+    private var playerThreeLiteral: String? = null
+    private var playerFourLiteral: String? = null
     private val _currentPage = MutableLiveData<GameTablePages>()
     internal fun getCurrentPage(): LiveData<GameTablePages> = _currentPage
     private val _currentScreen = MutableLiveData<GameScreens>()
@@ -71,6 +78,10 @@ class GameViewModel internal constructor(
     internal var huPoints = 0
     
     init {
+        playerOneLiteral = contextForResources.getString(R.string.player_one)
+        playerTwoLiteral = contextForResources.getString(R.string.player_two)
+        playerThreeLiteral = contextForResources.getString(R.string.player_three)
+        playerFourLiteral = contextForResources.getString(R.string.player_four)
         _selectedSeat.postValue(NONE)
         _seatsRotation.postValue(PORTRAIT)
     }
@@ -87,10 +98,10 @@ class GameViewModel internal constructor(
     
     private fun showPlayersDialogIfProceed(table: Table) {
         if (table.rounds.size == 1 &&
-            table.game.nameP1.isBlank() &&
-            table.game.nameP2.isBlank() &&
-            table.game.nameP3.isBlank() &&
-            table.game.nameP4.isBlank()
+            table.game.nameP1 == playerOneLiteral &&
+            table.game.nameP2 == playerTwoLiteral &&
+            table.game.nameP3 == playerThreeLiteral &&
+            table.game.nameP4 == playerFourLiteral
         ) navigateTo(PLAYERS)
     }
     
@@ -215,7 +226,7 @@ class GameViewModel internal constructor(
             .map { it.game.getPlayersNames() }
             .blockingGet()
     
-    internal fun changeSeatsRotation() {
+    internal fun toggleSeatsRotation() {
         _seatsRotation.postValue(if (_seatsRotation.value == LANDSCAPE) PORTRAIT else LANDSCAPE)
     }
 }
