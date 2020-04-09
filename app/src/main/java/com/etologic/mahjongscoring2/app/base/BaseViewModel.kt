@@ -20,15 +20,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.etologic.mahjongscoring2.BuildConfig
-import com.etologic.mahjongscoring2.app.model.ShowState
-import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import io.reactivex.disposables.CompositeDisposable
 
 open class BaseViewModel : ViewModel() {
     
     protected var disposables = CompositeDisposable()
-    protected var progressState = MutableLiveData<ShowState>()
-    internal fun getProgressState(): LiveData<ShowState> = progressState
     
     @Suppress("MemberVisibilityCanBePrivate")
     protected var snackbarMessage = MutableLiveData<String>()
@@ -37,7 +33,6 @@ open class BaseViewModel : ViewModel() {
     internal fun getError(): LiveData<Throwable> = error
     
     internal fun showError(throwable: Throwable) {
-        progressState.postValue(HIDE)
         error.postValue(throwable)
         if (BuildConfig.DEBUG)
             throwable.printStackTrace()

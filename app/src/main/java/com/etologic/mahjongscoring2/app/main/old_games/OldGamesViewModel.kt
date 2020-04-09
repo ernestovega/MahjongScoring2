@@ -19,8 +19,6 @@ package com.etologic.mahjongscoring2.app.main.old_games
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
-import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.enums.GameStartType
 import com.etologic.mahjongscoring2.business.model.enums.GameStartType.NEW
@@ -43,25 +41,21 @@ internal class OldGamesViewModel(
     private val _startGame = MutableLiveData<GameStartType>()
     internal fun getStartGame(): LiveData<GameStartType> = _startGame
     
-    fun deleteGame(gameId: Long) {
+    internal fun deleteGame(gameId: Long) {
         disposables.add(
             deleteGameUseCase.deleteGame(gameId)
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(_allGames::postValue)
-                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+                .subscribe(_allGames::postValue, this::showError)
         )
     }
     
     //METHODS
-    fun getAllGames() {
+    internal fun getAllGames() {
         disposables.add(
             getGamesUseCase.getAllWithRounds()
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
                 .onErrorReturnItem(ArrayList())
-                .doOnSuccess(_allGames::postValue)
-                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+                .subscribe(_allGames::postValue, this::showError)
         )
     }
     
@@ -69,8 +63,6 @@ internal class OldGamesViewModel(
         disposables.add(
             setCurrentGameUseCase.setCurrentGame(gameId)
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess { progressState.postValue(HIDE) }
                 .subscribe({ _startGame.postValue(RESUME) }, this::showError)
         )
     }
@@ -79,9 +71,7 @@ internal class OldGamesViewModel(
         disposables.add(
             createGameUseCase.createGame()
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
                 .flatMap(setCurrentGameUseCase::setCurrentGame)
-                .doOnSuccess { progressState.postValue(HIDE) }
                 .subscribe({ _startGame.postValue(NEW) }, this::showError)
         )
     }

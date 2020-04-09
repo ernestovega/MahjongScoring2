@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseFragment
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.main.activity.MainActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModelFactory
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
@@ -103,7 +102,6 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
             activityViewModel = ViewModelProvider(activity!!, mainActivityViewModelFactory).get(MainViewModel::class.java)
             viewModel = ViewModelProvider(this, oldGamesViewModelFactory).get(OldGamesViewModel::class.java)
             viewModel.getError().observe(viewLifecycleOwner, Observer(this::showError))
-            viewModel.getProgressState().observe(viewLifecycleOwner, Observer((activity as MainActivity)::toggleProgress))
             viewModel.getSnackbarMessage().observe(viewLifecycleOwner, Observer { view?.let { view -> showSnackbar(view, it) } })
             viewModel.getGames().observe(viewLifecycleOwner, Observer(this::gamesObserver))
             viewModel.getStartGame().observe(viewLifecycleOwner, Observer(this::startGameObserver))

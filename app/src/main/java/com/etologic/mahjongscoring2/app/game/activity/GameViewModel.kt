@@ -23,8 +23,6 @@ import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PLAYERS
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages
-import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
-import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.Table
@@ -82,12 +80,8 @@ class GameViewModel internal constructor(
         disposables.add(
             getCurrentGameUseCase.getCurrentGameWithRounds()
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess {
-                    _currentTable.postValue(it)
-                    showPlayersDialogIfProceed(it)
-                }
-                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+                .doOnSuccess { _currentTable.postValue(it) }
+                .subscribe(this::showPlayersDialogIfProceed, this::showError)
         )
     }
     
@@ -125,9 +119,7 @@ class GameViewModel internal constructor(
         disposables.add(
             gameActionsUseCase.resume()
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(_currentTable::postValue)
-                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+                .subscribe(_currentTable::postValue, this::showError)
         )
     }
     
@@ -135,9 +127,7 @@ class GameViewModel internal constructor(
         disposables.add(
             gameActionsUseCase.end()
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(_currentTable::postValue)
-                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+                .subscribe(_currentTable::postValue, this::showError)
         )
     }
     
@@ -145,9 +135,7 @@ class GameViewModel internal constructor(
         disposables.add(
             saveCurrentPlayersUseCase.saveCurrentGamePlayersNames(names)
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(_currentTable::postValue)
-                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+                .subscribe(_currentTable::postValue, this::showError)
         )
     }
     
@@ -156,9 +144,7 @@ class GameViewModel internal constructor(
         disposables.add(
             gameActionsUseCase.discard(HuData(_selectedSeat.value!!, discarderCurrentSeat, huPoints))
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(_currentTable::postValue)
-                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+                .subscribe(_currentTable::postValue, this::showError)
         )
     }
     
@@ -166,9 +152,7 @@ class GameViewModel internal constructor(
         disposables.add(
             gameActionsUseCase.selfpick(HuData(_selectedSeat.value!!, huPoints))
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(_currentTable::postValue)
-                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+                .subscribe(_currentTable::postValue, this::showError)
         )
     }
     
@@ -176,9 +160,7 @@ class GameViewModel internal constructor(
         disposables.add(
             gameActionsUseCase.draw()
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(_currentTable::postValue)
-                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+                .subscribe(_currentTable::postValue, this::showError)
         )
     }
     
@@ -187,9 +169,7 @@ class GameViewModel internal constructor(
         disposables.add(
             penaltyUseCase.penalty(penaltyData)
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(_currentTable::postValue)
-                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+                .subscribe(_currentTable::postValue, this::showError)
         )
     }
     
@@ -197,9 +177,7 @@ class GameViewModel internal constructor(
         disposables.add(
             penaltyUseCase.cancelPenalties()
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(_currentTable::postValue)
-                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+                .subscribe(_currentTable::postValue, this::showError)
         )
     }
     
@@ -207,9 +185,7 @@ class GameViewModel internal constructor(
         disposables.add(
             gameActionsUseCase.removeRound(roundId)
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { progressState.postValue(SHOW) }
-                .doOnSuccess(_currentTable::postValue)
-                .subscribe({ progressState.postValue(HIDE) }, this::showError)
+                .subscribe(_currentTable::postValue, this::showError)
         )
     }
     

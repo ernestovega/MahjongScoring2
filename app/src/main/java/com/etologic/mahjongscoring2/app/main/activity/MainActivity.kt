@@ -65,7 +65,6 @@ class MainActivity : BaseActivity() {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        progressBar = pbMain
         setupViewModel()
         setupDrawer()
         viewModel?.navigateTo(OLD_GAMES)
@@ -73,7 +72,6 @@ class MainActivity : BaseActivity() {
     
     private fun setupViewModel() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-        viewModel?.getProgressState()?.observe(this, Observer(this::toggleProgress))
         viewModel?.getCurrentToolbar()?.observe(this, Observer(this::setToolbar))
         viewModel?.getCurrentScreen()?.observe(this, Observer { goToScreen(it, this) })
     }

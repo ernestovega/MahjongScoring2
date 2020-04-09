@@ -119,7 +119,6 @@ class GameActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.game_activity)
-        progressBar = pbGame
         initViewModel()
         setupToolbar()
         setupViewPager()
@@ -141,7 +140,6 @@ class GameActivity : BaseActivity() {
     
     private fun observeViewModel() {
         viewModel.getError().observe(this, Observer(this::showError))
-        viewModel.getProgressState().observe(this, Observer(this::toggleProgress))
         viewModel.getSnackbarMessage().observe(this, Observer { message -> viewPagerGame?.let { this.showSnackbar(it, message) } })
         viewModel.getCurrentScreen().observe(this, Observer { GameNavigator.showDialog(it, this) })
         viewModel.getCurrentPage().observe(this, Observer { it?.let { viewPagerGame.currentItem = it.code } })

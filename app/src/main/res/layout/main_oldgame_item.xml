@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     Copyright (C) 2020  Ernesto Vega de la Iglesia Soria
 
     This program is free software: you can redistribute it and/or modify
@@ -84,7 +83,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="2"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -228,7 +227,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginTop="@dimen/standard_margin"
                     android:layout_weight="1"
                     android:baselineAligned="false"
                     android:gravity="center"
@@ -238,6 +237,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/standard_margin"
                         android:gravity="center"
                         android:orientation="vertical">
 

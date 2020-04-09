@@ -1,19 +1,13 @@
 <resources>
-    <string name="app_name">Mahjong Scoring</string>
-
-    <!-- BASE FRAGMENT -->
-
-    <!-- MAIN ACTIVITY -->
+    <string name="app_name">Mahjong Scoring MCR</string>
     <string name="close_drawer">Close menu</string>
     <string name="open_drawer">Open menu</string>
     <string name="old_games">Old games</string>
     <string name="combinations">Combinations</string>
     <string name="green_book">Green Book</string>
-    <string name="rate">Rate</string>
+    <string name="rate">Rate app</string>
     <string name="contact">Contact</string>
     <string name="press_again_to_exit">Press again to exit</string>
-
-    <!-- OLD GAMES -->
     <string name="theres_no_games_yet_start_one">There\'s no games yet.\nStart one!</string>
     <string name="best_hand">Best hand</string>
     <string name="rounds">Rounds</string>
@@ -21,17 +15,10 @@
     <string name="resume">Resume</string>
     <string name="delete_game">Delete game</string>
     <string name="are_you_sure">Are you sure?</string>
-
-    <!-- COMBINATIONS -->
-
     <string name="search">Search</string>
     <string name="combination_name">Combination name</string>
     <string name="toggle_descriptions">Toogle descriptions</string>
-
-    <!-- CONTACT -->
     <string name="no_email_apps_founded">Couldn\'t find email apps</string>
-
-    <!-- GAME -->
     <string name="table">Table</string>
     <string name="game">Game</string>
     <string name="totals">Totals</string>
@@ -80,13 +67,10 @@
     <string name="first">First</string>
     <string name="second">Second</string>
     <string name="rotate_seats">Rotate seats</string>
-
-    <!--COMBINATIONS-->
-
-    <string name="pure_double_chow">Pure double Chow</string>
-    <string name="mixed_double_chow">Mixed double Chow</string>
+    <string name="pure_double_chow">Pure double chow</string>
+    <string name="mixed_double_chow">Mixed double chow</string>
     <string name="short_straight">Short straight</string>
-    <string name="two_terminal_chows">Two terminal Chows</string>
+    <string name="two_terminal_chows">Two terminal chows</string>
     <string name="pung_of_terminals_or_honors">Pung of terminals or honors</string>
     <string name="melded_kong">Melded Kong</string>
     <string name="one_voided_suit">One voided suit</string>
@@ -95,88 +79,76 @@
     <string name="closed_wait">Closed wait</string>
     <string name="single_waiting">Single waiting</string>
     <string name="self_drawn">Self-drawn</string>
-    <string name="flower_tiles">Flower tiles</string>
-
-    <string name="dragon_pung">Dragon Pung</string>
+    <string name="flower_tiles">Flowers or seasons</string>
+    <string name="dragon_pung">Dragon pung</string>
     <string name="prevalent_wind">Prevalent wind</string>
     <string name="seat_wind">Seat wind</string>
     <string name="concealed_hand">Concealed hand</string>
-    <string name="all_chows">All Chows</string>
+    <string name="all_chows">All chows</string>
     <string name="tile_hog">Tile hog</string>
-    <string name="double_pungs">Double Pungs</string>
-    <string name="two_concealed_pungs">Two concealed Pungs</string>
+    <string name="double_pungs">Double pungs</string>
+    <string name="two_concealed_pungs">Two concealed pungs</string>
     <string name="concealed_kong">Concealed Kong</string>
     <string name="all_simples">All simples</string>
-
     <string name="outside_hand">Outside hand</string>
     <string name="fully_concealed_hand">Fully concealed hand</string>
     <string name="two_melded_kongs">Two melded Kongs</string>
     <string name="last_tile">Last tile</string>
-
-    <string name="all_pungs">All Pungs</string>
+    <string name="all_pungs">All pungs</string>
     <string name="half_flush">Half flush</string>
-    <string name="mixed_shifted_chows">Mixed shifted Chows</string>
+    <string name="mixed_shifted_chows">Mixed shifted chows</string>
     <string name="all_types">All types</string>
     <string name="melded_hand">Melded hand</string>
-    <string name="two_dragon_pungs">Two dragon Pungs</string>
-
+    <string name="two_dragon_pungs">Two dragon pungs</string>
     <string name="mixed_straight">Mixed straight</string>
     <string name="reversible_tiles">Reversible tiles</string>
-    <string name="mixed_triple_chow">Mixed triple Chow</string>
-    <string name="mixed_shifted_pungs">Mixed shifted Pungs</string>
+    <string name="mixed_triple_chow">Mixed triple chow</string>
+    <string name="mixed_shifted_pungs">Mixed shifted pungs</string>
     <string name="chicken_hand">Chicken hand</string>
     <string name="last_tile_draw">Last tile draw</string>
     <string name="last_tile_claim">Last tile claim</string>
     <string name="out_with_replacement_tile">Out with replacement tile</string>
     <string name="robbing_the_kong">Robbing the Kong</string>
     <string name="two_concealed_kongs">Two concealed Kongs</string>
-
     <string name="lesser_honors_and_knitted_tiles">Lesser honors and knitted tiles</string>
     <string name="knitted_straight">Knitted straight</string>
-    <string name="upper_four">Upper five</string>
-    <string name="lower_four">Lower five</string>
+    <string name="upper_four">Upper four</string>
+    <string name="lower_four">Lower four</string>
     <string name="big_three_winds">Big three winds</string>
-
     <string name="pure_straight">Pure straight</string>
-    <string name="three_suited_terminal_chows">Three-suited terminal Chows</string>
-    <string name="pure_shifted_chows">Pure shifted Chows</string>
+    <string name="three_suited_terminal_chows">Three-suited terminal chows</string>
+    <string name="pure_shifted_chows">Pure shifted chows</string>
     <string name="all_fives">All fives</string>
-    <string name="triple_pungs">Triple Pungs</string>
-    <string name="three_concealed_pungs">Three concealed Pungs</string>
-
+    <string name="triple_pungs">Triple pungs</string>
+    <string name="three_concealed_pungs">Three concealed pungs</string>
     <string name="seven_pairs">Seven pairs</string>
     <string name="greater_honors_and_knitted_tiles">Greater honors and knitted tiles</string>
-    <string name="all_even_pungs">All even Pungs</string>
+    <string name="all_even_pungs">All even pungs</string>
     <string name="full_flush">Full flush</string>
-    <string name="pure_triple_chow">Pure triple Chow</string>
-    <string name="pure_shifted_pungs">Pure shifted Pungs</string>
+    <string name="pure_triple_chow">Pure triple chow</string>
+    <string name="pure_shifted_pungs">Pure shifted pungs</string>
     <string name="upper_tiles">Upper tiles</string>
     <string name="medium_tiles">Medium tiles</string>
     <string name="lower_tiles">Lower tiles</string>
-
-    <string name="four_pure_shifted_chows">Four pure shifted Chows</string>
+    <string name="four_pure_shifted_chows">Four pure shifted chows</string>
     <string name="three_kongs">Three Kongs</string>
     <string name="all_terminals_and_honors">All terminals and honors</string>
-
-    <string name="quadruple_chow">Quadruple Chow</string>
-    <string name="four_pure_shifted_pungs">Four pure shifted Pungs</string>
-
+    <string name="quadruple_chow">Quadruple chow</string>
+    <string name="four_pure_shifted_pungs">Four pure shifted pungs</string>
     <string name="all_terminals">All terminals</string>
     <string name="all_honors">All honors</string>
     <string name="little_four_winds">Little four winds</string>
     <string name="little_three_dragons">Little three dragons</string>
-    <string name="four_concealed_pungs">Four concealed Pungs</string>
-    <string name="pure_terminal_chows">Pure terminal Chows</string>
-
+    <string name="four_concealed_pungs">Four concealed pungs</string>
+    <string name="pure_terminal_chows">Pure terminal chows</string>
     <string name="big_four_winds">Big four winds</string>
     <string name="big_three_dragons">Big three dragons</string>
     <string name="all_green">All green</string>
     <string name="nine_gates">Nine gates</string>
     <string name="four_kongs">Four Kongs</string>
     <string name="seven_shifted_pairs">Seven shifted pairs</string>
-
     <string name="description_edge_wait">Win with 3 or 7 having 1–2 or 8–9</string>
-    <string name="description_closed_wait">Win with central Chow tile</string>
+    <string name="description_closed_wait">Win with central chow tile</string>
     <string name="description_single_waiting">Win with pair tile</string>
     <string name="description_self_drawn">Win with a tile from the wall</string>
     <string name="description_concealed_hand">Having all from the wall except last tile</string>
@@ -187,5 +159,4 @@
     <string name="description_last_tile_claim">Win with last discard tile</string>
     <string name="description_out_with_replacement_tile">Win with Kong extra tile</string>
     <string name="description_robbing_the_kong">Win with other player Kong extension tile</string>
-
 </resources>
