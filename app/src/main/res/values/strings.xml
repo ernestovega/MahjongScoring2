@@ -1,3 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright (C) 2020  Ernesto Vega de la Iglesia Soria
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
 <resources>
     <string name="app_name">Mahjong Scoring MCR</string>
     <string name="close_drawer">Close menu</string>
@@ -8,7 +24,7 @@
     <string name="rate">Rate app</string>
     <string name="contact">Contact</string>
     <string name="press_again_to_exit">Press again to exit</string>
-    <string name="theres_no_games_yet_start_one">There\'s no games yet.\nStart one!</string>
+    <string name="theres_no_games_yet_start_one">There is no games yet.\nStart one!</string>
     <string name="best_hand">Best hand</string>
     <string name="rounds">Rounds</string>
     <string name="delete">Delete</string>
@@ -18,7 +34,7 @@
     <string name="search">Search</string>
     <string name="combination_name">Combination name</string>
     <string name="toggle_descriptions">Toogle descriptions</string>
-    <string name="no_email_apps_founded">Couldn\'t find email apps</string>
+    <string name="no_email_apps_founded">Could not find email apps</string>
     <string name="table">Table</string>
     <string name="game">Game</string>
     <string name="totals">Totals</string>
