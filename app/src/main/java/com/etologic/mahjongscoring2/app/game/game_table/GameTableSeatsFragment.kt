@@ -16,16 +16,19 @@
 */
 package com.etologic.mahjongscoring2.app.game.game_table
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.TypedValue
-import android.view.Gravity.BOTTOM
-import android.view.Gravity.TOP
+import android.util.TypedValue.COMPLEX_UNIT_DIP
+import android.util.TypedValue.applyDimension
+import android.view.Gravity.*
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.*
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.RelativeLayout.*
+import android.widget.RelativeLayout.LayoutParams.*
 import android.widget.TextView
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.getDrawable
@@ -74,6 +77,7 @@ class GameTableSeatsFragment : Fragment() {
     private var listener: TableSeatsListener? = null
     private var selectedPlayer: TableWinds = NONE
     private var areSeatsDisabled: Boolean = false
+    private var margin = 0
     
     //PUBLIC
     internal fun setTableSeatsListener(tableSeatsListener: TableSeatsListener) {
@@ -185,6 +189,11 @@ class GameTableSeatsFragment : Fragment() {
     }
     
     //LIFECYCLE
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        margin = applyDimension(COMPLEX_UNIT_DIP, 16f * 2, resources.displayMetrics).toInt()
+    }
+    
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layout.game_table_seats_fragment, container, false)
     }
@@ -236,9 +245,10 @@ class GameTableSeatsFragment : Fragment() {
     internal fun updateSeatsOrientation(screenOrientation: ScreenOrientation) {
         when (screenOrientation) {
             PORTRAIT -> {
-                val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16f * 2, resources.displayMetrics).toInt()
                 rlTableSeatEastContainer?.setPadding(0, margin, 0, 0)
                 rlTableSeatWestContainer?.setPadding(0, 0, 0, margin)
+                rlTableSeatSouthContainer?.setPadding(0, 0, 0, 0)
+                rlTableSeatNorthContainer?.setPadding(0, 0, 0, 0)
                 rlTableSeatWestContainer?.gravity = BOTTOM
                 rlTableSeatSouthContainer?.rotation = 0f
                 rlTableSeatWestContainer?.rotation = 0f
@@ -247,6 +257,8 @@ class GameTableSeatsFragment : Fragment() {
             LANDSCAPE -> {
                 rlTableSeatEastContainer?.setPadding(0, 0, 0, 0)
                 rlTableSeatWestContainer?.setPadding(0, 0, 0, 0)
+                rlTableSeatSouthContainer?.setPadding(0, 0, 0, margin)
+                rlTableSeatNorthContainer?.setPadding(0, 0, 0, margin)
                 rlTableSeatWestContainer?.gravity = TOP
                 rlTableSeatSouthContainer?.rotation = -90f
                 rlTableSeatWestContainer?.rotation = 180f

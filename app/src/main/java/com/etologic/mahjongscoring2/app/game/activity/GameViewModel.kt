@@ -83,7 +83,7 @@ class GameViewModel internal constructor(
         playerThreeLiteral = contextForResources.getString(R.string.player_three)
         playerFourLiteral = contextForResources.getString(R.string.player_four)
         _selectedSeat.postValue(NONE)
-        _seatsRotation.postValue(PORTRAIT)
+        _seatsRotation.postValue(LANDSCAPE)
     }
     
     //METHODS

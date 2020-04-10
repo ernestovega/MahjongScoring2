@@ -80,7 +80,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTableSeatEastPoints"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/table_player_name_text_size"
-        tools:text="@string/player_east_name" />
+        android:text="@string/player_east_name" />
 
 </RelativeLayout>

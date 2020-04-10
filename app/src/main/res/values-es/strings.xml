@@ -59,10 +59,10 @@
     <string name="player_south">Jugador Sur</string>
     <string name="player_west">Jugador Oeste</string>
     <string name="player_north">Jugador Norte</string>
-    <string name="player_one">Jugador A</string>
-    <string name="player_two">Jugador B</string>
-    <string name="player_three">Jugador C</string>
-    <string name="player_four">Jugador D</string>
+    <string name="player_one">Nombre A</string>
+    <string name="player_two">Nombre B</string>
+    <string name="player_three">Nombre C</string>
+    <string name="player_four">Nombre D</string>
     <string name="divided">Dividido</string>
     <string name="edit_names">Editar nombres</string>
     <string name="save">Guardar</string>

@@ -45,7 +45,7 @@
                     android:drawableStart="@drawable/ic_east"
                     android:drawablePadding="@dimen/standard_margin"
                     android:inputType="textPersonName|textAutoComplete|textCapSentences"
-                    android:maxLength="14"
+                    android:maxLength="10"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -62,7 +62,7 @@
                     android:drawableStart="@drawable/ic_south"
                     android:drawablePadding="@dimen/standard_margin"
                     android:inputType="textPersonName|textAutoComplete|textCapSentences"
-                    android:maxLength="14"
+                    android:maxLength="10"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -79,7 +79,7 @@
                     android:drawableStart="@drawable/ic_west"
                     android:drawablePadding="@dimen/standard_margin"
                     android:inputType="textPersonName|textAutoComplete|textCapSentences"
-                    android:maxLength="14"
+                    android:maxLength="10"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -96,7 +96,7 @@
                     android:drawableStart="@drawable/ic_north"
                     android:drawablePadding="@dimen/standard_margin"
                     android:inputType="textPersonName|textAutoComplete|textCapSentences"
-                    android:maxLength="14"
+                    android:maxLength="10"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
