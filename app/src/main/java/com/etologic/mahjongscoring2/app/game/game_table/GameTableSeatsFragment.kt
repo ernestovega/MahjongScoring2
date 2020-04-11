@@ -191,7 +191,7 @@ class GameTableSeatsFragment : Fragment() {
     //LIFECYCLE
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        margin = applyDimension(COMPLEX_UNIT_DIP, 16f * 2, resources.displayMetrics).toInt()
+        margin = applyDimension(COMPLEX_UNIT_DIP, 16f, resources.displayMetrics).toInt()
     }
     
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -245,8 +245,8 @@ class GameTableSeatsFragment : Fragment() {
     internal fun updateSeatsOrientation(screenOrientation: ScreenOrientation) {
         when (screenOrientation) {
             PORTRAIT -> {
-                rlTableSeatEastContainer?.setPadding(0, margin, 0, 0)
-                rlTableSeatWestContainer?.setPadding(0, 0, 0, margin)
+                rlTableSeatEastContainer?.setPadding(0, margin*3, 0, 0)
+                rlTableSeatWestContainer?.setPadding(0, 0, 0, margin*3)
                 rlTableSeatSouthContainer?.setPadding(0, 0, 0, 0)
                 rlTableSeatNorthContainer?.setPadding(0, 0, 0, 0)
                 rlTableSeatWestContainer?.gravity = BOTTOM

@@ -18,15 +18,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rlTableSeatNorthContainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:ignore="RtlHardcoded">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/ivTableSeatNorthSeatWindIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="@dimen/standard_margin"
         android:scaleType="centerInside"
         tools:ignore="ContentDescription"
         tools:src="@drawable/ic_north" />
@@ -38,7 +36,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivTableSeatNorthSeatWindIcon"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="@dimen/half_standard_margin"
         android:textSize="@dimen/table_player_points_text_size"
         tools:text="-000" />
 
@@ -46,15 +43,13 @@
         android:id="@+id/tvTableSeatNorthPenaltyPoints"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tvTableSeatNorthPoints"
-        android:layout_marginLeft="@dimen/half_standard_margin"
-        android:layout_marginBottom="12dp"
-        android:layout_toRightOf="@+id/tvTableSeatNorthPoints"
+        android:layout_below="@+id/tvTableSeatNorthPoints"
+        android:layout_centerHorizontal="true"
         android:textSize="@dimen/table_player_penalty_points_text_size"
         android:textStyle="normal"
-        android:visibility="gone"
-        tools:ignore="RtlHardcoded"
-        tools:text="-000"
+        android:visibility="invisible"
+        android:layout_marginTop="-8dp"
+        tools:text="@string/_000"
         tools:visibility="visible" />
 
     <View
@@ -74,10 +69,11 @@
     <TextView
         android:id="@+id/tvTableSeatNorthName"
         style="@style/TextViewTableSeat"
-        android:layout_width="wrap_content"
+        android:layout_width="180sp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTableSeatNorthPoints"
+        android:ellipsize="end"
+        android:layout_below="@+id/tvTableSeatNorthPenaltyPoints"
         android:layout_centerHorizontal="true"
-        android:text="@string/player_north_name" />
+        tools:text="@string/player_name_placeholder"/>
 
 </RelativeLayout>
