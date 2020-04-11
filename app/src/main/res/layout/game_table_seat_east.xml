@@ -71,7 +71,7 @@
     <TextView
         android:id="@+id/tvTableSeatEastName"
         style="@style/TextViewTableSeat"
-        android:layout_width="180sp"
+        android:layout_width="164dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTableSeatEastPenaltyPoints"
         android:layout_centerHorizontal="true"
