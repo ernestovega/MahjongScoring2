@@ -18,11 +18,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
+    android:layout_gravity="center"
     android:layout_marginStart="@dimen/standard_margin"
     android:layout_marginTop="@dimen/standard_margin"
     android:layout_marginEnd="@dimen/standard_margin"
-    android:gravity="center_horizontal"
+    android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/standard_margin">
 
@@ -36,11 +36,11 @@
 
         <TextView
             android:id="@+id/tvDiscarderSelectorWestName"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
+            android:maxWidth="150dp"
             android:layout_height="wrap_content"
             android:text="@string/player_west"
             android:maxLines="1"
-            android:gravity="center_horizontal"
             android:ellipsize="end"
             android:textColor="@color/grayMM"
             android:textSize="24sp" />
@@ -59,6 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/double_standard_margin"
+        android:gravity="center"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
@@ -67,15 +68,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:orientation="vertical"
             android:tag="false">
 
             <TextView
                 android:id="@+id/tvDiscarderSelectorNorthName"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
+                android:maxWidth="150dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:lines="1"
                 android:ellipsize="end"
                 android:text="@string/player_north"
@@ -92,11 +93,14 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="@dimen/standard_margin"
+            android:layout_height="0dp" />
+
         <LinearLayout
             android:id="@+id/llDiscarderSelectorSouth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
@@ -104,9 +108,9 @@
 
             <TextView
                 android:id="@+id/tvDiscarderSelectorSouthName"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
+                android:maxWidth="150dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
                 android:lines="1"
                 android:text="@string/player_south"
                 android:ellipsize="end"
@@ -136,11 +140,11 @@
 
         <TextView
             android:id="@+id/tvDiscarderSelectorEastName"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
+            android:maxWidth="150dp"
             android:layout_height="wrap_content"
             android:text="@string/player_east"
             android:textColor="@color/grayMM"
-            android:gravity="center_horizontal"
             android:textSize="24sp"
             android:ellipsize="end"
             android:lines="1"
