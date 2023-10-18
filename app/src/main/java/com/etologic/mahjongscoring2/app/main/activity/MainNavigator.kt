@@ -17,13 +17,20 @@
 package com.etologic.mahjongscoring2.app.main.activity
 
 import android.content.Intent
-import android.content.Intent.*
+import android.content.Intent.ACTION_SENDTO
+import android.content.Intent.ACTION_VIEW
+import android.content.Intent.EXTRA_EMAIL
+import android.content.Intent.EXTRA_SUBJECT
+import android.content.Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+import android.content.Intent.FLAG_ACTIVITY_NEW_DOCUMENT
+import android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
 import android.net.Uri
-import android.os.Build
-import android.os.Build.VERSION_CODES.LOLLIPOP
 import com.etologic.mahjongscoring2.BuildConfig.APPLICATION_ID
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.R.anim.*
+import com.etologic.mahjongscoring2.R.anim.enter_from_left
+import com.etologic.mahjongscoring2.R.anim.enter_from_right
+import com.etologic.mahjongscoring2.R.anim.exit_to_left
+import com.etologic.mahjongscoring2.R.anim.exit_to_right
 import com.etologic.mahjongscoring2.R.id.frameLayoutMain
 import com.etologic.mahjongscoring2.app.game.activity.GameActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.EMAIL_ADDRESS
@@ -34,11 +41,16 @@ import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.MAR
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.PLAY_STORE_URL_BASE
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.RATE_CODE
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.*
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.FINISH
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.RATE
 import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
 import com.etologic.mahjongscoring2.app.main.old_games.OldGamesFragment
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.main_activity.*
 
 object MainNavigator {
     
@@ -82,12 +94,7 @@ object MainNavigator {
     private fun goToRate(activity: MainActivity) {
         val uriMarket = Uri.parse(MARKET_URI_BASE + APPLICATION_ID)
         var intent = Intent(ACTION_VIEW, uriMarket)
-        if (Build.VERSION.SDK_INT >= LOLLIPOP)
-            intent.addFlags(FLAG_ACTIVITY_NO_HISTORY or FLAG_ACTIVITY_NEW_DOCUMENT or FLAG_ACTIVITY_MULTIPLE_TASK)
-        else {
-            @Suppress("DEPRECATION")
-            intent.addFlags(FLAG_ACTIVITY_NO_HISTORY or FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET or FLAG_ACTIVITY_MULTIPLE_TASK)
-        }
+        intent.addFlags(FLAG_ACTIVITY_NO_HISTORY or FLAG_ACTIVITY_NEW_DOCUMENT or FLAG_ACTIVITY_MULTIPLE_TASK)
         try {
             activity.goToActivity(intent, RATE_CODE)
         } catch (e: Exception) {
@@ -107,7 +114,7 @@ object MainNavigator {
             try {
                 activity.goToActivity(intent, MainActivity.CONTACT_CODE)
             } catch (e: Exception) {
-                Snackbar.make(activity.drawerLayoutMain, R.string.no_email_apps_founded, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(activity.binding.drawerLayoutMain, R.string.no_email_apps_founded, Snackbar.LENGTH_LONG).show()
             }
     }
 }

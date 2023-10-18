@@ -23,13 +23,12 @@ import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
-import kotlinx.android.synthetic.main.combinations_activity.*
+import com.etologic.mahjongscoring2.databinding.CombinationsActivityBinding
 import javax.inject.Inject
 
 class CombinationsActivity : BaseActivity() {
@@ -45,11 +44,15 @@ class CombinationsActivity : BaseActivity() {
     
     @Inject
     internal lateinit var rvAdapter: CombinationsRvAdapter
-    
+
+    private lateinit var binding: CombinationsActivityBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.combinations_activity)
+        binding = CombinationsActivityBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         setupToolbar()
         setupRecyclerView()
         setupViewModel()
@@ -57,21 +60,21 @@ class CombinationsActivity : BaseActivity() {
     }
     
     private fun setupToolbar() {
-        setSupportActionBar(toolbarCombinations)
+        setSupportActionBar(binding.toolbarCombinations)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
     
     private fun setupRecyclerView() {
-        recyclerViewCombinations?.setHasFixedSize(true)
+        binding.recyclerViewCombinations.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(this)
-        recyclerViewCombinations?.layoutManager = layoutManager
+        binding.recyclerViewCombinations.layoutManager = layoutManager
         val handler = Handler()
-        handler.post { recyclerViewCombinations?.adapter = rvAdapter }
+        handler.post { binding.recyclerViewCombinations.adapter = rvAdapter }
     }
     
     private fun setupViewModel() {
         viewModel = ViewModelProvider(this, combinationsViewModelFactory).get(CombinationsViewModel::class.java)
-        viewModel?.getFilteredCombinations()?.observe(this, Observer { rvAdapter.setCombinations(it) })
+        viewModel?.getFilteredCombinations()?.observe(this) { rvAdapter.setCombinations(it) }
     }
     
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -99,7 +102,7 @@ class CombinationsActivity : BaseActivity() {
                 return true
             }
             R.id.action_toggle_combination_explanation -> {
-                val menuItem = toolbarCombinations?.menu?.getItem(1)
+                val menuItem = binding.toolbarCombinations.menu?.getItem(1)
                 menuItem?.setIcon(
                     if (rvAdapter.toggleImageOrDescription() === SHOW)
                         R.drawable.ic_library_books_white_24dp

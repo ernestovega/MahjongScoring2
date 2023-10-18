@@ -23,15 +23,14 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat.START
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToScreen
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.*
+import com.etologic.mahjongscoring2.databinding.MainActivityBinding
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.main_activity.*
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
@@ -51,14 +50,18 @@ class MainActivity : BaseActivity() {
         internal const val EMAIL_ADDRESS = "mahjongmadrid@gmail.com"
         internal const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
     }
-    
     @Inject
     internal lateinit var viewModelFactory: MainActivityViewModelFactory
     private var viewModel: MainViewModel? = null
     private var lastBackPress: Long = 0
-    
+
+    lateinit var binding: MainActivityBinding
+
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         setTheme(R.style.AppTheme)
+        binding = MainActivityBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         super.onCreate(savedInstanceState)
     }
     
@@ -72,19 +75,19 @@ class MainActivity : BaseActivity() {
     
     private fun setupViewModel() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-        viewModel?.getCurrentToolbar()?.observe(this, Observer(this::setToolbar))
-        viewModel?.getCurrentScreen()?.observe(this, Observer { goToScreen(it, this) })
+        viewModel?.getCurrentToolbar()?.observe(this) { setToolbar(it) }
+        viewModel?.getCurrentScreen()?.observe(this) { goToScreen(it, this) }
     }
     
     override fun onBackPressed() {
-        if (drawerLayoutMain?.isDrawerOpen(START) == true)
+        if (binding.drawerLayoutMain.isDrawerOpen(START))
             closeDrawer()
         else if (supportFragmentManager.backStackEntryCount > 1)
             super.onBackPressed()
         else {
             val currentTimeMillis = System.currentTimeMillis()
             if (currentTimeMillis - lastBackPress > LAST_BACKPRESSED_MIN_TIME) {
-                Snackbar.make(navigationViewMain, R.string.press_again_to_exit, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.navigationViewMain, R.string.press_again_to_exit, Snackbar.LENGTH_LONG).show()
                 lastBackPress = currentTimeMillis
             } else
                 finish()
@@ -92,13 +95,13 @@ class MainActivity : BaseActivity() {
     }
     
     private fun closeDrawer() {
-        drawerLayoutMain.closeDrawer(START, true)
+        binding.drawerLayoutMain.closeDrawer(START, true)
     }
     
     private fun setToolbar(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
-        val actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayoutMain, R.string.open_drawer, R.string.close_drawer)
-        drawerLayoutMain?.addDrawerListener(actionBarDrawerToggle)
+        val actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.drawerLayoutMain, R.string.open_drawer, R.string.close_drawer)
+        binding.drawerLayoutMain.addDrawerListener(actionBarDrawerToggle)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         actionBarDrawerToggle.syncState()
@@ -110,12 +113,12 @@ class MainActivity : BaseActivity() {
     }
     
     private fun setAppVersion() {
-        val tvAppVersion = navigationViewMain?.getHeaderView(0)?.findViewById<TextView>(R.id.tvDrawerHeaderAppVersion)
+        val tvAppVersion = binding.navigationViewMain.getHeaderView(0)?.findViewById<TextView>(R.id.tvDrawerHeaderAppVersion)
         tvAppVersion?.text = BuildConfig.VERSION_NAME
     }
     
     private fun setMenuItemSelectedListener() {
-        navigationViewMain?.setNavigationItemSelectedListener { menuItem ->
+        binding.navigationViewMain.setNavigationItemSelectedListener { menuItem ->
             this.closeDrawer()
             when (menuItem.itemId) {
                 R.id.nav_oldgames -> viewModel?.navigateTo(OLD_GAMES)
@@ -138,6 +141,6 @@ class MainActivity : BaseActivity() {
     }
     
     private fun openDrawer() {
-        if (drawerLayoutMain != null) drawerLayoutMain?.openDrawer(START, true)
+        binding.drawerLayoutMain.openDrawer(START, true)
     }
 }

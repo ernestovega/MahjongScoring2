@@ -27,13 +27,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.color
 import com.etologic.mahjongscoring2.app.base.BaseRvAdapter
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
-import kotlinx.android.synthetic.main.game_list_round_item.view.*
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
+import com.etologic.mahjongscoring2.databinding.GameListRoundItemBinding
 import javax.inject.Inject
 
 internal class GameListRvAdapter
@@ -57,8 +59,8 @@ internal class GameListRvAdapter
     //Lifecycle
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         initResources(parent.context)
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.game_list_round_item, parent, false)
-        return ItemViewHolder(itemView)
+        val itemBinding = GameListRoundItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ItemViewHolder(itemBinding)
     }
     
     private fun initResources(context: Context) {
@@ -120,24 +122,24 @@ internal class GameListRvAdapter
         mHolder.ivPenaltyP4.visibility = if (item.penaltyP4 < 0) VISIBLE else GONE
     }
     
-    //VIEWHOLDER
-    internal inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    //VIEW HOLDER
+    internal inner class ItemViewHolder(binding: GameListRoundItemBinding) : RecyclerView.ViewHolder(binding.root) {
         
-        var llContainer: LinearLayout = view.llGameListItemContainer
-        var tvRoundNum: TextView = view.tvGameListItemRoundNumber
-        var tvHandPoints: TextView = view.tvGameListItemHandPoints
-        var tvPointsP1: TextView = view.tvGameListItemRoundPointsP1
-        var tvPointsP2: TextView = view.tvGameListItemRoundPointsP2
-        var tvPointsP3: TextView = view.tvGameListItemRoundPointsP3
-        var tvPointsP4: TextView = view.tvGameListItemRoundPointsP4
-        var ivPenaltyP1: ImageView = view.ivGameListItemPenaltyIconP1
-        var ivPenaltyP2: ImageView = view.ivGameListItemPenaltyIconP2
-        var ivPenaltyP3: ImageView = view.ivGameListItemPenaltyIconP3
-        var ivPenaltyP4: ImageView = view.ivGameListItemPenaltyIconP4
-        var tvTotalPointsP1: TextView = view.tvGameListItemRoundTotalPointsP1
-        var tvTotalPointsP2: TextView = view.tvGameListItemRoundTotalPointsP2
-        var tvTotalPointsP3: TextView = view.tvGameListItemRoundTotalPointsP3
-        var tvTotalPointsP4: TextView = view.tvGameListItemRoundTotalPointsP4
+        var llContainer: LinearLayout = binding.llGameListItemContainer
+        var tvRoundNum: TextView = binding.tvGameListItemRoundNumber
+        var tvHandPoints: TextView = binding.tvGameListItemHandPoints
+        var tvPointsP1: TextView = binding.tvGameListItemRoundPointsP1
+        var tvPointsP2: TextView = binding.tvGameListItemRoundPointsP2
+        var tvPointsP3: TextView = binding.tvGameListItemRoundPointsP3
+        var tvPointsP4: TextView = binding.tvGameListItemRoundPointsP4
+        var ivPenaltyP1: ImageView = binding.ivGameListItemPenaltyIconP1
+        var ivPenaltyP2: ImageView = binding.ivGameListItemPenaltyIconP2
+        var ivPenaltyP3: ImageView = binding.ivGameListItemPenaltyIconP3
+        var ivPenaltyP4: ImageView = binding.ivGameListItemPenaltyIconP4
+        var tvTotalPointsP1: TextView = binding.tvGameListItemRoundTotalPointsP1
+        var tvTotalPointsP2: TextView = binding.tvGameListItemRoundTotalPointsP2
+        var tvTotalPointsP3: TextView = binding.tvGameListItemRoundTotalPointsP3
+        var tvTotalPointsP4: TextView = binding.tvGameListItemRoundTotalPointsP4
     }
     
 }

@@ -21,12 +21,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.NUM_NO_WINNER_PLAYERS
-import kotlinx.android.synthetic.main.game_penalty_dialog_fragment.*
+import com.etologic.mahjongscoring2.databinding.GamePenaltyDialogFragmentBinding
 
 internal class PenaltyDialogFragment : BaseGameDialogFragment() {
     
@@ -36,34 +35,49 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
     }
     
     private var isDialogCancelled = true
-    
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.game_penalty_dialog_fragment, container, false)
+
+    private var _binding: GamePenaltyDialogFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = GamePenaltyDialogFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
-        cnpPenaltyDialog?.setHint(INITIAL_PENALTY_POINTS)
+        binding.cnpPenaltyDialog.setHint(INITIAL_PENALTY_POINTS)
     }
     
     private fun setOnClickListeners() {
-        btPenaltyDialogSave?.setOnSecureClickListener {
-            val penaltyPoints = cnpPenaltyDialog?.getPoints() ?: 0
-            if (penaltyPoints > 0) {
-                if (cbPenaltyDialog?.isChecked == true) {
-                    if (penaltyPoints % NUM_NO_WINNER_PLAYERS == 0)
-                        saveAndFinish(penaltyPoints, true)
-                    else {
-                        cnpPenaltyDialog?.setError()
-                        cbPenaltyDialog?.error = ""
-                    }
+        with(binding) {
+            btPenaltyDialogSave.setOnSecureClickListener {
+                val penaltyPoints = cnpPenaltyDialog.getPoints() ?: 0
+                if (penaltyPoints > 0) {
+                    if (cbPenaltyDialog.isChecked) {
+                        if (penaltyPoints % NUM_NO_WINNER_PLAYERS == 0)
+                            saveAndFinish(penaltyPoints, true)
+                        else {
+                            cnpPenaltyDialog.setError()
+                            cbPenaltyDialog.error = ""
+                        }
+                    } else
+                        saveAndFinish(penaltyPoints, false)
                 } else
-                    saveAndFinish(penaltyPoints, false)
-            } else
-                cnpPenaltyDialog?.setError()
+                    cnpPenaltyDialog.setError()
+            }
+            btPenaltyDialogCancel.setOnSecureClickListener { dismiss() }
         }
-        btPenaltyDialogCancel?.setOnSecureClickListener { dismiss() }
     }
     
     private fun saveAndFinish(penaltyPoints: Int, isDivided: Boolean) {

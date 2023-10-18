@@ -21,12 +21,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
-import kotlinx.android.synthetic.main.game_discarder_dialog_fragment.*
+import com.etologic.mahjongscoring2.databinding.GameDiscarderDialogFragmentBinding
 
 internal class DiscarderDialogFragment : BaseGameDialogFragment() {
     
@@ -35,16 +34,29 @@ internal class DiscarderDialogFragment : BaseGameDialogFragment() {
     }
     
     private var isDialogCancelled = true
-    
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.game_discarder_dialog_fragment, container, false)
+
+    private var _binding: GameDiscarderDialogFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = GameDiscarderDialogFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setListeners()
-        if (cdsDiscarderConfirmDialog != null && activityViewModel != null)
-            cdsDiscarderConfirmDialog.initPlayers(
+        if (activityViewModel != null)
+            binding.cdsDiscarderConfirmDialog.initPlayers(
                 activityViewModel!!.getNamesByCurrentSeat(),
                 activityViewModel!!.huPoints,
                 activityViewModel!!.getSelectedSeat().value!!
@@ -54,9 +66,10 @@ internal class DiscarderDialogFragment : BaseGameDialogFragment() {
     }
     
     private fun setListeners() {
-        btDiscarderConfirmDialogCancel?.setOnSecureClickListener { dismiss() }
-        btDiscarderConfirmDialogOk?.setOnSecureClickListener {
-            val discarderCurrentSeat: TableWinds = cdsDiscarderConfirmDialog?.getDiscarderCurrentSeat() ?: NONE
+        binding.btDiscarderConfirmDialogCancel.setOnSecureClickListener { dismiss() }
+        binding.btDiscarderConfirmDialogOk.setOnSecureClickListener {
+            val discarderCurrentSeat: TableWinds =
+                binding.cdsDiscarderConfirmDialog.getDiscarderCurrentSeat()
             if (activityViewModel?.huPoints != null) {
                 if (discarderCurrentSeat == NONE)
                     activityViewModel?.saveTsumoRound(activityViewModel?.huPoints!!)

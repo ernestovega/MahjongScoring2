@@ -23,7 +23,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
@@ -36,7 +35,7 @@ import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.enums.GameStartType
 import com.etologic.mahjongscoring2.business.model.enums.GameStartType.NEW
-import kotlinx.android.synthetic.main.main_oldgames_fragment.*
+import com.etologic.mahjongscoring2.databinding.MainOldgamesFragmentBinding
 import javax.inject.Inject
 
 class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
@@ -77,9 +76,22 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         super.onResume()
         viewModel.getAllGames()
     }
-    
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.main_oldgames_fragment, container, false)
+
+    private var _binding: MainOldgamesFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = MainOldgamesFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -94,33 +106,33 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     }
     
     private fun setupRecyclerView() {
-        rvOldGames?.setHasFixedSize(true)
+        binding.rvOldGames.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
-        rvOldGames?.layoutManager = layoutManager
+        binding.rvOldGames.layoutManager = layoutManager
         rvAdapter.setOldGameItemListener(this)
-        rvOldGames?.adapter = rvAdapter
+        binding.rvOldGames.adapter = rvAdapter
     }
     
     private fun setupViewModel() {
         if (activity != null) {
             activityViewModel = ViewModelProvider(activity!!, mainActivityViewModelFactory).get(MainViewModel::class.java)
             viewModel = ViewModelProvider(this, oldGamesViewModelFactory).get(OldGamesViewModel::class.java)
-            viewModel.getError().observe(viewLifecycleOwner, Observer(this::showError))
-            viewModel.getSnackbarMessage().observe(viewLifecycleOwner, Observer { view?.let { view -> showSnackbar(view, it) } })
-            viewModel.getGames().observe(viewLifecycleOwner, Observer(this::gamesObserver))
-            viewModel.getStartGame().observe(viewLifecycleOwner, Observer(this::startGameObserver))
+            viewModel.getError().observe(viewLifecycleOwner) { showError(it) }
+            viewModel.getSnackbarMessage().observe(viewLifecycleOwner) { showSnackbar(binding.root, it) }
+            viewModel.getGames().observe(viewLifecycleOwner) { gamesObserver(it) }
+            viewModel.getStartGame().observe(viewLifecycleOwner) { startGameObserver(it) }
         }
     }
     
     private fun gamesObserver(games: List<Table>) {
         if (games.isEmpty())
-            emptyLayoutOldGames?.visibility = VISIBLE
+            binding.emptyLayoutOldGames.visibility = VISIBLE
         else {
-            emptyLayoutOldGames?.visibility = GONE
+            binding.emptyLayoutOldGames.visibility = GONE
             rvAdapter.setGames(games)
             if (activityViewModel.lastGameStartType == NEW) {
                 activityViewModel.lastGameStartType = null
-                rvOldGames?.smoothScrollToPosition(0)
+                binding.rvOldGames.smoothScrollToPosition(0)
             }
         }
     }
@@ -131,18 +143,18 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     }
     
     private fun setToolbar() {
-        activityViewModel.setToolbar(toolbarOldGames)
+        activityViewModel.setToolbar(binding.toolbarOldGames)
     }
     
     private fun setupSwipeRefreshLayout() {
-        swipeRefreshLayoutOldGames?.setOnRefreshListener {
+        binding.swipeRefreshLayoutOldGames.setOnRefreshListener {
             viewModel.getAllGames()
-            swipeRefreshLayoutOldGames.isRefreshing = false
+            binding.swipeRefreshLayoutOldGames.isRefreshing = false
         }
     }
     
     private fun setOnClickListeners() {
-        fabOldGames?.setOnSecureClickListener {
+        binding.fabOldGames.setOnSecureClickListener {
             viewModel.startNewGame(defaultNames)
         }
     }

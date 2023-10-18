@@ -29,7 +29,7 @@ import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HU
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PENALTY
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
-import kotlinx.android.synthetic.main.game_hand_action_selector_fragment.*
+import com.etologic.mahjongscoring2.databinding.GameHandActionSelectorFragmentBinding
 
 internal class ActionDialogFragment : BaseGameDialogFragment() {
     
@@ -38,9 +38,21 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     }
     
     private var isDialogCancelled = true
-    
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.game_hand_action_selector_fragment, container, false)
+    private var _binding: GameHandActionSelectorFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = GameHandActionSelectorFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,36 +62,39 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     }
     
     private fun initViews() {
-        btHandActionsDialogPenaltiesCancel?.visibility = if (activityViewModel?.thereArePenaltiesCurrently() == true) VISIBLE else GONE
+        binding.btHandActionsDialogPenaltiesCancel.visibility =
+            if (activityViewModel?.thereArePenaltiesCurrently() == true) VISIBLE else GONE
     }
     
     private fun setListeners() {
-        btHandActionsDialogPenaltiesCancel?.setOnSecureClickListener {
-            AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
-                .setTitle(R.string.cancel_penalties)
-                .setMessage(R.string.are_you_sure)
-                .setPositiveButton(R.string.ok) { _, _ ->
-                    activityViewModel?.cancelPenalties()
-                    this.dismiss()
-                }
-                .setNegativeButton(R.string.close, null)
-                .create()
-                .show()
-        }
-        btHandActionsDialogPenalty?.setOnSecureClickListener {
-            activityViewModel?.navigateTo(PENALTY)
-            isDialogCancelled = false
-            dismiss()
-        }
-        btHandActionsDialogHu?.setOnSecureClickListener {
-            activityViewModel?.navigateTo(HU)
-            isDialogCancelled = false
-            dismiss()
-        }
-        btHandActionsDialogDraw?.setOnSecureClickListener {
-            activityViewModel?.saveDrawRound()
-            isDialogCancelled = false
-            dismiss()
+        with(binding) {
+            btHandActionsDialogPenaltiesCancel.setOnSecureClickListener {
+                AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
+                    .setTitle(R.string.cancel_penalties)
+                    .setMessage(R.string.are_you_sure)
+                    .setPositiveButton(R.string.ok) { _, _ ->
+                        activityViewModel?.cancelPenalties()
+                        dismiss()
+                    }
+                    .setNegativeButton(R.string.close, null)
+                    .create()
+                    .show()
+            }
+            btHandActionsDialogPenalty.setOnSecureClickListener {
+                activityViewModel?.navigateTo(PENALTY)
+                isDialogCancelled = false
+                dismiss()
+            }
+            btHandActionsDialogHu.setOnSecureClickListener {
+                activityViewModel?.navigateTo(HU)
+                isDialogCancelled = false
+                dismiss()
+            }
+            btHandActionsDialogDraw.setOnSecureClickListener {
+                activityViewModel?.saveDrawRound()
+                isDialogCancelled = false
+                dismiss()
+            }
         }
     }
     

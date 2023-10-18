@@ -23,12 +23,11 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
-import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_ROUNDS
-import kotlinx.android.synthetic.main.game_table_ranking_dialog_fragment.*
+import com.etologic.mahjongscoring2.databinding.GameTableRankingDialogFragmentBinding
 import java.lang.String.format
 import java.util.Locale.getDefault
 
@@ -39,8 +38,21 @@ internal class RankingDialogFragment : BaseGameDialogFragment() {
     }
     
     //LIFECYCLE
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.game_table_ranking_dialog_fragment, container, false)
+    private var _binding: GameTableRankingDialogFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = GameTableRankingDialogFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,42 +62,45 @@ internal class RankingDialogFragment : BaseGameDialogFragment() {
     }
     
     private fun setOnClickListeners() {
-        btRankingDialogResume?.setOnSecureClickListener {
+        binding.btRankingDialogResume?.setOnSecureClickListener {
             activityViewModel?.resumeGame()
             dismiss()
         }
-        btRankingDialogOk?.setOnSecureClickListener {
+        binding.btRankingDialogOk?.setOnSecureClickListener {
             dismiss()
         }
     }
     
     private fun fillRankingViews(rankingData: RankingData) {
-        val playerFirst = rankingData.sortedPlayersRankings[0]
-        val playerSecond = rankingData.sortedPlayersRankings[1]
-        val playerThird = rankingData.sortedPlayersRankings[2]
-        val playerFourth = rankingData.sortedPlayersRankings[3]
-        
-        btRankingDialogResume?.visibility = if (rankingData.numRounds < MAX_MCR_ROUNDS) VISIBLE else GONE
-        
-        tvRankingDialogPlayer1Name?.text = playerFirst.name
-        tvRankingDialogPlayer2Name?.text = playerSecond.name
-        tvRankingDialogPlayer3Name?.text = playerThird.name
-        tvRankingDialogPlayer4Name?.text = playerFourth.name
-        
-        tvRankingDialogPlayer1Points?.text = playerFirst.points
-        tvRankingDialogPlayer2Points?.text = playerSecond.points
-        tvRankingDialogPlayer3Points?.text = playerThird.points
-        tvRankingDialogPlayer4Points?.text = playerFourth.points
-        
-        tvRankingDialogPlayer1Score?.text = format(getDefault(), "%+d", playerFirst.score)
-        tvRankingDialogPlayer2Score?.text = format(getDefault(), "%+d", playerSecond.score)
-        tvRankingDialogPlayer3Score?.text = format(getDefault(), "%+d", playerThird.score)
-        tvRankingDialogPlayer4Score?.text = format(getDefault(), "%+d", playerFourth.score)
-        
-        tvRankingDialogBestHandPlayerPoints?.text = rankingData.bestHandPlayerPoints
-        tvRankingDialogBestHandPlayerName?.text = rankingData.bestHandPlayerName
-        
-        tvRankingDialogNumRounds?.text = rankingData.sNumRounds
+        with(binding) {
+            val playerFirst = rankingData.sortedPlayersRankings[0]
+            val playerSecond = rankingData.sortedPlayersRankings[1]
+            val playerThird = rankingData.sortedPlayersRankings[2]
+            val playerFourth = rankingData.sortedPlayersRankings[3]
+
+            btRankingDialogResume.visibility =
+                if (rankingData.numRounds < MAX_MCR_ROUNDS) VISIBLE else GONE
+
+            tvRankingDialogPlayer1Name.text = playerFirst.name
+            tvRankingDialogPlayer2Name.text = playerSecond.name
+            tvRankingDialogPlayer3Name.text = playerThird.name
+            tvRankingDialogPlayer4Name.text = playerFourth.name
+
+            tvRankingDialogPlayer1Points.text = playerFirst.points
+            tvRankingDialogPlayer2Points.text = playerSecond.points
+            tvRankingDialogPlayer3Points.text = playerThird.points
+            tvRankingDialogPlayer4Points.text = playerFourth.points
+
+            tvRankingDialogPlayer1Score.text = format(getDefault(), "%+d", playerFirst.score)
+            tvRankingDialogPlayer2Score.text = format(getDefault(), "%+d", playerSecond.score)
+            tvRankingDialogPlayer3Score.text = format(getDefault(), "%+d", playerThird.score)
+            tvRankingDialogPlayer4Score.text = format(getDefault(), "%+d", playerFourth.score)
+
+            tvRankingDialogBestHandPlayerPoints.text = rankingData.bestHandPlayerPoints
+            tvRankingDialogBestHandPlayerName.text = rankingData.bestHandPlayerName
+
+            tvRankingDialogNumRounds.text = rankingData.sNumRounds
+        }
     }
     
     override fun onStart() {
