@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.mahjongscoring.activities"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 34
         versionCode 2
         versionName "2.0.0"

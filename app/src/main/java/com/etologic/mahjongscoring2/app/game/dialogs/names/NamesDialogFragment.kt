@@ -58,9 +58,7 @@ internal class NamesDialogFragment : BaseGameDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
         printNames()
-        binding.tietPlayersDialogEast.selectAll()
-        binding.tietPlayersDialogEast.requestFocus()
-        showKeyboard(view)
+        binding.tietPlayersDialogEast.showKeyboard(requireActivity().window)
     }
     
     private fun printNames() {
@@ -95,12 +93,12 @@ internal class NamesDialogFragment : BaseGameDialogFragment() {
     }
     
     override fun dismiss() {
-        hideKeyboard(binding.tietPlayersDialogEast)
+        binding.tietPlayersDialogEast.hideKeyboard()
         super.dismiss()
     }
     
     override fun onDismiss(dialog: DialogInterface) {
-        hideKeyboard(binding.tietPlayersDialogEast)
+        binding.tietPlayersDialogEast.hideKeyboard()
         super.onDismiss(dialog)
     }
 }
