@@ -34,10 +34,6 @@ import javax.inject.Inject
 
 class CombinationsActivity : BaseActivity() {
 
-    companion object {
-        internal const val TAG = "CombinationsActivity"
-    }
-
     private lateinit var binding: CombinationsActivityBinding
 
     @Inject
@@ -112,9 +108,9 @@ class CombinationsActivity : BaseActivity() {
                 val menuItem = binding.toolbarCombinations.menu?.getItem(1)
                 menuItem?.setIcon(
                     if (rvAdapter.toggleImageOrDescription() === SHOW)
-                        R.drawable.ic_library_books_white_24dp
-                    else
                         R.drawable.ic_photo_library_white_24dp
+                    else
+                        R.drawable.ic_library_books_white_24dp
                 )
                 return true
             }
