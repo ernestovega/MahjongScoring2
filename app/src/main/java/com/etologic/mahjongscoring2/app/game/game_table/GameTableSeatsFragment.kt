@@ -21,8 +21,6 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.TypedValue.COMPLEX_UNIT_DIP
 import android.util.TypedValue.applyDimension
-import android.view.Gravity.BOTTOM
-import android.view.Gravity.TOP
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,10 +49,6 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
-import com.etologic.mahjongscoring2.databinding.GameTableSeatEastBinding
-import com.etologic.mahjongscoring2.databinding.GameTableSeatNorthBinding
-import com.etologic.mahjongscoring2.databinding.GameTableSeatSouthBinding
-import com.etologic.mahjongscoring2.databinding.GameTableSeatWestBinding
 import com.etologic.mahjongscoring2.databinding.GameTableSeatsFragmentBinding
 import java.util.Locale.getDefault
 
@@ -115,17 +109,38 @@ class GameTableSeatsFragment : Fragment() {
     }
 
     private fun getSeatsStates(table: Table): Array<SeatStates> =
-        if (table.rounds.last().isEnded)
+        if (table.rounds.last().isEnded) {
             arrayOf(DISABLED, DISABLED, DISABLED, DISABLED)
-        else
+        } else {
             getSeatsStates()
+        }
 
     private fun setStates(states: Array<SeatStates>) {
         areSeatsDisabled = states[0] == DISABLED && states[1] == DISABLED && states[2] == DISABLED && states[3] == DISABLED
-        setState(bindingEast.ivTableSeatEastSeatWindIcon, bindingEast.tvTableSeatEastName, bindingEast.tvTableSeatEastPoints, states[0])
-        setState(bindingSouth.ivTableSeatSouthSeatWindIcon, bindingSouth.tvTableSeatSouthName, bindingSouth.tvTableSeatSouthPoints, states[1])
-        setState(bindingWest.ivTableSeatWestSeatWindIcon, bindingWest.tvTableSeatWestName, bindingWest.tvTableSeatWestPoints, states[2])
-        setState(bindingNorth.ivTableSeatNorthSeatWindIcon, bindingNorth.tvTableSeatNorthName, bindingNorth.tvTableSeatNorthPoints, states[3])
+        setState(
+            ivWind = binding.iGameTableSeatEast.ivTableSeatEastSeatWindIcon,
+            tvName = binding.iGameTableSeatEast.tvTableSeatEastName,
+            tvPoints = binding.iGameTableSeatEast.tvTableSeatEastPoints,
+            state = states[0]
+        )
+        setState(
+            ivWind = binding.iGameTableSeatSouth.ivTableSeatSouthSeatWindIcon,
+            tvName = binding.iGameTableSeatSouth.tvTableSeatSouthName,
+            tvPoints = binding.iGameTableSeatSouth.tvTableSeatSouthPoints,
+            state = states[1]
+        )
+        setState(
+            ivWind = binding.iGameTableSeatWest.ivTableSeatWestSeatWindIcon,
+            tvName = binding.iGameTableSeatWest.tvTableSeatWestName,
+            tvPoints = binding.iGameTableSeatWest.tvTableSeatWestPoints,
+            state = states[2]
+        )
+        setState(
+            ivWind = binding.iGameTableSeatNorth.ivTableSeatNorthSeatWindIcon,
+            tvName = binding.iGameTableSeatNorth.tvTableSeatNorthName,
+            tvPoints = binding.iGameTableSeatNorth.tvTableSeatNorthPoints,
+            state = states[3]
+        )
     }
 
     private fun setState(ivWind: ImageView?, tvName: TextView, tvPoints: TextView, state: SeatStates?) {
@@ -142,17 +157,17 @@ class GameTableSeatsFragment : Fragment() {
     }
 
     private fun setPoints(points: List<String>) {
-        bindingEast.tvTableSeatEastPoints.text = points[EAST.code]
-        bindingSouth.tvTableSeatSouthPoints.text = points[SOUTH.code]
-        bindingWest.tvTableSeatWestPoints.text = points[WEST.code]
-        bindingNorth.tvTableSeatNorthPoints.text = points[NORTH.code]
+        binding.iGameTableSeatEast.tvTableSeatEastPoints.text = points[EAST.code]
+        binding.iGameTableSeatSouth.tvTableSeatSouthPoints.text = points[SOUTH.code]
+        binding.iGameTableSeatWest.tvTableSeatWestPoints.text = points[WEST.code]
+        binding.iGameTableSeatNorth.tvTableSeatNorthPoints.text = points[NORTH.code]
     }
 
     private fun setPenalties(penalties: IntArray) {
-        setPenaltyPoints(bindingEast.tvTableSeatEastPenaltyPoints, penalties[EAST.code])
-        setPenaltyPoints(bindingSouth.tvTableSeatSouthPenaltyPoints, penalties[SOUTH.code])
-        setPenaltyPoints(bindingWest.tvTableSeatWestPenaltyPoints, penalties[WEST.code])
-        setPenaltyPoints(bindingNorth.tvTableSeatNorthPenaltyPoints, penalties[NORTH.code])
+        setPenaltyPoints(binding.iGameTableSeatEast.tvTableSeatEastPenaltyPoints, penalties[EAST.code])
+        setPenaltyPoints(binding.iGameTableSeatSouth.tvTableSeatSouthPenaltyPoints, penalties[SOUTH.code])
+        setPenaltyPoints(binding.iGameTableSeatWest.tvTableSeatWestPenaltyPoints, penalties[WEST.code])
+        setPenaltyPoints(binding.iGameTableSeatNorth.tvTableSeatNorthPenaltyPoints, penalties[NORTH.code])
     }
 
     private fun setPenaltyPoints(textView: TextView, penaltyPoints: Int) {
@@ -162,10 +177,10 @@ class GameTableSeatsFragment : Fragment() {
     }
 
     private fun setWinds(winds: Array<TableWinds>) {
-        setWindIcon(bindingEast.ivTableSeatEastSeatWindIcon, winds[EAST.code])
-        setWindIcon(bindingSouth.ivTableSeatSouthSeatWindIcon, winds[SOUTH.code])
-        setWindIcon(bindingWest.ivTableSeatWestSeatWindIcon, winds[WEST.code])
-        setWindIcon(bindingNorth.ivTableSeatNorthSeatWindIcon, winds[NORTH.code])
+        setWindIcon(binding.iGameTableSeatEast.ivTableSeatEastSeatWindIcon, winds[EAST.code])
+        setWindIcon(binding.iGameTableSeatSouth.ivTableSeatSouthSeatWindIcon, winds[SOUTH.code])
+        setWindIcon(binding.iGameTableSeatWest.ivTableSeatWestSeatWindIcon, winds[WEST.code])
+        setWindIcon(binding.iGameTableSeatNorth.ivTableSeatNorthSeatWindIcon, winds[NORTH.code])
     }
 
     private fun setWindIcon(imageView: ImageView?, wind: TableWinds?) {
@@ -185,10 +200,10 @@ class GameTableSeatsFragment : Fragment() {
     }
 
     private fun setNames(names: Array<String>) {
-        setName(bindingEast.tvTableSeatEastName, names[EAST.code])
-        setName(bindingSouth.tvTableSeatSouthName, names[SOUTH.code])
-        setName(bindingWest.tvTableSeatWestName, names[WEST.code])
-        setName(bindingNorth.tvTableSeatNorthName, names[NORTH.code])
+        setName(binding.iGameTableSeatEast.tvTableSeatEastName, names[EAST.code])
+        setName(binding.iGameTableSeatSouth.tvTableSeatSouthName, names[SOUTH.code])
+        setName(binding.iGameTableSeatWest.tvTableSeatWestName, names[WEST.code])
+        setName(binding.iGameTableSeatNorth.tvTableSeatNorthName, names[NORTH.code])
     }
 
     private fun setName(textView: TextView, name: String?) {
@@ -203,14 +218,6 @@ class GameTableSeatsFragment : Fragment() {
 
     private var _binding: GameTableSeatsFragmentBinding? = null
     private val binding get() = _binding!!
-    private var _bindingEast: GameTableSeatEastBinding? = null
-    private val bindingEast get() = _bindingEast!!
-    private var _bindingSouth: GameTableSeatSouthBinding? = null
-    private val bindingSouth get() = _bindingSouth!!
-    private var _bindingWest: GameTableSeatWestBinding? = null
-    private val bindingWest get() = _bindingWest!!
-    private var _bindingNorth: GameTableSeatNorthBinding? = null
-    private val bindingNorth get() = _bindingNorth!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -218,20 +225,12 @@ class GameTableSeatsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = GameTableSeatsFragmentBinding.inflate(inflater, container, false)
-        _bindingEast = GameTableSeatEastBinding.inflate(inflater, container, false)
-        _bindingSouth = GameTableSeatSouthBinding.inflate(inflater, container, false)
-        _bindingWest = GameTableSeatWestBinding.inflate(inflater, container, false)
-        _bindingNorth = GameTableSeatNorthBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
-        _bindingEast = null
-        _bindingSouth = null
-        _bindingWest = null
-        _bindingNorth = null
+        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -252,54 +251,52 @@ class GameTableSeatsFragment : Fragment() {
     }
 
     private fun initListeners() {
-        bindingEast.ivTableSeatEastSeatWindIcon.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
-        bindingEast.tvTableSeatEastName.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
-        bindingEast.tvTableSeatEastPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
-        bindingEast.vGameTableSeatEastAuxStart.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
-        bindingEast.vGameTableSeatEastAuxEnd.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
-        bindingEast.tvTableSeatEastPenaltyPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
-        bindingSouth.ivTableSeatSouthSeatWindIcon.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
-        bindingSouth.tvTableSeatSouthName.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
-        bindingSouth.tvTableSeatSouthPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
-        bindingSouth.vGameTableSeatSouthAuxStart.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
-        bindingSouth.vGameTableSeatSouthAuxEnd.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
-        bindingSouth.tvTableSeatSouthPenaltyPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
-        bindingWest.ivTableSeatWestSeatWindIcon.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
-        bindingWest.tvTableSeatWestName.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
-        bindingWest.tvTableSeatWestPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
-        bindingWest.vGameTableSeatWestAuxStart.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
-        bindingWest.vGameTableSeatWestAuxEnd.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
-        bindingWest.tvTableSeatWestPenaltyPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
-        bindingNorth.ivTableSeatNorthSeatWindIcon.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
-        bindingNorth.tvTableSeatNorthName.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
-        bindingNorth.tvTableSeatNorthPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
-        bindingNorth.vGameTableSeatNorthAuxStart.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
-        bindingNorth.vGameTableSeatNorthAuxEnd.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
-        bindingNorth.tvTableSeatNorthPenaltyPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
+        binding.iGameTableSeatEast.ivTableSeatEastSeatWindIcon.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
+        binding.iGameTableSeatEast.tvTableSeatEastName.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
+        binding.iGameTableSeatEast.tvTableSeatEastPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
+        binding.iGameTableSeatEast.vGameTableSeatEastAuxStart.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
+        binding.iGameTableSeatEast.vGameTableSeatEastAuxEnd.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
+        binding.iGameTableSeatEast.tvTableSeatEastPenaltyPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
+        binding.iGameTableSeatSouth.ivTableSeatSouthSeatWindIcon.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
+        binding.iGameTableSeatSouth.tvTableSeatSouthName.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
+        binding.iGameTableSeatSouth.tvTableSeatSouthPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
+        binding.iGameTableSeatSouth.vGameTableSeatSouthAuxStart.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
+        binding.iGameTableSeatSouth.vGameTableSeatSouthAuxEnd.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
+        binding.iGameTableSeatSouth.tvTableSeatSouthPenaltyPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
+        binding.iGameTableSeatWest.ivTableSeatWestSeatWindIcon.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
+        binding.iGameTableSeatWest.tvTableSeatWestName.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
+        binding.iGameTableSeatWest.tvTableSeatWestPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
+        binding.iGameTableSeatWest.vGameTableSeatWestAuxStart.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
+        binding.iGameTableSeatWest.vGameTableSeatWestAuxEnd.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
+        binding.iGameTableSeatWest.tvTableSeatWestPenaltyPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
+        binding.iGameTableSeatNorth.ivTableSeatNorthSeatWindIcon.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
+        binding.iGameTableSeatNorth.tvTableSeatNorthName.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
+        binding.iGameTableSeatNorth.tvTableSeatNorthPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
+        binding.iGameTableSeatNorth.vGameTableSeatNorthAuxStart.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
+        binding.iGameTableSeatNorth.vGameTableSeatNorthAuxEnd.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
+        binding.iGameTableSeatNorth.tvTableSeatNorthPenaltyPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
     }
 
     internal fun updateSeatsOrientation(screenOrientation: ScreenOrientation) {
         when (screenOrientation) {
             PORTRAIT -> {
-                bindingEast.rlTableSeatEastContainer.setPadding(0, margin * 3, 0, 0)
-                bindingWest.rlTableSeatWestContainer.setPadding(0, 0, 0, margin * 3)
-                bindingSouth.rlTableSeatSouthContainer.setPadding(0, 0, 0, 0)
-                bindingNorth.rlTableSeatNorthContainer.setPadding(0, 0, 0, 0)
-                bindingWest.rlTableSeatWestContainer.gravity = BOTTOM
-                bindingSouth.rlTableSeatSouthContainer.rotation = 0f
-                bindingWest.rlTableSeatWestContainer.rotation = 0f
-                bindingNorth.rlTableSeatNorthContainer.rotation = 0f
+                binding.iGameTableSeatEast.rlTableSeatEastContainer.setPadding(0, margin * 3, 0, 0)
+                binding.iGameTableSeatWest.rlTableSeatWestContainer.setPadding(0, 0, 0, margin * 3)
+                binding.iGameTableSeatSouth.rlTableSeatSouthContainer.setPadding(0, 0, 0, 0)
+                binding.iGameTableSeatNorth.rlTableSeatNorthContainer.setPadding(0, 0, 0, 0)
+                binding.iGameTableSeatSouth.rlTableSeatSouthContainer.rotation = 0f
+                binding.iGameTableSeatWest.rlTableSeatWestContainer.rotation = 0f
+                binding.iGameTableSeatNorth.rlTableSeatNorthContainer.rotation = 0f
             }
 
             LANDSCAPE -> {
-                bindingEast.rlTableSeatEastContainer.setPadding(0, 0, 0, 0)
-                bindingWest.rlTableSeatWestContainer.setPadding(0, 0, 0, 0)
-                bindingSouth.rlTableSeatSouthContainer.setPadding(0, 0, 0, margin)
-                bindingNorth.rlTableSeatNorthContainer.setPadding(0, 0, 0, margin)
-                bindingWest.rlTableSeatWestContainer.gravity = TOP
-                bindingSouth.rlTableSeatSouthContainer.rotation = -90f
-                bindingWest.rlTableSeatWestContainer.rotation = 180f
-                bindingNorth.rlTableSeatNorthContainer.rotation = 90f
+                binding.iGameTableSeatEast.rlTableSeatEastContainer.setPadding(0, margin, 0, 0)
+                binding.iGameTableSeatWest.rlTableSeatWestContainer.setPadding(0, margin, 0, 0)
+                binding.iGameTableSeatSouth.rlTableSeatSouthContainer.setPadding(0, 0, 0, margin)
+                binding.iGameTableSeatNorth.rlTableSeatNorthContainer.setPadding(0, 0, 0, margin)
+                binding.iGameTableSeatSouth.rlTableSeatSouthContainer.rotation = -90f
+                binding.iGameTableSeatWest.rlTableSeatWestContainer.rotation = 180f
+                binding.iGameTableSeatNorth.rlTableSeatNorthContainer.rotation = 90f
             }
         }
     }
