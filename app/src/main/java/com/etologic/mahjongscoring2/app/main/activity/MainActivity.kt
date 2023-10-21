@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat.START
@@ -50,12 +51,27 @@ class MainActivity : BaseActivity() {
         internal const val EMAIL_ADDRESS = "mahjongmadrid@gmail.com"
         internal const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
     }
+
+    lateinit var binding: MainActivityBinding
     @Inject
     internal lateinit var viewModelFactory: MainActivityViewModelFactory
     private var viewModel: MainViewModel? = null
     private var lastBackPress: Long = 0
 
-    lateinit var binding: MainActivityBinding
+    override val onBackBehaviour = {
+        if (binding.drawerLayoutMain.isDrawerOpen(START))
+            closeDrawer()
+        else if (supportFragmentManager.backStackEntryCount > 1)
+            supportFragmentManager.popBackStack()
+        else {
+            val currentTimeMillis = System.currentTimeMillis()
+            if (currentTimeMillis - lastBackPress > LAST_BACKPRESSED_MIN_TIME) {
+                Snackbar.make(binding.navigationViewMain, R.string.press_again_to_exit, Snackbar.LENGTH_LONG).show()
+                lastBackPress = currentTimeMillis
+            } else
+                finish()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -64,7 +80,7 @@ class MainActivity : BaseActivity() {
         val view = binding.root
         setContentView(view)
     }
-    
+
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         setupViewModel()
@@ -76,21 +92,6 @@ class MainActivity : BaseActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         viewModel?.getCurrentToolbar()?.observe(this) { setToolbar(it) }
         viewModel?.getCurrentScreen()?.observe(this) { goToScreen(it, this) }
-    }
-
-    override fun onBackPressed() {
-        if (binding.drawerLayoutMain.isDrawerOpen(START))
-            closeDrawer()
-        else if (supportFragmentManager.backStackEntryCount > 1)
-            super.onBackPressed()
-        else {
-            val currentTimeMillis = System.currentTimeMillis()
-            if (currentTimeMillis - lastBackPress > LAST_BACKPRESSED_MIN_TIME) {
-                Snackbar.make(binding.navigationViewMain, R.string.press_again_to_exit, Snackbar.LENGTH_LONG).show()
-                lastBackPress = currentTimeMillis
-            } else
-                finish()
-        }
     }
     
     private fun closeDrawer() {

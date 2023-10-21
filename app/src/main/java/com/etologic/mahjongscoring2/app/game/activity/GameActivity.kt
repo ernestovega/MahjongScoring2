@@ -55,17 +55,16 @@ class GameActivity : BaseActivity() {
     private var endGameItem: MenuItem? = null
     private var resumeGameItem: MenuItem? = null
 
+    private lateinit var binding: GameActivityBinding
     @Inject
     internal lateinit var viewModelFactory: GameViewModelFactory
     internal lateinit var viewModel: GameViewModel
     private var lastBackPress: Long = 0
 
-    private lateinit var binding: GameActivityBinding
-
-    override fun onBackPressed() {
-        if (binding.viewPagerGame.currentItem == LIST.code)
+    override val onBackBehaviour = {
+        if (binding.viewPagerGame.currentItem == LIST.code) {
             viewModel.showPage(TABLE)
-        else {
+        } else {
             val currentTimeMillis = currentTimeMillis()
             if (currentTimeMillis - lastBackPress > LAST_BACKPRESSED_MIN_TIME) {
                 showSnackbar(binding.viewPagerGame, getString(R.string.press_again_to_exit))
@@ -91,10 +90,7 @@ class GameActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                if (binding.viewPagerGame.currentItem == TABLE.code)
-                    viewModel.navigateTo(EXIT)
-                else
-                    onBackPressed()
+                onBackBehaviour.invoke()
                 true
             }
 
@@ -128,11 +124,16 @@ class GameActivity : BaseActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
+        super.onCreate(savedInstanceState)
         binding = GameActivityBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
         initViewModel()
         setupToolbar()
         setupViewPager()

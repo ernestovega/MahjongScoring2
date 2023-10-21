@@ -37,15 +37,15 @@ class CombinationsActivity : BaseActivity() {
         internal const val TAG = "CombinationsActivity"
         internal const val CODE = 2
     }
-    
+
+    private lateinit var binding: CombinationsActivityBinding
     @Inject
     internal lateinit var combinationsViewModelFactory: CombinationsViewModelFactory
     internal var viewModel: CombinationsViewModel? = null
-    
     @Inject
     internal lateinit var rvAdapter: CombinationsRvAdapter
 
-    private lateinit var binding: CombinationsActivityBinding
+    override val onBackBehaviour = { finish() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -53,6 +53,10 @@ class CombinationsActivity : BaseActivity() {
         binding = CombinationsActivityBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
         setupToolbar()
         setupRecyclerView()
         setupViewModel()
@@ -98,7 +102,7 @@ class CombinationsActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                finish()
                 return true
             }
             R.id.action_toggle_combination_explanation -> {

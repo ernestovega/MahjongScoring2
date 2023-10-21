@@ -37,6 +37,8 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.annotation.IdRes
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.anim.*
@@ -47,9 +49,16 @@ import org.apache.commons.lang3.StringUtils
 
 @SuppressLint("Registered")
 abstract class BaseActivity : DaggerAppCompatActivity() {
-    
-    companion object {
-        private const val MIN_PROGRESS_TIME = 1500L
+
+    abstract val onBackBehaviour: () -> Unit
+
+    private fun setOnBackPressedCallback() {
+        onBackPressedDispatcher.addCallback(this) { onBackBehaviour.invoke() }
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        setOnBackPressedCallback()
     }
     
     @Deprecated("Don' use", ReplaceWith("goToActivity(intent, requestCode)"))
