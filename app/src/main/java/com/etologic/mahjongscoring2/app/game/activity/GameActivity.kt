@@ -43,7 +43,6 @@ import javax.inject.Inject
 class GameActivity : BaseActivity() {
 
     companion object {
-        internal const val TAG = "GameActivity"
         private const val OFFSCREEN_PAGE_LIMIT = 1
         internal const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
     }
