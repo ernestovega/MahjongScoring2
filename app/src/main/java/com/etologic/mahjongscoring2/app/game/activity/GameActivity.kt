@@ -88,7 +88,7 @@ class GameActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                onBackBehaviour.invoke()
+                finish()
                 true
             }
 
