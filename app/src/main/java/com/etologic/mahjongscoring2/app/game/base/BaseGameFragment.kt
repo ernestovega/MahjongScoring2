@@ -34,6 +34,6 @@ abstract class BaseGameFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         
         if (activity != null)
-            activityViewModel = ViewModelProvider(activity!!, viewModelFactory).get(GameViewModel::class.java)
+            activityViewModel = ViewModelProvider(requireActivity(), viewModelFactory)[GameViewModel::class.java]
     }
 }

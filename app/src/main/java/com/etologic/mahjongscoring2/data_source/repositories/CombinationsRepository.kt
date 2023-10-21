@@ -22,17 +22,16 @@ import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.business.model.entities.Combination
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.CombinationsDao
 import io.reactivex.Single
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class CombinationsRepository
 @Inject constructor(private val context: Context) {
-    
+
     @Inject
     lateinit var combinationsDao: CombinationsDao
-    
+
     internal fun getAll(): Single<List<Combination>> {
         return combinationsDao.getAll()
             .flatMap {
@@ -43,11 +42,11 @@ class CombinationsRepository
                     Single.just(it)
             }
     }
-    
+
     internal fun getFiltered(filter: String): Single<List<Combination>> {
         return combinationsDao.getFiltered(String.format("%%%s%%", filter))
     }
-    
+
     private fun getHardcodedCombinations(): List<Combination> {
         val combinations = ArrayList<Combination>()
         combinations.add(

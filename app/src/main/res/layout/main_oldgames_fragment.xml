@@ -20,7 +20,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".app.main.old_games.OldGamesFragment">
+    tools:context=".app.main.old_games.OldGamesFragment"
+    tools:ignore="Overdraw">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -82,7 +83,7 @@
                     android:layout_marginEnd="@dimen/double_standard_margin"
                     android:layout_marginRight="@dimen/double_standard_margin"
                     android:src="@drawable/img_empty_box"
-                    android:tint="@color/gray"
+                    app:tint="@color/gray"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -108,7 +109,7 @@
                     android:layout_marginEnd="@dimen/double_standard_margin"
                     android:layout_marginBottom="@dimen/double_standard_margin"
                     android:src="@drawable/arrow"
-                    android:tint="@color/gray"
+                    app:tint="@color/gray"
                     tools:ignore="ContentDescription" />
 
             </LinearLayout>
@@ -123,6 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/standard_margin"
+        android:contentDescription="@string/start_new_game"
         android:src="@drawable/ic_play_arrow_white_24px" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -4,7 +4,7 @@ Mahjong Scoring is my pet app since I started to learn Android in 2010. It was m
 
 I've put a lot of care in the _User Experience_ and it's inspired in the Mahjong Madrid brand, but following the Material Design guidelines.
 
-Also the _"Developer Experience"_ has been improved radically by implementing a *Clean Architechture* with an asynchronous paradigm using *LiveData*, *RxJava*, *Room* and *Dagger*.
+Also the _"Developer Experience"_ has been improved radically by implementing a *Clean Architecture* with an asynchronous paradigm using *LiveData*, *RxJava*, *Room* and *Dagger*.
 This results not only in a fluid experience for the user but also in less errors. Those few ones are easier to find and fix, new evolutions can be afforded without headache and the code is so much easier to understand. This is also in big part thanks to the *Clean Code* best practices and the applying of the *SOLID patterns*.
 
 Probably it is not perfect and may have a lot of improvements but is certainly far better than before.

@@ -17,7 +17,6 @@
 package com.etologic.mahjongscoring2.app.game.activity
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.Observer
@@ -55,6 +54,7 @@ class GameActivity : BaseActivity() {
     private var resumeGameItem: MenuItem? = null
 
     private lateinit var binding: GameActivityBinding
+
     @Inject
     internal lateinit var viewModelFactory: GameViewModelFactory
     internal lateinit var viewModel: GameViewModel
@@ -93,7 +93,7 @@ class GameActivity : BaseActivity() {
                 true
             }
 
-            R.id.action_ratate_seats -> {
+            R.id.action_rotate_seats -> {
                 if (binding.viewPagerGame.currentItem == LIST.code) viewModel.showPage(TABLE)
                 viewModel.toggleSeatsRotation()
                 true
@@ -140,7 +140,7 @@ class GameActivity : BaseActivity() {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory).get(GameViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory)[GameViewModel::class.java]
     }
 
     private fun setupToolbar() {

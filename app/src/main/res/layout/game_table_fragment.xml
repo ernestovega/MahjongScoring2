@@ -18,6 +18,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white">
 
     <androidx.fragment.app.FragmentContainerView
@@ -34,7 +35,7 @@
         android:layout_marginStart="@dimen/double_standard_margin"
         android:layout_marginTop="@dimen/standard_margin"
         android:drawablePadding="@dimen/half_standard_margin"
-        android:drawableTint="@color/grayMM"
+        app:drawableTint="@color/grayMM"
         android:gravity="center"
         android:rotation="-215"
         android:textColor="@color/grayMM"
@@ -51,7 +52,7 @@
         android:layout_marginTop="@dimen/standard_margin"
         android:layout_marginEnd="@dimen/double_standard_margin"
         android:drawablePadding="@dimen/half_standard_margin"
-        android:drawableTint="@color/grayMM"
+        app:drawableTint="@color/grayMM"
         android:gravity="center"
         android:rotation="215"
         android:textColor="@color/grayMM"
@@ -70,7 +71,7 @@
         android:layout_marginStart="@dimen/double_standard_margin"
         android:layout_marginBottom="@dimen/standard_margin"
         android:drawablePadding="@dimen/half_standard_margin"
-        android:drawableTint="@color/grayMM"
+        app:drawableTint="@color/grayMM"
         android:gravity="center"
         android:rotation="45"
         android:textColor="@color/grayMM"
@@ -88,7 +89,7 @@
         android:layout_marginEnd="@dimen/double_standard_margin"
         android:layout_marginBottom="@dimen/standard_margin"
         android:drawablePadding="@dimen/half_standard_margin"
-        android:drawableTint="@color/grayMM"
+        app:drawableTint="@color/grayMM"
         android:gravity="center"
         android:rotation="-45"
         android:textColor="@color/grayMM"
@@ -109,6 +110,7 @@
         android:visibility="gone"
         tools:layout_alignParentBottom="true"
         tools:layout_alignParentEnd="true"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:contentDescription="@string/throw_dice" />
 
 </RelativeLayout>

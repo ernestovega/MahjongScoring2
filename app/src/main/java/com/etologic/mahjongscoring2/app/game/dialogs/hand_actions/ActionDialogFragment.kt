@@ -32,11 +32,11 @@ import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.databinding.GameHandActionSelectorFragmentBinding
 
 internal class ActionDialogFragment : BaseGameDialogFragment() {
-    
+
     companion object {
         const val TAG = "HandActionsDialogFragment"
     }
-    
+
     private var isDialogCancelled = true
     private var _binding: GameHandActionSelectorFragmentBinding? = null
     private val binding get() = _binding!!
@@ -54,18 +54,18 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         setListeners()
     }
-    
+
     private fun initViews() {
         binding.btHandActionsDialogPenaltiesCancel.visibility =
             if (activityViewModel?.thereArePenaltiesCurrently() == true) VISIBLE else GONE
     }
-    
+
     private fun setListeners() {
         with(binding) {
             btHandActionsDialogPenaltiesCancel.setOnSecureClickListener {
@@ -97,12 +97,12 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
             }
         }
     }
-    
+
     override fun onStart() {
         super.onStart()
         dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
-    
+
     override fun onDismiss(dialog: DialogInterface) {
         if (isDialogCancelled)
             activityViewModel?.unselectedSelectedSeat()

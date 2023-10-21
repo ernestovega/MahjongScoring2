@@ -32,12 +32,12 @@ import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.Tab
 @Database(entities = [Game::class, Round::class, Combination::class], version = AppDatabase.VERSION)
 @TypeConverters(DateConverter::class, CombinationDescriptionTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
-    
+
     internal companion object {
         internal const val DB_NAME = "MahjongScoring2"
         internal const val VERSION = 1
     }
-    
+
     internal abstract val combinationsDao: CombinationsDao
     internal abstract val gamesDao: GamesDao
     internal abstract val roundsDao: RoundsDao

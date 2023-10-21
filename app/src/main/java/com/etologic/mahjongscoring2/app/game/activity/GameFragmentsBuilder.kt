@@ -31,34 +31,34 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class GameFragmentsBuilder {
-    
+
     @ContributesAndroidInjector
     internal abstract fun provideGameListFragmentFactory(): GameListFragment
-    
+
     @ContributesAndroidInjector
     internal abstract fun provideGameTableFragmentFactory(): GameTableFragment
-    
+
     @ContributesAndroidInjector
     internal abstract fun provideGameTableSeatFragmentFactory(): GameTableSeatsFragment
-    
+
     @ContributesAndroidInjector
     internal abstract fun provideHandActionsFragment(): ActionDialogFragment
-    
+
     @ContributesAndroidInjector
     internal abstract fun providePointsFragment(): HuDialogFragment
-    
+
     @ContributesAndroidInjector
     internal abstract fun providePenaltyFragment(): PenaltyDialogFragment
-    
+
     @ContributesAndroidInjector
     internal abstract fun providePlayersDialogFragment(): NamesDialogFragment
-    
+
     @ContributesAndroidInjector
     internal abstract fun provideRankingDialogFactory(): RankingDialogFragment
-    
+
     @ContributesAndroidInjector
     internal abstract fun provideRollDiceDialogFragment(): RollDiceDialogFragment
-    
+
     @ContributesAndroidInjector
     internal abstract fun provideDiscarderConfirmDialogFragment(): DiscarderDialogFragment
 }

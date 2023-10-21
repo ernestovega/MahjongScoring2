@@ -20,6 +20,7 @@ import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
@@ -32,15 +33,17 @@ import com.etologic.mahjongscoring2.databinding.CombinationsActivityBinding
 import javax.inject.Inject
 
 class CombinationsActivity : BaseActivity() {
-    
+
     companion object {
         internal const val TAG = "CombinationsActivity"
     }
 
     private lateinit var binding: CombinationsActivityBinding
+
     @Inject
     internal lateinit var combinationsViewModelFactory: CombinationsViewModelFactory
     internal var viewModel: CombinationsViewModel? = null
+
     @Inject
     internal lateinit var rvAdapter: CombinationsRvAdapter
 
@@ -61,25 +64,25 @@ class CombinationsActivity : BaseActivity() {
         setupViewModel()
         viewModel?.getAll()
     }
-    
+
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbarCombinations)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
-    
+
     private fun setupRecyclerView() {
         binding.recyclerViewCombinations.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerViewCombinations.layoutManager = layoutManager
-        val handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
         handler.post { binding.recyclerViewCombinations.adapter = rvAdapter }
     }
-    
+
     private fun setupViewModel() {
-        viewModel = ViewModelProvider(this, combinationsViewModelFactory).get(CombinationsViewModel::class.java)
+        viewModel = ViewModelProvider(this, combinationsViewModelFactory)[CombinationsViewModel::class.java]
         viewModel?.getFilteredCombinations()?.observe(this) { rvAdapter.setCombinations(it) }
     }
-    
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.combinations_menu, menu)
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
@@ -89,7 +92,7 @@ class CombinationsActivity : BaseActivity() {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
             }
-            
+
             override fun onQueryTextChange(newText: String): Boolean {
                 viewModel?.searchCombination(newText)
                 return true
@@ -97,13 +100,14 @@ class CombinationsActivity : BaseActivity() {
         })
         return true
     }
-    
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 return true
             }
+
             R.id.action_toggle_combination_explanation -> {
                 val menuItem = binding.toolbarCombinations.menu?.getItem(1)
                 menuItem?.setIcon(
@@ -114,6 +118,7 @@ class CombinationsActivity : BaseActivity() {
                 )
                 return true
             }
+
             else -> return super.onOptionsItemSelected(item)
         }
     }

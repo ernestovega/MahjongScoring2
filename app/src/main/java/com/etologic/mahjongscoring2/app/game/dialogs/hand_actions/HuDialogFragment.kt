@@ -29,11 +29,11 @@ import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MIN_
 import com.etologic.mahjongscoring2.databinding.GamePointsDialogFragmentBinding
 
 internal class HuDialogFragment : BaseGameDialogFragment() {
-    
+
     companion object {
         const val TAG = "PointsHuFragment"
     }
-    
+
     private var isDialogCancelled = true
 
     private var _binding: GamePointsDialogFragmentBinding? = null
@@ -52,13 +52,13 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setListeners()
         binding.cnpPointsDialog.setHint(MIN_MCR_POINTS)
     }
-    
+
     private fun setListeners() {
         binding.btPointsDialogCancel.setOnSecureClickListener { dismiss() }
         binding.btPointsDialogOk.setOnSecureClickListener {
@@ -73,7 +73,7 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
             }
         }
     }
-    
+
     override fun onDismiss(dialog: DialogInterface) {
         if (isDialogCancelled) activityViewModel?.unselectedSelectedSeat()
         super.onDismiss(dialog)

@@ -29,13 +29,13 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 internal abstract class AppActivitiesBuilder {
-    
+
     @ContributesAndroidInjector(modules = [MainActivityModule::class, MainActivityFragmentsBuilder::class])
     internal abstract fun bindMainActivity(): MainActivity
-    
+
     @ContributesAndroidInjector(modules = [CombinationsActivityModule::class])
     internal abstract fun bindCombinationsActivity(): CombinationsActivity
-    
+
     @ContributesAndroidInjector(modules = [GameModule::class, GameFragmentsBuilder::class])
     internal abstract fun bindGameActivity(): GameActivity
 }

@@ -51,7 +51,7 @@ import com.etologic.mahjongscoring2.app.main.old_games.OldGamesFragment
 import com.google.android.material.snackbar.Snackbar
 
 object MainNavigator {
-    
+
     internal fun goToScreen(screen: MainScreens, activity: MainActivity) {
         when (screen) {
             OLD_GAMES -> goToOldGames(activity)
@@ -63,7 +63,7 @@ object MainNavigator {
             FINISH -> activity.onBackPressed()
         }
     }
-    
+
     private fun goToOldGames(activity: MainActivity) {
         activity.supportFragmentManager.beginTransaction().apply {
             if (isEmpty) {
@@ -73,19 +73,19 @@ object MainNavigator {
             }
         }
     }
-    
+
     private fun goToGame(activity: MainActivity) {
         activity.startActivity(Intent(activity, GameActivity::class.java))
     }
-    
+
     private fun goToCombinations(activity: MainActivity) {
         activity.startActivity(Intent(activity, CombinationsActivity::class.java))
     }
-    
+
     private fun goToGreenBook(activity: MainActivity) {
         activity.startActivity(Intent(ACTION_VIEW, Uri.parse(GREEN_BOOK_URL)))
     }
-    
+
     private fun goToRate(activity: MainActivity) {
         with(Intent(ACTION_VIEW, Uri.parse(MARKET_URI_BASE + APPLICATION_ID))) {
             addFlags(FLAG_ACTIVITY_NO_HISTORY or FLAG_ACTIVITY_NEW_DOCUMENT or FLAG_ACTIVITY_MULTIPLE_TASK)
@@ -96,7 +96,7 @@ object MainNavigator {
             }
         }
     }
-    
+
     private fun goToContact(activity: MainActivity) {
         with(Intent(ACTION_SENDTO)) {
             data = Uri.parse("mailto:")

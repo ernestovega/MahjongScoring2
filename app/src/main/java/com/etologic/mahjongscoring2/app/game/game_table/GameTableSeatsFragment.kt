@@ -121,14 +121,11 @@ class GameTableSeatsFragment : Fragment() {
             getSeatsStates()
 
     private fun setStates(states: Array<SeatStates>) {
-
-        with(binding) {
-            areSeatsDisabled = states[0] == DISABLED && states[1] == DISABLED && states[2] == DISABLED && states[3] == DISABLED
-            setState(bindingEast.ivTableSeatEastSeatWindIcon, bindingEast.tvTableSeatEastName, bindingEast.tvTableSeatEastPoints, states[0])
-            setState(bindingSouth.ivTableSeatSouthSeatWindIcon, bindingSouth.tvTableSeatSouthName, bindingSouth.tvTableSeatSouthPoints, states[1])
-            setState(bindingWest.ivTableSeatWestSeatWindIcon, bindingWest.tvTableSeatWestName, bindingWest.tvTableSeatWestPoints, states[2])
-            setState(bindingNorth.ivTableSeatNorthSeatWindIcon, bindingNorth.tvTableSeatNorthName, bindingNorth.tvTableSeatNorthPoints, states[3])
-        }
+        areSeatsDisabled = states[0] == DISABLED && states[1] == DISABLED && states[2] == DISABLED && states[3] == DISABLED
+        setState(bindingEast.ivTableSeatEastSeatWindIcon, bindingEast.tvTableSeatEastName, bindingEast.tvTableSeatEastPoints, states[0])
+        setState(bindingSouth.ivTableSeatSouthSeatWindIcon, bindingSouth.tvTableSeatSouthName, bindingSouth.tvTableSeatSouthPoints, states[1])
+        setState(bindingWest.ivTableSeatWestSeatWindIcon, bindingWest.tvTableSeatWestName, bindingWest.tvTableSeatWestPoints, states[2])
+        setState(bindingNorth.ivTableSeatNorthSeatWindIcon, bindingNorth.tvTableSeatNorthName, bindingNorth.tvTableSeatNorthPoints, states[3])
     }
 
     private fun setState(ivWind: ImageView?, tvName: TextView, tvPoints: TextView, state: SeatStates?) {

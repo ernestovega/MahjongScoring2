@@ -15,6 +15,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/llGameListItemContainer"
     style="@style/RippleEffect"
@@ -75,8 +76,8 @@
                 android:layout_height="@dimen/standard_margin"
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP1"
                 android:src="@drawable/ic_whistle_black_24"
-                android:tint="@color/purplePenalty"
                 android:visibility="gone"
+                app:tint="@color/purplePenalty"
                 tools:ignore="ContentDescription"
                 tools:text="16"
                 tools:visibility="visible" />
@@ -105,8 +106,8 @@
                 android:layout_height="@dimen/standard_margin"
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP2"
                 android:src="@drawable/ic_whistle_black_24"
-                android:tint="@color/purplePenalty"
                 android:visibility="gone"
+                app:tint="@color/purplePenalty"
                 tools:ignore="ContentDescription" />
 
         </RelativeLayout>
@@ -133,8 +134,8 @@
                 android:layout_height="@dimen/standard_margin"
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP3"
                 android:src="@drawable/ic_whistle_black_24"
-                android:tint="@color/purplePenalty"
                 android:visibility="gone"
+                app:tint="@color/purplePenalty"
                 tools:ignore="ContentDescription" />
 
         </RelativeLayout>
@@ -160,8 +161,8 @@
                 android:layout_height="@dimen/standard_margin"
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP4"
                 android:src="@drawable/ic_whistle_black_24"
-                android:tint="@color/purplePenalty"
                 android:visibility="gone"
+                app:tint="@color/purplePenalty"
                 tools:ignore="ContentDescription" />
 
         </RelativeLayout>

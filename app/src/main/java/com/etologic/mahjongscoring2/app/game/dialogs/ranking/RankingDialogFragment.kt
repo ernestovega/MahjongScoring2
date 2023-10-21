@@ -32,11 +32,11 @@ import java.lang.String.format
 import java.util.Locale.getDefault
 
 internal class RankingDialogFragment : BaseGameDialogFragment() {
-    
+
     companion object {
         const val TAG = "RankingDialogFragment"
     }
-    
+
     //LIFECYCLE
     private var _binding: GameTableRankingDialogFragmentBinding? = null
     private val binding get() = _binding!!
@@ -54,23 +54,23 @@ internal class RankingDialogFragment : BaseGameDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
         activityViewModel?.loadRankingData()?.let(this::fillRankingViews)
     }
-    
+
     private fun setOnClickListeners() {
-        binding.btRankingDialogResume?.setOnSecureClickListener {
+        binding.btRankingDialogResume.setOnSecureClickListener {
             activityViewModel?.resumeGame()
             dismiss()
         }
-        binding.btRankingDialogOk?.setOnSecureClickListener {
+        binding.btRankingDialogOk.setOnSecureClickListener {
             dismiss()
         }
     }
-    
+
     private fun fillRankingViews(rankingData: RankingData) {
         with(binding) {
             val playerFirst = rankingData.sortedPlayersRankings[0]
@@ -102,7 +102,7 @@ internal class RankingDialogFragment : BaseGameDialogFragment() {
             tvRankingDialogNumRounds.text = rankingData.sNumRounds
         }
     }
-    
+
     override fun onStart() {
         super.onStart()
         dialog?.window?.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)

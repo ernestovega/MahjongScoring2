@@ -29,8 +29,8 @@ import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.POINTS_DISCARD_NEUTRAL_PLAYERS
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardDiscarderPoints
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardWinnerPoints
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfpickDiscarderPoints
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfpickWinnerPoints
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfPickDiscarderPoints
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfPickWinnerPoints
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
@@ -108,8 +108,8 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
     private fun getSelfPickSeatPointsText(wind: TableWinds): String {
         return String.format(
             "%+d",
-            if (wind == winnerWind) getHuSelfpickWinnerPoints(huPoints)
-            else getHuSelfpickDiscarderPoints(huPoints)
+            if (wind == winnerWind) getHuSelfPickWinnerPoints(huPoints)
+            else getHuSelfPickDiscarderPoints(huPoints)
         )
     }
 

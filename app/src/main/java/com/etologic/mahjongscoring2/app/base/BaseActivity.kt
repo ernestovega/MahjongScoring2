@@ -34,12 +34,9 @@ package com.etologic.mahjongscoring2.app.base
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
-import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.IdRes
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.anim.*
@@ -70,17 +67,17 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
             commit()
         }
     }
-    
+
     internal fun showError(throwable: Throwable?) {
         if (throwable == null) getString(R.string.ups_something_wrong)
         else throwable.message?.let { showMessage(it) }
     }
-    
+
     internal fun showMessage(message: String) {
         val builder = AlertDialog.Builder(this, R.style.AlertDialogStyleMM)
         builder.setMessage(message).show()
     }
-    
+
     internal fun showSnackbar(view: View?, message: String) {
         view?.let {
             val text = if (StringUtils.isBlank(message)) "" else message

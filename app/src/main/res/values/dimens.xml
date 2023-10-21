@@ -39,7 +39,6 @@
 
     <!-- GAME -->
     <dimen name="table_player_points_text_size">36sp</dimen>
-    <dimen name="table_player_name_text_size">32sp</dimen>
     <dimen name="table_player_penalty_points_text_size">20sp</dimen>
     <dimen name="table_player_round_num_text_size">28sp</dimen>
 

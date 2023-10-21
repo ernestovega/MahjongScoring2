@@ -28,12 +28,12 @@ import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.NUM_
 import com.etologic.mahjongscoring2.databinding.GamePenaltyDialogFragmentBinding
 
 internal class PenaltyDialogFragment : BaseGameDialogFragment() {
-    
+
     companion object {
         const val TAG = "PointsFragment"
         private const val INITIAL_PENALTY_POINTS = 30
     }
-    
+
     private var isDialogCancelled = true
 
     private var _binding: GamePenaltyDialogFragmentBinding? = null
@@ -52,13 +52,13 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
         binding.cnpPenaltyDialog.setHint(INITIAL_PENALTY_POINTS)
     }
-    
+
     private fun setOnClickListeners() {
         with(binding) {
             btPenaltyDialogSave.setOnSecureClickListener {
@@ -79,13 +79,13 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
             btPenaltyDialogCancel.setOnSecureClickListener { dismiss() }
         }
     }
-    
+
     private fun saveAndFinish(penaltyPoints: Int, isDivided: Boolean) {
         activityViewModel?.savePenalty(PenaltyData(penaltyPoints, isDivided))
         isDialogCancelled = false
         dismiss()
     }
-    
+
     override fun onDismiss(dialog: DialogInterface) {
         if (isDialogCancelled) activityViewModel?.unselectedSelectedSeat()
         super.onDismiss(dialog)

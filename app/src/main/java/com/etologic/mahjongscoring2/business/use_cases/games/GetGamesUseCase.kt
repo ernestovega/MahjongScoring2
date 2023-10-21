@@ -23,6 +23,6 @@ import javax.inject.Inject
 
 class GetGamesUseCase @Inject
 constructor(private val tablesRepository: TablesRepository) {
-    
+
     fun getAllWithRounds(): Single<List<Table>> = tablesRepository.getAllTables()
 }

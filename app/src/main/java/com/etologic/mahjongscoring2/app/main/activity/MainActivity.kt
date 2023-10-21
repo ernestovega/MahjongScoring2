@@ -17,10 +17,8 @@
 package com.etologic.mahjongscoring2.app.main.activity
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.MenuItem
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat.START
@@ -29,7 +27,11 @@ import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToScreen
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.*
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.RATE
 import com.etologic.mahjongscoring2.databinding.MainActivityBinding
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
@@ -83,7 +85,7 @@ class MainActivity : BaseActivity() {
     }
     
     private fun setupViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
         viewModel?.getCurrentToolbar()?.observe(this) { setToolbar(it) }
         viewModel?.getCurrentScreen()?.observe(this) { goToScreen(it, this) }
     }

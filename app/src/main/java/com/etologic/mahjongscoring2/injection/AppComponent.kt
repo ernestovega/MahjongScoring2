@@ -31,7 +31,7 @@ import javax.inject.Singleton
         AppDataBaseModule::class]
 )
 interface AppComponent : AndroidInjector<MahjongScoringApp> {
-    
+
     @Component.Factory
     abstract class Factory : AndroidInjector.Factory<MahjongScoringApp>
 }

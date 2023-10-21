@@ -23,6 +23,6 @@ open class PenaltyData(
     internal val points: Int,
     internal val isDivided: Boolean
 ) {
-    
+
     internal var penalizedPlayerCurrentSeat: TableWinds = NONE
 }

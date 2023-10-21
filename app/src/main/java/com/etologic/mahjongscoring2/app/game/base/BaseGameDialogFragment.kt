@@ -25,13 +25,13 @@ import dagger.android.support.DaggerAppCompatDialogFragment
 import javax.inject.Inject
 
 open class BaseGameDialogFragment : DaggerAppCompatDialogFragment() {
-    
+
     @Inject
     internal lateinit var viewModelFactory: GameViewModelFactory
     protected var activityViewModel: GameViewModel? = null
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activityViewModel = activity?.let { ViewModelProvider(it, viewModelFactory).get(GameViewModel::class.java) }
+        activityViewModel = activity?.let { ViewModelProvider(it, viewModelFactory)[GameViewModel::class.java] }
     }
 }
