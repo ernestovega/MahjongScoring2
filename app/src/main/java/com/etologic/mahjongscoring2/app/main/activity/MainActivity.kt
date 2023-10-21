@@ -57,17 +57,16 @@ class MainActivity : BaseActivity() {
 
     lateinit var binding: MainActivityBinding
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
+        super.onCreate(savedInstanceState)
         binding = MainActivityBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        super.onCreate(savedInstanceState)
     }
     
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
         setupViewModel()
         setupDrawer()
         viewModel?.navigateTo(OLD_GAMES)
@@ -78,7 +77,7 @@ class MainActivity : BaseActivity() {
         viewModel?.getCurrentToolbar()?.observe(this) { setToolbar(it) }
         viewModel?.getCurrentScreen()?.observe(this) { goToScreen(it, this) }
     }
-    
+
     override fun onBackPressed() {
         if (binding.drawerLayoutMain.isDrawerOpen(START))
             closeDrawer()

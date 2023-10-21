@@ -1,6 +1,6 @@
 # Mahjong Scoring 2
 
-Mahjong Scoring is my pet app since I started to learn Android by myself 7 years ago. It was my first app and as you can imagine it worked, but the code was a big mess. This second version 6 years later is totally renewed. 
+Mahjong Scoring is my pet app since I started to learn Android in 2010. It was my first app and as you can imagine it worked, but the code was a big mess. This second version 6 years later is totally renewed. 
 
 I've put a lot of care in the _User Experience_ and it's inspired in the Mahjong Madrid brand, but following the Material Design guidelines.
 
