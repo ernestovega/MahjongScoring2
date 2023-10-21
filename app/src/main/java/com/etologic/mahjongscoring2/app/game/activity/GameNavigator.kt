@@ -16,7 +16,10 @@
 */
 package com.etologic.mahjongscoring2.app.game.activity
 
+import android.app.Activity
+import android.app.Activity.OVERRIDE_TRANSITION_CLOSE
 import android.content.Intent
+import androidx.activity.result.contract.ActivityResultContracts
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.*
 import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.ActionDialogFragment
@@ -32,7 +35,7 @@ object GameNavigator {
     
     internal fun showDialog(screen: GameScreens, activity: GameActivity) {
         when (screen) {
-            COMBINATIONS -> activity.goToActivity(Intent(activity, CombinationsActivity::class.java), CombinationsActivity.CODE)
+            COMBINATIONS -> activity.startActivity(Intent(activity, CombinationsActivity::class.java))
             PLAYERS -> NamesDialogFragment().show(activity.supportFragmentManager, NamesDialogFragment.TAG)
             DICE -> RollDiceDialogFragment().show(activity.supportFragmentManager, RollDiceDialogFragment.TAG)
             HAND_ACTION -> ActionDialogFragment()

@@ -45,7 +45,6 @@ class GameActivity : BaseActivity() {
 
     companion object {
         internal const val TAG = "GameActivity"
-        internal const val CODE = 3
         private const val OFFSCREEN_PAGE_LIMIT = 1
         internal const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
     }

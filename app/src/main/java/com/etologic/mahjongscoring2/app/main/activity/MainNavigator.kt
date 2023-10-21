@@ -35,11 +35,9 @@ import com.etologic.mahjongscoring2.R.id.frameLayoutMain
 import com.etologic.mahjongscoring2.app.game.activity.GameActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.EMAIL_ADDRESS
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.EMAIL_SUBJECT
-import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.GREEN_BOOK_CODE
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.GREEN_BOOK_URL
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.MARKET_URI_BASE
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.PLAY_STORE_URL_BASE
-import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.RATE_CODE
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
@@ -77,44 +75,39 @@ object MainNavigator {
     }
     
     private fun goToGame(activity: MainActivity) {
-        val intent = Intent(activity, GameActivity::class.java)
-        activity.goToActivity(intent, GameActivity.CODE)
+        activity.startActivity(Intent(activity, GameActivity::class.java))
     }
     
     private fun goToCombinations(activity: MainActivity) {
-        val intent = Intent(activity, CombinationsActivity::class.java)
-        activity.goToActivity(intent, CombinationsActivity.CODE)
+        activity.startActivity(Intent(activity, CombinationsActivity::class.java))
     }
     
     private fun goToGreenBook(activity: MainActivity) {
-        val intent = Intent(ACTION_VIEW, Uri.parse(GREEN_BOOK_URL))
-        activity.goToActivity(intent, GREEN_BOOK_CODE)
+        activity.startActivity(Intent(ACTION_VIEW, Uri.parse(GREEN_BOOK_URL)))
     }
     
     private fun goToRate(activity: MainActivity) {
-        val uriMarket = Uri.parse(MARKET_URI_BASE + APPLICATION_ID)
-        var intent = Intent(ACTION_VIEW, uriMarket)
-        intent.addFlags(FLAG_ACTIVITY_NO_HISTORY or FLAG_ACTIVITY_NEW_DOCUMENT or FLAG_ACTIVITY_MULTIPLE_TASK)
-        try {
-            activity.goToActivity(intent, RATE_CODE)
-        } catch (e: Exception) {
-            val uriPlayStore = Uri.parse(PLAY_STORE_URL_BASE + APPLICATION_ID)
-            intent = Intent(ACTION_VIEW, uriPlayStore)
-            activity.goToActivity(intent, RATE_CODE)
+        with(Intent(ACTION_VIEW, Uri.parse(MARKET_URI_BASE + APPLICATION_ID))) {
+            addFlags(FLAG_ACTIVITY_NO_HISTORY or FLAG_ACTIVITY_NEW_DOCUMENT or FLAG_ACTIVITY_MULTIPLE_TASK)
+            try {
+                activity.startActivity(this)
+            } catch (e: Exception) {
+                activity.startActivity(Intent(ACTION_VIEW, Uri.parse(PLAY_STORE_URL_BASE + APPLICATION_ID)))
+            }
         }
-        
     }
     
     private fun goToContact(activity: MainActivity) {
-        val intent = Intent(ACTION_SENDTO)
-        intent.data = Uri.parse("mailto:")
-        intent.putExtra(EXTRA_EMAIL, arrayOf(EMAIL_ADDRESS))
-        intent.putExtra(EXTRA_SUBJECT, EMAIL_SUBJECT)
-        if (intent.resolveActivity(activity.packageManager) != null)
-            try {
-                activity.goToActivity(intent, MainActivity.CONTACT_CODE)
-            } catch (e: Exception) {
-                Snackbar.make(activity.binding.drawerLayoutMain, R.string.no_email_apps_founded, Snackbar.LENGTH_LONG).show()
-            }
+        with(Intent(ACTION_SENDTO)) {
+            data = Uri.parse("mailto:")
+            putExtra(EXTRA_EMAIL, arrayOf(EMAIL_ADDRESS))
+            putExtra(EXTRA_SUBJECT, EMAIL_SUBJECT)
+            if (resolveActivity(activity.packageManager) != null)
+                try {
+                    activity.startActivity(this)
+                } catch (e: Exception) {
+                    Snackbar.make(activity.binding.drawerLayoutMain, R.string.no_email_apps_founded, Snackbar.LENGTH_LONG).show()
+                }
+        }
     }
 }

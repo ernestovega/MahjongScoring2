@@ -35,7 +35,6 @@ class CombinationsActivity : BaseActivity() {
     
     companion object {
         internal const val TAG = "CombinationsActivity"
-        internal const val CODE = 2
     }
 
     private lateinit var binding: CombinationsActivityBinding

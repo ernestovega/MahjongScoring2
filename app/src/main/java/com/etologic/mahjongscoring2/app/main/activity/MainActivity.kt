@@ -38,12 +38,6 @@ class MainActivity : BaseActivity() {
     
     companion object {
         internal const val TAG = "MainActivity"
-        
-        @Suppress("unused")
-        internal const val CODE = 1
-        internal const val GREEN_BOOK_CODE = 11
-        internal const val RATE_CODE = 12
-        internal const val CONTACT_CODE = 13
         internal const val GREEN_BOOK_URL = "https://docs.google.com/gview?embedded=true&url=mahjong-europe.org/portal/images/docs/mcr_EN.pdf"
         internal const val MARKET_URI_BASE = "market://details?id="
         internal const val PLAY_STORE_URL_BASE = "http://play.google.com/store/apps/details?id="

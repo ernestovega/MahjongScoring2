@@ -39,6 +39,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
+import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.IdRes
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.anim.*
@@ -60,21 +61,7 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         super.onPostCreate(savedInstanceState)
         setOnBackPressedCallback()
     }
-    
-    @Deprecated("Don' use", ReplaceWith("goToActivity(intent, requestCode)"))
-    override fun startActivity(intent: Intent?) {
-        super.startActivity(intent)
-    }
-    
-    @Deprecated("Don' use", ReplaceWith("goToActivity(intent, requestCode)"))
-    override fun startActivity(intent: Intent?, options: Bundle?) {
-        super.startActivity(intent, options)
-    }
-    
-    internal fun goToActivity(intent: Intent, requestCode: Int) {
-        startActivityForResult(intent, requestCode)
-    }
-    
+
     @Suppress("unused")
     internal fun goToFragment(@IdRes frameLayoutContainer: Int, fragment: BaseFragment, tag: String) {
         supportFragmentManager.beginTransaction().apply {
