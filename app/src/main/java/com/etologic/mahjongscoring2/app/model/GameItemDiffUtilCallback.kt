@@ -22,6 +22,7 @@ import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.NUM_MCR_PLAYERS
+import java.util.Locale
 
 class GameItemDiffUtilCallback(private val newList: List<Table>, private val oldList: List<Table>) : DiffUtil.Callback() {
 
@@ -47,8 +48,12 @@ class GameItemDiffUtilCallback(private val newList: List<Table>, private val old
                 oldGame.game.nameP4 == newGame.game.nameP4 &&
                 DateTimeUtils.areEqual(oldGame.game.startDate, newGame.game.startDate) &&
                 arePlayersTotalsPointsEquals(
-                    oldGame.getPlayersTotalPointsStringByCurrentSeat(),
-                    newGame.getPlayersTotalPointsStringByCurrentSeat()
+                    oldGame.getPlayersTotalPointsByCurrentSeat().map {
+                        String.format(Locale.getDefault(), "%d", it)
+                    },
+                    newGame.getPlayersTotalPointsByCurrentSeat().map {
+                        String.format(Locale.getDefault(), "%d", it)
+                    }
                 ) &&
                 areBestHandsEqual(oldGame.getBestHand(), newGame.getBestHand())
                 && Round.areEqual(oldGame.rounds, newGame.rounds))

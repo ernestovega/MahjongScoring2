@@ -32,7 +32,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.color
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
@@ -52,6 +51,7 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.GameTableSeatsFragmentBinding
+import java.util.Locale
 import java.util.Locale.getDefault
 
 class GameTableSeatsFragment : Fragment() {
@@ -104,7 +104,9 @@ class GameTableSeatsFragment : Fragment() {
     internal fun setSeats(table: Table) {
         selectedPlayer = NONE
         setStates(getSeatsStates(table))
-        setPoints(table.getPlayersTotalPointsStringByCurrentSeat())
+        setPoints(table.getPlayersTotalPointsByCurrentSeat().map {
+            String.format(getDefault(), "%d", it)
+        })
         setPenalties(table.getPlayersPenaltiesByCurrentSeat())
         setWinds(table.getSeatsCurrentWind(table.rounds.size))
         setNames(table.getPlayersNamesByCurrentSeat())

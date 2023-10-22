@@ -31,6 +31,7 @@ import com.etologic.mahjongscoring2.app.utils.StringUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.databinding.MainOldgameItemBinding
+import java.util.Locale
 import javax.inject.Inject
 
 internal class OldGamesRvAdapter
@@ -102,7 +103,9 @@ internal class OldGamesRvAdapter
         itemViewHolder.tvSouthPlayerName.text = table.game.nameP2
         itemViewHolder.tvWestPlayerName.text = table.game.nameP3
         itemViewHolder.tvNorthPlayerName.text = table.game.nameP4
-        val playersTotalPoints = table.getPlayersTotalPointsStringByCurrentSeat()
+        val playersTotalPoints = table.getPlayersTotalPoints().map {
+            String.format(Locale.getDefault(), "%d", it)
+        }
         itemViewHolder.tvEastPlayerPoints.text = playersTotalPoints[0]
         itemViewHolder.tvSouthPlayerPoints.text = playersTotalPoints[1]
         itemViewHolder.tvWestPlayerPoints.text = playersTotalPoints[2]
