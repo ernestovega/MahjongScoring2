@@ -63,9 +63,16 @@ constructor(
     internal fun end(): Single<Table> =
         currentTableRepository.get()
             .flatMap { table ->
-                if (table.rounds.size == 1) {
-                    roundsRepository.insertOne(Round(table.game.gameId)).blockingGet()
+                if (table.rounds.last().areTherePenalties()) {
+                    draw()
+                } else if (table.rounds.size == 1) {
+                    roundsRepository.insertOne(Round(table.game.gameId))
+                        .map { table }
+                } else {
+                    Single.just(table)
                 }
+            }
+            .flatMap { table ->
                 roundsRepository.deleteOne(table.game.gameId, table.rounds.last().roundId)
                     .flatMap { updateCurrentTable(table.game.gameId) }
             }
@@ -81,9 +88,13 @@ constructor(
         currentTableRepository.get()
             .flatMap { table ->
                 if (table.rounds.last().isEnded) {
-                    roundsRepository.insertOne(Round(table.game.gameId)).blockingGet()
+                    roundsRepository.insertOne(Round(table.game.gameId))
+                        .map { table }
+                } else {
+                    Single.just(table)
                 }
-
+            }
+            .flatMap { table ->
                 roundsRepository.deleteOne(table.game.gameId, roundToRemoveId)
                     .flatMap { updateCurrentTable(table.game.gameId) }
             }

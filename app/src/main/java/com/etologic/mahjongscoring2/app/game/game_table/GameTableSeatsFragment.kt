@@ -107,9 +107,9 @@ class GameTableSeatsFragment : Fragment() {
         setPoints(table.getPlayersTotalPointsByCurrentSeat().map {
             String.format(getDefault(), "%d", it)
         })
-        setPenalties(table.getPlayersPenaltiesByCurrentSeat())
         setWinds(table.getSeatsCurrentWind(table.rounds.size))
         setNames(table.getPlayersNamesByCurrentSeat())
+        setPenalties(table.getPlayersPenaltiesByCurrentSeat(), table.rounds.last().isEnded)
     }
 
     private fun getSeatsStates(table: Table): Array<SeatStates> =
@@ -167,11 +167,18 @@ class GameTableSeatsFragment : Fragment() {
         binding.iGameTableSeatNorth.tvTableSeatNorthPoints.text = points[NORTH.code]
     }
 
-    private fun setPenalties(penalties: IntArray) {
-        setPenaltyPoints(binding.iGameTableSeatEast.tvTableSeatEastPenaltyPoints, penalties[EAST.code])
-        setPenaltyPoints(binding.iGameTableSeatSouth.tvTableSeatSouthPenaltyPoints, penalties[SOUTH.code])
-        setPenaltyPoints(binding.iGameTableSeatWest.tvTableSeatWestPenaltyPoints, penalties[WEST.code])
-        setPenaltyPoints(binding.iGameTableSeatNorth.tvTableSeatNorthPenaltyPoints, penalties[NORTH.code])
+    private fun setPenalties(penalties: IntArray, isEnded: Boolean) {
+        if (!isEnded) {
+            setPenaltyPoints(binding.iGameTableSeatEast.tvTableSeatEastPenaltyPoints, penalties[EAST.code])
+            setPenaltyPoints(binding.iGameTableSeatSouth.tvTableSeatSouthPenaltyPoints, penalties[SOUTH.code])
+            setPenaltyPoints(binding.iGameTableSeatWest.tvTableSeatWestPenaltyPoints, penalties[WEST.code])
+            setPenaltyPoints(binding.iGameTableSeatNorth.tvTableSeatNorthPenaltyPoints, penalties[NORTH.code])
+        } else {
+            binding.iGameTableSeatEast.tvTableSeatEastPenaltyPoints.visibility = GONE
+            binding.iGameTableSeatSouth.tvTableSeatSouthPenaltyPoints.visibility = GONE
+            binding.iGameTableSeatWest.tvTableSeatWestPenaltyPoints.visibility = GONE
+            binding.iGameTableSeatNorth.tvTableSeatNorthPenaltyPoints.visibility = GONE
+        }
     }
 
     private fun setPenaltyPoints(textView: TextView, penaltyPoints: Int) {
