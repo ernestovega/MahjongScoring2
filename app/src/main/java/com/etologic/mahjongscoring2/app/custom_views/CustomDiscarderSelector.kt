@@ -20,17 +20,20 @@ import android.content.Context
 import android.graphics.Typeface.BOLD_ITALIC
 import android.graphics.Typeface.NORMAL
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.POINTS_DISCARD_NEUTRAL_PLAYERS
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardDiscarderPoints
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardWinnerPoints
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfPickDiscarderPoints
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfPickWinnerPoints
+import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
@@ -47,12 +50,14 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
     private var winnerWind = NONE
     private var looserWind = NONE
     private var huPoints = 0
+    private var margin = 0
 
     private var _binding: CustomDiscarderSelectorBinding? = null
     private val binding get() = _binding!!
 
     init {
-        _binding = CustomDiscarderSelectorBinding.inflate(LayoutInflater.from(context), null, false)
+        _binding = CustomDiscarderSelectorBinding.inflate(LayoutInflater.from(context), this, true)
+        margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16f, resources.displayMetrics).toInt()
     }
 
     internal fun getDiscarderCurrentSeat(): TableWinds = looserWind
@@ -150,5 +155,21 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
                 else -> POINTS_DISCARD_NEUTRAL_PLAYERS
             }
         )
+    }
+
+    internal fun updateSeatsOrientation(screenOrientation: ScreenOrientation) {
+        when (screenOrientation) {
+            ScreenOrientation.PORTRAIT -> {
+                binding.llDiscarderSelectorSouth.rotation = 0f
+                binding.llDiscarderSelectorWest.rotation = 0f
+                binding.llDiscarderSelectorNorth.rotation = 0f
+            }
+
+            ScreenOrientation.LANDSCAPE -> {
+                binding.llDiscarderSelectorSouth.rotation = -90f
+                binding.llDiscarderSelectorWest.rotation = 180f
+                binding.llDiscarderSelectorNorth.rotation = 90f
+            }
+        }
     }
 }

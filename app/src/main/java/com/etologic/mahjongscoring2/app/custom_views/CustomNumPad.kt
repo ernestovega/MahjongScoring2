@@ -28,7 +28,7 @@ class CustomNumPad(context: Context, attributeSet: AttributeSet) : LinearLayout(
     private val binding get() = _binding!!
 
     init {
-        _binding = CustomNumPadBinding.inflate(LayoutInflater.from(context), null, false)
+        _binding = CustomNumPadBinding.inflate(LayoutInflater.from(context), this, true)
         setListeners()
     }
 

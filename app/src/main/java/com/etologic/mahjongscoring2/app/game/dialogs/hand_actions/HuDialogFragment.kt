@@ -49,8 +49,8 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
+        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,9 +63,9 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
         binding.btPointsDialogCancel.setOnSecureClickListener { dismiss() }
         binding.btPointsDialogOk.setOnSecureClickListener {
             val points = binding.cnpPointsDialog.getPoints()
-            if (points == null || points < MIN_MCR_POINTS || points > MAX_MCR_POINTS)
+            if (points == null || points < MIN_MCR_POINTS || points > MAX_MCR_POINTS) {
                 binding.cnpPointsDialog.setError()
-            else {
+            } else {
                 activityViewModel?.huPoints = points
                 activityViewModel?.navigateTo(DISCARDER)
                 isDialogCancelled = false
@@ -75,7 +75,9 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        if (isDialogCancelled) activityViewModel?.unselectedSelectedSeat()
+        if (isDialogCancelled) {
+            activityViewModel?.unselectedSelectedSeat()
+        }
         super.onDismiss(dialog)
     }
 }

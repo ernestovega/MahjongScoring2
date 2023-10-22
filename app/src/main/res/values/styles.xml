@@ -94,8 +94,8 @@
     </style>
 
     <style name="auxView" parent="AppTheme">
-        <item name="android:width">@dimen/triple_standard_margin</item>
-        <item name="android:layout_width">@dimen/triple_standard_margin</item>
+        <item name="android:width">@dimen/third_standard_margin</item>
+        <item name="android:layout_width">@dimen/third_standard_margin</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerHorizontal">true</item>
     </style>

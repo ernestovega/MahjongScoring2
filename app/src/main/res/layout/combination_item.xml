@@ -56,7 +56,7 @@
 
                 <TextView
                     android:id="@+id/tvCombinationItemPoints"
-                    android:layout_width="@dimen/double_standard_margin"
+                    android:layout_width="@dimen/second_standard_margin"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"

@@ -24,7 +24,7 @@
     <LinearLayout
         android:id="@+id/llGameListHeader"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/triple_standard_margin"
+        android:layout_height="@dimen/third_standard_margin"
         android:layout_alignParentTop="true"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
@@ -41,7 +41,7 @@
             android:textColor="@android:color/white" />
 
         <TextView
-            android:layout_width="@dimen/double_standard_margin"
+            android:layout_width="@dimen/second_standard_margin"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/half_standard_margin"
             android:gravity="center"
@@ -113,7 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/vGameListEmptyStateCenter"
-            android:layout_marginStart="@dimen/double_standard_margin"
+            android:layout_marginStart="@dimen/second_standard_margin"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="-32dp"
             android:layout_toStartOf="@+id/vGameListEmptyStateCenter"
@@ -142,7 +142,7 @@
     <LinearLayout
         android:id="@+id/llGameListFooter"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/triple_standard_margin"
+        android:layout_height="@dimen/third_standard_margin"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
         android:gravity="center_vertical"
@@ -151,7 +151,7 @@
         android:paddingEnd="@dimen/standard_margin">
 
         <TextView
-            android:layout_width="@dimen/quadruple_standard_margin"
+            android:layout_width="@dimen/fourth_standard_margin"
             android:layout_height="match_parent"
             android:gravity="center"
             android:lines="1"

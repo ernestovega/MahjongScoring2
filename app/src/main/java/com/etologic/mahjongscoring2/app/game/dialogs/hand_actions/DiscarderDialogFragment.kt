@@ -21,6 +21,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
@@ -48,21 +49,24 @@ internal class DiscarderDialogFragment : BaseGameDialogFragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
+        super.onDestroyView()
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setListeners()
-        if (activityViewModel != null)
+        if (activityViewModel != null) {
             binding.cdsDiscarderConfirmDialog.initPlayers(
                 activityViewModel!!.getNamesByCurrentSeat(),
                 activityViewModel!!.huPoints,
                 activityViewModel!!.getSelectedSeat().value!!
             )
-        else
+            activityViewModel?.getScreenOrientation()
+                ?.observe(viewLifecycleOwner, Observer(binding.cdsDiscarderConfirmDialog::updateSeatsOrientation))
+        } else {
             dismiss()
+        }
     }
     
     private fun setListeners() {

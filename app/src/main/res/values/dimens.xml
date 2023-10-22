@@ -21,9 +21,10 @@
     <dimen name="half_standard_margin">8dp</dimen>
     <dimen name="standard_margin">16dp</dimen>
     <dimen name="standard_and_half_margin">24dp</dimen>
-    <dimen name="double_standard_margin">32dp</dimen>
-    <dimen name="triple_standard_margin">48dp</dimen>
-    <dimen name="quadruple_standard_margin">64dp</dimen>
+    <dimen name="second_standard_margin">32dp</dimen>
+    <dimen name="third_standard_margin">48dp</dimen>
+    <dimen name="fourth_standard_margin">64dp</dimen>
+    <dimen name="fifth_standard_margin">80dp</dimen>
 
     <!-- TOOLBAR-->
     <dimen name="toolbar_elevation">4dp</dimen>

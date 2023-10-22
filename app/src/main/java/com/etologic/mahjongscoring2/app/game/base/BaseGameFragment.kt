@@ -33,7 +33,8 @@ abstract class BaseGameFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        if (activity != null)
+        if (activity != null) {
             activityViewModel = ViewModelProvider(requireActivity(), viewModelFactory)[GameViewModel::class.java]
+        }
     }
 }

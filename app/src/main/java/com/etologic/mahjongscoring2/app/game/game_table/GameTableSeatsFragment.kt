@@ -32,9 +32,11 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.color
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.model.SeatStates
 import com.etologic.mahjongscoring2.app.model.SeatStates.DISABLED
 import com.etologic.mahjongscoring2.app.model.SeatStates.NORMAL
@@ -218,6 +220,7 @@ class GameTableSeatsFragment : Fragment() {
 
     private var _binding: GameTableSeatsFragmentBinding? = null
     private val binding get() = _binding!!
+    protected var activityViewModel: GameViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,

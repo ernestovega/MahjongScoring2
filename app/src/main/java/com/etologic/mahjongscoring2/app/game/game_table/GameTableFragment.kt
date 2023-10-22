@@ -42,6 +42,7 @@ import com.etologic.mahjongscoring2.R.drawable.ic_trophy_white_18dp
 import com.etologic.mahjongscoring2.R.drawable.ic_west
 import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.DICE
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.RANKING
 import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment
@@ -72,6 +73,9 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     private var southIcon: Drawable? = null
     private var westIcon: Drawable? = null
     private var northIcon: Drawable? = null
+    private var _binding: GameTableFragmentBinding? = null
+    private val binding get() = _binding!!
+
 
     //EVENTS
     override fun onSeatClick(wind: TableWinds) {
@@ -79,9 +83,6 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     }
 
     //LIFECYCLE
-    private var _binding: GameTableFragmentBinding? = null
-    private val binding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -92,8 +93,8 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
+        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
