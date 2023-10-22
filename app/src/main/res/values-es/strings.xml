@@ -181,4 +181,8 @@
     <string name="description_last_tile_claim">Ganar con la última ficha descartada del juego</string>
     <string name="description_out_with_replacement_tile">Ganar con la ficha de reemplazo tras hacer kong</string>
     <string name="description_robbing_the_kong">Ganar con la ficha con la que otro extiende un kong</string>
+
+    <!--  Translations V2.1.0  -->
+    <string name="throw_dice">Lanzar los dados</string>
+    <string name="start_new_game">Empezar un nuevo juego</string>
 </resources>

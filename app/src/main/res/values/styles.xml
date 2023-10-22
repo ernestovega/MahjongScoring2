@@ -1,5 +1,13 @@
 <resources>
 
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
     <style name="AppTheme.BrandedLaunch" parent="AppTheme">
         <item name="android:windowBackground">@drawable/layer_mm_logo</item>
         <item name="windowActionBar">false</item>
@@ -86,8 +94,8 @@
     </style>
 
     <style name="auxView" parent="AppTheme">
-        <item name="android:width">@dimen/triple_standard_margin</item>
-        <item name="android:layout_width">@dimen/triple_standard_margin</item>
+        <item name="android:width">@dimen/third_standard_margin</item>
+        <item name="android:layout_width">@dimen/third_standard_margin</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerHorizontal">true</item>
     </style>

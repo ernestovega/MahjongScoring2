@@ -46,7 +46,7 @@ class GameViewModel internal constructor(
     private val gameActionsUseCase: GameActionsUseCase,
     private val penaltyUseCase: PenaltyUseCase
 ) : BaseViewModel() {
-    
+
     enum class GameScreens {
         COMBINATIONS,
         PLAYERS,
@@ -58,7 +58,7 @@ class GameViewModel internal constructor(
         RANKING,
         EXIT
     }
-    
+
     private var playerOneLiteral: String? = null
     private var playerTwoLiteral: String? = null
     private var playerThreeLiteral: String? = null
@@ -73,10 +73,10 @@ class GameViewModel internal constructor(
     internal fun getSelectedSeat(): LiveData<TableWinds> = _selectedSeat
     private var _seatsRotation = MutableLiveData<ScreenOrientation>()
     internal fun getScreenOrientation(): LiveData<ScreenOrientation> = _seatsRotation
-    
+
     //DTOs
     internal var huPoints = 0
-    
+
     init {
         playerOneLiteral = contextForResources.getString(R.string.player_one)
         playerTwoLiteral = contextForResources.getString(R.string.player_two)
@@ -85,7 +85,7 @@ class GameViewModel internal constructor(
         _selectedSeat.postValue(NONE)
         _seatsRotation.postValue(LANDSCAPE)
     }
-    
+
     //METHODS
     internal fun loadTable() {
         disposables.add(
@@ -95,7 +95,7 @@ class GameViewModel internal constructor(
                 .subscribe(this::showPlayersDialogIfProceed, this::showError)
         )
     }
-    
+
     private fun showPlayersDialogIfProceed(table: Table) {
         if (table.rounds.size == 1 &&
             table.game.nameP1 == playerOneLiteral &&
@@ -104,27 +104,27 @@ class GameViewModel internal constructor(
             table.game.nameP4 == playerFourLiteral
         ) navigateTo(PLAYERS)
     }
-    
+
     //SELECTED PLAYER/SEAT
     internal fun onSeatClicked(wind: TableWinds) {
         _selectedSeat.postValue(wind)
         _currentScreen.postValue(HAND_ACTION)
     }
-    
+
     internal fun unselectedSelectedSeat() {
         _selectedSeat.postValue(NONE)
         _currentTable.postValue(_currentTable.value)
     }
-    
+
     //NAVIGATION
     internal fun showPage(page: GameTablePages) {
         _currentPage.postValue(page)
     }
-    
+
     internal fun navigateTo(gameScreens: GameScreens) {
         _currentScreen.postValue(gameScreens)
     }
-    
+
     //GAME OPERATIONS
     internal fun resumeGame() {
         disposables.add(
@@ -133,7 +133,7 @@ class GameViewModel internal constructor(
                 .subscribe(_currentTable::postValue, this::showError)
         )
     }
-    
+
     internal fun endGame() {
         disposables.add(
             gameActionsUseCase.end()
@@ -141,7 +141,7 @@ class GameViewModel internal constructor(
                 .subscribe(_currentTable::postValue, this::showError)
         )
     }
-    
+
     internal fun savePlayersNames(names: Array<String>) {
         disposables.add(
             saveCurrentPlayersUseCase.saveCurrentGamePlayersNames(names)
@@ -149,7 +149,7 @@ class GameViewModel internal constructor(
                 .subscribe(_currentTable::postValue, this::showError)
         )
     }
-    
+
     //ROUND OPERATIONS
     internal fun saveRonRound(discarderCurrentSeat: TableWinds, huPoints: Int) {
         disposables.add(
@@ -158,15 +158,15 @@ class GameViewModel internal constructor(
                 .subscribe(_currentTable::postValue, this::showError)
         )
     }
-    
+
     internal fun saveTsumoRound(huPoints: Int) {
         disposables.add(
-            gameActionsUseCase.selfpick(HuData(_selectedSeat.value!!, huPoints))
+            gameActionsUseCase.selfPick(HuData(_selectedSeat.value!!, huPoints))
                 .subscribeOn(Schedulers.io())
                 .subscribe(_currentTable::postValue, this::showError)
         )
     }
-    
+
     internal fun saveDrawRound() {
         disposables.add(
             gameActionsUseCase.draw()
@@ -174,7 +174,7 @@ class GameViewModel internal constructor(
                 .subscribe(_currentTable::postValue, this::showError)
         )
     }
-    
+
     internal fun savePenalty(penaltyData: PenaltyData) {
         penaltyData.penalizedPlayerCurrentSeat = _selectedSeat.value!!
         disposables.add(
@@ -183,7 +183,7 @@ class GameViewModel internal constructor(
                 .subscribe(_currentTable::postValue, this::showError)
         )
     }
-    
+
     internal fun cancelPenalties() {
         disposables.add(
             penaltyUseCase.cancelPenalties()
@@ -191,7 +191,7 @@ class GameViewModel internal constructor(
                 .subscribe(_currentTable::postValue, this::showError)
         )
     }
-    
+
     internal fun removeRound(roundId: Int) {
         disposables.add(
             gameActionsUseCase.removeRound(roundId)
@@ -199,33 +199,33 @@ class GameViewModel internal constructor(
                 .subscribe(_currentTable::postValue, this::showError)
         )
     }
-    
-    //QUERYS
+
+    //QUERIES
     internal fun loadRankingData() =
         getCurrentGameUseCase.getCurrentGameWithRounds()
             .subscribeOn(Schedulers.io())
             .map(RankingTableHelper::generateRankingTable)
             .blockingGet()
-    
+
     internal fun thereArePenaltiesCurrently(): Boolean =
         getCurrentGameUseCase.getCurrentGameWithRounds()
             .subscribeOn(Schedulers.io())
             .map { it.rounds.last().areTherePenalties() }
             .blockingGet()
-    
+
     internal fun getNamesByCurrentSeat(): Array<String> =
         getCurrentGameUseCase.getCurrentGameWithRounds()
             .subscribeOn(Schedulers.io())
             .map { it.getPlayersNamesByCurrentSeat() }
             .onErrorReturnItem(arrayOf("", "", "", ""))
             .blockingGet()
-    
+
     internal fun getNamesByInitialPosition(): Array<String> =
         getCurrentGameUseCase.getCurrentGameWithRounds()
             .subscribeOn(Schedulers.io())
             .map { it.game.getPlayersNames() }
             .blockingGet()
-    
+
     internal fun toggleSeatsRotation() {
         _seatsRotation.postValue(if (_seatsRotation.value == LANDSCAPE) PORTRAIT else LANDSCAPE)
     }

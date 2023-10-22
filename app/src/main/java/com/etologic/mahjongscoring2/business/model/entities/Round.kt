@@ -21,8 +21,8 @@ import com.etologic.mahjongscoring2.app.base.RecyclerViewable
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.POINTS_DISCARD_NEUTRAL_PLAYERS
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardDiscarderPoints
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardWinnerPoints
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfpickDiscarderPoints
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfpickWinnerPoints
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfPickDiscarderPoints
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfPickWinnerPoints
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getPenaltyOtherPlayersPoints
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
@@ -37,13 +37,13 @@ class Round(
     val gameId: Long,
     @field:PrimaryKey(autoGenerate = true) val roundId: Int
 ) : RecyclerViewable<Round>() {
-    
+
     @Ignore
     var roundNumber: Int = 0
-    
+
     @TypeConverters(TableWindsConverter::class)
     var winnerInitialSeat = NONE
-    
+
     @TypeConverters(TableWindsConverter::class)
     var discarderInitialSeat = NONE
     var handPoints = 0
@@ -51,16 +51,16 @@ class Round(
     var pointsP2 = 0
     var pointsP3 = 0
     var pointsP4 = 0
-    
+
     @Ignore
     var totalPointsP1 = 0
-    
+
     @Ignore
     var totalPointsP2 = 0
-    
+
     @Ignore
     var totalPointsP3 = 0
-    
+
     @Ignore
     var totalPointsP4 = 0
     var penaltyP1 = 0
@@ -68,12 +68,12 @@ class Round(
     var penaltyP3 = 0
     var penaltyP4 = 0
     var isEnded = false
-    
+
     @Ignore
     var isBestHand = false
-    
+
     internal constructor(gameId: Long) : this(gameId, NOT_SET_ROUND_ID)
-    
+
     private constructor(
         gameId: Long,
         roundId: Int,
@@ -106,15 +106,15 @@ class Round(
         this.isEnded = isEnded
         this.isBestHand = isBestHand
     }
-    
+
     override fun compareIdTo(`object`: Round): Boolean {
         return gameId == `object`.gameId && roundId == `object`.roundId
     }
-    
+
     override fun compareContentsTo(`object`: Round): Boolean {
         return areEqual(this, `object`)
     }
-    
+
     override fun getCopy(): Round {
         return Round(
             gameId,
@@ -139,7 +139,7 @@ class Round(
             isBestHand
         )
     }
-    
+
     internal fun finishRoundByHuDiscard(
         winnerInitialSeat: TableWinds,
         discarderInitialSeat: TableWinds,
@@ -154,7 +154,7 @@ class Round(
         pointsP4 += calculateDiscardSeatPoints(NORTH, huPoints)
         finishRoundApplyingPenalties()
     }
-    
+
     private fun calculateDiscardSeatPoints(seat: TableWinds, huPoints: Int): Int {
         return when (seat) {
             winnerInitialSeat -> getHuDiscardWinnerPoints(huPoints)
@@ -162,28 +162,28 @@ class Round(
             else -> POINTS_DISCARD_NEUTRAL_PLAYERS
         }
     }
-    
-    internal fun finishRoundByHuSelfpick(winnerInitialSeat: TableWinds, huPoints: Int) {
+
+    internal fun finishRoundByHuSelfPick(winnerInitialSeat: TableWinds, huPoints: Int) {
         this.winnerInitialSeat = winnerInitialSeat
         this.handPoints = huPoints
-        pointsP1 += calculateSelfpickSeatPoints(EAST, huPoints)
-        pointsP2 += calculateSelfpickSeatPoints(SOUTH, huPoints)
-        pointsP3 += calculateSelfpickSeatPoints(WEST, huPoints)
-        pointsP4 += calculateSelfpickSeatPoints(NORTH, huPoints)
+        pointsP1 += calculateSelfPickSeatPoints(EAST, huPoints)
+        pointsP2 += calculateSelfPickSeatPoints(SOUTH, huPoints)
+        pointsP3 += calculateSelfPickSeatPoints(WEST, huPoints)
+        pointsP4 += calculateSelfPickSeatPoints(NORTH, huPoints)
         finishRoundApplyingPenalties()
     }
-    
-    private fun calculateSelfpickSeatPoints(seat: TableWinds, huPoints: Int): Int {
+
+    private fun calculateSelfPickSeatPoints(seat: TableWinds, huPoints: Int): Int {
         return if (seat == winnerInitialSeat)
-            getHuSelfpickWinnerPoints(huPoints)
+            getHuSelfPickWinnerPoints(huPoints)
         else
-            getHuSelfpickDiscarderPoints(huPoints)
+            getHuSelfPickDiscarderPoints(huPoints)
     }
-    
+
     internal fun finishRoundByDraw() {
         finishRoundApplyingPenalties()
     }
-    
+
     internal fun setPlayerPenaltyPoints(penalizedPlayerInitialPosition: TableWinds, penaltyPoints: Int) {
         when (penalizedPlayerInitialPosition) {
             EAST -> penaltyP1 -= penaltyPoints
@@ -192,7 +192,7 @@ class Round(
             else -> penaltyP4 -= penaltyPoints
         }
     }
-    
+
     internal fun setAllPlayersPenaltyPoints(penalizedPlayerInitialSeat: TableWinds, penaltyPoints: Int) {
         val noPenalizedPlayerPoints = getPenaltyOtherPlayersPoints(penaltyPoints)
         penaltyP1 += if (EAST === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
@@ -200,39 +200,39 @@ class Round(
         penaltyP3 += if (WEST === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
         penaltyP4 += if (NORTH === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
     }
-    
+
     internal fun cancelAllPlayersPenalties() {
         penaltyP1 = 0
         penaltyP2 = 0
         penaltyP3 = 0
         penaltyP4 = 0
     }
-    
+
     private fun finishRoundApplyingPenalties() {
         applyPlayersPenalties()
         isEnded = true
     }
-    
+
     private fun applyPlayersPenalties() {
         pointsP1 += penaltyP1
         pointsP2 += penaltyP2
         pointsP3 += penaltyP3
         pointsP4 += penaltyP4
     }
-    
+
     internal fun areTherePenalties(): Boolean = penaltyP1 != 0 || penaltyP2 != 0 || penaltyP3 != 0 || penaltyP4 != 0
-    
+
     internal fun setTotalsPoints(playersTotalPoints: IntArray) {
         totalPointsP1 = playersTotalPoints[EAST.code]
         totalPointsP2 = playersTotalPoints[SOUTH.code]
         totalPointsP3 = playersTotalPoints[WEST.code]
         totalPointsP4 = playersTotalPoints[NORTH.code]
     }
-    
+
     companion object {
-        
+
         private const val NOT_SET_ROUND_ID: Int = 0
-        
+
         fun areEqual(rounds1: List<Round>?, rounds2: List<Round>?): Boolean {
             if (rounds1 == null && rounds2 == null)
                 return true
@@ -249,28 +249,28 @@ class Round(
             } else
                 return false
         }
-        
+
         private fun areEqual(round1: Round, round2: Round): Boolean {
             return round1.gameId == round2.gameId &&
-                round1.roundId == round2.roundId &&
-                round1.roundNumber == round2.roundNumber &&
-                round1.handPoints == round2.handPoints &&
-                round1.winnerInitialSeat === round2.winnerInitialSeat &&
-                round1.discarderInitialSeat === round2.discarderInitialSeat &&
-                round1.pointsP1 == round2.pointsP1 &&
-                round1.pointsP2 == round2.pointsP2 &&
-                round1.pointsP3 == round2.pointsP3 &&
-                round1.pointsP4 == round2.pointsP4 &&
-                round1.totalPointsP1 == round2.totalPointsP1 &&
-                round1.totalPointsP2 == round2.totalPointsP2 &&
-                round1.totalPointsP3 == round2.totalPointsP3 &&
-                round1.totalPointsP4 == round2.totalPointsP4 &&
-                round1.penaltyP1 == round2.penaltyP1 &&
-                round1.penaltyP2 == round2.penaltyP2 &&
-                round1.penaltyP3 == round2.penaltyP3 &&
-                round1.penaltyP4 == round2.penaltyP4 &&
-                round1.isBestHand == round2.isBestHand &&
-                round1.isEnded == round2.isEnded
+                    round1.roundId == round2.roundId &&
+                    round1.roundNumber == round2.roundNumber &&
+                    round1.handPoints == round2.handPoints &&
+                    round1.winnerInitialSeat === round2.winnerInitialSeat &&
+                    round1.discarderInitialSeat === round2.discarderInitialSeat &&
+                    round1.pointsP1 == round2.pointsP1 &&
+                    round1.pointsP2 == round2.pointsP2 &&
+                    round1.pointsP3 == round2.pointsP3 &&
+                    round1.pointsP4 == round2.pointsP4 &&
+                    round1.totalPointsP1 == round2.totalPointsP1 &&
+                    round1.totalPointsP2 == round2.totalPointsP2 &&
+                    round1.totalPointsP3 == round2.totalPointsP3 &&
+                    round1.totalPointsP4 == round2.totalPointsP4 &&
+                    round1.penaltyP1 == round2.penaltyP1 &&
+                    round1.penaltyP2 == round2.penaltyP2 &&
+                    round1.penaltyP3 == round2.penaltyP3 &&
+                    round1.penaltyP4 == round2.penaltyP4 &&
+                    round1.isBestHand == round2.isBestHand &&
+                    round1.isEnded == round2.isEnded
         }
     }
 }

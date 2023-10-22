@@ -27,8 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginStart="@dimen/triple_standard_margin"
-        android:layout_marginTop="@dimen/triple_standard_margin"
+        android:layout_marginStart="@dimen/third_standard_margin"
+        android:layout_marginTop="@dimen/third_standard_margin"
         android:text="@string/first"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -38,10 +38,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/triple_standard_margin"
+        android:paddingStart="@dimen/third_standard_margin"
         android:paddingTop="@dimen/standard_margin"
-        android:paddingEnd="@dimen/triple_standard_margin"
-        android:paddingBottom="@dimen/triple_standard_margin">
+        android:paddingEnd="@dimen/third_standard_margin"
+        android:paddingBottom="@dimen/third_standard_margin">
 
         <ImageView
             android:id="@+id/ivDice1"
@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginStart="@dimen/triple_standard_margin"
+        android:layout_marginStart="@dimen/third_standard_margin"
         android:text="@string/second"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -83,10 +83,10 @@
         android:layout_marginBottom="@dimen/standard_margin"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/triple_standard_margin"
+        android:paddingStart="@dimen/third_standard_margin"
         android:paddingTop="@dimen/standard_margin"
-        android:paddingEnd="@dimen/triple_standard_margin"
-        android:paddingBottom="@dimen/triple_standard_margin">
+        android:paddingEnd="@dimen/third_standard_margin"
+        android:paddingBottom="@dimen/third_standard_margin">
 
         <ImageView
             android:id="@+id/ivDice3"

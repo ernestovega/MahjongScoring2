@@ -23,29 +23,29 @@ import io.reactivex.Single
 
 @Dao
 interface RoundsDao {
-    
+
     @Query("SELECT * FROM Rounds")
     fun getAll(): Single<List<Round>>
-    
+
     @Insert(onConflict = OnConflictStrategy.ABORT)
     @Throws(SQLiteConstraintException::class)
-    fun insertOne(round: Round): Single<Long>  //TODO: probar con tests. ¿Hace falta la exception o devolvería un 0?
-    
+    fun insertOne(round: Round): Single<Long>
+
     @Query("SELECT * FROM Rounds WHERE gameId = :gameId AND roundId = :roundId")
     fun getOne(gameId: Long, roundId: Int): Single<Round>
-    
+
     @Query("SELECT * FROM Rounds WHERE gameId = :gameId")
     fun getAllByGame(gameId: Long): Single<List<Round>>
-    
+
     @Update
     fun updateOne(round: Round): Single<Int>
-    
+
     @Query("DELETE FROM Rounds WHERE gameId = :gameId AND roundId = :roundId")
     fun deleteOne(gameId: Long, roundId: Int): Single<Int>
-    
+
     @Query("DELETE FROM Rounds WHERE gameId = :gameId")
     fun deleteByGame(gameId: Long): Single<Int>
-    
+
     @Query("DELETE FROM Rounds")
     fun deleteAll(): Single<Int>
 }

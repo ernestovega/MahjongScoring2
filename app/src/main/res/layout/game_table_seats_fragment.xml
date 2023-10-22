@@ -20,58 +20,44 @@
     android:layout_height="match_parent"
     tools:background="@android:color/white">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="false"
-        android:focusable="false"
-        android:gravity="center"
-        android:orientation="vertical">
+    <View
+        android:id="@+id/vTableSeatsCenterView"
+        android:layout_width="@dimen/third_standard_margin"
+        android:layout_height="@dimen/third_standard_margin"
+        android:layout_centerInParent="true" />
 
-        <include
-            layout="@layout/game_table_seat_west"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+    <include
+        android:id="@+id/iGameTableSeatEast"
+        layout="@layout/game_table_seat_east"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vTableSeatsCenterView"
+        android:layout_centerHorizontal="true" />
 
-        <View
-            android:layout_width="@dimen/triple_standard_margin"
-            android:layout_height="@dimen/triple_standard_margin" />
+    <include
+        android:id="@+id/iGameTableSeatSouth"
+        layout="@layout/game_table_seat_south"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/vTableSeatsCenterView"
+        tools:ignore="RtlHardcoded" />
 
-        <include
-            layout="@layout/game_table_seat_east"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+    <include
+        android:id="@+id/iGameTableSeatWest"
+        layout="@layout/game_table_seat_west"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/vTableSeatsCenterView"
+        android:layout_centerHorizontal="true" />
 
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="false"
-        android:focusable="false">
-
-        <include
-            layout="@layout/game_table_seat_south"
-            android:layout_width="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/standard_margin"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            tools:ignore="RtlHardcoded" />
-
-        <include
-            layout="@layout/game_table_seat_north"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/standard_margin"
-            android:layout_alignParentLeft="true"
-            android:background="@color/purpleDark"
-            tools:ignore="RtlHardcoded" />
-
-    </RelativeLayout>
+    <include
+        android:id="@+id/iGameTableSeatNorth"
+        layout="@layout/game_table_seat_north"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/vTableSeatsCenterView"
+        tools:ignore="RtlHardcoded" />
 
 </RelativeLayout>

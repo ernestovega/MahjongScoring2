@@ -24,11 +24,11 @@ import io.reactivex.Single
 
 @Dao
 interface TableDao {
-    
+
     @Transaction
     @Query("SELECT * from Games ORDER BY startDate DESC")
     fun getTablesSortedByDateDesc(): Single<List<Table>>
-    
+
     @Transaction
     @Query("SELECT * from Games WHERE gameId = :gameId ORDER BY startDate")
     fun getTable(gameId: Long): Single<Table>

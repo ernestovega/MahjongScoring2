@@ -20,10 +20,9 @@ import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
 import com.etologic.mahjongscoring2.business.model.entities.Table
-import java.util.*
 
 object RankingTableHelper {
-    
+
     private const val FIRST_POSITION_POINTS = "4"
     private const val SECOND_POSITION_POINTS = "2"
     private const val THIRD_POSITION_POINTS = "1"
@@ -34,7 +33,7 @@ object RankingTableHelper {
     private const val DRAW_FIRST_2 = "3"
     private const val DRAW_SECOND_2 = "1.5"
     private const val DRAW_LAST_2 = "0.5"
-    
+
     internal fun generateRankingTable(table: Table?): RankingData? {
         if (table == null) return null
         val sortedPlayersRankings = getSortedPlayersRankings(table)
@@ -47,14 +46,14 @@ object RankingTableHelper {
             table.rounds.size.toString()
         )
     }
-    
+
     private fun getSortedPlayersRankings(table: Table): List<PlayerRanking> {
         var playersRankings = setPlayersNamesAndScores(table)
         playersRankings = playersRankings.sortedByDescending { it.score }
         setPlayersTablePoints(playersRankings)
         return playersRankings
     }
-    
+
     private fun setPlayersNamesAndScores(table: Table): List<PlayerRanking> {
         val scores = table.getPlayersTotalPoints()
         return listOf(
@@ -64,7 +63,7 @@ object RankingTableHelper {
             PlayerRanking(table.game.nameP4, scores[3])
         )
     }
-    
+
     private fun setPlayersTablePoints(sortedPlayers: List<PlayerRanking>): List<PlayerRanking> {
         sortedPlayers[0].points = FIRST_POSITION_POINTS
         sortedPlayers[1].points = SECOND_POSITION_POINTS
@@ -74,7 +73,7 @@ object RankingTableHelper {
         val scorePlayerSecond = sortedPlayers[1].score
         val scorePlayerThird = sortedPlayers[2].score
         val scorePlayerFourth = sortedPlayers[3].score
-        
+
         if (scorePlayerFirst == scorePlayerSecond &&
             scorePlayerSecond == scorePlayerThird &&
             scorePlayerThird == scorePlayerFourth
@@ -110,7 +109,7 @@ object RankingTableHelper {
         }
         return sortedPlayers
     }
-    
+
     private fun getBestHands(table: Table): List<BestHand> {
         val bestHands = ArrayList<BestHand>()
         for (round in table.rounds) {

@@ -21,69 +21,84 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.showKeyboard
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
-import kotlinx.android.synthetic.main.game_players_dialog_fragment.*
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
+import com.etologic.mahjongscoring2.databinding.GamePlayersDialogFragmentBinding
 
 internal class NamesDialogFragment : BaseGameDialogFragment() {
     
     companion object {
         const val TAG = "NamesDialogFragment"
     }
-    
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.game_players_dialog_fragment, container, false)
+
+    private var _binding: GamePlayersDialogFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = GamePlayersDialogFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
         printNames()
-        tietPlayersDialogEast?.selectAll()
-        tietPlayersDialogEast?.requestFocus()
-        showKeyboard(view)
+        binding.tietPlayersDialogEast.showKeyboard(requireActivity().window)
     }
     
     private fun printNames() {
         val names = activityViewModel?.getNamesByInitialPosition()
         names?.let {
-            tietPlayersDialogEast?.setText(it[EAST.code])
-            tietPlayersDialogSouth?.setText(it[SOUTH.code])
-            tietPlayersDialogWest?.setText(it[WEST.code])
-            tietPlayersDialogNorth?.setText(it[NORTH.code])
+            binding.tietPlayersDialogEast.setText(it[EAST.code])
+            binding.tietPlayersDialogSouth.setText(it[SOUTH.code])
+            binding.tietPlayersDialogWest.setText(it[WEST.code])
+            binding.tietPlayersDialogNorth.setText(it[NORTH.code])
         }
     }
     
     private fun setOnClickListeners() {
-        tietPlayersDialogEast?.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogEast?.selectAll() }
-        tietPlayersDialogSouth?.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogSouth?.selectAll() }
-        tietPlayersDialogWest?.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogWest?.selectAll() }
-        tietPlayersDialogNorth?.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogNorth?.selectAll() }
-        btPlayersDialogCancel?.setOnSecureClickListener { dismiss() }
-        btPlayersDialogSave?.setOnSecureClickListener {
-            activityViewModel?.savePlayersNames(
-                arrayOf(
-                    (tietPlayersDialogEast?.text ?: "").toString().trim(),
-                    (tietPlayersDialogSouth?.text ?: "").toString().trim(),
-                    (tietPlayersDialogWest?.text ?: "").toString().trim(),
-                    (tietPlayersDialogNorth?.text ?: "").toString().trim()
+        with(binding) {
+            tietPlayersDialogEast.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogEast.selectAll() }
+            tietPlayersDialogSouth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogSouth.selectAll() }
+            tietPlayersDialogWest.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogWest.selectAll() }
+            tietPlayersDialogNorth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogNorth.selectAll() }
+            btPlayersDialogCancel.setOnSecureClickListener { dismiss() }
+            btPlayersDialogSave.setOnSecureClickListener {
+                activityViewModel?.savePlayersNames(
+                    arrayOf(
+                        (tietPlayersDialogEast.text ?: "").toString().trim(),
+                        (tietPlayersDialogSouth.text ?: "").toString().trim(),
+                        (tietPlayersDialogWest.text ?: "").toString().trim(),
+                        (tietPlayersDialogNorth.text ?: "").toString().trim()
+                    )
                 )
-            )
-            dismiss()
+                dismiss()
+            }
         }
     }
     
     override fun dismiss() {
-        hideKeyboard(tietPlayersDialogEast)
+        binding.tietPlayersDialogEast.hideKeyboard()
         super.dismiss()
     }
     
     override fun onDismiss(dialog: DialogInterface) {
-        hideKeyboard(tietPlayersDialogEast)
+        binding.tietPlayersDialogEast.hideKeyboard()
         super.onDismiss(dialog)
     }
 }

@@ -91,7 +91,7 @@ class Table(@field:Embedded var game: Game) {
         return namesListByCurrentSeat
     }
     
-    private fun getPlayersTotalPointsByCurrentSeat(): IntArray {
+    internal fun getPlayersTotalPointsByCurrentSeat(): IntArray {
         val points = getPlayersTotalPoints()
         val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
         val roundId = rounds.size
@@ -100,10 +100,6 @@ class Table(@field:Embedded var game: Game) {
         pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(roundId).code] = points[WEST.code]
         pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(roundId).code] = points[NORTH.code]
         return pointsByCurrentSeat
-    }
-    
-    internal fun getPlayersTotalPointsStringByCurrentSeat(): List<String> {
-        return getPlayersTotalPointsByCurrentSeat().map { String.format(Locale.getDefault(), "%d", it) }
     }
     
     internal fun getPlayersPenaltiesByCurrentSeat(): IntArray {
@@ -273,9 +269,9 @@ class Table(@field:Embedded var game: Game) {
         return this
     }
     
-    internal fun finishCurrentRoundByHuSelfpick(huData: HuData): Table {
+    internal fun finishCurrentRoundByHuSelfPick(huData: HuData): Table {
         val currentRound = rounds.last()
-        currentRound.finishRoundByHuSelfpick(
+        currentRound.finishRoundByHuSelfPick(
             getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, rounds.size),
             huData.points
         )
@@ -299,9 +295,9 @@ class Table(@field:Embedded var game: Game) {
         internal const val NUM_NO_WINNER_PLAYERS = 3
         internal const val POINTS_DISCARD_NEUTRAL_PLAYERS = -8
         
-        internal fun getHuSelfpickWinnerPoints(huPoints: Int) = (huPoints + MIN_MCR_POINTS) * NUM_NO_WINNER_PLAYERS
+        internal fun getHuSelfPickWinnerPoints(huPoints: Int) = (huPoints + MIN_MCR_POINTS) * NUM_NO_WINNER_PLAYERS
         
-        internal fun getHuSelfpickDiscarderPoints(huPoints: Int) = -(huPoints + MIN_MCR_POINTS)
+        internal fun getHuSelfPickDiscarderPoints(huPoints: Int) = -(huPoints + MIN_MCR_POINTS)
         
         internal fun getHuDiscardWinnerPoints(huPoints: Int) = huPoints + (MIN_MCR_POINTS * NUM_NO_WINNER_PLAYERS)
         

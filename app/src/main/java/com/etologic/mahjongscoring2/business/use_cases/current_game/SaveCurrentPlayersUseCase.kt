@@ -27,7 +27,7 @@ constructor(
     private val currentTableRepository: CurrentTableRepository,
     private val gamesRepository: GamesRepository
 ) {
-    
+
     internal fun saveCurrentGamePlayersNames(names: Array<String>): Single<Table> =
         currentTableRepository.get()
             .flatMap { currentGameWithRounds ->
@@ -35,7 +35,7 @@ constructor(
                 currentGameWithRounds.game.nameP2 = names[1]
                 currentGameWithRounds.game.nameP3 = names[2]
                 currentGameWithRounds.game.nameP4 = names[3]
-                
+
                 gamesRepository.updateOne(currentGameWithRounds.game)
                     .flatMap { currentTableRepository.set(currentGameWithRounds) }
                     .map { currentGameWithRounds }

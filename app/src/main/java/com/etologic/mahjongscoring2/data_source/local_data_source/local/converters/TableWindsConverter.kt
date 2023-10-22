@@ -18,12 +18,16 @@ package com.etologic.mahjongscoring2.data_source.local_data_source.local.convert
 
 import androidx.room.TypeConverter
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 
 internal class TableWindsConverter {
-    
+
     companion object {
-        
+
         @TypeConverter
         @JvmStatic
         fun toStatus(status: Int): TableWinds {
@@ -35,7 +39,7 @@ internal class TableWindsConverter {
                 else -> NONE
             }
         }
-        
+
         @TypeConverter
         @JvmStatic
         fun toInteger(tableWinds: TableWinds): Int {

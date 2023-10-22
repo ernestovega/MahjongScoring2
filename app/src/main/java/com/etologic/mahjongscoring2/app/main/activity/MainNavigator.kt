@@ -17,31 +17,41 @@
 package com.etologic.mahjongscoring2.app.main.activity
 
 import android.content.Intent
-import android.content.Intent.*
+import android.content.Intent.ACTION_SENDTO
+import android.content.Intent.ACTION_VIEW
+import android.content.Intent.EXTRA_EMAIL
+import android.content.Intent.EXTRA_SUBJECT
+import android.content.Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+import android.content.Intent.FLAG_ACTIVITY_NEW_DOCUMENT
+import android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
 import android.net.Uri
-import android.os.Build
-import android.os.Build.VERSION_CODES.LOLLIPOP
 import com.etologic.mahjongscoring2.BuildConfig.APPLICATION_ID
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.R.anim.*
+import com.etologic.mahjongscoring2.R.anim.enter_from_left
+import com.etologic.mahjongscoring2.R.anim.enter_from_right
+import com.etologic.mahjongscoring2.R.anim.exit_to_left
+import com.etologic.mahjongscoring2.R.anim.exit_to_right
 import com.etologic.mahjongscoring2.R.id.frameLayoutMain
 import com.etologic.mahjongscoring2.app.game.activity.GameActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.EMAIL_ADDRESS
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.EMAIL_SUBJECT
-import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.GREEN_BOOK_CODE
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.GREEN_BOOK_URL
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.MARKET_URI_BASE
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.PLAY_STORE_URL_BASE
-import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.RATE_CODE
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.*
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.FINISH
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.RATE
 import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
 import com.etologic.mahjongscoring2.app.main.old_games.OldGamesFragment
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.main_activity.*
 
 object MainNavigator {
-    
+
     internal fun goToScreen(screen: MainScreens, activity: MainActivity) {
         when (screen) {
             OLD_GAMES -> goToOldGames(activity)
@@ -53,7 +63,7 @@ object MainNavigator {
             FINISH -> activity.onBackPressed()
         }
     }
-    
+
     private fun goToOldGames(activity: MainActivity) {
         activity.supportFragmentManager.beginTransaction().apply {
             if (isEmpty) {
@@ -63,51 +73,41 @@ object MainNavigator {
             }
         }
     }
-    
+
     private fun goToGame(activity: MainActivity) {
-        val intent = Intent(activity, GameActivity::class.java)
-        activity.goToActivity(intent, GameActivity.CODE)
+        activity.startActivity(Intent(activity, GameActivity::class.java))
     }
-    
+
     private fun goToCombinations(activity: MainActivity) {
-        val intent = Intent(activity, CombinationsActivity::class.java)
-        activity.goToActivity(intent, CombinationsActivity.CODE)
+        activity.startActivity(Intent(activity, CombinationsActivity::class.java))
     }
-    
+
     private fun goToGreenBook(activity: MainActivity) {
-        val intent = Intent(ACTION_VIEW, Uri.parse(GREEN_BOOK_URL))
-        activity.goToActivity(intent, GREEN_BOOK_CODE)
+        activity.startActivity(Intent(ACTION_VIEW, Uri.parse(GREEN_BOOK_URL)))
     }
-    
+
     private fun goToRate(activity: MainActivity) {
-        val uriMarket = Uri.parse(MARKET_URI_BASE + APPLICATION_ID)
-        var intent = Intent(ACTION_VIEW, uriMarket)
-        if (Build.VERSION.SDK_INT >= LOLLIPOP)
-            intent.addFlags(FLAG_ACTIVITY_NO_HISTORY or FLAG_ACTIVITY_NEW_DOCUMENT or FLAG_ACTIVITY_MULTIPLE_TASK)
-        else {
-            @Suppress("DEPRECATION")
-            intent.addFlags(FLAG_ACTIVITY_NO_HISTORY or FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET or FLAG_ACTIVITY_MULTIPLE_TASK)
-        }
-        try {
-            activity.goToActivity(intent, RATE_CODE)
-        } catch (e: Exception) {
-            val uriPlayStore = Uri.parse(PLAY_STORE_URL_BASE + APPLICATION_ID)
-            intent = Intent(ACTION_VIEW, uriPlayStore)
-            activity.goToActivity(intent, RATE_CODE)
-        }
-        
-    }
-    
-    private fun goToContact(activity: MainActivity) {
-        val intent = Intent(ACTION_SENDTO)
-        intent.data = Uri.parse("mailto:")
-        intent.putExtra(EXTRA_EMAIL, arrayOf(EMAIL_ADDRESS))
-        intent.putExtra(EXTRA_SUBJECT, EMAIL_SUBJECT)
-        if (intent.resolveActivity(activity.packageManager) != null)
+        with(Intent(ACTION_VIEW, Uri.parse(MARKET_URI_BASE + APPLICATION_ID))) {
+            addFlags(FLAG_ACTIVITY_NO_HISTORY or FLAG_ACTIVITY_NEW_DOCUMENT or FLAG_ACTIVITY_MULTIPLE_TASK)
             try {
-                activity.goToActivity(intent, MainActivity.CONTACT_CODE)
+                activity.startActivity(this)
             } catch (e: Exception) {
-                Snackbar.make(activity.drawerLayoutMain, R.string.no_email_apps_founded, Snackbar.LENGTH_LONG).show()
+                activity.startActivity(Intent(ACTION_VIEW, Uri.parse(PLAY_STORE_URL_BASE + APPLICATION_ID)))
             }
+        }
+    }
+
+    private fun goToContact(activity: MainActivity) {
+        with(Intent(ACTION_SENDTO)) {
+            data = Uri.parse("mailto:")
+            putExtra(EXTRA_EMAIL, arrayOf(EMAIL_ADDRESS))
+            putExtra(EXTRA_SUBJECT, EMAIL_SUBJECT)
+            if (resolveActivity(activity.packageManager) != null)
+                try {
+                    activity.startActivity(this)
+                } catch (e: Exception) {
+                    Snackbar.make(activity.binding.drawerLayoutMain, R.string.no_email_apps_founded, Snackbar.LENGTH_LONG).show()
+                }
+        }
     }
 }

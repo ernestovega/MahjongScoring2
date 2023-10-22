@@ -24,11 +24,11 @@ import javax.inject.Singleton
 @Singleton
 class CurrentTableMemoryDataSource
 @Inject constructor() {
-    
+
     private var currentGame: Table? = null
-    
+
     internal fun get(): Single<Table> = Single.just(currentGame)
-    
+
     internal fun set(game: Table): Single<Table> {
         currentGame = game
         return Single.just(currentGame)

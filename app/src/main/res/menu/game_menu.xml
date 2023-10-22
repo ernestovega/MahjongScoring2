@@ -18,7 +18,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_ratate_seats"
+        android:id="@+id/action_rotate_seats"
         android:icon="@drawable/ic_rotate_90_degrees_ccw_black_24dp"
         android:title="@string/rotate_seats"
         app:showAsAction="ifRoom" />

@@ -50,7 +50,7 @@
     <string name="west">West</string>
     <string name="south">South</string>
     <string name="north">North</string>
-    <string name="ups_something_wrong">Ups! Somenthing went wrong.</string>
+    <string name="ups_something_wrong">Ups! Something went wrong.</string>
     <string name="list">List</string>
     <string name="close">Close</string>
     <string name="player_east_name">Player East name</string>
@@ -183,4 +183,8 @@
     <string name="description_last_tile_claim">Win with last discard tile</string>
     <string name="description_out_with_replacement_tile">Win with Kong extra tile</string>
     <string name="description_robbing_the_kong">Win with other player Kong extension tile</string>
+
+    <!--  Translations V2.1.0  -->
+    <string name="throw_dice">Throw dice</string>
+    <string name="start_new_game">Start a new game</string>
 </resources>

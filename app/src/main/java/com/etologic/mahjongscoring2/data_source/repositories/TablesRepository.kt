@@ -25,14 +25,14 @@ import javax.inject.Singleton
 @Singleton
 class TablesRepository
 @Inject constructor() {
-    
+
     @Inject
     lateinit var tableDao: TableDao
-    
+
     internal fun getTable(gameId: Long): Single<Table> =
         tableDao.getTable(gameId)
             .map { it.initBestHandAndTotalsAndRoundNumbers() }
-    
+
     internal fun getAllTables(): Single<List<Table>> =
         tableDao.getTablesSortedByDateDesc()
 }

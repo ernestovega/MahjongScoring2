@@ -34,9 +34,9 @@ package com.etologic.mahjongscoring2.app.base
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.annotation.IdRes
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.anim.*
@@ -47,25 +47,18 @@ import org.apache.commons.lang3.StringUtils
 
 @SuppressLint("Registered")
 abstract class BaseActivity : DaggerAppCompatActivity() {
-    
-    companion object {
-        private const val MIN_PROGRESS_TIME = 1500L
+
+    abstract val onBackBehaviour: () -> Unit
+
+    private fun setOnBackPressedCallback() {
+        onBackPressedDispatcher.addCallback(this) { onBackBehaviour.invoke() }
     }
-    
-    @Deprecated("Don' use", ReplaceWith("goToActivity(intent, requestCode)"))
-    override fun startActivity(intent: Intent?) {
-        super.startActivity(intent)
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        setOnBackPressedCallback()
     }
-    
-    @Deprecated("Don' use", ReplaceWith("goToActivity(intent, requestCode)"))
-    override fun startActivity(intent: Intent?, options: Bundle?) {
-        super.startActivity(intent, options)
-    }
-    
-    internal fun goToActivity(intent: Intent, requestCode: Int) {
-        startActivityForResult(intent, requestCode)
-    }
-    
+
     @Suppress("unused")
     internal fun goToFragment(@IdRes frameLayoutContainer: Int, fragment: BaseFragment, tag: String) {
         supportFragmentManager.beginTransaction().apply {
@@ -74,17 +67,17 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
             commit()
         }
     }
-    
+
     internal fun showError(throwable: Throwable?) {
         if (throwable == null) getString(R.string.ups_something_wrong)
         else throwable.message?.let { showMessage(it) }
     }
-    
+
     internal fun showMessage(message: String) {
         val builder = AlertDialog.Builder(this, R.style.AlertDialogStyleMM)
         builder.setMessage(message).show()
     }
-    
+
     internal fun showSnackbar(view: View?, message: String) {
         view?.let {
             val text = if (StringUtils.isBlank(message)) "" else message

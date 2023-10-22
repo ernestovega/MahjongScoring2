@@ -29,7 +29,7 @@ constructor(
     private val tablesRepository: TablesRepository,
     private val roundsRepository: RoundsRepository
 ) {
-    
+
     fun deleteGame(gameId: Long): Single<List<Table>> =
         roundsRepository.deleteByGame(gameId)
             .flatMap { gamesRepository.deleteOne(gameId) }

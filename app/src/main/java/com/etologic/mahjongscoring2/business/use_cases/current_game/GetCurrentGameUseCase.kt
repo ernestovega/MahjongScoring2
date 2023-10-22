@@ -25,7 +25,7 @@ class GetCurrentGameUseCase @Inject
 constructor(
     private val currentTableRepository: CurrentTableRepository
 ) {
-    
+
     internal fun getCurrentGameWithRounds(): Single<Table> =
         currentTableRepository.get()
 }

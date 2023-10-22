@@ -26,7 +26,7 @@ import dagger.Provides
 
 @Module
 class GameModule {
-    
+
     @Provides
     internal fun provideGameViewModelFactory(
         context: Context,

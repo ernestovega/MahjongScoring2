@@ -20,103 +20,123 @@ import android.content.Context
 import android.graphics.Typeface.BOLD_ITALIC
 import android.graphics.Typeface.NORMAL
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.POINTS_DISCARD_NEUTRAL_PLAYERS
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardDiscarderPoints
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardWinnerPoints
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfpickDiscarderPoints
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfpickWinnerPoints
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfPickDiscarderPoints
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfPickWinnerPoints
+import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
-import kotlinx.android.synthetic.main.custom_discarder_selector.view.*
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
+import com.etologic.mahjongscoring2.databinding.CustomDiscarderSelectorBinding
 
 class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet) {
-    
+
     private var grayColor = ContextCompat.getColor(context, R.color.grayMM)
     private var greenColor = ContextCompat.getColor(context, R.color.colorPrimary)
     private var redColor = ContextCompat.getColor(context, R.color.red)
     private var winnerWind = NONE
     private var looserWind = NONE
     private var huPoints = 0
-    
+    private var margin = 0
+
+    private var _binding: CustomDiscarderSelectorBinding? = null
+    private val binding get() = _binding!!
+
     init {
-        LayoutInflater.from(context).inflate(R.layout.custom_discarder_selector, this, true)
+        _binding = CustomDiscarderSelectorBinding.inflate(LayoutInflater.from(context), this, true)
+        margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16f, resources.displayMetrics).toInt()
     }
-    
+
     internal fun getDiscarderCurrentSeat(): TableWinds = looserWind
-    
+
     internal fun initPlayers(namesList: Array<String>, huPoints: Int, winnerWind: TableWinds) {
         this.huPoints = huPoints
         this.winnerWind = winnerWind
         setNames(namesList)
-        setupSelfpick()
+        setupSelfPick()
         setListeners()
     }
-    
+
     private fun setNames(namesList: Array<String>) {
-        tvDiscarderSelectorEastName?.text = namesList[EAST.code]
-        tvDiscarderSelectorSouthName?.text = namesList[SOUTH.code]
-        tvDiscarderSelectorWestName?.text = namesList[WEST.code]
-        tvDiscarderSelectorNorthName?.text = namesList[NORTH.code]
+        with(binding) {
+            tvDiscarderSelectorEastName.text = namesList[EAST.code]
+            tvDiscarderSelectorSouthName.text = namesList[SOUTH.code]
+            tvDiscarderSelectorWestName.text = namesList[WEST.code]
+            tvDiscarderSelectorNorthName.text = namesList[NORTH.code]
+        }
     }
-    
+
     private fun setListeners() {
-        llDiscarderSelectorEast.setOnSecureClickListener { selectDiscarder(EAST) }
-        llDiscarderSelectorSouth.setOnSecureClickListener { selectDiscarder(SOUTH) }
-        llDiscarderSelectorWest.setOnSecureClickListener { selectDiscarder(WEST) }
-        llDiscarderSelectorNorth.setOnSecureClickListener { selectDiscarder(NORTH) }
+        with(binding) {
+            llDiscarderSelectorEast.setOnSecureClickListener { selectDiscarder(EAST) }
+            llDiscarderSelectorSouth.setOnSecureClickListener { selectDiscarder(SOUTH) }
+            llDiscarderSelectorWest.setOnSecureClickListener { selectDiscarder(WEST) }
+            llDiscarderSelectorNorth.setOnSecureClickListener { selectDiscarder(NORTH) }
+        }
     }
-    
-    private fun setupSelfpick() {
-        setSelfpickSeats(tvDiscarderSelectorEastName, tvDiscarderSelectorEastPoints, EAST)
-        setSelfpickSeats(tvDiscarderSelectorSouthName, tvDiscarderSelectorSouthPoints, SOUTH)
-        setSelfpickSeats(tvDiscarderSelectorWestName, tvDiscarderSelectorWestPoints, WEST)
-        setSelfpickSeats(tvDiscarderSelectorNorthName, tvDiscarderSelectorNorthPoints, NORTH)
+
+    private fun setupSelfPick() {
+        with(binding) {
+            setSelfPickSeats(tvDiscarderSelectorEastName, tvDiscarderSelectorEastPoints, EAST)
+            setSelfPickSeats(tvDiscarderSelectorSouthName, tvDiscarderSelectorSouthPoints, SOUTH)
+            setSelfPickSeats(tvDiscarderSelectorWestName, tvDiscarderSelectorWestPoints, WEST)
+            setSelfPickSeats(tvDiscarderSelectorNorthName, tvDiscarderSelectorNorthPoints, NORTH)
+        }
     }
-    
-    private fun setSelfpickSeats(tvName: TextView?, tvPoints: TextView?, wind: TableWinds) {
+
+    private fun setSelfPickSeats(tvName: TextView?, tvPoints: TextView?, wind: TableWinds) {
         if (wind == winnerWind) setSeatTextsStyles(tvName, tvPoints, greenColor, BOLD_ITALIC)
         else setSeatTextsStyles(tvName, tvPoints, grayColor, NORMAL)
-        tvPoints?.text = getSelfpickSeatPointsText(wind)
+        tvPoints?.text = getSelfPickSeatPointsText(wind)
     }
-    
+
     private fun setSeatTextsStyles(tvName: TextView?, tvPoints: TextView?, color: Int, textStyle: Int) {
         tvName?.setTextColor(color)
         tvPoints?.setTextColor(color)
         tvName?.setTypeface(null, textStyle)
         tvPoints?.setTypeface(null, textStyle)
     }
-    
-    private fun getSelfpickSeatPointsText(wind: TableWinds): String {
+
+    private fun getSelfPickSeatPointsText(wind: TableWinds): String {
         return String.format(
             "%+d",
-            if (wind == winnerWind) getHuSelfpickWinnerPoints(huPoints)
-            else getHuSelfpickDiscarderPoints(huPoints)
+            if (wind == winnerWind) getHuSelfPickWinnerPoints(huPoints)
+            else getHuSelfPickDiscarderPoints(huPoints)
         )
     }
-    
+
     private fun selectDiscarder(wind: TableWinds) {
         if (wind == winnerWind || wind == looserWind) {
             looserWind = NONE
-            setupSelfpick()
+            setupSelfPick()
         } else {
             looserWind = wind
             setupDiscard()
         }
     }
-    
+
     private fun setupDiscard() {
-        setDiscardSeat(tvDiscarderSelectorEastName, tvDiscarderSelectorEastPoints, EAST)
-        setDiscardSeat(tvDiscarderSelectorSouthName, tvDiscarderSelectorSouthPoints, SOUTH)
-        setDiscardSeat(tvDiscarderSelectorWestName, tvDiscarderSelectorWestPoints, WEST)
-        setDiscardSeat(tvDiscarderSelectorNorthName, tvDiscarderSelectorNorthPoints, NORTH)
+        with(binding) {
+            setDiscardSeat(tvDiscarderSelectorEastName, tvDiscarderSelectorEastPoints, EAST)
+            setDiscardSeat(tvDiscarderSelectorSouthName, tvDiscarderSelectorSouthPoints, SOUTH)
+            setDiscardSeat(tvDiscarderSelectorWestName, tvDiscarderSelectorWestPoints, WEST)
+            setDiscardSeat(tvDiscarderSelectorNorthName, tvDiscarderSelectorNorthPoints, NORTH)
+        }
     }
-    
+
     private fun setDiscardSeat(tvName: TextView?, tvPoints: TextView?, wind: TableWinds) {
         when (wind) {
             winnerWind -> setSeatTextsStyles(tvName, tvPoints, greenColor, BOLD_ITALIC)
@@ -125,7 +145,7 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
         }
         tvPoints?.text = getDiscardSeatPointsText(wind)
     }
-    
+
     private fun getDiscardSeatPointsText(wind: TableWinds): String {
         return String.format(
             "%+d",
@@ -135,5 +155,21 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
                 else -> POINTS_DISCARD_NEUTRAL_PLAYERS
             }
         )
+    }
+
+    internal fun updateSeatsOrientation(screenOrientation: ScreenOrientation) {
+        when (screenOrientation) {
+            ScreenOrientation.PORTRAIT -> {
+                binding.llDiscarderSelectorSouth.rotation = 0f
+                binding.llDiscarderSelectorWest.rotation = 0f
+                binding.llDiscarderSelectorNorth.rotation = 0f
+            }
+
+            ScreenOrientation.LANDSCAPE -> {
+                binding.llDiscarderSelectorSouth.rotation = -90f
+                binding.llDiscarderSelectorWest.rotation = 180f
+                binding.llDiscarderSelectorNorth.rotation = 90f
+            }
+        }
     }
 }

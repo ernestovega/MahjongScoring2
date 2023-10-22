@@ -16,8 +16,8 @@
 */
 package com.etologic.mahjongscoring2.app.main.combinations
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
@@ -34,7 +34,7 @@ import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.business.model.entities.Combination
 import com.etologic.mahjongscoring2.business.model.entities.Combination.CombinationDescriptionType.IMAGE
-import kotlinx.android.synthetic.main.combination_item.view.*
+import com.etologic.mahjongscoring2.databinding.CombinationItemBinding
 import java.util.*
 import javax.inject.Inject
 
@@ -45,6 +45,7 @@ internal class CombinationsRvAdapter
     private var imageOrDescriptionShowState = HIDE
     private var cardViewMinHeight: Int = 0
     
+    @SuppressLint("NotifyDataSetChanged")
     internal fun setCombinations(combinations: List<Combination>) {
         saveCombinationsCopy(combinations)
         notifyDataSetChanged()
@@ -76,43 +77,43 @@ internal class CombinationsRvAdapter
     }
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.combination_item, parent, false)
-        return CombinationItemViewHolder(itemView)
+        val itemBinding = CombinationItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return CombinationItemViewHolder(itemBinding)
     }
     
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val combination = combinations[position]
         val myHolder = holder as CombinationItemViewHolder
-        myHolder.tvPoints?.text = combination.combinationPoints.toString()
-        myHolder.tvName?.text = combination.combinationName
-        myHolder.tvPosition?.text = String.format(Locale.getDefault(), "#%d", position + 1)
+        myHolder.tvPoints.text = combination.combinationPoints.toString()
+        myHolder.tvName.text = combination.combinationName
+        myHolder.tvPosition.text = String.format(Locale.getDefault(), "#%d", position + 1)
         
         if (combination.combinationDescriptionType === IMAGE) {
-            myHolder.ivImage?.setImageResource(combination.combinationImage)
-            myHolder.tvDescription?.visibility = GONE
-            myHolder.ivImage?.visibility = VISIBLE
+            myHolder.ivImage.setImageResource(combination.combinationImage)
+            myHolder.tvDescription.visibility = GONE
+            myHolder.ivImage.visibility = VISIBLE
         } else {
-            myHolder.tvDescription?.text = combination.combinationDescription
-            myHolder.ivImage?.visibility = GONE
-            myHolder.tvDescription?.visibility = VISIBLE
+            myHolder.tvDescription.text = combination.combinationDescription
+            myHolder.ivImage.visibility = GONE
+            myHolder.tvDescription.visibility = VISIBLE
         }
         
-        myHolder.flImageOrDescriptionContainer?.visibility = if (imageOrDescriptionShowState === SHOW) VISIBLE else GONE
+        myHolder.flImageOrDescriptionContainer.visibility = if (imageOrDescriptionShowState === SHOW) VISIBLE else GONE
         
-        myHolder.llContainer?.setOnSecureClickListener {
-            myHolder.flImageOrDescriptionContainer?.visibility = if (myHolder.cardView?.height == cardViewMinHeight) VISIBLE else GONE
+        myHolder.llContainer.setOnSecureClickListener {
+            myHolder.flImageOrDescriptionContainer.visibility = if (myHolder.cardView.height == cardViewMinHeight) VISIBLE else GONE
         }
     }
     
-    internal inner class CombinationItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    internal inner class CombinationItemViewHolder(binding: CombinationItemBinding) : RecyclerView.ViewHolder(binding.root) {
         
-        val llContainer: LinearLayout? = itemView.llCombinationItemContainer
-        val cardView: CardView? = itemView.cvCombinationItem
-        val tvPoints: TextView? = itemView.tvCombinationItemPoints
-        val tvName: TextView? = itemView.tvCombinationItemName
-        val tvPosition: TextView? = itemView.tvCombinationItemPosition
-        val flImageOrDescriptionContainer: FrameLayout? = itemView.flCombinationItemImageOrDescriptionContainer
-        val ivImage: ImageView? = itemView.ivCombinationItemImage
-        val tvDescription: TextView? = itemView.tvCombinationItemDescription
+        val llContainer: LinearLayout = binding.llCombinationItemContainer
+        val cardView: CardView = binding.cvCombinationItem
+        val tvPoints: TextView = binding.tvCombinationItemPoints
+        val tvName: TextView = binding.tvCombinationItemName
+        val tvPosition: TextView = binding.tvCombinationItemPosition
+        val flImageOrDescriptionContainer: FrameLayout = binding.flCombinationItemImageOrDescriptionContainer
+        val ivImage: ImageView = binding.ivCombinationItemImage
+        val tvDescription: TextView = binding.tvCombinationItemDescription
     }
 }

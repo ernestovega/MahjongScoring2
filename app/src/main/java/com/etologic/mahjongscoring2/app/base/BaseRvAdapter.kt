@@ -19,12 +19,11 @@ package com.etologic.mahjongscoring2.app.base
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DiffUtil.calculateDiff
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
 
 abstract class BaseRvAdapter<T : RecyclerViewable<T>> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    
+
     protected var collection: List<T> = ArrayList()
-    
+
     fun updateCollection(newCollection: List<T>?) {
         if (newCollection == null) {
             saveNewCollectionCopy(ArrayList())
@@ -35,7 +34,7 @@ abstract class BaseRvAdapter<T : RecyclerViewable<T>> : RecyclerView.Adapter<Rec
             result.dispatchUpdatesTo(this)
         }
     }
-    
+
     private fun saveNewCollectionCopy(newCollection: List<T>) {
         val newCollectionCopy = ArrayList<T>(newCollection.size)
         for (newItem in newCollection) {
@@ -43,25 +42,25 @@ abstract class BaseRvAdapter<T : RecyclerViewable<T>> : RecyclerView.Adapter<Rec
         }
         collection = newCollectionCopy
     }
-    
+
     //LIFECYCLE
     override fun getItemCount(): Int = collection.size
-    
+
     //INNER CLASSES
     internal inner class DiffUtilCallback<V : RecyclerViewable<V>>(private val oldList: List<V>, private val newList: List<V>) : DiffUtil.Callback() {
-        
+
         override fun getOldListSize(): Int {
             return oldList.size
         }
-        
+
         override fun getNewListSize(): Int {
             return newList.size
         }
-        
+
         override fun areItemsTheSame(oldItemPos: Int, newItemPos: Int): Boolean {
             return oldList[oldItemPos].compareIdTo(newList[newItemPos])
         }
-        
+
         override fun areContentsTheSame(oldItemPos: Int, newItemPos: Int): Boolean {
             return oldList[oldItemPos].compareContentsTo(newList[newItemPos])
         }
