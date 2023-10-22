@@ -160,15 +160,15 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
     internal fun updateSeatsOrientation(screenOrientation: ScreenOrientation) {
         when (screenOrientation) {
             ScreenOrientation.PORTRAIT -> {
-                binding.llDiscarderSelectorSouth.rotation = 0f
-                binding.llDiscarderSelectorWest.rotation = 0f
-                binding.llDiscarderSelectorNorth.rotation = 0f
-            }
-
-            ScreenOrientation.LANDSCAPE -> {
                 binding.llDiscarderSelectorSouth.rotation = -90f
                 binding.llDiscarderSelectorWest.rotation = 180f
                 binding.llDiscarderSelectorNorth.rotation = 90f
+            }
+
+            ScreenOrientation.LANDSCAPE -> {
+                binding.llDiscarderSelectorSouth.rotation = 0f
+                binding.llDiscarderSelectorWest.rotation = 0f
+                binding.llDiscarderSelectorNorth.rotation = 0f
             }
         }
     }

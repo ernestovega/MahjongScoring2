@@ -50,6 +50,8 @@ internal class GameListRvAdapter
     private var grayMM: Int? = null
     private var red: Int? = null
     private var accent: Int? = null
+    private var gray: Int? = null
+    private var white: Int? = null
     private var itemListener: GameListItemListener? = null
 
     internal fun setItemListener(listener: GameListItemListener) {
@@ -68,6 +70,8 @@ internal class GameListRvAdapter
         greenMM = ContextCompat.getColor(context, color.colorPrimary)
         grayMM = ContextCompat.getColor(context, color.grayMM)
         red = ContextCompat.getColor(context, color.red)
+        gray = ContextCompat.getColor(context, color.grayLight)
+        white = ContextCompat.getColor(context, color.white)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -77,6 +81,7 @@ internal class GameListRvAdapter
         setWinnerColor(round, myHolder)
         setLooserColor(round, myHolder)
         setPenaltiesIcons(round, myHolder)
+        setBackgroundColor(round, myHolder)
         holder.llContainer.setOnSecureClickListener { itemListener?.onClick(holder.tvRoundNum, round.roundId) }
         holder.llContainer.setOnLongClickListener { itemListener?.onClick(holder.tvRoundNum, round.roundId); true }
     }
@@ -120,6 +125,12 @@ internal class GameListRvAdapter
         mHolder.ivPenaltyP2.visibility = if (item.penaltyP2 < 0) VISIBLE else GONE
         mHolder.ivPenaltyP3.visibility = if (item.penaltyP3 < 0) VISIBLE else GONE
         mHolder.ivPenaltyP4.visibility = if (item.penaltyP4 < 0) VISIBLE else GONE
+    }
+
+    private fun setBackgroundColor(item: Round, mHolder: ItemViewHolder) {
+        (if (item.roundNumber % 2 == 0) gray else white)?.let {
+            mHolder.llContainer.setBackgroundColor(it)
+        }
     }
 
     //VIEW HOLDER

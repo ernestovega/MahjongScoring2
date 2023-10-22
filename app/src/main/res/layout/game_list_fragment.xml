@@ -19,7 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/white">
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/llGameListHeader"
@@ -38,7 +38,7 @@
             android:gravity="center"
             android:lines="1"
             android:text="@string/number_symbol"
-            android:textColor="@android:color/white" />
+            android:textColor="@color/white" />
 
         <TextView
             android:layout_width="@dimen/second_standard_margin"
@@ -46,7 +46,7 @@
             android:layout_marginEnd="@dimen/half_standard_margin"
             android:gravity="center"
             android:text="@string/pts"
-            android:textColor="@android:color/white" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tvGameListHeaderNameP1"
@@ -56,7 +56,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:lines="2"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -67,7 +67,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:lines="2"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -78,7 +78,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:lines="2"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -88,7 +88,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:lines="2"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -99,7 +99,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/llGameListFooter"
         android:layout_below="@+id/llGameListHeader"
-        android:background="@android:color/white"
+        android:background="@color/white"
         tools:listitem="@layout/game_list_round_item" />
 
     <RelativeLayout
@@ -156,7 +156,7 @@
             android:gravity="center"
             android:lines="1"
             android:text="@string/totals"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -168,7 +168,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:lines="1"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -180,7 +180,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:lines="1"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -192,7 +192,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:lines="1"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -203,7 +203,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:lines="1"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 

@@ -46,7 +46,7 @@
             android:maxLines="2"
             android:text="@string/cancel_penalties"
             android:textAllCaps="true"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -70,7 +70,7 @@
             android:lines="1"
             android:text="@string/penalty"
             android:textAllCaps="true"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -94,7 +94,7 @@
             android:lines="1"
             android:text="@string/draw"
             android:textAllCaps="true"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="21sp"
             android:textStyle="bold" />
 
@@ -120,7 +120,7 @@
             android:lines="1"
             android:text="@string/mahjong"
             android:textAllCaps="true"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="21sp"
             android:textStyle="bold" />
 

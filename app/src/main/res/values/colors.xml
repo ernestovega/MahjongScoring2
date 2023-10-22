@@ -21,6 +21,7 @@
 
     <color name="whiteTransparent">#88FFFFFF</color>
 
+    <color name="white">#FFF</color>
     <color name="grayLight">#EEE</color>
     <color name="gray">#999</color>
     <color name="grayMM">#414141</color>

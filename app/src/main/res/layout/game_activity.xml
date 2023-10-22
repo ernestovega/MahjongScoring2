@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabIndicatorHeight="4dp"
-                app:tabTextColor="@android:color/white" />
+                app:tabTextColor="@color/white" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/ablGame"
-            android:background="@android:color/white" />
+            android:background="@color/white" />
 
     </RelativeLayout>
 

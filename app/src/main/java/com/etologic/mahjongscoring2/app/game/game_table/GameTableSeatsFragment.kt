@@ -285,16 +285,6 @@ class GameTableSeatsFragment : Fragment() {
     internal fun updateSeatsOrientation(screenOrientation: ScreenOrientation) {
         when (screenOrientation) {
             PORTRAIT -> {
-                binding.iGameTableSeatEast.rlTableSeatEastContainer.setPadding(0, margin * 3, 0, 0)
-                binding.iGameTableSeatWest.rlTableSeatWestContainer.setPadding(0, 0, 0, margin * 3)
-                binding.iGameTableSeatSouth.rlTableSeatSouthContainer.setPadding(0, 0, 0, 0)
-                binding.iGameTableSeatNorth.rlTableSeatNorthContainer.setPadding(0, 0, 0, 0)
-                binding.iGameTableSeatSouth.rlTableSeatSouthContainer.rotation = 0f
-                binding.iGameTableSeatWest.rlTableSeatWestContainer.rotation = 0f
-                binding.iGameTableSeatNorth.rlTableSeatNorthContainer.rotation = 0f
-            }
-
-            LANDSCAPE -> {
                 binding.iGameTableSeatEast.rlTableSeatEastContainer.setPadding(0, margin, 0, 0)
                 binding.iGameTableSeatWest.rlTableSeatWestContainer.setPadding(0, margin, 0, 0)
                 binding.iGameTableSeatSouth.rlTableSeatSouthContainer.setPadding(0, 0, 0, margin)
@@ -302,6 +292,16 @@ class GameTableSeatsFragment : Fragment() {
                 binding.iGameTableSeatSouth.rlTableSeatSouthContainer.rotation = -90f
                 binding.iGameTableSeatWest.rlTableSeatWestContainer.rotation = 180f
                 binding.iGameTableSeatNorth.rlTableSeatNorthContainer.rotation = 90f
+            }
+
+            LANDSCAPE -> {
+                binding.iGameTableSeatEast.rlTableSeatEastContainer.setPadding(0, margin * 3, 0, 0)
+                binding.iGameTableSeatWest.rlTableSeatWestContainer.setPadding(0, 0, 0, margin * 3)
+                binding.iGameTableSeatSouth.rlTableSeatSouthContainer.setPadding(0, 0, 0, 0)
+                binding.iGameTableSeatNorth.rlTableSeatNorthContainer.setPadding(0, 0, 0, 0)
+                binding.iGameTableSeatSouth.rlTableSeatSouthContainer.rotation = 0f
+                binding.iGameTableSeatWest.rlTableSeatWestContainer.rotation = 0f
+                binding.iGameTableSeatNorth.rlTableSeatNorthContainer.rotation = 0f
             }
         }
     }
