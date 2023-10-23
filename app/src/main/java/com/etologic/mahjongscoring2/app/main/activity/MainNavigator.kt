@@ -75,7 +75,7 @@ object MainNavigator {
     }
 
     private fun goToGame(activity: MainActivity) {
-        activity.startActivity(Intent(activity, GameActivity::class.java))
+        activity.gameActivityResultLauncher.launch(Intent(activity, GameActivity::class.java))
     }
 
     private fun goToCombinations(activity: MainActivity) {

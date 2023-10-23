@@ -18,9 +18,16 @@ package com.etologic.mahjongscoring2.app.main.activity
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
+import javax.inject.Inject
 
-class MainActivityViewModelFactory : ViewModelProvider.NewInstanceFactory() {
-    
+class MainActivityViewModelFactory @Inject internal constructor(
+    private val showInAppReviewUseCase: ShowInAppReviewUseCase,
+) : ViewModelProvider.NewInstanceFactory() {
+
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T = MainViewModel() as T
+    override fun <T : ViewModel> create(modelClass: Class<T>): T =
+        MainViewModel(
+            showInAppReviewUseCase,
+        ) as T
 }

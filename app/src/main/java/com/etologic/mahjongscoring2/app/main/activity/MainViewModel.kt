@@ -16,13 +16,19 @@
 */
 package com.etologic.mahjongscoring2.app.main.activity
 
+import android.app.Activity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.business.model.enums.GameStartType
+import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
+import io.reactivex.schedulers.Schedulers
 
-class MainViewModel internal constructor() : BaseViewModel() {
+class MainViewModel internal constructor(
+    private val showInAppReviewUseCase: ShowInAppReviewUseCase,
+) : BaseViewModel() {
     
     enum class MainScreens {
         OLD_GAMES,
@@ -46,5 +52,13 @@ class MainViewModel internal constructor() : BaseViewModel() {
     
     internal fun navigateTo(screen: MainScreens) {
         currentScreen.postValue(screen)
+    }
+
+    internal fun showInAppReviewIfProceed(activity: Activity) {
+        disposables.add(
+            showInAppReviewUseCase(activity)
+                .subscribeOn(Schedulers.io())
+                .subscribe({}, {})
+        )
     }
 }

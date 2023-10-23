@@ -16,9 +16,12 @@
 */
 package com.etologic.mahjongscoring2.app.main.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat.START
@@ -37,7 +40,7 @@ import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
-    
+
     companion object {
         internal const val GREEN_BOOK_URL = "https://docs.google.com/gview?embedded=true&url=mahjong-europe.org/portal/images/docs/mcr_EN.pdf"
         internal const val MARKET_URI_BASE = "market://details?id="
@@ -45,13 +48,24 @@ class MainActivity : BaseActivity() {
         internal const val EMAIL_SUBJECT = "Mahjong Scoring 2"
         internal const val EMAIL_ADDRESS = "mahjongmadrid@gmail.com"
         internal const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
+        internal const val KEY_WAS_GAME_ENDED = "WasGameEnded"
     }
-
     lateinit var binding: MainActivityBinding
+
     @Inject
     internal lateinit var viewModelFactory: MainActivityViewModelFactory
     private var viewModel: MainViewModel? = null
     private var lastBackPress: Long = 0
+
+    val gameActivityResultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { activityResult ->
+        if (activityResult.resultCode == RESULT_OK &&
+            activityResult.data?.getBooleanExtra(KEY_WAS_GAME_ENDED, false) == true
+        ) {
+            viewModel?.showInAppReviewIfProceed(this)
+        }
+    }
 
     override val onBackBehaviour = {
         if (binding.drawerLayoutMain.isDrawerOpen(START))
@@ -82,17 +96,17 @@ class MainActivity : BaseActivity() {
         setupDrawer()
         viewModel?.navigateTo(OLD_GAMES)
     }
-    
+
     private fun setupViewModel() {
         viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
         viewModel?.getCurrentToolbar()?.observe(this) { setToolbar(it) }
         viewModel?.getCurrentScreen()?.observe(this) { goToScreen(it, this) }
     }
-    
+
     private fun closeDrawer() {
         binding.drawerLayoutMain.closeDrawer(START, true)
     }
-    
+
     private fun setToolbar(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
         val actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.drawerLayoutMain, R.string.open_drawer, R.string.close_drawer)
@@ -101,17 +115,17 @@ class MainActivity : BaseActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         actionBarDrawerToggle.syncState()
     }
-    
+
     private fun setupDrawer() {
         setAppVersion()
         setMenuItemSelectedListener()
     }
-    
+
     private fun setAppVersion() {
         val tvAppVersion = binding.navigationViewMain.getHeaderView(0)?.findViewById<TextView>(R.id.tvDrawerHeaderAppVersion)
         tvAppVersion?.text = BuildConfig.VERSION_NAME
     }
-    
+
     private fun setMenuItemSelectedListener() {
         binding.navigationViewMain.setNavigationItemSelectedListener { menuItem ->
             this.closeDrawer()
@@ -126,7 +140,7 @@ class MainActivity : BaseActivity() {
             return@setNavigationItemSelectedListener true
         }
     }
-    
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             openDrawer()
@@ -134,7 +148,7 @@ class MainActivity : BaseActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-    
+
     private fun openDrawer() {
         binding.drawerLayoutMain.openDrawer(START, true)
     }

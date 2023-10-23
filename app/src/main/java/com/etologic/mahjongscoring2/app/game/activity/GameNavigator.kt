@@ -16,6 +16,7 @@
 */
 package com.etologic.mahjongscoring2.app.game.activity
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.COMBINATIONS
@@ -34,33 +35,27 @@ import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.PenaltyDialogF
 import com.etologic.mahjongscoring2.app.game.dialogs.names.NamesDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment
+import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.KEY_WAS_GAME_ENDED
 import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
 
 object GameNavigator {
 
-    internal fun showDialog(screen: GameScreens, activity: GameActivity) {
+    internal fun navigateTo(screen: GameScreens, activity: GameActivity, viewModel: GameViewModel) {
         when (screen) {
             COMBINATIONS -> activity.startActivity(Intent(activity, CombinationsActivity::class.java))
             PLAYERS -> NamesDialogFragment().show(activity.supportFragmentManager, NamesDialogFragment.TAG)
             DICE -> RollDiceDialogFragment().show(activity.supportFragmentManager, RollDiceDialogFragment.TAG)
-            HAND_ACTION -> ActionDialogFragment()
-                .show(activity.supportFragmentManager, ActionDialogFragment.TAG)
-
-            HU -> HuDialogFragment()
-                .show(activity.supportFragmentManager, HuDialogFragment.TAG)
-
-            DISCARDER -> DiscarderDialogFragment()
-                .show(activity.supportFragmentManager, DiscarderDialogFragment.TAG)
-
-            PENALTY -> PenaltyDialogFragment()
-                .show(activity.supportFragmentManager, PenaltyDialogFragment.TAG)
-
+            HAND_ACTION -> ActionDialogFragment().show(activity.supportFragmentManager, ActionDialogFragment.TAG)
+            HU -> HuDialogFragment().show(activity.supportFragmentManager, HuDialogFragment.TAG)
+            DISCARDER -> DiscarderDialogFragment().show(activity.supportFragmentManager, DiscarderDialogFragment.TAG)
+            PENALTY -> PenaltyDialogFragment().show(activity.supportFragmentManager, PenaltyDialogFragment.TAG)
             RANKING -> RankingDialogFragment().show(activity.supportFragmentManager, RankingDialogFragment.TAG)
-            EXIT -> exitGame(activity)
+            EXIT -> exitGame(activity, viewModel)
         }
     }
 
-    private fun exitGame(activity: GameActivity) {
+    private fun exitGame(activity: GameActivity, viewModel: GameViewModel) {
+        activity.setResult(RESULT_OK, Intent().apply { putExtra(KEY_WAS_GAME_ENDED, viewModel.isGameEnded()) })
         activity.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         activity.finish()
     }

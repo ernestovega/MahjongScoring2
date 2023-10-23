@@ -100,7 +100,7 @@ class CombinationsActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                finish()
+                onBackBehaviour.invoke()
                 return true
             }
 

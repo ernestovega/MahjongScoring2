@@ -16,12 +16,17 @@
 */
 package com.etologic.mahjongscoring2.app.main.activity
 
+import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
 import dagger.Module
 import dagger.Provides
 
 @Module
 class MainActivityModule {
-    
+
     @Provides
-    internal fun provideMainViewModelFactory(): MainActivityViewModelFactory = MainActivityViewModelFactory()
+    internal fun provideMainViewModelFactory(
+        showInAppReviewUseCase: ShowInAppReviewUseCase,
+    ): MainActivityViewModelFactory = MainActivityViewModelFactory(
+        showInAppReviewUseCase,
+    )
 }

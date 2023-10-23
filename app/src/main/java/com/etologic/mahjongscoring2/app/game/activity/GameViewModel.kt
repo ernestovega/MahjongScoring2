@@ -229,4 +229,6 @@ class GameViewModel internal constructor(
     internal fun toggleSeatsRotation() {
         _seatsRotation.postValue(if (_seatsRotation.value == LANDSCAPE) PORTRAIT else LANDSCAPE)
     }
+
+    fun isGameEnded(): Boolean = _currentTable.value?.rounds?.last()?.isEnded == true
 }
