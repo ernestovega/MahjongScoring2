@@ -22,9 +22,9 @@ import com.etologic.mahjongscoring2.business.model.entities.Combination.Combinat
 import com.etologic.mahjongscoring2.business.model.entities.Combination.CombinationDescriptionType.IMAGE
 
 class CombinationDescriptionTypeConverter {
-    
+
     companion object {
-        
+
         @TypeConverter
         @JvmStatic
         fun toCombinationDescriptionType(code: Int): CombinationDescriptionType {
@@ -33,12 +33,12 @@ class CombinationDescriptionTypeConverter {
                 else -> DESCRIPTION
             }
         }
-        
+
         @TypeConverter
         @JvmStatic
         fun toIntCode(combinationDescriptionType: CombinationDescriptionType): Int {
             return combinationDescriptionType.code
         }
-        
+
     }
 }

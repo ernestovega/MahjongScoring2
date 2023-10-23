@@ -32,7 +32,7 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.GamePlayersDialogFragmentBinding
 
 internal class NamesDialogFragment : BaseGameDialogFragment() {
-    
+
     companion object {
         const val TAG = "NamesDialogFragment"
     }
@@ -53,14 +53,14 @@ internal class NamesDialogFragment : BaseGameDialogFragment() {
         _binding = null
         super.onDestroyView()
     }
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
         printNames()
         binding.tietPlayersDialogEast.showKeyboard(requireActivity().window)
     }
-    
+
     private fun printNames() {
         val names = activityViewModel?.getNamesByInitialPosition()
         names?.let {
@@ -70,7 +70,7 @@ internal class NamesDialogFragment : BaseGameDialogFragment() {
             binding.tietPlayersDialogNorth.setText(it[NORTH.code])
         }
     }
-    
+
     private fun setOnClickListeners() {
         with(binding) {
             tietPlayersDialogEast.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogEast.selectAll() }
@@ -91,12 +91,12 @@ internal class NamesDialogFragment : BaseGameDialogFragment() {
             }
         }
     }
-    
+
     override fun dismiss() {
         binding.tietPlayersDialogEast.hideKeyboard()
         super.dismiss()
     }
-    
+
     override fun onDismiss(dialog: DialogInterface) {
         binding.tietPlayersDialogEast.hideKeyboard()
         super.onDismiss(dialog)

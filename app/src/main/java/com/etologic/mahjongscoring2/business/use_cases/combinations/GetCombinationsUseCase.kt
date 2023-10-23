@@ -23,8 +23,8 @@ import javax.inject.Inject
 
 class GetCombinationsUseCase @Inject
 constructor(private val combinationsRepository: CombinationsRepository) {
-    
+
     internal fun getAll(): Single<List<Combination>> = combinationsRepository.getAll()
-    
+
     internal fun getSome(filter: String): Single<List<Combination>> = combinationsRepository.getFiltered(filter)
 }

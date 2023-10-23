@@ -24,13 +24,13 @@ import com.etologic.mahjongscoring2.business.use_cases.combinations.GetCombinati
 import io.reactivex.schedulers.Schedulers
 
 internal class CombinationsViewModel(private val getCombinationsUseCase: GetCombinationsUseCase) : BaseViewModel() {
-    
+
     private val filteredCombinations = MutableLiveData<List<Combination>>()
-    
+
     internal fun getFilteredCombinations(): LiveData<List<Combination>> {
         return filteredCombinations
     }
-    
+
     internal fun getAll() {
         disposables.add(
             getCombinationsUseCase.getAll()
@@ -38,7 +38,7 @@ internal class CombinationsViewModel(private val getCombinationsUseCase: GetComb
                 .subscribe(filteredCombinations::postValue, this::showError)
         )
     }
-    
+
     internal fun searchCombination(filter: String) {
         disposables.add(
             getCombinationsUseCase.getSome(filter)

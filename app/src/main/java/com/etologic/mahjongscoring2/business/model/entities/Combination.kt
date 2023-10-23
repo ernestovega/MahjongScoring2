@@ -31,20 +31,20 @@ class Combination(
     var combinationDescription: String = "",
     @TypeConverters(CombinationDescriptionTypeConverter::class) val combinationDescriptionType: CombinationDescriptionType
 ) {
-    
+
     enum class CombinationDescriptionType(val code: Int) {
         IMAGE(0),
         DESCRIPTION(1)
     }
-    
+
     @Ignore
     constructor(combinationPoints: Int, combinationId: Long, combinationName: String, combinationImage: Int)
-        : this(combinationPoints, combinationId, combinationName, combinationImage, "", IMAGE)
-    
+            : this(combinationPoints, combinationId, combinationName, combinationImage, "", IMAGE)
+
     @Ignore
     constructor(combinationPoints: Int, combinationId: Long, combinationName: String, combinationDescription: String)
-        : this(combinationPoints, combinationId, combinationName, 0, combinationDescription, DESCRIPTION)
-    
+            : this(combinationPoints, combinationId, combinationName, 0, combinationDescription, DESCRIPTION)
+
     fun getCopy(): Combination {
         return if (combinationDescriptionType == IMAGE) Combination(
             this.combinationPoints,

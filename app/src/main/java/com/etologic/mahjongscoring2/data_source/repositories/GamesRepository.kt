@@ -27,23 +27,23 @@ import javax.inject.Singleton
 @Singleton
 class GamesRepository
 @Inject constructor() {
-    
+
     @Inject
     lateinit var gamesDao: GamesDao
-    
+
     @Inject
     lateinit var roundsDao: RoundsDao
-    
+
     @Inject
     lateinit var tableDao: TableDao
-    
+
     internal fun insertOne(game: Game): Single<Long> =
         gamesDao.insertOne(game)
-    
+
     internal fun updateOne(game: Game): Single<Boolean> =
         gamesDao.updateOne(game)
             .map { it == 1 }
-    
+
     internal fun deleteOne(gameId: Long): Single<Boolean> =
         gamesDao.deleteOne(gameId)
             .map { it == 1 }

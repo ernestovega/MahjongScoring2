@@ -15,10 +15,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
     <androidx.fragment.app.FragmentContainerView
@@ -35,11 +35,11 @@
         android:layout_marginStart="@dimen/second_standard_margin"
         android:layout_marginTop="@dimen/standard_margin"
         android:drawablePadding="@dimen/half_standard_margin"
-        app:drawableTint="@color/grayMM"
         android:gravity="center"
         android:rotation="-215"
         android:textColor="@color/grayMM"
         android:textSize="@dimen/table_player_round_num_text_size"
+        app:drawableTint="@color/grayMM"
         tools:drawableBottom="@drawable/ic_east"
         tools:targetApi="m"
         tools:text="16" />
@@ -52,11 +52,11 @@
         android:layout_marginTop="@dimen/standard_margin"
         android:layout_marginEnd="@dimen/second_standard_margin"
         android:drawablePadding="@dimen/half_standard_margin"
-        app:drawableTint="@color/grayMM"
         android:gravity="center"
         android:rotation="215"
         android:textColor="@color/grayMM"
         android:textSize="@dimen/table_player_round_num_text_size"
+        app:drawableTint="@color/grayMM"
         tools:drawableBottom="@drawable/ic_east"
         tools:ignore="RelativeOverlap"
         tools:targetApi="m"
@@ -71,11 +71,11 @@
         android:layout_marginStart="@dimen/second_standard_margin"
         android:layout_marginBottom="@dimen/standard_margin"
         android:drawablePadding="@dimen/half_standard_margin"
-        app:drawableTint="@color/grayMM"
         android:gravity="center"
         android:rotation="45"
         android:textColor="@color/grayMM"
         android:textSize="@dimen/table_player_round_num_text_size"
+        app:drawableTint="@color/grayMM"
         tools:drawableBottom="@drawable/ic_east"
         tools:targetApi="m"
         tools:text="16" />
@@ -89,12 +89,12 @@
         android:layout_marginEnd="@dimen/second_standard_margin"
         android:layout_marginBottom="@dimen/standard_margin"
         android:drawablePadding="@dimen/half_standard_margin"
-        app:drawableTint="@color/grayMM"
         android:gravity="center"
         android:rotation="-45"
         android:textColor="@color/grayMM"
         android:textSize="@dimen/table_player_round_num_text_size"
         android:visibility="gone"
+        app:drawableTint="@color/grayMM"
         tools:drawableBottom="@drawable/ic_east"
         tools:ignore="RelativeOverlap"
         tools:targetApi="m"
@@ -105,12 +105,12 @@
         android:layout_width="@dimen/fourth_standard_margin"
         android:layout_height="@dimen/fourth_standard_margin"
         android:layout_margin="@dimen/standard_margin"
+        android:contentDescription="@string/throw_dice"
         android:src="@drawable/ic_dice_multiple_white_24dp"
         android:tag="ic_dice_multiple_white_24dp"
         android:visibility="gone"
         tools:layout_alignParentBottom="true"
         tools:layout_alignParentEnd="true"
-        tools:visibility="visible"
-        android:contentDescription="@string/throw_dice" />
+        tools:visibility="visible" />
 
 </RelativeLayout>

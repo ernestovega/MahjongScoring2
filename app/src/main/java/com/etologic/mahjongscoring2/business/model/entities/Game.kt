@@ -37,11 +37,11 @@ class Game(
     var nameP4: String = "",
     @TypeConverters(DateConverter::class) val startDate: Date
 ) {
-    
+
     companion object {
         private const val NOT_SET_GAME_ID: Long = 0
     }
-    
+
     constructor(defaultNames: Array<String>) : this(
         NOT_SET_GAME_ID,
         defaultNames[0],
@@ -50,7 +50,7 @@ class Game(
         defaultNames[3],
         Calendar.getInstance().time
     )
-    
+
     val copy: Game
         get() = Game(
             gameId,
@@ -60,9 +60,9 @@ class Game(
             nameP4,
             startDate
         )
-    
+
     fun getPlayersNames(): Array<String> = arrayOf(nameP1, nameP2, nameP3, nameP4)
-    
+
     fun getPlayerNameByInitialPosition(initialPosition: TableWinds): String {
         return when (initialPosition) {
             NONE -> ""

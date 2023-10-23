@@ -51,7 +51,6 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.GameTableSeatsFragmentBinding
-import java.util.Locale
 import java.util.Locale.getDefault
 
 class GameTableSeatsFragment : Fragment() {

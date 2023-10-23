@@ -24,6 +24,6 @@ open class HuData(
     internal var discarderCurrentSeat: TableWinds? = NONE,
     internal val points: Int
 ) {
-    
+
     constructor(winnerCurrentSeat: TableWinds, points: Int) : this(winnerCurrentSeat, null, points)
 }

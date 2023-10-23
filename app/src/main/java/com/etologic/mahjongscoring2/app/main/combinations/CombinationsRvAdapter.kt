@@ -40,17 +40,17 @@ import javax.inject.Inject
 
 internal class CombinationsRvAdapter
 @Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    
+
     private var combinations: List<Combination> = ArrayList()
     private var imageOrDescriptionShowState = HIDE
     private var cardViewMinHeight: Int = 0
-    
+
     @SuppressLint("NotifyDataSetChanged")
     internal fun setCombinations(combinations: List<Combination>) {
         saveCombinationsCopy(combinations)
         notifyDataSetChanged()
     }
-    
+
     private fun saveCombinationsCopy(combinations: List<Combination>) {
         val newCombinationsCopy = ArrayList<Combination>(combinations.size)
         for (combination in combinations) {
@@ -58,36 +58,36 @@ internal class CombinationsRvAdapter
         }
         this.combinations = newCombinationsCopy
     }
-    
+
     fun toggleImageOrDescription(): ShowState {
         imageOrDescriptionShowState = if (imageOrDescriptionShowState === SHOW) HIDE else SHOW
         notifyItemRangeChanged(0, combinations.size - 1)
         return imageOrDescriptionShowState
     }
-    
+
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         cardViewMinHeight = recyclerView.context.resources.getDimension(
             R.dimen.combination_item_cardview_min_height
         ).toInt()
     }
-    
+
     override fun getItemCount(): Int {
         return combinations.size
     }
-    
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemBinding = CombinationItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CombinationItemViewHolder(itemBinding)
     }
-    
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val combination = combinations[position]
         val myHolder = holder as CombinationItemViewHolder
         myHolder.tvPoints.text = combination.combinationPoints.toString()
         myHolder.tvName.text = combination.combinationName
         myHolder.tvPosition.text = String.format(Locale.getDefault(), "#%d", position + 1)
-        
+
         if (combination.combinationDescriptionType === IMAGE) {
             myHolder.ivImage.setImageResource(combination.combinationImage)
             myHolder.tvDescription.visibility = GONE
@@ -97,16 +97,16 @@ internal class CombinationsRvAdapter
             myHolder.ivImage.visibility = GONE
             myHolder.tvDescription.visibility = VISIBLE
         }
-        
+
         myHolder.flImageOrDescriptionContainer.visibility = if (imageOrDescriptionShowState === SHOW) VISIBLE else GONE
-        
+
         myHolder.llContainer.setOnSecureClickListener {
             myHolder.flImageOrDescriptionContainer.visibility = if (myHolder.cardView.height == cardViewMinHeight) VISIBLE else GONE
         }
     }
-    
+
     internal inner class CombinationItemViewHolder(binding: CombinationItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        
+
         val llContainer: LinearLayout = binding.llCombinationItemContainer
         val cardView: CardView = binding.cvCombinationItem
         val tvPoints: TextView = binding.tvCombinationItemPoints

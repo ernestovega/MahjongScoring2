@@ -45,10 +45,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTableSeatEastPoints"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="-8dp"
         android:textSize="@dimen/table_player_penalty_points_text_size"
         android:textStyle="normal"
         android:visibility="invisible"
-        android:layout_marginTop="-8dp"
         tools:text="@string/_000"
         tools:visibility="visible" />
 
@@ -76,6 +76,6 @@
         android:layout_below="@+id/tvTableSeatEastPenaltyPoints"
         android:layout_centerHorizontal="true"
         android:ellipsize="end"
-        tools:text="@string/player_name_placeholder"/>
+        tools:text="@string/player_name_placeholder" />
 
 </RelativeLayout>

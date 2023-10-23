@@ -22,7 +22,7 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class MainActivityFragmentsBuilder {
-    
+
     @ContributesAndroidInjector
     internal abstract fun provideOldGamesFragmentFactory(): OldGamesFragment
 }

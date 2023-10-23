@@ -50,6 +50,7 @@ class MainActivity : BaseActivity() {
         internal const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
         internal const val KEY_WAS_GAME_ENDED = "WasGameEnded"
     }
+
     lateinit var binding: MainActivityBinding
 
     @Inject

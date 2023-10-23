@@ -22,7 +22,7 @@ import dagger.Provides
 
 @Module
 class CombinationsActivityModule {
-    
+
     @Provides
     internal fun provideCombinationsViewModelFactory(getCombinationsUseCase: GetCombinationsUseCase): CombinationsViewModelFactory {
         return CombinationsViewModelFactory(getCombinationsUseCase)

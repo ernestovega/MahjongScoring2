@@ -36,46 +36,46 @@ import javax.inject.Inject
 
 internal class OldGamesRvAdapter
 @Inject internal constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    
+
     internal interface GameItemListener {
-        
+
         fun onOldGameItemDeleteClicked(gameId: Long)
         fun onOldGameItemResumeClicked(gameId: Long)
     }
-    
+
     private var itemClickListener: GameItemListener? = null
     private var games: List<Table> = ArrayList()
-    
+
     init {
         games = ArrayList()
     }
-    
+
     fun setOldGameItemListener(listener: GameItemListener) {
         this.itemClickListener = listener
     }
-    
+
     fun setGames(newGames: List<Table>) {
         val result = DiffUtil.calculateDiff(GameItemDiffUtilCallback(newGames, games), false)
         saveNewGamesCopy(newGames)
         result.dispatchUpdatesTo(this)
     }
-    
+
     private fun saveNewGamesCopy(newGames: List<Table>) {
         val newGamesCopy = ArrayList<Table>(newGames.size)
         newGames.map { newGamesCopy.add(it.getCopy()) }
         games = newGamesCopy
     }
-    
+
     //LIFECYCLE
     override fun getItemCount(): Int {
         return games.size
     }
-    
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemBinding = MainOldgameItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return OldGameItemViewHolder(itemBinding)
     }
-    
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val itemViewHolder = holder as OldGameItemViewHolder
         val gameWithRounds = games[position]
@@ -90,7 +90,7 @@ internal class OldGamesRvAdapter
                 itemClickListener?.onOldGameItemDeleteClicked(itemViewHolder.gameId!!)
         }
     }
-    
+
     private fun setFields(
         itemViewHolder: OldGameItemViewHolder,
         table: Table,
@@ -113,7 +113,7 @@ internal class OldGamesRvAdapter
         itemViewHolder.tvRoundNumber.text = table.rounds.size.toString()
         setBestHand(itemViewHolder, bestHand)
     }
-    
+
     private fun setBestHand(itemViewHolder: OldGameItemViewHolder, bestHand: BestHand?) {
         if (bestHand == null || StringUtils.isEmpty(bestHand.playerName) ||
             bestHand.handValue <= 0
@@ -125,9 +125,9 @@ internal class OldGamesRvAdapter
             itemViewHolder.tvBestHandValue.text = bestHand.handValue.toString()
         }
     }
-    
+
     internal inner class OldGameItemViewHolder(binding: MainOldgameItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        
+
         val tvStartDate: TextView = binding.tvOldGameItemStartDate
         val tvDuration: TextView = binding.tvOldGameItemDuration
         val tvEastPlayerName: TextView = binding.tvOlgGameItemPlayerEastName

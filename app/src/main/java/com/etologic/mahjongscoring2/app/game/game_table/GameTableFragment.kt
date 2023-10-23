@@ -42,7 +42,6 @@ import com.etologic.mahjongscoring2.R.drawable.ic_trophy_white_18dp
 import com.etologic.mahjongscoring2.R.drawable.ic_west
 import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.DICE
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.RANKING
 import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment

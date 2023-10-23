@@ -35,12 +35,12 @@ internal class OldGamesViewModel(
     private val createGameUseCase: CreateGameUseCase,
     private val setCurrentGameUseCase: SetCurrentGameUseCase
 ) : BaseViewModel() {
-    
+
     private val _allGames = MutableLiveData<List<Table>>()
     internal fun getGames(): LiveData<List<Table>> = _allGames
     private val _startGame = MutableLiveData<GameStartType>()
     internal fun getStartGame(): LiveData<GameStartType> = _startGame
-    
+
     internal fun deleteGame(gameId: Long) {
         disposables.add(
             deleteGameUseCase.deleteGame(gameId)
@@ -48,7 +48,7 @@ internal class OldGamesViewModel(
                 .subscribe(_allGames::postValue, this::showError)
         )
     }
-    
+
     //METHODS
     internal fun getAllGames() {
         disposables.add(
@@ -58,7 +58,7 @@ internal class OldGamesViewModel(
                 .subscribe(_allGames::postValue, this::showError)
         )
     }
-    
+
     internal fun startGame(gameId: Long) {
         disposables.add(
             setCurrentGameUseCase.setCurrentGame(gameId)
@@ -66,7 +66,7 @@ internal class OldGamesViewModel(
                 .subscribe({ _startGame.postValue(RESUME) }, this::showError)
         )
     }
-    
+
     internal fun startNewGame(defaultNames: Array<String>) {
         disposables.add(
             createGameUseCase.createGame(defaultNames)

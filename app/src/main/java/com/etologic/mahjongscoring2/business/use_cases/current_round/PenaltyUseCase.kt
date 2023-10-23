@@ -30,7 +30,7 @@ constructor(
     private val tablesRepository: TablesRepository,
     private val roundsRepository: RoundsRepository
 ) {
-    
+
     internal fun penalty(penaltyData: PenaltyData): Single<Table> =
         currentTableRepository.get()
             .flatMap { currentTable ->
@@ -49,7 +49,7 @@ constructor(
                     .flatMap { tablesRepository.getTable(currentRound.gameId) }
                     .flatMap { currentTableRepository.set(it) }
             }
-    
+
     internal fun cancelPenalties(): Single<Table> =
         currentTableRepository.get()
             .flatMap { currentGameWithRounds ->

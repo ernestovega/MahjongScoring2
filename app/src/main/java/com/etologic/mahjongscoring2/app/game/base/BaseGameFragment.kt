@@ -25,14 +25,14 @@ import com.etologic.mahjongscoring2.app.game.activity.GameViewModelFactory
 import javax.inject.Inject
 
 abstract class BaseGameFragment : BaseFragment() {
-    
+
     @Inject
     internal lateinit var viewModelFactory: GameViewModelFactory
     protected var activityViewModel: GameViewModel? = null
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
         if (activity != null) {
             activityViewModel = ViewModelProvider(requireActivity(), viewModelFactory)[GameViewModel::class.java]
         }

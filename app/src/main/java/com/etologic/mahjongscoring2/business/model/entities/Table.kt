@@ -21,21 +21,23 @@ import androidx.room.Relation
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
-import java.util.*
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 
 class Table(@field:Embedded var game: Game) {
-    
+
     @Relation(parentColumn = "gameId", entityColumn = "gameId")
     var rounds: List<Round> = ArrayList()
-    
+
     internal fun initBestHandAndTotalsAndRoundNumbers(): Table {
         setBestHand()
         setTotals()
         setRoundNumbers()
         return this
     }
-    
+
     private fun setBestHand() {
         val bestHand = getBestHand()
         if (bestHand.handValue >= MIN_MCR_POINTS) {
@@ -45,7 +47,7 @@ class Table(@field:Embedded var game: Game) {
             }
         }
     }
-    
+
     private fun setTotals() {
         rounds.forEachIndexed { index, round ->
             if (round.isEnded) {
@@ -57,7 +59,7 @@ class Table(@field:Embedded var game: Game) {
             }
         }
     }
-    
+
     private fun getTotalPointsUntilRound(index: Int): IntArray {
         val totalPoints = intArrayOf(0, 0, 0, 0)
         for (i in 0..index) {
@@ -68,11 +70,11 @@ class Table(@field:Embedded var game: Game) {
         }
         return totalPoints
     }
-    
+
     private fun setRoundNumbers() {
         rounds.forEachIndexed { index, round -> round.roundNumber = index + 1 }
     }
-    
+
     internal fun getCopy(): Table {
         val gameWithRounds = Table(game.copy)
         val newRounds = ArrayList<Round>(rounds.size)
@@ -80,7 +82,7 @@ class Table(@field:Embedded var game: Game) {
         gameWithRounds.rounds = newRounds
         return gameWithRounds
     }
-    
+
     internal fun getPlayersNamesByCurrentSeat(): Array<String> {
         val namesListByCurrentSeat = arrayOf("", "", "", "")
         val roundId = rounds.size
@@ -90,7 +92,7 @@ class Table(@field:Embedded var game: Game) {
         namesListByCurrentSeat[getInitialNorthPlayerCurrentSeat(roundId).code] = game.nameP4
         return namesListByCurrentSeat
     }
-    
+
     internal fun getPlayersTotalPointsByCurrentSeat(): IntArray {
         val points = getPlayersTotalPoints()
         val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
@@ -101,7 +103,7 @@ class Table(@field:Embedded var game: Game) {
         pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(roundId).code] = points[NORTH.code]
         return pointsByCurrentSeat
     }
-    
+
     internal fun getPlayersPenaltiesByCurrentSeat(): IntArray {
         val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
         val currentRound = rounds.last()
@@ -112,7 +114,7 @@ class Table(@field:Embedded var game: Game) {
         pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(roundId).code] = currentRound.penaltyP4
         return pointsByCurrentSeat
     }
-    
+
     private fun getInitialEastPlayerCurrentSeat(roundId: Int): TableWinds {
         return when (roundId) {
             1, 2, 3, 4 -> EAST
@@ -122,7 +124,7 @@ class Table(@field:Embedded var game: Game) {
             else -> EAST
         }
     }
-    
+
     private fun getInitialSouthPlayerCurrentSeat(roundId: Int): TableWinds {
         return when (roundId) {
             1, 2, 3, 4 -> SOUTH
@@ -132,7 +134,7 @@ class Table(@field:Embedded var game: Game) {
             else -> SOUTH
         }
     }
-    
+
     private fun getInitialWestPlayerCurrentSeat(roundId: Int): TableWinds {
         return when (roundId) {
             1, 2, 3, 4 -> WEST
@@ -142,7 +144,7 @@ class Table(@field:Embedded var game: Game) {
             else -> WEST
         }
     }
-    
+
     private fun getInitialNorthPlayerCurrentSeat(roundId: Int): TableWinds {
         return when (roundId) {
             1, 2, 3, 4 -> NORTH
@@ -152,7 +154,7 @@ class Table(@field:Embedded var game: Game) {
             else -> NORTH
         }
     }
-    
+
     internal fun getPlayersTotalPointsStringSigned(): Array<String> {
         val points = getPlayersTotalPoints()
         return arrayOf(
@@ -162,7 +164,7 @@ class Table(@field:Embedded var game: Game) {
             String.format("%+d", points[NORTH.code])
         )
     }
-    
+
     internal fun getPlayersTotalPoints(): IntArray {
         val points = intArrayOf(0, 0, 0, 0)
         rounds.forEach {
@@ -173,11 +175,11 @@ class Table(@field:Embedded var game: Game) {
         }
         return points
     }
-    
+
     internal fun getEndedRounds(): List<Round> {
         return getCopyWithoutLastRoundIfNotEnded()
     }
-    
+
     private fun getCopyWithoutLastRoundIfNotEnded(): List<Round> {
         if (!rounds.last().isEnded) {
             val mutableRounds = rounds.toMutableList()
@@ -186,7 +188,7 @@ class Table(@field:Embedded var game: Game) {
         }
         return rounds
     }
-    
+
     internal fun getBestHand(): BestHand {
         val bestHand = BestHand()
         for (round in rounds) {
@@ -197,7 +199,7 @@ class Table(@field:Embedded var game: Game) {
         }
         return bestHand
     }
-    
+
     internal fun getPlayerInitialSeatByCurrentSeat(currentSeatPosition: TableWinds, roundId: Int): TableWinds {
         return when (roundId) {
             1, 2, 3, 4 -> getPlayerInitialPositionBySeatInRoundEast(currentSeatPosition)
@@ -207,7 +209,7 @@ class Table(@field:Embedded var game: Game) {
             else -> getPlayerInitialPositionBySeatInRoundNorth(currentSeatPosition)
         }
     }
-    
+
     private fun getPlayerInitialPositionBySeatInRoundEast(seatPosition: TableWinds): TableWinds {
         return when (seatPosition) {
             EAST -> EAST
@@ -217,7 +219,7 @@ class Table(@field:Embedded var game: Game) {
             else -> NORTH
         }
     }
-    
+
     private fun getPlayerInitialPositionBySeatInRoundSouth(seatPosition: TableWinds): TableWinds {
         return when (seatPosition) {
             EAST -> SOUTH
@@ -227,7 +229,7 @@ class Table(@field:Embedded var game: Game) {
             else -> WEST
         }
     }
-    
+
     private fun getPlayerInitialPositionBySeatInRoundWest(seatPosition: TableWinds): TableWinds {
         return when (seatPosition) {
             EAST -> WEST
@@ -237,7 +239,7 @@ class Table(@field:Embedded var game: Game) {
             else -> EAST
         }
     }
-    
+
     private fun getPlayerInitialPositionBySeatInRoundNorth(seatPosition: TableWinds): TableWinds {
         return when (seatPosition) {
             EAST -> NORTH
@@ -247,7 +249,7 @@ class Table(@field:Embedded var game: Game) {
             else -> SOUTH
         }
     }
-    
+
     internal fun getSeatsCurrentWind(roundId: Int): Array<TableWinds> {
         return when (roundId) {
             1, 5, 9, 13 -> arrayOf(EAST, SOUTH, WEST, NORTH)
@@ -257,7 +259,7 @@ class Table(@field:Embedded var game: Game) {
             else -> arrayOf()
         }
     }
-    
+
     internal fun finishCurrentRoundByHuDiscard(huData: HuData): Table {
         val currentRound = rounds.last()
         currentRound.finishRoundByHuDiscard(
@@ -268,7 +270,7 @@ class Table(@field:Embedded var game: Game) {
         currentRound.setTotalsPoints(getPlayersTotalPoints())
         return this
     }
-    
+
     internal fun finishCurrentRoundByHuSelfPick(huData: HuData): Table {
         val currentRound = rounds.last()
         currentRound.finishRoundByHuSelfPick(
@@ -278,31 +280,31 @@ class Table(@field:Embedded var game: Game) {
         currentRound.setTotalsPoints(getPlayersTotalPoints())
         return this
     }
-    
+
     internal fun finishCurrentRoundByDraw(): Table {
         val currentRound = rounds.last()
         currentRound.finishRoundByDraw()
         currentRound.setTotalsPoints(getPlayersTotalPoints())
         return this
     }
-    
+
     internal companion object {
-        
+
         internal const val NUM_MCR_PLAYERS = 4
         internal const val MAX_MCR_ROUNDS = 16
         internal const val MIN_MCR_POINTS = 8
         internal const val MAX_MCR_POINTS = 9999
         internal const val NUM_NO_WINNER_PLAYERS = 3
         internal const val POINTS_DISCARD_NEUTRAL_PLAYERS = -8
-        
+
         internal fun getHuSelfPickWinnerPoints(huPoints: Int) = (huPoints + MIN_MCR_POINTS) * NUM_NO_WINNER_PLAYERS
-        
+
         internal fun getHuSelfPickDiscarderPoints(huPoints: Int) = -(huPoints + MIN_MCR_POINTS)
-        
+
         internal fun getHuDiscardWinnerPoints(huPoints: Int) = huPoints + (MIN_MCR_POINTS * NUM_NO_WINNER_PLAYERS)
-        
+
         internal fun getHuDiscardDiscarderPoints(huPoints: Int) = -(huPoints + MIN_MCR_POINTS)
-        
+
         internal fun getPenaltyOtherPlayersPoints(penaltyPoints: Int) = penaltyPoints / NUM_NO_WINNER_PLAYERS
     }
 }

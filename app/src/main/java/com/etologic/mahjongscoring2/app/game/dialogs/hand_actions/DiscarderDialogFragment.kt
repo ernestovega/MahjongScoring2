@@ -29,11 +29,11 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.databinding.GameDiscarderDialogFragmentBinding
 
 internal class DiscarderDialogFragment : BaseGameDialogFragment() {
-    
+
     companion object {
         const val TAG = "DiscarderConfirmDialogFragment"
     }
-    
+
     private var isDialogCancelled = true
 
     private var _binding: GameDiscarderDialogFragmentBinding? = null
@@ -52,7 +52,7 @@ internal class DiscarderDialogFragment : BaseGameDialogFragment() {
         _binding = null
         super.onDestroyView()
     }
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setListeners()
@@ -68,7 +68,7 @@ internal class DiscarderDialogFragment : BaseGameDialogFragment() {
             dismiss()
         }
     }
-    
+
     private fun setListeners() {
         binding.btDiscarderConfirmDialogCancel.setOnSecureClickListener { dismiss() }
         binding.btDiscarderConfirmDialogOk.setOnSecureClickListener {
@@ -84,7 +84,7 @@ internal class DiscarderDialogFragment : BaseGameDialogFragment() {
             }
         }
     }
-    
+
     override fun onDismiss(dialog: DialogInterface) {
         if (isDialogCancelled) activityViewModel?.unselectedSelectedSeat()
         super.onDismiss(dialog)
