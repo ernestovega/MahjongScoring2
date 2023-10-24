@@ -28,6 +28,7 @@ android {
                 arg("room.expandProjection", "true")
             }
         }
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -49,6 +50,12 @@ android {
     packagingOptions {
         resources {
             excludes += ['META-INF/rxjava.properties']
+        }
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
         }
     }
 
@@ -103,4 +110,9 @@ dependencies {
     //IN APP REVIEW
     implementation("com.google.android.play:review:2.0.1")
     implementation("com.google.android.play:review-ktx:2.0.1")
+
+    //TEST
+    testImplementation "junit:junit:4.13.2"
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    testImplementation "com.google.truth:truth:1.1.3"
 }

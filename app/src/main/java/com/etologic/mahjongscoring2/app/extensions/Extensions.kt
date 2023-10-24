@@ -19,6 +19,7 @@ package com.etologic.mahjongscoring2.app.extensions
 import android.os.SystemClock
 import android.view.View
 import android.view.View.OnClickListener
+import kotlin.math.abs
 
 internal fun View.setOnSecureClickListener(
     debounceTime: Long = 600L,
@@ -34,4 +35,22 @@ internal fun View.setOnSecureClickListener(
             lastClickTime = SystemClock.elapsedRealtime()
         }
     })
+}
+
+fun <T> List<T>.second(): T {
+    if (size < 2)
+        throw NoSuchElementException("Not enough elements")
+    return this[1]
+}
+
+fun <T> List<T>.third(): T {
+    if (size < 3)
+        throw NoSuchElementException("Not enough elements")
+    return this[3]
+}
+
+fun <T> List<T>.fourth(): T {
+    if (size < 4)
+        throw NoSuchElementException("Not enough elements")
+    return this[3]
 }

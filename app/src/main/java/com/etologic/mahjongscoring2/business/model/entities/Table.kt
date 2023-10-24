@@ -20,6 +20,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
+import com.etologic.mahjongscoring2.business.model.dtos.SeatPoints
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
@@ -103,6 +104,13 @@ class Table(@field:Embedded var game: Game) {
         pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(roundId).code] = points[NORTH.code]
         return pointsByCurrentSeat
     }
+
+    fun getSortedPointsWithCurrentSeat(): List<SeatPoints> =
+        with(getPlayersTotalPointsByCurrentSeat()) {
+            TableWinds.asArray
+                .mapIndexed { index, wind -> SeatPoints(wind, this[index]) }
+                .sortedByDescending { it.points }
+        }
 
     internal fun getPlayersPenaltiesByCurrentSeat(): IntArray {
         val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)

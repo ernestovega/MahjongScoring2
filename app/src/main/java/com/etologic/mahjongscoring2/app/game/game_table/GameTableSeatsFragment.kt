@@ -40,6 +40,7 @@ import com.etologic.mahjongscoring2.app.model.SeatStates
 import com.etologic.mahjongscoring2.app.model.SeatStates.DISABLED
 import com.etologic.mahjongscoring2.app.model.SeatStates.NORMAL
 import com.etologic.mahjongscoring2.app.model.SeatStates.SELECTED
+import com.etologic.mahjongscoring2.business.model.dtos.SeatPoints
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation
 import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation.LANDSCAPE
@@ -103,12 +104,16 @@ class GameTableSeatsFragment : Fragment() {
     internal fun setSeats(table: Table) {
         selectedPlayer = NONE
         setStates(getSeatsStates(table))
-        setPoints(table.getPlayersTotalPointsByCurrentSeat().map {
-            String.format(getDefault(), "%d", it)
-        })
+        val playersTotalPointsByCurrentSeat = table.getPlayersTotalPointsByCurrentSeat()
+        setPoints(playersTotalPointsByCurrentSeat.map { String.format(getDefault(), "%d", it) })
+        setPointsDiffs(table.getSortedPointsWithCurrentSeat())
         setWinds(table.getSeatsCurrentWind(table.rounds.size))
         setNames(table.getPlayersNamesByCurrentSeat())
         setPenalties(table.getPlayersPenaltiesByCurrentSeat(), table.rounds.last().isEnded)
+    }
+    private fun setPointsDiffs(sortedPointsWithSeat: List<SeatPoints>) {
+
+        sortedPointsWithSeat
     }
 
     private fun getSeatsStates(table: Table): Array<SeatStates> =
