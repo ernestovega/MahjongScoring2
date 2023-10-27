@@ -4,87 +4,78 @@ import com.etologic.mahjongscoring2.app.extensions.fourth
 import com.etologic.mahjongscoring2.app.extensions.second
 import com.etologic.mahjongscoring2.app.extensions.third
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.google.android.gms.common.util.VisibleForTesting
 import kotlin.math.abs
 import kotlin.math.ceil
 
-data class SeatPoints(
+data class PointsDiff(
+    val bySelfPick: Int,
+    val byDirectHu: Int,
+    val byIndirectHu: Int,
+)
+
+data class SeatDiffs(
     val seat: TableWinds,
     val points: Int,
+    var pointsToBeFirst: PointsDiff? = null,
+    var pointsToBeSecond: PointsDiff? = null,
+    var pointsToBeThird: PointsDiff? = null,
 )
 
 data class TableDiffs(
-    val eastSeatPoints: Int,
-    val southSeatPoints: Int,
-    val westSeatPoints: Int,
-    val northSeatPoints: Int,
+    private val eastSeatPoints: Int,
+    private val southSeatPoints: Int,
+    private val westSeatPoints: Int,
+    private val northSeatPoints: Int,
 ) {
 
-    private var seatsPoints: List<SeatPoints>
-
-    private var diff2ndTo1st: Int
-    private var diff3rdTo1st: Int
-    private var diff3rdTo2nd: Int
-    private var diff4thTo1st: Int
-    private var diff4thTo2nd: Int
-    private var diff4thTo3rd: Int
-
-    private var pointsFor2ndToBe1stBySelfPick: Int
-    private var pointsFor2ndToBe1stByDirectHu: Int
-    private var pointsFor2ndToBe1stByIndirectHu: Int
-    private var pointsFor3rdToBe1stBySelfPick: Int
-    private var pointsFor3rdToBe1stByDirectHu: Int
-    private var pointsFor3rdToBe1stByIndirectHu: Int
-    private var pointsFor3rdToBe2ndBySelfPick: Int
-    private var pointsFor3rdToBe2ndByDirectHu: Int
-    private var pointsFor3rdToBe2ndByIndirectHu: Int
-    private var pointsFor4thToBe1stBySelfPick: Int
-    private var pointsFor4thToBe1stByDirectHu: Int
-    private var pointsFor4thToBe1stByIndirectHu: Int
-    private var pointsFor4thToBe2ndBySelfPick: Int
-    private var pointsFor4thToBe2ndByDirectHu: Int
-    private var pointsFor4thToBe2ndByIndirectHu: Int
-    private var pointsFor4thToBe3rdBySelfPick: Int
-    private var pointsFor4thToBe3rdByDirectHu: Int
-    private var pointsFor4thToBe3rdByIndirectHu: Int
+    var seatsDiffs: List<SeatDiffs>
 
     init {
-        seatsPoints = listOf(
-            SeatPoints(TableWinds.EAST, eastSeatPoints),
-            SeatPoints(TableWinds.SOUTH, southSeatPoints),
-            SeatPoints(TableWinds.WEST, westSeatPoints),
-            SeatPoints(TableWinds.NORTH, northSeatPoints),
+        seatsDiffs = listOf(
+            SeatDiffs(TableWinds.EAST, eastSeatPoints),
+            SeatDiffs(TableWinds.SOUTH, southSeatPoints),
+            SeatDiffs(TableWinds.WEST, westSeatPoints),
+            SeatDiffs(TableWinds.NORTH, northSeatPoints),
         ).sortedBy { it.points }
-            .also {
-                diff2ndTo1st = abs(it.first().points - it.second().points)
+            .apply {
+                val diff2ndTo1st = abs(first().points - second().points)
+                second().pointsToBeFirst = PointsDiff(
+                    bySelfPick = diff2ndTo1st.getNeededPointsBySelfPick(),
+                    byDirectHu = diff2ndTo1st.getNeededPointsByDirectHu(),
+                    byIndirectHu = diff2ndTo1st.getNeededPointsByIndirectHu(),
+                )
 
-                diff3rdTo1st = abs(it.first().points - it.third().points)
-                diff3rdTo2nd = abs(it.second().points - it.third().points)
+                val diff3rdTo1st = abs(first().points - third().points)
+                third().pointsToBeFirst = PointsDiff(
+                    bySelfPick = diff3rdTo1st.getNeededPointsBySelfPick(),
+                    byDirectHu = diff3rdTo1st.getNeededPointsByDirectHu(),
+                    byIndirectHu = diff3rdTo1st.getNeededPointsByIndirectHu(),
+                )
+                val diff3rdTo2nd = abs(second().points - third().points)
+                third().pointsToBeSecond = PointsDiff(
+                    bySelfPick = diff3rdTo2nd.getNeededPointsBySelfPick(),
+                    byDirectHu = diff3rdTo2nd.getNeededPointsByDirectHu(),
+                    byIndirectHu = diff3rdTo2nd.getNeededPointsByIndirectHu(),
+                )
 
-                diff4thTo1st = abs(it.first().points - it.fourth().points)
-                diff4thTo2nd = abs(it.second().points - it.fourth().points)
-                diff4thTo3rd = abs(it.third().points - it.fourth().points)
-
-                pointsFor2ndToBe1stBySelfPick = diff2ndTo1st.getNeededPointsBySelfPick()
-                pointsFor2ndToBe1stByDirectHu = diff2ndTo1st.getNeededPointsByDirectHu()
-                pointsFor2ndToBe1stByIndirectHu = diff2ndTo1st.getNeededPointsByIndirectHu()
-
-                pointsFor3rdToBe1stBySelfPick = diff3rdTo1st.getNeededPointsBySelfPick()
-                pointsFor3rdToBe1stByDirectHu = diff3rdTo1st.getNeededPointsByDirectHu()
-                pointsFor3rdToBe1stByIndirectHu = diff3rdTo1st.getNeededPointsByIndirectHu()
-                pointsFor3rdToBe2ndBySelfPick = diff3rdTo2nd.getNeededPointsBySelfPick()
-                pointsFor3rdToBe2ndByDirectHu = diff3rdTo2nd.getNeededPointsByDirectHu()
-                pointsFor3rdToBe2ndByIndirectHu = diff3rdTo2nd.getNeededPointsByIndirectHu()
-
-                pointsFor4thToBe1stBySelfPick = diff4thTo1st.getNeededPointsBySelfPick()
-                pointsFor4thToBe1stByDirectHu = diff4thTo1st.getNeededPointsByDirectHu()
-                pointsFor4thToBe1stByIndirectHu = diff4thTo1st.getNeededPointsByIndirectHu()
-                pointsFor4thToBe2ndBySelfPick = diff4thTo2nd.getNeededPointsBySelfPick()
-                pointsFor4thToBe2ndByDirectHu = diff4thTo2nd.getNeededPointsByDirectHu()
-                pointsFor4thToBe2ndByIndirectHu = diff4thTo2nd.getNeededPointsByIndirectHu()
-                pointsFor4thToBe3rdBySelfPick = diff4thTo3rd.getNeededPointsBySelfPick()
-                pointsFor4thToBe3rdByDirectHu = diff4thTo3rd.getNeededPointsByDirectHu()
-                pointsFor4thToBe3rdByIndirectHu = diff4thTo3rd.getNeededPointsByIndirectHu()
+                val diff4thTo1st = abs(first().points - fourth().points)
+                fourth().pointsToBeFirst = PointsDiff(
+                    bySelfPick = diff4thTo1st.getNeededPointsBySelfPick(),
+                    byDirectHu = diff4thTo1st.getNeededPointsByDirectHu(),
+                    byIndirectHu = diff4thTo1st.getNeededPointsByIndirectHu(),
+                )
+                val diff4thTo2nd = abs(second().points - fourth().points)
+                fourth().pointsToBeSecond = PointsDiff(
+                    bySelfPick = diff4thTo2nd.getNeededPointsBySelfPick(),
+                    byDirectHu = diff4thTo2nd.getNeededPointsByDirectHu(),
+                    byIndirectHu = diff4thTo2nd.getNeededPointsByIndirectHu(),
+                )
+                val diff4thTo3rd = abs(third().points - fourth().points)
+                fourth().pointsToBeThird = PointsDiff(
+                    bySelfPick = diff4thTo3rd.getNeededPointsBySelfPick(),
+                    byDirectHu = diff4thTo3rd.getNeededPointsByDirectHu(),
+                    byIndirectHu = diff4thTo3rd.getNeededPointsByIndirectHu(),
+                )
             }
     }
 }

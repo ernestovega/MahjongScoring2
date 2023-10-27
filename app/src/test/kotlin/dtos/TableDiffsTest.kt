@@ -1,10 +1,8 @@
 package dtos
 
-import com.etologic.mahjongscoring2.business.model.dtos.TableDiffs
 import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsByDirectHu
 import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsByIndirectHu
 import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsBySelfPick
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.junit.jupiter.api.TestFactory
