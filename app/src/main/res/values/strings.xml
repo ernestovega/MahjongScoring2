@@ -187,4 +187,10 @@
     <!--  Translations V2.1.0  -->
     <string name="throw_dice">Throw dice</string>
     <string name="start_new_game">Start a new game</string>
+    <string name="self_abr">S</string>
+    <string name="direct_abr">D</string>
+    <string name="indirect_abr">I</string>
+    <string name="_1st">1·</string>
+    <string name="_2nd">2·</string>
+    <string name="_3rd">3·</string>
 </resources>

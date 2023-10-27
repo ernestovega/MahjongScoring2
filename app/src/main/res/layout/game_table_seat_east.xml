@@ -60,13 +60,23 @@
         android:layout_centerHorizontal="true"
         android:layout_toStartOf="@+id/tvTableSeatEastPoints" />
 
-    <View
-        android:id="@+id/vGameTableSeatEastAuxEnd"
-        style="@style/auxView"
+    <LinearLayout
+        android:id="@+id/llGameTableSeatEastAuxEnd"
+        style="@style/diffsView"
         android:layout_above="@+id/tvTableSeatEastName"
         android:layout_below="@+id/ivTableSeatEastSeatWindIcon"
         android:layout_centerHorizontal="true"
-        android:layout_toEndOf="@+id/tvTableSeatEastPoints" />
+        android:layout_toEndOf="@+id/tvTableSeatEastPoints"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/quarter_standard_margin"
+        tools:ignore="RtlSymmetry">
+
+        <include
+            android:id="@+id/iGameTableSeatEastDiffs"
+            layout="@layout/game_table_seat_diffs" />
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/tvTableSeatEastName"

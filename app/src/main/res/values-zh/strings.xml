@@ -185,4 +185,10 @@
     <!--  Translations V2.1.0  -->
     <string name="throw_dice">扔骰子</string>
     <string name="start_new_game">开始新游戏</string>
+    <string name="self_abr">自摸</string>
+    <string name="direct_abr">直接的</string>
+    <string name="indirect_abr">其他</string>
+    <string name="_1st">1·</string>
+    <string name="_2nd">2·</string>
+    <string name="_3rd">3·</string>
 </resources>
