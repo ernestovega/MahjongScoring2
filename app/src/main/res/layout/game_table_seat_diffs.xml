@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tlGameTableSeatDiffs"
+    android:id="@+id/tlTableSeatDiffs"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -25,31 +25,31 @@
 
     </TableRow>
 
-    <TableRow android:id="@+id/trGameTableSeatDiffsFirst">
+    <TableRow android:id="@+id/trTableSeatDiffsFirst">
 
         <TextView
             style="@style/diffsCell"
             android:text="@string/_1st" />
 
         <TextView
-            android:id="@+id/tvGameTableSeatDiffsFirstSelfPick"
+            android:id="@+id/tvTableSeatDiffsFirstSelfPick"
             style="@style/diffsCell"
             tools:text="8" />
 
         <TextView
-            android:id="@+id/tvGameTableSeatDiffsFirstDirectHu"
+            android:id="@+id/tvTableSeatDiffsFirstDirectHu"
             style="@style/diffsCell"
             tools:text="12" />
 
         <TextView
-            android:id="@+id/tvGameTableSeatDiffsFirstIndirectHu"
+            android:id="@+id/tvTableSeatDiffsFirstIndirectHu"
             style="@style/diffsCell"
             tools:text="20" />
 
     </TableRow>
 
     <TableRow
-        android:id="@+id/trGameTableSeatDiffsSecond"
+        android:id="@+id/trTableSeatDiffsSecond"
         tools:visibility="visible"
         android:visibility="gone">
 
@@ -58,24 +58,24 @@
             android:text="@string/_2nd" />
 
         <TextView
-            android:id="@+id/tvGameTableSeatDiffsSecondSelfPick"
+            android:id="@+id/tvTableSeatDiffsSecondSelfPick"
             style="@style/diffsCell"
             tools:text="8" />
 
         <TextView
-            android:id="@+id/tvGameTableSeatDiffsSecondDirectHu"
+            android:id="@+id/tvTableSeatDiffsSecondDirectHu"
             style="@style/diffsCell"
             tools:text="12" />
 
         <TextView
-            android:id="@+id/tvGameTableSeatDiffsSecondIndirectHu"
+            android:id="@+id/tvTableSeatDiffsSecondIndirectHu"
             style="@style/diffsCell"
             tools:text="20" />
 
     </TableRow>
 
     <TableRow
-        android:id="@+id/trGameTableSeatDiffsThird"
+        android:id="@+id/trTableSeatDiffsThird"
         tools:visibility="visible"
         android:visibility="gone">
 
@@ -84,17 +84,17 @@
             android:text="@string/_3rd" />
 
         <TextView
-            android:id="@+id/tvGameTableSeatDiffsThirdSelfPick"
+            android:id="@+id/tvTableSeatDiffsThirdSelfPick"
             style="@style/diffsCell"
             tools:text="8" />
 
         <TextView
-            android:id="@+id/tvGameTableSeatDiffsThirdDirectHu"
+            android:id="@+id/tvTableSeatDiffsThirdDirectHu"
             style="@style/diffsCell"
             tools:text="12" />
 
         <TextView
-            android:id="@+id/tvGameTableSeatDiffsThirdIndirectHu"
+            android:id="@+id/tvTableSeatDiffsThirdIndirectHu"
             style="@style/diffsCell"
             tools:text="20" />
 

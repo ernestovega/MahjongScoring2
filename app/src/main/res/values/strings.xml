@@ -190,7 +190,7 @@
     <string name="self_abr">S</string>
     <string name="direct_abr">D</string>
     <string name="indirect_abr">I</string>
-    <string name="_1st">1·</string>
-    <string name="_2nd">2·</string>
-    <string name="_3rd">3·</string>
+    <string name="_1st">1st</string>
+    <string name="_2nd">2nd</string>
+    <string name="_3rd">3rd</string>
 </resources>

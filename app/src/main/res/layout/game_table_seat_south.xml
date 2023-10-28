@@ -59,22 +59,13 @@
         android:layout_below="@+id/ivTableSeatSouthSeatWindIcon"
         android:layout_toStartOf="@+id/tvTableSeatSouthPoints" />
 
-    <LinearLayout
-        android:id="@+id/llGameTableSeatSouthAuxEnd"
-        style="@style/diffsView"
+    <View
+        android:id="@+id/vGameTableSeatSouthAuxEnd"
+        style="@style/auxView"
         android:layout_above="@+id/tvTableSeatSouthName"
         android:layout_below="@+id/ivTableSeatSouthSeatWindIcon"
-        android:layout_toEndOf="@+id/tvTableSeatSouthPoints"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/quarter_standard_margin"
-        tools:ignore="RtlSymmetry">
-
-        <include
-            android:id="@+id/iGameTableSeatSouthDiffs"
-            layout="@layout/game_table_seat_diffs" />
-
-    </LinearLayout>
-
+        android:layout_centerHorizontal="true"
+        android:layout_toEndOf="@+id/tvTableSeatSouthPoints" />
 
     <TextView
         android:id="@+id/tvTableSeatSouthName"
@@ -85,5 +76,13 @@
         android:layout_centerHorizontal="true"
         android:ellipsize="end"
         tools:text="@string/player_name_placeholder" />
+
+    <include
+        android:id="@+id/iGameTableSeatSouthDiffs"
+        layout="@layout/game_table_seat_diffs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tvTableSeatSouthName" />
 
 </RelativeLayout>

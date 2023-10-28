@@ -46,7 +46,7 @@ fun <T> List<T>.second(): T {
 fun <T> List<T>.third(): T {
     if (size < 3)
         throw NoSuchElementException("Not enough elements")
-    return this[3]
+    return this[2]
 }
 
 fun <T> List<T>.fourth(): T {
