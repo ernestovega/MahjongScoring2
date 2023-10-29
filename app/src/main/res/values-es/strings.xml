@@ -21,7 +21,7 @@
     <string name="open_drawer">Abrir menú</string>
     <string name="old_games">Partidas antiguas</string>
     <string name="combinations">Combinaciones</string>
-    <string name="green_book">Libro Verde</string>
+    <string name="green_book">Libro Verde (pdf)</string>
     <string name="rate">Valora la app</string>
     <string name="contact">Contacto</string>
     <string name="press_again_to_exit">Pulsa de nuevo para salir</string>
@@ -191,6 +191,6 @@
     <string name="_1st">1°</string>
     <string name="_2nd">2°</string>
     <string name="_3rd">3°</string>
-    <string name="mahjong_madrid_web">Mahjong Madrid web</string>
-    <string name="ema_web">EMA web</string>
+    <string name="mahjong_madrid_web">Mahjong Madrid (web)</string>
+    <string name="ema_web">EMA (web)</string>
 </resources>

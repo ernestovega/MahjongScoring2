@@ -21,7 +21,7 @@
     <string name="open_drawer">打开菜单</string>
     <string name="old_games">游戏记录</string>
     <string name="combinations">番种表</string>
-    <string name="green_book">绿皮书</string>
+    <string name="green_book">绿皮书(pdf)</string>
     <string name="rate">评价应用</string>
     <string name="contact">联络</string>
     <string name="press_again_to_exit">再次按下退出</string>
@@ -191,6 +191,6 @@
     <string name="_1st">第一</string>
     <string name="_2nd">第二</string>
     <string name="_3rd">第三</string>
-    <string name="mahjong_madrid_web">Mahjong Madrid 网络</string>
-    <string name="ema_web">EMA 网络</string>
+    <string name="mahjong_madrid_web">Mahjong Madrid (网络)</string>
+    <string name="ema_web">EMA (网络)</string>
 </resources>
