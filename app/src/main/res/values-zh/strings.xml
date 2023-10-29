@@ -191,4 +191,6 @@
     <string name="_1st">第一</string>
     <string name="_2nd">第二</string>
     <string name="_3rd">第三</string>
+    <string name="mahjong_madrid_web">Mahjong Madrid 网络</string>
+    <string name="ema_web">EMA 网络</string>
 </resources>

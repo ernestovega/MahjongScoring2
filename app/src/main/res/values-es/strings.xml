@@ -191,4 +191,6 @@
     <string name="_1st">1°</string>
     <string name="_2nd">2°</string>
     <string name="_3rd">3°</string>
+    <string name="mahjong_madrid_web">Mahjong Madrid web</string>
+    <string name="ema_web">EMA web</string>
 </resources>

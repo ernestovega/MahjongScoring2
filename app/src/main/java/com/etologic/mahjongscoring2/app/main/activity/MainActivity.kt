@@ -30,11 +30,7 @@ import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToScreen
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.RATE
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.*
 import com.etologic.mahjongscoring2.databinding.MainActivityBinding
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
@@ -134,7 +130,8 @@ class MainActivity : BaseActivity() {
                 R.id.nav_oldgames -> viewModel?.navigateTo(OLD_GAMES)
                 R.id.nav_combinations -> viewModel?.navigateTo(COMBINATIONS)
                 R.id.nav_greenbook -> viewModel?.navigateTo(GREEN_BOOK)
-                R.id.nav_rate -> viewModel?.navigateTo(RATE)
+                R.id.nav_mm_web -> viewModel?.navigateTo(MM_WEB)
+                R.id.nav_ema_web -> viewModel?.navigateTo(EMA_WEB)
                 R.id.nav_contact -> viewModel?.navigateTo(CONTACT)
                 else -> return@setNavigationItemSelectedListener false
             }

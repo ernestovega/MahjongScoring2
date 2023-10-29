@@ -34,7 +34,8 @@ class MainViewModel internal constructor(
         GAME,
         COMBINATIONS,
         GREEN_BOOK,
-        RATE,
+        MM_WEB,
+        EMA_WEB,
         CONTACT,
         FINISH
     }

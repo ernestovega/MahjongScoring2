@@ -35,9 +35,14 @@
             android:title="@string/green_book" />
 
         <item
-            android:id="@+id/nav_rate"
-            android:icon="@drawable/ic_star_rate_black_18px"
-            android:title="@string/rate" />
+            android:id="@+id/nav_mm_web"
+            android:icon="@drawable/mm_logo_256"
+            android:title="@string/mahjong_madrid_web" />
+
+        <item
+            android:id="@+id/nav_ema_web"
+            android:icon="@drawable/ema_logo"
+            android:title="@string/ema_web" />
 
         <item
             android:id="@+id/nav_contact"

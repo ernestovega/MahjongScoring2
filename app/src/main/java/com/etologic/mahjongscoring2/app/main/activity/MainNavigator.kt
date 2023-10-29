@@ -25,7 +25,6 @@ import android.content.Intent.FLAG_ACTIVITY_MULTIPLE_TASK
 import android.content.Intent.FLAG_ACTIVITY_NEW_DOCUMENT
 import android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
 import android.net.Uri
-import com.etologic.mahjongscoring2.BuildConfig.APPLICATION_ID
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.anim.enter_from_left
 import com.etologic.mahjongscoring2.R.anim.enter_from_right
@@ -36,16 +35,15 @@ import com.etologic.mahjongscoring2.app.game.activity.GameActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.EMAIL_ADDRESS
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.EMAIL_SUBJECT
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.GREEN_BOOK_URL
-import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.MARKET_URI_BASE
-import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.PLAY_STORE_URL_BASE
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.EMA_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.FINISH
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.MM_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.RATE
 import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
 import com.etologic.mahjongscoring2.app.main.old_games.OldGamesFragment
 import com.google.android.material.snackbar.Snackbar
@@ -58,7 +56,8 @@ object MainNavigator {
             GAME -> goToGame(activity)
             COMBINATIONS -> goToCombinations(activity)
             GREEN_BOOK -> goToGreenBook(activity)
-            RATE -> goToRate(activity)
+            MM_WEB -> goToWebsite("https://www.mahjongmadrid.com", activity)
+            EMA_WEB -> goToWebsite("http://mahjong-europe.org/", activity)
             CONTACT -> goToContact(activity)
             FINISH -> activity.onBackPressed()
         }
@@ -86,13 +85,13 @@ object MainNavigator {
         activity.startActivity(Intent(ACTION_VIEW, Uri.parse(GREEN_BOOK_URL)))
     }
 
-    private fun goToRate(activity: MainActivity) {
-        with(Intent(ACTION_VIEW, Uri.parse(MARKET_URI_BASE + APPLICATION_ID))) {
+    private fun goToWebsite(url: String, activity: MainActivity) {
+        with(Intent(ACTION_VIEW, Uri.parse(url))) {
             addFlags(FLAG_ACTIVITY_NO_HISTORY or FLAG_ACTIVITY_NEW_DOCUMENT or FLAG_ACTIVITY_MULTIPLE_TASK)
             try {
                 activity.startActivity(this)
             } catch (e: Exception) {
-                activity.startActivity(Intent(ACTION_VIEW, Uri.parse(PLAY_STORE_URL_BASE + APPLICATION_ID)))
+                activity.startActivity(Intent(ACTION_VIEW, Uri.parse(url)))
             }
         }
     }
