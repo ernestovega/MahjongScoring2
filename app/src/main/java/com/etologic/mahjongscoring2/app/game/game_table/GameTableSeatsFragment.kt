@@ -45,9 +45,9 @@ import com.etologic.mahjongscoring2.app.model.SeatStates.SELECTED
 import com.etologic.mahjongscoring2.business.model.dtos.SeatDiffs
 import com.etologic.mahjongscoring2.business.model.dtos.TableDiffs
 import com.etologic.mahjongscoring2.business.model.entities.Table
-import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation
-import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation.LANDSCAPE
-import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation.PORTRAIT
+import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
+import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
+import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
@@ -355,9 +355,9 @@ class GameTableSeatsFragment : Fragment() {
         binding.iGameTableSeatNorth.tvTableSeatNorthPenaltyPoints.setOnSecureClickListener { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
     }
 
-    internal fun updateSeatsOrientation(screenOrientation: ScreenOrientation) {
-        when (screenOrientation) {
-            PORTRAIT -> {
+    internal fun updateSeatsOrientation(seatOrientation: SeatOrientation) {
+        when (seatOrientation) {
+            OUT -> {
                 binding.iGameTableSeatEast.rlTableSeatEastContainer.setPadding(0, margin, 0, 0)
                 binding.iGameTableSeatWest.rlTableSeatWestContainer.setPadding(0, margin, 0, 0)
                 binding.iGameTableSeatSouth.rlTableSeatSouthContainer.setPadding(0, 0, 0, margin)
@@ -367,7 +367,7 @@ class GameTableSeatsFragment : Fragment() {
                 binding.iGameTableSeatNorth.rlTableSeatNorthContainer.rotation = 90f
             }
 
-            LANDSCAPE -> {
+            DOWN -> {
                 binding.iGameTableSeatEast.rlTableSeatEastContainer.setPadding(0, margin * 3, 0, 0)
                 binding.iGameTableSeatWest.rlTableSeatWestContainer.setPadding(0, 0, 0, margin * 3)
                 binding.iGameTableSeatSouth.rlTableSeatSouthContainer.setPadding(0, 0, 0, 0)

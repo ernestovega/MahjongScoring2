@@ -28,9 +28,9 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTa
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.Table
-import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation
-import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation.LANDSCAPE
-import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation.PORTRAIT
+import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
+import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
+import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.use_cases.current_game.GetCurrentGameUseCase
@@ -71,8 +71,8 @@ class GameViewModel internal constructor(
     internal fun getCurrentTable(): LiveData<Table> = _currentTable
     private var _selectedSeat = MutableLiveData<TableWinds>()
     internal fun getSelectedSeat(): LiveData<TableWinds> = _selectedSeat
-    private var _seatsRotation = MutableLiveData<ScreenOrientation>()
-    internal fun getScreenOrientation(): LiveData<ScreenOrientation> = _seatsRotation
+    private var _seatOrientation = MutableLiveData<SeatOrientation>()
+    internal fun getSeatsOrientation(): LiveData<SeatOrientation> = _seatOrientation
 
     //DTOs
     internal var huPoints = 0
@@ -83,7 +83,7 @@ class GameViewModel internal constructor(
         playerThreeLiteral = contextForResources.getString(R.string.player_three)
         playerFourLiteral = contextForResources.getString(R.string.player_four)
         _selectedSeat.postValue(NONE)
-        _seatsRotation.postValue(LANDSCAPE)
+        _seatOrientation.postValue(DOWN)
     }
 
     //METHODS
@@ -227,7 +227,7 @@ class GameViewModel internal constructor(
             .blockingGet()
 
     internal fun toggleSeatsRotation() {
-        _seatsRotation.postValue(if (_seatsRotation.value == LANDSCAPE) PORTRAIT else LANDSCAPE)
+        _seatOrientation.postValue(if (_seatOrientation.value == DOWN) OUT else DOWN)
     }
 
     fun isGameEnded(): Boolean = _currentTable.value?.rounds?.last()?.isEnded == true

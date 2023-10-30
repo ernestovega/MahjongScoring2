@@ -16,7 +16,7 @@
 */
 package com.etologic.mahjongscoring2.business.model.enums
 
-enum class ScreenOrientation(val code: Int) {
-    PORTRAIT(0),
-    LANDSCAPE(1)
+enum class SeatOrientation(val code: Int) {
+    OUT(0),
+    DOWN(1)
 }

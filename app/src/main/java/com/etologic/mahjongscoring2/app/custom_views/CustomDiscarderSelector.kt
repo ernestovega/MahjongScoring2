@@ -32,7 +32,7 @@ import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getH
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardWinnerPoints
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfPickDiscarderPoints
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfPickWinnerPoints
-import com.etologic.mahjongscoring2.business.model.enums.ScreenOrientation
+import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
@@ -156,15 +156,15 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
         )
     }
 
-    internal fun updateSeatsOrientation(screenOrientation: ScreenOrientation) {
-        when (screenOrientation) {
-            ScreenOrientation.PORTRAIT -> {
+    internal fun updateSeatsOrientation(seatOrientation: SeatOrientation) {
+        when (seatOrientation) {
+            SeatOrientation.OUT -> {
                 binding.llDiscarderSelectorSouth.rotation = -90f
                 binding.llDiscarderSelectorWest.rotation = 180f
                 binding.llDiscarderSelectorNorth.rotation = 90f
             }
 
-            ScreenOrientation.LANDSCAPE -> {
+            SeatOrientation.DOWN -> {
                 binding.llDiscarderSelectorSouth.rotation = 0f
                 binding.llDiscarderSelectorWest.rotation = 0f
                 binding.llDiscarderSelectorNorth.rotation = 0f

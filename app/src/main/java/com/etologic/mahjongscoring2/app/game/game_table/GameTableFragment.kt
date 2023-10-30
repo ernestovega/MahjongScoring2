@@ -129,7 +129,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
             ?.observe(viewLifecycleOwner, Observer(this::gameObserver))
         activityViewModel?.getSelectedSeat()
             ?.observe(viewLifecycleOwner, Observer(tableSeats::updateSeatState))
-        activityViewModel?.getScreenOrientation()
+        activityViewModel?.getSeatsOrientation()
             ?.observe(viewLifecycleOwner, Observer(tableSeats::updateSeatsOrientation))
     }
 

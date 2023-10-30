@@ -62,7 +62,7 @@ internal class DiscarderDialogFragment : BaseGameDialogFragment() {
                 activityViewModel!!.huPoints,
                 activityViewModel!!.getSelectedSeat().value!!
             )
-            activityViewModel?.getScreenOrientation()
+            activityViewModel?.getSeatsOrientation()
                 ?.observe(viewLifecycleOwner, Observer(binding.cdsDiscarderConfirmDialog::updateSeatsOrientation))
         } else {
             dismiss()

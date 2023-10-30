@@ -16,9 +16,11 @@
 */
 package com.etologic.mahjongscoring2.app.game.activity
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
@@ -36,6 +38,8 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTa
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.TABLE
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_ROUNDS
+import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
+import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.*
 import com.etologic.mahjongscoring2.databinding.GameActivityBinding
 import javax.inject.Inject
 
@@ -43,9 +47,11 @@ class GameActivity : BaseActivity() {
 
     companion object {
         private const val OFFSCREEN_PAGE_LIMIT = 1
-        internal const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
     }
 
+    private var orientationDownDrawable: Drawable? = null
+    private var orientationOutDrawable: Drawable? = null
+    private var seatsOrientationMenuItem: MenuItem? = null
     private var shouldBeShownResumeButton: Boolean = false
     private var shouldBeShownEndButton: Boolean = false
     private var endGameItem: MenuItem? = null
@@ -88,6 +94,7 @@ class GameActivity : BaseActivity() {
             R.id.action_rotate_seats -> {
                 if (binding.viewPagerGame.currentItem == LIST.code) viewModel.showPage(TABLE)
                 viewModel.toggleSeatsRotation()
+                seatsOrientationMenuItem = item
                 true
             }
 
@@ -121,6 +128,8 @@ class GameActivity : BaseActivity() {
         binding = GameActivityBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        orientationDownDrawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_rotation_down)
+        orientationOutDrawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_rotation_out)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -148,6 +157,7 @@ class GameActivity : BaseActivity() {
         viewModel.getCurrentScreen().observe(this) { GameNavigator.navigateTo(it, this, viewModel) }
         viewModel.getCurrentPage().observe(this) { binding.viewPagerGame.currentItem = it.code }
         viewModel.getCurrentTable().observe(this) { currentRoundObserver(it) }
+        viewModel.getSeatsOrientation().observe(this) { updateSeatsOrientationIcon(it) }
     }
 
     private fun currentRoundObserver(currentTable: Table) {
@@ -161,6 +171,13 @@ class GameActivity : BaseActivity() {
         endGameItem?.isVisible = shouldBeShownEndButton
 
         if (currentRound.isEnded) viewModel.navigateTo(RANKING)
+    }
+
+    private fun updateSeatsOrientationIcon(seatOrientation: SeatOrientation) {
+        seatsOrientationMenuItem?.icon = when(seatOrientation) {
+            OUT -> orientationOutDrawable
+            DOWN -> orientationDownDrawable
+        }
     }
 
     private fun setupViewPager() {
