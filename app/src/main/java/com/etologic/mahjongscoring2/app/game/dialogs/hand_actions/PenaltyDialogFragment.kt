@@ -21,6 +21,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
@@ -48,7 +49,12 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
         return binding.root
     }
 
+    override fun getTheme(): Int {
+        return R.style.FullScreenDialogMM
+    }
+
     override fun onDestroyView() {
+        _binding = null
         super.onDestroyView()
     }
 
@@ -86,7 +92,7 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        if (isDialogCancelled) activityViewModel?.unselectedSelectedSeat()
+        if (isDialogCancelled) activityViewModel?.unselectSelectedSeat()
         super.onDismiss(dialog)
     }
 }

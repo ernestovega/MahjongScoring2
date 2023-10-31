@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llTableSeatMediumContainer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/half_standard_margin"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ivTableSeatMediumSeatWind"
+        android:layout_width="@dimen/standard_and_half_margin"
+        android:layout_height="@dimen/standard_and_half_margin"
+        app:tint="@color/grayMM"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_east" />
+
+    <TextView
+        android:id="@+id/tvTableSeatMediumName"
+        style="@style/TextViewTableSeatMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grayMM"
+        tools:text="Player name" />
+
+</LinearLayout>

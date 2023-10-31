@@ -53,7 +53,6 @@ class GameViewModel internal constructor(
         DICE,
         HAND_ACTION,
         HU,
-        DISCARDER,
         PENALTY,
         RANKING,
         EXIT
@@ -73,9 +72,6 @@ class GameViewModel internal constructor(
     internal fun getSelectedSeat(): LiveData<TableWinds> = _selectedSeat
     private var _seatOrientation = MutableLiveData<SeatOrientation>()
     internal fun getSeatsOrientation(): LiveData<SeatOrientation> = _seatOrientation
-
-    //DTOs
-    internal var huPoints = 0
 
     init {
         playerOneLiteral = contextForResources.getString(R.string.player_one)
@@ -111,7 +107,7 @@ class GameViewModel internal constructor(
         _currentScreen.postValue(HAND_ACTION)
     }
 
-    internal fun unselectedSelectedSeat() {
+    internal fun unselectSelectedSeat() {
         _selectedSeat.postValue(NONE)
         _currentTable.postValue(_currentTable.value)
     }

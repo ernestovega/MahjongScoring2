@@ -17,7 +17,6 @@
 package com.etologic.mahjongscoring2.app.game.activity
 
 import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.ActionDialogFragment
-import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.DiscarderDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.HuDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.PenaltyDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.names.NamesDialogFragment
@@ -58,7 +57,4 @@ abstract class GameFragmentsBuilder {
 
     @ContributesAndroidInjector
     internal abstract fun provideRollDiceDialogFragment(): RollDiceDialogFragment
-
-    @ContributesAndroidInjector
-    internal abstract fun provideDiscarderConfirmDialogFragment(): DiscarderDialogFragment
 }

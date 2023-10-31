@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright (C) 2020  Ernesto Vega de la Iglesia Soria
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/half_standard_margin"
+    app:cardMaxElevation="8dp"
+    app:contentPadding="@dimen/standard_margin">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/standard_margin">
+
+        <TextView
+            android:id="@+id/tvGameHuDialogWinnerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/winner_"
+            android:textColor="@color/grayMM" />
+
+        <include
+            android:id="@+id/iGameHuDialogWinnerContainer"
+            layout="@layout/table_seat_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvGameHuDialogWinnerText"
+            android:layout_centerHorizontal="true" />
+
+        <View
+            android:id="@+id/vGameHuDialogSeparator1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/iGameHuDialogWinnerContainer"
+            android:layout_marginTop="@dimen/half_and_quarter_standard_margin"
+            android:layout_marginBottom="@dimen/half_and_quarter_standard_margin"
+            android:background="@color/grayLight" />
+
+        <TextView
+            android:id="@+id/tvGameHuDialogDiscarderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vGameHuDialogSeparator1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/half_standard_margin"
+            android:layout_marginTop="@dimen/half_standard_margin"
+            android:layout_marginEnd="@dimen/half_standard_margin"
+            android:layout_marginBottom="@dimen/half_standard_margin"
+            android:text="@string/discarder_"
+            android:textColor="@color/grayMM" />
+
+        <com.etologic.mahjongscoring2.app.custom_views.CustomDiscarderSelector
+            android:id="@+id/cdsGameHuDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvGameHuDialogDiscarderText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/half_standard_margin"
+            android:layout_marginTop="@dimen/half_standard_margin"
+            android:layout_marginEnd="@dimen/half_standard_margin"
+            android:layout_marginBottom="@dimen/half_standard_margin" />
+
+        <View
+            android:id="@+id/vGameHuDialogSeparator2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/cdsGameHuDialog"
+            android:layout_marginTop="@dimen/half_and_quarter_standard_margin"
+            android:layout_marginBottom="@dimen/half_and_quarter_standard_margin"
+            android:background="@color/grayLight" />
+
+        <TextView
+            android:id="@+id/tvGameHuDialogPointsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vGameHuDialogSeparator2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/half_standard_margin"
+            android:text="@string/points_"
+            android:textColor="@color/grayMM" />
+
+        <com.etologic.mahjongscoring2.app.custom_views.CustomNumPad
+            android:id="@+id/cnpGameHuDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvGameHuDialogPointsText"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cnpGameHuDialog"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/btGameHuDialogCancel"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/standard_margin"
+                android:text="@string/cancel"
+                android:textColor="@color/colorAccent" />
+
+            <Button
+                android:id="@+id/btGameHuDialogOk"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:text="@string/ok"
+                android:textColor="@color/colorAccent" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

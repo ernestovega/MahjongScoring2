@@ -44,7 +44,7 @@
     <string name="points">Points</string>
     <string name="number_symbol">#</string>
     <string name="final_results">Final results</string>
-    <string name="cancel_penalties">Cancel all penalties</string>
+    <string name="cancel_penalties">Cancel penalties</string>
     <string name="draw">Draw</string>
     <string name="east">East</string>
     <string name="west">West</string>
@@ -195,4 +195,6 @@
     <string name="_3rd">3rd</string>
     <string name="mahjong_madrid_web">Mahjong Madrid (web)</string>
     <string name="ema_web">EMA (web)</string>
+    <string name="winner_">Winner:</string>
+    <string name="points_">Points:</string>
 </resources>

@@ -193,4 +193,6 @@
     <string name="_3rd">3°</string>
     <string name="mahjong_madrid_web">Mahjong Madrid (web)</string>
     <string name="ema_web">EMA (web)</string>
+    <string name="winner_">Ganador:</string>
+    <string name="points_">Puntos:</string>
 </resources>

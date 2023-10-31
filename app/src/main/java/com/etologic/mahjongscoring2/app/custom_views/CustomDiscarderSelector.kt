@@ -17,158 +17,128 @@
 package com.etologic.mahjongscoring2.app.custom_views
 
 import android.content.Context
-import android.graphics.Typeface.BOLD_ITALIC
-import android.graphics.Typeface.NORMAL
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.app.extensions.second
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.POINTS_DISCARD_NEUTRAL_PLAYERS
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardDiscarderPoints
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardWinnerPoints
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfPickDiscarderPoints
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfPickWinnerPoints
-import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
+import com.etologic.mahjongscoring2.app.extensions.third
+import com.etologic.mahjongscoring2.app.model.Seat
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.CustomDiscarderSelectorBinding
 
 class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet) {
 
-    private var grayColor = ContextCompat.getColor(context, R.color.grayMM)
-    private var greenColor = ContextCompat.getColor(context, R.color.colorPrimary)
-    private var redColor = ContextCompat.getColor(context, R.color.red)
-    private var winnerWind = NONE
-    private var looserWind = NONE
-    private var huPoints = 0
-    private var margin = 0
+    private var eastIcon: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_east)
+    private var southIcon: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_south)
+    private var westIcon: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_west)
+    private var northIcon: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_north)
+    private var selectedBg: Drawable? = ContextCompat.getDrawable(context, R.drawable.shape_rounded_corners_light_gray)
+    private var redColor: Int? = ContextCompat.getColor(context, R.color.red)
+    private var grayMMColor: Int? = ContextCompat.getColor(context, R.color.grayMM)
+    private lateinit var seats: List<Seat>
+    var selectedSeatWind = NONE
+        private set
 
     private var _binding: CustomDiscarderSelectorBinding? = null
     private val binding get() = _binding!!
 
     init {
         _binding = CustomDiscarderSelectorBinding.inflate(LayoutInflater.from(context), this, true)
-        margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16f, resources.displayMetrics).toInt()
     }
 
-    internal fun getDiscarderCurrentSeat(): TableWinds = looserWind
-
-    internal fun initPlayers(namesList: Array<String>, huPoints: Int, winnerWind: TableWinds) {
-        this.huPoints = huPoints
-        this.winnerWind = winnerWind
-        setNames(namesList)
-        setupSelfPick()
+    internal fun initPlayers(seats: List<Seat>) {
+        this.seats = seats
+        setNames(seats.map { it.name })
+        setIcons(seats.map { it.seatWind })
         setListeners()
     }
 
-    private fun setNames(namesList: Array<String>) {
+    private fun setNames(namesList: List<String>) {
         with(binding) {
-            tvDiscarderSelectorEastName.text = namesList[EAST.code]
-            tvDiscarderSelectorSouthName.text = namesList[SOUTH.code]
-            tvDiscarderSelectorWestName.text = namesList[WEST.code]
-            tvDiscarderSelectorNorthName.text = namesList[NORTH.code]
+            iDiscarderSelectorPlayer1Container.tvTableSeatSmallName.text = namesList.first()
+            iDiscarderSelectorPlayer2Container.tvTableSeatSmallName.text = namesList.second()
+            iDiscarderSelectorPlayer3Container.tvTableSeatSmallName.text = namesList.third()
+            iDiscarderSelectorPlayer1Container.tvTableSeatSmallName.setTextColor(grayMMColor!!)
+            iDiscarderSelectorPlayer2Container.tvTableSeatSmallName.setTextColor(grayMMColor!!)
+            iDiscarderSelectorPlayer3Container.tvTableSeatSmallName.setTextColor(grayMMColor!!)
+        }
+    }
+
+    private fun setIcons(seatsWinds: List<TableWinds>) {
+        fun getWindIcon(wind: TableWinds?) = when (wind) {
+            TableWinds.EAST -> eastIcon
+            TableWinds.SOUTH -> southIcon
+            TableWinds.WEST -> westIcon
+            TableWinds.NORTH -> northIcon
+            else -> null
+        }
+
+        with(binding) {
+            iDiscarderSelectorPlayer1Container.ivTableSeatSmallSeatWind.setImageDrawable(getWindIcon(seatsWinds.first()))
+            iDiscarderSelectorPlayer2Container.ivTableSeatSmallSeatWind.setImageDrawable(getWindIcon(seatsWinds.second()))
+            iDiscarderSelectorPlayer3Container.ivTableSeatSmallSeatWind.setImageDrawable(getWindIcon(seatsWinds.third()))
+            iDiscarderSelectorPlayer1Container.ivTableSeatSmallSeatWind.setColorFilter(grayMMColor!!)
+            iDiscarderSelectorPlayer2Container.ivTableSeatSmallSeatWind.setColorFilter(grayMMColor!!)
+            iDiscarderSelectorPlayer3Container.ivTableSeatSmallSeatWind.setColorFilter(grayMMColor!!)
         }
     }
 
     private fun setListeners() {
         with(binding) {
-            llDiscarderSelectorEast.setOnSecureClickListener { selectDiscarder(EAST) }
-            llDiscarderSelectorSouth.setOnSecureClickListener { selectDiscarder(SOUTH) }
-            llDiscarderSelectorWest.setOnSecureClickListener { selectDiscarder(WEST) }
-            llDiscarderSelectorNorth.setOnSecureClickListener { selectDiscarder(NORTH) }
+            iDiscarderSelectorPlayer1Container.llTableSeatSmallContainer.setOnSecureClickListener { selectDiscarder(0) }
+            iDiscarderSelectorPlayer2Container.llTableSeatSmallContainer.setOnSecureClickListener { selectDiscarder(1) }
+            iDiscarderSelectorPlayer3Container.llTableSeatSmallContainer.setOnSecureClickListener { selectDiscarder(2) }
         }
     }
 
-    private fun setupSelfPick() {
-        with(binding) {
-            setSelfPickSeats(tvDiscarderSelectorEastName, tvDiscarderSelectorEastPoints, EAST)
-            setSelfPickSeats(tvDiscarderSelectorSouthName, tvDiscarderSelectorSouthPoints, SOUTH)
-            setSelfPickSeats(tvDiscarderSelectorWestName, tvDiscarderSelectorWestPoints, WEST)
-            setSelfPickSeats(tvDiscarderSelectorNorthName, tvDiscarderSelectorNorthPoints, NORTH)
-        }
-    }
-
-    private fun setSelfPickSeats(tvName: TextView?, tvPoints: TextView?, wind: TableWinds) {
-        if (wind == winnerWind) setSeatTextsStyles(tvName, tvPoints, greenColor, BOLD_ITALIC)
-        else setSeatTextsStyles(tvName, tvPoints, grayColor, NORMAL)
-        tvPoints?.text = getSelfPickSeatPointsText(wind)
-    }
-
-    private fun setSeatTextsStyles(tvName: TextView?, tvPoints: TextView?, color: Int, textStyle: Int) {
-        tvName?.setTextColor(color)
-        tvPoints?.setTextColor(color)
-        tvName?.setTypeface(null, textStyle)
-        tvPoints?.setTypeface(null, textStyle)
-    }
-
-    private fun getSelfPickSeatPointsText(wind: TableWinds): String {
-        return String.format(
-            "%+d",
-            if (wind == winnerWind) getHuSelfPickWinnerPoints(huPoints)
-            else getHuSelfPickDiscarderPoints(huPoints)
-        )
-    }
-
-    private fun selectDiscarder(wind: TableWinds) {
-        if (wind == winnerWind || wind == looserWind) {
-            looserWind = NONE
-            setupSelfPick()
+    private fun selectDiscarder(seatIndex: Int) {
+        if (seats[seatIndex].seatWind == selectedSeatWind) {
+            selectedSeatWind = NONE
+            unselectAll()
         } else {
-            looserWind = wind
-            setupDiscard()
+            selectedSeatWind = seats[seatIndex].seatWind
+            setupSelectedSeat()
         }
     }
 
-    private fun setupDiscard() {
-        with(binding) {
-            setDiscardSeat(tvDiscarderSelectorEastName, tvDiscarderSelectorEastPoints, EAST)
-            setDiscardSeat(tvDiscarderSelectorSouthName, tvDiscarderSelectorSouthPoints, SOUTH)
-            setDiscardSeat(tvDiscarderSelectorWestName, tvDiscarderSelectorWestPoints, WEST)
-            setDiscardSeat(tvDiscarderSelectorNorthName, tvDiscarderSelectorNorthPoints, NORTH)
-        }
+    private fun unselectAll() {
+        binding.iDiscarderSelectorPlayer1Container.llTableSeatSmallContainer.background = null
+        binding.iDiscarderSelectorPlayer2Container.llTableSeatSmallContainer.background = null
+        binding.iDiscarderSelectorPlayer3Container.llTableSeatSmallContainer.background = null
+        binding.iDiscarderSelectorPlayer1Container.tvTableSeatSmallName.setTextColor(grayMMColor!!)
+        binding.iDiscarderSelectorPlayer2Container.tvTableSeatSmallName.setTextColor(grayMMColor!!)
+        binding.iDiscarderSelectorPlayer3Container.tvTableSeatSmallName.setTextColor(grayMMColor!!)
+        binding.iDiscarderSelectorPlayer1Container.ivTableSeatSmallSeatWind.setColorFilter(grayMMColor!!)
+        binding.iDiscarderSelectorPlayer2Container.ivTableSeatSmallSeatWind.setColorFilter(grayMMColor!!)
+        binding.iDiscarderSelectorPlayer3Container.ivTableSeatSmallSeatWind.setColorFilter(grayMMColor!!)
     }
 
-    private fun setDiscardSeat(tvName: TextView?, tvPoints: TextView?, wind: TableWinds) {
-        when (wind) {
-            winnerWind -> setSeatTextsStyles(tvName, tvPoints, greenColor, BOLD_ITALIC)
-            looserWind -> setSeatTextsStyles(tvName, tvPoints, redColor, BOLD_ITALIC)
-            else -> setSeatTextsStyles(tvName, tvPoints, grayColor, NORMAL)
-        }
-        tvPoints?.text = getDiscardSeatPointsText(wind)
-    }
+    private fun setupSelectedSeat() {
+        val seatIndex = seats.indexOfFirst { it.seatWind == selectedSeatWind }
 
-    private fun getDiscardSeatPointsText(wind: TableWinds): String {
-        return String.format(
-            "%+d",
-            when (wind) {
-                winnerWind -> getHuDiscardWinnerPoints(huPoints)
-                looserWind -> getHuDiscardDiscarderPoints(huPoints)
-                else -> POINTS_DISCARD_NEUTRAL_PLAYERS
-            }
-        )
-    }
+        unselectAll()
 
-    internal fun updateSeatsOrientation(seatOrientation: SeatOrientation) {
-        when (seatOrientation) {
-            SeatOrientation.OUT -> {
-                binding.llDiscarderSelectorSouth.rotation = -90f
-                binding.llDiscarderSelectorWest.rotation = 180f
-                binding.llDiscarderSelectorNorth.rotation = 90f
-            }
+        when (seatIndex) {
+            0 -> binding.iDiscarderSelectorPlayer1Container.llTableSeatSmallContainer
+            1 -> binding.iDiscarderSelectorPlayer2Container.llTableSeatSmallContainer
+            else -> binding.iDiscarderSelectorPlayer3Container.llTableSeatSmallContainer
+        }.background = selectedBg
 
-            SeatOrientation.DOWN -> {
-                binding.llDiscarderSelectorSouth.rotation = 0f
-                binding.llDiscarderSelectorWest.rotation = 0f
-                binding.llDiscarderSelectorNorth.rotation = 0f
-            }
-        }
+        when (seatIndex) {
+            0 -> binding.iDiscarderSelectorPlayer1Container.tvTableSeatSmallName
+            1 -> binding.iDiscarderSelectorPlayer2Container.tvTableSeatSmallName
+            else -> binding.iDiscarderSelectorPlayer3Container.tvTableSeatSmallName
+        }.setTextColor(redColor!!)
+
+        when (seatIndex) {
+            0 -> binding.iDiscarderSelectorPlayer1Container.ivTableSeatSmallSeatWind
+            1 -> binding.iDiscarderSelectorPlayer2Container.ivTableSeatSmallSeatWind
+            else -> binding.iDiscarderSelectorPlayer3Container.ivTableSeatSmallSeatWind
+        }.setColorFilter(redColor!!)
     }
 }

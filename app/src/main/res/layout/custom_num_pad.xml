@@ -15,6 +15,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
@@ -32,7 +33,7 @@
         android:enabled="false"
         android:focusable="false"
         android:gravity="center"
-        android:hint="@string/points"
+        android:hint="-"
         android:importantForAutofill="no"
         android:inputType="none"
         android:lines="1"
@@ -40,10 +41,11 @@
         android:paddingStart="@dimen/half_standard_margin"
         android:paddingEnd="@dimen/half_standard_margin"
         android:textColor="@color/grayMM"
-        android:textColorHint="@color/grayLight"
+        android:textColorHint="@color/gray"
         android:textIsSelectable="false"
-        android:textSize="40sp"
-        android:textStyle="bold" />
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
 
     <LinearLayout
         android:layout_width="wrap_content"

@@ -15,76 +15,72 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/AlertDialogStyleMM"
-    android:layout_width="240dp"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/standard_margin">
+    android:paddingStart="@dimen/fourth_standard_margin"
+    android:paddingTop="@dimen/standard_margin"
+    android:paddingEnd="@dimen/fourth_standard_margin"
+    android:paddingBottom="@dimen/standard_margin">
+
+    <ImageView
+        android:id="@+id/ivHandActionsDialogPlayerSeatWind"
+        style="@style/TextViewTableSeat"
+        android:layout_width="@dimen/second_standard_margin"
+        android:layout_height="@dimen/second_standard_margin"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        app:tint="@color/white"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_east" />
+
+    <TextView
+        android:id="@+id/tvHandActionsDialogPlayerName"
+        style="@style/TextViewTableSeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        tools:text="Player name" />
 
     <LinearLayout
-        android:id="@+id/btHandActionsDialogPenaltiesCancel"
-        style="@style/ButtonHandAction"
-        android:background="@drawable/button_rounded_corners_purple"
-        android:padding="@dimen/half_standard_margin"
-        android:visibility="gone"
+        android:id="@+id/btHandActionsDialogHu"
+        style="@style/ButtonHandActionBig"
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/half_standard_margin"
+            android:layout_marginTop="@dimen/half_and_quarter_standard_margin"
+            android:layout_marginBottom="@dimen/quarter_standard_margin"
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_penalty_white" />
+            android:src="@drawable/ic_trophy_white_18dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:maxLines="2"
-            android:text="@string/cancel_penalties"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/btHandActionsDialogPenalty"
-        style="@style/ButtonHandAction"
-        tools:ignore="UseCompoundDrawables">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/half_standard_margin"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_penalty_white" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/half_and_quarter_standard_margin"
             android:lines="1"
-            android:text="@string/penalty"
+            android:text="@string/mahjong"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="21sp"
             android:textStyle="bold" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/btHandActionsDialogDraw"
-        style="@style/ButtonHandAction"
+        style="@style/ButtonHandActionSmall"
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/half_standard_margin"
+            android:layout_marginBottom="@dimen/quarter_standard_margin"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_flag_white" />
 
@@ -101,27 +97,54 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/btHandActionsDialogHu"
-        style="@style/ButtonHandAction"
+        android:id="@+id/btHandActionsDialogPenalty"
+        style="@style/ButtonHandActionSmall"
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/quarter_standard_margin"
-            android:layout_marginBottom="@dimen/half_standard_margin"
+            android:layout_marginBottom="@dimen/quarter_standard_margin"
             android:importantForAccessibility="no"
-            android:src="@drawable/ic_trophy_white_18dp" />
+            android:src="@drawable/ic_penalty_white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/quarter_standard_margin"
             android:lines="1"
-            android:text="@string/mahjong"
+            android:text="@string/penalty"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="21sp"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btHandActionsDialogPenaltiesCancel"
+        style="@style/ButtonHandActionSmall"
+        android:layout_marginTop="@dimen/second_standard_margin"
+        android:background="@drawable/button_rounded_corners_purple"
+        android:visibility="gone"
+        tools:ignore="UseCompoundDrawables"
+        tools:visibility="visible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/quarter_standard_margin"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_penalty_white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:text="@string/cancel_penalties"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
     </LinearLayout>

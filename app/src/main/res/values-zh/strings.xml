@@ -193,4 +193,6 @@
     <string name="_3rd">第三</string>
     <string name="mahjong_madrid_web">Mahjong Madrid (网络)</string>
     <string name="ema_web">EMA (网络)</string>
+    <string name="winner_">优胜者:</string>
+    <string name="points_">点:</string>
 </resources>
