@@ -202,4 +202,6 @@
     <string name="indirect">Indirect</string>
     <string name="to_be_by">To be \\ By</string>
     <string name="points_needed">Points needed:</string>
+    <string name="hide_diffs_calcs">Hide diffs calcs</string>
+    <string name="show_diffs_calcs">Show diffs calcs</string>
 </resources>

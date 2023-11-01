@@ -32,7 +32,6 @@ import android.widget.RelativeLayout.ALIGN_PARENT_TOP
 import android.widget.RelativeLayout.GONE
 import android.widget.RelativeLayout.LayoutParams
 import androidx.core.content.ContextCompat.getDrawable
-import androidx.lifecycle.Observer
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.drawable.ic_dice_multiple_white_24dp
 import com.etologic.mahjongscoring2.R.drawable.ic_east
@@ -125,12 +124,10 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     }
 
     private fun startObservingTable() {
-        activityViewModel?.getCurrentTable()
-            ?.observe(viewLifecycleOwner, Observer(this::gameObserver))
-        activityViewModel?.getSelectedSeat()
-            ?.observe(viewLifecycleOwner, Observer(tableSeats::updateSeatState))
-        activityViewModel?.getSeatsOrientation()
-            ?.observe(viewLifecycleOwner, Observer(tableSeats::updateSeatsOrientation))
+        activityViewModel?.getCurrentTable()?.observe(viewLifecycleOwner) { gameObserver(it) }
+        activityViewModel?.getSelectedSeat()?.observe(viewLifecycleOwner) { tableSeats.updateSeatState(it) }
+        activityViewModel?.getSeatsOrientation()?.observe(viewLifecycleOwner) { tableSeats.updateSeatsOrientation(it) }
+        activityViewModel?.shouldShowDiffs()?.observe(viewLifecycleOwner) { tableSeats.toggleDiffs(it) }
     }
 
     private fun gameObserver(it: Table) {

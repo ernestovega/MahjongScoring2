@@ -20,12 +20,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    tools:background="@color/blackTransparent"
     android:orientation="vertical"
     android:paddingStart="@dimen/fourth_standard_margin"
     android:paddingTop="@dimen/standard_margin"
     android:paddingEnd="@dimen/fourth_standard_margin"
-    android:paddingBottom="@dimen/standard_margin">
+    android:paddingBottom="@dimen/standard_margin"
+    tools:background="@color/blackTransparent">
 
     <ImageView
         android:id="@+id/ivHandActionsDialogPlayerSeatWind"
@@ -48,17 +48,22 @@
         tools:text="Player name" />
 
     <TextView
-        android:id="@+id/tvGameHuDialogDiscarderText"
+        android:id="@+id/tvHandActionsDialogDiffsTitle"
         style="@style/diffsDialogCell"
         android:layout_marginTop="@dimen/standard_margin"
-        android:text="@string/points_needed" />
+        android:text="@string/points_needed"
+        android:textStyle="normal"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <include
         android:id="@+id/iHandActionsDialogDiffs"
         layout="@layout/game_action_dialog_diffs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/half_standard_margin" />
+        android:layout_marginTop="@dimen/half_standard_margin"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/btHandActionsDialogHu"

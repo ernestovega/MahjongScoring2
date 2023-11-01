@@ -200,4 +200,6 @@
     <string name="indirect">间接</string>
     <string name="to_be_by">成为: \ 经过:</string>
     <string name="points_needed">需要积分:</string>
+    <string name="hide_diffs_calcs">隐藏计算结果</string>
+    <string name="show_diffs_calcs">显示计算结果</string>
 </resources>

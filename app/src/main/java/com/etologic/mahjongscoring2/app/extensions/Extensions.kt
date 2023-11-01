@@ -72,3 +72,6 @@ fun <T> Array<T>.fourth(): T {
         throw NoSuchElementException("Not enough elements")
     return this[3]
 }
+
+fun Int?.toStringOrHyphen(): String = this?.toString() ?: "-"
+

@@ -33,17 +33,15 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.getDrawable
-import androidx.fragment.app.Fragment
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.color
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
+import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.model.SeatStates
 import com.etologic.mahjongscoring2.app.model.SeatStates.DISABLED
 import com.etologic.mahjongscoring2.app.model.SeatStates.NORMAL
 import com.etologic.mahjongscoring2.app.model.SeatStates.SELECTED
 import com.etologic.mahjongscoring2.business.model.dtos.SeatDiffs
-import com.etologic.mahjongscoring2.business.model.dtos.TableDiffs
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
@@ -57,7 +55,7 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.GameTableSeatsFragmentBinding
 import java.util.Locale.getDefault
 
-class GameTableSeatsFragment : Fragment() {
+class GameTableSeatsFragment : BaseGameFragment() {
 
     companion object {
         internal const val TAG = "GameTableSeatsFragment"
@@ -109,7 +107,7 @@ class GameTableSeatsFragment : Fragment() {
         setStates(getSeatsStates(table))
         val playersTotalPointsByCurrentSeat = table.getPlayersTotalPointsByCurrentSeat()
         setPoints(playersTotalPointsByCurrentSeat.map { String.format(getDefault(), "%d", it) })
-        setPointsDiffs(table.getTableDiffs())
+        setPointsDiffs(table)
         setWinds(table.getSeatsCurrentWind(table.rounds.size))
         setNames(table.getPlayersNamesByCurrentSeat())
         setPenalties(table.getPlayersPenaltiesByCurrentSeat(), table.rounds.last().isEnded)
@@ -170,38 +168,47 @@ class GameTableSeatsFragment : Fragment() {
         binding.iGameTableSeatNorth.tvTableSeatNorthPoints.text = points[NORTH.code]
     }
 
-    private fun setPointsDiffs(tableDiffs: TableDiffs) {
-        with(binding.iGameTableSeatEast.iGameTableSeatEastDiffs) {
-            setSeatDiffs(
-                tableDiffs.seatsDiffs[EAST.code],
-                tvTableSeatDiffsFirstSelfPick, tvTableSeatDiffsFirstDirectHu, tvTableSeatDiffsFirstIndirectHu, tlTableSeatDiffs,
-                tvTableSeatDiffsSecondSelfPick, tvTableSeatDiffsSecondDirectHu, tvTableSeatDiffsSecondIndirectHu, trTableSeatDiffsSecond,
-                tvTableSeatDiffsThirdSelfPick, tvTableSeatDiffsThirdDirectHu, tvTableSeatDiffsThirdIndirectHu, trTableSeatDiffsThird,
-            )
-        }
-        with(binding.iGameTableSeatSouth.iGameTableSeatSouthDiffs) {
-            setSeatDiffs(
-                tableDiffs.seatsDiffs[SOUTH.code],
-                tvTableSeatDiffsFirstSelfPick, tvTableSeatDiffsFirstDirectHu, tvTableSeatDiffsFirstIndirectHu, tlTableSeatDiffs,
-                tvTableSeatDiffsSecondSelfPick, tvTableSeatDiffsSecondDirectHu, tvTableSeatDiffsSecondIndirectHu, trTableSeatDiffsSecond,
-                tvTableSeatDiffsThirdSelfPick, tvTableSeatDiffsThirdDirectHu, tvTableSeatDiffsThirdIndirectHu, trTableSeatDiffsThird,
-            )
-        }
-        with(binding.iGameTableSeatWest.iGameTableSeatWestDiffs) {
-            setSeatDiffs(
-                tableDiffs.seatsDiffs[WEST.code],
-                tvTableSeatDiffsFirstSelfPick, tvTableSeatDiffsFirstDirectHu, tvTableSeatDiffsFirstIndirectHu, tlTableSeatDiffs,
-                tvTableSeatDiffsSecondSelfPick, tvTableSeatDiffsSecondDirectHu, tvTableSeatDiffsSecondIndirectHu, trTableSeatDiffsSecond,
-                tvTableSeatDiffsThirdSelfPick, tvTableSeatDiffsThirdDirectHu, tvTableSeatDiffsThirdIndirectHu, trTableSeatDiffsThird,
-            )
-        }
-        with(binding.iGameTableSeatNorth.iGameTableSeatNorthDiffs) {
-            setSeatDiffs(
-                tableDiffs.seatsDiffs[NORTH.code],
-                tvTableSeatDiffsFirstSelfPick, tvTableSeatDiffsFirstDirectHu, tvTableSeatDiffsFirstIndirectHu, tlTableSeatDiffs,
-                tvTableSeatDiffsSecondSelfPick, tvTableSeatDiffsSecondDirectHu, tvTableSeatDiffsSecondIndirectHu, trTableSeatDiffsSecond,
-                tvTableSeatDiffsThirdSelfPick, tvTableSeatDiffsThirdDirectHu, tvTableSeatDiffsThirdIndirectHu, trTableSeatDiffsThird,
-            )
+    private fun setPointsDiffs(table: Table?) {
+        if (activityViewModel?.shouldShowDiffs()?.value != false) {
+            val tableDiffs = table?.getTableDiffs()
+            if (tableDiffs != null) {
+                with(binding.iGameTableSeatEast.iGameTableSeatEastDiffs) {
+                    setSeatDiffs(
+                        tableDiffs.seatsDiffs[EAST.code],
+                        tvTableSeatDiffsFirstSelfPick, tvTableSeatDiffsFirstDirectHu, tvTableSeatDiffsFirstIndirectHu, tlTableSeatDiffs,
+                        tvTableSeatDiffsSecondSelfPick, tvTableSeatDiffsSecondDirectHu, tvTableSeatDiffsSecondIndirectHu, trTableSeatDiffsSecond,
+                        tvTableSeatDiffsThirdSelfPick, tvTableSeatDiffsThirdDirectHu, tvTableSeatDiffsThirdIndirectHu, trTableSeatDiffsThird,
+                    )
+                }
+                with(binding.iGameTableSeatSouth.iGameTableSeatSouthDiffs) {
+                    setSeatDiffs(
+                        tableDiffs.seatsDiffs[SOUTH.code],
+                        tvTableSeatDiffsFirstSelfPick, tvTableSeatDiffsFirstDirectHu, tvTableSeatDiffsFirstIndirectHu, tlTableSeatDiffs,
+                        tvTableSeatDiffsSecondSelfPick, tvTableSeatDiffsSecondDirectHu, tvTableSeatDiffsSecondIndirectHu, trTableSeatDiffsSecond,
+                        tvTableSeatDiffsThirdSelfPick, tvTableSeatDiffsThirdDirectHu, tvTableSeatDiffsThirdIndirectHu, trTableSeatDiffsThird,
+                    )
+                }
+                with(binding.iGameTableSeatWest.iGameTableSeatWestDiffs) {
+                    setSeatDiffs(
+                        tableDiffs.seatsDiffs[WEST.code],
+                        tvTableSeatDiffsFirstSelfPick, tvTableSeatDiffsFirstDirectHu, tvTableSeatDiffsFirstIndirectHu, tlTableSeatDiffs,
+                        tvTableSeatDiffsSecondSelfPick, tvTableSeatDiffsSecondDirectHu, tvTableSeatDiffsSecondIndirectHu, trTableSeatDiffsSecond,
+                        tvTableSeatDiffsThirdSelfPick, tvTableSeatDiffsThirdDirectHu, tvTableSeatDiffsThirdIndirectHu, trTableSeatDiffsThird,
+                    )
+                }
+                with(binding.iGameTableSeatNorth.iGameTableSeatNorthDiffs) {
+                    setSeatDiffs(
+                        tableDiffs.seatsDiffs[NORTH.code],
+                        tvTableSeatDiffsFirstSelfPick, tvTableSeatDiffsFirstDirectHu, tvTableSeatDiffsFirstIndirectHu, tlTableSeatDiffs,
+                        tvTableSeatDiffsSecondSelfPick, tvTableSeatDiffsSecondDirectHu, tvTableSeatDiffsSecondIndirectHu, trTableSeatDiffsSecond,
+                        tvTableSeatDiffsThirdSelfPick, tvTableSeatDiffsThirdDirectHu, tvTableSeatDiffsThirdIndirectHu, trTableSeatDiffsThird,
+                    )
+                }
+            } else {
+                hideDiffs()
+            }
+        } else {
+            hideDiffs()
         }
     }
 
@@ -216,22 +223,22 @@ class GameTableSeatsFragment : Fragment() {
         trDiffsThird.visibility = GONE
 
         val pointsToBeFirst = seatDiffs.pointsToBeFirst ?: return
+        tlGameTable.visibility = VISIBLE
         tvFirstSelfPick.text = pointsToBeFirst.bySelfPick.toString()
         tvFirstDirectHu.text = pointsToBeFirst.byDirectHu.toString()
         tvFirstIndirectHu.text = pointsToBeFirst.byIndirectHu.toString()
-        tlGameTable.visibility = VISIBLE
 
         val pointsToBeSecond = seatDiffs.pointsToBeSecond ?: return
+        trDiffsSecond.visibility = VISIBLE
         tvSecondSelfPick.text = pointsToBeSecond.bySelfPick.toString()
         tvSecondDirectHu.text = pointsToBeSecond.byDirectHu.toString()
         tvSecondIndirectHu.text = pointsToBeSecond.byIndirectHu.toString()
-        trDiffsSecond.visibility = VISIBLE
 
         val pointsToBeThird = seatDiffs.pointsToBeThird ?: return
+        trDiffsThird.visibility = VISIBLE
         tvThirdSelfPick.text = pointsToBeThird.bySelfPick.toString()
         tvThirdDirectHu.text = pointsToBeThird.byDirectHu.toString()
         tvThirdIndirectHu.text = pointsToBeThird.byIndirectHu.toString()
-        trDiffsThird.visibility = VISIBLE
     }
 
     private fun setPenalties(penalties: IntArray, isEnded: Boolean) {
@@ -296,7 +303,6 @@ class GameTableSeatsFragment : Fragment() {
 
     private var _binding: GameTableSeatsFragmentBinding? = null
     private val binding get() = _binding!!
-    protected var activityViewModel: GameViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -378,5 +384,20 @@ class GameTableSeatsFragment : Fragment() {
                 binding.iGameTableSeatNorth.rlTableSeatNorthContainer.rotation = 0f
             }
         }
+    }
+
+    fun toggleDiffs(shouldShowDiffs: Boolean) {
+        if (shouldShowDiffs) {
+            setPointsDiffs(activityViewModel?.getCurrentTable()?.value)
+        } else {
+            hideDiffs()
+        }
+    }
+
+    private fun hideDiffs() {
+        binding.iGameTableSeatEast.iGameTableSeatEastDiffs.tlTableSeatDiffs.visibility = GONE
+        binding.iGameTableSeatSouth.iGameTableSeatSouthDiffs.tlTableSeatDiffs.visibility = GONE
+        binding.iGameTableSeatWest.iGameTableSeatWestDiffs.tlTableSeatDiffs.visibility = GONE
+        binding.iGameTableSeatNorth.iGameTableSeatNorthDiffs.tlTableSeatDiffs.visibility = GONE
     }
 }

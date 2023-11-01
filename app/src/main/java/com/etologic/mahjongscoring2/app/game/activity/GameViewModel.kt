@@ -72,6 +72,8 @@ class GameViewModel internal constructor(
     internal fun getSelectedSeat(): LiveData<TableWinds> = _selectedSeat
     private var _seatOrientation = MutableLiveData<SeatOrientation>()
     internal fun getSeatsOrientation(): LiveData<SeatOrientation> = _seatOrientation
+    private var _shouldShowDiffs = MutableLiveData<Boolean>()
+    internal fun shouldShowDiffs(): LiveData<Boolean> = _shouldShowDiffs
 
     init {
         playerOneLiteral = contextForResources.getString(R.string.player_one)
@@ -227,4 +229,12 @@ class GameViewModel internal constructor(
     }
 
     fun isGameEnded(): Boolean = _currentTable.value?.rounds?.last()?.isEnded == true
+
+    fun showDiffs() {
+        _shouldShowDiffs.postValue(true)
+    }
+
+    fun hideDiffs() {
+        _shouldShowDiffs.postValue(false)
+    }
 }

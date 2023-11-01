@@ -10,7 +10,8 @@
 
         <TextView
             style="@style/diffsDialogCell"
-            android:text="@string/to_be_by"/>
+            android:text="@string/to_be_by"
+            android:textStyle="normal" />
 
         <TextView
             style="@style/diffsDialogCell"

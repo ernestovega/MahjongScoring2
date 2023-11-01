@@ -56,6 +56,8 @@ class GameActivity : BaseActivity() {
     private var shouldBeShownEndButton: Boolean = false
     private var endGameItem: MenuItem? = null
     private var resumeGameItem: MenuItem? = null
+    private var showCalcsItem: MenuItem? = null
+    private var hideCalcsItem: MenuItem? = null
 
     private lateinit var binding: GameActivityBinding
 
@@ -77,9 +79,14 @@ class GameActivity : BaseActivity() {
 
         resumeGameItem = menu.findItem(R.id.action_resume_game)
         endGameItem = menu.findItem(R.id.action_end_game)
+        showCalcsItem = menu.findItem(R.id.action_show_diffs_calcs)
+        hideCalcsItem = menu.findItem(R.id.action_hide_diffs_calcs)
 
         resumeGameItem?.isVisible = shouldBeShownResumeButton
         endGameItem?.isVisible = shouldBeShownEndButton
+
+        showCalcsItem?.isVisible = viewModel.shouldShowDiffs().value == false
+        hideCalcsItem?.isVisible = viewModel.shouldShowDiffs().value != false
 
         return true
     }
@@ -105,6 +112,16 @@ class GameActivity : BaseActivity() {
 
             R.id.action_end_game -> {
                 viewModel.endGame()
+                true
+            }
+
+            R.id.action_show_diffs_calcs -> {
+                viewModel.showDiffs()
+                true
+            }
+
+            R.id.action_hide_diffs_calcs -> {
+                viewModel.hideDiffs()
                 true
             }
 
@@ -158,13 +175,13 @@ class GameActivity : BaseActivity() {
         viewModel.getCurrentPage().observe(this) { binding.viewPagerGame.currentItem = it.code }
         viewModel.getCurrentTable().observe(this) { currentRoundObserver(it) }
         viewModel.getSeatsOrientation().observe(this) { updateSeatsOrientationIcon(it) }
+        viewModel.shouldShowDiffs().observe(this) { toggleDiffs(it) }
     }
 
     private fun currentRoundObserver(currentTable: Table) {
         val currentRound = currentTable.rounds.last()
 
-        shouldBeShownResumeButton =
-            if (currentRound.isEnded) currentTable.rounds.size < MAX_MCR_ROUNDS else false
+        shouldBeShownResumeButton = if (currentRound.isEnded) currentTable.rounds.size < MAX_MCR_ROUNDS else false
         shouldBeShownEndButton = !currentRound.isEnded && currentTable.rounds.size > 1
 
         resumeGameItem?.isVisible = shouldBeShownResumeButton
@@ -177,6 +194,16 @@ class GameActivity : BaseActivity() {
         seatsOrientationMenuItem?.icon = when(seatOrientation) {
             OUT -> orientationOutDrawable
             DOWN -> orientationDownDrawable
+        }
+    }
+
+    private fun toggleDiffs(shouldShowDiffs: Boolean) {
+        if (shouldShowDiffs) {
+            showCalcsItem?.isVisible = false
+            hideCalcsItem?.isVisible = true
+        } else {
+            showCalcsItem?.isVisible = true
+            hideCalcsItem?.isVisible = false
         }
     }
 

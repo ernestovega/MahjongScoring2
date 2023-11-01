@@ -200,4 +200,6 @@
     <string name="indirect">Indirecto</string>
     <string name="to_be_by">Para ser: \ Por:</string>
     <string name="points_needed">Puntos necesarios:</string>
+    <string name="hide_diffs_calcs">Ocultar cálculos</string>
+    <string name="show_diffs_calcs">Mostrar cálculos</string>
 </resources>
