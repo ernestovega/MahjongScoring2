@@ -197,4 +197,9 @@
     <string name="ema_web">EMA (web)</string>
     <string name="winner_">Winner:</string>
     <string name="points_">Points:</string>
+    <string name="self_pick">Self pick</string>
+    <string name="direct">Direct</string>
+    <string name="indirect">Indirect</string>
+    <string name="to_be_by">To be \\ By</string>
+    <string name="points_needed">Points needed:</string>
 </resources>

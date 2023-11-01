@@ -32,7 +32,7 @@ import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PENALTY
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.databinding.GameHandActionSelectorFragmentBinding
+import com.etologic.mahjongscoring2.databinding.GameActionDialogFragmentBinding
 
 internal class ActionDialogFragment : BaseGameDialogFragment() {
 
@@ -45,7 +45,7 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     private var westIcon: Drawable? = null
     private var northIcon: Drawable? = null
     private var isDialogCancelled = true
-    private var _binding: GameHandActionSelectorFragmentBinding? = null
+    private var _binding: GameActionDialogFragmentBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -53,7 +53,7 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = GameHandActionSelectorFragmentBinding.inflate(inflater, container, false)
+        _binding = GameActionDialogFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -74,8 +74,14 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     }
 
     private fun initViews() {
+        setPlayer()
+        setButtons()
+    }
+
+    private fun setPlayer() {
+        val selectedSeat = activityViewModel?.getSelectedSeat()?.value
         binding.ivHandActionsDialogPlayerSeatWind.setImageDrawable(
-            when (activityViewModel?.getSelectedSeat()?.value) {
+            when (selectedSeat) {
                 TableWinds.EAST -> eastIcon
                 TableWinds.SOUTH -> southIcon
                 TableWinds.WEST -> westIcon
@@ -83,10 +89,34 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
                 else -> null
             }
         )
-        binding.tvHandActionsDialogPlayerName.text = activityViewModel?.getSelectedSeat()?.value?.code?.let { windCode ->
+        binding.tvHandActionsDialogPlayerName.text = selectedSeat?.code?.let { windCode ->
             activityViewModel?.getCurrentTable()?.value?.getPlayersNamesByCurrentSeat()?.get(windCode) ?: ""
         } ?: ""
+        selectedSeat?.let { setPlayerDiffs(it) }
+    }
 
+    private fun setPlayerDiffs(selectedSeat: TableWinds) {
+        with(binding.iHandActionsDialogDiffs) {
+            val playerDiffs = activityViewModel?.getCurrentTable()?.value?.getTableDiffs()?.seatsDiffs?.get(selectedSeat.code)
+
+            val pointsToBeFirst = playerDiffs?.pointsToBeFirst
+            tvActionDialogDiffsFirstSelfPick.text = (pointsToBeFirst?.bySelfPick ?: 0).toString()
+            tvActionDialogDiffsFirstDirectHu.text = (pointsToBeFirst?.byDirectHu ?: 0).toString()
+            tvActionDialogDiffsFirstIndirectHu.text = (pointsToBeFirst?.byIndirectHu ?: 0).toString()
+
+            val pointsToBeSecond = playerDiffs?.pointsToBeSecond
+            tvActionDialogDiffsSecondSelfPick.text = (pointsToBeSecond?.bySelfPick ?: 0).toString()
+            tvActionDialogDiffsSecondDirectHu.text = (pointsToBeSecond?.byDirectHu ?: 0).toString()
+            tvActionDialogDiffsSecondIndirectHu.text = (pointsToBeSecond?.byIndirectHu ?: 0).toString()
+
+            val pointsToBeThird = playerDiffs?.pointsToBeThird
+            tvActionDialogDiffsThirdSelfPick.text = (pointsToBeThird?.bySelfPick ?: 0).toString()
+            tvActionDialogDiffsThirdDirectHu.text = (pointsToBeThird?.byDirectHu ?: 0).toString()
+            tvActionDialogDiffsThirdIndirectHu.text = (pointsToBeThird?.byIndirectHu ?: 0).toString()
+        }
+    }
+
+    private fun setButtons() {
         binding.btHandActionsDialogPenaltiesCancel.visibility =
             if (activityViewModel?.thereArePenaltiesCurrently() == true) VISIBLE else GONE
     }

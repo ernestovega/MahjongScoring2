@@ -185,14 +185,19 @@
     <!--  Translations V2.1.0  -->
     <string name="throw_dice">扔骰子</string>
     <string name="start_new_game">开始新游戏</string>
-    <string name="self_abr">自摸</string>
+    <string name="self_abr">自选</string>
     <string name="direct_abr">直接的</string>
-    <string name="indirect_abr">其他</string>
+    <string name="indirect_abr">间接</string>
     <string name="_1st">第一</string>
     <string name="_2nd">第二</string>
     <string name="_3rd">第三</string>
-    <string name="mahjong_madrid_web">Mahjong Madrid (网络)</string>
-    <string name="ema_web">EMA (网络)</string>
+    <string name="mahjong_madrid_web">马德里麻将 (网络)</string>
+    <string name="ema_web">欧洲麻将协会 (网络)</string>
     <string name="winner_">优胜者:</string>
     <string name="points_">点:</string>
+    <string name="self_pick">自选</string>
+    <string name="direct">直接的</string>
+    <string name="indirect">间接</string>
+    <string name="to_be_by">成为: \ 经过:</string>
+    <string name="points_needed">需要积分:</string>
 </resources>

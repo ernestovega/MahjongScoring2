@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tlActionDialogDiffs"
+    tools:background="@color/blackTransparent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TableRow>
+
+        <TextView
+            style="@style/diffsDialogCell"
+            android:text="@string/to_be_by"/>
+
+        <TextView
+            style="@style/diffsDialogCell"
+            android:text="@string/self_pick" />
+
+        <TextView
+            style="@style/diffsDialogCell"
+            android:text="@string/direct" />
+
+        <TextView
+            style="@style/diffsDialogCell"
+            android:text="@string/indirect" />
+
+    </TableRow>
+
+    <TableRow android:id="@+id/trActionDialogDiffsFirst">
+
+        <TextView
+            style="@style/diffsDialogCell"
+            android:text="@string/_1st" />
+
+        <TextView
+            android:id="@+id/tvActionDialogDiffsFirstSelfPick"
+            style="@style/diffsDialogCell"
+            tools:text="8" />
+
+        <TextView
+            android:id="@+id/tvActionDialogDiffsFirstDirectHu"
+            style="@style/diffsDialogCell"
+            tools:text="12" />
+
+        <TextView
+            android:id="@+id/tvActionDialogDiffsFirstIndirectHu"
+            style="@style/diffsDialogCell"
+            tools:text="20" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/trActionDialogDiffsSecond">
+
+        <TextView
+            style="@style/diffsDialogCell"
+            android:text="@string/_2nd" />
+
+        <TextView
+            android:id="@+id/tvActionDialogDiffsSecondSelfPick"
+            style="@style/diffsDialogCell"
+            tools:text="8" />
+
+        <TextView
+            android:id="@+id/tvActionDialogDiffsSecondDirectHu"
+            style="@style/diffsDialogCell"
+            tools:text="12" />
+
+        <TextView
+            android:id="@+id/tvActionDialogDiffsSecondIndirectHu"
+            style="@style/diffsDialogCell"
+            tools:text="20" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/trActionDialogDiffsThird">
+
+        <TextView
+            style="@style/diffsDialogCell"
+            android:text="@string/_3rd" />
+
+        <TextView
+            android:id="@+id/tvActionDialogDiffsThirdSelfPick"
+            style="@style/diffsDialogCell"
+            tools:text="8" />
+
+        <TextView
+            android:id="@+id/tvActionDialogDiffsThirdDirectHu"
+            style="@style/diffsDialogCell"
+            tools:text="12" />
+
+        <TextView
+            android:id="@+id/tvActionDialogDiffsThirdIndirectHu"
+            style="@style/diffsDialogCell"
+            tools:text="20" />
+
+    </TableRow>
+
+</TableLayout>

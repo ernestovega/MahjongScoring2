@@ -212,20 +212,21 @@ class GameTableSeatsFragment : Fragment() {
         tvThirdSelfPick: TextView, tvThirdDirectHu: TextView, tvThirdIndirectHu: TextView, trDiffsThird: TableRow,
     ) {
         tlGameTable.visibility = GONE
+        trDiffsSecond.visibility = GONE
+        trDiffsThird.visibility = GONE
+
         val pointsToBeFirst = seatDiffs.pointsToBeFirst ?: return
         tvFirstSelfPick.text = pointsToBeFirst.bySelfPick.toString()
         tvFirstDirectHu.text = pointsToBeFirst.byDirectHu.toString()
         tvFirstIndirectHu.text = pointsToBeFirst.byIndirectHu.toString()
         tlGameTable.visibility = VISIBLE
 
-        trDiffsSecond.visibility = GONE
         val pointsToBeSecond = seatDiffs.pointsToBeSecond ?: return
         tvSecondSelfPick.text = pointsToBeSecond.bySelfPick.toString()
         tvSecondDirectHu.text = pointsToBeSecond.byDirectHu.toString()
         tvSecondIndirectHu.text = pointsToBeSecond.byIndirectHu.toString()
         trDiffsSecond.visibility = VISIBLE
 
-        trDiffsThird.visibility = GONE
         val pointsToBeThird = seatDiffs.pointsToBeThird ?: return
         tvThirdSelfPick.text = pointsToBeThird.bySelfPick.toString()
         tvThirdDirectHu.text = pointsToBeThird.byDirectHu.toString()
