@@ -19,7 +19,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/gray"
     tools:context=".app.main.combinations.CombinationsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -46,7 +46,7 @@
         android:id="@+id/recyclerViewCombinations"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grayLight"
+        android:background="@color/gray"
         android:paddingTop="@dimen/quarter_standard_margin"
         android:paddingBottom="@dimen/quarter_standard_margin"
         android:scrollbarStyle="insideOverlay"

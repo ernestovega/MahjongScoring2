@@ -27,7 +27,7 @@
 
     <style name="AlertDialogStyleMM" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColorPrimary">@color/grayMM</item>
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@color/grayLight</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -69,7 +69,7 @@
     <style name="TextViewTableSeatSmall" parent="AppTheme">
         <item name="android:textColor">@color/grayMM</item>
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:maxLines">2</item>
+        <item name="android:lines">2</item>
         <item name="android:textSize">16sp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:includeFontPadding">true</item>
@@ -85,7 +85,7 @@
     </style>
 
     <style name="ButtonHandActionSmall" parent="RippleEffect">
-        <item name="android:elevation">8dp</item>
+        <item name="android:elevation">4dp</item>
         <item name="android:background">@drawable/button_rounded_corners_green</item>
         <item name="android:paddingStart">@dimen/standard_and_half_margin</item>
         <item name="android:paddingEnd">@dimen/standard_and_half_margin</item>
@@ -99,7 +99,7 @@
     </style>
 
     <style name="ButtonHandActionBig" parent="RippleEffect">
-        <item name="android:elevation">8dp</item>
+        <item name="android:elevation">4dp</item>
         <item name="android:background">@drawable/button_rounded_corners_green</item>
         <item name="android:paddingTop">@dimen/standard_and_half_margin</item>
         <item name="android:paddingStart">@dimen/standard_and_half_margin</item>
@@ -152,7 +152,7 @@
         <item name="android:lines">1</item>
         <item name="android:textSize">16sp</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/grayMM</item>
         <item name="android:textStyle">bold</item>
     </style>
 

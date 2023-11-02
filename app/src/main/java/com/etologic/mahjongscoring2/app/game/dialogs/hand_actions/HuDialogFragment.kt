@@ -64,6 +64,10 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
         return binding.root
     }
 
+    override fun getTheme(): Int {
+        return R.style.FullScreenDialogMM
+    }
+
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()

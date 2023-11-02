@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="@dimen/half_standard_margin"
-        card_view:cardBackgroundColor="@color/white"
+        card_view:cardBackgroundColor="@color/grayLight"
         card_view:cardCornerRadius="@dimen/cardCornerRadius">
 
         <RelativeLayout

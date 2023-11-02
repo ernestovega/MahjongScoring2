@@ -38,7 +38,7 @@ import com.etologic.mahjongscoring2.databinding.GameActionDialogFragmentBinding
 internal class ActionDialogFragment : BaseGameDialogFragment() {
 
     companion object {
-        const val TAG = "HandActionsDialogFragment"
+        const val TAG = "ActionsDialogFragment"
     }
 
     private var eastIcon: Drawable? = null
@@ -157,8 +157,9 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        if (isDialogCancelled)
+        if (isDialogCancelled) {
             activityViewModel?.unselectSelectedSeat()
+        }
         super.onDismiss(dialog)
     }
 

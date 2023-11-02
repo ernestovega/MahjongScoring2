@@ -17,24 +17,30 @@
 package com.etologic.mahjongscoring2.app.game.dialogs.hand_actions
 
 import android.content.DialogInterface
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.NUM_NO_WINNER_PLAYERS
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.databinding.GamePenaltyDialogFragmentBinding
 
 internal class PenaltyDialogFragment : BaseGameDialogFragment() {
 
     companion object {
-        const val TAG = "PointsFragment"
-        private const val INITIAL_PENALTY_POINTS = 30
+        const val TAG = "PenaltyDialogFragment"
     }
 
+    private var eastIcon: Drawable? = null
+    private var southIcon: Drawable? = null
+    private var westIcon: Drawable? = null
+    private var northIcon: Drawable? = null
     private var isDialogCancelled = true
 
     private var _binding: GamePenaltyDialogFragmentBinding? = null
@@ -60,9 +66,33 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        context?.let {
+            eastIcon = ContextCompat.getDrawable(it, R.drawable.ic_east)
+            southIcon = ContextCompat.getDrawable(it, R.drawable.ic_south)
+            westIcon = ContextCompat.getDrawable(it, R.drawable.ic_west)
+            northIcon = ContextCompat.getDrawable(it, R.drawable.ic_north)
+        }
         setOnClickListeners()
-        binding.cnpPenaltyDialog.setHint(INITIAL_PENALTY_POINTS)
+        initPlayerViews()
     }
+
+    private fun initPlayerViews() {
+        with(binding.iPenaltyDialogPlayerContainer) {
+            val selectedSeat = activityViewModel?.getSelectedSeat()?.value ?: TableWinds.NONE
+            val playersNamesByCurrentSeat = activityViewModel?.getCurrentTable()?.value?.getPlayersNamesByCurrentSeat()
+            ivTableSeatMediumSeatWind.setImageDrawable(getWindIcon(selectedSeat))
+            tvTableSeatMediumName.text = selectedSeat.code.let { playersNamesByCurrentSeat?.get(it) ?: "" }
+        }
+    }
+
+    private fun getWindIcon(wind: TableWinds?) =
+        when (wind) {
+            TableWinds.EAST -> eastIcon
+            TableWinds.SOUTH -> southIcon
+            TableWinds.WEST -> westIcon
+            TableWinds.NORTH -> northIcon
+            else -> null
+        }
 
     private fun setOnClickListeners() {
         with(binding) {

@@ -15,59 +15,89 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:background="@color/blackTransparent">
 
-    <com.etologic.mahjongscoring2.app.custom_views.CustomNumPad
-        android:id="@+id/cnpPenaltyDialog"
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:inputType="numberDecimal"
-        android:maxLength="4"
-        android:maxLines="1" />
+        android:layout_margin="@dimen/second_standard_margin"
+        app:cardBackgroundColor="@color/grayLight"
+        app:cardCornerRadius="@dimen/half_standard_margin"
+        app:cardMaxElevation="8dp"
+        app:contentPadding="@dimen/second_standard_margin">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/standard_margin"
-        android:orientation="horizontal">
-
-        <CheckBox
-            android:id="@+id/cbPenaltyDialog"
+        <ScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/standard_margin"
-            android:layout_toStartOf="@+id/btPenaltyDialogCancel"
-            android:checked="true"
-            android:text="@string/divided" />
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btPenaltyDialogCancel"
-            style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/btPenaltyDialogSave"
-            android:background="@android:color/transparent"
-            android:text="@string/close"
-            android:textColor="@color/grayMM"
-            tools:ignore="RelativeOverlap" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
 
-        <Button
-            android:id="@+id/btPenaltyDialogSave"
-            style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:text="@string/save" />
+                <include
+                    android:id="@+id/iPenaltyDialogPlayerContainer"
+                    layout="@layout/table_seat_medium"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-    </RelativeLayout>
+                <com.etologic.mahjongscoring2.app.custom_views.CustomNumPad
+                    android:id="@+id/cnpPenaltyDialog"
+                    android:layout_below="@+id/iPenaltyDialogPlayerContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:maxLength="4"
+                    android:maxLines="1" />
+
+                <CheckBox
+                    android:layout_below="@+id/cnpPenaltyDialog"
+                    android:id="@+id/cbPenaltyDialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_alignStart="@+id/cnpPenaltyDialog"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:checked="true"
+                    android:text="@string/divided" />
+
+                <Button
+                    android:id="@+id/btPenaltyDialogCancel"
+                    style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@+id/cbPenaltyDialog"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:background="@android:color/transparent"
+                    android:text="@string/close"
+                    android:layout_toStartOf="@+id/btPenaltyDialogSave"
+                    android:textColor="@color/grayMM"
+                    tools:ignore="RelativeOverlap" />
+
+                <Button
+                    android:id="@+id/btPenaltyDialogSave"
+                    style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/cnpPenaltyDialog"
+                    android:layout_below="@+id/cbPenaltyDialog"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:background="@android:color/transparent"
+                    android:text="@string/save" />
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

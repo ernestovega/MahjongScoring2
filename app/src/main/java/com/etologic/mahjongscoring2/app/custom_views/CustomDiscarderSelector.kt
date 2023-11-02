@@ -37,8 +37,8 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
     private var southIcon: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_south)
     private var westIcon: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_west)
     private var northIcon: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_north)
-    private var selectedBg: Drawable? = ContextCompat.getDrawable(context, R.drawable.shape_rounded_corners_light_gray)
-    private var redColor: Int? = ContextCompat.getColor(context, R.color.red)
+    private var selectedBg: Drawable? = ContextCompat.getDrawable(context, R.drawable.shape_rounded_corners_gray)
+    private var whiteColor: Int? = ContextCompat.getColor(context, R.color.white)
     private var grayMMColor: Int? = ContextCompat.getColor(context, R.color.grayMM)
     private lateinit var seats: List<Seat>
     var selectedSeatWind = NONE
@@ -133,12 +133,12 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
             0 -> binding.iDiscarderSelectorPlayer1Container.tvTableSeatSmallName
             1 -> binding.iDiscarderSelectorPlayer2Container.tvTableSeatSmallName
             else -> binding.iDiscarderSelectorPlayer3Container.tvTableSeatSmallName
-        }.setTextColor(redColor!!)
+        }.setTextColor(whiteColor!!)
 
         when (seatIndex) {
             0 -> binding.iDiscarderSelectorPlayer1Container.ivTableSeatSmallSeatWind
             1 -> binding.iDiscarderSelectorPlayer2Container.ivTableSeatSmallSeatWind
             else -> binding.iDiscarderSelectorPlayer3Container.ivTableSeatSmallSeatWind
-        }.setColorFilter(redColor!!)
+        }.setColorFilter(whiteColor!!)
     }
 }

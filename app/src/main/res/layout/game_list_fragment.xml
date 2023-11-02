@@ -19,7 +19,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/grayLight">
 
     <LinearLayout
         android:id="@+id/llGameListHeader"
@@ -99,7 +99,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/llGameListFooter"
         android:layout_below="@+id/llGameListHeader"
-        android:background="@color/white"
+        android:background="@color/grayLight"
         tools:listitem="@layout/game_list_round_item" />
 
     <RelativeLayout
