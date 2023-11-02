@@ -98,29 +98,22 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
 
     private fun setPlayerDiffs(playerSeat: TableWinds) {
         with(binding) {
-            if ((activityViewModel?.getCurrentTable()?.value?.rounds?.size ?: 0) > 1) {
-                val playerDiffs = activityViewModel?.getCurrentTable()?.value?.getTableDiffs()?.seatsDiffs?.get(playerSeat.code)
-                tvHandActionsDialogDiffsTitle.visibility = VISIBLE
-                with (iHandActionsDialogDiffs) {
-                    root.visibility = VISIBLE
-                    val pointsToBeFirst = playerDiffs?.pointsToBeFirst
-                    tvActionDialogDiffsFirstSelfPick.text = pointsToBeFirst?.bySelfPick.toStringOrHyphen()
-                    tvActionDialogDiffsFirstDirectHu.text = pointsToBeFirst?.byDirectHu.toStringOrHyphen()
-                    tvActionDialogDiffsFirstIndirectHu.text = pointsToBeFirst?.byIndirectHu.toStringOrHyphen()
+            val playerDiffs = activityViewModel?.getCurrentTable()?.value?.getTableDiffs()?.seatsDiffs?.get(playerSeat.code)
+            with(iHandActionsDialogDiffs) {
+                val pointsToBeFirst = playerDiffs?.pointsToBeFirst
+                tvActionDialogDiffsFirstSelfPick.text = pointsToBeFirst?.bySelfPick.toStringOrHyphen()
+                tvActionDialogDiffsFirstDirectHu.text = pointsToBeFirst?.byDirectHu.toStringOrHyphen()
+                tvActionDialogDiffsFirstIndirectHu.text = pointsToBeFirst?.byIndirectHu.toStringOrHyphen()
 
-                    val pointsToBeSecond = playerDiffs?.pointsToBeSecond
-                    tvActionDialogDiffsSecondSelfPick.text = pointsToBeSecond?.bySelfPick.toStringOrHyphen()
-                    tvActionDialogDiffsSecondDirectHu.text = pointsToBeSecond?.byDirectHu.toStringOrHyphen()
-                    tvActionDialogDiffsSecondIndirectHu.text = pointsToBeSecond?.byIndirectHu.toStringOrHyphen()
+                val pointsToBeSecond = playerDiffs?.pointsToBeSecond
+                tvActionDialogDiffsSecondSelfPick.text = pointsToBeSecond?.bySelfPick.toStringOrHyphen()
+                tvActionDialogDiffsSecondDirectHu.text = pointsToBeSecond?.byDirectHu.toStringOrHyphen()
+                tvActionDialogDiffsSecondIndirectHu.text = pointsToBeSecond?.byIndirectHu.toStringOrHyphen()
 
-                    val pointsToBeThird = playerDiffs?.pointsToBeThird
-                    tvActionDialogDiffsThirdSelfPick.text = pointsToBeThird?.bySelfPick.toStringOrHyphen()
-                    tvActionDialogDiffsThirdDirectHu.text = pointsToBeThird?.byDirectHu.toStringOrHyphen()
-                    tvActionDialogDiffsThirdIndirectHu.text = pointsToBeThird?.byIndirectHu.toStringOrHyphen()
-                }
-            } else {
-                tvHandActionsDialogDiffsTitle.visibility = GONE
-                iHandActionsDialogDiffs.root.visibility = GONE
+                val pointsToBeThird = playerDiffs?.pointsToBeThird
+                tvActionDialogDiffsThirdSelfPick.text = pointsToBeThird?.bySelfPick.toStringOrHyphen()
+                tvActionDialogDiffsThirdDirectHu.text = pointsToBeThird?.byDirectHu.toStringOrHyphen()
+                tvActionDialogDiffsThirdIndirectHu.text = pointsToBeThird?.byIndirectHu.toStringOrHyphen()
             }
         }
     }

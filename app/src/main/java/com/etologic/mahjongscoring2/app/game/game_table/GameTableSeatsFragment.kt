@@ -218,27 +218,41 @@ class GameTableSeatsFragment : BaseGameFragment() {
         tvSecondSelfPick: TextView, tvSecondDirectHu: TextView, tvSecondIndirectHu: TextView, trDiffsSecond: TableRow,
         tvThirdSelfPick: TextView, tvThirdDirectHu: TextView, tvThirdIndirectHu: TextView, trDiffsThird: TableRow,
     ) {
-        tlGameTable.visibility = GONE
-        trDiffsSecond.visibility = GONE
-        trDiffsThird.visibility = GONE
+        val pointsToBeFirst = seatDiffs.pointsToBeFirst
+        if (pointsToBeFirst == null) {
+            trDiffsThird.visibility = GONE
+        } else {
+            trDiffsThird.visibility = VISIBLE
+            tvFirstSelfPick.text = pointsToBeFirst.bySelfPick.toString()
+            tvFirstDirectHu.text = pointsToBeFirst.byDirectHu.toString()
+            tvFirstIndirectHu.text = pointsToBeFirst.byIndirectHu.toString()
+        }
 
-        val pointsToBeFirst = seatDiffs.pointsToBeFirst ?: return
-        tlGameTable.visibility = VISIBLE
-        tvFirstSelfPick.text = pointsToBeFirst.bySelfPick.toString()
-        tvFirstDirectHu.text = pointsToBeFirst.byDirectHu.toString()
-        tvFirstIndirectHu.text = pointsToBeFirst.byIndirectHu.toString()
+        val pointsToBeSecond = seatDiffs.pointsToBeSecond
+        if (pointsToBeSecond == null) {
+            trDiffsSecond.visibility = GONE
+        } else {
+            trDiffsSecond.visibility = VISIBLE
+            tvSecondSelfPick.text = pointsToBeSecond.bySelfPick.toString()
+            tvSecondDirectHu.text = pointsToBeSecond.byDirectHu.toString()
+            tvSecondIndirectHu.text = pointsToBeSecond.byIndirectHu.toString()
+        }
 
-        val pointsToBeSecond = seatDiffs.pointsToBeSecond ?: return
-        trDiffsSecond.visibility = VISIBLE
-        tvSecondSelfPick.text = pointsToBeSecond.bySelfPick.toString()
-        tvSecondDirectHu.text = pointsToBeSecond.byDirectHu.toString()
-        tvSecondIndirectHu.text = pointsToBeSecond.byIndirectHu.toString()
+        val pointsToBeThird = seatDiffs.pointsToBeThird
+        if (pointsToBeThird == null) {
+            trDiffsThird.visibility = GONE
+        } else {
+            trDiffsThird.visibility = VISIBLE
+            tvThirdSelfPick.text = pointsToBeThird.bySelfPick.toString()
+            tvThirdDirectHu.text = pointsToBeThird.byDirectHu.toString()
+            tvThirdIndirectHu.text = pointsToBeThird.byIndirectHu.toString()
+        }
 
-        val pointsToBeThird = seatDiffs.pointsToBeThird ?: return
-        trDiffsThird.visibility = VISIBLE
-        tvThirdSelfPick.text = pointsToBeThird.bySelfPick.toString()
-        tvThirdDirectHu.text = pointsToBeThird.byDirectHu.toString()
-        tvThirdIndirectHu.text = pointsToBeThird.byIndirectHu.toString()
+        if (pointsToBeFirst == null && pointsToBeSecond == null && pointsToBeThird == null) {
+            tlGameTable.visibility = GONE
+        } else {
+            tlGameTable.visibility = VISIBLE
+        }
     }
 
     private fun setPenalties(penalties: IntArray, isEnded: Boolean) {

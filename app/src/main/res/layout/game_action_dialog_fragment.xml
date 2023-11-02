@@ -52,18 +52,14 @@
         style="@style/diffsDialogCell"
         android:layout_marginTop="@dimen/standard_margin"
         android:text="@string/points_needed"
-        android:textStyle="normal"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        android:textStyle="normal" />
 
     <include
         android:id="@+id/iHandActionsDialogDiffs"
         layout="@layout/game_action_dialog_diffs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/half_standard_margin"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        android:layout_marginTop="@dimen/half_standard_margin" />
 
     <LinearLayout
         android:id="@+id/btHandActionsDialogHu"

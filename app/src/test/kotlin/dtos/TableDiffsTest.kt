@@ -1,13 +1,200 @@
 package dtos
 
+import com.etologic.mahjongscoring2.app.extensions.fourth
+import com.etologic.mahjongscoring2.app.extensions.second
+import com.etologic.mahjongscoring2.app.extensions.third
+import com.etologic.mahjongscoring2.business.model.dtos.TableDiffs
 import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsByDirectHu
 import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsByIndirectHu
 import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsBySelfPick
+import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MIN_MCR_POINTS
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.DynamicTest.dynamicTest
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
+import kotlin.math.abs
 
 class TableDiffsTest {
+
+    @Test
+    fun `1st and 2nd are equal`() {
+        val tableDiffs = TableDiffs(
+            eastSeatPoints = 64,
+            southSeatPoints = 64,
+            westSeatPoints = 0,
+            northSeatPoints = -128,
+        )
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+    }
+
+    @Test
+    fun `if 2nd and 3rd are equal`() {
+        val tableDiffs = TableDiffs(
+            eastSeatPoints = 128,
+            southSeatPoints = 32,
+            westSeatPoints = 32,
+            northSeatPoints = -192,
+        )
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+    }
+
+    @Test
+    fun `if 3rd and 4th are equal`() {
+        val tableDiffs = TableDiffs(
+            eastSeatPoints = 96,
+            southSeatPoints = 32,
+            westSeatPoints = -64,
+            northSeatPoints = -64,
+        )
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+    }
+
+    @Test
+    fun `if 1st and 2nd are equal and 3rd and 4th are a different equal`() {
+        val tableDiffs = TableDiffs(
+            eastSeatPoints = 64,
+            southSeatPoints = 64,
+            westSeatPoints = -64,
+            northSeatPoints = -64,
+        )
+        val diff3rdTo1st = abs(tableDiffs.seatsDiffs.first().points - tableDiffs.seatsDiffs.third().points)
+        val diff4thTo1st = abs(tableDiffs.seatsDiffs.first().points - tableDiffs.seatsDiffs.fourth().points)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.bySelfPick).isEqualTo(diff3rdTo1st.getNeededPointsBySelfPick())
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byDirectHu).isEqualTo(diff3rdTo1st.getNeededPointsByDirectHu())
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byIndirectHu).isEqualTo(diff3rdTo1st.getNeededPointsByIndirectHu())
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.bySelfPick).isEqualTo(diff4thTo1st.getNeededPointsBySelfPick())
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.byDirectHu).isEqualTo(diff4thTo1st.getNeededPointsByDirectHu())
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.byIndirectHu).isEqualTo(diff4thTo1st.getNeededPointsByIndirectHu())
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+    }
+
+    @Test
+    fun `if 1st, 2nd and 3rd are equal`() {
+        val tableDiffs = TableDiffs(
+            eastSeatPoints = 64,
+            southSeatPoints = 64,
+            westSeatPoints = 64,
+            northSeatPoints = -192,
+        )
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeSecond?.bySelfPick).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeSecond?.byDirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeSecond?.byIndirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.bySelfPick).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byDirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byIndirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.bySelfPick).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byDirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byIndirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.bySelfPick).isEqualTo(57)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.byDirectHu).isEqualTo(113)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.byIndirectHu).isEqualTo(225)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.bySelfPick).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.byDirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.byIndirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.bySelfPick).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byDirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byIndirectHu).isEqualTo(null)
+    }
+
+    @Test
+    fun `if 2nd, 3rd and 4th are equal`() {
+        val tableDiffs = TableDiffs(
+            eastSeatPoints = 192,
+            southSeatPoints = -64,
+            westSeatPoints = -64,
+            northSeatPoints = -64,
+        )
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeThird?.bySelfPick).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeThird?.byDirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeThird?.byIndirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.bySelfPick).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byDirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byIndirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.bySelfPick).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byDirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byIndirectHu).isEqualTo(null)
+    }
+
+    @Test
+    fun `if 1st, 2nd, 3rd and 4th are equal`() {
+        val tableDiffs = TableDiffs(
+            eastSeatPoints = 0,
+            southSeatPoints = 0,
+            westSeatPoints = 0,
+            northSeatPoints = 0,
+        )
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.bySelfPick).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byDirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byIndirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeThird?.bySelfPick).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeThird?.byDirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeThird?.byIndirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.bySelfPick).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byDirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byIndirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.bySelfPick).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byDirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byIndirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.bySelfPick).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.byDirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.byIndirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.bySelfPick).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byDirectHu).isEqualTo(null)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byIndirectHu).isEqualTo(null)
+    }
 
     @TestFactory
     fun `needed points to win`() = listOf(
