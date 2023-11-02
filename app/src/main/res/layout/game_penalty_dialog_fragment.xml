@@ -44,52 +44,54 @@
                 <include
                     android:id="@+id/iPenaltyDialogPlayerContainer"
                     layout="@layout/table_seat_medium"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
 
                 <com.etologic.mahjongscoring2.app.custom_views.CustomNumPad
                     android:id="@+id/cnpPenaltyDialog"
-                    android:layout_below="@+id/iPenaltyDialogPlayerContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/iPenaltyDialogPlayerContainer"
                     android:gravity="center"
                     android:inputType="numberDecimal"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_marginBottom="@dimen/standard_margin"
                     android:maxLength="4"
                     android:maxLines="1" />
 
                 <CheckBox
-                    android:layout_below="@+id/cnpPenaltyDialog"
                     android:id="@+id/cbPenaltyDialog"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_below="@+id/cnpPenaltyDialog"
                     android:layout_alignStart="@+id/cnpPenaltyDialog"
                     android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginTop="@dimen/standard_margin"
                     android:checked="true"
                     android:text="@string/divided" />
 
                 <Button
                     android:id="@+id/btPenaltyDialogCancel"
-                    style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
-                    android:layout_below="@+id/cbPenaltyDialog"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/cbPenaltyDialog"
                     android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_toStartOf="@+id/btPenaltyDialogSave"
                     android:background="@android:color/transparent"
                     android:text="@string/close"
-                    android:layout_toStartOf="@+id/btPenaltyDialogSave"
-                    android:textColor="@color/grayMM"
-                    tools:ignore="RelativeOverlap" />
+                    android:textColor="@color/colorAccent" />
 
                 <Button
                     android:id="@+id/btPenaltyDialogSave"
-                    style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/cnpPenaltyDialog"
                     android:layout_below="@+id/cbPenaltyDialog"
+                    android:layout_marginEnd="-26dp"
+                    android:layout_alignEnd="@+id/cnpPenaltyDialog"
                     android:layout_marginTop="@dimen/standard_margin"
                     android:background="@android:color/transparent"
                     android:text="@string/save" />
