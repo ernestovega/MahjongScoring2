@@ -39,7 +39,8 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTa
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
-import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.*
+import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
+import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
 import com.etologic.mahjongscoring2.databinding.GameActivityBinding
 import javax.inject.Inject
 
@@ -191,7 +192,7 @@ class GameActivity : BaseActivity() {
     }
 
     private fun updateSeatsOrientationIcon(seatOrientation: SeatOrientation) {
-        seatsOrientationMenuItem?.icon = when(seatOrientation) {
+        seatsOrientationMenuItem?.icon = when (seatOrientation) {
             OUT -> orientationOutDrawable
             DOWN -> orientationDownDrawable
         }

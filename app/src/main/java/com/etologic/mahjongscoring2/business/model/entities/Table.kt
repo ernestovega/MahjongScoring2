@@ -106,7 +106,7 @@ class Table(@field:Embedded var game: Game) {
     }
 
     fun getTableDiffs(): TableDiffs =
-        with (getPlayersTotalPointsByCurrentSeat()) {
+        with(getPlayersTotalPointsByCurrentSeat()) {
             TableDiffs(
                 eastSeatPoints = this[EAST.code],
                 southSeatPoints = this[SOUTH.code],

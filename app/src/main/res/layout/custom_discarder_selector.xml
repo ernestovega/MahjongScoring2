@@ -17,11 +17,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/llDiscarderSelectorContainer"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
     android:layout_marginStart="@dimen/standard_margin"
     android:layout_marginEnd="@dimen/standard_margin"
-    android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:layout_gravity="center_horizontal"
     android:orientation="horizontal">
 
     <include

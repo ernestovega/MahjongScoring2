@@ -42,7 +42,6 @@ import com.etologic.mahjongscoring2.app.model.SeatStates.DISABLED
 import com.etologic.mahjongscoring2.app.model.SeatStates.NORMAL
 import com.etologic.mahjongscoring2.app.model.SeatStates.SELECTED
 import com.etologic.mahjongscoring2.business.model.dtos.SeatDiffs
-import com.etologic.mahjongscoring2.business.model.dtos.TableDiffs
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN

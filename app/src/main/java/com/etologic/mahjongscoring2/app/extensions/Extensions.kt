@@ -19,7 +19,6 @@ package com.etologic.mahjongscoring2.app.extensions
 import android.os.SystemClock
 import android.view.View
 import android.view.View.OnClickListener
-import kotlin.math.abs
 
 internal fun View.setOnSecureClickListener(
     debounceTime: Long = 600L,

@@ -50,8 +50,8 @@
 
     <TableRow
         android:id="@+id/trTableSeatDiffsSecond"
-        tools:visibility="visible"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <TextView
             style="@style/diffsGameCell"
@@ -76,8 +76,8 @@
 
     <TableRow
         android:id="@+id/trTableSeatDiffsThird"
-        tools:visibility="visible"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <TextView
             style="@style/diffsGameCell"

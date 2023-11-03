@@ -20,7 +20,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MIN_MCR_POINTS
 import com.etologic.mahjongscoring2.databinding.CustomNumPadBinding
 
 class CustomNumPad(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet) {

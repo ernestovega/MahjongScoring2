@@ -115,7 +115,7 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
         }
 
     private fun setListeners() {
-        with (binding) {
+        with(binding) {
             btGameHuDialogCancel.setOnSecureClickListener { dismiss() }
             btGameHuDialogOk.setOnSecureClickListener {
                 val winnerHandPoints = cnpGameHuDialog.getPoints()

@@ -113,9 +113,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvGameHuDialogPointsText"
                     android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
                     android:layout_marginTop="@dimen/standard_margin"
-                    android:layout_marginBottom="@dimen/standard_margin"
-                    android:layout_gravity="center" />
+                    android:layout_marginBottom="@dimen/standard_margin" />
 
                 <Button
                     android:id="@+id/btGameHuDialogCancel"
@@ -136,8 +136,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/cnpGameHuDialog"
                     android:layout_alignEnd="@+id/cdsGameHuDialog"
-                    android:layout_marginEnd="-26dp"
                     android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_marginEnd="-26dp"
                     android:background="@android:color/transparent"
                     android:text="@string/save" />
 

@@ -16,8 +16,6 @@
 */
 package com.etologic.mahjongscoring2.business.model.enums
 
-import com.etologic.mahjongscoring2.business.model.entities.Table
-
 enum class TableWinds(val code: Int) {
     NONE(-1),
     EAST(0),

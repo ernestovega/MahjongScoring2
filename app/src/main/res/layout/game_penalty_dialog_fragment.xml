@@ -54,10 +54,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/iPenaltyDialogPlayerContainer"
-                    android:gravity="center"
-                    android:inputType="numberDecimal"
                     android:layout_marginTop="@dimen/standard_margin"
                     android:layout_marginBottom="@dimen/standard_margin"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
                     android:maxLength="4"
                     android:maxLines="1" />
 
@@ -90,9 +90,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/cbPenaltyDialog"
-                    android:layout_marginEnd="-26dp"
                     android:layout_alignEnd="@+id/cnpPenaltyDialog"
                     android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_marginEnd="-26dp"
                     android:background="@android:color/transparent"
                     android:text="@string/save" />
 
