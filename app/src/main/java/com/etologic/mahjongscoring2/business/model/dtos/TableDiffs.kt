@@ -14,10 +14,10 @@ data class PointsDiff(
     val byIndirectHu: Int,
 )
 
-fun PointsDiff?.areDiffsEquals(other: PointsDiff?) =
+fun PointsDiff?.areEquals(other: PointsDiff?): Boolean =
     this?.bySelfPick == other?.bySelfPick &&
-    this?.byDirectHu == other?.byDirectHu &&
-    this?.byIndirectHu == other?.byIndirectHu
+            this?.byDirectHu == other?.byDirectHu &&
+            this?.byIndirectHu == other?.byIndirectHu
 
 data class SeatDiffs(
     val seat: TableWinds,
@@ -121,19 +121,19 @@ data class TableDiffs(
                 }
 
                 // Remove unnecessary cases
-                if (second().pointsToBeSecond.areDiffsEquals(second().pointsToBeFirst)) {
+                if (second().pointsToBeSecond.areEquals(second().pointsToBeFirst)) {
                     second().pointsToBeSecond = null
                 }
-                if (third().pointsToBeThird.areDiffsEquals(third().pointsToBeSecond)) {
+                if (third().pointsToBeThird.areEquals(third().pointsToBeSecond)) {
                     third().pointsToBeThird = null
                 }
-                if (third().pointsToBeSecond.areDiffsEquals(third().pointsToBeFirst)) {
+                if (third().pointsToBeSecond.areEquals(third().pointsToBeFirst)) {
                     third().pointsToBeSecond = null
                 }
-                if (fourth().pointsToBeThird.areDiffsEquals(fourth().pointsToBeSecond)) {
+                if (fourth().pointsToBeThird.areEquals(fourth().pointsToBeSecond)) {
                     fourth().pointsToBeThird = null
                 }
-                if (fourth().pointsToBeSecond.areDiffsEquals(fourth().pointsToBeFirst)) {
+                if (fourth().pointsToBeSecond.areEquals(fourth().pointsToBeFirst)) {
                     fourth().pointsToBeSecond = null
                 }
             }.sortedBy { it.seat.code }

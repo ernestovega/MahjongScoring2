@@ -42,6 +42,7 @@ import com.etologic.mahjongscoring2.app.model.SeatStates.DISABLED
 import com.etologic.mahjongscoring2.app.model.SeatStates.NORMAL
 import com.etologic.mahjongscoring2.app.model.SeatStates.SELECTED
 import com.etologic.mahjongscoring2.business.model.dtos.SeatDiffs
+import com.etologic.mahjongscoring2.business.model.dtos.TableDiffs
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
@@ -218,11 +219,16 @@ class GameTableSeatsFragment : BaseGameFragment() {
         tvSecondSelfPick: TextView, tvSecondDirectHu: TextView, tvSecondIndirectHu: TextView, trDiffsSecond: TableRow,
         tvThirdSelfPick: TextView, tvThirdDirectHu: TextView, tvThirdIndirectHu: TextView, trDiffsThird: TableRow,
     ) {
+        tlGameTable.visibility = GONE
+        trDiffsSecond.visibility = GONE
+        trDiffsThird.visibility = GONE
+
         val pointsToBeFirst = seatDiffs.pointsToBeFirst
         if (pointsToBeFirst == null) {
-            trDiffsThird.visibility = GONE
+            tlGameTable.visibility = GONE
+            return
         } else {
-            trDiffsThird.visibility = VISIBLE
+            tlGameTable.visibility = VISIBLE
             tvFirstSelfPick.text = pointsToBeFirst.bySelfPick.toString()
             tvFirstDirectHu.text = pointsToBeFirst.byDirectHu.toString()
             tvFirstIndirectHu.text = pointsToBeFirst.byIndirectHu.toString()
@@ -246,12 +252,6 @@ class GameTableSeatsFragment : BaseGameFragment() {
             tvThirdSelfPick.text = pointsToBeThird.bySelfPick.toString()
             tvThirdDirectHu.text = pointsToBeThird.byDirectHu.toString()
             tvThirdIndirectHu.text = pointsToBeThird.byIndirectHu.toString()
-        }
-
-        if (pointsToBeFirst == null && pointsToBeSecond == null && pointsToBeThird == null) {
-            tlGameTable.visibility = GONE
-        } else {
-            tlGameTable.visibility = VISIBLE
         }
     }
 
