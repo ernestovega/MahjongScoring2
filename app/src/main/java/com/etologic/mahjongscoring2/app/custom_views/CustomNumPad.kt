@@ -54,10 +54,6 @@ class CustomNumPad(context: Context, attributeSet: AttributeSet) : LinearLayout(
 
     private fun getDisplayNum(): String = (binding.etCustomNumPadDisplay.text ?: "").toString()
 
-    internal fun setHint(points: Int) {
-        binding.etCustomNumPadDisplay.hint = points.toString()
-    }
-
     internal fun getPoints(): Int? =
         try {
             getDisplayNum().toInt()

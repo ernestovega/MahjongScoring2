@@ -44,8 +44,6 @@ class MainActivity : BaseActivity() {
 
     companion object {
         internal const val GREEN_BOOK_URL = "https://docs.google.com/gview?embedded=true&url=mahjong-europe.org/portal/images/docs/mcr_EN.pdf"
-        internal const val MARKET_URI_BASE = "market://details?id="
-        internal const val PLAY_STORE_URL_BASE = "http://play.google.com/store/apps/details?id="
         internal const val EMAIL_SUBJECT = "Mahjong Scoring 2"
         internal const val EMAIL_ADDRESS = "mahjongmadrid@gmail.com"
         internal const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
