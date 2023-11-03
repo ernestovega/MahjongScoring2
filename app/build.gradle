@@ -15,8 +15,8 @@ android {
         applicationId "com.mahjongscoring.activities"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 2
-        versionName "2.0.0"
+        versionCode 3
+        versionName "2.1.0"
 
         buildFeatures {
             viewBinding = true
@@ -83,9 +83,9 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.27'
 
     //ARCH COMPONENTS
-    implementation "androidx.room:room-runtime:2.5.2"
-    ksp "androidx.room:room-compiler:2.5.2"
-    implementation "androidx.room:room-rxjava2:2.5.2"
+    implementation "androidx.room:room-runtime:2.6.0"
+    ksp "androidx.room:room-compiler:2.6.0"
+    implementation "androidx.room:room-rxjava2:2.6.0"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.2"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     ksp "androidx.lifecycle:lifecycle-common-java8:2.6.2"
