@@ -34,7 +34,6 @@ import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.EMA_WEB
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.FINISH
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_ENGLISH
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_SPANISH

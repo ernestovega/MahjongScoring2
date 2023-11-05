@@ -24,7 +24,6 @@
     <string name="old_games">Old games</string>
     <string name="combinations">Combinations</string>
     <string name="green_book_en">Green Book (English PDF)</string>
-    <string name="rate">Rate app</string>
     <string name="contact">Contact</string>
     <string name="press_again_to_exit">Press again to exit</string>
     <string name="theres_no_games_yet_start_one">There is no games yet.\nStart one!</string>
@@ -41,7 +40,6 @@
     <string name="table">Table</string>
     <string name="game">Game</string>
     <string name="totals">Totals</string>
-    <string name="points">Points</string>
     <string name="number_symbol">#</string>
     <string name="final_results">Final results</string>
     <string name="cancel_penalties">Cancel penalties</string>
@@ -57,10 +55,6 @@
     <string name="player_south_name">Player South name</string>
     <string name="player_west_name">Player West name</string>
     <string name="player_north_name">Player North name</string>
-    <string name="player_east">Player East</string>
-    <string name="player_south">Player South</string>
-    <string name="player_west">Player West</string>
-    <string name="player_north">Player North</string>
     <string name="player_one">Player A</string>
     <string name="player_two">Player B</string>
     <string name="player_three">Player C</string>

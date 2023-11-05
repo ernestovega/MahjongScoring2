@@ -22,7 +22,6 @@
     <string name="old_games">游戏记录</string>
     <string name="combinations">番种表</string>
     <string name="green_book_en">绿皮书 (英语 PDF)</string>
-    <string name="rate">评价应用</string>
     <string name="contact">联络</string>
     <string name="press_again_to_exit">再次按下退出</string>
     <string name="theres_no_games_yet_start_one">尚无记录。\n开始新游戏</string>
@@ -39,7 +38,6 @@
     <string name="table">游戏桌</string>
     <string name="game">对局</string>
     <string name="totals">总分</string>
-    <string name="points">番值</string>
     <string name="number_symbol">#</string>
     <string name="final_results">最终结果</string>
     <string name="cancel_penalties">取消所有处罚</string>
@@ -55,10 +53,6 @@
     <string name="player_south_name">南风玩家名字</string>
     <string name="player_west_name">西风玩家名字</string>
     <string name="player_north_name">北风玩家名字</string>
-    <string name="player_east">东风玩家</string>
-    <string name="player_south">南风玩家</string>
-    <string name="player_west">西风玩家</string>
-    <string name="player_north">北风玩家</string>
     <string name="player_one">一风玩家</string>
     <string name="player_two">二风玩家</string>
     <string name="player_three">三风玩家</string>
@@ -198,7 +192,7 @@
     <string name="self_pick">自选</string>
     <string name="direct">直接的</string>
     <string name="indirect">间接</string>
-    <string name="to_be_by">成为: \ 经过:</string>
+    <string name="to_be_by">成为: \\ 经过:</string>
     <string name="points_needed">需要积分:</string>
     <string name="hide_diffs_calcs">隐藏计算结果</string>
     <string name="show_diffs_calcs">显示计算结果</string>
