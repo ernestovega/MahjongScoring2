@@ -33,11 +33,11 @@ class MainViewModel internal constructor(
         OLD_GAMES,
         GAME,
         COMBINATIONS,
-        GREEN_BOOK,
+        GREEN_BOOK_ENGLISH,
+        GREEN_BOOK_SPANISH,
         MM_WEB,
         EMA_WEB,
         CONTACT,
-        FINISH
     }
 
     private val currentScreen = MutableLiveData<MainScreens>()

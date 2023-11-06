@@ -29,19 +29,29 @@ import javax.inject.Singleton
 class CombinationsRepository
 @Inject constructor(private val context: Context) {
 
+    private val lastBuiltCombinations = getHardcodedCombinations()
+
     @Inject
     lateinit var combinationsDao: CombinationsDao
 
     internal fun getAll(): Single<List<Combination>> {
         return combinationsDao.getAll()
-            .flatMap {
-                if (it.isEmpty()) {
-                    combinationsDao.bulkInsert(getHardcodedCombinations())
+            .flatMap { combinations ->
+                if (combinations.isEmpty() || combinations.hasAnyResourceChanged()) {
+                    combinationsDao.bulkInsert(lastBuiltCombinations)
                     getAll()
-                } else
-                    Single.just(it)
+                } else {
+                    Single.just(combinations)
+                }
             }
     }
+
+    private fun List<Combination>.hasAnyResourceChanged() =
+        lastBuiltCombinations.zip(this).any {
+            it.first.combinationImage != it.second.combinationImage ||
+                    it.first.combinationName != it.second.combinationName ||
+                    it.first.combinationDescription != it.second.combinationDescription
+        }
 
     internal fun getFiltered(filter: String): Single<List<Combination>> {
         return combinationsDao.getFiltered(String.format("%%%s%%", filter))

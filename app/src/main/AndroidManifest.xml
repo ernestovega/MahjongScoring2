@@ -20,6 +20,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SENDTO"/>
+        </intent>
+    </queries>
+
     <application
         android:name="com.etologic.mahjongscoring2.injection.MahjongScoringApp"
         android:allowBackup="true"

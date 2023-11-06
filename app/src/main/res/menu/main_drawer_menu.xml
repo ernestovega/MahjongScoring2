@@ -30,9 +30,14 @@
             android:title="@string/combinations" />
 
         <item
-            android:id="@+id/nav_greenbook"
+            android:id="@+id/nav_greenbook_en"
             android:icon="@drawable/ic_import_contacts_black_24px"
-            android:title="@string/green_book" />
+            android:title="@string/green_book_en" />
+
+        <item
+            android:id="@+id/nav_greenbook_es"
+            android:icon="@drawable/ic_import_contacts_black_24px"
+            android:title="@string/green_book_es" />
 
         <item
             android:id="@+id/nav_mm_web"

@@ -18,6 +18,7 @@ package com.etologic.mahjongscoring2.data_source.local_data_source.local.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.etologic.mahjongscoring2.business.model.entities.Combination
 import io.reactivex.Single
@@ -28,7 +29,7 @@ interface CombinationsDao {
     @Query("SELECT * FROM Combinations")
     fun getAll(): Single<List<Combination>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun bulkInsert(combinations: List<Combination>)
 
     @Query(

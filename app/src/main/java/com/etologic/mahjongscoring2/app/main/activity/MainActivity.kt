@@ -33,7 +33,8 @@ import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToScreen
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.EMA_WEB
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_ENGLISH
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_SPANISH
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.MM_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
 import com.etologic.mahjongscoring2.databinding.MainActivityBinding
@@ -43,9 +44,6 @@ import javax.inject.Inject
 class MainActivity : BaseActivity() {
 
     companion object {
-        internal const val GREEN_BOOK_URL = "https://docs.google.com/gview?embedded=true&url=mahjong-europe.org/portal/images/docs/mcr_EN.pdf"
-        internal const val EMAIL_SUBJECT = "Mahjong Scoring 2"
-        internal const val EMAIL_ADDRESS = "mahjongmadrid@gmail.com"
         internal const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
         internal const val KEY_WAS_GAME_ENDED = "WasGameEnded"
     }
@@ -132,7 +130,8 @@ class MainActivity : BaseActivity() {
             when (menuItem.itemId) {
                 R.id.nav_oldgames -> viewModel?.navigateTo(OLD_GAMES)
                 R.id.nav_combinations -> viewModel?.navigateTo(COMBINATIONS)
-                R.id.nav_greenbook -> viewModel?.navigateTo(GREEN_BOOK)
+                R.id.nav_greenbook_en -> viewModel?.navigateTo(GREEN_BOOK_ENGLISH)
+                R.id.nav_greenbook_es -> viewModel?.navigateTo(GREEN_BOOK_SPANISH)
                 R.id.nav_mm_web -> viewModel?.navigateTo(MM_WEB)
                 R.id.nav_ema_web -> viewModel?.navigateTo(EMA_WEB)
                 R.id.nav_contact -> viewModel?.navigateTo(CONTACT)
