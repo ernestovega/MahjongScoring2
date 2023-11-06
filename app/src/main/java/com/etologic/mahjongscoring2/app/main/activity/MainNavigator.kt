@@ -19,8 +19,6 @@ package com.etologic.mahjongscoring2.app.main.activity
 import android.content.Intent
 import android.content.Intent.ACTION_SENDTO
 import android.content.Intent.ACTION_VIEW
-import android.content.Intent.EXTRA_EMAIL
-import android.content.Intent.EXTRA_SUBJECT
 import android.content.Intent.FLAG_ACTIVITY_MULTIPLE_TASK
 import android.content.Intent.FLAG_ACTIVITY_NEW_DOCUMENT
 import android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
@@ -32,16 +30,14 @@ import com.etologic.mahjongscoring2.R.anim.exit_to_left
 import com.etologic.mahjongscoring2.R.anim.exit_to_right
 import com.etologic.mahjongscoring2.R.id.frameLayoutMain
 import com.etologic.mahjongscoring2.app.game.activity.GameActivity
-import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.EMAIL_ADDRESS
-import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.EMAIL_SUBJECT
-import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.GREEN_BOOK_URL
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.EMA_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.FINISH
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_ENGLISH
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_SPANISH
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.MM_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
 import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
@@ -50,16 +46,23 @@ import com.google.android.material.snackbar.Snackbar
 
 object MainNavigator {
 
+    private const val GREEN_BOOK_ENGLISH_URL = "http://mahjong-europe.org/portal/images/docs/mcr_EN.pdf"
+    private const val GREEN_BOOK_SPANISH_URL = "http://mahjong-europe.org/portal/images/docs/GreenBookTranslatedintoSpanishbyIvanMaestreRos.pdf"
+    private const val MAHJONG_MADRID_URL = "https://www.mahjongmadrid.com"
+    private const val EMA_URL = "http://mahjong-europe.org/"
+    private const val EMAIL_SUBJECT = "Mahjong Scoring 2"
+    private const val EMAIL_ADDRESS = "mahjongmadrid@gmail.com"
+
     internal fun goToScreen(screen: MainScreens, activity: MainActivity) {
         when (screen) {
             OLD_GAMES -> goToOldGames(activity)
             GAME -> goToGame(activity)
             COMBINATIONS -> goToCombinations(activity)
-            GREEN_BOOK -> goToGreenBook(activity)
-            MM_WEB -> goToWebsite("https://www.mahjongmadrid.com", activity)
-            EMA_WEB -> goToWebsite("http://mahjong-europe.org/", activity)
+            GREEN_BOOK_ENGLISH -> goToGreenBook(GREEN_BOOK_ENGLISH_URL, activity)
+            GREEN_BOOK_SPANISH -> goToGreenBook(GREEN_BOOK_SPANISH_URL, activity)
+            MM_WEB -> goToWebsite(MAHJONG_MADRID_URL, activity)
+            EMA_WEB -> goToWebsite(EMA_URL, activity)
             CONTACT -> goToContact(activity)
-            FINISH -> activity.onBackPressed()
         }
     }
 
@@ -81,8 +84,8 @@ object MainNavigator {
         activity.startActivity(Intent(activity, CombinationsActivity::class.java))
     }
 
-    private fun goToGreenBook(activity: MainActivity) {
-        activity.startActivity(Intent(ACTION_VIEW, Uri.parse(GREEN_BOOK_URL)))
+    private fun goToGreenBook(url: String, activity: MainActivity) {
+        activity.startActivity(Intent(ACTION_VIEW, Uri.parse(url)))
     }
 
     private fun goToWebsite(url: String, activity: MainActivity) {
@@ -98,15 +101,13 @@ object MainNavigator {
 
     private fun goToContact(activity: MainActivity) {
         with(Intent(ACTION_SENDTO)) {
-            data = Uri.parse("mailto:")
-            putExtra(EXTRA_EMAIL, arrayOf(EMAIL_ADDRESS))
-            putExtra(EXTRA_SUBJECT, EMAIL_SUBJECT)
-            if (resolveActivity(activity.packageManager) != null)
-                try {
-                    activity.startActivity(this)
-                } catch (e: Exception) {
-                    Snackbar.make(activity.binding.drawerLayoutMain, R.string.no_email_apps_founded, Snackbar.LENGTH_LONG).show()
-                }
+            data = Uri.parse("mailto:$EMAIL_ADDRESS")
+            putExtra(Intent.EXTRA_SUBJECT, EMAIL_SUBJECT)
+            try {
+                activity.startActivity(this)
+            } catch (e: Exception) {
+                Snackbar.make(activity.binding.drawerLayoutMain, R.string.no_email_apps_founded, Snackbar.LENGTH_LONG).show()
+            }
         }
     }
 }

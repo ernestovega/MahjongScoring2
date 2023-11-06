@@ -21,7 +21,7 @@
     <string name="open_drawer">打开菜单</string>
     <string name="old_games">游戏记录</string>
     <string name="combinations">番种表</string>
-    <string name="green_book">绿皮书(pdf)</string>
+    <string name="green_book_en">绿皮书 (英语 PDF)</string>
     <string name="rate">评价应用</string>
     <string name="contact">联络</string>
     <string name="press_again_to_exit">再次按下退出</string>
@@ -202,4 +202,5 @@
     <string name="points_needed">需要积分:</string>
     <string name="hide_diffs_calcs">隐藏计算结果</string>
     <string name="show_diffs_calcs">显示计算结果</string>
+    <string name="green_book_es">绿皮书 (西班牙语 PDF)</string>
 </resources>
