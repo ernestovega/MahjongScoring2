@@ -13,3 +13,4 @@
 *.aab
 /gradle/wrapper/gradle-wrapper.properties
 /app/schemas/com.etologic.mahjongscoring2.data.local_data_source.local.AppDatabase/1.json
+app/release/output-metadata.json
