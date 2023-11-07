@@ -24,6 +24,7 @@ import com.etologic.mahjongscoring2.app.main.activity.MainActivityFragmentsBuild
 import com.etologic.mahjongscoring2.app.main.activity.MainActivityModule
 import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
 import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivityModule
+import com.etologic.mahjongscoring2.app.main.diffs_calculator.DiffsCalculatorActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -38,4 +39,7 @@ internal abstract class AppActivitiesBuilder {
 
     @ContributesAndroidInjector(modules = [GameModule::class, GameFragmentsBuilder::class])
     internal abstract fun bindGameActivity(): GameActivity
+
+    @ContributesAndroidInjector
+    internal abstract fun bindDiffsCalculatorActivity(): DiffsCalculatorActivity
 }

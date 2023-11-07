@@ -197,4 +197,7 @@
     <string name="hide_diffs_calcs">Ocultar cálculos</string>
     <string name="show_diffs_calcs">Mostrar cálculos</string>
     <string name="green_book_es">Libro Verde (PDF en Español)</string>
+    <string name="diffsCalculator">Calculadora de diferencias</string>
+    <string name="diff">Needed points</string>
+    <string name="i_think_is_enough_jajaja">Creo que ya es suficiente, ¿no? 🤣</string>
 </resources>

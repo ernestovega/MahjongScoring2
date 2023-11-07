@@ -33,6 +33,7 @@ class MainViewModel internal constructor(
         OLD_GAMES,
         GAME,
         COMBINATIONS,
+        DIFFS_CALCULATOR,
         GREEN_BOOK_ENGLISH,
         GREEN_BOOK_SPANISH,
         MM_WEB,

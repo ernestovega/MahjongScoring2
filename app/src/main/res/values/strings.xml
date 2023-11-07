@@ -199,4 +199,7 @@
     <string name="hide_diffs_calcs">Hide diffs calcs</string>
     <string name="show_diffs_calcs">Show diffs calcs</string>
     <string name="green_book_es">Green Book (Spanish PDF)</string>
+    <string name="diffsCalculator">Diffs Calculator</string>
+    <string name="diff">Needed points</string>
+    <string name="i_think_is_enough_jajaja">I think this is enough, isn\'t it? 🤣</string>
 </resources>

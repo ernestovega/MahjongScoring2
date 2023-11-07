@@ -100,6 +100,7 @@
         android:layout_above="@+id/llGameListFooter"
         android:layout_below="@+id/llGameListHeader"
         android:background="@color/grayLight"
+        android:fadingEdge="vertical"
         tools:listitem="@layout/game_list_round_item" />
 
     <RelativeLayout

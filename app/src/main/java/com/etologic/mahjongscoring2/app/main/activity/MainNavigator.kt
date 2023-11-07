@@ -33,6 +33,7 @@ import com.etologic.mahjongscoring2.app.game.activity.GameActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.DIFFS_CALCULATOR
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.EMA_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_ENGLISH
@@ -40,6 +41,7 @@ import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.MM_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
 import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
+import com.etologic.mahjongscoring2.app.main.diffs_calculator.DiffsCalculatorActivity
 import com.etologic.mahjongscoring2.app.main.old_games.OldGamesFragment
 import com.google.android.material.snackbar.Snackbar
 
@@ -57,6 +59,7 @@ object MainNavigator {
             OLD_GAMES -> goToOldGames(activity)
             GAME -> goToGame(activity)
             COMBINATIONS -> goToCombinations(activity)
+            DIFFS_CALCULATOR -> activity.startActivity(Intent(activity, DiffsCalculatorActivity::class.java))
             GREEN_BOOK_ENGLISH -> goToGreenBook(GREEN_BOOK_ENGLISH_URL, activity)
             GREEN_BOOK_SPANISH -> goToGreenBook(GREEN_BOOK_SPANISH_URL, activity)
             MM_WEB -> goToWebsite(MAHJONG_MADRID_URL, activity)

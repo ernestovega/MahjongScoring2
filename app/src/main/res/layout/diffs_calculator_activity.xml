@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright (C) 2020  Ernesto Vega de la Iglesia Soria
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    android:orientation="vertical"
+    tools:context=".app.main.diffs_calculator.DiffsCalculatorActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarDiffsCalculator"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:animateLayoutChanges="true"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/toolbar_elevation"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/diffsCalculator"
+        tools:ignore="UnusedAttribute" />
+
+    <LinearLayout
+        android:id="@+id/llDiffsCalculatorTitles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/diffsCalculatorCell"
+            android:lines="2"
+            android:text="@string/diff"
+            android:textColor="@color/white" />
+
+        <TextView
+            style="@style/diffsCalculatorCell"
+            android:text="@string/self_pick"
+            android:textColor="@color/white" />
+
+        <TextView
+            style="@style/diffsCalculatorCell"
+            android:text="@string/direct"
+            android:textColor="@color/white" />
+
+        <TextView
+            style="@style/diffsCalculatorCell"
+            android:text="@string/indirect"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewDiffsCalculator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray"
+        android:fadingEdge="vertical"
+        android:scrollbarStyle="insideOverlay"
+        tools:listitem="@layout/diffs_calculator_item" />
+
+</LinearLayout>

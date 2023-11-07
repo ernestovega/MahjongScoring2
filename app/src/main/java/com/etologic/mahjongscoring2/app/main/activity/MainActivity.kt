@@ -32,6 +32,7 @@ import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToScreen
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.DIFFS_CALCULATOR
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.EMA_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_ENGLISH
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_SPANISH
@@ -130,6 +131,7 @@ class MainActivity : BaseActivity() {
             when (menuItem.itemId) {
                 R.id.nav_oldgames -> viewModel?.navigateTo(OLD_GAMES)
                 R.id.nav_combinations -> viewModel?.navigateTo(COMBINATIONS)
+                R.id.action_diffs_calculator -> viewModel?.navigateTo(DIFFS_CALCULATOR)
                 R.id.nav_greenbook_en -> viewModel?.navigateTo(GREEN_BOOK_ENGLISH)
                 R.id.nav_greenbook_es -> viewModel?.navigateTo(GREEN_BOOK_SPANISH)
                 R.id.nav_mm_web -> viewModel?.navigateTo(MM_WEB)
