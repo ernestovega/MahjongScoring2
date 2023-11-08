@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright © 2023  Ernesto Vega de la Iglesia Soria
   ~
   ~     This program is free software: you can redistribute it and/or modify
@@ -71,8 +70,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray"
-        android:fadingEdge="vertical"
-        android:scrollbarStyle="insideOverlay"
+        android:fadeScrollbars="false"
+        android:fadingEdgeLength="@dimen/standard_margin"
+        android:requiresFadingEdge="vertical"
+        android:scrollbars="vertical"
+        android:scrollIndicators="end"
         tools:listitem="@layout/diffs_calculator_item" />
 
 </LinearLayout>

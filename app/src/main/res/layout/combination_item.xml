@@ -47,7 +47,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/standard_margin"
                 android:layout_marginLeft="@dimen/standard_margin"
                 android:layout_marginEnd="@dimen/standard_margin"
@@ -57,8 +57,9 @@
 
                 <TextView
                     android:id="@+id/tvCombinationItemPoints"
-                    android:layout_width="@dimen/second_standard_margin"
-                    android:layout_height="match_parent"
+                    android:minWidth="@dimen/second_standard_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:textColor="@android:color/black"
@@ -67,20 +68,19 @@
                 <TextView
                     android:id="@+id/tvCombinationItemName"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:lines="1"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
-                    tools:text="@string/big_four_winds" />
+                    tools:text="@string/lesser_honors_and_knitted_tiles" />
 
                 <TextView
                     android:id="@+id/tvCombinationItemPosition"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="end|center_vertical"
                     android:paddingStart="@dimen/half_standard_margin"
                     android:textColor="@color/gray"

@@ -24,14 +24,19 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.app.game.activity.ShouldHighlightLastRound
 import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.game.game_list.GameListRvAdapter.GameListItemListener
+import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
+import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.databinding.GameListFragmentBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GameListFragment : BaseGameFragment() {
@@ -45,7 +50,7 @@ class GameListFragment : BaseGameFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = GameListFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -95,8 +100,8 @@ class GameListFragment : BaseGameFragment() {
     }
 
     private fun initViewModel() {
-        activityViewModel?.getCurrentTable()
-            ?.observe(viewLifecycleOwner, Observer(this::tableObserver))
+        activityViewModel?.getCurrentTable()?.observe(viewLifecycleOwner) { tableObserver(it) }
+        activityViewModel?.getPageToShow()?.observe(viewLifecycleOwner) { pageToShowObserver(it) }
     }
 
     private fun tableObserver(table: Table) {
@@ -134,6 +139,26 @@ class GameListFragment : BaseGameFragment() {
             tvGameListFooterTotalPointsP2.text = totals[1]
             tvGameListFooterTotalPointsP3.text = totals[2]
             tvGameListFooterTotalPointsP4.text = totals[3]
+        }
+    }
+
+    private fun pageToShowObserver(pageToShow: Pair<GameTableFragment.GameTablePages, ShouldHighlightLastRound>?) {
+        if (pageToShow != null) {
+            val (pageIndex, shouldHighlightLastRound) = pageToShow
+            if (pageIndex == LIST && shouldHighlightLastRound) {
+                lifecycleScope.launch {
+                    activityViewModel?.showPage(null)
+                    delay(300)
+                    val lastItemPosition = rvAdapter.itemCount.minus(1)
+                    if (lastItemPosition >= 0) {
+                        val lastItem = binding.rvGameList.findViewHolderForAdapterPosition(lastItemPosition) as GameListRvAdapter.ItemViewHolder
+                        if (activityViewModel?.lastHighlightedRound != lastItem.tvRoundNum.text) {
+                            activityViewModel?.lastHighlightedRound = lastItem.tvRoundNum.text
+                            lastItem.highlight()
+                        }
+                    }
+                }
+            }
         }
     }
 }

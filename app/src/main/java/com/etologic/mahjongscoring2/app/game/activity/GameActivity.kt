@@ -170,10 +170,10 @@ class GameActivity : BaseActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.getError().observe(this, Observer(this::showError))
+        viewModel.getError().observe(this) { showError(it) }
         viewModel.getSnackbarMessage().observe(this) { showSnackbar(binding.viewPagerGame, it) }
         viewModel.getCurrentScreen().observe(this) { GameNavigator.navigateTo(it, this, viewModel) }
-        viewModel.getCurrentPage().observe(this) { binding.viewPagerGame.currentItem = it.code }
+        viewModel.getPageToShow().observe(this) { it?.first?.code?.let { pageIndex -> binding.viewPagerGame.currentItem = pageIndex } }
         viewModel.getCurrentTable().observe(this) { currentRoundObserver(it) }
         viewModel.getSeatsOrientation().observe(this) { updateSeatsOrientationIcon(it) }
         viewModel.shouldShowDiffs().observe(this) { toggleDiffs(it) }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright © 2023  Ernesto Vega de la Iglesia Soria
   ~
   ~     This program is free software: you can redistribute it and/or modify
@@ -25,16 +24,18 @@
     <LinearLayout
         android:id="@+id/llGameListHeader"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/third_standard_margin"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:paddingStart="@dimen/standard_margin"
-        android:paddingEnd="@dimen/standard_margin">
+        android:paddingTop="@dimen/half_standard_margin"
+        android:paddingEnd="@dimen/standard_margin"
+        android:paddingBottom="@dimen/half_standard_margin">
 
         <TextView
             android:layout_width="16sp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/half_standard_margin"
             android:gravity="center"
             android:lines="1"
@@ -43,16 +44,17 @@
 
         <TextView
             android:layout_width="@dimen/second_standard_margin"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/half_standard_margin"
             android:gravity="center"
+            android:lines="2"
             android:text="@string/pts"
             android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tvGameListHeaderNameP1"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/half_standard_margin"
             android:layout_weight="1"
             android:gravity="center"
@@ -63,7 +65,7 @@
         <TextView
             android:id="@+id/tvGameListHeaderNameP2"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/half_standard_margin"
             android:layout_weight="1"
             android:gravity="center"
@@ -74,7 +76,7 @@
         <TextView
             android:id="@+id/tvGameListHeaderNameP3"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/half_standard_margin"
             android:layout_weight="1"
             android:gravity="center"
@@ -85,7 +87,7 @@
         <TextView
             android:id="@+id/tvGameListHeaderNameP4"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:lines="2"
@@ -101,7 +103,11 @@
         android:layout_above="@+id/llGameListFooter"
         android:layout_below="@+id/llGameListHeader"
         android:background="@color/grayLight"
-        android:fadingEdge="vertical"
+        android:fadeScrollbars="false"
+        android:fadingEdgeLength="@dimen/standard_margin"
+        android:requiresFadingEdge="vertical"
+        android:scrollbars="vertical"
+        android:scrollIndicators="end"
         tools:listitem="@layout/game_list_round_item" />
 
     <RelativeLayout
@@ -144,17 +150,19 @@
     <LinearLayout
         android:id="@+id/llGameListFooter"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/third_standard_margin"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="@dimen/standard_margin"
-        android:paddingEnd="@dimen/standard_margin">
+        android:paddingTop="@dimen/half_standard_margin"
+        android:paddingEnd="@dimen/standard_margin"
+        android:paddingBottom="@dimen/half_standard_margin">
 
         <TextView
             android:layout_width="@dimen/fourth_standard_margin"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:lines="1"
             android:text="@string/totals"
@@ -165,7 +173,7 @@
         <TextView
             android:id="@+id/tvGameListFooterTotalPointsP1"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/half_standard_margin"
             android:layout_weight="1"
             android:gravity="center"
@@ -177,7 +185,7 @@
         <TextView
             android:id="@+id/tvGameListFooterTotalPointsP2"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/half_standard_margin"
             android:layout_weight="1"
             android:gravity="center"
@@ -189,7 +197,7 @@
         <TextView
             android:id="@+id/tvGameListFooterTotalPointsP3"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/half_standard_margin"
             android:layout_weight="1"
             android:gravity="center"
@@ -201,7 +209,7 @@
         <TextView
             android:id="@+id/tvGameListFooterTotalPointsP4"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:lines="1"

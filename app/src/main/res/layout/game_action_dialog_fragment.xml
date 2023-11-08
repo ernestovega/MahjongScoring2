@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright © 2023  Ernesto Vega de la Iglesia Soria
   ~
   ~     This program is free software: you can redistribute it and/or modify
@@ -25,25 +24,28 @@
     tools:background="@color/blackTransparent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/second_standard_margin"
+        android:layout_margin="@dimen/standard_margin"
         app:cardBackgroundColor="@color/grayLight"
         app:cardCornerRadius="@dimen/half_standard_margin"
         app:cardMaxElevation="8dp"
-        app:contentPadding="@dimen/second_standard_margin">
+        app:contentPadding="@dimen/standard_margin">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:fadeScrollbars="false"
+            android:fadingEdgeLength="@dimen/standard_margin"
+            android:requiresFadingEdge="vertical"
+            android:scrollbars="vertical"
+            android:scrollIndicators="end">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/standard_margin"
-                android:paddingBottom="@dimen/standard_margin">
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/ivHandActionsDialogPlayerSeatWind"
@@ -65,17 +67,10 @@
                     android:textColor="@color/grayMM"
                     tools:text="Player name" />
 
-                <TextView
-                    android:id="@+id/tvHandActionsDialogDiffsTitle"
-                    style="@style/diffsDialogCell"
-                    android:layout_marginTop="@dimen/standard_margin"
-                    android:text="@string/points_needed"
-                    android:textStyle="normal" />
-
                 <include
                     android:id="@+id/iHandActionsDialogDiffs"
                     layout="@layout/game_action_dialog_diffs"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/half_standard_margin" />
 
@@ -158,7 +153,6 @@
                 <LinearLayout
                     android:id="@+id/btHandActionsDialogPenaltiesCancel"
                     style="@style/ButtonHandActionSmall"
-                    android:layout_marginTop="@dimen/second_standard_margin"
                     android:background="@drawable/button_rounded_corners_purple"
                     android:visibility="gone"
                     tools:ignore="UseCompoundDrawables"

@@ -16,12 +16,21 @@
  */
 package com.etologic.mahjongscoring2.app.game.game_list
 
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Animation.RELATIVE_TO_SELF
+import android.view.animation.AnimationSet
+import android.view.animation.BounceInterpolator
+import android.view.animation.Interpolator
+import android.view.animation.LinearInterpolator
+import android.view.animation.ScaleAnimation
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -129,13 +138,12 @@ internal class GameListRvAdapter
 
     private fun setBackgroundColor(item: Round, mHolder: ItemViewHolder) {
         (if (item.roundNumber % 2 == 0) gray else white)?.let {
-            mHolder.llContainer.setBackgroundColor(it)
+            mHolder.setCurrentBackgroundColor(it)
         }
     }
 
     //VIEW HOLDER
     internal inner class ItemViewHolder(binding: GameListRoundItemBinding) : RecyclerView.ViewHolder(binding.root) {
-
         var llContainer: LinearLayout = binding.llGameListItemContainer
         var tvRoundNum: TextView = binding.tvGameListItemRoundNumber
         var tvHandPoints: TextView = binding.tvGameListItemHandPoints
@@ -151,6 +159,30 @@ internal class GameListRvAdapter
         var tvTotalPointsP2: TextView = binding.tvGameListItemRoundTotalPointsP2
         var tvTotalPointsP3: TextView = binding.tvGameListItemRoundTotalPointsP3
         var tvTotalPointsP4: TextView = binding.tvGameListItemRoundTotalPointsP4
-    }
 
+        private var currentBackgroundColor: Int? = null
+
+        fun highlight() {
+            ObjectAnimator.ofObject(
+                llContainer,
+                "backgroundColor",
+                ArgbEvaluator(),
+                currentBackgroundColor,
+                accent,
+                currentBackgroundColor,
+                accent,
+                currentBackgroundColor,
+                accent,
+                currentBackgroundColor,
+            ).apply {
+                duration = 1500 // Animation duration in milliseconds
+                interpolator = LinearInterpolator()
+            }.start()
+        }
+
+        fun setCurrentBackgroundColor(color: Int) {
+            currentBackgroundColor = color
+            llContainer.setBackgroundColor(color)
+        }
+    }
 }

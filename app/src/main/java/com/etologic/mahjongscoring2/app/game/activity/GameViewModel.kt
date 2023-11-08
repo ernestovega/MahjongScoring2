@@ -24,6 +24,7 @@ import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HAND_ACTION
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PLAYERS
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper
+import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
@@ -38,6 +39,8 @@ import com.etologic.mahjongscoring2.business.use_cases.current_game.SaveCurrentP
 import com.etologic.mahjongscoring2.business.use_cases.current_round.GameActionsUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_round.PenaltyUseCase
 import io.reactivex.schedulers.Schedulers
+
+typealias ShouldHighlightLastRound = Boolean
 
 class GameViewModel internal constructor(
     contextForResources: Context,
@@ -58,12 +61,13 @@ class GameViewModel internal constructor(
         EXIT
     }
 
+    var lastHighlightedRound: CharSequence = ""
     private var playerOneLiteral: String? = null
     private var playerTwoLiteral: String? = null
     private var playerThreeLiteral: String? = null
     private var playerFourLiteral: String? = null
-    private val _currentPage = MutableLiveData<GameTablePages>()
-    internal fun getCurrentPage(): LiveData<GameTablePages> = _currentPage
+    private val _pageToShow = MutableLiveData<Pair<GameTablePages, ShouldHighlightLastRound>?>()
+    internal fun getPageToShow(): LiveData<Pair<GameTablePages, ShouldHighlightLastRound>?> = _pageToShow
     private val _currentScreen = MutableLiveData<GameScreens>()
     internal fun getCurrentScreen(): LiveData<GameScreens> = _currentScreen
     private val _currentTable = MutableLiveData<Table>()
@@ -90,7 +94,7 @@ class GameViewModel internal constructor(
             getCurrentGameUseCase.getCurrentGameWithRounds()
                 .subscribeOn(Schedulers.io())
                 .doOnSuccess { _currentTable.postValue(it) }
-                .subscribe(this::showPlayersDialogIfProceed, this::showError)
+                .subscribe(this::showPlayersDialogIfProceed, ::showError)
         )
     }
 
@@ -115,8 +119,8 @@ class GameViewModel internal constructor(
     }
 
     //NAVIGATION
-    internal fun showPage(page: GameTablePages) {
-        _currentPage.postValue(page)
+    internal fun showPage(page: GameTablePages?, highlightLastRound: Boolean = false) {
+        _pageToShow.postValue(page?.let { it to highlightLastRound})
     }
 
     internal fun navigateTo(gameScreens: GameScreens) {
@@ -128,7 +132,7 @@ class GameViewModel internal constructor(
         disposables.add(
             gameActionsUseCase.resume()
                 .subscribeOn(Schedulers.io())
-                .subscribe(_currentTable::postValue, this::showError)
+                .subscribe(_currentTable::postValue, ::showError)
         )
     }
 
@@ -136,7 +140,7 @@ class GameViewModel internal constructor(
         disposables.add(
             gameActionsUseCase.end()
                 .subscribeOn(Schedulers.io())
-                .subscribe(_currentTable::postValue, this::showError)
+                .subscribe(_currentTable::postValue, ::showError)
         )
     }
 
@@ -144,7 +148,7 @@ class GameViewModel internal constructor(
         disposables.add(
             saveCurrentPlayersUseCase.saveCurrentGamePlayersNames(names)
                 .subscribeOn(Schedulers.io())
-                .subscribe(_currentTable::postValue, this::showError)
+                .subscribe(_currentTable::postValue, ::showError)
         )
     }
 
@@ -153,7 +157,7 @@ class GameViewModel internal constructor(
         disposables.add(
             gameActionsUseCase.discard(HuData(_selectedSeat.value!!, discarderCurrentSeat, huPoints))
                 .subscribeOn(Schedulers.io())
-                .subscribe(_currentTable::postValue, this::showError)
+                .subscribe(::roundSaved, ::showError)
         )
     }
 
@@ -161,7 +165,7 @@ class GameViewModel internal constructor(
         disposables.add(
             gameActionsUseCase.selfPick(HuData(_selectedSeat.value!!, huPoints))
                 .subscribeOn(Schedulers.io())
-                .subscribe(_currentTable::postValue, this::showError)
+                .subscribe(::roundSaved, ::showError)
         )
     }
 
@@ -169,8 +173,13 @@ class GameViewModel internal constructor(
         disposables.add(
             gameActionsUseCase.draw()
                 .subscribeOn(Schedulers.io())
-                .subscribe(_currentTable::postValue, this::showError)
+                .subscribe(::roundSaved, ::showError)
         )
+    }
+
+    private fun roundSaved(table: Table?) {
+        _currentTable.postValue(table)
+        showPage(GameTablePages.LIST, highlightLastRound = true)
     }
 
     internal fun savePenalty(penaltyData: PenaltyData) {
@@ -178,7 +187,7 @@ class GameViewModel internal constructor(
         disposables.add(
             penaltyUseCase.penalty(penaltyData)
                 .subscribeOn(Schedulers.io())
-                .subscribe(_currentTable::postValue, this::showError)
+                .subscribe(_currentTable::postValue, ::showError)
         )
     }
 
@@ -186,7 +195,7 @@ class GameViewModel internal constructor(
         disposables.add(
             penaltyUseCase.cancelPenalties()
                 .subscribeOn(Schedulers.io())
-                .subscribe(_currentTable::postValue, this::showError)
+                .subscribe(_currentTable::postValue, ::showError)
         )
     }
 
@@ -194,7 +203,13 @@ class GameViewModel internal constructor(
         disposables.add(
             gameActionsUseCase.removeRound(roundId)
                 .subscribeOn(Schedulers.io())
-                .subscribe(_currentTable::postValue, this::showError)
+                .subscribe(
+                    { table ->
+                        lastHighlightedRound = ""
+                        _currentTable.postValue(table)
+                    },
+                    ::showError
+                )
         )
     }
 

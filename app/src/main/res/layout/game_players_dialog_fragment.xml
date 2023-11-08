@@ -16,10 +16,16 @@
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/AlertDialogStyleMM"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:fadeScrollbars="false"
+    android:fadingEdgeLength="@dimen/standard_margin"
+    android:requiresFadingEdge="vertical"
+    android:scrollbars="vertical"
+    android:scrollIndicators="end">
 
     <LinearLayout
         android:layout_width="wrap_content"

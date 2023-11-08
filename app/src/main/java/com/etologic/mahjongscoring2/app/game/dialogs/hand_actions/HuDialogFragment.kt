@@ -129,7 +129,6 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
                     }
                     isDialogCancelled = false
                     dismiss()
-                    activityViewModel?.showPage(GameTableFragment.GameTablePages.LIST)
                 }
             }
         }
