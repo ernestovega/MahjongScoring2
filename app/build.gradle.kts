@@ -65,38 +65,40 @@ dependencies {
     kapt("com.google.dagger:dagger-android-processor:2.48.1")
 
     //ARCH COMPONENTS
-    implementation("androidx.room:room-runtime:2.6.0")
-    ksp("androidx.room:room-compiler:2.6.0")
-    implementation("androidx.room:room-rxjava2:2.6.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    ksp("androidx.lifecycle:lifecycle-common-java8:2.6.2")
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.extensions)
+    ksp(libs.androidx.lifecycle.common.java8)
+
+    //ROOM
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.rxjava2)
 
     //SUPPORT & DESIGN
     implementation(libs.appcompat)
-    implementation("androidx.browser:browser:1.6.0")
+    implementation(libs.androidx.browser)
     implementation(libs.material)
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation(libs.androidx.legacy.support.v4)
     implementation(libs.core.ktx)
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation("androidx.recyclerview:recyclerview:1.3.1")
-    implementation("androidx.annotation:annotation:1.7.0")
+    implementation(libs.androidx.cardview)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.annotation)
 
     //RX JAVA
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
-    implementation("io.reactivex.rxjava2:rxjava:2.2.21")
+    implementation(libs.rxandroid)
+    implementation(libs.rxjava)
 
     //UTILS
-    implementation("org.apache.commons:commons-lang3:3.14.0")
+    implementation(libs.commons.lang3)
 
     //IN APP REVIEW
-    implementation("com.google.android.play:review:2.0.1")
-    implementation("com.google.android.play:review-ktx:2.0.1")
+    implementation(libs.review)
+    implementation(libs.review.ktx)
 
     //TEST
     testImplementation(libs.junit)
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
-    testImplementation("com.google.truth:truth:1.1.5")
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.truth)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
