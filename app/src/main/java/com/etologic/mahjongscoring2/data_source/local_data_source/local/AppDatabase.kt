@@ -29,17 +29,12 @@ import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.Gam
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.RoundsDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.TableDao
 
-@Database(entities = [Game::class, Round::class, Combination::class], version = AppDatabase.VERSION)
+@Database(entities = [Game::class, Round::class, Combination::class], version = 1)
 @TypeConverters(DateConverter::class, CombinationDescriptionTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
-    internal companion object {
-        internal const val DB_NAME = "MahjongScoring2"
-        internal const val VERSION = 1
-    }
-
-    internal abstract val combinationsDao: CombinationsDao
-    internal abstract val gamesDao: GamesDao
-    internal abstract val roundsDao: RoundsDao
-    internal abstract val tableDao: TableDao
+    abstract val combinationsDao: CombinationsDao
+    abstract val gamesDao: GamesDao
+    abstract val roundsDao: RoundsDao
+    abstract val tableDao: TableDao
 }

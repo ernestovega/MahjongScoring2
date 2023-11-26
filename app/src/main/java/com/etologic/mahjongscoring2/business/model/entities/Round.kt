@@ -72,7 +72,7 @@ class Round(
     @Ignore
     var isBestHand = false
 
-    internal constructor(gameId: Long) : this(gameId, NOT_SET_ROUND_ID)
+    constructor(gameId: Long) : this(gameId, NOT_SET_ROUND_ID)
 
     private constructor(
         gameId: Long,
@@ -140,7 +140,7 @@ class Round(
         )
     }
 
-    internal fun finishRoundByHuDiscard(
+    fun finishRoundByHuDiscard(
         winnerInitialSeat: TableWinds,
         discarderInitialSeat: TableWinds,
         huPoints: Int
@@ -163,7 +163,7 @@ class Round(
         }
     }
 
-    internal fun finishRoundByHuSelfPick(winnerInitialSeat: TableWinds, huPoints: Int) {
+    fun finishRoundByHuSelfPick(winnerInitialSeat: TableWinds, huPoints: Int) {
         this.winnerInitialSeat = winnerInitialSeat
         this.handPoints = huPoints
         pointsP1 += calculateSelfPickSeatPoints(EAST, huPoints)
@@ -180,11 +180,11 @@ class Round(
             getHuSelfPickDiscarderPoints(huPoints)
     }
 
-    internal fun finishRoundByDraw() {
+    fun finishRoundByDraw() {
         finishRoundApplyingPenalties()
     }
 
-    internal fun setPlayerPenaltyPoints(penalizedPlayerInitialPosition: TableWinds, penaltyPoints: Int) {
+    fun setPlayerPenaltyPoints(penalizedPlayerInitialPosition: TableWinds, penaltyPoints: Int) {
         when (penalizedPlayerInitialPosition) {
             EAST -> penaltyP1 -= penaltyPoints
             SOUTH -> penaltyP2 -= penaltyPoints
@@ -193,7 +193,7 @@ class Round(
         }
     }
 
-    internal fun setAllPlayersPenaltyPoints(penalizedPlayerInitialSeat: TableWinds, penaltyPoints: Int) {
+    fun setAllPlayersPenaltyPoints(penalizedPlayerInitialSeat: TableWinds, penaltyPoints: Int) {
         val noPenalizedPlayerPoints = getPenaltyOtherPlayersPoints(penaltyPoints)
         penaltyP1 += if (EAST === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
         penaltyP2 += if (SOUTH === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
@@ -201,7 +201,7 @@ class Round(
         penaltyP4 += if (NORTH === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
     }
 
-    internal fun cancelAllPlayersPenalties() {
+    fun cancelAllPlayersPenalties() {
         penaltyP1 = 0
         penaltyP2 = 0
         penaltyP3 = 0
@@ -220,9 +220,9 @@ class Round(
         pointsP4 += penaltyP4
     }
 
-    internal fun areTherePenalties(): Boolean = penaltyP1 != 0 || penaltyP2 != 0 || penaltyP3 != 0 || penaltyP4 != 0
+    fun areTherePenalties(): Boolean = penaltyP1 != 0 || penaltyP2 != 0 || penaltyP3 != 0 || penaltyP4 != 0
 
-    internal fun setTotalsPoints(playersTotalPoints: IntArray) {
+    fun setTotalsPoints(playersTotalPoints: IntArray) {
         totalPointsP1 = playersTotalPoints[EAST.code]
         totalPointsP2 = playersTotalPoints[SOUTH.code]
         totalPointsP3 = playersTotalPoints[WEST.code]

@@ -23,6 +23,7 @@ import android.content.Intent.FLAG_ACTIVITY_MULTIPLE_TASK
 import android.content.Intent.FLAG_ACTIVITY_NEW_DOCUMENT
 import android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
 import android.net.Uri
+import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.anim.enter_from_left
 import com.etologic.mahjongscoring2.R.anim.enter_from_right
@@ -51,10 +52,10 @@ object MainNavigator {
     private const val GREEN_BOOK_SPANISH_URL = "http://mahjong-europe.org/portal/images/docs/GreenBookTranslatedintoSpanishbyIvanMaestreRos.pdf"
     private const val MAHJONG_MADRID_URL = "https://www.mahjongmadrid.com"
     private const val EMA_URL = "http://mahjong-europe.org/"
-    private const val EMAIL_SUBJECT = "Mahjong Scoring 2"
+    private const val EMAIL_SUBJECT = "Mahjong Scoring ${BuildConfig.VERSION_NAME}"
     private const val EMAIL_ADDRESS = "mahjongmadrid@gmail.com"
 
-    internal fun goToScreen(screen: MainScreens, activity: MainActivity) {
+    fun goToScreen(screen: MainScreens, activity: MainActivity) {
         when (screen) {
             OLD_GAMES -> goToOldGames(activity)
             GAME -> goToGame(activity)
@@ -103,10 +104,11 @@ object MainNavigator {
 
     private fun goToContact(activity: MainActivity) {
         with(Intent(ACTION_SENDTO)) {
-            data = Uri.parse("mailto:$EMAIL_ADDRESS")
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(EMAIL_ADDRESS))
             putExtra(Intent.EXTRA_SUBJECT, EMAIL_SUBJECT)
             try {
-                activity.startActivity(this)
+                activity.startActivity(Intent.createChooser(this, activity.getString(R.string.send_email)))
             } catch (e: Exception) {
                 Snackbar.make(activity.binding.drawerLayoutMain, R.string.no_email_apps_founded, Snackbar.LENGTH_LONG).show()
             }

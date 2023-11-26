@@ -19,19 +19,19 @@ package com.etologic.mahjongscoring2.data_source.local_data_source.local.convert
 import androidx.room.TypeConverter
 import java.util.Date
 
-internal class DateConverter {
+class DateConverter {
 
-    internal companion object {
+    companion object {
 
         @TypeConverter
         @JvmStatic
-        internal fun toDate(timestamp: Long?): Date? {
+        fun toDate(timestamp: Long?): Date? {
             return if (timestamp == null) null else Date(timestamp)
         }
 
         @TypeConverter
         @JvmStatic
-        internal fun toTimestamp(date: Date?): Long? {
+        fun toTimestamp(date: Date?): Long? {
             return date?.time
         }
     }

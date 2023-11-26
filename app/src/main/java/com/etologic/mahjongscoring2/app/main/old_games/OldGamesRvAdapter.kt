@@ -34,10 +34,10 @@ import com.etologic.mahjongscoring2.databinding.MainOldgameItemBinding
 import java.util.Locale
 import javax.inject.Inject
 
-internal class OldGamesRvAdapter
-@Inject internal constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class OldGamesRvAdapter
+@Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    internal interface GameItemListener {
+    interface GameItemListener {
 
         fun onOldGameItemDeleteClicked(gameId: Long)
         fun onOldGameItemResumeClicked(gameId: Long)
@@ -66,7 +66,6 @@ internal class OldGamesRvAdapter
         games = newGamesCopy
     }
 
-    //LIFECYCLE
     override fun getItemCount(): Int {
         return games.size
     }
@@ -126,7 +125,7 @@ internal class OldGamesRvAdapter
         }
     }
 
-    internal inner class OldGameItemViewHolder(binding: MainOldgameItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class OldGameItemViewHolder(binding: MainOldgameItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val tvStartDate: TextView = binding.tvOldGameItemStartDate
         val tvDuration: TextView = binding.tvOldGameItemDuration

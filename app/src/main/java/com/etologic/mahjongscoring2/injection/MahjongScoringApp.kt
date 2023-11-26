@@ -16,12 +16,8 @@
  */
 package com.etologic.mahjongscoring2.injection
 
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class MahjongScoringApp : DaggerApplication() {
-
-    override fun applicationInjector(): AndroidInjector<out MahjongScoringApp> {
-        return DaggerAppComponent.factory().create(this)
-    }
-}
+@HiltAndroidApp
+class MahjongScoringApp : Application()

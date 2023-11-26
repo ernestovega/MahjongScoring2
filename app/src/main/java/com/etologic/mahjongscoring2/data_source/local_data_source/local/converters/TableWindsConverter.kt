@@ -24,7 +24,7 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 
-internal class TableWindsConverter {
+class TableWindsConverter {
 
     companion object {
 

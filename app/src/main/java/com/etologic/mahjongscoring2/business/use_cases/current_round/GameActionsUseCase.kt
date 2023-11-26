@@ -33,7 +33,7 @@ constructor(
     private val roundsRepository: RoundsRepository
 ) {
 
-    internal fun discard(huData: HuData): Single<Table> =
+    fun discard(huData: HuData): Single<Table> =
         currentTableRepository.get()
             .flatMap { table ->
                 table.finishCurrentRoundByHuDiscard(huData)
@@ -42,7 +42,7 @@ constructor(
                     .flatMap { updateCurrentTable(table.game.gameId) }
             }
 
-    internal fun selfPick(huData: HuData): Single<Table> =
+    fun selfPick(huData: HuData): Single<Table> =
         currentTableRepository.get()
             .flatMap { table ->
                 table.finishCurrentRoundByHuSelfPick(huData)
@@ -51,7 +51,7 @@ constructor(
                     .flatMap { updateCurrentTable(table.game.gameId) }
             }
 
-    internal fun draw(): Single<Table> =
+    fun draw(): Single<Table> =
         currentTableRepository.get()
             .flatMap { table ->
                 table.finishCurrentRoundByDraw()
@@ -60,7 +60,7 @@ constructor(
                     .flatMap { updateCurrentTable(table.game.gameId) }
             }
 
-    internal fun end(): Single<Table> =
+    fun end(): Single<Table> =
         currentTableRepository.get()
             .flatMap { table ->
                 if (table.rounds.last().areTherePenalties()) {
@@ -77,14 +77,14 @@ constructor(
                     .flatMap { updateCurrentTable(table.game.gameId) }
             }
 
-    internal fun resume(): Single<Table> =
+    fun resume(): Single<Table> =
         currentTableRepository.get()
             .flatMap { table ->
                 createRoundIfLessThanMaxMcrHands(table)
                     .flatMap { updateCurrentTable(table.game.gameId) }
             }
 
-    internal fun removeRound(roundToRemoveId: Int): Single<Table> =
+    fun removeRound(roundToRemoveId: Int): Single<Table> =
         currentTableRepository.get()
             .flatMap { table ->
                 if (table.rounds.last().isEnded) {

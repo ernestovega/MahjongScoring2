@@ -34,10 +34,12 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.getDrawable
+import androidx.fragment.app.activityViewModels
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.color
+import com.etologic.mahjongscoring2.app.base.BaseFragment
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.model.SeatStates
 import com.etologic.mahjongscoring2.app.model.SeatStates.DISABLED
 import com.etologic.mahjongscoring2.app.model.SeatStates.NORMAL
@@ -54,19 +56,20 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.GameTableSeatsFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale.getDefault
 
-class GameTableSeatsFragment : BaseGameFragment() {
+@AndroidEntryPoint
+class GameTableSeatsFragment : BaseFragment() {
 
     companion object {
-        internal const val TAG = "GameTableSeatsFragment"
+        const val TAG = "GameTableSeatsFragment"
     }
 
-    internal interface TableSeatsListener {
+    interface TableSeatsListener {
         fun onSeatClick(wind: TableWinds)
     }
 
-    //RESOURCES
     private var eastIcon: Drawable? = null
     private var southIcon: Drawable? = null
     private var westIcon: Drawable? = null
@@ -78,18 +81,18 @@ class GameTableSeatsFragment : BaseGameFragment() {
     private var greenColor: Int? = null
     private var purplePenalty: Int? = null
 
-    //FIELDS
+    private val activityViewModel: GameViewModel by activityViewModels()
+
     private var listener: TableSeatsListener? = null
     private var selectedPlayer: TableWinds = NONE
     private var areSeatsDisabled: Boolean = false
     private var margin = 0
 
-    //PUBLIC
-    internal fun setTableSeatsListener(tableSeatsListener: TableSeatsListener) {
+    fun setTableSeatsListener(tableSeatsListener: TableSeatsListener) {
         listener = tableSeatsListener
     }
 
-    internal fun updateSeatState(wind: TableWinds) {
+    fun updateSeatState(wind: TableWinds) {
         selectedPlayer = wind
         setStates(getSeatsStates())
     }
@@ -103,7 +106,7 @@ class GameTableSeatsFragment : BaseGameFragment() {
             NORTH -> arrayOf(NORMAL, NORMAL, NORMAL, SELECTED)
         }
 
-    internal fun setSeats(table: Table) {
+    fun setSeats(table: Table) {
         selectedPlayer = NONE
         setStates(getSeatsStates(table))
         val playersTotalPointsByCurrentSeat = table.getPlayersTotalPointsByCurrentSeat()
@@ -170,7 +173,7 @@ class GameTableSeatsFragment : BaseGameFragment() {
     }
 
     private fun setPointsDiffs(table: Table?) {
-        if (activityViewModel?.shouldShowDiffs()?.value != false && !isUserFontTooBig()) {
+        if (activityViewModel.shouldShowDiffs().value != false && !isUserFontTooBig()) {
             val tableDiffs = table?.getTableDiffs()
             if (tableDiffs != null) {
                 with(binding.iGameTableSeatEast.iGameTableSeatEastDiffs) {
@@ -319,7 +322,6 @@ class GameTableSeatsFragment : BaseGameFragment() {
         textView.text = name ?: ""
     }
 
-    //LIFECYCLE
     override fun onAttach(context: Context) {
         super.onAttach(context)
         margin = applyDimension(COMPLEX_UNIT_DIP, 16f, resources.displayMetrics).toInt()
@@ -394,7 +396,7 @@ class GameTableSeatsFragment : BaseGameFragment() {
         binding.iGameTableSeatNorth.iGameTableSeatNorthDiffs.tlTableSeatDiffs.setOnSecureClickListener { northClick() }
     }
 
-    internal fun updateSeatsOrientation(seatOrientation: SeatOrientation) {
+    fun updateSeatsOrientation(seatOrientation: SeatOrientation) {
         when (seatOrientation) {
             OUT -> {
                 binding.iGameTableSeatEast.rlTableSeatEastContainer.setPadding(0, margin, 0, 0)
@@ -420,7 +422,7 @@ class GameTableSeatsFragment : BaseGameFragment() {
 
     fun toggleDiffs(shouldShowDiffs: Boolean) {
         if (shouldShowDiffs) {
-            setPointsDiffs(activityViewModel?.getCurrentTable()?.value)
+            setPointsDiffs(activityViewModel.getCurrentTable().value)
         } else {
             hideDiffs()
         }

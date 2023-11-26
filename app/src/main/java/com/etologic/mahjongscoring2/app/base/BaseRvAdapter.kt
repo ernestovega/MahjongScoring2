@@ -43,11 +43,9 @@ abstract class BaseRvAdapter<T : RecyclerViewable<T>> : RecyclerView.Adapter<Rec
         collection = newCollectionCopy
     }
 
-    //LIFECYCLE
     override fun getItemCount(): Int = collection.size
 
-    //INNER CLASSES
-    internal inner class DiffUtilCallback<V : RecyclerViewable<V>>(private val oldList: List<V>, private val newList: List<V>) : DiffUtil.Callback() {
+    inner class DiffUtilCallback<V : RecyclerViewable<V>>(private val oldList: List<V>, private val newList: List<V>) : DiffUtil.Callback() {
 
         override fun getOldListSize(): Int {
             return oldList.size

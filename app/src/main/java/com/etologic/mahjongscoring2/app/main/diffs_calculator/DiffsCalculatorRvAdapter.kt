@@ -25,25 +25,24 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.game.game_list.GameListRvAdapter
 import com.etologic.mahjongscoring2.app.main.diffs_calculator.DiffsCalculatorActivity.Companion.NUM_CALCS_INTERVAL
 import com.etologic.mahjongscoring2.databinding.DiffsCalculatorItemBinding
 import java.util.*
 import javax.inject.Inject
 
-internal class DiffsCalculatorRvAdapter
+class DiffsCalculatorRvAdapter
 @Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var diffs = mutableListOf<Diff>()
     private var gray: Int? = null
     private var white: Int? = null
     @SuppressLint("NotifyDataSetChanged")
-    internal fun setFirstDiffs(firstDiffs: List<Diff>) {
+    fun setFirstDiffs(firstDiffs: List<Diff>) {
         diffs.addAll(firstDiffs)
         notifyDataSetChanged()
     }
 
-    internal fun setNextDiffs(newDiffs: List<Diff>) {
+    fun setNextDiffs(newDiffs: List<Diff>) {
         val currentSize = diffs.size
         diffs.addAll(newDiffs)
         notifyItemRangeInserted(currentSize, NUM_CALCS_INTERVAL)
@@ -74,7 +73,7 @@ internal class DiffsCalculatorRvAdapter
         (if (position % 2 == 0) white else gray)?.let { myHolder.llContainer.setBackgroundColor(it) }
     }
 
-    internal inner class DiffsCalculatorItemViewHolder(binding: DiffsCalculatorItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class DiffsCalculatorItemViewHolder(binding: DiffsCalculatorItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val llContainer: LinearLayout = binding.llDiffsCalculator
         val tvPointsNeeded: TextView = binding.tvDiffsCalculatorItemPointsNeeded
         val tvSelfPick: TextView = binding.tvDiffsCalculatorItemSelfPick

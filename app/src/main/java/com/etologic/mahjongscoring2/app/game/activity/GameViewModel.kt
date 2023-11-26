@@ -24,7 +24,6 @@ import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HAND_ACTION
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PLAYERS
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper
-import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
@@ -38,12 +37,16 @@ import com.etologic.mahjongscoring2.business.use_cases.current_game.GetCurrentGa
 import com.etologic.mahjongscoring2.business.use_cases.current_game.SaveCurrentPlayersUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_round.GameActionsUseCase
 import com.etologic.mahjongscoring2.business.use_cases.current_round.PenaltyUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 typealias ShouldHighlightLastRound = Boolean
 
-class GameViewModel internal constructor(
-    contextForResources: Context,
+@HiltViewModel
+class GameViewModel @Inject constructor(
+    @ApplicationContext context: Context,
     private val getCurrentGameUseCase: GetCurrentGameUseCase,
     private val saveCurrentPlayersUseCase: SaveCurrentPlayersUseCase,
     private val gameActionsUseCase: GameActionsUseCase,
@@ -67,29 +70,28 @@ class GameViewModel internal constructor(
     private var playerThreeLiteral: String? = null
     private var playerFourLiteral: String? = null
     private val _pageToShow = MutableLiveData<Pair<GameTablePages, ShouldHighlightLastRound>?>()
-    internal fun getPageToShow(): LiveData<Pair<GameTablePages, ShouldHighlightLastRound>?> = _pageToShow
+    fun getPageToShow(): LiveData<Pair<GameTablePages, ShouldHighlightLastRound>?> = _pageToShow
     private val _currentScreen = MutableLiveData<GameScreens>()
-    internal fun getCurrentScreen(): LiveData<GameScreens> = _currentScreen
+    fun getCurrentScreen(): LiveData<GameScreens> = _currentScreen
     private val _currentTable = MutableLiveData<Table>()
-    internal fun getCurrentTable(): LiveData<Table> = _currentTable
+    fun getCurrentTable(): LiveData<Table> = _currentTable
     private var _selectedSeat = MutableLiveData<TableWinds>()
-    internal fun getSelectedSeat(): LiveData<TableWinds> = _selectedSeat
+    fun getSelectedSeat(): LiveData<TableWinds> = _selectedSeat
     private var _seatOrientation = MutableLiveData<SeatOrientation>()
-    internal fun getSeatsOrientation(): LiveData<SeatOrientation> = _seatOrientation
+    fun getSeatsOrientation(): LiveData<SeatOrientation> = _seatOrientation
     private var _shouldShowDiffs = MutableLiveData<Boolean>()
-    internal fun shouldShowDiffs(): LiveData<Boolean> = _shouldShowDiffs
+    fun shouldShowDiffs(): LiveData<Boolean> = _shouldShowDiffs
 
     init {
-        playerOneLiteral = contextForResources.getString(R.string.player_one)
-        playerTwoLiteral = contextForResources.getString(R.string.player_two)
-        playerThreeLiteral = contextForResources.getString(R.string.player_three)
-        playerFourLiteral = contextForResources.getString(R.string.player_four)
+        playerOneLiteral = context.getString(R.string.player_one)
+        playerTwoLiteral = context.getString(R.string.player_two)
+        playerThreeLiteral = context.getString(R.string.player_three)
+        playerFourLiteral = context.getString(R.string.player_four)
         _selectedSeat.postValue(NONE)
         _seatOrientation.postValue(DOWN)
     }
 
-    //METHODS
-    internal fun loadTable() {
+    fun loadTable() {
         disposables.add(
             getCurrentGameUseCase.getCurrentGameWithRounds()
                 .subscribeOn(Schedulers.io())
@@ -108,27 +110,26 @@ class GameViewModel internal constructor(
     }
 
     //SELECTED PLAYER/SEAT
-    internal fun onSeatClicked(wind: TableWinds) {
+    fun onSeatClicked(wind: TableWinds) {
         _selectedSeat.postValue(wind)
         _currentScreen.postValue(HAND_ACTION)
     }
 
-    internal fun unselectSelectedSeat() {
+    fun unselectSelectedSeat() {
         _selectedSeat.postValue(NONE)
         _currentTable.postValue(_currentTable.value)
     }
 
-    //NAVIGATION
-    internal fun showPage(page: GameTablePages?, highlightLastRound: Boolean = false) {
+    fun showPage(page: GameTablePages?, highlightLastRound: Boolean = false) {
         _pageToShow.postValue(page?.let { it to highlightLastRound})
     }
 
-    internal fun navigateTo(gameScreens: GameScreens) {
+    fun navigateTo(gameScreens: GameScreens) {
         _currentScreen.postValue(gameScreens)
     }
 
     //GAME OPERATIONS
-    internal fun resumeGame() {
+    fun resumeGame() {
         disposables.add(
             gameActionsUseCase.resume()
                 .subscribeOn(Schedulers.io())
@@ -136,7 +137,7 @@ class GameViewModel internal constructor(
         )
     }
 
-    internal fun endGame() {
+    fun endGame() {
         disposables.add(
             gameActionsUseCase.end()
                 .subscribeOn(Schedulers.io())
@@ -144,7 +145,7 @@ class GameViewModel internal constructor(
         )
     }
 
-    internal fun savePlayersNames(names: Array<String>) {
+    fun savePlayersNames(names: Array<String>) {
         disposables.add(
             saveCurrentPlayersUseCase.saveCurrentGamePlayersNames(names)
                 .subscribeOn(Schedulers.io())
@@ -153,7 +154,7 @@ class GameViewModel internal constructor(
     }
 
     //ROUND OPERATIONS
-    internal fun saveRonRound(discarderCurrentSeat: TableWinds, huPoints: Int) {
+    fun saveRonRound(discarderCurrentSeat: TableWinds, huPoints: Int) {
         disposables.add(
             gameActionsUseCase.discard(HuData(_selectedSeat.value!!, discarderCurrentSeat, huPoints))
                 .subscribeOn(Schedulers.io())
@@ -161,7 +162,7 @@ class GameViewModel internal constructor(
         )
     }
 
-    internal fun saveTsumoRound(huPoints: Int) {
+    fun saveTsumoRound(huPoints: Int) {
         disposables.add(
             gameActionsUseCase.selfPick(HuData(_selectedSeat.value!!, huPoints))
                 .subscribeOn(Schedulers.io())
@@ -169,7 +170,7 @@ class GameViewModel internal constructor(
         )
     }
 
-    internal fun saveDrawRound() {
+    fun saveDrawRound() {
         disposables.add(
             gameActionsUseCase.draw()
                 .subscribeOn(Schedulers.io())
@@ -182,7 +183,7 @@ class GameViewModel internal constructor(
         showPage(GameTablePages.LIST, highlightLastRound = true)
     }
 
-    internal fun savePenalty(penaltyData: PenaltyData) {
+    fun savePenalty(penaltyData: PenaltyData) {
         penaltyData.penalizedPlayerCurrentSeat = _selectedSeat.value!!
         disposables.add(
             penaltyUseCase.penalty(penaltyData)
@@ -191,7 +192,7 @@ class GameViewModel internal constructor(
         )
     }
 
-    internal fun cancelPenalties() {
+    fun cancelPenalties() {
         disposables.add(
             penaltyUseCase.cancelPenalties()
                 .subscribeOn(Schedulers.io())
@@ -199,7 +200,7 @@ class GameViewModel internal constructor(
         )
     }
 
-    internal fun removeRound(roundId: Int) {
+    fun removeRound(roundId: Int) {
         disposables.add(
             gameActionsUseCase.removeRound(roundId)
                 .subscribeOn(Schedulers.io())
@@ -214,32 +215,32 @@ class GameViewModel internal constructor(
     }
 
     //QUERIES
-    internal fun loadRankingData() =
+    fun loadRankingData() =
         getCurrentGameUseCase.getCurrentGameWithRounds()
             .subscribeOn(Schedulers.io())
             .map(RankingTableHelper::generateRankingTable)
             .blockingGet()
 
-    internal fun thereArePenaltiesCurrently(): Boolean =
+    fun thereArePenaltiesCurrently(): Boolean =
         getCurrentGameUseCase.getCurrentGameWithRounds()
             .subscribeOn(Schedulers.io())
             .map { it.rounds.last().areTherePenalties() }
             .blockingGet()
 
-    internal fun getNamesByCurrentSeat(): Array<String> =
+    fun getNamesByCurrentSeat(): Array<String> =
         getCurrentGameUseCase.getCurrentGameWithRounds()
             .subscribeOn(Schedulers.io())
             .map { it.getPlayersNamesByCurrentSeat() }
             .onErrorReturnItem(arrayOf("", "", "", ""))
             .blockingGet()
 
-    internal fun getNamesByInitialPosition(): Array<String> =
+    fun getNamesByInitialPosition(): Array<String> =
         getCurrentGameUseCase.getCurrentGameWithRounds()
             .subscribeOn(Schedulers.io())
             .map { it.game.getPlayersNames() }
             .blockingGet()
 
-    internal fun toggleSeatsRotation() {
+    fun toggleSeatsRotation() {
         _seatOrientation.postValue(if (_seatOrientation.value == DOWN) OUT else DOWN)
     }
 

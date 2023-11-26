@@ -38,7 +38,7 @@ import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
 
 object GameNavigator {
 
-    internal fun navigateTo(screen: GameScreens, activity: GameActivity, viewModel: GameViewModel) {
+    fun navigateTo(screen: GameScreens, activity: GameActivity, viewModel: GameViewModel) {
         when (screen) {
             COMBINATIONS -> activity.startActivity(Intent(activity, CombinationsActivity::class.java))
             PLAYERS -> NamesDialogFragment().show(activity.supportFragmentManager, NamesDialogFragment.TAG)

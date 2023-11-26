@@ -54,14 +54,14 @@ class CustomNumPad(context: Context, attributeSet: AttributeSet) : LinearLayout(
 
     private fun getDisplayNum(): String = (binding.etCustomNumPadDisplay.text ?: "").toString()
 
-    internal fun getPoints(): Int? =
+    fun getPoints(): Int? =
         try {
             getDisplayNum().toInt()
         } catch (e: Exception) {
             null
         }
 
-    internal fun setError() {
+    fun setError() {
         binding.etCustomNumPadDisplay.error = ""
     }
 }

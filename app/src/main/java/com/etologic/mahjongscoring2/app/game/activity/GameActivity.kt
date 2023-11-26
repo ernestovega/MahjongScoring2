@@ -20,9 +20,8 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
@@ -42,8 +41,9 @@ import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
 import com.etologic.mahjongscoring2.databinding.GameActivityBinding
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GameActivity : BaseActivity() {
 
     companion object {
@@ -62,9 +62,7 @@ class GameActivity : BaseActivity() {
 
     private lateinit var binding: GameActivityBinding
 
-    @Inject
-    internal lateinit var viewModelFactory: GameViewModelFactory
-    internal lateinit var viewModel: GameViewModel
+    private val viewModel: GameViewModel by viewModels()
 
     override val onBackBehaviour = {
         if (binding.viewPagerGame.currentItem == LIST.code) {
@@ -152,14 +150,9 @@ class GameActivity : BaseActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        initViewModel()
         setupToolbar()
         setupViewPager()
         observeViewModel()
-    }
-
-    private fun initViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory)[GameViewModel::class.java]
     }
 
     private fun setupToolbar() {

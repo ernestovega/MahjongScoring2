@@ -35,9 +35,7 @@ class InAppReviewRepository @Inject constructor() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         reviewManager.launchReviewFlow(activity, task.result)
-                            .addOnCompleteListener { _ ->
-                                emitter.onSuccess(true)
-                            }
+                            .addOnCompleteListener { _ -> emitter.onSuccess(true) }
                     } else {
                         emitter.onError(task.exception ?: ReviewException(INTERNAL_ERROR))
                     }

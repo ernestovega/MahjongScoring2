@@ -51,7 +51,7 @@ class CustomDiscarderSelector(context: Context, attributeSet: AttributeSet) : Li
         _binding = CustomDiscarderSelectorBinding.inflate(LayoutInflater.from(context), this, true)
     }
 
-    internal fun initPlayers(seats: List<Seat>) {
+    fun initPlayers(seats: List<Seat>) {
         this.seats = seats
         setNames(seats.map { it.name })
         setIcons(seats.map { it.seatWind })

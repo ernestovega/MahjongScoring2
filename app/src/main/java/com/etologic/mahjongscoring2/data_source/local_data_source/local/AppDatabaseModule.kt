@@ -16,44 +16,37 @@
  */
 package com.etologic.mahjongscoring2.data_source.local_data_source.local
 
+import android.content.Context
 import androidx.room.Room
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.CombinationsDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.GamesDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.RoundsDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.TableDao
-import com.etologic.mahjongscoring2.injection.MahjongScoringApp
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
-internal class AppDataBaseModule {
+class AppDataBaseModule {
 
     @Provides
     @Singleton
-    internal fun provideAppDatabase(mahjongScoringApp: MahjongScoringApp): AppDatabase {
-        return Room
-            .databaseBuilder(mahjongScoringApp, AppDatabase::class.java, AppDatabase.DB_NAME)
-            .build()
-    }
+    fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase =
+        Room.databaseBuilder(appContext, AppDatabase::class.java, "MahjongScoring2").build()
 
     @Provides
-    internal fun provideCombinationsDao(dataBase: AppDatabase): CombinationsDao {
-        return dataBase.combinationsDao
-    }
+    fun provideCombinationsDao(dataBase: AppDatabase): CombinationsDao = dataBase.combinationsDao
 
     @Provides
-    internal fun provideGamesDao(dataBase: AppDatabase): GamesDao {
-        return dataBase.gamesDao
-    }
+    fun provideGamesDao(dataBase: AppDatabase): GamesDao = dataBase.gamesDao
 
     @Provides
-    internal fun provideRoundsDao(dataBase: AppDatabase): RoundsDao {
-        return dataBase.roundsDao
-    }
+    fun provideRoundsDao(dataBase: AppDatabase): RoundsDao = dataBase.roundsDao
 
     @Provides
-    internal fun provideGameWithRoundsDao(dataBase: AppDatabase): TableDao {
-        return dataBase.tableDao
-    }
+    fun provideGameWithRoundsDao(dataBase: AppDatabase): TableDao = dataBase.tableDao
 }

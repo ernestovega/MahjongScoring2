@@ -22,16 +22,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.NUM_NO_WINNER_PLAYERS
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.databinding.GamePenaltyDialogFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-internal class PenaltyDialogFragment : BaseGameDialogFragment() {
+@AndroidEntryPoint
+class PenaltyDialogFragment : AppCompatDialogFragment() {
 
     companion object {
         const val TAG = "PenaltyDialogFragment"
@@ -45,6 +49,8 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
 
     private var _binding: GamePenaltyDialogFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private val activityViewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,8 +84,8 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
 
     private fun initPlayerViews() {
         with(binding.iPenaltyDialogPlayerContainer) {
-            val selectedSeat = activityViewModel?.getSelectedSeat()?.value ?: TableWinds.NONE
-            val playersNamesByCurrentSeat = activityViewModel?.getCurrentTable()?.value?.getPlayersNamesByCurrentSeat()
+            val selectedSeat = activityViewModel.getSelectedSeat().value ?: TableWinds.NONE
+            val playersNamesByCurrentSeat = activityViewModel.getCurrentTable().value?.getPlayersNamesByCurrentSeat()
             ivTableSeatMediumSeatWind.setImageDrawable(getWindIcon(selectedSeat))
             tvTableSeatMediumName.text = selectedSeat.code.let { playersNamesByCurrentSeat?.get(it) ?: "" }
         }
@@ -116,13 +122,13 @@ internal class PenaltyDialogFragment : BaseGameDialogFragment() {
     }
 
     private fun saveAndFinish(penaltyPoints: Int, isDivided: Boolean) {
-        activityViewModel?.savePenalty(PenaltyData(penaltyPoints, isDivided))
+        activityViewModel.savePenalty(PenaltyData(penaltyPoints, isDivided))
         isDialogCancelled = false
         dismiss()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        if (isDialogCancelled) activityViewModel?.unselectSelectedSeat()
+        if (isDialogCancelled) activityViewModel.unselectSelectedSeat()
         super.onDismiss(dialog)
     }
 }

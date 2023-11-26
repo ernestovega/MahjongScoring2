@@ -26,13 +26,11 @@ import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.databinding.DiffsCalculatorActivityBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class DiffsCalculatorActivity : BaseActivity() {
 
     companion object {
@@ -44,7 +42,7 @@ class DiffsCalculatorActivity : BaseActivity() {
     private lateinit var binding: DiffsCalculatorActivityBinding
 
     @Inject
-    internal lateinit var rvAdapter: DiffsCalculatorRvAdapter
+    lateinit var rvAdapter: DiffsCalculatorRvAdapter
 
     override val onBackBehaviour = { finish() }
 

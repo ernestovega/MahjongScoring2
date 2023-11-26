@@ -22,11 +22,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
-import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.model.Seat
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_POINTS
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MIN_MCR_POINTS
@@ -37,8 +38,10 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.GameHuDialogFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-internal class HuDialogFragment : BaseGameDialogFragment() {
+@AndroidEntryPoint
+class HuDialogFragment : AppCompatDialogFragment() {
 
     companion object {
         const val TAG = "HuDialogFragment"
@@ -53,6 +56,8 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
 
     private var _binding: GameHuDialogFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private val activityViewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,8 +92,8 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
     }
 
     private fun initViews() {
-        val playersNamesByCurrentSeat = activityViewModel?.getCurrentTable()?.value?.getPlayersNamesByCurrentSeat()
-        val winnerSeat = activityViewModel?.getSelectedSeat()?.value ?: NONE
+        val playersNamesByCurrentSeat = activityViewModel.getCurrentTable().value?.getPlayersNamesByCurrentSeat()
+        val winnerSeat = activityViewModel.getSelectedSeat().value ?: NONE
         val looser1Seat = TableWinds.asArray[(if (winnerSeat == EAST) SOUTH else EAST).code]
         val looser2Seat = TableWinds.asArray[(if (winnerSeat in listOf(EAST, SOUTH)) WEST else SOUTH).code]
         val looser3Seat = TableWinds.asArray[(if (winnerSeat in listOf(EAST, SOUTH, WEST)) NORTH else WEST).code]
@@ -123,9 +128,9 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
                     cnpGameHuDialog.setError()
                 } else {
                     if (cdsGameHuDialog.selectedSeatWind == NONE) {
-                        activityViewModel?.saveTsumoRound(winnerHandPoints)
+                        activityViewModel.saveTsumoRound(winnerHandPoints)
                     } else {
-                        activityViewModel?.saveRonRound(cdsGameHuDialog.selectedSeatWind, winnerHandPoints)
+                        activityViewModel.saveRonRound(cdsGameHuDialog.selectedSeatWind, winnerHandPoints)
                     }
                     isDialogCancelled = false
                     dismiss()
@@ -136,7 +141,7 @@ internal class HuDialogFragment : BaseGameDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         if (isDialogCancelled) {
-            activityViewModel?.unselectSelectedSeat()
+            activityViewModel.unselectSelectedSeat()
         }
         super.onDismiss(dialog)
     }

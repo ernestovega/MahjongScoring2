@@ -27,9 +27,12 @@ import com.etologic.mahjongscoring2.business.use_cases.current_game.SetCurrentGa
 import com.etologic.mahjongscoring2.business.use_cases.games.CreateGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.games.DeleteGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.games.GetGamesUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-internal class OldGamesViewModel(
+@HiltViewModel
+class OldGamesViewModel @Inject constructor(
     private val getGamesUseCase: GetGamesUseCase,
     private val deleteGameUseCase: DeleteGameUseCase,
     private val createGameUseCase: CreateGameUseCase,
@@ -37,11 +40,11 @@ internal class OldGamesViewModel(
 ) : BaseViewModel() {
 
     private val _allGames = MutableLiveData<List<Table>>()
-    internal fun getGames(): LiveData<List<Table>> = _allGames
+    fun getGames(): LiveData<List<Table>> = _allGames
     private val _startGame = MutableLiveData<GameStartType>()
-    internal fun getStartGame(): LiveData<GameStartType> = _startGame
+    fun getStartGame(): LiveData<GameStartType> = _startGame
 
-    internal fun deleteGame(gameId: Long) {
+    fun deleteGame(gameId: Long) {
         disposables.add(
             deleteGameUseCase.deleteGame(gameId)
                 .subscribeOn(Schedulers.io())
@@ -49,8 +52,7 @@ internal class OldGamesViewModel(
         )
     }
 
-    //METHODS
-    internal fun getAllGames() {
+    fun getAllGames() {
         disposables.add(
             getGamesUseCase.getAllWithRounds()
                 .subscribeOn(Schedulers.io())
@@ -59,7 +61,7 @@ internal class OldGamesViewModel(
         )
     }
 
-    internal fun startGame(gameId: Long) {
+    fun startGame(gameId: Long) {
         disposables.add(
             setCurrentGameUseCase.setCurrentGame(gameId)
                 .subscribeOn(Schedulers.io())
@@ -67,7 +69,7 @@ internal class OldGamesViewModel(
         )
     }
 
-    internal fun startNewGame(defaultNames: Array<String>) {
+    fun startNewGame(defaultNames: Array<String>) {
         disposables.add(
             createGameUseCase.createGame(defaultNames)
                 .subscribeOn(Schedulers.io())

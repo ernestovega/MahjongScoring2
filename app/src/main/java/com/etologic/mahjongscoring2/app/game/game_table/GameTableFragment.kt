@@ -32,6 +32,7 @@ import android.widget.RelativeLayout.ALIGN_PARENT_TOP
 import android.widget.RelativeLayout.GONE
 import android.widget.RelativeLayout.LayoutParams
 import androidx.core.content.ContextCompat.getDrawable
+import androidx.fragment.app.activityViewModels
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.drawable.ic_dice_multiple_white_24dp
 import com.etologic.mahjongscoring2.R.drawable.ic_east
@@ -40,10 +41,11 @@ import com.etologic.mahjongscoring2.R.drawable.ic_south
 import com.etologic.mahjongscoring2.R.drawable.ic_trophy_white_18dp
 import com.etologic.mahjongscoring2.R.drawable.ic_west
 import com.etologic.mahjongscoring2.R.string
+import com.etologic.mahjongscoring2.app.base.BaseFragment
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.DICE
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.RANKING
-import com.etologic.mahjongscoring2.app.game.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.Companion.TAG
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.TableSeatsListener
 import com.etologic.mahjongscoring2.business.model.entities.Round
@@ -54,8 +56,10 @@ import com.google.android.material.badge.BadgeDrawable.BOTTOM_END
 import com.google.android.material.badge.BadgeDrawable.BOTTOM_START
 import com.google.android.material.badge.BadgeDrawable.TOP_END
 import com.google.android.material.badge.BadgeDrawable.TOP_START
+import dagger.hilt.android.AndroidEntryPoint
 
-class GameTableFragment : BaseGameFragment(), TableSeatsListener {
+@AndroidEntryPoint
+class GameTableFragment : BaseFragment(), TableSeatsListener {
 
     enum class GameTablePages(val code: Int) {
         TABLE(0),
@@ -74,13 +78,12 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     private var _binding: GameTableFragmentBinding? = null
     private val binding get() = _binding!!
 
-
-    //EVENTS
+    private val activityViewModel: GameViewModel by activityViewModels()
+    
     override fun onSeatClick(wind: TableWinds) {
-        activityViewModel?.onSeatClicked(wind)
+        activityViewModel.onSeatClicked(wind)
     }
 
-    //LIFECYCLE
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -101,7 +104,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
         initTableSeats()
         setOnClickListeners()
         startObservingTable()
-        activityViewModel?.loadTable()
+        activityViewModel.loadTable()
     }
 
     private fun initResources() {
@@ -120,14 +123,14 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
 
     private fun setOnClickListeners() {
         tableSeats.setTableSeatsListener(this)
-        binding.fabGameTable.setOnSecureClickListener { activityViewModel?.navigateTo(DICE) }
+        binding.fabGameTable.setOnSecureClickListener { activityViewModel.navigateTo(DICE) }
     }
 
     private fun startObservingTable() {
-        activityViewModel?.getCurrentTable()?.observe(viewLifecycleOwner) { gameObserver(it) }
-        activityViewModel?.getSelectedSeat()?.observe(viewLifecycleOwner) { tableSeats.updateSeatState(it) }
-        activityViewModel?.getSeatsOrientation()?.observe(viewLifecycleOwner) { tableSeats.updateSeatsOrientation(it) }
-        activityViewModel?.shouldShowDiffs()?.observe(viewLifecycleOwner) { tableSeats.toggleDiffs(it) }
+        activityViewModel.getCurrentTable().observe(viewLifecycleOwner) { gameObserver(it) }
+        activityViewModel.getSelectedSeat().observe(viewLifecycleOwner) { tableSeats.updateSeatState(it) }
+        activityViewModel.getSeatsOrientation().observe(viewLifecycleOwner) { tableSeats.updateSeatsOrientation(it) }
+        activityViewModel.shouldShowDiffs().observe(viewLifecycleOwner) { tableSeats.toggleDiffs(it) }
     }
 
     private fun gameObserver(it: Table) {
@@ -148,7 +151,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
                 if (fabGameTable.tag != "ic_trophy_white_18dp") {
                     fabGameTable.tag = "ic_trophy_white_18dp"
                     fabGameTable.setImageResource(ic_trophy_white_18dp)
-                    fabGameTable.setOnSecureClickListener { activityViewModel?.navigateTo(RANKING) }
+                    fabGameTable.setOnSecureClickListener { activityViewModel.navigateTo(RANKING) }
                     setFabPosition(BOTTOM_END)
                 }
 
@@ -156,7 +159,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
                 if (fabGameTable.tag != "ic_dice_multiple_white_24dp") {
                     fabGameTable.tag = "ic_dice_multiple_white_24dp"
                     fabGameTable.setImageResource(ic_dice_multiple_white_24dp)
-                    fabGameTable.setOnSecureClickListener { activityViewModel?.navigateTo(DICE) }
+                    fabGameTable.setOnSecureClickListener { activityViewModel.navigateTo(DICE) }
                 }
                 moveDice(roundId)
             }

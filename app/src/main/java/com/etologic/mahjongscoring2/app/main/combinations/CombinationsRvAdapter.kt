@@ -38,7 +38,7 @@ import com.etologic.mahjongscoring2.databinding.CombinationItemBinding
 import java.util.*
 import javax.inject.Inject
 
-internal class CombinationsRvAdapter
+class CombinationsRvAdapter
 @Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var combinations: List<Combination> = ArrayList()
@@ -46,7 +46,7 @@ internal class CombinationsRvAdapter
     private var cardViewMinHeight: Int = 0
 
     @SuppressLint("NotifyDataSetChanged")
-    internal fun setCombinations(combinations: List<Combination>) {
+    fun setCombinations(combinations: List<Combination>) {
         saveCombinationsCopy(combinations)
         notifyDataSetChanged()
     }
@@ -105,7 +105,7 @@ internal class CombinationsRvAdapter
         }
     }
 
-    internal inner class CombinationItemViewHolder(binding: CombinationItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CombinationItemViewHolder(binding: CombinationItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val llContainer: LinearLayout = binding.llCombinationItemContainer
         val cardView: CardView = binding.cvCombinationItem

@@ -23,9 +23,12 @@ import androidx.lifecycle.MutableLiveData
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.business.model.enums.GameStartType
 import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class MainViewModel internal constructor(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     private val showInAppReviewUseCase: ShowInAppReviewUseCase,
 ) : BaseViewModel() {
 
@@ -42,20 +45,20 @@ class MainViewModel internal constructor(
     }
 
     private val currentScreen = MutableLiveData<MainScreens>()
-    internal fun getCurrentScreen(): LiveData<MainScreens> = currentScreen
+    fun getCurrentScreen(): LiveData<MainScreens> = currentScreen
     private val currentToolbar = MutableLiveData<Toolbar>()
-    internal fun getCurrentToolbar(): LiveData<Toolbar> = currentToolbar
-    internal var lastGameStartType: GameStartType? = null
+    fun getCurrentToolbar(): LiveData<Toolbar> = currentToolbar
+    var lastGameStartType: GameStartType? = null
 
-    internal fun setToolbar(toolbar: Toolbar) {
+    fun setToolbar(toolbar: Toolbar) {
         currentToolbar.postValue(toolbar)
     }
 
-    internal fun navigateTo(screen: MainScreens) {
+    fun navigateTo(screen: MainScreens) {
         currentScreen.postValue(screen)
     }
 
-    internal fun showInAppReviewIfProceed(activity: Activity) {
+    fun showInAppReviewIfProceed(activity: Activity) {
         disposables.add(
             showInAppReviewUseCase(activity)
                 .subscribeOn(Schedulers.io())

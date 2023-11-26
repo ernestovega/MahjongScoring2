@@ -23,16 +23,38 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TablesRepository
-@Inject constructor() {
+class TablesRepository @Inject constructor(private var tableDao: TableDao) {
 
-    @Inject
-    lateinit var tableDao: TableDao
+    fun getTable(gameId: Long): Single<Table> = tableDao.getTable(gameId).map { it.initBestHandAndTotalsAndRoundNumbers() }
 
-    internal fun getTable(gameId: Long): Single<Table> =
-        tableDao.getTable(gameId)
-            .map { it.initBestHandAndTotalsAndRoundNumbers() }
+    fun getAllTables(): Single<List<Table>> = tableDao.getTablesSortedByDateDesc()
 
-    internal fun getAllTables(): Single<List<Table>> =
-        tableDao.getTablesSortedByDateDesc()
+    private fun Table.initBestHandAndTotalsAndRoundNumbers(): Table {
+        setBestHand()
+        setTotals()
+        setRoundNumbers()
+        return this
+    }
+
+    private fun Table.setBestHand() {
+        val bestHand = getBestHand()
+        if (bestHand.handValue >= Table.MIN_MCR_POINTS) {
+            for (round in rounds) {
+                val isBestHandRound = round.handPoints >= bestHand.handValue && round.winnerInitialSeat == bestHand.playerInitialPosition
+                round.isBestHand = isBestHandRound
+            }
+        }
+    }
+
+    private fun Table.setTotals() {
+        rounds.forEachIndexed { index, round ->
+            if (round.isEnded) {
+                val newRoundTotals = this.getTotalPointsUntilRound(index)
+                round.totalPointsP1 = newRoundTotals[0]
+                round.totalPointsP2 = newRoundTotals[1]
+                round.totalPointsP3 = newRoundTotals[2]
+                round.totalPointsP4 = newRoundTotals[3]
+            }
+        }
+    }
 }

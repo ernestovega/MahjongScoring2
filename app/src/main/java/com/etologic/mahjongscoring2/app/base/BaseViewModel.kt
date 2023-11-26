@@ -28,11 +28,11 @@ open class BaseViewModel : ViewModel() {
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected var snackbarMessage = MutableLiveData<String>()
-    internal fun getSnackbarMessage(): LiveData<String> = snackbarMessage
+    fun getSnackbarMessage(): LiveData<String> = snackbarMessage
     private var error = MutableLiveData<Throwable>()
-    internal fun getError(): LiveData<Throwable> = error
+    fun getError(): LiveData<Throwable> = error
 
-    internal fun showError(throwable: Throwable) {
+    fun showError(throwable: Throwable) {
         error.postValue(throwable)
         if (BuildConfig.DEBUG)
             throwable.printStackTrace()

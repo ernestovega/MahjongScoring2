@@ -16,7 +16,7 @@
  */
 package com.etologic.mahjongscoring2.app.utils
 
-import org.apache.commons.lang3.StringUtils
+import com.etologic.mahjongscoring2.app.extensions.capitalize
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -27,7 +27,7 @@ object DateTimeUtils {
 
     fun getPrettyDate(date: Date): String {
         val sdf = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
-        return StringUtils.capitalize(sdf.format(date))
+        return sdf.format(date).capitalize()
     }
 
     fun areEqual(date1: Date?, date2: Date?): Boolean {

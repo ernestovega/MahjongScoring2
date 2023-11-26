@@ -23,40 +23,37 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.string.player_one
 import com.etologic.mahjongscoring2.app.base.BaseFragment
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.main.activity.MainActivityViewModelFactory
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.etologic.mahjongscoring2.business.model.enums.GameStartType
 import com.etologic.mahjongscoring2.business.model.enums.GameStartType.NEW
 import com.etologic.mahjongscoring2.databinding.MainOldgamesFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
 
     companion object {
         const val TAG = "OldGamesFragment"
     }
 
-    @Inject
-    internal lateinit var mainActivityViewModelFactory: MainActivityViewModelFactory
+    private val activityViewModel: MainViewModel by activityViewModels()
+
+    private val viewModel: OldGamesViewModel by viewModels()
 
     @Inject
-    internal lateinit var oldGamesViewModelFactory: OldGamesViewModelFactory
-    private lateinit var activityViewModel: MainViewModel
-    private lateinit var viewModel: OldGamesViewModel
-
-    @Inject
-    internal lateinit var rvAdapter: OldGamesRvAdapter
+    lateinit var rvAdapter: OldGamesRvAdapter
     private lateinit var defaultNames: Array<String>
 
-    //EVENTS
     override fun onOldGameItemDeleteClicked(gameId: Long) {
         AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
             .setTitle(R.string.delete_game)
@@ -71,7 +68,6 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         viewModel.startGame(gameId)
     }
 
-    //LIFECYCLE
     override fun onResume() {
         super.onResume()
         viewModel.getAllGames()
@@ -83,7 +79,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = MainOldgamesFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -99,10 +95,10 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         defaultNames =
             arrayOf(getString(player_one), getString(R.string.player_two), getString(R.string.player_three), getString(R.string.player_four))
         setupRecyclerView()
-        setupViewModel()
         setupSwipeRefreshLayout()
         setToolbar()
         setOnClickListeners()
+        observeViewModel()
     }
 
     private fun setupRecyclerView() {
@@ -113,15 +109,11 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         binding.rvOldGames.adapter = rvAdapter
     }
 
-    private fun setupViewModel() {
-        if (activity != null) {
-            activityViewModel = ViewModelProvider(requireActivity(), mainActivityViewModelFactory)[MainViewModel::class.java]
-            viewModel = ViewModelProvider(this, oldGamesViewModelFactory)[OldGamesViewModel::class.java]
-            viewModel.getError().observe(viewLifecycleOwner) { showError(it) }
-            viewModel.getSnackbarMessage().observe(viewLifecycleOwner) { showSnackbar(binding.root, it) }
-            viewModel.getGames().observe(viewLifecycleOwner) { gamesObserver(it) }
-            viewModel.getStartGame().observe(viewLifecycleOwner) { startGameObserver(it) }
-        }
+    private fun observeViewModel() {
+        viewModel.getError().observe(viewLifecycleOwner) { showError(it) }
+        viewModel.getSnackbarMessage().observe(viewLifecycleOwner) { showSnackbar(binding.root, it) }
+        viewModel.getGames().observe(viewLifecycleOwner) { gamesObserver(it) }
+        viewModel.getStartGame().observe(viewLifecycleOwner) { startGameObserver(it) }
     }
 
     private fun gamesObserver(games: List<Table>) {

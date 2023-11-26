@@ -22,10 +22,10 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat.START
-import androidx.lifecycle.ViewModelProvider
 import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
@@ -40,20 +40,20 @@ import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
 import com.etologic.mahjongscoring2.databinding.MainActivityBinding
 import com.google.android.material.snackbar.Snackbar
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
     companion object {
-        internal const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
-        internal const val KEY_WAS_GAME_ENDED = "WasGameEnded"
+        const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
+        const val KEY_WAS_GAME_ENDED = "WasGameEnded"
     }
 
     lateinit var binding: MainActivityBinding
 
-    @Inject
-    internal lateinit var viewModelFactory: MainActivityViewModelFactory
-    private var viewModel: MainViewModel? = null
+    private val viewModel: MainViewModel by viewModels()
+
     private var lastBackPress: Long = 0
 
     val gameActivityResultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
@@ -62,7 +62,7 @@ class MainActivity : BaseActivity() {
         if (activityResult.resultCode == RESULT_OK &&
             activityResult.data?.getBooleanExtra(KEY_WAS_GAME_ENDED, false) == true
         ) {
-            viewModel?.showInAppReviewIfProceed(this)
+            viewModel.showInAppReviewIfProceed(this)
         }
     }
 
@@ -91,15 +91,14 @@ class MainActivity : BaseActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        setupViewModel()
         setupDrawer()
-        viewModel?.navigateTo(OLD_GAMES)
+        observeViewModel()
+        viewModel.navigateTo(OLD_GAMES)
     }
 
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
-        viewModel?.getCurrentToolbar()?.observe(this) { setToolbar(it) }
-        viewModel?.getCurrentScreen()?.observe(this) { goToScreen(it, this) }
+    private fun observeViewModel() {
+        viewModel.getCurrentToolbar().observe(this) { setToolbar(it) }
+        viewModel.getCurrentScreen().observe(this) { goToScreen(it, this) }
     }
 
     private fun closeDrawer() {
@@ -129,14 +128,14 @@ class MainActivity : BaseActivity() {
         binding.navigationViewMain.setNavigationItemSelectedListener { menuItem ->
             this.closeDrawer()
             when (menuItem.itemId) {
-                R.id.nav_oldgames -> viewModel?.navigateTo(OLD_GAMES)
-                R.id.nav_combinations -> viewModel?.navigateTo(COMBINATIONS)
-                R.id.action_diffs_calculator -> viewModel?.navigateTo(DIFFS_CALCULATOR)
-                R.id.nav_greenbook_en -> viewModel?.navigateTo(GREEN_BOOK_ENGLISH)
-                R.id.nav_greenbook_es -> viewModel?.navigateTo(GREEN_BOOK_SPANISH)
-                R.id.nav_mm_web -> viewModel?.navigateTo(MM_WEB)
-                R.id.nav_ema_web -> viewModel?.navigateTo(EMA_WEB)
-                R.id.nav_contact -> viewModel?.navigateTo(CONTACT)
+                R.id.nav_oldgames -> viewModel.navigateTo(OLD_GAMES)
+                R.id.nav_combinations -> viewModel.navigateTo(COMBINATIONS)
+                R.id.action_diffs_calculator -> viewModel.navigateTo(DIFFS_CALCULATOR)
+                R.id.nav_greenbook_en -> viewModel.navigateTo(GREEN_BOOK_ENGLISH)
+                R.id.nav_greenbook_es -> viewModel.navigateTo(GREEN_BOOK_SPANISH)
+                R.id.nav_mm_web -> viewModel.navigateTo(MM_WEB)
+                R.id.nav_ema_web -> viewModel.navigateTo(EMA_WEB)
+                R.id.nav_contact -> viewModel.navigateTo(CONTACT)
                 else -> return@setNavigationItemSelectedListener false
             }
             return@setNavigationItemSelectedListener true

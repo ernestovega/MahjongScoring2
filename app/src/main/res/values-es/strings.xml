@@ -201,4 +201,5 @@
     <string name="diffsCalculator">Calculadora de diferencias</string>
     <string name="diff">Needed points</string>
     <string name="i_think_is_enough_jajaja">Creo que ya es suficiente, ¿no? 🤣</string>
+    <string name="send_email">Enviar correo</string>
 </resources>

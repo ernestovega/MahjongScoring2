@@ -26,9 +26,11 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.VISIBLE
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.fragment.app.activityViewModels
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment.DiceNumber.FIVE
 import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment.DiceNumber.FOUR
 import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment.DiceNumber.ONE
@@ -40,11 +42,13 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.GameDiceDialogFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Random
 import java.util.Timer
 import java.util.TimerTask
 
-internal class RollDiceDialogFragment : BaseGameDialogFragment() {
+@AndroidEntryPoint
+class RollDiceDialogFragment : AppCompatDialogFragment() {
 
     companion object {
         const val TAG: String = "RollDiceDialogFragment"
@@ -59,7 +63,7 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
         SIX(6);
 
         companion object {
-            internal fun getRandom(): DiceNumber =
+            fun getRandom(): DiceNumber =
                 when (Random().nextInt(6) + 1) {
                     1 -> ONE
                     2 -> TWO
@@ -76,7 +80,7 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
     private lateinit var handler12: Handler            //Post message to start roll
     private lateinit var handler34: Handler            //Post message to start roll
     private val timer = Timer()  //Used to implement feedback to user
-    private var isRolling = false   //Is die isRolling?
+    private var isRolling = false   //Is dice isRolling?
     private var zero: String? = null
 
     //When pause completed message sent to callback
@@ -96,6 +100,8 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
 
     private var _binding: GameDiceDialogFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private val activityViewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -151,8 +157,7 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
             ivDice1.tag = 0
             ivDice2.tag = 0
 
-            tvDiceDialogFirst.text =
-                activityViewModel?.getNamesByCurrentSeat()?.get(0) ?: getString(R.string.first)
+            tvDiceDialogFirst.text = activityViewModel.getNamesByCurrentSeat()[0]
 
             handler34 = Handler {
                 //Receives message from timer to start dice roll
@@ -179,8 +184,8 @@ internal class RollDiceDialogFragment : BaseGameDialogFragment() {
             4, 8, 12 -> NORTH.code
             else -> null
         }
-        val namesCurrentSeat = activityViewModel?.getNamesByCurrentSeat()
-        return if (secondSeat != null && namesCurrentSeat != null)
+        val namesCurrentSeat = activityViewModel.getNamesByCurrentSeat()
+        return if (secondSeat != null)
             namesCurrentSeat[secondSeat]
         else
             getString(R.string.second)

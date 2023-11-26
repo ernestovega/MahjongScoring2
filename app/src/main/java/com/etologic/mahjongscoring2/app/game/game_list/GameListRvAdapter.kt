@@ -24,13 +24,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.Animation.RELATIVE_TO_SELF
-import android.view.animation.AnimationSet
-import android.view.animation.BounceInterpolator
-import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
-import android.view.animation.ScaleAnimation
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -47,14 +41,13 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.GameListRoundItemBinding
 import javax.inject.Inject
 
-internal class GameListRvAdapter
+class GameListRvAdapter
 @Inject constructor() : BaseRvAdapter<Round>() {
 
-    internal interface GameListItemListener {
+    interface GameListItemListener {
         fun onClick(view: View, roundId: Int)
     }
 
-    //Fields
     private var greenMM: Int? = null
     private var grayMM: Int? = null
     private var red: Int? = null
@@ -63,11 +56,10 @@ internal class GameListRvAdapter
     private var white: Int? = null
     private var itemListener: GameListItemListener? = null
 
-    internal fun setItemListener(listener: GameListItemListener) {
+    fun setItemListener(listener: GameListItemListener) {
         itemListener = listener
     }
 
-    //Lifecycle
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         initResources(parent.context)
         val itemBinding = GameListRoundItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -142,8 +134,7 @@ internal class GameListRvAdapter
         }
     }
 
-    //VIEW HOLDER
-    internal inner class ItemViewHolder(binding: GameListRoundItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ItemViewHolder(binding: GameListRoundItemBinding) : RecyclerView.ViewHolder(binding.root) {
         var llContainer: LinearLayout = binding.llGameListItemContainer
         var tvRoundNum: TextView = binding.tvGameListItemRoundNumber
         var tvHandPoints: TextView = binding.tvGameListItemHandPoints

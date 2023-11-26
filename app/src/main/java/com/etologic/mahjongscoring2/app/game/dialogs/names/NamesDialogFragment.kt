@@ -21,8 +21,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.fragment.app.activityViewModels
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.showKeyboard
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
@@ -30,8 +32,10 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.GamePlayersDialogFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-internal class NamesDialogFragment : BaseGameDialogFragment() {
+@AndroidEntryPoint
+class NamesDialogFragment : AppCompatDialogFragment() {
 
     companion object {
         const val TAG = "NamesDialogFragment"
@@ -39,6 +43,8 @@ internal class NamesDialogFragment : BaseGameDialogFragment() {
 
     private var _binding: GamePlayersDialogFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private val activityViewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,13 +68,11 @@ internal class NamesDialogFragment : BaseGameDialogFragment() {
     }
 
     private fun printNames() {
-        val names = activityViewModel?.getNamesByInitialPosition()
-        names?.let {
-            binding.tietPlayersDialogEast.setText(it[EAST.code])
-            binding.tietPlayersDialogSouth.setText(it[SOUTH.code])
-            binding.tietPlayersDialogWest.setText(it[WEST.code])
-            binding.tietPlayersDialogNorth.setText(it[NORTH.code])
-        }
+        val names = activityViewModel.getNamesByInitialPosition()
+        binding.tietPlayersDialogEast.setText(names[EAST.code])
+        binding.tietPlayersDialogSouth.setText(names[SOUTH.code])
+        binding.tietPlayersDialogWest.setText(names[WEST.code])
+        binding.tietPlayersDialogNorth.setText(names[NORTH.code])
     }
 
     private fun setOnClickListeners() {
@@ -79,7 +83,7 @@ internal class NamesDialogFragment : BaseGameDialogFragment() {
             tietPlayersDialogNorth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogNorth.selectAll() }
             btPlayersDialogCancel.setOnSecureClickListener { dismiss() }
             btPlayersDialogSave.setOnSecureClickListener {
-                activityViewModel?.savePlayersNames(
+                activityViewModel.savePlayersNames(
                     arrayOf(
                         (tietPlayersDialogEast.text ?: "").toString().trim(),
                         (tietPlayersDialogSouth.text ?: "").toString().trim(),

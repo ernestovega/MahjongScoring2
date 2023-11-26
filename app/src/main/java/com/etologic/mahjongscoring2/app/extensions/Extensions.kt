@@ -19,8 +19,9 @@ package com.etologic.mahjongscoring2.app.extensions
 import android.os.SystemClock
 import android.view.View
 import android.view.View.OnClickListener
+import java.util.Locale
 
-internal fun View.setOnSecureClickListener(
+fun View.setOnSecureClickListener(
     debounceTime: Long = 600L,
     action: (view: View) -> Unit
 ) {
@@ -56,3 +57,5 @@ fun <T> List<T>.fourth(): T {
 
 fun Int?.toStringOrHyphen(): String = this?.toString() ?: "-"
 
+fun String.capitalize(): String =
+    replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }

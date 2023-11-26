@@ -25,18 +25,21 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.extensions.toStringOrHyphen
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HU
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PENALTY
-import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
-import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.databinding.GameActionDialogFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-internal class ActionDialogFragment : BaseGameDialogFragment() {
+@AndroidEntryPoint
+class ActionDialogFragment : AppCompatDialogFragment() {
 
     companion object {
         const val TAG = "ActionsDialogFragment"
@@ -49,6 +52,8 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     private var isDialogCancelled = true
     private var _binding: GameActionDialogFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private val activityViewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,7 +86,7 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
     }
 
     private fun setPlayer() {
-        val selectedSeat = activityViewModel?.getSelectedSeat()?.value
+        val selectedSeat = activityViewModel.getSelectedSeat().value
         binding.ivHandActionsDialogPlayerSeatWind.setImageDrawable(
             when (selectedSeat) {
                 TableWinds.EAST -> eastIcon
@@ -92,14 +97,14 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
             }
         )
         binding.tvHandActionsDialogPlayerName.text = selectedSeat?.code?.let { windCode ->
-            activityViewModel?.getCurrentTable()?.value?.getPlayersNamesByCurrentSeat()?.get(windCode) ?: ""
+            activityViewModel.getCurrentTable().value?.getPlayersNamesByCurrentSeat()?.get(windCode) ?: ""
         } ?: ""
         selectedSeat?.let { setPlayerDiffs(it) }
     }
 
     private fun setPlayerDiffs(playerSeat: TableWinds) {
         with(binding) {
-            val playerDiffs = activityViewModel?.getCurrentTable()?.value?.getTableDiffs()?.seatsDiffs?.get(playerSeat.code)
+            val playerDiffs = activityViewModel.getCurrentTable().value?.getTableDiffs()?.seatsDiffs?.get(playerSeat.code)
             with(iHandActionsDialogDiffs) {
                 val pointsToBeFirst = playerDiffs?.pointsToBeFirst
                 tvActionDialogDiffsFirstSelfPick.text = pointsToBeFirst?.bySelfPick.toStringOrHyphen()
@@ -121,24 +126,24 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
 
     private fun setButtons() {
         binding.btHandActionsDialogPenaltiesCancel.visibility =
-            if (activityViewModel?.thereArePenaltiesCurrently() == true) VISIBLE else GONE
+            if (activityViewModel.thereArePenaltiesCurrently()) VISIBLE else GONE
     }
 
     private fun setListeners() {
         with(binding) {
             root.setOnSecureClickListener { dismiss() }
             btHandActionsDialogHu.setOnSecureClickListener {
-                activityViewModel?.navigateTo(HU)
+                activityViewModel.navigateTo(HU)
                 isDialogCancelled = false
                 dismiss()
             }
             btHandActionsDialogDraw.setOnSecureClickListener {
-                activityViewModel?.saveDrawRound()
+                activityViewModel.saveDrawRound()
                 isDialogCancelled = false
                 dismiss()
             }
             btHandActionsDialogPenalty.setOnSecureClickListener {
-                activityViewModel?.navigateTo(PENALTY)
+                activityViewModel.navigateTo(PENALTY)
                 isDialogCancelled = false
                 dismiss()
             }
@@ -147,7 +152,7 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
                     .setTitle(R.string.cancel_penalties)
                     .setMessage(R.string.are_you_sure)
                     .setPositiveButton(R.string.ok) { _, _ ->
-                        activityViewModel?.cancelPenalties()
+                        activityViewModel.cancelPenalties()
                         dismiss()
                     }
                     .setNegativeButton(R.string.close, null)
@@ -159,7 +164,7 @@ internal class ActionDialogFragment : BaseGameDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         if (isDialogCancelled) {
-            activityViewModel?.unselectSelectedSeat()
+            activityViewModel.unselectSelectedSeat()
         }
         super.onDismiss(dialog)
     }

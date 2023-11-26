@@ -23,23 +23,28 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.fragment.app.activityViewModels
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.game.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
 import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.databinding.GameTableRankingDialogFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 import java.lang.String.format
 import java.util.Locale.getDefault
 
-internal class RankingDialogFragment : BaseGameDialogFragment() {
+@AndroidEntryPoint
+class RankingDialogFragment : AppCompatDialogFragment() {
 
     companion object {
         const val TAG = "RankingDialogFragment"
     }
 
-    //LIFECYCLE
     private var _binding: GameTableRankingDialogFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private val activityViewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,12 +63,12 @@ internal class RankingDialogFragment : BaseGameDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
-        activityViewModel?.loadRankingData()?.let(this::fillRankingViews)
+        activityViewModel.loadRankingData()?.let(this::fillRankingViews)
     }
 
     private fun setOnClickListeners() {
         binding.btRankingDialogResume.setOnSecureClickListener {
-            activityViewModel?.resumeGame()
+            activityViewModel.resumeGame()
             dismiss()
         }
         binding.btRankingDialogOk.setOnSecureClickListener {

@@ -21,17 +21,22 @@ import androidx.lifecycle.MutableLiveData
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.business.model.entities.Combination
 import com.etologic.mahjongscoring2.business.use_cases.combinations.GetCombinationsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-internal class CombinationsViewModel(private val getCombinationsUseCase: GetCombinationsUseCase) : BaseViewModel() {
+@HiltViewModel
+class CombinationsViewModel @Inject constructor(
+    private val getCombinationsUseCase: GetCombinationsUseCase
+) : BaseViewModel() {
 
     private val filteredCombinations = MutableLiveData<List<Combination>>()
 
-    internal fun getFilteredCombinations(): LiveData<List<Combination>> {
+    fun getFilteredCombinations(): LiveData<List<Combination>> {
         return filteredCombinations
     }
 
-    internal fun getAll() {
+    fun getAll() {
         disposables.add(
             getCombinationsUseCase.getAll()
                 .subscribeOn(Schedulers.io())
@@ -39,7 +44,7 @@ internal class CombinationsViewModel(private val getCombinationsUseCase: GetComb
         )
     }
 
-    internal fun searchCombination(filter: String) {
+    fun searchCombination(filter: String) {
         disposables.add(
             getCombinationsUseCase.getSome(filter)
                 .subscribeOn(Schedulers.io())

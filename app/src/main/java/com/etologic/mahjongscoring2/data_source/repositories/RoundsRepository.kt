@@ -23,24 +23,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RoundsRepository
-@Inject constructor() {
+class RoundsRepository @Inject constructor(private var roundsDao: RoundsDao) {
 
-    @Inject
-    lateinit var roundsDao: RoundsDao
+    fun insertOne(round: Round): Single<Long> = roundsDao.insertOne(round)
 
-    internal fun insertOne(round: Round) =
-        roundsDao.insertOne(round)
+    fun updateOne(round: Round): Single<Boolean> = roundsDao.updateOne(round).map { it == 1 }
 
-    internal fun updateOne(round: Round) =
-        roundsDao.updateOne(round)
-            .map { it == 1 }
+    fun deleteOne(gameId: Long, roundId: Int): Single<Boolean> = roundsDao.deleteOne(gameId, roundId).map { it == 1 }
 
-    internal fun deleteOne(gameId: Long, roundId: Int) =
-        roundsDao.deleteOne(gameId, roundId)
-            .map { it == 1 }
-
-    internal fun deleteByGame(gameId: Long): Single<Boolean> =
-        roundsDao.deleteByGame(gameId)
-            .map { it >= 0 }
+    fun deleteByGame(gameId: Long): Single<Boolean> = roundsDao.deleteByGame(gameId).map { it >= 0 }
 }

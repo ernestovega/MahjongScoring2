@@ -1,52 +1,55 @@
 [versions]
 agp = "8.1.4"
+androidx-annotation = "1.7.0"
+androidx-appcompat = "1.6.1"
+androidx-browser = "1.7.0"
+androidx-cardview = "1.0.0"
+androidx-core-ktx = "1.12.0"
+androidx-espresso-core = "3.5.1"
+androidx-fragment-ktx = "1.6.2"
+androidx-legacy-support-v4 = "1.0.0"
+androidx-lifecycle-extensions = "2.2.0"
+androidx-lifecycle-livedata-ktx = "2.6.2"
+androidx-lifecycle-viewmodel-ktx = "2.6.2"
+androidx-recyclerview = "1.3.1"
+androidx-room = "2.6.0"
 androidx-test-ext-junit = "1.1.5"
-annotation = "1.7.0"
-appcompat = "1.6.1"
-browser = "1.7.0"
-cardview = "1.0.0"
-commons-lang3 = "3.14.0"
-core-ktx = "1.12.0"
-espresso-core = "3.5.1"
+hilt = "2.47"
 junit = "4.13.2"
 junit-jupiter = "5.10.1"
 kotlin-android = "1.9.20"
-kotlin-kapt = "1.9.20"
 ksp = "1.9.20-1.0.13"
-legacy-support-v4 = "1.0.0"
-lifecycle-extensions = "2.2.0"
-lifecycle-livedata-ktx = "2.6.2"
-lifecycle-viewmodel-ktx = "2.6.2"
 material = "1.10.0"
-recyclerview = "1.3.1"
 review = "2.0.1"
 review-ktx = "2.0.1"
-room-runtime = "2.6.0"
 rxandroid = "2.1.1"
 rxjava = "2.2.21"
 truth = "1.1.5"
 
 [libraries]
-androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
-androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
-androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
-androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "legacy-support-v4" }
-androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycle-livedata-ktx" }
-androidx-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycle-extensions" }
-androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle-livedata-ktx" }
-androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room-runtime" }
-androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room-runtime" }
-androidx-room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "room-runtime" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+androidx-browser = { module = "androidx.browser:browser", version.ref = "androidx-browser" }
+androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "androidx-cardview" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment-ktx" }
+androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "androidx-legacy-support-v4" }
+androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "androidx-lifecycle-livedata-ktx" }
+androidx-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "androidx-lifecycle-extensions" }
+androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "androidx-lifecycle-livedata-ktx" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-livedata-ktx" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle-viewmodel-ktx" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recyclerview" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
+androidx-room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "androidx-room" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle-livedata-ktx" }
-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel-ktx" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 review = { module = "com.google.android.play:review", version.ref = "review" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "review-ktx" }
@@ -56,9 +59,9 @@ truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
+com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
-org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin-kapt" }
 
 [bundles]
 

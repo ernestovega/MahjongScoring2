@@ -27,9 +27,9 @@ class CurrentTableMemoryDataSource
 
     private var currentGame: Table? = null
 
-    internal fun get(): Single<Table> = Single.just(currentGame)
+    fun get(): Single<Table> = Single.just(currentGame)
 
-    internal fun set(game: Table): Single<Table> {
+    fun set(game: Table): Single<Table> {
         currentGame = game
         return Single.just(currentGame)
     }

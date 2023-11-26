@@ -20,9 +20,9 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 
 open class PenaltyData(
-    internal val points: Int,
-    internal val isDivided: Boolean
+    val points: Int,
+    val isDivided: Boolean
 ) {
 
-    internal var penalizedPlayerCurrentSeat: TableWinds = NONE
+    var penalizedPlayerCurrentSeat: TableWinds = NONE
 }

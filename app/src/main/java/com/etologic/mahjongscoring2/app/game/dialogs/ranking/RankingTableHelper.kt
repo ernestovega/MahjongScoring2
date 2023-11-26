@@ -34,7 +34,7 @@ object RankingTableHelper {
     private const val DRAW_SECOND_2 = "1.5"
     private const val DRAW_LAST_2 = "0.5"
 
-    internal fun generateRankingTable(table: Table?): RankingData? {
+    fun generateRankingTable(table: Table?): RankingData? {
         if (table == null) return null
         val sortedPlayersRankings = getSortedPlayersRankings(table)
         val bestHands = getBestHands(table)

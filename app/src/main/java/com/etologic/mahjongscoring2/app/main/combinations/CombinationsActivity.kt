@@ -23,25 +23,25 @@ import android.os.Handler
 import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.databinding.CombinationsActivityBinding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class CombinationsActivity : BaseActivity() {
 
     private lateinit var binding: CombinationsActivityBinding
 
-    @Inject
-    internal lateinit var combinationsViewModelFactory: CombinationsViewModelFactory
-    internal var viewModel: CombinationsViewModel? = null
+    private val viewModel: CombinationsViewModel by viewModels()
 
     @Inject
-    internal lateinit var rvAdapter: CombinationsRvAdapter
+    lateinit var rvAdapter: CombinationsRvAdapter
 
     override val onBackBehaviour = { finish() }
 
@@ -57,8 +57,8 @@ class CombinationsActivity : BaseActivity() {
         super.onPostCreate(savedInstanceState)
         setupToolbar()
         setupRecyclerView()
-        setupViewModel()
-        viewModel?.getAll()
+        observeViewModel()
+        viewModel.getAll()
     }
 
     private fun setupToolbar() {
@@ -74,9 +74,8 @@ class CombinationsActivity : BaseActivity() {
         handler.post { binding.recyclerViewCombinations.adapter = rvAdapter }
     }
 
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(this, combinationsViewModelFactory)[CombinationsViewModel::class.java]
-        viewModel?.getFilteredCombinations()?.observe(this) { rvAdapter.setCombinations(it) }
+    private fun observeViewModel() {
+        viewModel.getFilteredCombinations().observe(this) { rvAdapter.setCombinations(it) }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -90,7 +89,7 @@ class CombinationsActivity : BaseActivity() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                viewModel?.searchCombination(newText)
+                viewModel.searchCombination(newText)
                 return true
             }
         })

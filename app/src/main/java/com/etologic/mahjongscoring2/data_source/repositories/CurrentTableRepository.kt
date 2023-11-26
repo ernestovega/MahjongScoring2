@@ -23,9 +23,7 @@ import javax.inject.Inject
 class CurrentTableRepository
 @Inject constructor(private val memoryDataSource: CurrentTableMemoryDataSource) {
 
-    internal fun get(): Single<Table> =
-        memoryDataSource.get()
+    fun get(): Single<Table> = memoryDataSource.get()
 
-    internal fun set(table: Table): Single<Table> =
-        memoryDataSource.set(table)
+    fun set(table: Table): Single<Table> = memoryDataSource.set(table)
 }

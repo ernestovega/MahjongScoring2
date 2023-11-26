@@ -21,7 +21,7 @@ import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsByDirectH
 import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsByIndirectHu
 import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsBySelfPick
 
-internal class Diff(
+class Diff(
     val pointsNeeded: Int
 ) {
     val selfPick: Int = pointsNeeded.getNeededPointsBySelfPick()

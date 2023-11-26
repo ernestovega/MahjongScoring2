@@ -21,20 +21,19 @@ import com.etologic.mahjongscoring2.R.drawable
 import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.business.model.entities.Combination
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.CombinationsDao
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CombinationsRepository
-@Inject constructor(private val context: Context) {
-
+class CombinationsRepository @Inject constructor(
+    @ApplicationContext val context: Context,
+    private val combinationsDao: CombinationsDao,
+) {
     private val lastBuiltCombinations = getHardcodedCombinations()
 
-    @Inject
-    lateinit var combinationsDao: CombinationsDao
-
-    internal fun getAll(): Single<List<Combination>> {
+    fun getAll(): Single<List<Combination>> {
         return combinationsDao.getAll()
             .flatMap { combinations ->
                 if (combinations.isEmpty() || combinations.hasAnyResourceChanged()) {
@@ -53,7 +52,7 @@ class CombinationsRepository
                     it.first.combinationDescription != it.second.combinationDescription
         }
 
-    internal fun getFiltered(filter: String): Single<List<Combination>> {
+    fun getFiltered(filter: String): Single<List<Combination>> {
         return combinationsDao.getFiltered(String.format("%%%s%%", filter))
     }
 
