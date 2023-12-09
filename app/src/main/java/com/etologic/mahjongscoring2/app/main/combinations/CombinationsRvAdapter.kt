@@ -33,7 +33,6 @@ import com.etologic.mahjongscoring2.app.model.ShowState
 import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.business.model.entities.Combination
-import com.etologic.mahjongscoring2.business.model.entities.Combination.CombinationDescriptionType.IMAGE
 import com.etologic.mahjongscoring2.databinding.CombinationItemBinding
 import java.util.*
 import javax.inject.Inject
@@ -54,7 +53,7 @@ class CombinationsRvAdapter
     private fun saveCombinationsCopy(combinations: List<Combination>) {
         val newCombinationsCopy = ArrayList<Combination>(combinations.size)
         for (combination in combinations) {
-            newCombinationsCopy.add(combination.getCopy())
+            newCombinationsCopy.add(combination.copy())
         }
         this.combinations = newCombinationsCopy
     }
@@ -88,8 +87,8 @@ class CombinationsRvAdapter
         myHolder.tvName.text = combination.combinationName
         myHolder.tvPosition.text = String.format(Locale.getDefault(), "#%d", position + 1)
 
-        if (combination.combinationDescriptionType === IMAGE) {
-            myHolder.ivImage.setImageResource(combination.combinationImage)
+        if (combination.combinationImage != null) {
+            myHolder.ivImage.setImageResource(combination.combinationImage!!)
             myHolder.tvDescription.visibility = GONE
             myHolder.ivImage.visibility = VISIBLE
         } else {
@@ -101,7 +100,8 @@ class CombinationsRvAdapter
         myHolder.flImageOrDescriptionContainer.visibility = if (imageOrDescriptionShowState === SHOW) VISIBLE else GONE
 
         myHolder.llContainer.setOnSecureClickListener {
-            myHolder.flImageOrDescriptionContainer.visibility = if (myHolder.cardView.height == cardViewMinHeight) VISIBLE else GONE
+            myHolder.flImageOrDescriptionContainer.visibility =
+                if (myHolder.cardView.height == cardViewMinHeight) VISIBLE else GONE
         }
     }
 
