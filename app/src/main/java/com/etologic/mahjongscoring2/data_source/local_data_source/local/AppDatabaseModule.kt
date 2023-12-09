@@ -18,7 +18,6 @@ package com.etologic.mahjongscoring2.data_source.local_data_source.local
 
 import android.content.Context
 import androidx.room.Room
-import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.CombinationsDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.GamesDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.RoundsDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.TableDao
@@ -36,10 +35,9 @@ class AppDataBaseModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase =
-        Room.databaseBuilder(appContext, AppDatabase::class.java, "MahjongScoring2").build()
-
-    @Provides
-    fun provideCombinationsDao(dataBase: AppDatabase): CombinationsDao = dataBase.combinationsDao
+        Room.databaseBuilder(appContext, AppDatabase::class.java, "MahjongScoring2")
+            .addMigrations(Migration1to2)
+            .build()
 
     @Provides
     fun provideGamesDao(dataBase: AppDatabase): GamesDao = dataBase.gamesDao

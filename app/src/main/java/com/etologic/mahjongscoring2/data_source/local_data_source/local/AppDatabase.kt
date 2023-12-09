@@ -19,22 +19,28 @@ package com.etologic.mahjongscoring2.data_source.local_data_source.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.etologic.mahjongscoring2.business.model.entities.Combination
 import com.etologic.mahjongscoring2.business.model.entities.Game
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.converters.CombinationDescriptionTypeConverter
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.converters.DateConverter
-import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.CombinationsDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.GamesDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.RoundsDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.TableDao
 
-@Database(entities = [Game::class, Round::class, Combination::class], version = 1)
+@Database(entities = [Game::class, Round::class], version = 2)
 @TypeConverters(DateConverter::class, CombinationDescriptionTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract val combinationsDao: CombinationsDao
     abstract val gamesDao: GamesDao
     abstract val roundsDao: RoundsDao
     abstract val tableDao: TableDao
+}
+
+object Migration1to2 : Migration(1, 2) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("DROP TABLE IF EXISTS Combinations")
+    }
 }

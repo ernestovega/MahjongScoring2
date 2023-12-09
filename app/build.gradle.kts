@@ -62,43 +62,44 @@ android {
 dependencies {
     //HILT
     implementation(libs.hilt.android)
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     ksp(libs.hilt.android.compiler)
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.android.compiler)
-
-    //ARCH COMPONENTS
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.extensions)
-    ksp(libs.androidx.lifecycle.common.java8)
-
-    //ROOM
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.rxjava2)
-
-    //SUPPORT
-    implementation(libs.androidx.appcompat)
 
     //MATERIAL
     implementation(libs.material)
 
     //ANDROIDX
     implementation(libs.androidx.annotation)
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.browser)
     implementation(libs.androidx.cardview)
+    implementation(libs.androidx.collection.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.room.ktx)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.test.ext.junit)
 
-    //RXJAVA
-    implementation(libs.rxandroid)
-    implementation(libs.rxjava)
+    //ROOM
+    ksp(libs.androidx.room.compiler) //TODO: delete when fully migrated to coroutines
+    implementation(libs.androidx.room.rxjava2) //TODO: delete when fully migrated to coroutines
 
-    //IN APP REVIEW
-    implementation(libs.review)
+    //RXJAVA
+    implementation(libs.rxandroid) //TODO: delete when fully migrated to coroutines
+    implementation(libs.rxjava) //TODO: delete when fully migrated to coroutines
+    //TODO: Remove also dependencies for LiveData
+
+    //IN-APP REVIEW
     implementation(libs.review.ktx)
 
     //JUNIT

@@ -1,32 +1,11 @@
-/*
- *     Copyright © 2023  Ernesto Vega de la Iglesia Soria
- *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
-package dtos
+package com.etologic.mahjongscoring2.business.model.dtos
 
 import com.etologic.mahjongscoring2.app.extensions.fourth
 import com.etologic.mahjongscoring2.app.extensions.second
 import com.etologic.mahjongscoring2.app.extensions.third
-import com.etologic.mahjongscoring2.business.model.dtos.TableDiffs
-import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsByDirectHu
-import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsByIndirectHu
-import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsBySelfPick
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MIN_MCR_POINTS
+import com.etologic.mahjongscoring2.business.model.entities.Table
 import com.google.common.truth.Truth.assertThat
-import org.junit.jupiter.api.DynamicTest.dynamicTest
+import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 import kotlin.math.abs
@@ -41,12 +20,18 @@ class TableDiffsTest {
             westSeatPoints = 0,
             northSeatPoints = -128,
         )
-        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
     }
 
     @Test
@@ -57,12 +42,18 @@ class TableDiffsTest {
             westSeatPoints = 32,
             northSeatPoints = -192,
         )
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
     }
 
     @Test
@@ -73,12 +64,18 @@ class TableDiffsTest {
             westSeatPoints = -64,
             northSeatPoints = -64,
         )
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
     }
 
     @Test
@@ -89,26 +86,40 @@ class TableDiffsTest {
             westSeatPoints = -64,
             northSeatPoints = -64,
         )
-        val diff3rdTo1st = abs(tableDiffs.seatsDiffs.first().points - tableDiffs.seatsDiffs.third().points)
-        val diff4thTo1st = abs(tableDiffs.seatsDiffs.first().points - tableDiffs.seatsDiffs.fourth().points)
-        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        val diff3rdTo1st =
+            abs(tableDiffs.seatsDiffs.first().points - tableDiffs.seatsDiffs.third().points)
+        val diff4thTo1st =
+            abs(tableDiffs.seatsDiffs.first().points - tableDiffs.seatsDiffs.fourth().points)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.bySelfPick).isEqualTo(diff3rdTo1st.getNeededPointsBySelfPick())
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byDirectHu).isEqualTo(diff3rdTo1st.getNeededPointsByDirectHu())
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byIndirectHu).isEqualTo(diff3rdTo1st.getNeededPointsByIndirectHu())
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
         assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.bySelfPick).isEqualTo(diff4thTo1st.getNeededPointsBySelfPick())
         assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.byDirectHu).isEqualTo(diff4thTo1st.getNeededPointsByDirectHu())
         assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.byIndirectHu).isEqualTo(diff4thTo1st.getNeededPointsByIndirectHu())
-        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
     }
 
     @Test
@@ -119,21 +130,30 @@ class TableDiffsTest {
             westSeatPoints = 64,
             northSeatPoints = -192,
         )
-        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.first().pointsToBeFirst?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
         assertThat(tableDiffs.seatsDiffs.first().pointsToBeSecond?.bySelfPick).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.first().pointsToBeSecond?.byDirectHu).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.first().pointsToBeSecond?.byIndirectHu).isEqualTo(null)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
         assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.bySelfPick).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byDirectHu).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byIndirectHu).isEqualTo(null)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.bySelfPick).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byDirectHu).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byIndirectHu).isEqualTo(null)
@@ -156,21 +176,30 @@ class TableDiffsTest {
             westSeatPoints = -64,
             northSeatPoints = -64,
         )
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
         assertThat(tableDiffs.seatsDiffs.second().pointsToBeThird?.bySelfPick).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.second().pointsToBeThird?.byDirectHu).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.second().pointsToBeThird?.byIndirectHu).isEqualTo(null)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.bySelfPick).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byDirectHu).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byIndirectHu).isEqualTo(null)
-        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
         assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.bySelfPick).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byDirectHu).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeThird?.byIndirectHu).isEqualTo(null)
@@ -184,27 +213,36 @@ class TableDiffsTest {
             westSeatPoints = 0,
             northSeatPoints = 0,
         )
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.second().pointsToBeFirst?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
         assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.bySelfPick).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byDirectHu).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.second().pointsToBeSecond?.byIndirectHu).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.second().pointsToBeThird?.bySelfPick).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.second().pointsToBeThird?.byDirectHu).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.second().pointsToBeThird?.byIndirectHu).isEqualTo(null)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.third().pointsToBeFirst?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.bySelfPick).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byDirectHu).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeSecond?.byIndirectHu).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.bySelfPick).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byDirectHu).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.third().pointsToBeThird?.byIndirectHu).isEqualTo(null)
-        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.bySelfPick).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.byDirectHu).isEqualTo(MIN_MCR_POINTS)
-        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.byIndirectHu).isEqualTo(MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.bySelfPick)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.byDirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
+        assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeFirst?.byIndirectHu)
+            .isEqualTo(Table.MIN_MCR_POINTS)
         assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.bySelfPick).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.byDirectHu).isEqualTo(null)
         assertThat(tableDiffs.seatsDiffs.fourth().pointsToBeSecond?.byIndirectHu).isEqualTo(null)
@@ -283,17 +321,17 @@ class TableDiffsTest {
     )
 
     private fun dynamicTestToWinBySelfPick(diffPoints: Int, neededPoints: Int) =
-        dynamicTest("$diffPoints points of diff need $neededPoints by self pick") {
+        DynamicTest.dynamicTest("$diffPoints points of diff need $neededPoints by self pick") {
             assertThat(diffPoints.getNeededPointsBySelfPick()).isEqualTo(neededPoints)
         }
 
     private fun dynamicTestToWinByDirectHu(diffPoints: Int, neededPoints: Int) =
-        dynamicTest("$diffPoints points of diff need $neededPoints by direct hu") {
+        DynamicTest.dynamicTest("$diffPoints points of diff need $neededPoints by direct hu") {
             assertThat(diffPoints.getNeededPointsByDirectHu()).isEqualTo(neededPoints)
         }
 
     private fun dynamicTestToWinByIndirectHu(diffPoints: Int, neededPoints: Int) =
-        dynamicTest("$diffPoints points of diff need $neededPoints by indirect hu") {
+        DynamicTest.dynamicTest("$diffPoints points of diff need $neededPoints by indirect hu") {
             assertThat(diffPoints.getNeededPointsByIndirectHu()).isEqualTo(neededPoints)
         }
 }

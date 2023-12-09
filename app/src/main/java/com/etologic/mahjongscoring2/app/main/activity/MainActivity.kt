@@ -97,6 +97,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun observeViewModel() {
+        viewModel.getError().observe(this) { showError(it) }
+        viewModel.getSnackbarMessage().observe(this) { showSnackbar(binding.root, it) }
         viewModel.getCurrentToolbar().observe(this) { setToolbar(it) }
         viewModel.getCurrentScreen().observe(this) { goToScreen(it, this) }
     }

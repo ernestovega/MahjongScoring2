@@ -25,12 +25,14 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.databinding.CombinationsActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -58,7 +60,6 @@ class CombinationsActivity : BaseActivity() {
         setupToolbar()
         setupRecyclerView()
         observeViewModel()
-        viewModel.getAll()
     }
 
     private fun setupToolbar() {
@@ -75,7 +76,11 @@ class CombinationsActivity : BaseActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.getFilteredCombinations().observe(this) { rvAdapter.setCombinations(it) }
+        lifecycleScope.launch {
+            viewModel.combinationsState.collect {
+                rvAdapter.setCombinations(it)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
