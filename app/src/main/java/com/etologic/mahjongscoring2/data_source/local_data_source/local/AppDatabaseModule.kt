@@ -20,7 +20,6 @@ import android.content.Context
 import androidx.room.Room
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.GamesDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.RoundsDao
-import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.TableDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,7 +43,4 @@ class AppDataBaseModule {
 
     @Provides
     fun provideRoundsDao(dataBase: AppDatabase): RoundsDao = dataBase.roundsDao
-
-    @Provides
-    fun provideGameWithRoundsDao(dataBase: AppDatabase): TableDao = dataBase.tableDao
 }

@@ -14,22 +14,24 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.data_source.local_data_source.local.daos
+package com.etologic.mahjongscoring2.business.use_cases
 
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Transaction
-import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
+import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import io.reactivex.Single
+import javax.inject.Inject
 
-@Dao
-interface TableDao {
-
-    @Transaction
-    @Query("SELECT * from Games ORDER BY startDate DESC")
-    fun getTablesSortedByDateDesc(): Single<List<Table>>
-
-    @Transaction
-    @Query("SELECT * from Games WHERE gameId = :gameId ORDER BY startDate")
-    fun getTable(gameId: Long): Single<Table>
+class GetGameUseCase @Inject constructor(
+    private val gamesRepository: GamesRepository,
+    private val roundsRepository: RoundsRepository,
+) {
+    operator fun invoke(gameId: GameId): Single<UIGame> =
+        Single.zip(
+            gamesRepository.getOne(gameId),
+            roundsRepository.getAllByGame(gameId),
+        ) { dbGame, dbRounds ->
+            UIGame(dbGame, dbRounds)
+        }
 }

@@ -45,7 +45,7 @@ import com.etologic.mahjongscoring2.app.model.SeatStates.DISABLED
 import com.etologic.mahjongscoring2.app.model.SeatStates.NORMAL
 import com.etologic.mahjongscoring2.app.model.SeatStates.SELECTED
 import com.etologic.mahjongscoring2.business.model.dtos.SeatDiffs
-import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
@@ -106,19 +106,19 @@ class GameTableSeatsFragment : BaseFragment() {
             NORTH -> arrayOf(NORMAL, NORMAL, NORMAL, SELECTED)
         }
 
-    fun setSeats(table: Table) {
+    fun setSeats(UIGame: UIGame) {
         selectedPlayer = NONE
-        setStates(getSeatsStates(table))
-        val playersTotalPointsByCurrentSeat = table.getPlayersTotalPointsByCurrentSeat()
+        setStates(getSeatsStates(UIGame))
+        val playersTotalPointsByCurrentSeat = UIGame.getPlayersTotalPointsByCurrentSeat()
         setPoints(playersTotalPointsByCurrentSeat.map { String.format(getDefault(), "%d", it) })
-        setPointsDiffs(table)
-        setWinds(table.getSeatsCurrentWind(table.rounds.size))
-        setNames(table.getPlayersNamesByCurrentSeat())
-        setPenalties(table.getPlayersPenaltiesByCurrentSeat(), table.rounds.last().isEnded)
+        setPointsDiffs(UIGame)
+        setWinds(UIGame.getSeatsCurrentWind(UIGame.rounds.size))
+        setNames(UIGame.getPlayersNamesByCurrentSeat())
+        setPenalties(UIGame.getPlayersPenaltiesByCurrentSeat(), UIGame.rounds.last().isEnded)
     }
 
-    private fun getSeatsStates(table: Table): Array<SeatStates> =
-        if (table.rounds.last().isEnded) {
+    private fun getSeatsStates(UIGame: UIGame): Array<SeatStates> =
+        if (UIGame.rounds.last().isEnded) {
             arrayOf(DISABLED, DISABLED, DISABLED, DISABLED)
         } else {
             getSeatsStates()
@@ -172,9 +172,9 @@ class GameTableSeatsFragment : BaseFragment() {
         binding.iGameTableSeatNorth.tvTableSeatNorthPoints.text = points[NORTH.code]
     }
 
-    private fun setPointsDiffs(table: Table?) {
+    private fun setPointsDiffs(UIGame: UIGame?) {
         if (activityViewModel.shouldShowDiffs().value != false && !isUserFontTooBig()) {
-            val tableDiffs = table?.getTableDiffs()
+            val tableDiffs = UIGame?.getTableDiffs()
             if (tableDiffs != null) {
                 with(binding.iGameTableSeatEast.iGameTableSeatEastDiffs) {
                     setSeatDiffs(
@@ -422,7 +422,7 @@ class GameTableSeatsFragment : BaseFragment() {
 
     fun toggleDiffs(shouldShowDiffs: Boolean) {
         if (shouldShowDiffs) {
-            setPointsDiffs(activityViewModel.getCurrentTable().value)
+            setPointsDiffs(activityViewModel.getActiveGame().value)
         } else {
             hideDiffs()
         }

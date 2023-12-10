@@ -14,37 +14,30 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.data_source.local_data_source.local.daos
+package com.etologic.mahjongscoring2.business.use_cases
 
-import android.database.sqlite.SQLiteConstraintException
-import androidx.room.*
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.RoundId
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import io.reactivex.Single
+import javax.inject.Inject
 
-@Dao
-interface RoundsDao {
-
-    @Query("SELECT * FROM Rounds")
-    fun getAll(): Single<List<Round>>
-
-    @Insert(onConflict = OnConflictStrategy.ABORT)
-    @Throws(SQLiteConstraintException::class)
-    fun insertOne(round: Round): Single<Long>
-
-    @Query("SELECT * FROM Rounds WHERE gameId = :gameId")
-    fun getGameRounds(gameId: GameId): Single<List<Round>>
-
-    @Update
-    fun updateOne(round: Round): Single<Int>
-
-    @Query("DELETE FROM Rounds WHERE gameId = :gameId AND roundId = :roundId")
-    fun deleteOne(gameId: GameId, roundId: RoundId): Single<Int>
-
-    @Query("DELETE FROM Rounds WHERE gameId = :gameId")
-    fun deleteGameRounds(gameId: GameId): Single<Int>
-
-    @Query("DELETE FROM Rounds")
-    fun deleteAll(): Single<Int>
+class RemoveRoundUseCase @Inject constructor(
+    private val roundsRepository: RoundsRepository,
+    private val getGameUseCase: GetGameUseCase,
+) {
+    operator fun invoke(gameId: GameId, roundId: RoundId): Single<UIGame> =
+        roundsRepository.getAllByGame(gameId)
+            .flatMap { currentRounds ->
+                if (currentRounds.last().isEnded) {
+                    roundsRepository.insertOne(Round(gameId))
+                        .flatMap { getGameUseCase(gameId) }
+                } else {
+                    getGameUseCase(gameId)
+                }
+            }
+            .flatMap { roundsRepository.deleteOne(gameId, roundId) }
+            .flatMap { getGameUseCase(gameId) }
 }

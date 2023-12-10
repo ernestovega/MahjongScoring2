@@ -14,28 +14,32 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.data_source.repositories
+package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.entities.RoundId
-import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.RoundsDao
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import io.reactivex.Single
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class RoundsRepository @Inject constructor(private var roundsDao: RoundsDao) {
+class CancelPenaltyUseCase @Inject constructor(
+    private val roundsRepository: RoundsRepository,
+    private val getGameUseCase: GetGameUseCase,
+) {
+    operator fun invoke(gameId: GameId): Single<UIGame> =
+        roundsRepository.getAllByGame(gameId)
+            .flatMap { gameRounds ->
+                val currentRound = gameRounds.last()
+                currentRound.cancelAllPlayersPenalties()
+                roundsRepository.updateOne(currentRound)
+                    .flatMap { getGameUseCase(gameId) }
+            }
 
-    fun insertOne(round: Round): Single<Long> = roundsDao.insertOne(round)
-
-    fun updateOne(round: Round): Single<Boolean> = roundsDao.updateOne(round).map { it == 1 }
-
-    fun deleteOne(gameId: GameId, roundId: RoundId): Single<Boolean> = roundsDao.deleteOne(gameId, roundId).map { it == 1 }
-
-    fun deleteByGame(gameId: GameId): Single<Boolean> = roundsDao.deleteGameRounds(gameId).map { it >= 0 }
-
-    fun getAll(): Single<List<Round>> = roundsDao.getAll()
-
-    fun getAllByGame(gameId: GameId): Single<List<Round>> = roundsDao.getGameRounds(gameId)
+    private fun Round.cancelAllPlayersPenalties() {
+        this.penaltyP1 = 0
+        this.penaltyP2 = 0
+        this.penaltyP3 = 0
+        this.penaltyP4 = 0
+    }
 }

@@ -20,6 +20,7 @@ import android.media.AudioAttributes
 import android.media.SoundPool
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -135,7 +136,7 @@ class RollDiceDialogFragment : AppCompatDialogFragment() {
 
     private fun initDice() {
         with(binding) {
-            handler12 = Handler {
+            handler12 = Handler(Looper.getMainLooper()) {
                 //Receives message from timer to start dice roll
                 rollNewDice(ivDice1)
                 rollNewDice(ivDice2)
@@ -157,9 +158,9 @@ class RollDiceDialogFragment : AppCompatDialogFragment() {
             ivDice1.tag = 0
             ivDice2.tag = 0
 
-            tvDiceDialogFirst.text = activityViewModel.getNamesByCurrentSeat()[0]
+            tvDiceDialogFirst.text = activityViewModel.getActiveGame().value!!.getPlayersNamesByCurrentSeat()[0]
 
-            handler34 = Handler {
+            handler34 = Handler(Looper.getMainLooper()) {
                 //Receives message from timer to start dice roll
                 rollNewDice(ivDice3)
                 rollNewDice(ivDice4)
@@ -184,7 +185,7 @@ class RollDiceDialogFragment : AppCompatDialogFragment() {
             4, 8, 12 -> NORTH.code
             else -> null
         }
-        val namesCurrentSeat = activityViewModel.getNamesByCurrentSeat()
+        val namesCurrentSeat = activityViewModel.getActiveGame().value!!.getPlayersNamesByCurrentSeat()
         return if (secondSeat != null)
             namesCurrentSeat[secondSeat]
         else

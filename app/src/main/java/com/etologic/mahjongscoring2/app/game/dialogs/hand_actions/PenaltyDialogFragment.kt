@@ -29,7 +29,7 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.NUM_NO_WINNER_PLAYERS
+import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.NUM_NO_WINNER_PLAYERS
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.databinding.GamePenaltyDialogFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,7 +85,7 @@ class PenaltyDialogFragment : AppCompatDialogFragment() {
     private fun initPlayerViews() {
         with(binding.iPenaltyDialogPlayerContainer) {
             val selectedSeat = activityViewModel.getSelectedSeat().value ?: TableWinds.NONE
-            val playersNamesByCurrentSeat = activityViewModel.getCurrentTable().value?.getPlayersNamesByCurrentSeat()
+            val playersNamesByCurrentSeat = activityViewModel.getActiveGame().value?.getPlayersNamesByCurrentSeat()
             ivTableSeatMediumSeatWind.setImageDrawable(getWindIcon(selectedSeat))
             tvTableSeatMediumName.text = selectedSeat.code.let { playersNamesByCurrentSeat?.get(it) ?: "" }
         }

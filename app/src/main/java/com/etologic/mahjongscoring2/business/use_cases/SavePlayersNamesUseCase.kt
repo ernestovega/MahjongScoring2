@@ -14,25 +14,31 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.business.use_cases.games
+package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.business.model.entities.Game
-import com.etologic.mahjongscoring2.business.model.entities.Round
+import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
-import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import io.reactivex.Single
 import javax.inject.Inject
 
-class CreateGameUseCase @Inject
-constructor(
+class SavePlayersNamesUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
-    private val roundsRepository: RoundsRepository
+    private val getGameUseCase: GetGameUseCase,
 ) {
-
-    fun createGame(defaultNames: Array<String>): Single<Long> =
-        gamesRepository.insertOne(Game(defaultNames))
-            .flatMap { gameId ->
-                roundsRepository.insertOne(Round(gameId))
-                    .map { gameId }
+    operator fun invoke(gameId: GameId, names: Array<String>): Single<UIGame> =
+        gamesRepository.getOne(gameId)
+            .flatMap { dbGame ->
+                dbGame.updateNames(names)
+                gamesRepository.updateOne(dbGame)
+                    .flatMap { getGameUseCase(gameId) }
             }
+
+    private fun DBGame.updateNames(names: Array<String>) {
+        this.nameP1 = names[0]
+        this.nameP2 = names[1]
+        this.nameP3 = names[2]
+        this.nameP4 = names[3]
+    }
 }

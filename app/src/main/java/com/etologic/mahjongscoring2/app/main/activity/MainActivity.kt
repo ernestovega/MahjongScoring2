@@ -46,7 +46,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
     companion object {
-        const val LAST_BACKPRESSED_MIN_TIME: Long = 2000
+        const val LAST_BACK_PRESSED_MIN_TIME: Long = 2000
         const val KEY_WAS_GAME_ENDED = "WasGameEnded"
     }
 
@@ -73,7 +73,7 @@ class MainActivity : BaseActivity() {
             supportFragmentManager.popBackStack()
         else {
             val currentTimeMillis = System.currentTimeMillis()
-            if (currentTimeMillis - lastBackPress > LAST_BACKPRESSED_MIN_TIME) {
+            if (currentTimeMillis - lastBackPress > LAST_BACK_PRESSED_MIN_TIME) {
                 Snackbar.make(binding.navigationViewMain, R.string.press_again_to_exit, Snackbar.LENGTH_LONG).show()
                 lastBackPress = currentTimeMillis
             } else
@@ -98,9 +98,8 @@ class MainActivity : BaseActivity() {
 
     private fun observeViewModel() {
         viewModel.getError().observe(this) { showError(it) }
-        viewModel.getSnackbarMessage().observe(this) { showSnackbar(binding.root, it) }
         viewModel.getCurrentToolbar().observe(this) { setToolbar(it) }
-        viewModel.getCurrentScreen().observe(this) { goToScreen(it, this) }
+        viewModel.getCurrentScreen().observe(this) { goToScreen(it, this, viewModel) }
     }
 
     private fun closeDrawer() {

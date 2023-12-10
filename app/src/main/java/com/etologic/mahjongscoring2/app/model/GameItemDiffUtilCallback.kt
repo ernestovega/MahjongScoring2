@@ -20,11 +20,11 @@ import androidx.recyclerview.widget.DiffUtil
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.entities.Table
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.NUM_MCR_PLAYERS
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.NUM_MCR_PLAYERS
 import java.util.Locale
 
-class GameItemDiffUtilCallback(private val newList: List<Table>, private val oldList: List<Table>) : DiffUtil.Callback() {
+class GameItemDiffUtilCallback(private val newList: List<UIGame>, private val oldList: List<UIGame>) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {
         return oldList.size
@@ -35,18 +35,18 @@ class GameItemDiffUtilCallback(private val newList: List<Table>, private val old
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].game.gameId == newList[newItemPosition].game.gameId
+        return oldList[oldItemPosition].dbGame.gameId == newList[newItemPosition].dbGame.gameId
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val newGame = newList[newItemPosition]
         val oldGame = oldList[oldItemPosition]
-        return (oldGame.game.gameId == newGame.game.gameId &&
-                oldGame.game.nameP1 == newGame.game.nameP1 &&
-                oldGame.game.nameP2 == newGame.game.nameP2 &&
-                oldGame.game.nameP3 == newGame.game.nameP3 &&
-                oldGame.game.nameP4 == newGame.game.nameP4 &&
-                DateTimeUtils.areEqual(oldGame.game.startDate, newGame.game.startDate) &&
+        return (oldGame.dbGame.gameId == newGame.dbGame.gameId &&
+                oldGame.dbGame.nameP1 == newGame.dbGame.nameP1 &&
+                oldGame.dbGame.nameP2 == newGame.dbGame.nameP2 &&
+                oldGame.dbGame.nameP3 == newGame.dbGame.nameP3 &&
+                oldGame.dbGame.nameP4 == newGame.dbGame.nameP4 &&
+                DateTimeUtils.areEqual(oldGame.dbGame.startDate, newGame.dbGame.startDate) &&
                 arePlayersTotalsPointsEquals(
                     oldGame.getPlayersTotalPointsByCurrentSeat().map {
                         String.format(Locale.getDefault(), "%d", it)

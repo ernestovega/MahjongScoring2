@@ -16,30 +16,29 @@
  */
 package com.etologic.mahjongscoring2.business.model.entities
 
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Ignore
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.etologic.mahjongscoring2.app.base.RecyclerViewable
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.POINTS_DISCARD_NEUTRAL_PLAYERS
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardDiscarderPoints
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuDiscardWinnerPoints
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfPickDiscarderPoints
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getHuSelfPickWinnerPoints
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.getPenaltyOtherPlayersPoints
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.converters.TableWindsConverter
+import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.model.GameId
+
+typealias RoundId = Long
 
 @Entity(
     tableName = "Rounds",
-    foreignKeys = [ForeignKey(entity = Game::class, parentColumns = ["gameId"], childColumns = ["gameId"])],
+    foreignKeys = [ForeignKey(entity = DBGame::class, parentColumns = ["gameId"], childColumns = ["gameId"])],
     indices = [Index(value = ["gameId", "roundId"], unique = true)]
 )
-class Round(
-    val gameId: Long,
-    @field:PrimaryKey(autoGenerate = true) val roundId: Int
+data class Round(
+    val gameId: GameId,
+    @field:PrimaryKey(autoGenerate = true) val roundId: RoundId
 ) : RecyclerViewable<Round>() {
-
-    @Ignore
-    var roundNumber: Int = 0
 
     @TypeConverters(TableWindsConverter::class)
     var winnerInitialSeat = NONE
@@ -51,6 +50,14 @@ class Round(
     var pointsP2 = 0
     var pointsP3 = 0
     var pointsP4 = 0
+    var penaltyP1 = 0
+    var penaltyP2 = 0
+    var penaltyP3 = 0
+    var penaltyP4 = 0
+    var isEnded = false
+
+    @Ignore
+    var roundNumber: Int = 0
 
     @Ignore
     var totalPointsP1 = 0
@@ -63,175 +70,40 @@ class Round(
 
     @Ignore
     var totalPointsP4 = 0
-    var penaltyP1 = 0
-    var penaltyP2 = 0
-    var penaltyP3 = 0
-    var penaltyP4 = 0
-    var isEnded = false
 
     @Ignore
     var isBestHand = false
 
-    constructor(gameId: Long) : this(gameId, NOT_SET_ROUND_ID)
+    constructor(gameId: GameId) : this(gameId, NOT_SET_ROUND_ID)
 
-    private constructor(
-        gameId: Long,
-        roundId: Int,
-        roundNumber: Int,
-        handPoints: Int,
-        winnerInitialPosition: TableWinds,
-        discarderInitialPosition: TableWinds,
-        pointsP1: Int, pointsP2: Int, pointsP3: Int, pointsP4: Int,
-        totalPointsP1: Int, totalPointsP2: Int, totalPointsP3: Int, totalPointsP4: Int,
-        penaltyP1: Int, penaltyP2: Int, penaltyP3: Int, penaltyP4: Int,
-        isEnded: Boolean,
-        isBestHand: Boolean
-    ) : this(gameId, roundId) {
-        this.roundNumber = roundNumber
-        this.handPoints = handPoints
-        this.winnerInitialSeat = winnerInitialPosition
-        this.discarderInitialSeat = discarderInitialPosition
-        this.pointsP1 = pointsP1
-        this.pointsP2 = pointsP2
-        this.pointsP3 = pointsP3
-        this.pointsP4 = pointsP4
-        this.totalPointsP1 = totalPointsP1
-        this.totalPointsP2 = totalPointsP2
-        this.totalPointsP3 = totalPointsP3
-        this.totalPointsP4 = totalPointsP4
-        this.penaltyP1 = penaltyP1
-        this.penaltyP2 = penaltyP2
-        this.penaltyP3 = penaltyP3
-        this.penaltyP4 = penaltyP4
-        this.isEnded = isEnded
-        this.isBestHand = isBestHand
-    }
+    override fun compareIdTo(`object`: Round): Boolean = gameId == `object`.gameId && roundId == `object`.roundId
 
-    override fun compareIdTo(`object`: Round): Boolean {
-        return gameId == `object`.gameId && roundId == `object`.roundId
-    }
+    override fun compareContentsTo(`object`: Round): Boolean = areEqual(this, `object`)
 
-    override fun compareContentsTo(`object`: Round): Boolean {
-        return areEqual(this, `object`)
-    }
-
-    override fun getCopy(): Round {
-        return Round(
-            gameId,
-            roundId,
-            roundNumber,
-            handPoints,
-            winnerInitialSeat,
-            discarderInitialSeat,
-            pointsP1,
-            pointsP2,
-            pointsP3,
-            pointsP4,
-            totalPointsP1,
-            totalPointsP2,
-            totalPointsP3,
-            totalPointsP4,
-            penaltyP1,
-            penaltyP2,
-            penaltyP3,
-            penaltyP4,
-            isEnded,
-            isBestHand
-        )
-    }
-
-    fun finishRoundByHuDiscard(
-        winnerInitialSeat: TableWinds,
-        discarderInitialSeat: TableWinds,
-        huPoints: Int
-    ) {
-        this.winnerInitialSeat = winnerInitialSeat
-        this.discarderInitialSeat = discarderInitialSeat
-        handPoints = huPoints
-        pointsP1 += calculateDiscardSeatPoints(EAST, huPoints)
-        pointsP2 += calculateDiscardSeatPoints(SOUTH, huPoints)
-        pointsP3 += calculateDiscardSeatPoints(WEST, huPoints)
-        pointsP4 += calculateDiscardSeatPoints(NORTH, huPoints)
-        finishRoundApplyingPenalties()
-    }
-
-    private fun calculateDiscardSeatPoints(seat: TableWinds, huPoints: Int): Int {
-        return when (seat) {
-            winnerInitialSeat -> getHuDiscardWinnerPoints(huPoints)
-            discarderInitialSeat -> getHuDiscardDiscarderPoints(huPoints)
-            else -> POINTS_DISCARD_NEUTRAL_PLAYERS
-        }
-    }
-
-    fun finishRoundByHuSelfPick(winnerInitialSeat: TableWinds, huPoints: Int) {
-        this.winnerInitialSeat = winnerInitialSeat
-        this.handPoints = huPoints
-        pointsP1 += calculateSelfPickSeatPoints(EAST, huPoints)
-        pointsP2 += calculateSelfPickSeatPoints(SOUTH, huPoints)
-        pointsP3 += calculateSelfPickSeatPoints(WEST, huPoints)
-        pointsP4 += calculateSelfPickSeatPoints(NORTH, huPoints)
-        finishRoundApplyingPenalties()
-    }
-
-    private fun calculateSelfPickSeatPoints(seat: TableWinds, huPoints: Int): Int {
-        return if (seat == winnerInitialSeat)
-            getHuSelfPickWinnerPoints(huPoints)
-        else
-            getHuSelfPickDiscarderPoints(huPoints)
-    }
-
-    fun finishRoundByDraw() {
-        finishRoundApplyingPenalties()
-    }
-
-    fun setPlayerPenaltyPoints(penalizedPlayerInitialPosition: TableWinds, penaltyPoints: Int) {
-        when (penalizedPlayerInitialPosition) {
-            EAST -> penaltyP1 -= penaltyPoints
-            SOUTH -> penaltyP2 -= penaltyPoints
-            WEST -> penaltyP3 -= penaltyPoints
-            else -> penaltyP4 -= penaltyPoints
-        }
-    }
-
-    fun setAllPlayersPenaltyPoints(penalizedPlayerInitialSeat: TableWinds, penaltyPoints: Int) {
-        val noPenalizedPlayerPoints = getPenaltyOtherPlayersPoints(penaltyPoints)
-        penaltyP1 += if (EAST === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
-        penaltyP2 += if (SOUTH === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
-        penaltyP3 += if (WEST === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
-        penaltyP4 += if (NORTH === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
-    }
-
-    fun cancelAllPlayersPenalties() {
-        penaltyP1 = 0
-        penaltyP2 = 0
-        penaltyP3 = 0
-        penaltyP4 = 0
-    }
-
-    private fun finishRoundApplyingPenalties() {
-        applyPlayersPenalties()
-        isEnded = true
-    }
-
-    private fun applyPlayersPenalties() {
-        pointsP1 += penaltyP1
-        pointsP2 += penaltyP2
-        pointsP3 += penaltyP3
-        pointsP4 += penaltyP4
-    }
-
-    fun areTherePenalties(): Boolean = penaltyP1 != 0 || penaltyP2 != 0 || penaltyP3 != 0 || penaltyP4 != 0
-
-    fun setTotalsPoints(playersTotalPoints: IntArray) {
-        totalPointsP1 = playersTotalPoints[EAST.code]
-        totalPointsP2 = playersTotalPoints[SOUTH.code]
-        totalPointsP3 = playersTotalPoints[WEST.code]
-        totalPointsP4 = playersTotalPoints[NORTH.code]
+    override fun getCopy(): Round = copy().apply {
+        this.winnerInitialSeat = this@Round.winnerInitialSeat
+        this.discarderInitialSeat = this@Round.discarderInitialSeat
+        this.handPoints = this@Round.handPoints
+        this.pointsP1 = this@Round.pointsP1
+        this.pointsP2 = this@Round.pointsP2
+        this.pointsP3 = this@Round.pointsP3
+        this.pointsP4 = this@Round.pointsP4
+        this.penaltyP1 = this@Round.penaltyP1
+        this.penaltyP2 = this@Round.penaltyP2
+        this.penaltyP3 = this@Round.penaltyP3
+        this.penaltyP4 = this@Round.penaltyP4
+        this.isEnded = this@Round.isEnded
+        this.roundNumber = this@Round.roundNumber
+        this.totalPointsP1 = this@Round.totalPointsP1
+        this.totalPointsP2 = this@Round.totalPointsP2
+        this.totalPointsP3 = this@Round.totalPointsP3
+        this.totalPointsP4 = this@Round.totalPointsP4
+        this.isBestHand = this@Round.isBestHand
     }
 
     companion object {
 
-        private const val NOT_SET_ROUND_ID: Int = 0
+        private const val NOT_SET_ROUND_ID: RoundId = 0
 
         fun areEqual(rounds1: List<Round>?, rounds2: List<Round>?): Boolean {
             if (rounds1 == null && rounds2 == null)
@@ -274,3 +146,17 @@ class Round(
         }
     }
 }
+
+fun Round.applyPenaltiesAndMarkRoundAsEnded() {
+    fun applyPlayersPenalties() {
+        pointsP1 += penaltyP1
+        pointsP2 += penaltyP2
+        pointsP3 += penaltyP3
+        pointsP4 += penaltyP4
+    }
+
+    applyPlayersPenalties()
+    isEnded = true
+}
+
+fun Round.areTherePenalties(): Boolean = penaltyP1 != 0 || penaltyP2 != 0 || penaltyP3 != 0 || penaltyP4 != 0

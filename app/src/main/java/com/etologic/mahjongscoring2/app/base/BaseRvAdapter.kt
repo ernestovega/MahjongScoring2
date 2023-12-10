@@ -16,6 +16,7 @@
  */
 package com.etologic.mahjongscoring2.app.base
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DiffUtil.calculateDiff
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,7 @@ abstract class BaseRvAdapter<T : RecyclerViewable<T>> : RecyclerView.Adapter<Rec
 
     protected var collection: List<T> = ArrayList()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateCollection(newCollection: List<T>?) {
         if (newCollection == null) {
             saveNewCollectionCopy(ArrayList())

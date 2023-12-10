@@ -19,14 +19,11 @@ package com.etologic.mahjongscoring2.app.base
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
-import android.view.View
 import androidx.activity.addCallback
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.anim.*
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 
 @SuppressLint("Registered")
 abstract class BaseActivity : AppCompatActivity() {
@@ -59,11 +56,5 @@ abstract class BaseActivity : AppCompatActivity() {
     private fun showMessage(message: String) {
         val builder = AlertDialog.Builder(this, R.style.AlertDialogStyleMM)
         builder.setMessage(message).show()
-    }
-
-    fun showSnackbar(view: View?, message: String) {
-        view?.let {
-            Snackbar.make(it, message.ifBlank { "" }, LENGTH_LONG).show()
-        }
     }
 }

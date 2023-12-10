@@ -21,24 +21,23 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.etologic.mahjongscoring2.business.model.entities.Game
+import com.etologic.mahjongscoring2.data_source.model.DBGame
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.converters.DateConverter
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.GamesDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.RoundsDao
-import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.TableDao
 
-@Database(entities = [Game::class, Round::class], version = 2)
+@Database(entities = [DBGame::class, Round::class], version = 2)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val gamesDao: GamesDao
     abstract val roundsDao: RoundsDao
-    abstract val tableDao: TableDao
 }
 
 object Migration1to2 : Migration(1, 2) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL("DROP TABLE IF EXISTS Combinations")
+        db.execSQL("DROP TABLE IF EXISTS Tables")
     }
 }

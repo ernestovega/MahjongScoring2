@@ -23,20 +23,27 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HAND_ACTION
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PLAYERS
-import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
-import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.business.model.entities.RoundId
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
-import com.etologic.mahjongscoring2.business.use_cases.current_game.GetCurrentGameUseCase
-import com.etologic.mahjongscoring2.business.use_cases.current_game.SaveCurrentPlayersUseCase
-import com.etologic.mahjongscoring2.business.use_cases.current_round.GameActionsUseCase
-import com.etologic.mahjongscoring2.business.use_cases.current_round.PenaltyUseCase
+import com.etologic.mahjongscoring2.business.use_cases.CancelPenaltyUseCase
+import com.etologic.mahjongscoring2.business.use_cases.HuDiscardUseCase
+import com.etologic.mahjongscoring2.business.use_cases.DrawUseCase
+import com.etologic.mahjongscoring2.business.use_cases.EndGameUseCase
+import com.etologic.mahjongscoring2.business.use_cases.GetGameUseCase
+import com.etologic.mahjongscoring2.business.use_cases.RemoveRoundUseCase
+import com.etologic.mahjongscoring2.business.use_cases.ResumeGameUseCase
+import com.etologic.mahjongscoring2.business.use_cases.SavePlayersNamesUseCase
+import com.etologic.mahjongscoring2.business.use_cases.HuSelfPickUseCase
+import com.etologic.mahjongscoring2.business.use_cases.SetPenaltyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.reactivex.schedulers.Schedulers
@@ -47,10 +54,16 @@ typealias ShouldHighlightLastRound = Boolean
 @HiltViewModel
 class GameViewModel @Inject constructor(
     @ApplicationContext context: Context,
-    private val getCurrentGameUseCase: GetCurrentGameUseCase,
-    private val saveCurrentPlayersUseCase: SaveCurrentPlayersUseCase,
-    private val gameActionsUseCase: GameActionsUseCase,
-    private val penaltyUseCase: PenaltyUseCase
+    private val getGameUseCase: GetGameUseCase,
+    private val savePlayersNamesUseCase: SavePlayersNamesUseCase,
+    private val huDiscardUseCase: HuDiscardUseCase,
+    private val huSelfPickUseCase: HuSelfPickUseCase,
+    private val drawUseCase: DrawUseCase,
+    private val setPenaltyUseCase: SetPenaltyUseCase,
+    private val cancelPenaltyUseCase: CancelPenaltyUseCase,
+    private val removeRoundUseCase: RemoveRoundUseCase,
+    private val resumeGameUseCase: ResumeGameUseCase,
+    private val endGameUseCase: EndGameUseCase,
 ) : BaseViewModel() {
 
     enum class GameScreens {
@@ -64,6 +77,7 @@ class GameViewModel @Inject constructor(
         EXIT
     }
 
+    var activeGameId: GameId? = null
     var lastHighlightedRound: CharSequence = ""
     private var playerOneLiteral: String? = null
     private var playerTwoLiteral: String? = null
@@ -73,8 +87,8 @@ class GameViewModel @Inject constructor(
     fun getPageToShow(): LiveData<Pair<GameTablePages, ShouldHighlightLastRound>?> = _pageToShow
     private val _currentScreen = MutableLiveData<GameScreens>()
     fun getCurrentScreen(): LiveData<GameScreens> = _currentScreen
-    private val _currentTable = MutableLiveData<Table>()
-    fun getCurrentTable(): LiveData<Table> = _currentTable
+    private val _activeGame = MutableLiveData<UIGame>()
+    fun getActiveGame(): LiveData<UIGame> = _activeGame
     private var _selectedSeat = MutableLiveData<TableWinds>()
     fun getSelectedSeat(): LiveData<TableWinds> = _selectedSeat
     private var _seatOrientation = MutableLiveData<SeatOrientation>()
@@ -93,20 +107,22 @@ class GameViewModel @Inject constructor(
 
     fun loadTable() {
         disposables.add(
-            getCurrentGameUseCase.getCurrentGameWithRounds()
+            getGameUseCase(activeGameId!!)
                 .subscribeOn(Schedulers.io())
-                .doOnSuccess { _currentTable.postValue(it) }
+                .doOnSuccess { _activeGame.postValue(it) }
                 .subscribe(this::showPlayersDialogIfProceed, ::showError)
         )
     }
 
-    private fun showPlayersDialogIfProceed(table: Table) {
-        if (table.rounds.size == 1 &&
-            table.game.nameP1 == playerOneLiteral &&
-            table.game.nameP2 == playerTwoLiteral &&
-            table.game.nameP3 == playerThreeLiteral &&
-            table.game.nameP4 == playerFourLiteral
-        ) navigateTo(PLAYERS)
+    private fun showPlayersDialogIfProceed(uiGame: UIGame) {
+        if (uiGame.rounds.size == 1 &&
+            uiGame.dbGame.nameP1 == playerOneLiteral &&
+            uiGame.dbGame.nameP2 == playerTwoLiteral &&
+            uiGame.dbGame.nameP3 == playerThreeLiteral &&
+            uiGame.dbGame.nameP4 == playerFourLiteral
+        ) {
+            navigateTo(PLAYERS)
+        }
     }
 
     //SELECTED PLAYER/SEAT
@@ -117,11 +133,11 @@ class GameViewModel @Inject constructor(
 
     fun unselectSelectedSeat() {
         _selectedSeat.postValue(NONE)
-        _currentTable.postValue(_currentTable.value)
+        _activeGame.postValue(_activeGame.value)
     }
 
     fun showPage(page: GameTablePages?, highlightLastRound: Boolean = false) {
-        _pageToShow.postValue(page?.let { it to highlightLastRound})
+        _pageToShow.postValue(page?.let { it to highlightLastRound })
     }
 
     fun navigateTo(gameScreens: GameScreens) {
@@ -131,40 +147,53 @@ class GameViewModel @Inject constructor(
     //GAME OPERATIONS
     fun resumeGame() {
         disposables.add(
-            gameActionsUseCase.resume()
+            resumeGameUseCase(activeGameId!!, _activeGame.value!!.rounds.size)
                 .subscribeOn(Schedulers.io())
-                .subscribe(_currentTable::postValue, ::showError)
+                .subscribe(_activeGame::postValue, ::showError)
         )
     }
 
     fun endGame() {
         disposables.add(
-            gameActionsUseCase.end()
+            endGameUseCase(activeGameId!!)
                 .subscribeOn(Schedulers.io())
-                .subscribe(_currentTable::postValue, ::showError)
+                .subscribe(_activeGame::postValue, ::showError)
         )
     }
 
     fun savePlayersNames(names: Array<String>) {
         disposables.add(
-            saveCurrentPlayersUseCase.saveCurrentGamePlayersNames(names)
+            savePlayersNamesUseCase(activeGameId!!, names)
                 .subscribeOn(Schedulers.io())
-                .subscribe(_currentTable::postValue, ::showError)
+                .subscribe(_activeGame::postValue, ::showError)
         )
     }
 
     //ROUND OPERATIONS
-    fun saveRonRound(discarderCurrentSeat: TableWinds, huPoints: Int) {
+    fun saveHuDiscardRound(discarderCurrentSeat: TableWinds, huPoints: Int) {
         disposables.add(
-            gameActionsUseCase.discard(HuData(_selectedSeat.value!!, discarderCurrentSeat, huPoints))
+            huDiscardUseCase(
+                gameId = activeGameId!!,
+                huData = HuData(
+                    points = huPoints,
+                    winnerInitialSeat = _activeGame.value!!.getPlayerInitialSeatByCurrentSeat(_selectedSeat.value!!),
+                    discarderInitialSeat = _activeGame.value!!.getPlayerInitialSeatByCurrentSeat(discarderCurrentSeat),
+                )
+            )
                 .subscribeOn(Schedulers.io())
                 .subscribe(::roundSaved, ::showError)
         )
     }
 
-    fun saveTsumoRound(huPoints: Int) {
+    fun saveHuSelfPickRound(huPoints: Int) {
         disposables.add(
-            gameActionsUseCase.selfPick(HuData(_selectedSeat.value!!, huPoints))
+            huSelfPickUseCase(
+                gameId = activeGameId!!,
+                huData = HuData(
+                    points = huPoints,
+                    winnerInitialSeat = _activeGame.value!!.getPlayerInitialSeatByCurrentSeat(_selectedSeat.value!!),
+                )
+            )
                 .subscribeOn(Schedulers.io())
                 .subscribe(::roundSaved, ::showError)
         )
@@ -172,79 +201,55 @@ class GameViewModel @Inject constructor(
 
     fun saveDrawRound() {
         disposables.add(
-            gameActionsUseCase.draw()
+            drawUseCase(activeGameId!!)
                 .subscribeOn(Schedulers.io())
                 .subscribe(::roundSaved, ::showError)
         )
     }
 
-    private fun roundSaved(table: Table?) {
-        _currentTable.postValue(table)
-        showPage(GameTablePages.LIST, highlightLastRound = true)
+    private fun roundSaved(uiGame: UIGame) {
+        _activeGame.postValue(uiGame)
+        showPage(page = GameTablePages.LIST, highlightLastRound = true)
     }
 
     fun savePenalty(penaltyData: PenaltyData) {
-        penaltyData.penalizedPlayerCurrentSeat = _selectedSeat.value!!
+        penaltyData.penalizedPlayerInitialSeat =
+            _activeGame.value!!.getPlayerInitialSeatByCurrentSeat(_selectedSeat.value!!)
         disposables.add(
-            penaltyUseCase.penalty(penaltyData)
+            setPenaltyUseCase(activeGameId!!, penaltyData)
                 .subscribeOn(Schedulers.io())
-                .subscribe(_currentTable::postValue, ::showError)
+                .subscribe(_activeGame::postValue, ::showError)
         )
     }
 
     fun cancelPenalties() {
         disposables.add(
-            penaltyUseCase.cancelPenalties()
+            cancelPenaltyUseCase(activeGameId!!)
                 .subscribeOn(Schedulers.io())
-                .subscribe(_currentTable::postValue, ::showError)
+                .subscribe(_activeGame::postValue, ::showError)
         )
     }
 
-    fun removeRound(roundId: Int) {
+    fun removeRound(roundId: RoundId) {
         disposables.add(
-            gameActionsUseCase.removeRound(roundId)
+            removeRoundUseCase(activeGameId!!, roundId)
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                     { table ->
                         lastHighlightedRound = ""
-                        _currentTable.postValue(table)
+                        _activeGame.postValue(table)
                     },
                     ::showError
                 )
         )
     }
 
-    //QUERIES
-    fun loadRankingData() =
-        getCurrentGameUseCase.getCurrentGameWithRounds()
-            .subscribeOn(Schedulers.io())
-            .map(RankingTableHelper::generateRankingTable)
-            .blockingGet()
-
-    fun thereArePenaltiesCurrently(): Boolean =
-        getCurrentGameUseCase.getCurrentGameWithRounds()
-            .subscribeOn(Schedulers.io())
-            .map { it.rounds.last().areTherePenalties() }
-            .blockingGet()
-
-    fun getNamesByCurrentSeat(): Array<String> =
-        getCurrentGameUseCase.getCurrentGameWithRounds()
-            .subscribeOn(Schedulers.io())
-            .map { it.getPlayersNamesByCurrentSeat() }
-            .onErrorReturnItem(arrayOf("", "", "", ""))
-            .blockingGet()
-
-    fun getNamesByInitialPosition(): Array<String> =
-        getCurrentGameUseCase.getCurrentGameWithRounds()
-            .subscribeOn(Schedulers.io())
-            .map { it.game.getPlayersNames() }
-            .blockingGet()
-
+    //VIEWS ACTIONS
     fun toggleSeatsRotation() {
         _seatOrientation.postValue(if (_seatOrientation.value == DOWN) OUT else DOWN)
     }
 
-    fun isGameEnded(): Boolean = _currentTable.value?.rounds?.last()?.isEnded == true
+    fun isGameEnded(): Boolean = _activeGame.value?.rounds?.last()?.isEnded == true
 
     fun showDiffs() {
         _shouldShowDiffs.postValue(true)

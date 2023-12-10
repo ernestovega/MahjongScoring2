@@ -18,7 +18,8 @@ package com.etologic.mahjongscoring2.data_source.local_data_source.local.daos
 
 import android.database.sqlite.SQLiteConstraintException
 import androidx.room.*
-import com.etologic.mahjongscoring2.business.model.entities.Game
+import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.model.GameId
 import io.reactivex.Single
 
 @Dao
@@ -26,11 +27,17 @@ interface GamesDao {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     @Throws(SQLiteConstraintException::class)
-    fun insertOne(game: Game): Single<Long>
+    fun insertOne(dbGame: DBGame): Single<Long>
 
     @Update
-    fun updateOne(game: Game): Single<Int>
+    fun updateOne(dbGame: DBGame): Single<Int>
 
     @Query("DELETE FROM Games WHERE gameId = :gameId")
-    fun deleteOne(gameId: Long): Single<Int>
+    fun deleteOne(gameId: GameId): Single<Int>
+
+    @Query("SELECT * from Games ORDER BY startDate DESC")
+    fun getAll(): Single<List<DBGame>>
+
+    @Query("SELECT * from Games WHERE gameId = :gameId")
+    fun getOne(gameId: GameId): Single<DBGame>
 }

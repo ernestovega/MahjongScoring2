@@ -19,10 +19,8 @@ package com.etologic.mahjongscoring2.business.model.dtos
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 
-class BestHand {
-
-    var playerInitialPosition: TableWinds = NONE
-    var playerName: String = ""
-    var handValue: Int = 0
-
-}
+data class BestHand(
+    val handValue: Int = 0,
+    val playerInitialPosition: TableWinds = NONE,
+    val playerName: String = "",
+)

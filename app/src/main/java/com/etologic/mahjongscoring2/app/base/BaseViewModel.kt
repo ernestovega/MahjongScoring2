@@ -26,21 +26,16 @@ open class BaseViewModel : ViewModel() {
 
     protected var disposables = CompositeDisposable()
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    protected var snackbarMessage = MutableLiveData<String>()
-    fun getSnackbarMessage(): LiveData<String> = snackbarMessage
     private var error = MutableLiveData<Throwable>()
     fun getError(): LiveData<Throwable> = error
 
     fun showError(throwable: Throwable) {
         error.postValue(throwable)
-        if (BuildConfig.DEBUG)
-            throwable.printStackTrace()
+        if (BuildConfig.DEBUG) { throwable.printStackTrace() }
     }
 
     override fun onCleared() {
-        if (!disposables.isDisposed)
-            disposables.dispose()
+        if (!disposables.isDisposed) { disposables.dispose() }
         super.onCleared()
     }
 }

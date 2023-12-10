@@ -49,7 +49,7 @@ import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.Companion.TAG
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.TableSeatsListener
 import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.databinding.GameTableFragmentBinding
 import com.google.android.material.badge.BadgeDrawable.BOTTOM_END
@@ -127,25 +127,24 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
     }
 
     private fun startObservingTable() {
-        activityViewModel.getCurrentTable().observe(viewLifecycleOwner) { gameObserver(it) }
+        activityViewModel.getActiveGame().observe(viewLifecycleOwner) { gameObserver(it) }
         activityViewModel.getSelectedSeat().observe(viewLifecycleOwner) { tableSeats.updateSeatState(it) }
         activityViewModel.getSeatsOrientation().observe(viewLifecycleOwner) { tableSeats.updateSeatsOrientation(it) }
         activityViewModel.shouldShowDiffs().observe(viewLifecycleOwner) { tableSeats.toggleDiffs(it) }
     }
 
-    private fun gameObserver(it: Table) {
+    private fun gameObserver(it: UIGame) {
         tableSeats.setSeats(it)
         this.setRoundStuff(it)
     }
 
-    private fun setRoundStuff(table: Table) {
-        val currentRound = table.rounds.last()
-        val roundId = table.rounds.size
-        setFab(roundId, currentRound.isEnded)
-        setRoundNumsAndWinds(currentRound, roundId)
+    private fun setRoundStuff(uiGame: UIGame) {
+        val currentRound = uiGame.rounds.last()
+        setFab(currentRound.roundNumber, currentRound.isEnded)
+        setRoundNumsAndWinds(currentRound, currentRound.roundNumber)
     }
 
-    private fun setFab(roundId: Int, isEnded: Boolean) {
+    private fun setFab(roundNumber: Int, isEnded: Boolean) {
         with(binding) {
             if (isEnded) {
                 if (fabGameTable.tag != "ic_trophy_white_18dp") {
@@ -161,14 +160,14 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
                     fabGameTable.setImageResource(ic_dice_multiple_white_24dp)
                     fabGameTable.setOnSecureClickListener { activityViewModel.navigateTo(DICE) }
                 }
-                moveDice(roundId)
+                moveDice(roundNumber)
             }
             if (fabGameTable.visibility != VISIBLE) fabGameTable.visibility = VISIBLE
         }
     }
 
-    private fun moveDice(roundId: Int) {
-        when (roundId) {
+    private fun moveDice(roundNumber: Int) {
+        when (roundNumber) {
             1 -> setFabPosition(BOTTOM_END)
             2 -> setFabPosition(TOP_END)
             3 -> setFabPosition(TOP_START)
@@ -234,7 +233,7 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
         }
     }
 
-    private fun setRoundNumsAndWinds(currentRound: Round, roundId: Int) {
+    private fun setRoundNumsAndWinds(currentRound: Round, roundNumber: Int) {
         with(binding) {
             if (currentRound.isEnded) {
                 val endString = getString(string.end)
@@ -267,12 +266,12 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
                     null
                 )
             } else {
-                tvGameTableRoundNumberTopStart.text = roundId.toString()
-                tvGameTableRoundNumberTopEnd.text = roundId.toString()
-                tvGameTableRoundNumberBottomStart.text = roundId.toString()
-                tvGameTableRoundNumberBottomEnd.text = roundId.toString()
+                tvGameTableRoundNumberTopStart.text = roundNumber.toString()
+                tvGameTableRoundNumberTopEnd.text = roundNumber.toString()
+                tvGameTableRoundNumberBottomStart.text = roundNumber.toString()
+                tvGameTableRoundNumberBottomEnd.text = roundNumber.toString()
                 when {
-                    roundId < 5 -> {
+                    roundNumber < 5 -> {
                         tvGameTableRoundNumberTopStart.setCompoundDrawablesWithIntrinsicBounds(
                             null,
                             null,
@@ -299,7 +298,7 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
                         )
                     }
 
-                    roundId < 9 -> {
+                    roundNumber < 9 -> {
                         tvGameTableRoundNumberTopStart.setCompoundDrawablesWithIntrinsicBounds(
                             null,
                             null,
@@ -326,7 +325,7 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
                         )
                     }
 
-                    roundId < 13 -> {
+                    roundNumber < 13 -> {
                         tvGameTableRoundNumberTopStart.setCompoundDrawablesWithIntrinsicBounds(
                             null,
                             null,

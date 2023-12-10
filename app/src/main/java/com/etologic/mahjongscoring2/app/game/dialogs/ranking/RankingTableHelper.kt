@@ -19,7 +19,7 @@ package com.etologic.mahjongscoring2.app.game.dialogs.ranking
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
-import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
 
 object RankingTableHelper {
 
@@ -34,33 +34,33 @@ object RankingTableHelper {
     private const val DRAW_SECOND_2 = "1.5"
     private const val DRAW_LAST_2 = "0.5"
 
-    fun generateRankingTable(table: Table?): RankingData? {
-        if (table == null) return null
-        val sortedPlayersRankings = getSortedPlayersRankings(table)
-        val bestHands = getBestHands(table)
+    fun generateRankingTable(uiGame: UIGame?): RankingData? {
+        if (uiGame == null) return null
+        val sortedPlayersRankings = getSortedPlayersRankings(uiGame)
+        val bestHands = getBestHands(uiGame)
         return RankingData(
             sortedPlayersRankings,
             if (bestHands.isEmpty()) "-" else bestHands[0].handValue.toString(),
             if (bestHands.isEmpty()) "-" else bestHands[0].playerName,
-            table.rounds.size,
-            table.rounds.size.toString()
+            uiGame.rounds.size,
+            uiGame.rounds.size.toString()
         )
     }
 
-    private fun getSortedPlayersRankings(table: Table): List<PlayerRanking> {
-        var playersRankings = setPlayersNamesAndScores(table)
+    private fun getSortedPlayersRankings(uiGame: UIGame): List<PlayerRanking> {
+        var playersRankings = setPlayersNamesAndScores(uiGame)
         playersRankings = playersRankings.sortedByDescending { it.score }
         setPlayersTablePoints(playersRankings)
         return playersRankings
     }
 
-    private fun setPlayersNamesAndScores(table: Table): List<PlayerRanking> {
-        val scores = table.getPlayersTotalPoints()
+    private fun setPlayersNamesAndScores(uiGame: UIGame): List<PlayerRanking> {
+        val scores = uiGame.getPlayersTotalPoints()
         return listOf(
-            PlayerRanking(table.game.nameP1, scores[0]),
-            PlayerRanking(table.game.nameP2, scores[1]),
-            PlayerRanking(table.game.nameP3, scores[2]),
-            PlayerRanking(table.game.nameP4, scores[3])
+            PlayerRanking(uiGame.dbGame.nameP1, scores[0]),
+            PlayerRanking(uiGame.dbGame.nameP2, scores[1]),
+            PlayerRanking(uiGame.dbGame.nameP3, scores[2]),
+            PlayerRanking(uiGame.dbGame.nameP4, scores[3])
         )
     }
 
@@ -110,17 +110,16 @@ object RankingTableHelper {
         return sortedPlayers
     }
 
-    private fun getBestHands(table: Table): List<BestHand> {
+    private fun getBestHands(uiGame: UIGame): List<BestHand> {
         val bestHands = ArrayList<BestHand>()
-        for (round in table.rounds) {
+        for (round in uiGame.rounds) {
             val roundHandPoints = round.handPoints
-            val bestHand = BestHand()
-            bestHand.handValue = roundHandPoints
-            bestHand.playerInitialPosition = round.winnerInitialSeat
-            bestHand.playerName = table.game.getPlayerNameByInitialPosition(bestHand.playerInitialPosition)
-            if (bestHands.isEmpty() || roundHandPoints == bestHands[0].handValue)
+            val playerInitialPosition = uiGame.getPlayerInitialSeatByCurrentSeat(round.winnerInitialSeat)
+            val playerName = uiGame.dbGame.getPlayerNameByInitialPosition(playerInitialPosition)
+            val bestHand = BestHand(roundHandPoints, playerInitialPosition, playerName)
+            if (bestHands.isEmpty() || roundHandPoints == bestHands[0].handValue) {
                 bestHands.add(bestHand)
-            else if (roundHandPoints > bestHands[0].handValue) {
+            } else if (roundHandPoints > bestHands[0].handValue) {
                 bestHands.clear()
                 bestHands.add(bestHand)
             }

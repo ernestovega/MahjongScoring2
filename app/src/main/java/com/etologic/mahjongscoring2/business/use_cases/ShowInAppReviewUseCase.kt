@@ -27,7 +27,6 @@ import javax.inject.Inject
 class ShowInAppReviewUseCase @Inject constructor(
     private val inAppReviewRepository: InAppReviewRepository
 ) {
-
     operator fun invoke(activity: Activity): Single<Boolean> =
         inAppReviewRepository.requestLaunch(activity)
             .doOnSuccess {

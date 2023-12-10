@@ -16,7 +16,6 @@
  */
 package com.etologic.mahjongscoring2.app.base
 
-import android.view.View
 import androidx.fragment.app.Fragment
 
 abstract class BaseFragment : Fragment() {
@@ -24,10 +23,5 @@ abstract class BaseFragment : Fragment() {
     protected fun showError(throwable: Throwable) {
         val activity = activity
         if (activity is BaseActivity) activity.showError(throwable)
-    }
-
-    protected fun showSnackbar(view: View, message: String) {
-        val activity = activity
-        if (activity is BaseActivity) activity.showSnackbar(view, message)
     }
 }

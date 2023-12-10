@@ -34,6 +34,7 @@ import com.etologic.mahjongscoring2.app.extensions.toStringOrHyphen
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HU
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PENALTY
+import com.etologic.mahjongscoring2.business.model.entities.areTherePenalties
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.databinding.GameActionDialogFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -97,14 +98,14 @@ class ActionDialogFragment : AppCompatDialogFragment() {
             }
         )
         binding.tvHandActionsDialogPlayerName.text = selectedSeat?.code?.let { windCode ->
-            activityViewModel.getCurrentTable().value?.getPlayersNamesByCurrentSeat()?.get(windCode) ?: ""
+            activityViewModel.getActiveGame().value?.getPlayersNamesByCurrentSeat()?.get(windCode) ?: ""
         } ?: ""
         selectedSeat?.let { setPlayerDiffs(it) }
     }
 
     private fun setPlayerDiffs(playerSeat: TableWinds) {
         with(binding) {
-            val playerDiffs = activityViewModel.getCurrentTable().value?.getTableDiffs()?.seatsDiffs?.get(playerSeat.code)
+            val playerDiffs = activityViewModel.getActiveGame().value?.getTableDiffs()?.seatsDiffs?.get(playerSeat.code)
             with(iHandActionsDialogDiffs) {
                 val pointsToBeFirst = playerDiffs?.pointsToBeFirst
                 tvActionDialogDiffsFirstSelfPick.text = pointsToBeFirst?.bySelfPick.toStringOrHyphen()
@@ -126,7 +127,7 @@ class ActionDialogFragment : AppCompatDialogFragment() {
 
     private fun setButtons() {
         binding.btHandActionsDialogPenaltiesCancel.visibility =
-            if (activityViewModel.thereArePenaltiesCurrently()) VISIBLE else GONE
+            if (activityViewModel.getActiveGame().value!!.rounds.last().areTherePenalties()) VISIBLE else GONE
     }
 
     private fun setListeners() {

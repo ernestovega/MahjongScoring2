@@ -68,7 +68,7 @@ class NamesDialogFragment : AppCompatDialogFragment() {
     }
 
     private fun printNames() {
-        val names = activityViewModel.getNamesByInitialPosition()
+        val names = activityViewModel.getActiveGame().value!!.dbGame.getPlayersNames()
         binding.tietPlayersDialogEast.setText(names[EAST.code])
         binding.tietPlayersDialogSouth.setText(names[SOUTH.code])
         binding.tietPlayersDialogWest.setText(names[WEST.code])

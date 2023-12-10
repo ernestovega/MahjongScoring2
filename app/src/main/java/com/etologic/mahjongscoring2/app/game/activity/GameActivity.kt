@@ -35,8 +35,8 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.Companion.getFromCode
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.TABLE
-import com.etologic.mahjongscoring2.business.model.entities.Table
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_ROUNDS
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
@@ -48,6 +48,7 @@ class GameActivity : BaseActivity() {
 
     companion object {
         private const val OFFSCREEN_PAGE_LIMIT = 1
+        const val KEY_ACTIVE_GAME_ID = "active_game_id"
     }
 
     private var orientationDownDrawable: Drawable? = null
@@ -144,8 +145,12 @@ class GameActivity : BaseActivity() {
         binding = GameActivityBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
         orientationDownDrawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_rotation_down)
         orientationOutDrawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_rotation_out)
+
+        intent.extras?.getLong(KEY_ACTIVE_GAME_ID)?.let { viewModel.activeGameId = it }
+            ?: viewModel.showError(IllegalArgumentException("GameId cannot be null"))
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -164,19 +169,18 @@ class GameActivity : BaseActivity() {
 
     private fun observeViewModel() {
         viewModel.getError().observe(this) { showError(it) }
-        viewModel.getSnackbarMessage().observe(this) { showSnackbar(binding.viewPagerGame, it) }
         viewModel.getCurrentScreen().observe(this) { GameNavigator.navigateTo(it, this, viewModel) }
         viewModel.getPageToShow().observe(this) { it?.first?.code?.let { pageIndex -> binding.viewPagerGame.currentItem = pageIndex } }
-        viewModel.getCurrentTable().observe(this) { currentRoundObserver(it) }
+        viewModel.getActiveGame().observe(this) { currentRoundObserver(it) }
         viewModel.getSeatsOrientation().observe(this) { updateSeatsOrientationIcon(it) }
         viewModel.shouldShowDiffs().observe(this) { toggleDiffs(it) }
     }
 
-    private fun currentRoundObserver(currentTable: Table) {
-        val currentRound = currentTable.rounds.last()
+    private fun currentRoundObserver(currentUIGame: UIGame) {
+        val currentRound = currentUIGame.rounds.last()
 
-        shouldBeShownResumeButton = if (currentRound.isEnded) currentTable.rounds.size < MAX_MCR_ROUNDS else false
-        shouldBeShownEndButton = !currentRound.isEnded && currentTable.rounds.size > 1
+        shouldBeShownResumeButton = if (currentRound.isEnded) currentUIGame.rounds.size < MAX_MCR_ROUNDS else false
+        shouldBeShownEndButton = !currentRound.isEnded && currentUIGame.rounds.size > 1
 
         resumeGameItem?.isVisible = shouldBeShownResumeButton
         endGameItem?.isVisible = shouldBeShownEndButton

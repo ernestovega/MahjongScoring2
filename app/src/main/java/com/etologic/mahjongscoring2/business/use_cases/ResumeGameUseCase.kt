@@ -14,24 +14,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.business.use_cases.games
+package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.business.model.entities.Table
-import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
+import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.business.model.entities.Round
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import com.etologic.mahjongscoring2.data_source.repositories.TablesRepository
 import io.reactivex.Single
 import javax.inject.Inject
 
-class DeleteGameUseCase @Inject
-constructor(
-    private val gamesRepository: GamesRepository,
-    private val tablesRepository: TablesRepository,
-    private val roundsRepository: RoundsRepository
+class ResumeGameUseCase @Inject constructor(
+    private val roundsRepository: RoundsRepository,
+    private val getGameUseCase: GetGameUseCase,
 ) {
-
-    fun deleteGame(gameId: Long): Single<List<Table>> =
-        roundsRepository.deleteByGame(gameId)
-            .flatMap { gamesRepository.deleteOne(gameId) }
-            .flatMap { tablesRepository.getAllTables() }
+    operator fun invoke(gameId: GameId, gameRoundsNumber: Int): Single<UIGame> =
+        if (gameRoundsNumber < MAX_MCR_ROUNDS) {
+            roundsRepository.insertOne(Round(gameId))
+                .flatMap { getGameUseCase(gameId) }
+        } else {
+            getGameUseCase(gameId)
+        }
 }

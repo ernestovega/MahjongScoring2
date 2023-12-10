@@ -31,6 +31,7 @@ import com.etologic.mahjongscoring2.R.anim.exit_to_left
 import com.etologic.mahjongscoring2.R.anim.exit_to_right
 import com.etologic.mahjongscoring2.R.id.frameLayoutMain
 import com.etologic.mahjongscoring2.app.game.activity.GameActivity
+import com.etologic.mahjongscoring2.app.game.activity.GameActivity.Companion.KEY_ACTIVE_GAME_ID
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
@@ -55,10 +56,10 @@ object MainNavigator {
     private const val EMAIL_SUBJECT = "Mahjong Scoring ${BuildConfig.VERSION_NAME}"
     private const val EMAIL_ADDRESS = "mahjongmadrid@gmail.com"
 
-    fun goToScreen(screen: MainScreens, activity: MainActivity) {
+    fun goToScreen(screen: MainScreens, activity: MainActivity, viewModel: MainViewModel) {
         when (screen) {
             OLD_GAMES -> goToOldGames(activity)
-            GAME -> goToGame(activity)
+            GAME -> goToGame(activity, viewModel)
             COMBINATIONS -> goToCombinations(activity)
             DIFFS_CALCULATOR -> activity.startActivity(Intent(activity, DiffsCalculatorActivity::class.java))
             GREEN_BOOK_ENGLISH -> goToGreenBook(GREEN_BOOK_ENGLISH_URL, activity)
@@ -79,8 +80,12 @@ object MainNavigator {
         }
     }
 
-    private fun goToGame(activity: MainActivity) {
-        activity.gameActivityResultLauncher.launch(Intent(activity, GameActivity::class.java))
+    private fun goToGame(activity: MainActivity, viewModel: MainViewModel) {
+        activity.gameActivityResultLauncher.launch(
+            Intent(activity, GameActivity::class.java).apply {
+                putExtra(KEY_ACTIVE_GAME_ID, viewModel.activeGameId)
+            }
+        )
     }
 
     private fun goToCombinations(activity: MainActivity) {

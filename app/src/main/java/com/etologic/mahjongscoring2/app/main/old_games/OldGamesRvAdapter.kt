@@ -29,7 +29,8 @@ import com.etologic.mahjongscoring2.app.model.GameItemDiffUtilCallback
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.app.utils.StringUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
-import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.databinding.MainOldgameItemBinding
 import java.util.Locale
 import javax.inject.Inject
@@ -39,12 +40,12 @@ class OldGamesRvAdapter
 
     interface GameItemListener {
 
-        fun onOldGameItemDeleteClicked(gameId: Long)
-        fun onOldGameItemResumeClicked(gameId: Long)
+        fun onOldGameItemDeleteClicked(gameId: GameId)
+        fun onOldGameItemResumeClicked(gameId: GameId)
     }
 
     private var itemClickListener: GameItemListener? = null
-    private var games: List<Table> = ArrayList()
+    private var games: List<UIGame> = ArrayList()
 
     init {
         games = ArrayList()
@@ -54,15 +55,15 @@ class OldGamesRvAdapter
         this.itemClickListener = listener
     }
 
-    fun setGames(newGames: List<Table>) {
+    fun setGames(newGames: List<UIGame>) {
         val result = DiffUtil.calculateDiff(GameItemDiffUtilCallback(newGames, games), false)
         saveNewGamesCopy(newGames)
         result.dispatchUpdatesTo(this)
     }
 
-    private fun saveNewGamesCopy(newGames: List<Table>) {
-        val newGamesCopy = ArrayList<Table>(newGames.size)
-        newGames.map { newGamesCopy.add(it.getCopy()) }
+    private fun saveNewGamesCopy(newGames: List<UIGame>) {
+        val newGamesCopy = ArrayList<UIGame>(newGames.size)
+        newGames.map { newGamesCopy.add(it.copy()) }
         games = newGamesCopy
     }
 
@@ -77,9 +78,9 @@ class OldGamesRvAdapter
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val itemViewHolder = holder as OldGameItemViewHolder
-        val gameWithRounds = games[position]
-        val bestHand = gameWithRounds.getBestHand()
-        setFields(itemViewHolder, gameWithRounds, bestHand)
+        val game = games[position]
+        val bestHand = game.getBestHand()
+        setFields(itemViewHolder, game, bestHand)
         itemViewHolder.btItemResume.setOnSecureClickListener {
             if (itemViewHolder.gameId != null)
                 itemClickListener?.onOldGameItemResumeClicked(itemViewHolder.gameId!!)
@@ -92,24 +93,24 @@ class OldGamesRvAdapter
 
     private fun setFields(
         itemViewHolder: OldGameItemViewHolder,
-        table: Table,
+        uiGame: UIGame,
         bestHand: BestHand
     ) {
-        itemViewHolder.gameId = table.game.gameId
-        itemViewHolder.tvStartDate.text = DateTimeUtils.getPrettyDate(table.game.startDate)
+        itemViewHolder.gameId = uiGame.dbGame.gameId
+        itemViewHolder.tvStartDate.text = DateTimeUtils.getPrettyDate(uiGame.dbGame.startDate)
         itemViewHolder.tvDuration.text = String.format("#%s", itemViewHolder.gameId.toString())
-        itemViewHolder.tvEastPlayerName.text = table.game.nameP1
-        itemViewHolder.tvSouthPlayerName.text = table.game.nameP2
-        itemViewHolder.tvWestPlayerName.text = table.game.nameP3
-        itemViewHolder.tvNorthPlayerName.text = table.game.nameP4
-        val playersTotalPoints = table.getPlayersTotalPoints().map {
+        itemViewHolder.tvEastPlayerName.text = uiGame.dbGame.nameP1
+        itemViewHolder.tvSouthPlayerName.text = uiGame.dbGame.nameP2
+        itemViewHolder.tvWestPlayerName.text = uiGame.dbGame.nameP3
+        itemViewHolder.tvNorthPlayerName.text = uiGame.dbGame.nameP4
+        val playersTotalPoints = uiGame.getPlayersTotalPoints().map {
             String.format(Locale.getDefault(), "%d", it)
         }
         itemViewHolder.tvEastPlayerPoints.text = playersTotalPoints[0]
         itemViewHolder.tvSouthPlayerPoints.text = playersTotalPoints[1]
         itemViewHolder.tvWestPlayerPoints.text = playersTotalPoints[2]
         itemViewHolder.tvNorthPlayerPoints.text = playersTotalPoints[3]
-        itemViewHolder.tvRoundNumber.text = table.rounds.size.toString()
+        itemViewHolder.tvRoundNumber.text = uiGame.rounds.size.toString()
         setBestHand(itemViewHolder, bestHand)
     }
 
@@ -143,6 +144,6 @@ class OldGamesRvAdapter
         val tvBestHandValue: TextView = binding.tvOldGameItemBestHandValue
         val btItemDelete: TextView = binding.btOldGameItemDelete
         val btItemResume: TextView = binding.btOldGameItemResume
-        var gameId: Long? = null
+        var gameId: GameId? = null
     }
 }

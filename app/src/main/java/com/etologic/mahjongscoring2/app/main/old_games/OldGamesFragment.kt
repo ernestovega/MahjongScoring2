@@ -32,41 +32,24 @@ import com.etologic.mahjongscoring2.app.base.BaseFragment
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
-import com.etologic.mahjongscoring2.business.model.entities.Table
-import com.etologic.mahjongscoring2.business.model.enums.GameStartType
-import com.etologic.mahjongscoring2.business.model.enums.GameStartType.NEW
+import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.databinding.MainOldgamesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
+class OldGamesFragment : BaseFragment() {
 
     companion object {
         const val TAG = "OldGamesFragment"
     }
 
     private val activityViewModel: MainViewModel by activityViewModels()
-
     private val viewModel: OldGamesViewModel by viewModels()
-
     @Inject
     lateinit var rvAdapter: OldGamesRvAdapter
     private lateinit var defaultNames: Array<String>
-
-    override fun onOldGameItemDeleteClicked(gameId: Long) {
-        AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
-            .setTitle(R.string.delete_game)
-            .setMessage(R.string.are_you_sure)
-            .setPositiveButton(R.string.delete) { _, _ -> viewModel.deleteGame(gameId) }
-            .setNegativeButton(R.string.cancel, null)
-            .create()
-            .show()
-    }
-
-    override fun onOldGameItemResumeClicked(gameId: Long) {
-        viewModel.startGame(gameId)
-    }
 
     override fun onResume() {
         super.onResume()
@@ -93,7 +76,12 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         defaultNames =
-            arrayOf(getString(player_one), getString(R.string.player_two), getString(R.string.player_three), getString(R.string.player_four))
+            arrayOf(
+                getString(player_one),
+                getString(R.string.player_two),
+                getString(R.string.player_three),
+                getString(R.string.player_four)
+            )
         setupRecyclerView()
         setupSwipeRefreshLayout()
         setToolbar()
@@ -105,32 +93,56 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
         binding.rvOldGames.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
         binding.rvOldGames.layoutManager = layoutManager
-        rvAdapter.setOldGameItemListener(this)
+        rvAdapter.setOldGameItemListener(object : OldGamesRvAdapter.GameItemListener {
+
+            override fun onOldGameItemDeleteClicked(gameId: GameId) {
+                AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
+                    .setTitle(R.string.delete_game)
+                    .setMessage(R.string.are_you_sure)
+                    .setPositiveButton(R.string.delete) { _, _ -> viewModel.deleteGame(gameId) }
+                    .setNegativeButton(R.string.cancel, null)
+                    .create()
+                    .show()
+            }
+
+            override fun onOldGameItemResumeClicked(gameId: GameId) {
+                startGame(gameId)
+            }
+        })
         binding.rvOldGames.adapter = rvAdapter
     }
 
     private fun observeViewModel() {
         viewModel.getError().observe(viewLifecycleOwner) { showError(it) }
-        viewModel.getSnackbarMessage().observe(viewLifecycleOwner) { showSnackbar(binding.root, it) }
         viewModel.getGames().observe(viewLifecycleOwner) { gamesObserver(it) }
-        viewModel.getStartGame().observe(viewLifecycleOwner) { startGameObserver(it) }
+        viewModel.getCreatedGameId().observe(viewLifecycleOwner) { startGame(it) }
     }
 
-    private fun gamesObserver(games: List<Table>) {
+    private fun gamesObserver(games: List<UIGame>) {
         if (games.isEmpty())
             binding.emptyLayoutOldGames.visibility = VISIBLE
         else {
             binding.emptyLayoutOldGames.visibility = GONE
             rvAdapter.setGames(games)
-            if (activityViewModel.lastGameStartType == NEW) {
-                activityViewModel.lastGameStartType = null
-                binding.rvOldGames.smoothScrollToPosition(0)
+            scrollToLastActiveGame(games)
+        }
+    }
+
+    private fun scrollToLastActiveGame(games: List<UIGame>) {
+        if (activityViewModel.activeGameId != null) {
+            val gameIndex = games.indexOfFirst { it.dbGame.gameId == viewModel.getCreatedGameId().value }
+            if (gameIndex >= 0) {
+                binding.rvOldGames.smoothScrollToPosition(
+                    binding.rvOldGames.getChildLayoutPosition(
+                        binding.rvOldGames.getChildAt(gameIndex)
+                    )
+                )
             }
         }
     }
 
-    private fun startGameObserver(gameStartType: GameStartType) {
-        activityViewModel.lastGameStartType = gameStartType
+    private fun startGame(gameId: GameId) {
+        activityViewModel.activeGameId = gameId
         activityViewModel.navigateTo(GAME)
     }
 
@@ -147,7 +159,7 @@ class OldGamesFragment : BaseFragment(), OldGamesRvAdapter.GameItemListener {
 
     private fun setOnClickListeners() {
         binding.fabOldGames.setOnSecureClickListener {
-            viewModel.startNewGame(defaultNames)
+            viewModel.createGame(defaultNames)
         }
     }
 }

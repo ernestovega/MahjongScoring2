@@ -29,8 +29,8 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.model.Seat
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MAX_MCR_POINTS
-import com.etologic.mahjongscoring2.business.model.entities.Table.Companion.MIN_MCR_POINTS
+import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MAX_MCR_POINTS
+import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MIN_MCR_POINTS
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
@@ -92,7 +92,7 @@ class HuDialogFragment : AppCompatDialogFragment() {
     }
 
     private fun initViews() {
-        val playersNamesByCurrentSeat = activityViewModel.getCurrentTable().value?.getPlayersNamesByCurrentSeat()
+        val playersNamesByCurrentSeat = activityViewModel.getActiveGame().value?.getPlayersNamesByCurrentSeat()
         val winnerSeat = activityViewModel.getSelectedSeat().value ?: NONE
         val looser1Seat = TableWinds.asArray[(if (winnerSeat == EAST) SOUTH else EAST).code]
         val looser2Seat = TableWinds.asArray[(if (winnerSeat in listOf(EAST, SOUTH)) WEST else SOUTH).code]
@@ -128,9 +128,9 @@ class HuDialogFragment : AppCompatDialogFragment() {
                     cnpGameHuDialog.setError()
                 } else {
                     if (cdsGameHuDialog.selectedSeatWind == NONE) {
-                        activityViewModel.saveTsumoRound(winnerHandPoints)
+                        activityViewModel.saveHuSelfPickRound(winnerHandPoints)
                     } else {
-                        activityViewModel.saveRonRound(cdsGameHuDialog.selectedSeatWind, winnerHandPoints)
+                        activityViewModel.saveHuDiscardRound(cdsGameHuDialog.selectedSeatWind, winnerHandPoints)
                     }
                     isDialogCancelled = false
                     dismiss()

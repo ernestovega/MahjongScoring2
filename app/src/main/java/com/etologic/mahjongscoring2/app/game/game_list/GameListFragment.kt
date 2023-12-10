@@ -35,7 +35,8 @@ import com.etologic.mahjongscoring2.app.game.game_list.GameListRvAdapter.GameLis
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
 import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.entities.Table
+import com.etologic.mahjongscoring2.business.model.entities.RoundId
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.databinding.GameListFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -79,7 +80,7 @@ class GameListFragment : BaseFragment() {
         binding.rvGameList.layoutManager = layoutManager
         binding.rvGameList.adapter = rvAdapter
         rvAdapter.setItemListener(object : GameListItemListener {
-            override fun onClick(view: View, roundId: Int) {
+            override fun onClick(view: View, roundId: RoundId) {
                 val popup = PopupMenu(context!!, view)
                 popup.menuInflater.inflate(R.menu.game_list_item_menu, popup.menu)
                 popup.setOnMenuItemClickListener {
@@ -88,11 +89,7 @@ class GameListFragment : BaseFragment() {
                             AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
                                 .setTitle(R.string.delete_round)
                                 .setMessage(R.string.are_you_sure)
-                                .setPositiveButton(R.string.ok) { _, _ ->
-                                    activityViewModel.removeRound(
-                                        roundId
-                                    )
-                                }
+                                .setPositiveButton(R.string.ok) { _, _ -> activityViewModel.removeRound(roundId) }
                                 .setNegativeButton(R.string.close, null)
                                 .create()
                                 .show()
@@ -106,14 +103,14 @@ class GameListFragment : BaseFragment() {
     }
 
     private fun initViewModel() {
-        activityViewModel.getCurrentTable().observe(viewLifecycleOwner) { tableObserver(it) }
+        activityViewModel.getActiveGame().observe(viewLifecycleOwner) { gameObserver(it) }
         activityViewModel.getPageToShow().observe(viewLifecycleOwner) { pageToShowObserver(it) }
     }
 
-    private fun tableObserver(table: Table) {
-        roundsListObserver(table.getEndedRounds())
-        namesObserver(table.game.getPlayersNames())
-        totalsObserver(table.getPlayersTotalPointsStringSigned())
+    private fun gameObserver(uiGame: UIGame) {
+        roundsListObserver(uiGame.getEndedRounds())
+        namesObserver(uiGame.dbGame.getPlayersNames())
+        totalsObserver(uiGame.getPlayersTotalPointsStringSigned())
     }
 
     private fun roundsListObserver(roundsList: List<Round>) {
@@ -157,7 +154,8 @@ class GameListFragment : BaseFragment() {
                     delay(300)
                     val lastItemPosition = rvAdapter.itemCount.minus(1)
                     if (lastItemPosition >= 0) {
-                        val lastItem = binding.rvGameList.findViewHolderForAdapterPosition(lastItemPosition) as GameListRvAdapter.ItemViewHolder
+                        val lastItem = binding.rvGameList.findViewHolderForAdapterPosition(lastItemPosition)
+                                as GameListRvAdapter.ItemViewHolder
                         if (activityViewModel.lastHighlightedRound != lastItem.tvRoundNum.text) {
                             activityViewModel.lastHighlightedRound = lastItem.tvRoundNum.text
                             lastItem.highlight()

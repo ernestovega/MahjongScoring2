@@ -14,18 +14,26 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.business.use_cases.current_game
+package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.business.model.entities.Table
-import com.etologic.mahjongscoring2.data_source.repositories.CurrentTableRepository
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
+import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import io.reactivex.Single
 import javax.inject.Inject
 
-class GetCurrentGameUseCase @Inject
-constructor(
-    private val currentTableRepository: CurrentTableRepository
+class GetAllGamesUseCase @Inject constructor(
+    private val gamesRepository: GamesRepository,
+    private val roundsRepository: RoundsRepository,
 ) {
-
-    fun getCurrentGameWithRounds(): Single<Table> =
-        currentTableRepository.get()
+    operator fun invoke(): Single<List<UIGame>> =
+        Single.zip(
+            gamesRepository.getAll(),
+            roundsRepository.getAll(),
+        ) { games, rounds ->
+            games.map { game ->
+                val gameRounds = rounds.filter { round -> round.gameId == game.gameId }
+                UIGame(game, gameRounds)
+            }
+        }
 }

@@ -16,63 +16,93 @@
  */
 package com.etologic.mahjongscoring2.business.model.entities
 
-import androidx.room.Embedded
-import androidx.room.Relation
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
-import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.dtos.TableDiffs
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
+import com.etologic.mahjongscoring2.data_source.model.DBGame
 
-class Table(@field:Embedded var game: Game) {
-
-    @Relation(parentColumn = "gameId", entityColumn = "gameId")
-    var rounds: List<Round> = ArrayList()
-
-    fun getTotalPointsUntilRound(index: Int): IntArray {
-        val totalPoints = intArrayOf(0, 0, 0, 0)
-        for (i in 0..index) {
-            totalPoints[0] += rounds[i].pointsP1
-            totalPoints[1] += rounds[i].pointsP2
-            totalPoints[2] += rounds[i].pointsP3
-            totalPoints[3] += rounds[i].pointsP4
+data class UIGame(
+    val dbGame: DBGame,
+    val rounds: List<Round>,
+) {
+    init {
+        fun Round.setRoundNumber(roundNumber: Int) {
+            this.roundNumber = roundNumber
         }
-        return totalPoints
+
+        fun Round.setTotals(roundNumber: Int) {
+            fun UIGame.getTotalPointsUntilRound(roundNumber: Int): IntArray {
+                val totalPoints = intArrayOf(0, 0, 0, 0)
+                for (i in 0..<roundNumber) {
+                    totalPoints[0] += rounds[i].pointsP1
+                    totalPoints[1] += rounds[i].pointsP2
+                    totalPoints[2] += rounds[i].pointsP3
+                    totalPoints[3] += rounds[i].pointsP4
+                }
+                return totalPoints
+            }
+
+            if (this.isEnded) {
+                val newRoundTotals = getTotalPointsUntilRound(roundNumber)
+                this.totalPointsP1 = newRoundTotals[0]
+                this.totalPointsP2 = newRoundTotals[1]
+                this.totalPointsP3 = newRoundTotals[2]
+                this.totalPointsP4 = newRoundTotals[3]
+            }
+        }
+
+        fun Round.setBestHand(bestHand: BestHand) {
+            if (bestHand.handValue >= MIN_MCR_POINTS) {
+                this.isBestHand = this.handPoints >= bestHand.handValue &&
+                        this.winnerInitialSeat == bestHand.playerInitialPosition
+            }
+        }
+
+        val bestHand = getBestHand()
+        rounds.forEachIndexed { index, round ->
+            val roundNumber = index + 1
+            round.setRoundNumber(roundNumber)
+            round.setTotals(roundNumber)
+            round.setBestHand(bestHand)
+        }
     }
 
-    fun setRoundNumbers() {
-        rounds.forEachIndexed { index, round -> round.roundNumber = index + 1 }
-    }
-
-    fun getCopy(): Table {
-        val gameWithRounds = Table(game.copy)
-        val newRounds = ArrayList<Round>(rounds.size)
-        rounds.map { newRounds.add(it.getCopy()) }
-        gameWithRounds.rounds = newRounds
-        return gameWithRounds
+    fun getBestHand(): BestHand {
+        var bestHand = BestHand()
+        this.rounds.forEach { round ->
+            if (round.handPoints > bestHand.handValue) {
+                bestHand = BestHand(
+                    handValue = round.handPoints,
+                    playerInitialPosition = round.winnerInitialSeat,
+                    playerName = dbGame.getPlayerNameByInitialPosition(round.winnerInitialSeat)
+                )
+            }
+        }
+        return bestHand
     }
 
     fun getPlayersNamesByCurrentSeat(): Array<String> {
         val namesListByCurrentSeat = arrayOf("", "", "", "")
-        val roundId = rounds.size
-        namesListByCurrentSeat[getInitialEastPlayerCurrentSeat(roundId).code] = game.nameP1
-        namesListByCurrentSeat[getInitialSouthPlayerCurrentSeat(roundId).code] = game.nameP2
-        namesListByCurrentSeat[getInitialWestPlayerCurrentSeat(roundId).code] = game.nameP3
-        namesListByCurrentSeat[getInitialNorthPlayerCurrentSeat(roundId).code] = game.nameP4
+        val currentRound = rounds.last()
+        namesListByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRound.roundNumber).code] = dbGame.nameP1
+        namesListByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRound.roundNumber).code] = dbGame.nameP2
+        namesListByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRound.roundNumber).code] = dbGame.nameP3
+        namesListByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRound.roundNumber).code] = dbGame.nameP4
         return namesListByCurrentSeat
     }
 
     fun getPlayersTotalPointsByCurrentSeat(): IntArray {
         val points = getPlayersTotalPoints()
         val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
-        val roundId = rounds.size
-        pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(roundId).code] = points[EAST.code]
-        pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(roundId).code] = points[SOUTH.code]
-        pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(roundId).code] = points[WEST.code]
-        pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(roundId).code] = points[NORTH.code]
+        val currentRound = rounds.last()
+        pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRound.roundNumber).code] = points[EAST.code]
+        pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRound.roundNumber).code] = points[SOUTH.code]
+        pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRound.roundNumber).code] = points[WEST.code]
+        pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRound.roundNumber).code] = points[NORTH.code]
         return pointsByCurrentSeat
     }
 
@@ -89,16 +119,15 @@ class Table(@field:Embedded var game: Game) {
     fun getPlayersPenaltiesByCurrentSeat(): IntArray {
         val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
         val currentRound = rounds.last()
-        val roundId = rounds.size
-        pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(roundId).code] = currentRound.penaltyP1
-        pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(roundId).code] = currentRound.penaltyP2
-        pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(roundId).code] = currentRound.penaltyP3
-        pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(roundId).code] = currentRound.penaltyP4
+        pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRound.roundNumber).code] = currentRound.penaltyP1
+        pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRound.roundNumber).code] = currentRound.penaltyP2
+        pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRound.roundNumber).code] = currentRound.penaltyP3
+        pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRound.roundNumber).code] = currentRound.penaltyP4
         return pointsByCurrentSeat
     }
 
-    private fun getInitialEastPlayerCurrentSeat(roundId: Int): TableWinds {
-        return when (roundId) {
+    private fun getInitialEastPlayerCurrentSeat(roundNumber: Int): TableWinds {
+        return when (roundNumber) {
             1, 2, 3, 4 -> EAST
             5, 6, 7, 8 -> SOUTH
             9, 10, 11, 12 -> NORTH
@@ -107,8 +136,8 @@ class Table(@field:Embedded var game: Game) {
         }
     }
 
-    private fun getInitialSouthPlayerCurrentSeat(roundId: Int): TableWinds {
-        return when (roundId) {
+    private fun getInitialSouthPlayerCurrentSeat(roundNumber: Int): TableWinds {
+        return when (roundNumber) {
             1, 2, 3, 4 -> SOUTH
             5, 6, 7, 8 -> EAST
             9, 10, 11, 12 -> WEST
@@ -117,8 +146,8 @@ class Table(@field:Embedded var game: Game) {
         }
     }
 
-    private fun getInitialWestPlayerCurrentSeat(roundId: Int): TableWinds {
-        return when (roundId) {
+    private fun getInitialWestPlayerCurrentSeat(roundNumber: Int): TableWinds {
+        return when (roundNumber) {
             1, 2, 3, 4 -> WEST
             5, 6, 7, 8 -> NORTH
             9, 10, 11, 12 -> EAST
@@ -127,8 +156,8 @@ class Table(@field:Embedded var game: Game) {
         }
     }
 
-    private fun getInitialNorthPlayerCurrentSeat(roundId: Int): TableWinds {
-        return when (roundId) {
+    private fun getInitialNorthPlayerCurrentSeat(roundNumber: Int): TableWinds {
+        return when (roundNumber) {
             1, 2, 3, 4 -> NORTH
             5, 6, 7, 8 -> WEST
             9, 10, 11, 12 -> SOUTH
@@ -158,32 +187,15 @@ class Table(@field:Embedded var game: Game) {
         return points
     }
 
-    fun getEndedRounds(): List<Round> {
-        return getCopyWithoutLastRoundIfNotEnded()
-    }
-
-    private fun getCopyWithoutLastRoundIfNotEnded(): List<Round> {
+    fun getEndedRounds(): List<Round> =
         if (!rounds.last().isEnded) {
-            val mutableRounds = rounds.toMutableList()
-            mutableRounds.removeAt(rounds.size - 1)
-            return mutableRounds
+            rounds.toMutableList().apply { removeAt(rounds.size - 1) }
+        } else {
+            rounds
         }
-        return rounds
-    }
 
-    fun getBestHand(): BestHand {
-        val bestHand = BestHand()
-        for (round in rounds) {
-            if (round.handPoints > bestHand.handValue) {
-                bestHand.handValue = round.handPoints
-                bestHand.playerName = game.getPlayerNameByInitialPosition(round.winnerInitialSeat)
-            }
-        }
-        return bestHand
-    }
-
-    fun getPlayerInitialSeatByCurrentSeat(currentSeatPosition: TableWinds, roundId: Int): TableWinds {
-        return when (roundId) {
+    fun getPlayerInitialSeatByCurrentSeat(currentSeatPosition: TableWinds): TableWinds {
+        return when (rounds.last().roundNumber) {
             1, 2, 3, 4 -> getPlayerInitialPositionBySeatInRoundEast(currentSeatPosition)
             5, 6, 7, 8 -> getPlayerInitialPositionBySeatInRoundSouth(currentSeatPosition)
             9, 10, 11, 12 -> getPlayerInitialPositionBySeatInRoundWest(currentSeatPosition)
@@ -232,42 +244,14 @@ class Table(@field:Embedded var game: Game) {
         }
     }
 
-    fun getSeatsCurrentWind(roundId: Int): Array<TableWinds> {
-        return when (roundId) {
+    fun getSeatsCurrentWind(roundNumber: Int): Array<TableWinds> {
+        return when (roundNumber) {
             1, 5, 9, 13 -> arrayOf(EAST, SOUTH, WEST, NORTH)
             2, 6, 10, 14 -> arrayOf(NORTH, EAST, SOUTH, WEST)
             3, 7, 11, 15 -> arrayOf(WEST, NORTH, EAST, SOUTH)
             4, 8, 12, 16 -> arrayOf(SOUTH, WEST, NORTH, EAST)
             else -> arrayOf()
         }
-    }
-
-    fun finishCurrentRoundByHuDiscard(huData: HuData): Table {
-        val currentRound = rounds.last()
-        currentRound.finishRoundByHuDiscard(
-            getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, rounds.size),
-            getPlayerInitialSeatByCurrentSeat(huData.discarderCurrentSeat!!, rounds.size),
-            huData.points
-        )
-        currentRound.setTotalsPoints(getPlayersTotalPoints())
-        return this
-    }
-
-    fun finishCurrentRoundByHuSelfPick(huData: HuData): Table {
-        val currentRound = rounds.last()
-        currentRound.finishRoundByHuSelfPick(
-            getPlayerInitialSeatByCurrentSeat(huData.winnerCurrentSeat, rounds.size),
-            huData.points
-        )
-        currentRound.setTotalsPoints(getPlayersTotalPoints())
-        return this
-    }
-
-    fun finishCurrentRoundByDraw(): Table {
-        val currentRound = rounds.last()
-        currentRound.finishRoundByDraw()
-        currentRound.setTotalsPoints(getPlayersTotalPoints())
-        return this
     }
 
     companion object {

@@ -34,6 +34,7 @@ import com.etologic.mahjongscoring2.R.color
 import com.etologic.mahjongscoring2.app.base.BaseRvAdapter
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.entities.Round
+import com.etologic.mahjongscoring2.business.model.entities.RoundId
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
@@ -45,7 +46,7 @@ class GameListRvAdapter
 @Inject constructor() : BaseRvAdapter<Round>() {
 
     interface GameListItemListener {
-        fun onClick(view: View, roundId: Int)
+        fun onClick(view: View, roundId: RoundId)
     }
 
     private var greenMM: Int? = null

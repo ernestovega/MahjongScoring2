@@ -16,7 +16,8 @@
  */
 package com.etologic.mahjongscoring2.data_source.repositories
 
-import com.etologic.mahjongscoring2.business.model.entities.Game
+import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.GamesDao
 import io.reactivex.Single
 import javax.inject.Inject
@@ -27,9 +28,13 @@ class GamesRepository
 @Inject constructor(
     private var gamesDao: GamesDao,
 ) {
-    fun insertOne(game: Game): Single<Long> = gamesDao.insertOne(game)
+    fun insertOne(dbGame: DBGame): Single<GameId> = gamesDao.insertOne(dbGame)
 
-    fun updateOne(game: Game): Single<Boolean> = gamesDao.updateOne(game).map { it == 1 }
+    fun updateOne(dbGame: DBGame): Single<Boolean> = gamesDao.updateOne(dbGame).map { it == 1 }
 
-    fun deleteOne(gameId: Long): Single<Boolean> = gamesDao.deleteOne(gameId).map { it == 1 }
+    fun deleteOne(gameId: GameId): Single<Boolean> = gamesDao.deleteOne(gameId).map { it == 1 }
+
+    fun getAll(): Single<List<DBGame>> = gamesDao.getAll()
+
+    fun getOne(gameId: GameId): Single<DBGame> = gamesDao.getOne(gameId)
 }

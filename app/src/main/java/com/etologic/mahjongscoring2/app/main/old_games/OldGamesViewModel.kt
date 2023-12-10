@@ -19,62 +19,49 @@ package com.etologic.mahjongscoring2.app.main.old_games
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.business.model.entities.Table
-import com.etologic.mahjongscoring2.business.model.enums.GameStartType
-import com.etologic.mahjongscoring2.business.model.enums.GameStartType.NEW
-import com.etologic.mahjongscoring2.business.model.enums.GameStartType.RESUME
-import com.etologic.mahjongscoring2.business.use_cases.current_game.SetCurrentGameUseCase
-import com.etologic.mahjongscoring2.business.use_cases.games.CreateGameUseCase
-import com.etologic.mahjongscoring2.business.use_cases.games.DeleteGameUseCase
-import com.etologic.mahjongscoring2.business.use_cases.games.GetGamesUseCase
+import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.use_cases.CreateGameUseCase
+import com.etologic.mahjongscoring2.business.use_cases.DeleteGameUseCase
+import com.etologic.mahjongscoring2.business.use_cases.GetAllGamesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
 class OldGamesViewModel @Inject constructor(
-    private val getGamesUseCase: GetGamesUseCase,
-    private val deleteGameUseCase: DeleteGameUseCase,
+    private val getAllGamesUseCase: GetAllGamesUseCase,
     private val createGameUseCase: CreateGameUseCase,
-    private val setCurrentGameUseCase: SetCurrentGameUseCase
+    private val deleteGameUseCase: DeleteGameUseCase,
 ) : BaseViewModel() {
 
-    private val _allGames = MutableLiveData<List<Table>>()
-    fun getGames(): LiveData<List<Table>> = _allGames
-    private val _startGame = MutableLiveData<GameStartType>()
-    fun getStartGame(): LiveData<GameStartType> = _startGame
-
-    fun deleteGame(gameId: Long) {
-        disposables.add(
-            deleteGameUseCase.deleteGame(gameId)
-                .subscribeOn(Schedulers.io())
-                .subscribe(_allGames::postValue, this::showError)
-        )
-    }
+    private val _allGames = MutableLiveData<List<UIGame>>()
+    fun getGames(): LiveData<List<UIGame>> = _allGames
+    private val _createdGameId = MutableLiveData<GameId>()
+    fun getCreatedGameId(): LiveData<GameId> = _createdGameId
 
     fun getAllGames() {
         disposables.add(
-            getGamesUseCase.getAllWithRounds()
+            getAllGamesUseCase()
                 .subscribeOn(Schedulers.io())
                 .onErrorReturnItem(ArrayList())
                 .subscribe(_allGames::postValue, this::showError)
         )
     }
 
-    fun startGame(gameId: Long) {
+    fun createGame(playersNames: Array<String>) {
         disposables.add(
-            setCurrentGameUseCase.setCurrentGame(gameId)
+            createGameUseCase(playersNames)
                 .subscribeOn(Schedulers.io())
-                .subscribe({ _startGame.postValue(RESUME) }, this::showError)
+                .subscribe(_createdGameId::postValue, this::showError)
         )
     }
 
-    fun startNewGame(defaultNames: Array<String>) {
+    fun deleteGame(gameId: GameId) {
         disposables.add(
-            createGameUseCase.createGame(defaultNames)
+            deleteGameUseCase(gameId)
                 .subscribeOn(Schedulers.io())
-                .flatMap(setCurrentGameUseCase::setCurrentGame)
-                .subscribe({ _startGame.postValue(NEW) }, this::showError)
+                .subscribe(_allGames::postValue, this::showError)
         )
     }
 }

@@ -21,7 +21,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.business.model.enums.GameStartType
+import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.schedulers.Schedulers
@@ -44,11 +44,12 @@ class MainViewModel @Inject constructor(
         CONTACT,
     }
 
+    var activeGameId: GameId? = null
+
     private val currentScreen = MutableLiveData<MainScreens>()
     fun getCurrentScreen(): LiveData<MainScreens> = currentScreen
     private val currentToolbar = MutableLiveData<Toolbar>()
     fun getCurrentToolbar(): LiveData<Toolbar> = currentToolbar
-    var lastGameStartType: GameStartType? = null
 
     fun setToolbar(toolbar: Toolbar) {
         currentToolbar.postValue(toolbar)
