@@ -56,10 +56,8 @@ data class UIGame(
         }
 
         fun Round.setBestHand(bestHand: BestHand) {
-            if (bestHand.handValue >= MIN_MCR_POINTS) {
-                this.isBestHand = this.handPoints >= bestHand.handValue &&
-                        this.winnerInitialSeat == bestHand.playerInitialPosition
-            }
+            this.isBestHand = this.handPoints >= bestHand.handValue &&
+                    this.winnerInitialSeat == bestHand.playerInitialPosition
         }
 
         val bestHand = getBestHand()
@@ -87,22 +85,22 @@ data class UIGame(
 
     fun getPlayersNamesByCurrentSeat(): Array<String> {
         val namesListByCurrentSeat = arrayOf("", "", "", "")
-        val currentRound = rounds.last()
-        namesListByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRound.roundNumber).code] = dbGame.nameP1
-        namesListByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRound.roundNumber).code] = dbGame.nameP2
-        namesListByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRound.roundNumber).code] = dbGame.nameP3
-        namesListByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRound.roundNumber).code] = dbGame.nameP4
+        val currentRoundNumber = rounds.lastOrNull()?.roundNumber ?: 1
+        namesListByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRoundNumber).code] = dbGame.nameP1
+        namesListByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRoundNumber).code] = dbGame.nameP2
+        namesListByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRoundNumber).code] = dbGame.nameP3
+        namesListByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRoundNumber).code] = dbGame.nameP4
         return namesListByCurrentSeat
     }
 
     fun getPlayersTotalPointsByCurrentSeat(): IntArray {
         val points = getPlayersTotalPoints()
         val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
-        val currentRound = rounds.last()
-        pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRound.roundNumber).code] = points[EAST.code]
-        pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRound.roundNumber).code] = points[SOUTH.code]
-        pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRound.roundNumber).code] = points[WEST.code]
-        pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRound.roundNumber).code] = points[NORTH.code]
+        val currentRoundNumber = rounds.lastOrNull()?.roundNumber ?: 1
+        pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRoundNumber).code] = points[EAST.code]
+        pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRoundNumber).code] = points[SOUTH.code]
+        pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRoundNumber).code] = points[WEST.code]
+        pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRoundNumber).code] = points[NORTH.code]
         return pointsByCurrentSeat
     }
 
@@ -118,11 +116,12 @@ data class UIGame(
 
     fun getPlayersPenaltiesByCurrentSeat(): IntArray {
         val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
-        val currentRound = rounds.last()
-        pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRound.roundNumber).code] = currentRound.penaltyP1
-        pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRound.roundNumber).code] = currentRound.penaltyP2
-        pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRound.roundNumber).code] = currentRound.penaltyP3
-        pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRound.roundNumber).code] = currentRound.penaltyP4
+        val currentRound = rounds.lastOrNull()
+        val currentRoundNumber = rounds.lastOrNull()?.roundNumber ?: 1
+        pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRoundNumber).code] = currentRound?.penaltyP1 ?: 0
+        pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRoundNumber).code] = currentRound?.penaltyP2 ?: 0
+        pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRoundNumber).code] = currentRound?.penaltyP3 ?: 0
+        pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRoundNumber).code] = currentRound?.penaltyP4 ?: 0
         return pointsByCurrentSeat
     }
 
@@ -188,14 +187,14 @@ data class UIGame(
     }
 
     fun getEndedRounds(): List<Round> =
-        if (!rounds.last().isEnded) {
+        if (rounds.lastOrNull()?.isEnded == false) {
             rounds.toMutableList().apply { removeAt(rounds.size - 1) }
         } else {
             rounds
         }
 
     fun getPlayerInitialSeatByCurrentSeat(currentSeatPosition: TableWinds): TableWinds {
-        return when (rounds.last().roundNumber) {
+        return when (rounds.lastOrNull()?.roundNumber ?: 1) {
             1, 2, 3, 4 -> getPlayerInitialPositionBySeatInRoundEast(currentSeatPosition)
             5, 6, 7, 8 -> getPlayerInitialPositionBySeatInRoundSouth(currentSeatPosition)
             9, 10, 11, 12 -> getPlayerInitialPositionBySeatInRoundWest(currentSeatPosition)

@@ -106,19 +106,19 @@ class GameTableSeatsFragment : BaseFragment() {
             NORTH -> arrayOf(NORMAL, NORMAL, NORMAL, SELECTED)
         }
 
-    fun setSeats(UIGame: UIGame) {
+    fun setSeats(uiGame: UIGame) {
         selectedPlayer = NONE
-        setStates(getSeatsStates(UIGame))
-        val playersTotalPointsByCurrentSeat = UIGame.getPlayersTotalPointsByCurrentSeat()
+        setStates(getSeatsStates(uiGame))
+        val playersTotalPointsByCurrentSeat = uiGame.getPlayersTotalPointsByCurrentSeat()
         setPoints(playersTotalPointsByCurrentSeat.map { String.format(getDefault(), "%d", it) })
-        setPointsDiffs(UIGame)
-        setWinds(UIGame.getSeatsCurrentWind(UIGame.rounds.size))
-        setNames(UIGame.getPlayersNamesByCurrentSeat())
-        setPenalties(UIGame.getPlayersPenaltiesByCurrentSeat(), UIGame.rounds.last().isEnded)
+        setPointsDiffs(uiGame)
+        setWinds(uiGame.getSeatsCurrentWind(uiGame.rounds.size))
+        setNames(uiGame.getPlayersNamesByCurrentSeat())
+        setPenalties(uiGame.getPlayersPenaltiesByCurrentSeat(), uiGame.rounds.last().isEnded)
     }
 
-    private fun getSeatsStates(UIGame: UIGame): Array<SeatStates> =
-        if (UIGame.rounds.last().isEnded) {
+    private fun getSeatsStates(uiGame: UIGame): Array<SeatStates> =
+        if (uiGame.rounds.lastOrNull()?.isEnded == true) {
             arrayOf(DISABLED, DISABLED, DISABLED, DISABLED)
         } else {
             getSeatsStates()
@@ -172,9 +172,9 @@ class GameTableSeatsFragment : BaseFragment() {
         binding.iGameTableSeatNorth.tvTableSeatNorthPoints.text = points[NORTH.code]
     }
 
-    private fun setPointsDiffs(UIGame: UIGame?) {
+    private fun setPointsDiffs(uiGame: UIGame?) {
         if (activityViewModel.shouldShowDiffs().value != false && !isUserFontTooBig()) {
-            val tableDiffs = UIGame?.getTableDiffs()
+            val tableDiffs = uiGame?.getTableDiffs()
             if (tableDiffs != null) {
                 with(binding.iGameTableSeatEast.iGameTableSeatEastDiffs) {
                     setSeatDiffs(
@@ -306,8 +306,9 @@ class GameTableSeatsFragment : BaseFragment() {
     }
 
     private fun setWind(imageView: ImageView?, icon: Drawable?) {
-        if (imageView?.visibility != VISIBLE)
+        if (imageView?.visibility != VISIBLE) {
             imageView?.visibility = VISIBLE
+        }
         imageView?.setImageDrawable(icon)
     }
 

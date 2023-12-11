@@ -25,6 +25,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.string.player_one
@@ -36,6 +37,7 @@ import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.databinding.MainOldgamesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -47,14 +49,10 @@ class OldGamesFragment : BaseFragment() {
 
     private val activityViewModel: MainViewModel by activityViewModels()
     private val viewModel: OldGamesViewModel by viewModels()
+
     @Inject
     lateinit var rvAdapter: OldGamesRvAdapter
     private lateinit var defaultNames: Array<String>
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.loadGames()
-    }
 
     private var _binding: MainOldgamesFragmentBinding? = null
     private val binding get() = _binding!!
@@ -83,7 +81,6 @@ class OldGamesFragment : BaseFragment() {
                 getString(R.string.player_four)
             )
         setupRecyclerView()
-        setupSwipeRefreshLayout()
         setToolbar()
         setOnClickListeners()
         observeViewModel()
@@ -94,7 +91,6 @@ class OldGamesFragment : BaseFragment() {
         val layoutManager = LinearLayoutManager(context)
         binding.rvOldGames.layoutManager = layoutManager
         rvAdapter.setOldGameItemListener(object : OldGamesRvAdapter.GameItemListener {
-
             override fun onOldGameItemDeleteClicked(gameId: GameId) {
                 AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
                     .setTitle(R.string.delete_game)
@@ -114,31 +110,12 @@ class OldGamesFragment : BaseFragment() {
 
     private fun observeViewModel() {
         viewModel.getError().observe(viewLifecycleOwner) { showError(it) }
-        viewModel.getGames().observe(viewLifecycleOwner) { gamesObserver(it) }
-        viewModel.getCreatedGameId().observe(viewLifecycleOwner) { startGame(it) }
+        lifecycleScope.launch { viewModel.gamesState.collect(::gamesObserver) }
     }
 
     private fun gamesObserver(games: List<UIGame>) {
-        if (games.isEmpty())
-            binding.emptyLayoutOldGames.visibility = VISIBLE
-        else {
-            binding.emptyLayoutOldGames.visibility = GONE
-            rvAdapter.setGames(games)
-            scrollToLastActiveGame(games)
-        }
-    }
-
-    private fun scrollToLastActiveGame(games: List<UIGame>) {
-        if (activityViewModel.activeGameId != null) {
-            val gameIndex = games.indexOfFirst { it.dbGame.gameId == viewModel.getCreatedGameId().value }
-            if (gameIndex >= 0) {
-                binding.rvOldGames.smoothScrollToPosition(
-                    binding.rvOldGames.getChildLayoutPosition(
-                        binding.rvOldGames.getChildAt(gameIndex)
-                    )
-                )
-            }
-        }
+        binding.emptyLayoutOldGames.visibility = if (games.isEmpty()) VISIBLE else GONE
+        rvAdapter.setGames(games)
     }
 
     private fun startGame(gameId: GameId) {
@@ -150,16 +127,9 @@ class OldGamesFragment : BaseFragment() {
         activityViewModel.setToolbar(binding.toolbarOldGames)
     }
 
-    private fun setupSwipeRefreshLayout() {
-        binding.swipeRefreshLayoutOldGames.setOnRefreshListener {
-            viewModel.loadGames()
-            binding.swipeRefreshLayoutOldGames.isRefreshing = false
-        }
-    }
-
     private fun setOnClickListeners() {
         binding.fabOldGames.setOnSecureClickListener {
-            viewModel.createGame(defaultNames)
+            viewModel.createGame(defaultNames) { gameId -> startGame(gameId) }
         }
     }
 }

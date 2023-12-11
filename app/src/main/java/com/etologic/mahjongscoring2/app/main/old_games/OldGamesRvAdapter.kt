@@ -27,9 +27,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.model.GameItemDiffUtilCallback
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
-import com.etologic.mahjongscoring2.app.utils.StringUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MIN_MCR_POINTS
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.databinding.MainOldgameItemBinding
 import java.util.Locale
@@ -114,16 +114,9 @@ class OldGamesRvAdapter
         setBestHand(itemViewHolder, bestHand)
     }
 
-    private fun setBestHand(itemViewHolder: OldGameItemViewHolder, bestHand: BestHand?) {
-        if (bestHand == null || StringUtils.isEmpty(bestHand.playerName) ||
-            bestHand.handValue <= 0
-        ) {
-            itemViewHolder.llBestHandContainer.visibility = GONE
-        } else {
-            itemViewHolder.llBestHandContainer.visibility = VISIBLE
-            itemViewHolder.tvBestHandPlayerName.text = bestHand.playerName
-            itemViewHolder.tvBestHandValue.text = bestHand.handValue.toString()
-        }
+    private fun setBestHand(itemViewHolder: OldGameItemViewHolder, bestHand: BestHand) {
+        itemViewHolder.tvBestHandPlayerName.text = bestHand.playerName.ifEmpty { "-" }
+        itemViewHolder.tvBestHandValue.text = if (bestHand.handValue == 0) "-" else bestHand.handValue.toString()
     }
 
     inner class OldGameItemViewHolder(binding: MainOldgameItemBinding) : RecyclerView.ViewHolder(binding.root) {

@@ -24,10 +24,12 @@ import com.etologic.mahjongscoring2.business.model.entities.Combination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -446,10 +448,10 @@ class CombinationsViewModel @Inject constructor(
 
     private val combinationsFilter: MutableStateFlow<String> = MutableStateFlow("")
 
-    val combinationsState: StateFlow<List<Combination>> =
+    val combinationsState: SharedFlow<List<Combination>> =
         combine(flowOf(combinations), combinationsFilter) { combinations, filter ->
             filterCombinations(combinations, filter)
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+        }.shareIn(viewModelScope, SharingStarted.Lazily)
 
     private fun filterCombinations(
         combinations: Array<Combination>,
@@ -461,6 +463,6 @@ class CombinationsViewModel @Inject constructor(
     }
 
     fun searchCombination(filter: String) {
-        combinationsFilter.value = filter
+        combinationsFilter.tryEmit(filter)
     }
 }

@@ -16,8 +16,6 @@
  */
 package com.etologic.mahjongscoring2.app.main.old_games
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
@@ -28,35 +26,24 @@ import com.etologic.mahjongscoring2.data_source.model.GameId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class OldGamesViewModel @Inject constructor(
-    private val getAllGamesFlowUseCase: GetAllGamesFlowUseCase,
+    getAllGamesFlowUseCase: GetAllGamesFlowUseCase,
     private val createGameUseCase: CreateGameUseCase,
     private val deleteGameUseCase: DeleteGameUseCase,
 ) : BaseViewModel() {
 
-    private val _allGames = MutableLiveData<List<UIGame>>()
-    fun getGames(): LiveData<List<UIGame>> = _allGames
-    private val _createdGameId = MutableLiveData<GameId>()
-    fun getCreatedGameId(): LiveData<GameId> = _createdGameId
+    val gamesState: SharedFlow<List<UIGame>> = getAllGamesFlowUseCase()
+        .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
-    private lateinit var gamesFlow: SharedFlow<List<UIGame>>
-
-    fun loadGames() {
-        gamesFlow = getAllGamesFlowUseCase()
-            .onEach(_allGames::postValue)
-            .shareIn(viewModelScope, SharingStarted.Eagerly)
-    }
-
-    fun createGame(playersNames: Array<String>) {
+    fun createGame(playersNames: Array<String>, successAction: (GameId) -> Unit) {
         viewModelScope.launch {
             createGameUseCase(playersNames)
-                .fold({ _createdGameId.postValue(it) }, { showError(it) })
+                .fold(successAction, ::showError)
         }
     }
 
