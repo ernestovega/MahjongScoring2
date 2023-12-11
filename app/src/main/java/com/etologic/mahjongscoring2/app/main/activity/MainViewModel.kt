@@ -20,11 +20,12 @@ import android.app.Activity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
+import com.etologic.mahjongscoring2.data_source.model.GameId
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -60,10 +61,6 @@ class MainViewModel @Inject constructor(
     }
 
     fun showInAppReviewIfProceed(activity: Activity) {
-        disposables.add(
-            showInAppReviewUseCase(activity)
-                .subscribeOn(Schedulers.io())
-                .subscribe({}, {})
-        )
+        viewModelScope.launch { showInAppReviewUseCase(activity) }
     }
 }

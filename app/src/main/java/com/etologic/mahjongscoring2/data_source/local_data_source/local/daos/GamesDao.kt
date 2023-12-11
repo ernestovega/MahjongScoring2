@@ -20,24 +20,24 @@ import android.database.sqlite.SQLiteConstraintException
 import androidx.room.*
 import com.etologic.mahjongscoring2.data_source.model.DBGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GamesDao {
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
-    @Throws(SQLiteConstraintException::class)
-    fun insertOne(dbGame: DBGame): Single<Long>
-
-    @Update
-    fun updateOne(dbGame: DBGame): Single<Int>
-
-    @Query("DELETE FROM Games WHERE gameId = :gameId")
-    fun deleteOne(gameId: GameId): Single<Int>
-
     @Query("SELECT * from Games ORDER BY startDate DESC")
-    fun getAll(): Single<List<DBGame>>
+    fun getAll(): Flow<List<DBGame>>
 
     @Query("SELECT * from Games WHERE gameId = :gameId")
-    fun getOne(gameId: GameId): Single<DBGame>
+    fun getOne(gameId: GameId): Flow<DBGame>
+
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Throws(SQLiteConstraintException::class)
+    suspend fun insertOne(dbGame: DBGame): GameId
+
+    @Update
+    suspend fun updateOne(dbGame: DBGame): Int
+
+    @Query("DELETE FROM Games WHERE gameId = :gameId")
+    suspend fun deleteOne(gameId: GameId): Int
 }

@@ -17,23 +17,16 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.data_source.model.DBGame
-import com.etologic.mahjongscoring2.data_source.model.GameId
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
-import io.reactivex.Single
 import javax.inject.Inject
 
 class SavePlayersNamesUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
-    private val getGameUseCase: GetGameUseCase,
 ) {
-    operator fun invoke(gameId: GameId, names: Array<String>): Single<UIGame> =
-        gamesRepository.getOne(gameId)
-            .flatMap { dbGame ->
-                dbGame.updateNames(names)
-                gamesRepository.updateOne(dbGame)
-                    .flatMap { getGameUseCase(gameId) }
-            }
+    suspend operator fun invoke(dbGame: DBGame, names: Array<String>): Result<Boolean> {
+        dbGame.updateNames(names)
+        return gamesRepository.updateOne(dbGame)
+    }
 
     private fun DBGame.updateNames(names: Array<String>) {
         this.nameP1 = names[0]

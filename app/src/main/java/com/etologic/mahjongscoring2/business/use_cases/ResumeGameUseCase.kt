@@ -16,23 +16,19 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MAX_MCR_ROUNDS
+import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import io.reactivex.Single
 import javax.inject.Inject
 
 class ResumeGameUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
-    private val getGameUseCase: GetGameUseCase,
 ) {
-    operator fun invoke(gameId: GameId, gameRoundsNumber: Int): Single<UIGame> =
+    suspend operator fun invoke(gameId: GameId, gameRoundsNumber: Int): Result<Boolean> =
         if (gameRoundsNumber < MAX_MCR_ROUNDS) {
             roundsRepository.insertOne(Round(gameId))
-                .flatMap { getGameUseCase(gameId) }
         } else {
-            getGameUseCase(gameId)
+            Result.success(false)
         }
 }

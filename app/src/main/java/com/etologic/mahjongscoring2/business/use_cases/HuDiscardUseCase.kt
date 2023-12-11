@@ -17,27 +17,22 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
-import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.business.model.entities.applyPenaltiesAndMarkRoundAsEnded
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import io.reactivex.Single
 import javax.inject.Inject
 
 class HuDiscardUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
     private val resumeGameUseCase: ResumeGameUseCase,
 ) {
-    operator fun invoke(gameId: GameId, huData: HuData): Single<UIGame> =
-        roundsRepository.getAllByGame(gameId)
-            .flatMap { gameRounds ->
-                val currentRound = gameRounds.last()
-                currentRound.finishRoundByHuDiscard(huData)
-                roundsRepository.updateOne(currentRound)
-                    .flatMap { resumeGameUseCase(gameId, gameRounds.size) }
-            }
+    suspend operator fun invoke(round: Round, huData: HuData): Result<Boolean> {
+        round.finishRoundByHuDiscard(huData)
+        return roundsRepository.updateOne(round)
+            .also { resumeGameUseCase(round.gameId, round.roundNumber) }
+    }
 
     private fun Round.finishRoundByHuDiscard(huData: HuData) {
         this.winnerInitialSeat = huData.winnerInitialSeat

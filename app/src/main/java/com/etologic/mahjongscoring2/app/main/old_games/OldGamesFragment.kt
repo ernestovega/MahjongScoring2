@@ -32,8 +32,8 @@ import com.etologic.mahjongscoring2.app.base.BaseFragment
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
-import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.databinding.MainOldgamesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -53,7 +53,7 @@ class OldGamesFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getAllGames()
+        viewModel.loadGames()
     }
 
     private var _binding: MainOldgamesFragmentBinding? = null
@@ -152,7 +152,7 @@ class OldGamesFragment : BaseFragment() {
 
     private fun setupSwipeRefreshLayout() {
         binding.swipeRefreshLayoutOldGames.setOnRefreshListener {
-            viewModel.getAllGames()
+            viewModel.loadGames()
             binding.swipeRefreshLayoutOldGames.isRefreshing = false
         }
     }

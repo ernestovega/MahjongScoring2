@@ -20,18 +20,19 @@ import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
-class GetGameUseCase @Inject constructor(
+class GetOneGameFlowUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
     private val roundsRepository: RoundsRepository,
 ) {
-    operator fun invoke(gameId: GameId): Single<UIGame> =
-        Single.zip(
-            gamesRepository.getOne(gameId),
+    operator fun invoke(gameId: GameId): Flow<UIGame> =
+        combine(
+            gamesRepository.getOneFlow(gameId),
             roundsRepository.getAllByGame(gameId),
-        ) { dbGame, dbRounds ->
-            UIGame(dbGame, dbRounds)
+        ) { dbGame, rounds ->
+            UIGame(dbGame, rounds)
         }
 }

@@ -19,19 +19,20 @@ package com.etologic.mahjongscoring2.business.use_cases
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
-class GetAllGamesUseCase @Inject constructor(
+class GetAllGamesFlowUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
     private val roundsRepository: RoundsRepository,
 ) {
-    operator fun invoke(): Single<List<UIGame>> =
-        Single.zip(
-            gamesRepository.getAll(),
-            roundsRepository.getAll(),
-        ) { games, rounds ->
-            games.map { game ->
+    operator fun invoke(): Flow<List<UIGame>> =
+        combine(
+            gamesRepository.getAllFlow(),
+            roundsRepository.getAllFlow(),
+        ) { dbGames, rounds ->
+            dbGames.map { game ->
                 val gameRounds = rounds.filter { round -> round.gameId == game.gameId }
                 UIGame(game, gameRounds)
             }

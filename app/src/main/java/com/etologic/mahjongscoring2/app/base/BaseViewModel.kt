@@ -20,11 +20,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.etologic.mahjongscoring2.BuildConfig
-import io.reactivex.disposables.CompositeDisposable
 
 open class BaseViewModel : ViewModel() {
-
-    protected var disposables = CompositeDisposable()
 
     private var error = MutableLiveData<Throwable>()
     fun getError(): LiveData<Throwable> = error
@@ -32,10 +29,5 @@ open class BaseViewModel : ViewModel() {
     fun showError(throwable: Throwable) {
         error.postValue(throwable)
         if (BuildConfig.DEBUG) { throwable.printStackTrace() }
-    }
-
-    override fun onCleared() {
-        if (!disposables.isDisposed) { disposables.dispose() }
-        super.onCleared()
     }
 }

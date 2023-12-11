@@ -17,19 +17,15 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.data_source.model.GameId
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import io.reactivex.Single
 import javax.inject.Inject
 
 class DeleteGameUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
     private val roundsRepository: RoundsRepository,
-    private val getAllGamesUseCase: GetAllGamesUseCase,
 ) {
-    operator fun invoke(gameId: GameId): Single<List<UIGame>> =
+    suspend operator fun invoke(gameId: GameId): Result<Boolean> =
         roundsRepository.deleteByGame(gameId)
-            .flatMap { gamesRepository.deleteOne(gameId) }
-            .flatMap { getAllGamesUseCase() }
+            .let { gamesRepository.deleteOne(gameId) }
 }

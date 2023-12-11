@@ -19,28 +19,23 @@ package com.etologic.mahjongscoring2.business.use_cases
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.business.model.entities.areTherePenalties
-import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import io.reactivex.Single
 import javax.inject.Inject
 
 class EndGameUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
-    private val getGameUseCase: GetGameUseCase,
     private val drawUseCase: DrawUseCase,
 ) {
-    operator fun invoke(gameId: GameId): Single<UIGame> =
-        roundsRepository.getAllByGame(gameId)
-            .flatMap { gameRounds ->
-                if (gameRounds.last().areTherePenalties()) {
-                    drawUseCase(gameId)
-                } else if (gameRounds.size == 1) {
-                    roundsRepository.insertOne(Round(gameId))
-                        .flatMap { getGameUseCase(gameId) }
-                } else {
-                    getGameUseCase(gameId)
-                }
+    suspend operator fun invoke(uiGame: UIGame): Result<Boolean> =
+        uiGame.rounds.last().let { lastRound ->
+            if (lastRound.areTherePenalties()) {
+                drawUseCase(lastRound)
+            } else if (uiGame.rounds.size == 1) {
+                roundsRepository.insertOne(Round(uiGame.dbGame.gameId))
+            } else {
+                Result.success(true)
+            }.let {
+                roundsRepository.deleteOne(uiGame.dbGame.gameId, lastRound.roundId)
             }
-            .flatMap { game -> roundsRepository.deleteOne(gameId, game.rounds.last().roundId) }
-            .flatMap { getGameUseCase(gameId) }
+        }
 }

@@ -21,22 +21,24 @@ import android.app.Activity
 import android.util.Log
 import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.data_source.repositories.InAppReviewRepository
-import io.reactivex.Single
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class ShowInAppReviewUseCase @Inject constructor(
     private val inAppReviewRepository: InAppReviewRepository
 ) {
-    operator fun invoke(activity: Activity): Single<Boolean> =
+    suspend operator fun invoke(activity: Activity) {
         inAppReviewRepository.requestLaunch(activity)
-            .doOnSuccess {
+            .onEach { reviewInfo ->
                 if (BuildConfig.DEBUG) {
-                    Log.d("ShowInAppReviewUseCase", "Successful InAppReview request")
+                    if (reviewInfo != null) {
+                        Log.d("ShowInAppReviewUseCase", "Successful InAppReview request")
+                    } else {
+                        Log.e("ShowInAppReviewUseCase", null, Exception("In-App Review not launched"))
+                    }
                 }
             }
-            .doOnError {
-                if (BuildConfig.DEBUG) {
-                    Log.e("ShowInAppReviewUseCase", null, it)
-                }
-            }
+            .first()
+    }
 }

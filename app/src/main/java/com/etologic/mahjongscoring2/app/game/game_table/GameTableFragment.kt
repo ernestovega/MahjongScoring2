@@ -104,7 +104,7 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
         initTableSeats()
         setOnClickListeners()
         startObservingTable()
-        activityViewModel.loadTable()
+        activityViewModel.loadGame()
     }
 
     private fun initResources() {

@@ -17,7 +17,6 @@
 package com.etologic.mahjongscoring2.business.model.entities
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 
 data class Combination(
     val combinationPoints: Int,

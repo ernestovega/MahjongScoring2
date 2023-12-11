@@ -16,10 +16,10 @@
  */
 package com.etologic.mahjongscoring2.data_source.repositories
 
+import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.GamesDao
 import com.etologic.mahjongscoring2.data_source.model.DBGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
-import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.GamesDao
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,13 +28,13 @@ class GamesRepository
 @Inject constructor(
     private var gamesDao: GamesDao,
 ) {
-    fun insertOne(dbGame: DBGame): Single<GameId> = gamesDao.insertOne(dbGame)
+    fun getAllFlow(): Flow<List<DBGame>> = gamesDao.getAll()
 
-    fun updateOne(dbGame: DBGame): Single<Boolean> = gamesDao.updateOne(dbGame).map { it == 1 }
+    fun getOneFlow(gameId: GameId): Flow<DBGame> = gamesDao.getOne(gameId)
 
-    fun deleteOne(gameId: GameId): Single<Boolean> = gamesDao.deleteOne(gameId).map { it == 1 }
+    suspend fun insertOne(dbGame: DBGame): Result<GameId> = runCatching { gamesDao.insertOne(dbGame) }
 
-    fun getAll(): Single<List<DBGame>> = gamesDao.getAll()
+    suspend fun updateOne(dbGame: DBGame): Result<Boolean> = runCatching { gamesDao.updateOne(dbGame) == 1 }
 
-    fun getOne(gameId: GameId): Single<DBGame> = gamesDao.getOne(gameId)
+    suspend fun deleteOne(gameId: GameId): Result<Boolean> = runCatching { gamesDao.deleteOne(gameId) == 1 }
 }

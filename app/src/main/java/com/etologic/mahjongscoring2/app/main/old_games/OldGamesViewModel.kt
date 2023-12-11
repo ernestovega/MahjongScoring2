@@ -18,19 +18,24 @@ package com.etologic.mahjongscoring2.app.main.old_games
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.business.use_cases.CreateGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.DeleteGameUseCase
-import com.etologic.mahjongscoring2.business.use_cases.GetAllGamesUseCase
+import com.etologic.mahjongscoring2.business.use_cases.GetAllGamesFlowUseCase
+import com.etologic.mahjongscoring2.data_source.model.GameId
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class OldGamesViewModel @Inject constructor(
-    private val getAllGamesUseCase: GetAllGamesUseCase,
+    private val getAllGamesFlowUseCase: GetAllGamesFlowUseCase,
     private val createGameUseCase: CreateGameUseCase,
     private val deleteGameUseCase: DeleteGameUseCase,
 ) : BaseViewModel() {
@@ -40,28 +45,25 @@ class OldGamesViewModel @Inject constructor(
     private val _createdGameId = MutableLiveData<GameId>()
     fun getCreatedGameId(): LiveData<GameId> = _createdGameId
 
-    fun getAllGames() {
-        disposables.add(
-            getAllGamesUseCase()
-                .subscribeOn(Schedulers.io())
-                .onErrorReturnItem(ArrayList())
-                .subscribe(_allGames::postValue, this::showError)
-        )
+    private lateinit var gamesFlow: SharedFlow<List<UIGame>>
+
+    fun loadGames() {
+        gamesFlow = getAllGamesFlowUseCase()
+            .onEach(_allGames::postValue)
+            .shareIn(viewModelScope, SharingStarted.Eagerly)
     }
 
     fun createGame(playersNames: Array<String>) {
-        disposables.add(
+        viewModelScope.launch {
             createGameUseCase(playersNames)
-                .subscribeOn(Schedulers.io())
-                .subscribe(_createdGameId::postValue, this::showError)
-        )
+                .fold({ _createdGameId.postValue(it) }, { showError(it) })
+        }
     }
 
     fun deleteGame(gameId: GameId) {
-        disposables.add(
+        viewModelScope.launch {
             deleteGameUseCase(gameId)
-                .subscribeOn(Schedulers.io())
-                .subscribe(_allGames::postValue, this::showError)
-        )
+                .onFailure { showError(it) }
+        }
     }
 }

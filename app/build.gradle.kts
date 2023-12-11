@@ -17,7 +17,6 @@ android {
         versionCode = 6
         versionName = "2.1.1"
 
-
         ksp {
             arg("correctErrorTypes", "true")
             arg("room.schemaLocation", "$projectDir/schemas")
@@ -53,25 +52,9 @@ android {
         buildConfig = true
         viewBinding = true
     }
-
-    packaging {
-        resources.excludes.add("META-INF/rxjava.properties")
-    }
 }
 
 dependencies {
-    //HILT
-    implementation(libs.hilt.android)
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
-    ksp(libs.hilt.android.compiler)
-    androidTestImplementation(libs.hilt.android.testing)
-    kspAndroidTest(libs.hilt.android.compiler)
-
-    //MATERIAL
-    implementation(libs.material)
-
-    //ANDROIDX
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.browser)
@@ -87,25 +70,20 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.room.ktx)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-
-    //ROOM
-    ksp(libs.androidx.room.compiler) //TODO: delete when fully migrated to coroutines
-    implementation(libs.androidx.room.rxjava2) //TODO: delete when fully migrated to coroutines
-
-    //RXJAVA
-    implementation(libs.rxandroid) //TODO: delete when fully migrated to coroutines
-    implementation(libs.rxjava) //TODO: delete when fully migrated to coroutines
-    //TODO: Remove also dependencies for LiveData
-
-    //IN-APP REVIEW
+    implementation(libs.hilt.android)
+    implementation(libs.material)
     implementation(libs.review.ktx)
 
-    //JUNIT
+    ksp(libs.androidx.room.compiler)
+    ksp(libs.hilt.android.compiler)
+
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.hilt.android.testing)
+
+    kspAndroidTest(libs.hilt.android.compiler)
+
     testImplementation(libs.junit)
     testImplementation(libs.junit.jupiter)
-
-    //TRUTH
     testImplementation(libs.truth)
 }

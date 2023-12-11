@@ -16,28 +16,14 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.data_source.model.GameId
-import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.RoundId
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import io.reactivex.Single
 import javax.inject.Inject
 
 class RemoveRoundUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
-    private val getGameUseCase: GetGameUseCase,
 ) {
-    operator fun invoke(gameId: GameId, roundId: RoundId): Single<UIGame> =
-        roundsRepository.getAllByGame(gameId)
-            .flatMap { currentRounds ->
-                if (currentRounds.last().isEnded) {
-                    roundsRepository.insertOne(Round(gameId))
-                        .flatMap { getGameUseCase(gameId) }
-                } else {
-                    getGameUseCase(gameId)
-                }
-            }
-            .flatMap { roundsRepository.deleteOne(gameId, roundId) }
-            .flatMap { getGameUseCase(gameId) }
+    suspend operator fun invoke(gameId: GameId, roundId: RoundId): Result<Boolean> =
+        roundsRepository.deleteOne(gameId, roundId)
 }

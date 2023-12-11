@@ -16,21 +16,18 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.data_source.model.DBGame
 import com.etologic.mahjongscoring2.business.model.entities.Round
+import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import io.reactivex.Single
 import javax.inject.Inject
 
 class CreateGameUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
     private val roundsRepository: RoundsRepository
 ) {
-    operator fun invoke(defaultNames: Array<String>): Single<Long> =
+    suspend operator fun invoke(defaultNames: Array<String>): Result<GameId> =
         gamesRepository.insertOne(DBGame(defaultNames))
-            .flatMap { gameId ->
-                roundsRepository.insertOne(Round(gameId))
-                    .map { gameId }
-            }
+            .onSuccess { gameId -> roundsRepository.insertOne(Round(gameId)) }
 }

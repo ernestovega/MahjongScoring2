@@ -18,33 +18,33 @@ package com.etologic.mahjongscoring2.data_source.local_data_source.local.daos
 
 import android.database.sqlite.SQLiteConstraintException
 import androidx.room.*
-import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.RoundId
-import io.reactivex.Single
+import com.etologic.mahjongscoring2.data_source.model.GameId
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RoundsDao {
 
     @Query("SELECT * FROM Rounds")
-    fun getAll(): Single<List<Round>>
+    fun getAll(): Flow<List<Round>>
+
+    @Query("SELECT * FROM Rounds WHERE gameId = :gameId")
+    fun getGameRounds(gameId: GameId): Flow<List<Round>>
+
+    @Query("SELECT * FROM Rounds WHERE gameId = :gameId AND roundId = :roundId")
+    fun getOne(gameId: GameId, roundId: RoundId): Round
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     @Throws(SQLiteConstraintException::class)
-    fun insertOne(round: Round): Single<Long>
-
-    @Query("SELECT * FROM Rounds WHERE gameId = :gameId")
-    fun getGameRounds(gameId: GameId): Single<List<Round>>
+    suspend fun insertOne(round: Round): RoundId
 
     @Update
-    fun updateOne(round: Round): Single<Int>
-
-    @Query("DELETE FROM Rounds WHERE gameId = :gameId AND roundId = :roundId")
-    fun deleteOne(gameId: GameId, roundId: RoundId): Single<Int>
+    suspend fun updateOne(round: Round): Int
 
     @Query("DELETE FROM Rounds WHERE gameId = :gameId")
-    fun deleteGameRounds(gameId: GameId): Single<Int>
+    suspend fun deleteGameRounds(gameId: GameId): Int
 
-    @Query("DELETE FROM Rounds")
-    fun deleteAll(): Single<Int>
+    @Query("DELETE FROM Rounds WHERE gameId = :gameId AND roundId = :roundId")
+    suspend fun deleteOne(gameId: GameId, roundId: RoundId): Int
 }

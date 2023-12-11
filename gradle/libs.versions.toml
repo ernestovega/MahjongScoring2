@@ -1,5 +1,5 @@
 [versions]
-agp = "8.1.4"
+agp = "8.2.0"
 androidx-annotation = "1.7.0"
 androidx-appcompat = "1.6.1"
 androidx-browser = "1.7.0"
@@ -14,17 +14,15 @@ androidx-lifecycle-viewmodel-ktx = "2.6.2"
 androidx-navigation-fragment-ktx = "2.7.5"
 androidx-navigation-runtime-ktx = "2.7.5"
 androidx-recyclerview = "1.3.1"
-androidx-room = "2.6.0"
+androidx-room = "2.6.1"
 androidx-test-ext-junit = "1.1.5"
 hilt = "2.48.1"
 junit = "4.13.2"
 junit-jupiter = "5.10.1"
-kotlin-android = "1.9.20"
+kotlin-android = "1.9.21"
 ksp = "1.9.20-1.0.13"
 material = "1.10.0"
 review-ktx = "2.0.1"
-rxandroid = "2.1.1" #TODO: delete when fully migrated to coroutines
-rxjava = "2.2.21" #TODO: delete when fully migrated to coroutines
 truth = "1.1.5"
 
 [libraries]
@@ -37,7 +35,6 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment-ktx" }
 androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "androidx-legacy-support-v4" }
-androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "androidx-lifecycle-livedata-ktx" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-livedata-ktx" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle-viewmodel-ktx" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidx-navigation-fragment-ktx" }
@@ -46,7 +43,6 @@ androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx",
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recyclerview" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
-androidx-room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "androidx-room" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
@@ -55,8 +51,6 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "review-ktx" }
-rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxandroid" } #TODO: delete when fully migrated to coroutines
-rxjava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava" } #TODO: delete when fully migrated to coroutines
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [plugins]
@@ -66,4 +60,3 @@ com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" 
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
 
 [bundles]
-

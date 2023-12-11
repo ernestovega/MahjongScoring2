@@ -17,26 +17,19 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
-import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import io.reactivex.Single
 import javax.inject.Inject
 
 class SetPenaltyUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
-    private val getGameUseCase: GetGameUseCase,
 ) {
-    operator fun invoke(gameId: GameId, penaltyData: PenaltyData): Single<UIGame> =
-        roundsRepository.getAllByGame(gameId)
-            .flatMap { gameRounds ->
-                val currentRound = gameRounds.last()
-                currentRound.updatePenalties(penaltyData)
-                roundsRepository.updateOne(currentRound)
-                    .flatMap { getGameUseCase(gameId) }
-            }
+    suspend operator fun invoke(round: Round, penaltyData: PenaltyData): Result<Boolean> {
+        round.updatePenalties(penaltyData)
+        return roundsRepository.updateOne(round)
+    }
 
     private fun Round.updatePenalties(penaltyData: PenaltyData) {
         if (penaltyData.isDivided) {

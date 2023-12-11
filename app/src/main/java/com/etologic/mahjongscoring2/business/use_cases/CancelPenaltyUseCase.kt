@@ -16,25 +16,17 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import io.reactivex.Single
 import javax.inject.Inject
 
 class CancelPenaltyUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
-    private val getGameUseCase: GetGameUseCase,
 ) {
-    operator fun invoke(gameId: GameId): Single<UIGame> =
-        roundsRepository.getAllByGame(gameId)
-            .flatMap { gameRounds ->
-                val currentRound = gameRounds.last()
-                currentRound.cancelAllPlayersPenalties()
-                roundsRepository.updateOne(currentRound)
-                    .flatMap { getGameUseCase(gameId) }
-            }
+    suspend operator fun invoke(round: Round): Result<Boolean> {
+        round.cancelAllPlayersPenalties()
+        return roundsRepository.updateOne(round)
+    }
 
     private fun Round.cancelAllPlayersPenalties() {
         this.penaltyP1 = 0
