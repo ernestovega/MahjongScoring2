@@ -17,17 +17,21 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.entities.applyPenaltiesAndMarkRoundAsEnded
+import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
+import java.util.Date
 import javax.inject.Inject
 
-class DrawUseCase @Inject constructor(
+class EndRoundUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
-    private val resumeGameUseCase: ResumeGameUseCase,
+    private val endGameUseCase: EndGameUseCase,
 ) {
-    suspend operator fun invoke(round: Round): Result<Boolean> {
-        round.applyPenaltiesAndMarkRoundAsEnded()
-        return roundsRepository.updateOne(round)
-            .also { resumeGameUseCase(round.gameId, round.roundNumber) }
-    }
+    suspend operator fun invoke(uiGame: UIGame): Result<Boolean> =
+        if (uiGame.rounds.size < UIGame.MAX_MCR_ROUNDS) {
+            roundsRepository.insertOne(Round(uiGame.dbGame.gameId))
+        } else {
+            endGameUseCase(uiGame)
+        }
 }

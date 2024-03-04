@@ -22,6 +22,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
@@ -40,15 +41,19 @@ import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MAX
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
+import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.databinding.GameActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class GameActivity : BaseActivity() {
 
     companion object {
         private const val OFFSCREEN_PAGE_LIMIT = 1
-        const val KEY_ACTIVE_GAME_ID = "active_game_id"
+        const val KEY_GAME_ID = "game_id"
     }
 
     private var orientationDownDrawable: Drawable? = null
@@ -63,7 +68,11 @@ class GameActivity : BaseActivity() {
 
     private lateinit var binding: GameActivityBinding
 
-    private val viewModel: GameViewModel by viewModels()
+    @Inject
+    lateinit var gameViewModelFactory: GameViewModel.Factory
+    private val viewModel by viewModels<GameViewModel> {
+        GameViewModel.provideFactory(gameViewModelFactory, intent.extras?.getLong(KEY_GAME_ID, -1) as GameId)
+    }
 
     override val onBackBehaviour = {
         if (binding.viewPagerGame.currentItem == LIST.code) {
@@ -148,9 +157,6 @@ class GameActivity : BaseActivity() {
 
         orientationDownDrawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_rotation_down)
         orientationOutDrawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_rotation_out)
-
-        intent.extras?.getLong(KEY_ACTIVE_GAME_ID)?.let { viewModel.activeGameId = it }
-            ?: viewModel.showError(IllegalArgumentException("GameId cannot be null"))
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -170,22 +176,26 @@ class GameActivity : BaseActivity() {
     private fun observeViewModel() {
         viewModel.getError().observe(this) { showError(it) }
         viewModel.getCurrentScreen().observe(this) { GameNavigator.navigateTo(it, this, viewModel) }
-        viewModel.getPageToShow().observe(this) { it?.first?.code?.let { pageIndex -> binding.viewPagerGame.currentItem = pageIndex } }
-        viewModel.getActiveGame().observe(this) { currentRoundObserver(it) }
+        viewModel.getPageToShow()
+            .observe(this) { it?.first?.code?.let { pageIndex -> binding.viewPagerGame.currentItem = pageIndex } }
         viewModel.getSeatsOrientation().observe(this) { updateSeatsOrientationIcon(it) }
         viewModel.shouldShowDiffs().observe(this) { toggleDiffs(it) }
+
+        lifecycleScope.launch { viewModel.gameFlow.collect(::gameObserver) }
     }
 
-    private fun currentRoundObserver(currentUIGame: UIGame) {
-        val currentRound = currentUIGame.rounds.last()
+    private fun gameObserver(uiGame: UIGame) {
+        val isGameEnded = uiGame.dbGame.isEnded
 
-        shouldBeShownResumeButton = if (currentRound.isEnded) currentUIGame.rounds.size < MAX_MCR_ROUNDS else false
-        shouldBeShownEndButton = !currentRound.isEnded && currentUIGame.rounds.size > 1
+        shouldBeShownResumeButton = isGameEnded && uiGame.rounds.size < MAX_MCR_ROUNDS
+        shouldBeShownEndButton = isGameEnded.not() && uiGame.rounds.size > 1
 
         resumeGameItem?.isVisible = shouldBeShownResumeButton
         endGameItem?.isVisible = shouldBeShownEndButton
 
-        if (currentRound.isEnded) viewModel.navigateTo(RANKING)
+        if (isGameEnded) {
+            viewModel.navigateTo(RANKING)
+        }
     }
 
     private fun updateSeatsOrientationIcon(seatOrientation: SeatOrientation) {

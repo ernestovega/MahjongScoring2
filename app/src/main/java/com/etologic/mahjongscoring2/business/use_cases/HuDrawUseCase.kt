@@ -17,27 +17,15 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
-import com.etologic.mahjongscoring2.data_source.model.GameId
-import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
+import com.etologic.mahjongscoring2.business.model.entities.applyPenalties
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
-class GetOneGameFlowUseCase @Inject constructor(
-    private val gamesRepository: GamesRepository,
+class HuDrawUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
+    private val endRoundUseCase: EndRoundUseCase,
 ) {
-    operator fun invoke(gameId: GameId): Flow<UIGame> =
-        combine(
-            gamesRepository.getOneFlow(gameId),
-            roundsRepository.getAllByGame(gameId),
-        ) { dbGame, rounds ->
-            if (rounds.isEmpty()) {
-                null
-            } else {
-                UIGame(dbGame, rounds)
-            }
-        }.mapNotNull { it }
+    suspend operator fun invoke(uiGame: UIGame): Result<Boolean> =
+        roundsRepository.updateOne(uiGame.currentRound.applyPenalties())
+            .onSuccess { endRoundUseCase(uiGame) }
 }

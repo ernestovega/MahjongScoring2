@@ -92,20 +92,20 @@ class HuDialogFragment : AppCompatDialogFragment() {
     }
 
     private fun initViews() {
-        val playersNamesByCurrentSeat = activityViewModel.getActiveGame().value?.getPlayersNamesByCurrentSeat()
+        val playersNamesByCurrentSeat = activityViewModel.game.getPlayersNamesByCurrentSeat()
         val winnerSeat = activityViewModel.getSelectedSeat().value ?: NONE
         val looser1Seat = TableWinds.asArray[(if (winnerSeat == EAST) SOUTH else EAST).code]
         val looser2Seat = TableWinds.asArray[(if (winnerSeat in listOf(EAST, SOUTH)) WEST else SOUTH).code]
         val looser3Seat = TableWinds.asArray[(if (winnerSeat in listOf(EAST, SOUTH, WEST)) NORTH else WEST).code]
 
         binding.iGameHuDialogWinnerContainer.ivTableSeatMediumSeatWind.setImageDrawable(getWindIcon(winnerSeat))
-        binding.iGameHuDialogWinnerContainer.tvTableSeatMediumName.text = winnerSeat.code.let { playersNamesByCurrentSeat?.get(it) ?: "" }
+        binding.iGameHuDialogWinnerContainer.tvTableSeatMediumName.text = playersNamesByCurrentSeat[winnerSeat.code]
 
         binding.cdsGameHuDialog.initPlayers(
             listOf(
-                Seat(name = playersNamesByCurrentSeat?.get(looser1Seat.code) ?: "", seatWind = looser1Seat),
-                Seat(name = playersNamesByCurrentSeat?.get(looser2Seat.code) ?: "", seatWind = looser2Seat),
-                Seat(name = playersNamesByCurrentSeat?.get(looser3Seat.code) ?: "", seatWind = looser3Seat),
+                Seat(name = playersNamesByCurrentSeat[looser1Seat.code], seatWind = looser1Seat),
+                Seat(name = playersNamesByCurrentSeat[looser2Seat.code], seatWind = looser2Seat),
+                Seat(name = playersNamesByCurrentSeat[looser3Seat.code], seatWind = looser3Seat),
             )
         )
     }

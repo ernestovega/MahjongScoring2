@@ -34,7 +34,7 @@ import com.etologic.mahjongscoring2.app.extensions.toStringOrHyphen
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HU
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PENALTY
-import com.etologic.mahjongscoring2.business.model.entities.areTherePenalties
+import com.etologic.mahjongscoring2.business.model.entities.areThereNotAppliedPenalties
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.databinding.GameActionDialogFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -98,36 +98,33 @@ class ActionDialogFragment : AppCompatDialogFragment() {
             }
         )
         binding.tvHandActionsDialogPlayerName.text = selectedSeat?.code?.let { windCode ->
-            activityViewModel.getActiveGame().value?.getPlayersNamesByCurrentSeat()?.get(windCode) ?: ""
+            activityViewModel.game.getPlayersNamesByCurrentSeat()[windCode]
         } ?: ""
         selectedSeat?.let { setPlayerDiffs(it) }
     }
 
     private fun setPlayerDiffs(playerSeat: TableWinds) {
         with(binding) {
-            val playerDiffs = activityViewModel.getActiveGame().value?.getTableDiffs()?.seatsDiffs?.get(playerSeat.code)
+            val playerDiffs = activityViewModel.game.getTableDiffs().seatsDiffs[playerSeat.code]
             with(iHandActionsDialogDiffs) {
-                val pointsToBeFirst = playerDiffs?.pointsToBeFirst
-                tvActionDialogDiffsFirstSelfPick.text = pointsToBeFirst?.bySelfPick.toStringOrHyphen()
-                tvActionDialogDiffsFirstDirectHu.text = pointsToBeFirst?.byDirectHu.toStringOrHyphen()
-                tvActionDialogDiffsFirstIndirectHu.text = pointsToBeFirst?.byIndirectHu.toStringOrHyphen()
+                tvActionDialogDiffsFirstSelfPick.text = playerDiffs.pointsToBeFirst?.bySelfPick.toStringOrHyphen()
+                tvActionDialogDiffsFirstDirectHu.text = playerDiffs.pointsToBeFirst?.byDirectHu.toStringOrHyphen()
+                tvActionDialogDiffsFirstIndirectHu.text = playerDiffs.pointsToBeFirst?.byIndirectHu.toStringOrHyphen()
 
-                val pointsToBeSecond = playerDiffs?.pointsToBeSecond
-                tvActionDialogDiffsSecondSelfPick.text = pointsToBeSecond?.bySelfPick.toStringOrHyphen()
-                tvActionDialogDiffsSecondDirectHu.text = pointsToBeSecond?.byDirectHu.toStringOrHyphen()
-                tvActionDialogDiffsSecondIndirectHu.text = pointsToBeSecond?.byIndirectHu.toStringOrHyphen()
+                tvActionDialogDiffsSecondSelfPick.text = playerDiffs.pointsToBeSecond?.bySelfPick.toStringOrHyphen()
+                tvActionDialogDiffsSecondDirectHu.text = playerDiffs.pointsToBeSecond?.byDirectHu.toStringOrHyphen()
+                tvActionDialogDiffsSecondIndirectHu.text = playerDiffs.pointsToBeSecond?.byIndirectHu.toStringOrHyphen()
 
-                val pointsToBeThird = playerDiffs?.pointsToBeThird
-                tvActionDialogDiffsThirdSelfPick.text = pointsToBeThird?.bySelfPick.toStringOrHyphen()
-                tvActionDialogDiffsThirdDirectHu.text = pointsToBeThird?.byDirectHu.toStringOrHyphen()
-                tvActionDialogDiffsThirdIndirectHu.text = pointsToBeThird?.byIndirectHu.toStringOrHyphen()
+                tvActionDialogDiffsThirdSelfPick.text = playerDiffs.pointsToBeThird?.bySelfPick.toStringOrHyphen()
+                tvActionDialogDiffsThirdDirectHu.text = playerDiffs.pointsToBeThird?.byDirectHu.toStringOrHyphen()
+                tvActionDialogDiffsThirdIndirectHu.text = playerDiffs.pointsToBeThird?.byIndirectHu.toStringOrHyphen()
             }
         }
     }
 
     private fun setButtons() {
         binding.btHandActionsDialogPenaltiesCancel.visibility =
-            if (activityViewModel.getActiveGame().value!!.rounds.last().areTherePenalties()) VISIBLE else GONE
+            if (activityViewModel.game.currentRound.areThereNotAppliedPenalties()) VISIBLE else GONE
     }
 
     private fun setListeners() {

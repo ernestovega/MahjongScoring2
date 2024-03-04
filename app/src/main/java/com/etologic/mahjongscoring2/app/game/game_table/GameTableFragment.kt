@@ -33,6 +33,7 @@ import android.widget.RelativeLayout.GONE
 import android.widget.RelativeLayout.LayoutParams
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.drawable.ic_dice_multiple_white_24dp
 import com.etologic.mahjongscoring2.R.drawable.ic_east
@@ -48,7 +49,6 @@ import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.RANKING
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.Companion.TAG
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.TableSeatsListener
-import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.databinding.GameTableFragmentBinding
@@ -57,6 +57,7 @@ import com.google.android.material.badge.BadgeDrawable.BOTTOM_START
 import com.google.android.material.badge.BadgeDrawable.TOP_END
 import com.google.android.material.badge.BadgeDrawable.TOP_START
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class GameTableFragment : BaseFragment(), TableSeatsListener {
@@ -79,7 +80,7 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
     private val binding get() = _binding!!
 
     private val activityViewModel: GameViewModel by activityViewModels()
-    
+
     override fun onSeatClick(wind: TableWinds) {
         activityViewModel.onSeatClicked(wind)
     }
@@ -104,7 +105,6 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
         initTableSeats()
         setOnClickListeners()
         startObservingTable()
-        activityViewModel.loadGame()
     }
 
     private fun initResources() {
@@ -127,10 +127,11 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
     }
 
     private fun startObservingTable() {
-        activityViewModel.getActiveGame().observe(viewLifecycleOwner) { gameObserver(it) }
         activityViewModel.getSelectedSeat().observe(viewLifecycleOwner) { tableSeats.updateSeatState(it) }
         activityViewModel.getSeatsOrientation().observe(viewLifecycleOwner) { tableSeats.updateSeatsOrientation(it) }
         activityViewModel.shouldShowDiffs().observe(viewLifecycleOwner) { tableSeats.toggleDiffs(it) }
+
+        lifecycleScope.launch { activityViewModel.gameFlow.collect(::gameObserver) }
     }
 
     private fun gameObserver(it: UIGame) {
@@ -139,14 +140,15 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
     }
 
     private fun setRoundStuff(uiGame: UIGame) {
-        val currentRound = uiGame.rounds.last()
-        setFab(currentRound.roundNumber, currentRound.isEnded)
-        setRoundNumsAndWinds(currentRound, currentRound.roundNumber)
+        val isGameEnded: Boolean = uiGame.dbGame.isEnded
+        val roundNumber: Int = uiGame.rounds.size
+        setFab(isGameEnded, roundNumber)
+        setRoundNumsAndWinds(isGameEnded, roundNumber)
     }
 
-    private fun setFab(roundNumber: Int, isEnded: Boolean) {
+    private fun setFab(isGameEnded: Boolean, roundNumber: Int) {
         with(binding) {
-            if (isEnded) {
+            if (isGameEnded) {
                 if (fabGameTable.tag != "ic_trophy_white_18dp") {
                     fabGameTable.tag = "ic_trophy_white_18dp"
                     fabGameTable.setImageResource(ic_trophy_white_18dp)
@@ -233,150 +235,75 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
         }
     }
 
-    private fun setRoundNumsAndWinds(currentRound: Round, roundNumber: Int) {
+    private fun setRoundNumsAndWinds(isGameEnded: Boolean, roundNumber: Int) {
         with(binding) {
-            if (currentRound.isEnded) {
+            if (isGameEnded) {
                 val endString = getString(string.end)
+
                 tvGameTableRoundNumberTopStart.text = endString
                 tvGameTableRoundNumberTopEnd.text = endString
                 tvGameTableRoundNumberBottomStart.text = endString
                 tvGameTableRoundNumberBottomEnd.text = endString
-                tvGameTableRoundNumberTopStart.setCompoundDrawablesWithIntrinsicBounds(
-                    null,
-                    null,
-                    null,
-                    null
-                )
-                tvGameTableRoundNumberTopEnd.setCompoundDrawablesWithIntrinsicBounds(
-                    null,
-                    null,
-                    null,
-                    null
-                )
-                tvGameTableRoundNumberBottomStart.setCompoundDrawablesWithIntrinsicBounds(
-                    null,
-                    null,
-                    null,
-                    null
-                )
-                tvGameTableRoundNumberBottomEnd.setCompoundDrawablesWithIntrinsicBounds(
-                    null,
-                    null,
-                    null,
-                    null
-                )
+
+                tvGameTableRoundNumberTopStart
+                    .setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+                tvGameTableRoundNumberTopEnd
+                    .setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+                tvGameTableRoundNumberBottomStart
+                    .setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+                tvGameTableRoundNumberBottomEnd
+                    .setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             } else {
-                tvGameTableRoundNumberTopStart.text = roundNumber.toString()
-                tvGameTableRoundNumberTopEnd.text = roundNumber.toString()
-                tvGameTableRoundNumberBottomStart.text = roundNumber.toString()
-                tvGameTableRoundNumberBottomEnd.text = roundNumber.toString()
+                roundNumber.toString().let {
+                    tvGameTableRoundNumberTopStart.text = it
+                    tvGameTableRoundNumberTopEnd.text = it
+                    tvGameTableRoundNumberBottomStart.text = it
+                    tvGameTableRoundNumberBottomEnd.text = it
+                }
+
                 when {
                     roundNumber < 5 -> {
-                        tvGameTableRoundNumberTopStart.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            eastIcon
-                        )
-                        tvGameTableRoundNumberTopEnd.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            eastIcon
-                        )
-                        tvGameTableRoundNumberBottomStart.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            eastIcon
-                        )
-                        tvGameTableRoundNumberBottomEnd.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            eastIcon
-                        )
+                        tvGameTableRoundNumberTopStart
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, eastIcon)
+                        tvGameTableRoundNumberTopEnd
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, eastIcon)
+                        tvGameTableRoundNumberBottomStart
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, eastIcon)
+                        tvGameTableRoundNumberBottomEnd
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, eastIcon)
                     }
 
                     roundNumber < 9 -> {
-                        tvGameTableRoundNumberTopStart.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            southIcon
-                        )
-                        tvGameTableRoundNumberTopEnd.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            southIcon
-                        )
-                        tvGameTableRoundNumberBottomStart.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            southIcon
-                        )
-                        tvGameTableRoundNumberBottomEnd.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            southIcon
-                        )
+                        tvGameTableRoundNumberTopStart
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, southIcon)
+                        tvGameTableRoundNumberTopEnd
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, southIcon)
+                        tvGameTableRoundNumberBottomStart
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, southIcon)
+                        tvGameTableRoundNumberBottomEnd
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, southIcon)
                     }
 
                     roundNumber < 13 -> {
-                        tvGameTableRoundNumberTopStart.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            westIcon
-                        )
-                        tvGameTableRoundNumberTopEnd.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            westIcon
-                        )
-                        tvGameTableRoundNumberBottomStart.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            westIcon
-                        )
-                        tvGameTableRoundNumberBottomEnd.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            westIcon
-                        )
+                        tvGameTableRoundNumberTopStart
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, westIcon)
+                        tvGameTableRoundNumberTopEnd
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, westIcon)
+                        tvGameTableRoundNumberBottomStart
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, westIcon)
+                        tvGameTableRoundNumberBottomEnd
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, westIcon)
                     }
 
                     else -> {
-                        tvGameTableRoundNumberTopStart.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            northIcon
-                        )
-                        tvGameTableRoundNumberTopEnd.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            northIcon
-                        )
-                        tvGameTableRoundNumberBottomStart.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            northIcon
-                        )
-                        tvGameTableRoundNumberBottomEnd.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            northIcon
-                        )
+                        tvGameTableRoundNumberTopStart
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, northIcon)
+                        tvGameTableRoundNumberTopEnd
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, northIcon)
+                        tvGameTableRoundNumberBottomStart
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, northIcon)
+                        tvGameTableRoundNumberBottomEnd
+                            .setCompoundDrawablesWithIntrinsicBounds(null, null, null, northIcon)
                     }
                 }
             }

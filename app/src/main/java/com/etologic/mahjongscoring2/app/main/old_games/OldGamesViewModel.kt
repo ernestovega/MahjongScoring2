@@ -38,7 +38,7 @@ class OldGamesViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val gamesState: SharedFlow<List<UIGame>> = getAllGamesFlowUseCase()
-        .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
+        .shareIn(viewModelScope, SharingStarted.Lazily)
 
     fun createGame(playersNames: Array<String>, successAction: (GameId) -> Unit) {
         viewModelScope.launch {

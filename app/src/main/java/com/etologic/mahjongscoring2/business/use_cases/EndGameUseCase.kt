@@ -16,26 +16,26 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
-import com.etologic.mahjongscoring2.business.model.entities.areTherePenalties
+import com.etologic.mahjongscoring2.business.model.entities.applyPenalties
+import com.etologic.mahjongscoring2.business.model.entities.areThereNotAppliedPenalties
+import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
+import java.util.Date
 import javax.inject.Inject
 
 class EndGameUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
-    private val drawUseCase: DrawUseCase,
+    private val gamesRepository: GamesRepository,
 ) {
     suspend operator fun invoke(uiGame: UIGame): Result<Boolean> =
-        uiGame.rounds.last().let { lastRound ->
-            if (lastRound.areTherePenalties()) {
-                drawUseCase(lastRound)
-            } else if (uiGame.rounds.size == 1) {
-                roundsRepository.insertOne(Round(uiGame.dbGame.gameId))
-            } else {
-                Result.success(true)
-            }.let {
-                roundsRepository.deleteOne(uiGame.dbGame.gameId, lastRound.roundId)
-            }
+        if (uiGame.currentRound.areThereNotAppliedPenalties()) {
+            roundsRepository.updateOne(uiGame.currentRound.applyPenalties())
+        } else if (uiGame.rounds.size > 1) {
+            roundsRepository.deleteOne(uiGame.dbGame.gameId, uiGame.currentRound.roundId)
+        } else {
+            Result.success(true)
         }
+            .onSuccess { gamesRepository.updateOne(uiGame.dbGame.apply { endDate = Date() }) }
+
 }

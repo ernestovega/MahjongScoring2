@@ -19,22 +19,20 @@ package com.etologic.mahjongscoring2.business.use_cases
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
-import com.etologic.mahjongscoring2.business.model.entities.applyPenaltiesAndMarkRoundAsEnded
+import com.etologic.mahjongscoring2.business.model.entities.applyPenalties
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import javax.inject.Inject
 
 class HuDiscardUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
-    private val resumeGameUseCase: ResumeGameUseCase,
+    private val endRoundUseCase: EndRoundUseCase,
 ) {
-    suspend operator fun invoke(round: Round, huData: HuData): Result<Boolean> {
-        round.finishRoundByHuDiscard(huData)
-        return roundsRepository.updateOne(round)
-            .also { resumeGameUseCase(round.gameId, round.roundNumber) }
-    }
+    suspend operator fun invoke(uiGame: UIGame, huData: HuData): Result<Boolean> =
+        roundsRepository.updateOne(uiGame.currentRound.applyHuDiscard(huData))
+            .onSuccess { endRoundUseCase(uiGame) }
 
-    private fun Round.finishRoundByHuDiscard(huData: HuData) {
+    private fun Round.applyHuDiscard(huData: HuData): Round {
         this.winnerInitialSeat = huData.winnerInitialSeat
         this.discarderInitialSeat = huData.discarderInitialSeat!!
         this.handPoints = huData.points
@@ -42,14 +40,13 @@ class HuDiscardUseCase @Inject constructor(
         this.pointsP2 += calculateDiscardSeatPoints(TableWinds.SOUTH, huData)
         this.pointsP3 += calculateDiscardSeatPoints(TableWinds.WEST, huData)
         this.pointsP4 += calculateDiscardSeatPoints(TableWinds.NORTH, huData)
-        this.applyPenaltiesAndMarkRoundAsEnded()
+        return this.applyPenalties()
     }
 
-    private fun calculateDiscardSeatPoints(seat: TableWinds, huData: HuData): Int {
-        return when (seat) {
+    private fun calculateDiscardSeatPoints(seat: TableWinds, huData: HuData): Int =
+        when (seat) {
             huData.winnerInitialSeat -> UIGame.getHuDiscardWinnerPoints(huData.points)
             huData.discarderInitialSeat -> UIGame.getHuDiscardDiscarderPoints(huData.points)
             else -> UIGame.POINTS_DISCARD_NEUTRAL_PLAYERS
         }
-    }
 }

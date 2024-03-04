@@ -158,7 +158,7 @@ class RollDiceDialogFragment : AppCompatDialogFragment() {
             ivDice1.tag = 0
             ivDice2.tag = 0
 
-            tvDiceDialogFirst.text = activityViewModel.getActiveGame().value!!.getPlayersNamesByCurrentSeat()[0]
+            tvDiceDialogFirst.text = activityViewModel.game.getPlayersNamesByCurrentSeat()[0]
 
             handler34 = Handler(Looper.getMainLooper()) {
                 //Receives message from timer to start dice roll
@@ -185,7 +185,7 @@ class RollDiceDialogFragment : AppCompatDialogFragment() {
             4, 8, 12 -> NORTH.code
             else -> null
         }
-        val namesCurrentSeat = activityViewModel.getActiveGame().value!!.getPlayersNamesByCurrentSeat()
+        val namesCurrentSeat = activityViewModel.game.getPlayersNamesByCurrentSeat()
         return if (secondSeat != null)
             namesCurrentSeat[secondSeat]
         else

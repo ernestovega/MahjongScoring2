@@ -23,6 +23,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.etologic.mahjongscoring2.app.base.RecyclerViewable
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.converters.TableWindsConverter
 import com.etologic.mahjongscoring2.data_source.model.DBGame
@@ -44,35 +45,34 @@ data class Round(
     var winnerInitialSeat = NONE
 
     @TypeConverters(TableWindsConverter::class)
-    var discarderInitialSeat = NONE
-    var handPoints = 0
-    var pointsP1 = 0
-    var pointsP2 = 0
-    var pointsP3 = 0
-    var pointsP4 = 0
-    var penaltyP1 = 0
-    var penaltyP2 = 0
-    var penaltyP3 = 0
-    var penaltyP4 = 0
-    var isEnded = false
+    var discarderInitialSeat: TableWinds = NONE
+    var handPoints: Int = 0
+    var pointsP1: Int = 0
+    var pointsP2: Int = 0
+    var pointsP3: Int = 0
+    var pointsP4: Int = 0
+    var penaltyP1: Int = 0
+    var penaltyP2: Int = 0
+    var penaltyP3: Int = 0
+    var penaltyP4: Int = 0
 
     @Ignore
     var roundNumber: Int = 0
 
     @Ignore
-    var totalPointsP1 = 0
+    var totalPointsP1: Int = 0
 
     @Ignore
-    var totalPointsP2 = 0
+    var totalPointsP2: Int = 0
 
     @Ignore
-    var totalPointsP3 = 0
+    var totalPointsP3: Int = 0
 
     @Ignore
-    var totalPointsP4 = 0
+    var totalPointsP4: Int = 0
 
     @Ignore
-    var isBestHand = false
+    var isBestHand: Boolean = false
 
     constructor(gameId: GameId) : this(gameId, NOT_SET_ROUND_ID)
 
@@ -92,7 +92,6 @@ data class Round(
         this.penaltyP2 = this@Round.penaltyP2
         this.penaltyP3 = this@Round.penaltyP3
         this.penaltyP4 = this@Round.penaltyP4
-        this.isEnded = this@Round.isEnded
         this.roundNumber = this@Round.roundNumber
         this.totalPointsP1 = this@Round.totalPointsP1
         this.totalPointsP2 = this@Round.totalPointsP2
@@ -141,22 +140,19 @@ data class Round(
                     round1.penaltyP2 == round2.penaltyP2 &&
                     round1.penaltyP3 == round2.penaltyP3 &&
                     round1.penaltyP4 == round2.penaltyP4 &&
-                    round1.isBestHand == round2.isBestHand &&
-                    round1.isEnded == round2.isEnded
+                    round1.isBestHand == round2.isBestHand
         }
     }
 }
 
-fun Round.applyPenaltiesAndMarkRoundAsEnded() {
-    fun applyPlayersPenalties() {
-        pointsP1 += penaltyP1
-        pointsP2 += penaltyP2
-        pointsP3 += penaltyP3
-        pointsP4 += penaltyP4
-    }
-
-    applyPlayersPenalties()
-    isEnded = true
+fun Round.applyPenalties(): Round {
+    pointsP1 += penaltyP1
+    pointsP2 += penaltyP2
+    pointsP3 += penaltyP3
+    pointsP4 += penaltyP4
+    return this
 }
 
-fun Round.areTherePenalties(): Boolean = penaltyP1 != 0 || penaltyP2 != 0 || penaltyP3 != 0 || penaltyP4 != 0
+fun Round.areThereNotAppliedPenalties(): Boolean =
+    (penaltyP1 != 0 || penaltyP2 != 0 || penaltyP3 != 0 || penaltyP4 != 0)
+            && pointsP1 == 0 && pointsP2 == 0 && pointsP3 == 0 && pointsP4 == 0

@@ -114,15 +114,11 @@ class GameTableSeatsFragment : BaseFragment() {
         setPointsDiffs(uiGame)
         setWinds(uiGame.getSeatsCurrentWind(uiGame.rounds.size))
         setNames(uiGame.getPlayersNamesByCurrentSeat())
-        setPenalties(uiGame.getPlayersPenaltiesByCurrentSeat(), uiGame.rounds.last().isEnded)
+        setPenalties(uiGame.getPlayersPenaltiesByCurrentSeat(), uiGame.dbGame.isEnded)
     }
 
     private fun getSeatsStates(uiGame: UIGame): Array<SeatStates> =
-        if (uiGame.rounds.lastOrNull()?.isEnded == true) {
-            arrayOf(DISABLED, DISABLED, DISABLED, DISABLED)
-        } else {
-            getSeatsStates()
-        }
+        if (uiGame.dbGame.isEnded) arrayOf(DISABLED, DISABLED, DISABLED, DISABLED) else getSeatsStates()
 
     private fun setStates(states: Array<SeatStates>) {
         areSeatsDisabled = states[0] == DISABLED && states[1] == DISABLED && states[2] == DISABLED && states[3] == DISABLED
@@ -423,7 +419,7 @@ class GameTableSeatsFragment : BaseFragment() {
 
     fun toggleDiffs(shouldShowDiffs: Boolean) {
         if (shouldShowDiffs) {
-            setPointsDiffs(activityViewModel.getActiveGame().value)
+            setPointsDiffs(activityViewModel.game)
         } else {
             hideDiffs()
         }

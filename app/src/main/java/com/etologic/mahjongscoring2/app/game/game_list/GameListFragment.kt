@@ -103,8 +103,9 @@ class GameListFragment : BaseFragment() {
     }
 
     private fun initViewModel() {
-        activityViewModel.getActiveGame().observe(viewLifecycleOwner) { gameObserver(it) }
         activityViewModel.getPageToShow().observe(viewLifecycleOwner) { pageToShowObserver(it) }
+
+        lifecycleScope.launch { activityViewModel.gameFlow.collect(::gameObserver) }
     }
 
     private fun gameObserver(uiGame: UIGame) {

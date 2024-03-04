@@ -31,7 +31,7 @@ import com.etologic.mahjongscoring2.R.anim.exit_to_left
 import com.etologic.mahjongscoring2.R.anim.exit_to_right
 import com.etologic.mahjongscoring2.R.id.frameLayoutMain
 import com.etologic.mahjongscoring2.app.game.activity.GameActivity
-import com.etologic.mahjongscoring2.app.game.activity.GameActivity.Companion.KEY_ACTIVE_GAME_ID
+import com.etologic.mahjongscoring2.app.game.activity.GameActivity.Companion.KEY_GAME_ID
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
@@ -83,7 +83,7 @@ object MainNavigator {
     private fun goToGame(activity: MainActivity, viewModel: MainViewModel) {
         activity.gameActivityResultLauncher.launch(
             Intent(activity, GameActivity::class.java).apply {
-                putExtra(KEY_ACTIVE_GAME_ID, viewModel.activeGameId)
+                putExtra(KEY_GAME_ID, viewModel.activeGameId)
             }
         )
     }

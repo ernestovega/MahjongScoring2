@@ -21,6 +21,8 @@ import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.dropWhile
+import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
 class GetAllGamesFlowUseCase @Inject constructor(
@@ -34,7 +36,12 @@ class GetAllGamesFlowUseCase @Inject constructor(
         ) { dbGames, rounds ->
             dbGames.map { game ->
                 val gameRounds = rounds.filter { round -> round.gameId == game.gameId }
-                UIGame(game, gameRounds)
+                if (gameRounds.isEmpty()) {
+                    return@combine null
+                } else {
+                    UIGame(game, gameRounds)
+                }
             }
-        }
+        }.mapNotNull { it }
+
 }

@@ -38,17 +38,21 @@ data class DBGame(
     var nameP2: String = "",
     var nameP3: String = "",
     var nameP4: String = "",
-    @TypeConverters(DateConverter::class) val startDate: Date
+    @TypeConverters(DateConverter::class) val startDate: Date,
+    @TypeConverters(DateConverter::class) var endDate: Date? = null,
 ) {
 
     constructor(defaultNames: Array<String>) : this(
-        NOT_SET_GAME_ID,
-        defaultNames[0],
-        defaultNames[1],
-        defaultNames[2],
-        defaultNames[3],
-        Calendar.getInstance().time
+        gameId = NOT_SET_GAME_ID,
+        nameP1 = defaultNames[0],
+        nameP2 = defaultNames[1],
+        nameP3 = defaultNames[2],
+        nameP4 = defaultNames[3],
+        startDate = Calendar.getInstance().time,
+        endDate = null,
     )
+
+    val isEnded: Boolean get() = endDate != null
 
     fun getPlayersNames(): Array<String> = arrayOf(nameP1, nameP2, nameP3, nameP4)
 
