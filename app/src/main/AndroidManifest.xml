@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright © 2023  Ernesto Vega de la Iglesia Soria
+  ~ Copyright © 2024  Ernesto Vega de la Iglesia Soria
   ~
   ~     This program is free software: you can redistribute it and/or modify
   ~     it under the terms of the GNU General Public License as published by
@@ -44,13 +44,13 @@
             android:name="com.etologic.mahjongscoring2.app.main.activity.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -66,12 +66,12 @@
             android:name="com.etologic.mahjongscoring2.app.game.activity.GameActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
         <activity
             android:name="com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -80,7 +80,7 @@
         <activity
             android:name="com.etologic.mahjongscoring2.app.main.diffs_calculator.DiffsCalculatorActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
         </activity>
 
     </application>
