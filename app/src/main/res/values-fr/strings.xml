@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © 2024  Ernesto Vega de la Iglesia Soria
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+<resources>
+    <!--  Translations V2.0.0  -->
+    <string name="app_name">Mahjong Scoring MCR</string>
+    <string name="close_drawer">Quitter le menu</string>
+    <string name="open_drawer">Ouvrir le menu</string>
+    <string name="old_games">Anciennes parties</string>
+    <string name="combinations">Combinaisons</string>
+    <string name="green_book_en">Livre vert</string>
+    <string name="contact">Contact</string>
+    <string name="press_again_to_exit">Appuyer de nouveau pour quitter</string>
+    <string name="theres_no_games_yet_start_one">Il n\'y a pas encore de jeu.\nEn commencer un</string>
+    <string name="best_hand">Meilleure main</string>
+    <string name="rounds">Manches</string>
+    <string name="delete">Supprimer</string>
+    <string name="resume">Résumé</string>
+    <string name="delete_game">Supprimer la partie</string>
+    <string name="are_you_sure">Etes vous sûr?</string>
+    <string name="search">Recherche</string>
+    <string name="combination_name">Noms des combinaisons</string>
+    <string name="toggle_descriptions">Afficher/cacher les descriptions</string>
+    <string name="no_email_apps_founded">Impossible de trouver les applications de messagerie</string>
+    <string name="table">Table</string>
+    <string name="game">Partie</string>
+    <string name="totals">Total</string>
+    <string name="number_symbol">#</string>
+    <string name="final_results">Résultat final</string>
+    <string name="cancel_penalties">Annuler les pénalités</string>
+    <string name="draw">Partie nulle</string>
+    <string name="east">Est</string>
+    <string name="west">Ouest</string>
+    <string name="south">Sud</string>
+    <string name="north">Nord</string>
+    <string name="ups_something_wrong">Oups! Quelque chose s\'est mal passé</string>
+    <string name="list">Liste</string>
+    <string name="close">Fermer</string>
+    <string name="player_east_name">Nom du joueur Est</string>
+    <string name="player_south_name">Nom du joueur Sud</string>
+    <string name="player_west_name">Nom du joueur Ouest</string>
+    <string name="player_north_name">Nom du joueur Nord</string>
+    <string name="player_one">Joueur A</string>
+    <string name="player_two">Joueur B</string>
+    <string name="player_three">Joueur C</string>
+    <string name="player_four">Joueur D</string>
+    <string name="divided">Divisé</string>
+    <string name="edit_names">Modifier les noms</string>
+    <string name="save">Sauvegarder</string>
+    <string name="penalty">Pénalité</string>
+    <string name="zero">0</string>
+    <string name="nine">9</string>
+    <string name="eight">8</string>
+    <string name="seven">7</string>
+    <string name="six">6</string>
+    <string name="five">5</string>
+    <string name="four">4</string>
+    <string name="three">3</string>
+    <string name="two">2</string>
+    <string name="one">1</string>
+    <string name="end">Fin</string>
+    <string name="mahjong">Mahjong</string>
+    <string name="backspace">Supprimer</string>
+    <string name="ok">OK</string>
+    <string name="discarder_">Rejeteur?</string>
+    <string name="cancel">Annuler</string>
+    <string name="pts">Pts</string>
+    <string name="delete_round">Supprimer le tour</string>
+    <string name="first">Premier</string>
+    <string name="second">Deuxième</string>
+    <string name="rotate_seats">Changement de places</string>
+    <string name="pure_double_chow">Double chow pur</string>
+    <string name="mixed_double_chow">Double chow</string>
+    <string name="short_straight">Petite suite pure</string>
+    <string name="two_terminal_chows">Deux chows purs d \'extrémités</string>
+    <string name="pung_of_terminals_or_honors">Pung de vent ou d extrémité</string>
+    <string name="melded_kong">Kong exposé</string>
+    <string name="one_voided_suit">Une famille absente</string>
+    <string name="no_honors">Pas d\'honneur</string>
+    <string name="edge_wait">Finir d\'un côté</string>
+    <string name="closed_wait">Finir au milieu</string>
+    <string name="single_waiting">Finir sur la paire</string>
+    <string name="self_drawn">Tirer soi-même</string>
+    <string name="flower_tiles">Fleurs ou saisons</string>
+    <string name="dragon_pung">Pung de dragon</string>
+    <string name="prevalent_wind">Vent dominant</string>
+    <string name="seat_wind">Vent du joueur</string>
+    <string name="concealed_hand">Tout caché donné</string>
+    <string name="all_chows">Tout chow</string>
+    <string name="tile_hog">Quatre identiques</string>
+    <string name="double_pungs">Double pung</string>
+    <string name="two_concealed_pungs">Deux pungs cachés</string>
+    <string name="concealed_kong">Kong caché</string>
+    <string name="all_simples">Tout ordinaire</string>
+    <string name="outside_hand">Extrémité ou honneur partout</string>
+    <string name="fully_concealed_hand">Tout caché tiré</string>
+    <string name="two_melded_kongs">Deux kongs exposés</string>
+    <string name="last_tile">Dernière tuile existante</string>
+    <string name="all_pungs">Tout pung</string>
+    <string name="half_flush">Semi pure</string>
+    <string name="mixed_shifted_chows">Trois chows superposés</string>
+    <string name="all_types">Tout type</string>
+    <string name="melded_hand">Tout exposé</string>
+    <string name="two_dragon_pungs">Deux pungs de dragons</string>
+    <string name="mixed_straight">Grande suite</string>
+    <string name="reversible_tiles">Symétrie</string>
+    <string name="mixed_triple_chow">Triple chows</string>
+    <string name="mixed_shifted_pungs">Trois pungs consécutifs</string>
+    <string name="chicken_hand">Main sans valeur</string>
+    <string name="last_tile_draw">Dernière tuile tirée</string>
+    <string name="last_tile_claim">Dernière tuile jetée</string>
+    <string name="out_with_replacement_tile">Finir sur un kong</string>
+    <string name="robbing_the_kong">Voler le kong</string>
+    <string name="two_concealed_kongs">Deux kongs cachés</string>
+    <string name="lesser_honors_and_knitted_tiles">Petit serpentin</string>
+    <string name="knitted_straight">Suite serpentin</string>
+    <string name="upper_four">Les quatre derniers</string>
+    <string name="lower_four">Les quatre premiers</string>
+    <string name="big_three_winds">Trois grands vents</string>
+    <string name="pure_straight">Grande suite pure</string>
+    <string name="three_suited_terminal_chows">Deux dragons dans trois familles</string>
+    <string name="pure_shifted_chows">Trois chows purs superposés</string>
+    <string name="all_fives">Cinq partout</string>
+    <string name="triple_pungs">Triple pungs</string>
+    <string name="three_concealed_pungs">Trois pungs cachés</string>
+    <string name="seven_pairs">Sept paires</string>
+    <string name="greater_honors_and_knitted_tiles">Grand serpentin</string>
+    <string name="all_even_pungs">Tout pung pair</string>
+    <string name="full_flush">Main pure</string>
+    <string name="pure_triple_chow">Triple chow pur</string>
+    <string name="pure_shifted_pungs">Trois pungs purs consécutifs</string>
+    <string name="upper_tiles">Les trois derniers</string>
+    <string name="medium_tiles">Les trois milieux</string>
+    <string name="lower_tiles">Les trois premiers</string>
+    <string name="four_pure_shifted_chows">Quatre chows purs superposés</string>
+    <string name="three_kongs">Trois kongs</string>
+    <string name="all_terminals_and_honors">Tout honneur et extrémité</string>
+    <string name="quadruple_chow">Quadruple chow pur</string>
+    <string name="four_pure_shifted_pungs">Quatre pungs purs consécutifs</string>
+    <string name="all_terminals">Tout extrémité</string>
+    <string name="all_honors">Tout honneur</string>
+    <string name="little_four_winds">Quatre petits vents</string>
+    <string name="little_three_dragons">Trois petits dragons</string>
+    <string name="four_concealed_pungs">Quatre pungs cachés</string>
+    <string name="pure_terminal_chows">Deux dragons dans une famille</string>
+    <string name="big_three_dragons">Trois grands dragons</string>
+    <string name="thirteen_orphans">Treize orphelins</string>
+    <string name="big_four_winds">Quatre grands vents</string>
+    <string name="all_green">Main verte</string>
+    <string name="nine_gates">Neufs portes</string>
+    <string name="four_kongs">Quatre kongs</string>
+    <string name="seven_shifted_pairs">Sept paires pures consécutives</string>
+    <string name="description_edge_wait">Finir sur 3 pour 1-2-3 ou 7 pour 7-8-9</string>
+    <string name="description_closed_wait">Finir sur la tuile du milieu d\'un chow</string>
+    <string name="description_single_waiting">Finir en complétant la paire</string>
+    <string name="description_self_drawn">Finir en piochant la tuile gagnante</string>
+    <string name="description_concealed_hand">Finir sur un écard sans avoir rien exposé</string>
+    <string name="description_fully_concealed_hand">Finir en piochant la tuile en ayant rien exposé</string>
+    <string name="description_last_tile">Finir avec la quatrième tuile quand les trois autres sont visibles</string>
+    <string name="description_melded_hand">Quatre figures exposées et finir sur un écart</string>
+    <string name="description_last_tile_draw">Finir en piochant la dernière tuile du mur</string>
+    <string name="description_last_tile_claim">Finir sur la dernière défausse de la partie</string>
+    <string name="description_out_with_replacement_tile">Finir grace à la tuile de remplacement d\'un kong</string>
+    <string name="description_robbing_the_kong">Finir avec la tuile qui transforme un pung en kong</string>
+
+    <!--  Translations V2.1.0  -->
+    <string name="throw_dice">Lancer les dés</string>
+    <string name="start_new_game">Commencer une nouvelle partie</string>
+    <string name="self_abr">S</string>
+    <string name="direct_abr">D</string>
+    <string name="indirect_abr">I</string>
+    <string name="_1st">1er</string>
+    <string name="_2nd">2ème</string>
+    <string name="_3rd">3ème</string>
+    <string name="mahjong_madrid_web">Mahjong Madrid</string>
+    <string name="ema_web">EMA (web)</string>
+    <string name="winner_">Gagnant</string>
+    <string name="points_">Points:</string>
+    <string name="self_pick">Prendre soi-même</string>
+    <string name="direct">Direct</string>
+    <string name="indirect">Indirect</string>
+    <string name="to_be_by">Pour être / Par</string>
+    <string name="points_needed">Points nécessaires</string>
+    <string name="hide_diffs_calcs">Masquer les calculs</string>
+    <string name="show_diffs_calcs">Montrer les calculs</string>
+    <string name="green_book_es">Livre Vert (PDF en espagnol)</string>
+    <string name="diffsCalculator">Calculateur de Différences</string>
+    <string name="diff">Points nécessaires</string>
+    <string name="i_think_is_enough_jajaja">Je pense que c\'est suffisant, n\'est-ce pas? 🤣</string>
+    <string name="send_email">Envoyer un courriel</string>
+</resources>
