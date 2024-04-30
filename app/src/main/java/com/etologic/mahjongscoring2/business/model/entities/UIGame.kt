@@ -84,7 +84,51 @@ data class UIGame(
         return bestHand
     }
 
-    fun getPlayersNamesByCurrentSeat(): Array<String> {
+    fun getCurrentEastSeatPlayerName(): String? {
+        val playersNamesByCurrentRoundSeat = getPlayersNamesByCurrentRoundSeat()
+        return when (currentRound.roundNumber) {
+            1, 5, 9, 13 -> playersNamesByCurrentRoundSeat[EAST.code]
+            2, 6, 10, 14 -> playersNamesByCurrentRoundSeat[SOUTH.code]
+            3, 7, 11, 15 -> playersNamesByCurrentRoundSeat[WEST.code]
+            4, 8, 12, 16 -> playersNamesByCurrentRoundSeat[NORTH.code]
+            else -> null
+        }
+    }
+
+    fun getCurrentSouthSeatPlayerName(): String? {
+        val playersNamesByCurrentRoundSeat = getPlayersNamesByCurrentRoundSeat()
+        return when (currentRound.roundNumber) {
+            1, 5, 9, 13 -> playersNamesByCurrentRoundSeat[SOUTH.code]
+            2, 6, 10, 14 -> playersNamesByCurrentRoundSeat[WEST.code]
+            3, 7, 11, 15 -> playersNamesByCurrentRoundSeat[NORTH.code]
+            4, 8, 12, 16 -> playersNamesByCurrentRoundSeat[EAST.code]
+            else -> null
+        }
+    }
+
+    fun getCurrentWestSeatPlayerName(): String? {
+        val playersNamesByCurrentRoundSeat = getPlayersNamesByCurrentRoundSeat()
+        return when (currentRound.roundNumber) {
+            1, 5, 9, 13 -> playersNamesByCurrentRoundSeat[WEST.code]
+            2, 6, 10, 14 -> playersNamesByCurrentRoundSeat[NORTH.code]
+            3, 7, 11, 15 -> playersNamesByCurrentRoundSeat[EAST.code]
+            4, 8, 12, 16 -> playersNamesByCurrentRoundSeat[SOUTH.code]
+            else -> null
+        }
+    }
+
+    fun getCurrentNorthSeatPlayerName(): String? {
+        val playersNamesByCurrentRoundSeat = getPlayersNamesByCurrentRoundSeat()
+        return when (currentRound.roundNumber) {
+            1, 5, 9, 13 -> playersNamesByCurrentRoundSeat[NORTH.code]
+            2, 6, 10, 14 -> playersNamesByCurrentRoundSeat[EAST.code]
+            3, 7, 11, 15 -> playersNamesByCurrentRoundSeat[SOUTH.code]
+            4, 8, 12, 16 -> playersNamesByCurrentRoundSeat[WEST.code]
+            else -> null
+        }
+    }
+
+    fun getPlayersNamesByCurrentRoundSeat(): Array<String> {
         val namesListByCurrentSeat = arrayOf("", "", "", "")
         val currentRoundNumber = currentRound.roundNumber
         namesListByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRoundNumber).code] = dbGame.nameP1

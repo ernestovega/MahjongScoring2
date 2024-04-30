@@ -113,7 +113,7 @@ class GameTableSeatsFragment : BaseFragment() {
         setPoints(playersTotalPointsByCurrentSeat.map { String.format(getDefault(), "%d", it) })
         setPointsDiffs(uiGame)
         setWinds(uiGame.getSeatsCurrentWind(uiGame.rounds.size))
-        setNames(uiGame.getPlayersNamesByCurrentSeat())
+        setNames(uiGame.getPlayersNamesByCurrentRoundSeat())
         setPenalties(uiGame.getPlayersPenaltiesByCurrentSeat(), uiGame.dbGame.isEnded)
     }
 

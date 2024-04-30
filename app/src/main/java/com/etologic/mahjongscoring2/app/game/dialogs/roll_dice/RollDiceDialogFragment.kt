@@ -38,10 +38,6 @@ import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFra
 import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment.DiceNumber.SIX
 import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment.DiceNumber.THREE
 import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment.DiceNumber.TWO
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.GameDiceDialogFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Random
@@ -158,7 +154,7 @@ class RollDiceDialogFragment : AppCompatDialogFragment() {
             ivDice1.tag = 0
             ivDice2.tag = 0
 
-            tvDiceDialogFirst.text = activityViewModel.game.getPlayersNamesByCurrentSeat()[0]
+            tvDiceDialogFirst.text = activityViewModel.game.getCurrentEastSeatPlayerName() ?: getString(R.string.first)
 
             handler34 = Handler(Looper.getMainLooper()) {
                 //Receives message from timer to start dice roll
@@ -178,18 +174,14 @@ class RollDiceDialogFragment : AppCompatDialogFragment() {
     }
 
     private fun getSecondThrowerName(): String {
-        val secondSeat = when (binding.ivDice1.tag as Int + binding.ivDice2.tag as Int) {
-            5, 9 -> EAST.code
-            2, 6, 10 -> SOUTH.code
-            3, 7, 11 -> WEST.code
-            4, 8, 12 -> NORTH.code
+        val uiGame = activityViewModel.game
+        return when (binding.ivDice1.tag as Int + binding.ivDice2.tag as Int) {
+            5, 9 -> uiGame.getCurrentEastSeatPlayerName()
+            2, 6, 10 -> uiGame.getCurrentSouthSeatPlayerName()
+            3, 7, 11 -> uiGame.getCurrentWestSeatPlayerName()
+            4, 8, 12 -> uiGame.getCurrentNorthSeatPlayerName()
             else -> null
-        }
-        val namesCurrentSeat = activityViewModel.game.getPlayersNamesByCurrentSeat()
-        return if (secondSeat != null)
-            namesCurrentSeat[secondSeat]
-        else
-            getString(R.string.second)
+        } ?: getString(R.string.second)
     }
 
     private fun listener12() {
