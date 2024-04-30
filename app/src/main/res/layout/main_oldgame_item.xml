@@ -314,13 +314,24 @@
                 android:text="@string/delete" />
 
             <Button
+                android:id="@+id/btOldGameItemShare"
+                style="?android:buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llOldGameItemBodyContainer"
+                android:layout_marginStart="@dimen/half_standard_margin"
+                android:layout_toStartOf="@+id/btOldGameItemResume"
+                android:text="@string/share" />
+
+            <Button
                 android:id="@+id/btOldGameItemResume"
                 style="?android:buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/llOldGameItemBodyContainer"
                 android:layout_marginStart="@dimen/half_standard_margin"
-                android:layout_toEndOf="@+id/btOldGameItemDelete"
+                android:layout_marginEnd="@dimen/half_standard_margin"
+                android:layout_alignParentEnd="true"
                 android:text="@string/resume" />
 
         </RelativeLayout>

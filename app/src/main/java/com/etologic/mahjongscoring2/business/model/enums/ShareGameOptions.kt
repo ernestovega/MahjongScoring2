@@ -15,23 +15,16 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.etologic.mahjongscoring2.business.model.dtos
+package com.etologic.mahjongscoring2.business.model.enums
 
-import android.content.Context
-import android.net.Uri
-import androidx.core.content.FileProvider
-import java.io.File
+enum class ShareGameOptions(val index: Int) {
+    JUST_RESULTS(0),
+    FULL_GAME(1), ;
 
-data class ExportedFiles(
-    val csvGames: File,
-    val csvRounds: File,
-) {
-    fun toUriArrayList(context: Context, packageName: String): ArrayList<Uri> =
-        arrayListOf(
-            getUri(context, packageName, csvGames),
-            getUri(context, packageName, csvRounds),
-        )
-
-    private fun getUri(context: Context, packageName: String, file: File): Uri =
-        FileProvider.getUriForFile(context, "${packageName}.provider", file)
+    companion object {
+        fun fromIndex(index: Int) = when (index) {
+            0 -> JUST_RESULTS
+            else -> FULL_GAME
+        }
+    }
 }

@@ -26,7 +26,7 @@ import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HAND_ACTION
-import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PLAYERS
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.EDIT_NAMES
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
@@ -35,10 +35,12 @@ import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
+import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.use_cases.CancelPenaltyUseCase
 import com.etologic.mahjongscoring2.business.use_cases.EndGameUseCase
+import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetOneGameFlowUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuDiscardUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuDrawUseCase
@@ -52,11 +54,13 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 typealias ShouldHighlightLastRound = Boolean
 
@@ -73,6 +77,7 @@ class GameViewModel @AssistedInject constructor(
     private val removeRoundUseCase: RemoveRoundUseCase,
     private val resumeGameUseCase: ResumeGameUseCase,
     private val endGameUseCase: EndGameUseCase,
+    private val exportGameToTextUseCase: ExportGameToTextUseCase,
 ) : BaseViewModel() {
 
     @AssistedFactory
@@ -90,7 +95,7 @@ class GameViewModel @AssistedInject constructor(
 
     enum class GameScreens {
         COMBINATIONS,
-        PLAYERS,
+        EDIT_NAMES,
         DICE,
         HAND_ACTION,
         HU,
@@ -104,6 +109,7 @@ class GameViewModel @AssistedInject constructor(
     private var playerTwoLiteral: String? = null
     private var playerThreeLiteral: String? = null
     private var playerFourLiteral: String? = null
+    var selectedShareGameOption: ShareGameOptions = ShareGameOptions.JUST_RESULTS
 
     private val _pageToShow = MutableLiveData<Pair<GameTablePages, ShouldHighlightLastRound>?>()
     fun getPageToShow(): LiveData<Pair<GameTablePages, ShouldHighlightLastRound>?> = _pageToShow
@@ -115,6 +121,8 @@ class GameViewModel @AssistedInject constructor(
     fun getSeatsOrientation(): LiveData<SeatOrientation> = _seatOrientation
     private var _shouldShowDiffs = MutableLiveData<Boolean>()
     fun shouldShowDiffs(): LiveData<Boolean> = _shouldShowDiffs
+    private val exportedGame = MutableLiveData<String>()
+    fun getExportedGame(): LiveData<String> = exportedGame
 
     init {
         playerOneLiteral = context.getString(R.string.player_one)
@@ -141,7 +149,7 @@ class GameViewModel @AssistedInject constructor(
             uiGame.dbGame.nameP3 == playerThreeLiteral &&
             uiGame.dbGame.nameP4 == playerFourLiteral
         ) {
-            navigateTo(PLAYERS)
+            navigateTo(EDIT_NAMES)
         }
     }
 
@@ -265,5 +273,19 @@ class GameViewModel @AssistedInject constructor(
 
     fun hideDiffs() {
         _shouldShowDiffs.postValue(false)
+    }
+
+    //SHARE ACTIONS
+    fun shareGame(gameId: GameId, getStringRes: (Int) -> String) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                exportGameToTextUseCase.invoke(
+                    gameId = gameId,
+                    shareGameOptions = selectedShareGameOption,
+                    getStringRes = getStringRes,
+                )
+                    .also { exportedGame.postValue(it) }
+            }
+        }
     }
 }

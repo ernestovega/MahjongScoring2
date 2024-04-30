@@ -25,7 +25,7 @@ import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HAND_ACTION
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HU
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PENALTY
-import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PLAYERS
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.EDIT_NAMES
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.RANKING
 import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.ActionDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.HuDialogFragment
@@ -41,7 +41,7 @@ object GameNavigator {
     fun navigateTo(screen: GameScreens, activity: GameActivity, viewModel: GameViewModel) {
         when (screen) {
             COMBINATIONS -> activity.startActivity(Intent(activity, CombinationsActivity::class.java))
-            PLAYERS -> NamesDialogFragment().show(activity.supportFragmentManager, NamesDialogFragment.TAG)
+            EDIT_NAMES -> NamesDialogFragment().show(activity.supportFragmentManager, NamesDialogFragment.TAG)
             DICE -> RollDiceDialogFragment().show(activity.supportFragmentManager, RollDiceDialogFragment.TAG)
             HAND_ACTION -> ActionDialogFragment().show(activity.supportFragmentManager, ActionDialogFragment.TAG)
             HU -> HuDialogFragment().show(activity.supportFragmentManager, HuDialogFragment.TAG)

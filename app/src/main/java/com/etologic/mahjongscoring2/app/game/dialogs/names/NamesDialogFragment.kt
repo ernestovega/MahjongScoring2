@@ -64,7 +64,7 @@ class NamesDialogFragment : AppCompatDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
         printNames()
-        binding.tietNamesDialogEast.showKeyboard(requireActivity().window)
+        binding.tietNamesDialogGameName.showKeyboard(requireActivity().window)
     }
 
     private fun printNames() {
@@ -96,12 +96,12 @@ class NamesDialogFragment : AppCompatDialogFragment() {
     }
 
     override fun dismiss() {
-        binding.tietNamesDialogEast.hideKeyboard()
+        binding.tietNamesDialogGameName.hideKeyboard()
         super.dismiss()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        binding.tietNamesDialogEast.hideKeyboard()
+        binding.tietNamesDialogGameName.hideKeyboard()
         super.onDismiss(dialog)
     }
 }

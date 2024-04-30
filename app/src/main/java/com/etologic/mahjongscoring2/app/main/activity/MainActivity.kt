@@ -40,7 +40,8 @@ import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_SPANISH
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.MM_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
-import com.etologic.mahjongscoring2.business.model.dtos.ExportedFiles
+import com.etologic.mahjongscoring2.app.utils.shareExportedDb
+import com.etologic.mahjongscoring2.app.utils.shareExportedGame
 import com.etologic.mahjongscoring2.databinding.MainActivityBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -144,7 +145,7 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> openDrawer()
-            R.id.action_export_games -> lifecycleScope.launch { viewModel.exportGames(applicationContext) }
+            R.id.action_export_games -> lifecycleScope.launch { viewModel.exportDb(applicationContext) }
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -154,7 +155,8 @@ class MainActivity : BaseActivity() {
         viewModel.getError().observe(this) { showError(it) }
         viewModel.getCurrentToolbar().observe(this) { setToolbar(it) }
         viewModel.getCurrentScreen().observe(this) { goToScreen(it, this, viewModel) }
-        viewModel.getExportedFiles().observe(this) { shareExportedFiles(it) }
+        viewModel.getExportedFiles().observe(this) { shareExportedDb(it) }
+        viewModel.getExportedGame().observe(this) { shareExportedGame(it) }
     }
 
     private fun setToolbar(toolbar: Toolbar) {
@@ -164,15 +166,5 @@ class MainActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         actionBarDrawerToggle.syncState()
-    }
-
-    private fun shareExportedFiles(exportedFiles: ExportedFiles) {
-        val shareIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
-            type = "text/csv"
-            putParcelableArrayListExtra(Intent.EXTRA_STREAM, exportedFiles.toUriArrayList(applicationContext, packageName))
-            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        }
-        val chooser = Intent.createChooser(shareIntent, "Share files using")
-        startActivity(chooser)
     }
 }

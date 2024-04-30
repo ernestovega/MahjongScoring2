@@ -1,5 +1,5 @@
 /*
- *     Copyright © 2023  Ernesto Vega de la Iglesia Soria
+ *     Copyright © 2024  Ernesto Vega de la Iglesia Soria
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -14,15 +14,24 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.business.model.dtos
 
-import java.lang.String.format
-import java.util.Locale
+import android.content.Context
+import android.net.Uri
+import androidx.core.content.FileProvider
+import java.io.File
 
-data class PlayerRanking(
-    val name: String,
-    val score: Int,
-    var points: String? = null,
-)
+data class ExportedDb(
+    val csvGames: File,
+    val csvRounds: File,
+) {
+    fun toUriArrayList(context: Context, packageName: String): ArrayList<Uri> =
+        arrayListOf(
+            getUri(context, packageName, csvGames),
+            getUri(context, packageName, csvRounds),
+        )
 
-fun PlayerRanking.toText() = "$name  $points  (${format(Locale.getDefault(), "%+d", score)})"
+    private fun getUri(context: Context, packageName: String, file: File): Uri =
+        FileProvider.getUriForFile(context, "${packageName}.provider", file)
+}

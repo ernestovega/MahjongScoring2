@@ -31,7 +31,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_players"
+        android:id="@+id/action_edit_names"
         android:title="@string/edit_names"
         app:showAsAction="never" />
 
@@ -50,6 +50,11 @@
         android:id="@+id/action_resume_game"
         android:title="@string/resume"
         android:visible="false"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_share_game"
+        android:title="@string/share"
         app:showAsAction="never" />
 
     <item

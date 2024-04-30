@@ -37,6 +37,7 @@ class OldGamesRvAdapter
     interface GameItemListener {
 
         fun onOldGameItemDeleteClicked(gameId: GameId)
+        fun onOldGameItemShareClicked(gameId: GameId)
         fun onOldGameItemResumeClicked(gameId: GameId)
     }
 
@@ -77,13 +78,14 @@ class OldGamesRvAdapter
         val game = games[position]
         val bestHand = game.getBestHand()
         setFields(itemViewHolder, game, bestHand)
-        itemViewHolder.btItemResume.setOnSecureClickListener {
-            if (itemViewHolder.gameId != null)
-                itemClickListener?.onOldGameItemResumeClicked(itemViewHolder.gameId!!)
-        }
         itemViewHolder.btItemDelete.setOnSecureClickListener {
-            if (itemViewHolder.gameId != null)
-                itemClickListener?.onOldGameItemDeleteClicked(itemViewHolder.gameId!!)
+            itemViewHolder.gameId?.let { itemClickListener?.onOldGameItemDeleteClicked(it) }
+        }
+        itemViewHolder.btItemShare.setOnSecureClickListener {
+            itemViewHolder.gameId?.let { itemClickListener?.onOldGameItemShareClicked(it) }
+        }
+        itemViewHolder.btItemResume.setOnSecureClickListener {
+            itemViewHolder.gameId?.let { itemClickListener?.onOldGameItemResumeClicked(it) }
         }
     }
 
@@ -129,6 +131,7 @@ class OldGamesRvAdapter
         val tvBestHandPlayerName: TextView = binding.tvOldGameItemBestHandPlayerName
         val tvBestHandValue: TextView = binding.tvOldGameItemBestHandValue
         val btItemDelete: TextView = binding.btOldGameItemDelete
+        val btItemShare: TextView = binding.btOldGameItemShare
         val btItemResume: TextView = binding.btOldGameItemResume
         var gameId: GameId? = null
     }

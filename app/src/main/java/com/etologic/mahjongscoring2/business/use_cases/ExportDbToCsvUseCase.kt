@@ -16,8 +16,7 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-import android.content.Context
-import com.etologic.mahjongscoring2.business.model.dtos.ExportedFiles
+import com.etologic.mahjongscoring2.business.model.dtos.ExportedDb
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.data_source.model.DBGame
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
@@ -30,12 +29,12 @@ class ExportDbToCsvUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
     private val roundsRepository: RoundsRepository,
 ) {
-    suspend operator fun invoke(context: Context): ExportedFiles {
+    suspend operator fun invoke(externalFilesDir: File?): ExportedDb {
         val csvGames = convertDbGamesToCsv(gamesRepository.getAllFlow().firstOrNull().orEmpty())
         val csvRounds = convertRoundsToCsv(roundsRepository.getAllFlow().firstOrNull().orEmpty())
-        val gamesCsvFile = writeToFile("Games", csvGames, context)
-        val roundsCsvFile = writeToFile("Rounds", csvRounds, context)
-        return ExportedFiles(gamesCsvFile, roundsCsvFile)
+        val gamesCsvFile = writeToFile("Games", csvGames, externalFilesDir)
+        val roundsCsvFile = writeToFile("Rounds", csvRounds, externalFilesDir)
+        return ExportedDb(gamesCsvFile, roundsCsvFile)
     }
 
     private fun convertDbGamesToCsv(dbGames: List<DBGame>): String {
@@ -78,9 +77,9 @@ class ExportDbToCsvUseCase @Inject constructor(
         return stringBuilder.toString()
     }
 
-    private fun writeToFile(tableName: String, csvData: String, context: Context): File {
+    private fun writeToFile(tableName: String, csvData: String, externalFilesDir: File?): File {
         val fileName = "$tableName.csv"
-        val file = File(context.getExternalFilesDir(null), fileName)
+        val file = File(externalFilesDir, fileName)
         file.writeText(csvData)
         return file
     }

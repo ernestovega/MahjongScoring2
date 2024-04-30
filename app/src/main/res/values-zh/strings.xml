@@ -205,6 +205,12 @@
 
     <!--  Translations V2.1.1  -->
     <string name="export_games">导出游戏</string>
+    <string name="share_files_using">使用以下方式分享文件</string>
     <string name="double_quotes_warn">⚠️ 不允许使用双引号 (保存时将被删除)</string>
     <string name="game_name">比赛名称</string>
+    <string name="share">分享</string>
+    <string name="share_game">分享游戏</string>
+    <string name="complete_game">完整的比赛</string>
+    <string name="share_game_using">使用以下方式分享游戏:</string>
+    <string name="_4th">第四</string>
 </resources>

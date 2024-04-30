@@ -205,6 +205,12 @@
 
     <!--  Translations V2.1.1  -->
     <string name="export_games">Exporter des jeux</string>
+    <string name="share_files_using">Partager des fichiers avec</string>
     <string name="double_quotes_warn">⚠️ Les guillemets doubles ne sont pas autorisés (seront effacés lors de l\'enregistrement)</string>
     <string name="game_name">Nom de la partie</string>
+    <string name="share">Partager</string>
+    <string name="share_game">Partager la partie</string>
+    <string name="complete_game">Partie complète</string>
+    <string name="share_game_using">Partager la partie en utilisant:</string>
+    <string name="_4th">4ème</string>
 </resources>

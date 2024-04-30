@@ -36,7 +36,7 @@
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/second_standard_margin"
-            android:layout_marginTop="@dimen/second_standard_margin"
+            android:layout_marginTop="@dimen/standard_margin"
             android:layout_marginEnd="@dimen/second_standard_margin"
             android:orientation="vertical">
 
@@ -62,7 +62,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/standard_and_half_margin"
                 android:hint="@string/player_east_name">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -73,8 +73,7 @@
                     android:drawablePadding="@dimen/standard_margin"
                     android:inputType="textPersonName|textAutoComplete|textCapSentences"
                     android:maxLength="14"
-                    android:maxLines="1"
-                    android:selectAllOnFocus="true" />
+                    android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

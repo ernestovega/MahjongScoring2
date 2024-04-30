@@ -23,25 +23,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.business.model.dtos.ExportedFiles
+import com.etologic.mahjongscoring2.business.model.dtos.ExportedDb
+import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
 import com.etologic.mahjongscoring2.business.use_cases.ExportDbToCsvUseCase
+import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
-import com.etologic.mahjongscoring2.data_source.model.DBGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
-import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val exportDbToCsvUseCase: ExportDbToCsvUseCase,
     private val showInAppReviewUseCase: ShowInAppReviewUseCase,
+    private val exportDbToCsvUseCase: ExportDbToCsvUseCase,
+    private val exportGameToTextUseCase: ExportGameToTextUseCase,
 ) : BaseViewModel() {
 
     enum class MainScreens {
@@ -57,13 +55,16 @@ class MainViewModel @Inject constructor(
     }
 
     var activeGameId: GameId? = null
+    var selectedShareGameOption: ShareGameOptions = ShareGameOptions.JUST_RESULTS
 
     private val currentScreen = MutableLiveData<MainScreens>()
     fun getCurrentScreen(): LiveData<MainScreens> = currentScreen
     private val currentToolbar = MutableLiveData<Toolbar>()
     fun getCurrentToolbar(): LiveData<Toolbar> = currentToolbar
-    private val exportedFiles = MutableLiveData<ExportedFiles>()
-    fun getExportedFiles(): LiveData<ExportedFiles> = exportedFiles
+    private val exportedDb = MutableLiveData<ExportedDb>()
+    fun getExportedFiles(): LiveData<ExportedDb> = exportedDb
+    private val exportedGame = MutableLiveData<String>()
+    fun getExportedGame(): LiveData<String> = exportedGame
 
     fun setToolbar(toolbar: Toolbar) {
         currentToolbar.postValue(toolbar)
@@ -77,11 +78,24 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch { showInAppReviewUseCase(activity) }
     }
 
-    fun exportGames(context: Context) {
+    fun exportDb(context: Context) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                exportDbToCsvUseCase.invoke(context)
-                    .also { exportedFiles.postValue(it) }
+                exportDbToCsvUseCase.invoke(context.getExternalFilesDir(null))
+                    .also { exportedDb.postValue(it) }
+            }
+        }
+    }
+
+    fun shareGame(gameId: GameId, getStringRes: (Int) -> String) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                exportGameToTextUseCase.invoke(
+                    gameId = gameId,
+                    shareGameOptions = selectedShareGameOption,
+                    getStringRes = getStringRes,
+                )
+                    .also { exportedGame.postValue(it) }
             }
         }
     }

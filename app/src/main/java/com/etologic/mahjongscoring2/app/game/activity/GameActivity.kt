@@ -29,19 +29,20 @@ import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.base.ViewPagerAdapter
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.COMBINATIONS
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.EXIT
-import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PLAYERS
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.EDIT_NAMES
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.RANKING
 import com.etologic.mahjongscoring2.app.game.game_list.GameListFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.Companion.getFromCode
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.TABLE
+import com.etologic.mahjongscoring2.app.utils.shareExportedGame
+import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
-import com.etologic.mahjongscoring2.data_source.model.DBGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.databinding.GameActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -139,8 +140,18 @@ class GameActivity : BaseActivity() {
                 true
             }
 
-            R.id.action_players -> {
-                viewModel.navigateTo(PLAYERS)
+            R.id.action_edit_names -> {
+                viewModel.navigateTo(EDIT_NAMES)
+                true
+            }
+
+            R.id.action_share_game -> {
+                showShareGameDialog(
+                    gameId = viewModel.game.dbGame.gameId,
+                    getSelectedShareGameOption = { viewModel.selectedShareGameOption },
+                    setSelectedShareGameOption = { value -> viewModel.selectedShareGameOption = value },
+                    shareGame = { value -> viewModel.shareGame(gameId = value, getStringRes = { strId -> getString(strId) }) }
+                )
                 true
             }
 
@@ -180,6 +191,7 @@ class GameActivity : BaseActivity() {
             .observe(this) { it?.first?.code?.let { pageIndex -> binding.viewPagerGame.currentItem = pageIndex } }
         viewModel.getSeatsOrientation().observe(this) { updateSeatsOrientationIcon(it) }
         viewModel.shouldShowDiffs().observe(this) { toggleDiffs(it) }
+        viewModel.getExportedGame().observe(this) { shareExportedGame(it) }
 
         lifecycleScope.launch { viewModel.gameFlow.collect(::gameObserver) }
     }
