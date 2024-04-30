@@ -213,4 +213,5 @@
     <string name="complete_game">Partida completa</string>
     <string name="share_game_using">Compartir partida usando:</string>
     <string name="_4th">4°</string>
+    <string name="from">de</string>
 </resources>

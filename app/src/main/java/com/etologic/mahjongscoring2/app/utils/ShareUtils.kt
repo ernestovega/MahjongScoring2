@@ -18,13 +18,9 @@
 package com.etologic.mahjongscoring2.app.utils
 
 import android.app.Activity
-import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.business.model.dtos.ExportedDb
-import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
-import com.etologic.mahjongscoring2.data_source.model.GameId
 
 fun Activity.shareExportedGame(exportedGame: String) {
     val shareIntent = Intent(Intent.ACTION_SEND).apply {
@@ -43,24 +39,4 @@ fun Activity.shareExportedDb(exportedDb: ExportedDb) {
     }
     val chooser = Intent.createChooser(shareIntent, getString(R.string.share_files_using))
     startActivity(chooser)
-}
-
-fun Context.showShareGameDialog(
-    gameId: GameId,
-    getSelectedShareGameOption: () -> ShareGameOptions,
-    setSelectedShareGameOption: (ShareGameOptions) -> Unit,
-    shareGame: (GameId) -> Unit,
-) {
-    AlertDialog.Builder(this, R.style.AlertDialogStyleMM)
-        .setTitle(R.string.share_game)
-        .setSingleChoiceItems(
-            /* items = */ arrayOf(getString(R.string.final_results), getString(R.string.complete_game)),
-            /* checkedItem = */ getSelectedShareGameOption.invoke().index,
-        )   /* listener = */ { _, newSelectedItem ->
-            setSelectedShareGameOption.invoke(ShareGameOptions.fromIndex(newSelectedItem))
-        }
-        .setPositiveButton(R.string.share) { _, _ -> shareGame(gameId) }
-        .setNegativeButton(R.string.cancel, null)
-        .create()
-        .show()
 }

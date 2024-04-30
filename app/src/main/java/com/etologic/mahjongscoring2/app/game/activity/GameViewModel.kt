@@ -35,7 +35,6 @@ import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
-import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.use_cases.CancelPenaltyUseCase
@@ -109,7 +108,6 @@ class GameViewModel @AssistedInject constructor(
     private var playerTwoLiteral: String? = null
     private var playerThreeLiteral: String? = null
     private var playerFourLiteral: String? = null
-    var selectedShareGameOption: ShareGameOptions = ShareGameOptions.JUST_RESULTS
 
     private val _pageToShow = MutableLiveData<Pair<GameTablePages, ShouldHighlightLastRound>?>()
     fun getPageToShow(): LiveData<Pair<GameTablePages, ShouldHighlightLastRound>?> = _pageToShow
@@ -276,14 +274,10 @@ class GameViewModel @AssistedInject constructor(
     }
 
     //SHARE ACTIONS
-    fun shareGame(gameId: GameId, getStringRes: (Int) -> String) {
+    fun shareGame(getStringRes: (Int) -> String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                exportGameToTextUseCase.invoke(
-                    gameId = gameId,
-                    shareGameOptions = selectedShareGameOption,
-                    getStringRes = getStringRes,
-                )
+                exportGameToTextUseCase.invoke(gameId, getStringRes)
                     .also { exportedGame.postValue(it) }
             }
         }

@@ -33,9 +33,7 @@ import com.etologic.mahjongscoring2.app.base.BaseFragment
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
-import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
-import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.databinding.MainOldgamesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -119,12 +117,7 @@ class OldGamesFragment : BaseFragment() {
     }
 
     private fun shareGame(gameId: GameId) {
-        requireContext().showShareGameDialog(
-            gameId = gameId,
-            getSelectedShareGameOption = { activityViewModel.selectedShareGameOption },
-            setSelectedShareGameOption = { value -> activityViewModel.selectedShareGameOption = value },
-            shareGame = { value -> activityViewModel.shareGame(gameId = value, getStringRes = { strId -> getString(strId) }) }
-        )
+        activityViewModel.shareGame(gameId, ::getString)
     }
 
     private fun startGame(gameId: GameId) {

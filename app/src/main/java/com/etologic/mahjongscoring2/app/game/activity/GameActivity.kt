@@ -37,7 +37,6 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTa
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.TABLE
 import com.etologic.mahjongscoring2.app.utils.shareExportedGame
-import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
@@ -146,12 +145,7 @@ class GameActivity : BaseActivity() {
             }
 
             R.id.action_share_game -> {
-                showShareGameDialog(
-                    gameId = viewModel.game.dbGame.gameId,
-                    getSelectedShareGameOption = { viewModel.selectedShareGameOption },
-                    setSelectedShareGameOption = { value -> viewModel.selectedShareGameOption = value },
-                    shareGame = { value -> viewModel.shareGame(gameId = value, getStringRes = { strId -> getString(strId) }) }
-                )
+                viewModel.shareGame(::getString)
                 true
             }
 

@@ -170,45 +170,41 @@ data class UIGame(
         return pointsByCurrentSeat
     }
 
-    private fun getInitialEastPlayerCurrentSeat(roundNumber: Int): TableWinds {
-        return when (roundNumber) {
+    private fun getInitialEastPlayerCurrentSeat(roundNumber: Int): TableWinds =
+        when (roundNumber) {
             1, 2, 3, 4 -> EAST
             5, 6, 7, 8 -> SOUTH
             9, 10, 11, 12 -> NORTH
             13, 14, 15, 16 -> WEST
             else -> EAST
         }
-    }
 
-    private fun getInitialSouthPlayerCurrentSeat(roundNumber: Int): TableWinds {
-        return when (roundNumber) {
+    private fun getInitialSouthPlayerCurrentSeat(roundNumber: Int): TableWinds =
+        when (roundNumber) {
             1, 2, 3, 4 -> SOUTH
             5, 6, 7, 8 -> EAST
             9, 10, 11, 12 -> WEST
             13, 14, 15, 16 -> NORTH
             else -> SOUTH
         }
-    }
 
-    private fun getInitialWestPlayerCurrentSeat(roundNumber: Int): TableWinds {
-        return when (roundNumber) {
+    private fun getInitialWestPlayerCurrentSeat(roundNumber: Int): TableWinds =
+        when (roundNumber) {
             1, 2, 3, 4 -> WEST
             5, 6, 7, 8 -> NORTH
             9, 10, 11, 12 -> EAST
             13, 14, 15, 16 -> SOUTH
             else -> WEST
         }
-    }
 
-    private fun getInitialNorthPlayerCurrentSeat(roundNumber: Int): TableWinds {
-        return when (roundNumber) {
+    private fun getInitialNorthPlayerCurrentSeat(roundNumber: Int): TableWinds =
+        when (roundNumber) {
             1, 2, 3, 4 -> NORTH
             5, 6, 7, 8 -> WEST
             9, 10, 11, 12 -> SOUTH
             13, 14, 15, 16 -> EAST
             else -> NORTH
         }
-    }
 
     fun getPlayersTotalPointsStringSigned(): Array<String> {
         val points = getPlayersTotalPoints()
@@ -231,35 +227,32 @@ data class UIGame(
         return points
     }
 
-    fun getPlayerInitialSeatByCurrentSeat(currentSeatPosition: TableWinds): TableWinds {
-        return when (currentRound.roundNumber) {
+    fun getPlayerInitialSeatByCurrentSeat(currentSeatPosition: TableWinds): TableWinds =
+        when (currentRound.roundNumber) {
             1, 2, 3, 4 -> getPlayerInitialPositionBySeatInRoundEast(currentSeatPosition)
             5, 6, 7, 8 -> getPlayerInitialPositionBySeatInRoundSouth(currentSeatPosition)
             9, 10, 11, 12 -> getPlayerInitialPositionBySeatInRoundWest(currentSeatPosition)
             13, 14, 15, 16 -> getPlayerInitialPositionBySeatInRoundNorth(currentSeatPosition)
             else -> getPlayerInitialPositionBySeatInRoundNorth(currentSeatPosition)
         }
-    }
 
-    private fun getPlayerInitialPositionBySeatInRoundEast(seatPosition: TableWinds): TableWinds {
-        return when (seatPosition) {
+    private fun getPlayerInitialPositionBySeatInRoundEast(seatPosition: TableWinds): TableWinds =
+        when (seatPosition) {
             EAST -> EAST
             SOUTH -> SOUTH
             WEST -> WEST
             NORTH -> NORTH
             else -> NORTH
         }
-    }
 
-    private fun getPlayerInitialPositionBySeatInRoundSouth(seatPosition: TableWinds): TableWinds {
-        return when (seatPosition) {
+    private fun getPlayerInitialPositionBySeatInRoundSouth(seatPosition: TableWinds): TableWinds =
+        when (seatPosition) {
             EAST -> SOUTH
             SOUTH -> EAST
             WEST -> NORTH
             NORTH -> WEST
             else -> WEST
         }
-    }
 
     private fun getPlayerInitialPositionBySeatInRoundWest(seatPosition: TableWinds): TableWinds {
         return when (seatPosition) {
@@ -271,25 +264,23 @@ data class UIGame(
         }
     }
 
-    private fun getPlayerInitialPositionBySeatInRoundNorth(seatPosition: TableWinds): TableWinds {
-        return when (seatPosition) {
+    private fun getPlayerInitialPositionBySeatInRoundNorth(seatPosition: TableWinds): TableWinds =
+        when (seatPosition) {
             EAST -> NORTH
             SOUTH -> WEST
             WEST -> EAST
             NORTH -> SOUTH
             else -> SOUTH
         }
-    }
 
-    fun getSeatsCurrentWind(roundNumber: Int): Array<TableWinds> {
-        return when (roundNumber) {
+    fun getSeatsCurrentWind(roundNumber: Int): Array<TableWinds> =
+        when (roundNumber) {
             1, 5, 9, 13 -> arrayOf(EAST, SOUTH, WEST, NORTH)
             2, 6, 10, 14 -> arrayOf(NORTH, EAST, SOUTH, WEST)
             3, 7, 11, 15 -> arrayOf(WEST, NORTH, EAST, SOUTH)
             4, 8, 12, 16 -> arrayOf(SOUTH, WEST, NORTH, EAST)
             else -> arrayOf()
         }
-    }
 
     fun getEndedRounds(): List<Round> =
         rounds.takeIf { dbGame.isEnded } ?: rounds.dropLast(1)

@@ -21,7 +21,7 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper
 import com.etologic.mahjongscoring2.business.model.dtos.toText
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
-import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
@@ -31,31 +31,57 @@ class ExportGameToTextUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         gameId: GameId,
-        shareGameOptions: ShareGameOptions,
         getStringRes: (Int) -> String,
     ): String {
         val uiGame = getOneGameFlowUseCase.invoke(gameId).firstOrNull() ?: return getStringRes(R.string.ups_something_wrong)
-        return when(shareGameOptions) {
-            ShareGameOptions.JUST_RESULTS -> buildJustResults(uiGame, getStringRes)
-            ShareGameOptions.FULL_GAME -> buildFullGame(uiGame, getStringRes)
-        }
+        return buildText(uiGame, getStringRes)
     }
 
-    private fun buildJustResults(uiGame: UIGame, getStrRes: (Int) -> String): String =
+    private fun buildText(uiGame: UIGame, getStrRes: (Int) -> String): String =
         with(StringBuilder()) {
-            val rankingData = RankingTableHelper.generateRankingTable(uiGame) ?: return getStrRes(R.string.ups_something_wrong)
-            appendLine(uiGame.dbGame.gameName)
-            appendLine()
-            appendLine("${getStrRes(R.string._1st)}: ${rankingData.sortedPlayersRankings[0].toText()}")
-            appendLine("${getStrRes(R.string._2nd)}: ${rankingData.sortedPlayersRankings[1].toText()}")
-            appendLine("${getStrRes(R.string._3rd)}: ${rankingData.sortedPlayersRankings[2].toText()}")
-            appendLine("${getStrRes(R.string._4th)}: ${rankingData.sortedPlayersRankings[3].toText()}")
-            appendLine()
-            appendLine("Best Hand: ${uiGame.getBestHand().playerName} (${uiGame.getBestHand().handValue})")
+            buildResultsText(uiGame, getStrRes)
+            buildRoundsText(uiGame, getStrRes)
             toString()
         }
 
-    private fun buildFullGame(uiGame: UIGame?, getStrRes: (Int) -> String): String {
-        return "To be done"
+    private fun StringBuilder.buildResultsText(uiGame: UIGame, getStrRes: (Int) -> String) {
+        RankingTableHelper.generateRankingTable(uiGame)?.let { rankingData ->
+            appendLine(uiGame.dbGame.gameName)
+            appendLine()
+            appendLine("${getStrRes(R.string.final_results).uppercase()}:")
+            appendLine()
+            appendLine("${getStrRes(R.string._1st)}:    ${rankingData.sortedPlayersRankings[0].toText()}")
+            appendLine("${getStrRes(R.string._2nd)}:    ${rankingData.sortedPlayersRankings[1].toText()}")
+            appendLine("${getStrRes(R.string._3rd)}:    ${rankingData.sortedPlayersRankings[2].toText()}")
+            appendLine("${getStrRes(R.string._4th)}:    ${rankingData.sortedPlayersRankings[3].toText()}")
+            appendLine()
+            appendLine("${getStrRes(R.string.best_hand).uppercase()}:")
+            appendLine()
+            appendLine("${uiGame.getBestHand().playerName} (${uiGame.getBestHand().handValue})")
+        }
+            ?: appendLine(getStrRes(R.string.ups_something_wrong))
+    }
+
+    private fun StringBuilder.buildRoundsText(uiGame: UIGame, getStrRes: (Int) -> String) {
+        appendLine()
+        appendLine("${getStrRes(R.string.rounds).uppercase()}:")
+        appendLine()
+        uiGame.rounds.forEach { round ->
+            append(round.roundNumber.toString().padStart(2, ' '))
+            append("  -  ")
+            append(uiGame.dbGame.getPlayerNameByInitialPosition(round.winnerInitialSeat))
+            append("  -  ")
+            append(round.handPoints.toString().padStart(2, ' '))
+            append("  ")
+            append(getStrRes(R.string.points_).dropLast(1).lowercase())
+            append("  -  ")
+            if (round.discarderInitialSeat == NONE) {
+                append(getStrRes(R.string.self_pick))
+            } else {
+                append("${getStrRes(R.string.from)} ${uiGame.dbGame.getPlayerNameByInitialPosition(round.discarderInitialSeat)}")
+            }
+            append(".")
+            appendLine()
+        }
     }
 }

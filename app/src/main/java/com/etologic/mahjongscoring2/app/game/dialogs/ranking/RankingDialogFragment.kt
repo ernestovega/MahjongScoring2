@@ -27,7 +27,6 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.activityViewModels
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
-import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
 import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.databinding.GameTableRankingDialogFragmentBinding
@@ -74,12 +73,7 @@ class RankingDialogFragment : AppCompatDialogFragment() {
             dismiss()
         }
         binding.btRankingDialogShare.setOnSecureClickListener {
-            requireContext().showShareGameDialog(
-                gameId = activityViewModel.game.dbGame.gameId,
-                getSelectedShareGameOption = { activityViewModel.selectedShareGameOption },
-                setSelectedShareGameOption = { value -> activityViewModel.selectedShareGameOption = value },
-                shareGame = { value -> activityViewModel.shareGame(gameId = value, getStringRes = { strId -> getString(strId) }) }
-            )
+            activityViewModel.shareGame(::getString)
         }
         binding.btRankingDialogOk.setOnSecureClickListener {
             dismiss()

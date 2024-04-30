@@ -25,4 +25,5 @@ data class PlayerRanking(
     var points: String? = null,
 )
 
-fun PlayerRanking.toText() = "$name  $points  (${format(Locale.getDefault(), "%+d", score)})"
+fun PlayerRanking.toText() =
+    "$name    $points    (${format(Locale.getDefault(), "%+d", score)})"

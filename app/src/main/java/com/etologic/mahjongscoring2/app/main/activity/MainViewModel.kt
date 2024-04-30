@@ -24,7 +24,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.business.model.dtos.ExportedDb
-import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
 import com.etologic.mahjongscoring2.business.use_cases.ExportDbToCsvUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
@@ -55,7 +54,6 @@ class MainViewModel @Inject constructor(
     }
 
     var activeGameId: GameId? = null
-    var selectedShareGameOption: ShareGameOptions = ShareGameOptions.JUST_RESULTS
 
     private val currentScreen = MutableLiveData<MainScreens>()
     fun getCurrentScreen(): LiveData<MainScreens> = currentScreen
@@ -90,11 +88,7 @@ class MainViewModel @Inject constructor(
     fun shareGame(gameId: GameId, getStringRes: (Int) -> String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                exportGameToTextUseCase.invoke(
-                    gameId = gameId,
-                    shareGameOptions = selectedShareGameOption,
-                    getStringRes = getStringRes,
-                )
+                exportGameToTextUseCase.invoke(gameId, getStringRes)
                     .also { exportedGame.postValue(it) }
             }
         }
