@@ -206,4 +206,5 @@
     <!--  Translations V2.1.1  -->
     <string name="export_games">导出游戏</string>
     <string name="double_quotes_warn">⚠️ 不允许使用双引号 (保存时将被删除)</string>
+    <string name="game_name">比赛名称</string>
 </resources>

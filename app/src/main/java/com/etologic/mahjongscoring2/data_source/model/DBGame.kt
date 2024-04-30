@@ -1,5 +1,5 @@
 /*
- *     Copyright © 2023  Ernesto Vega de la Iglesia Soria
+ *     Copyright © 2024  Ernesto Vega de la Iglesia Soria
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -14,7 +14,6 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 package com.etologic.mahjongscoring2.data_source.model
 
 import androidx.room.Entity
@@ -34,6 +33,7 @@ typealias GameId = Long
 )
 data class DBGame(
     @field:PrimaryKey(autoGenerate = true) val gameId: GameId,
+    var gameName: String = "",
     var nameP1: String = "",
     var nameP2: String = "",
     var nameP3: String = "",
@@ -42,12 +42,13 @@ data class DBGame(
     @TypeConverters(DateConverter::class) var endDate: Date? = null,
 ) {
 
-    constructor(defaultNames: Array<String>) : this(
+    constructor(playersNames: Array<String>) : this(
         gameId = NOT_SET_GAME_ID,
-        nameP1 = defaultNames[0],
-        nameP2 = defaultNames[1],
-        nameP3 = defaultNames[2],
-        nameP4 = defaultNames[3],
+        gameName = "",
+        nameP1 = playersNames[0],
+        nameP2 = playersNames[1],
+        nameP3 = playersNames[2],
+        nameP4 = playersNames[3],
         startDate = Calendar.getInstance().time,
         endDate = null,
     )

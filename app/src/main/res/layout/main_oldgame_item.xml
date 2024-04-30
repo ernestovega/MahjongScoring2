@@ -34,39 +34,43 @@
             android:orientation="vertical">
 
             <!-- TITLE BAR -->
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/rlOldGameItemTitleContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/half_standard_margin"
+                android:orientation="horizontal"
                 android:paddingBottom="@dimen/half_standard_margin"
+                android:gravity="center_vertical"
                 android:layout_alignParentTop="true"
                 android:background="@color/colorPrimary">
+
+                <TextView
+                    android:id="@+id/tvOldGameItemGameName"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginEnd="@dimen/standard_margin"
+                    android:gravity="center_vertical|start"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    tools:text="Mahjong Madrid Championship 2024 blablablablabla" />
 
                 <TextView
                     android:id="@+id/tvOldGameItemStartDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="@dimen/standard_margin"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    tools:text="04/29/2017 12:30" />
-
-                <TextView
-                    android:id="@+id/tvOldGameItemDuration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/standard_margin"
-                    android:layout_toEndOf="@+id/tvOldGameItemStartDate"
                     android:gravity="center_vertical|end"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    tools:text="04/29/2017 14:30" />
+                    tools:text="04/29/2017\n14:30" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <!-- BODY -->
             <LinearLayout

@@ -21,7 +21,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -146,7 +145,6 @@ class MainActivity : BaseActivity() {
         when (item.itemId) {
             android.R.id.home -> openDrawer()
             R.id.action_export_games -> lifecycleScope.launch { viewModel.exportGames(applicationContext) }
-            R.id.action_import_games -> Toast.makeText(this, R.string.import_games, Toast.LENGTH_SHORT).show()
             else -> return super.onOptionsItemSelected(item)
         }
         return true

@@ -16,7 +16,7 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-internal fun normalizePlayerName(name: String?): String =
+internal fun normalizeName(name: String?): String =
     (name ?: "")
         .trim()
         .replace("\"", "")

@@ -206,4 +206,5 @@
     <!--  Translations V2.1.1  -->
     <string name="export_games">Exportar partidas</string>
     <string name="double_quotes_warn">⚠️ Las comillas no están permitidas (se borrarán al guardar)</string>
+    <string name="game_name">Nombre de la partida</string>
 </resources>

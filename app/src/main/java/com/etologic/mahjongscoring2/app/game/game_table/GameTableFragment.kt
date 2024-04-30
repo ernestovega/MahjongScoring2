@@ -134,9 +134,19 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
         lifecycleScope.launch { activityViewModel.gameFlow.collect(::gameObserver) }
     }
 
-    private fun gameObserver(it: UIGame) {
-        tableSeats.setSeats(it)
-        this.setRoundStuff(it)
+    private fun gameObserver(uiGame: UIGame) {
+        setGameName(uiGame.dbGame.gameName)
+        tableSeats.setSeats(uiGame)
+        this.setRoundStuff(uiGame)
+    }
+
+    private fun setGameName(gameName: String) {
+        if (gameName.isEmpty()) {
+            binding.tvGameTableGameName.visibility = GONE
+        } else {
+            binding.tvGameTableGameName.text = gameName
+            binding.tvGameTableGameName.visibility = VISIBLE
+        }
     }
 
     private fun setRoundStuff(uiGame: UIGame) {

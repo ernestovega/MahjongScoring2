@@ -23,7 +23,7 @@ import java.util.Locale
 
 object DateTimeUtils {
 
-    private const val DATE_FORMAT = "EEEE d MMMM yyyy HH:mm"
+    private const val DATE_FORMAT = "dd/MM/yyyy\nHH:mm"
 
     fun getPrettyDate(date: Date): String {
         val sdf = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())

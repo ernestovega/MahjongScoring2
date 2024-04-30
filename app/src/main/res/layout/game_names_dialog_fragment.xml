@@ -43,10 +43,30 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/game_name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietNamesDialogGameName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:textStyle="bold|italic"
+                    android:inputType="textPersonName|textAutoComplete|textCapSentences"
+                    android:maxLength="60"
+                    android:maxLines="2"
+                    android:selectAllOnFocus="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/standard_margin"
                 android:hint="@string/player_east_name">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietPlayersDialogEast"
+                    android:id="@+id/tietNamesDialogEast"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_east"
@@ -64,7 +84,7 @@
                 android:hint="@string/player_south_name">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietPlayersDialogSouth"
+                    android:id="@+id/tietNamesDialogSouth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_south"
@@ -82,7 +102,7 @@
                 android:hint="@string/player_west_name">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietPlayersDialogWest"
+                    android:id="@+id/tietNamesDialogWest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_west"
@@ -100,7 +120,7 @@
                 android:hint="@string/player_north_name">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietPlayersDialogNorth"
+                    android:id="@+id/tietNamesDialogNorth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_north"
@@ -130,7 +150,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btPlayersDialogCancel"
+                android:id="@+id/btNamesDialogCancel"
                 style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -139,7 +159,7 @@
                 android:textColor="@color/grayMM" />
 
             <Button
-                android:id="@+id/btPlayersDialogSave"
+                android:id="@+id/btNamesDialogSave"
                 style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

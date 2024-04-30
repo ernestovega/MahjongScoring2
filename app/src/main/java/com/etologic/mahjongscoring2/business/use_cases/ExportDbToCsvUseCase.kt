@@ -41,17 +41,18 @@ class ExportDbToCsvUseCase @Inject constructor(
     private fun convertDbGamesToCsv(dbGames: List<DBGame>): String {
         val stringBuilder = StringBuilder()
         stringBuilder.appendLine(
-            "gameId," +
+            "gameId,gameName," +
                     "nameP1,nameP2,nameP3,nameP4," +
                     "startDate,endDate"
         )
         dbGames.forEach { dbGame ->
             stringBuilder.appendLine(
                 "${dbGame.gameId}," +
-                        "\"${normalizePlayerName(dbGame.nameP1)}\"," +
-                        "\"${normalizePlayerName(dbGame.nameP2)}\"," +
-                        "\"${normalizePlayerName(dbGame.nameP3)}\"," +
-                        "\"${normalizePlayerName(dbGame.nameP4)}\"," +
+                        "\"${normalizeName(dbGame.gameName)}\"," +
+                        "\"${normalizeName(dbGame.nameP1)}\"," +
+                        "\"${normalizeName(dbGame.nameP2)}\"," +
+                        "\"${normalizeName(dbGame.nameP3)}\"," +
+                        "\"${normalizeName(dbGame.nameP4)}\"," +
                         "${dbGame.startDate},${dbGame.endDate}"
             )
         }

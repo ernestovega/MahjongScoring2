@@ -27,7 +27,7 @@ import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.Gam
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.RoundsDao
 import com.etologic.mahjongscoring2.data_source.model.DBGame
 
-@Database(entities = [DBGame::class, Round::class], version = 3)
+@Database(entities = [DBGame::class, Round::class], version = 4)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -46,5 +46,10 @@ object Migration2to3 : Migration(2, 3) {
         db.execSQL("ALTER TABLE Games ADD COLUMN endDate INTEGER")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN isEnded")
         db.execSQL("UPDATE Games SET endDate = strftime('%s','now')")
+    }
+}
+object Migration3to4 : Migration(3, 4) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE Games ADD COLUMN gameName TEXT DEFAULT ''")
     }
 }

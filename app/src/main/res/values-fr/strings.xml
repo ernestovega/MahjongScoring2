@@ -206,4 +206,5 @@
     <!--  Translations V2.1.1  -->
     <string name="export_games">Exporter des jeux</string>
     <string name="double_quotes_warn">⚠️ Les guillemets doubles ne sont pas autorisés (seront effacés lors de l\'enregistrement)</string>
+    <string name="game_name">Nom de la partie</string>
 </resources>

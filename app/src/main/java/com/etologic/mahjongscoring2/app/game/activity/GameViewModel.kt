@@ -45,7 +45,7 @@ import com.etologic.mahjongscoring2.business.use_cases.HuDrawUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuSelfPickUseCase
 import com.etologic.mahjongscoring2.business.use_cases.RemoveRoundUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ResumeGameUseCase
-import com.etologic.mahjongscoring2.business.use_cases.SavePlayersNamesUseCase
+import com.etologic.mahjongscoring2.business.use_cases.SaveGameNamesUseCase
 import com.etologic.mahjongscoring2.business.use_cases.SetPenaltyUseCase
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import dagger.assisted.Assisted
@@ -64,7 +64,7 @@ class GameViewModel @AssistedInject constructor(
     @ApplicationContext context: Context,
     getOneGameFlowUseCase: GetOneGameFlowUseCase,
     @Assisted private val gameId: GameId,
-    private val savePlayersNamesUseCase: SavePlayersNamesUseCase,
+    private val saveGameNamesUseCase: SaveGameNamesUseCase,
     private val huDiscardUseCase: HuDiscardUseCase,
     private val huSelfPickUseCase: HuSelfPickUseCase,
     private val huDrawUseCase: HuDrawUseCase,
@@ -129,12 +129,12 @@ class GameViewModel @AssistedInject constructor(
 
     val gameFlow: SharedFlow<UIGame> = getOneGameFlowUseCase(gameId)
         .onEach { game ->
-            showPlayersDialogIfProceed(game)
+            showNamesDialogIfProceed(game)
             this.game = game
         }
         .shareIn(viewModelScope, SharingStarted.Lazily)
 
-    private fun showPlayersDialogIfProceed(uiGame: UIGame) {
+    private fun showNamesDialogIfProceed(uiGame: UIGame) {
         if (uiGame.rounds.size == 1 &&
             uiGame.dbGame.nameP1 == playerOneLiteral &&
             uiGame.dbGame.nameP2 == playerTwoLiteral &&
@@ -178,10 +178,11 @@ class GameViewModel @AssistedInject constructor(
         }
     }
 
-    fun savePlayersNames(nameP1: Editable?, nameP2: Editable?, nameP3: Editable?, nameP4: Editable?) {
+    fun savePlayersNames(gameName: Editable?, nameP1: Editable?, nameP2: Editable?, nameP3: Editable?, nameP4: Editable?) {
         viewModelScope.launch {
-            savePlayersNamesUseCase(
+            saveGameNamesUseCase(
                 dbGame = game.dbGame,
+                gameName = gameName?.toString(),
                 nameP1 = nameP1?.toString(),
                 nameP2 = nameP2?.toString(),
                 nameP3 = nameP3?.toString(),

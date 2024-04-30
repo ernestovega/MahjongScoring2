@@ -208,4 +208,5 @@
     <!--  Translations V2.1.1  -->
     <string name="export_games">Export games</string>
     <string name="double_quotes_warn">⚠️ Double quotes are not allowed (will be erased on save)</string>
+    <string name="game_name">Game name</string>
 </resources>

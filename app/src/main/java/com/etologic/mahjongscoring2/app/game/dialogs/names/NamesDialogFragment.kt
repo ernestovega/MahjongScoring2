@@ -31,7 +31,7 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
-import com.etologic.mahjongscoring2.databinding.GamePlayersDialogFragmentBinding
+import com.etologic.mahjongscoring2.databinding.GameNamesDialogFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,7 +41,7 @@ class NamesDialogFragment : AppCompatDialogFragment() {
         const val TAG = "NamesDialogFragment"
     }
 
-    private var _binding: GamePlayersDialogFragmentBinding? = null
+    private var _binding: GameNamesDialogFragmentBinding? = null
     private val binding get() = _binding!!
 
     private val activityViewModel: GameViewModel by activityViewModels()
@@ -51,7 +51,7 @@ class NamesDialogFragment : AppCompatDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = GamePlayersDialogFragmentBinding.inflate(inflater, container, false)
+        _binding = GameNamesDialogFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -64,30 +64,31 @@ class NamesDialogFragment : AppCompatDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
         printNames()
-        binding.tietPlayersDialogEast.showKeyboard(requireActivity().window)
+        binding.tietNamesDialogEast.showKeyboard(requireActivity().window)
     }
 
     private fun printNames() {
         val names = activityViewModel.game.dbGame.getPlayersNames()
-        binding.tietPlayersDialogEast.setText(names[EAST.code])
-        binding.tietPlayersDialogSouth.setText(names[SOUTH.code])
-        binding.tietPlayersDialogWest.setText(names[WEST.code])
-        binding.tietPlayersDialogNorth.setText(names[NORTH.code])
+        binding.tietNamesDialogEast.setText(names[EAST.code])
+        binding.tietNamesDialogSouth.setText(names[SOUTH.code])
+        binding.tietNamesDialogWest.setText(names[WEST.code])
+        binding.tietNamesDialogNorth.setText(names[NORTH.code])
     }
 
     private fun setOnClickListeners() {
         with(binding) {
-            tietPlayersDialogEast.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogEast.selectAll() }
-            tietPlayersDialogSouth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogSouth.selectAll() }
-            tietPlayersDialogWest.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogWest.selectAll() }
-            tietPlayersDialogNorth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietPlayersDialogNorth.selectAll() }
-            btPlayersDialogCancel.setOnSecureClickListener { dismiss() }
-            btPlayersDialogSave.setOnSecureClickListener {
+            tietNamesDialogEast.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietNamesDialogEast.selectAll() }
+            tietNamesDialogSouth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietNamesDialogSouth.selectAll() }
+            tietNamesDialogWest.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietNamesDialogWest.selectAll() }
+            tietNamesDialogNorth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietNamesDialogNorth.selectAll() }
+            btNamesDialogCancel.setOnSecureClickListener { dismiss() }
+            btNamesDialogSave.setOnSecureClickListener {
                 activityViewModel.savePlayersNames(
-                    nameP1 = tietPlayersDialogEast.text,
-                    nameP2 = tietPlayersDialogSouth.text,
-                    nameP3 = tietPlayersDialogWest.text,
-                    nameP4 = tietPlayersDialogNorth.text
+                    gameName = tietNamesDialogGameName.text,
+                    nameP1 = tietNamesDialogEast.text,
+                    nameP2 = tietNamesDialogSouth.text,
+                    nameP3 = tietNamesDialogWest.text,
+                    nameP4 = tietNamesDialogNorth.text
                 )
                 dismiss()
             }
@@ -95,12 +96,12 @@ class NamesDialogFragment : AppCompatDialogFragment() {
     }
 
     override fun dismiss() {
-        binding.tietPlayersDialogEast.hideKeyboard()
+        binding.tietNamesDialogEast.hideKeyboard()
         super.dismiss()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        binding.tietPlayersDialogEast.hideKeyboard()
+        binding.tietNamesDialogEast.hideKeyboard()
         super.onDismiss(dialog)
     }
 }

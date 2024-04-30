@@ -17,10 +17,7 @@
 package com.etologic.mahjongscoring2.app.main.old_games
 
 import android.view.LayoutInflater
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -29,7 +26,6 @@ import com.etologic.mahjongscoring2.app.model.GameItemDiffUtilCallback
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
-import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MIN_MCR_POINTS
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.databinding.MainOldgameItemBinding
 import java.util.Locale
@@ -97,15 +93,13 @@ class OldGamesRvAdapter
         bestHand: BestHand
     ) {
         itemViewHolder.gameId = uiGame.dbGame.gameId
+        itemViewHolder.tvGameName.text = uiGame.dbGame.gameName
         itemViewHolder.tvStartDate.text = DateTimeUtils.getPrettyDate(uiGame.dbGame.startDate)
-        itemViewHolder.tvDuration.text = String.format("#%s", itemViewHolder.gameId.toString())
         itemViewHolder.tvEastPlayerName.text = uiGame.dbGame.nameP1
         itemViewHolder.tvSouthPlayerName.text = uiGame.dbGame.nameP2
         itemViewHolder.tvWestPlayerName.text = uiGame.dbGame.nameP3
         itemViewHolder.tvNorthPlayerName.text = uiGame.dbGame.nameP4
-        val playersTotalPoints = uiGame.getPlayersTotalPoints().map {
-            String.format(Locale.getDefault(), "%d", it)
-        }
+        val playersTotalPoints = uiGame.getPlayersTotalPoints().map { String.format(Locale.getDefault(), "%d", it) }
         itemViewHolder.tvEastPlayerPoints.text = playersTotalPoints[0]
         itemViewHolder.tvSouthPlayerPoints.text = playersTotalPoints[1]
         itemViewHolder.tvWestPlayerPoints.text = playersTotalPoints[2]
@@ -121,8 +115,8 @@ class OldGamesRvAdapter
 
     inner class OldGameItemViewHolder(binding: MainOldgameItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
+        val tvGameName: TextView = binding.tvOldGameItemGameName
         val tvStartDate: TextView = binding.tvOldGameItemStartDate
-        val tvDuration: TextView = binding.tvOldGameItemDuration
         val tvEastPlayerName: TextView = binding.tvOlgGameItemPlayerEastName
         val tvSouthPlayerName: TextView = binding.tvOlgGameItemPlayerSouthName
         val tvWestPlayerName: TextView = binding.tvOlgGameItemPlayerWestName
@@ -132,7 +126,6 @@ class OldGamesRvAdapter
         val tvWestPlayerPoints: TextView = binding.tvOldGameItemPlayerWestPoints
         val tvNorthPlayerPoints: TextView = binding.tvOldGameItemPlayerNorthPoints
         val tvRoundNumber: TextView = binding.tvOldGameItemRoundsNumber
-        val llBestHandContainer: LinearLayout = binding.llOldGameItemItemBestHand
         val tvBestHandPlayerName: TextView = binding.tvOldGameItemBestHandPlayerName
         val tvBestHandValue: TextView = binding.tvOldGameItemBestHandValue
         val btItemDelete: TextView = binding.btOldGameItemDelete

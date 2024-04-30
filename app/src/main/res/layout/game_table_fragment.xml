@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright © 2023  Ernesto Vega de la Iglesia Soria
   ~
   ~     This program is free software: you can redistribute it and/or modify
@@ -22,16 +21,28 @@
     android:layout_height="match_parent"
     android:background="@color/grayLight">
 
+    <TextView
+        android:id="@+id/tvGameTableGameName"
+        style="@style/TextViewTableGameName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/standard_margin"
+        tools:text="Mahjong Madrid Championship 2024 blablablabla" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcvGameTableSeats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/tvGameTableGameName"
         android:tag="GameTableSeatsFragment" />
 
     <TextView
         android:id="@+id/tvGameTableRoundNumberTopStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvGameTableGameName"
         android:layout_alignParentStart="true"
         android:layout_marginStart="@dimen/second_standard_margin"
         android:layout_marginTop="@dimen/standard_margin"
@@ -42,13 +53,13 @@
         android:textSize="@dimen/table_player_round_num_text_size"
         app:drawableTint="@color/grayMM"
         tools:drawableBottom="@drawable/ic_east"
-        tools:targetApi="m"
         tools:text="16" />
 
     <TextView
         android:id="@+id/tvGameTableRoundNumberTopEnd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvGameTableGameName"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="@dimen/standard_margin"
         android:layout_marginEnd="@dimen/second_standard_margin"
@@ -60,7 +71,6 @@
         app:drawableTint="@color/grayMM"
         tools:drawableBottom="@drawable/ic_east"
         tools:ignore="RelativeOverlap"
-        tools:targetApi="m"
         tools:text="16" />
 
     <TextView
@@ -78,7 +88,6 @@
         android:textSize="@dimen/table_player_round_num_text_size"
         app:drawableTint="@color/grayMM"
         tools:drawableBottom="@drawable/ic_east"
-        tools:targetApi="m"
         tools:text="16" />
 
     <TextView
@@ -98,7 +107,6 @@
         app:drawableTint="@color/grayMM"
         tools:drawableBottom="@drawable/ic_east"
         tools:ignore="RelativeOverlap"
-        tools:targetApi="m"
         tools:text="16" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
