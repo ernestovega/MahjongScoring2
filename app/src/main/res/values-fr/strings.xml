@@ -186,15 +186,15 @@
     <string name="_1st">1er</string>
     <string name="_2nd">2ème</string>
     <string name="_3rd">3ème</string>
-    <string name="mahjong_madrid_web">Mahjong Madrid</string>
+    <string name="mahjong_madrid_web">Mahjong Madrid (web)</string>
     <string name="ema_web">EMA (web)</string>
     <string name="winner_">Gagnant</string>
     <string name="points_">Points:</string>
     <string name="self_pick">Prendre soi-même</string>
     <string name="direct">Direct</string>
     <string name="indirect">Indirect</string>
-    <string name="to_be_by">Pour être / Par</string>
-    <string name="points_needed">Points nécessaires</string>
+    <string name="to_be_by">Pour être \\ Par</string>
+    <string name="points_needed">Points nécessaires:</string>
     <string name="hide_diffs_calcs">Masquer les calculs</string>
     <string name="show_diffs_calcs">Montrer les calculs</string>
     <string name="green_book_es">Livre Vert (PDF en espagnol)</string>
@@ -202,4 +202,8 @@
     <string name="diff">Points nécessaires</string>
     <string name="i_think_is_enough_jajaja">Je pense que c\'est suffisant, n\'est-ce pas? 🤣</string>
     <string name="send_email">Envoyer un courriel</string>
+
+    <!--  Translations V2.1.1  -->
+    <string name="export_games">Exporter des jeux</string>
+    <string name="double_quotes_warn">⚠️ Les guillemets doubles ne sont pas autorisés (seront effacés lors de l\'enregistrement)</string>
 </resources>

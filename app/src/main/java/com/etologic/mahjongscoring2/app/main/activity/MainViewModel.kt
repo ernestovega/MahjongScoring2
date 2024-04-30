@@ -17,19 +17,30 @@
 package com.etologic.mahjongscoring2.app.main.activity
 
 import android.app.Activity
+import android.content.Context
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
+import com.etologic.mahjongscoring2.business.model.dtos.ExportedFiles
+import com.etologic.mahjongscoring2.business.use_cases.ExportDbToCsvUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
+import com.etologic.mahjongscoring2.data_source.model.DBGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
+    private val exportDbToCsvUseCase: ExportDbToCsvUseCase,
     private val showInAppReviewUseCase: ShowInAppReviewUseCase,
 ) : BaseViewModel() {
 
@@ -51,6 +62,8 @@ class MainViewModel @Inject constructor(
     fun getCurrentScreen(): LiveData<MainScreens> = currentScreen
     private val currentToolbar = MutableLiveData<Toolbar>()
     fun getCurrentToolbar(): LiveData<Toolbar> = currentToolbar
+    private val exportedFiles = MutableLiveData<ExportedFiles>()
+    fun getExportedFiles(): LiveData<ExportedFiles> = exportedFiles
 
     fun setToolbar(toolbar: Toolbar) {
         currentToolbar.postValue(toolbar)
@@ -62,5 +75,14 @@ class MainViewModel @Inject constructor(
 
     fun showInAppReviewIfProceed(activity: Activity) {
         viewModelScope.launch { showInAppReviewUseCase(activity) }
+    }
+
+    fun exportGames(context: Context) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                exportDbToCsvUseCase.invoke(context)
+                    .also { exportedFiles.postValue(it) }
+            }
+        }
     }
 }

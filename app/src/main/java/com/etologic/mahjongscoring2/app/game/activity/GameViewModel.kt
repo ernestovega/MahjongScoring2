@@ -17,6 +17,7 @@
 package com.etologic.mahjongscoring2.app.game.activity
 
 import android.content.Context
+import android.text.Editable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -177,9 +178,15 @@ class GameViewModel @AssistedInject constructor(
         }
     }
 
-    fun savePlayersNames(names: Array<String>) {
+    fun savePlayersNames(nameP1: Editable?, nameP2: Editable?, nameP3: Editable?, nameP4: Editable?) {
         viewModelScope.launch {
-            savePlayersNamesUseCase(game.dbGame, names)
+            savePlayersNamesUseCase(
+                dbGame = game.dbGame,
+                nameP1 = nameP1?.toString(),
+                nameP2 = nameP2?.toString(),
+                nameP3 = nameP3?.toString(),
+                nameP4 = nameP4?.toString()
+            )
                 .onFailure(::showError)
         }
     }

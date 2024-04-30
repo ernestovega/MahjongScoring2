@@ -204,4 +204,8 @@
     <string name="diff">Needed points</string>
     <string name="i_think_is_enough_jajaja">I think this is enough, isn\'t it? 🤣</string>
     <string name="send_email">Send Email</string>
+
+    <!--  Translations V2.1.1  -->
+    <string name="export_games">Export games</string>
+    <string name="double_quotes_warn">⚠️ Double quotes are not allowed (will be erased on save)</string>
 </resources>

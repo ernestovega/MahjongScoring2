@@ -84,12 +84,10 @@ class NamesDialogFragment : AppCompatDialogFragment() {
             btPlayersDialogCancel.setOnSecureClickListener { dismiss() }
             btPlayersDialogSave.setOnSecureClickListener {
                 activityViewModel.savePlayersNames(
-                    arrayOf(
-                        (tietPlayersDialogEast.text ?: "").toString().trim(),
-                        (tietPlayersDialogSouth.text ?: "").toString().trim(),
-                        (tietPlayersDialogWest.text ?: "").toString().trim(),
-                        (tietPlayersDialogNorth.text ?: "").toString().trim()
-                    )
+                    nameP1 = tietPlayersDialogEast.text,
+                    nameP2 = tietPlayersDialogSouth.text,
+                    nameP3 = tietPlayersDialogWest.text,
+                    nameP4 = tietPlayersDialogNorth.text
                 )
                 dismiss()
             }

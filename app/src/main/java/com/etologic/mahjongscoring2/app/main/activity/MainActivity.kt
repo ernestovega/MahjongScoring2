@@ -1,5 +1,5 @@
 /*
- *     Copyright © 2023  Ernesto Vega de la Iglesia Soria
+ *     Copyright © 2024  Ernesto Vega de la Iglesia Soria
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,14 +18,17 @@ package com.etologic.mahjongscoring2.app.main.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat.START
+import androidx.lifecycle.lifecycleScope
 import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
@@ -38,9 +41,11 @@ import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_SPANISH
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.MM_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
+import com.etologic.mahjongscoring2.business.model.dtos.ExportedFiles
 import com.etologic.mahjongscoring2.databinding.MainActivityBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
@@ -89,30 +94,15 @@ class MainActivity : BaseActivity() {
         setContentView(view)
     }
 
+    private fun openDrawer() {
+        binding.drawerLayoutMain.openDrawer(START, true)
+    }
+
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         setupDrawer()
         observeViewModel()
         viewModel.navigateTo(OLD_GAMES)
-    }
-
-    private fun observeViewModel() {
-        viewModel.getError().observe(this) { showError(it) }
-        viewModel.getCurrentToolbar().observe(this) { setToolbar(it) }
-        viewModel.getCurrentScreen().observe(this) { goToScreen(it, this, viewModel) }
-    }
-
-    private fun closeDrawer() {
-        binding.drawerLayoutMain.closeDrawer(START, true)
-    }
-
-    private fun setToolbar(toolbar: Toolbar) {
-        setSupportActionBar(toolbar)
-        val actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.drawerLayoutMain, R.string.open_drawer, R.string.close_drawer)
-        binding.drawerLayoutMain.addDrawerListener(actionBarDrawerToggle)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        actionBarDrawerToggle.syncState()
     }
 
     private fun setupDrawer() {
@@ -143,15 +133,48 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            openDrawer()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
+    private fun closeDrawer() {
+        binding.drawerLayoutMain.closeDrawer(START, true)
     }
 
-    private fun openDrawer() {
-        binding.drawerLayoutMain.openDrawer(START, true)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> openDrawer()
+            R.id.action_export_games -> lifecycleScope.launch { viewModel.exportGames(applicationContext) }
+            R.id.action_import_games -> Toast.makeText(this, R.string.import_games, Toast.LENGTH_SHORT).show()
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
+    }
+
+    private fun observeViewModel() {
+        viewModel.getError().observe(this) { showError(it) }
+        viewModel.getCurrentToolbar().observe(this) { setToolbar(it) }
+        viewModel.getCurrentScreen().observe(this) { goToScreen(it, this, viewModel) }
+        viewModel.getExportedFiles().observe(this) { shareExportedFiles(it) }
+    }
+
+    private fun setToolbar(toolbar: Toolbar) {
+        setSupportActionBar(toolbar)
+        val actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.drawerLayoutMain, R.string.open_drawer, R.string.close_drawer)
+        binding.drawerLayoutMain.addDrawerListener(actionBarDrawerToggle)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
+        actionBarDrawerToggle.syncState()
+    }
+
+    private fun shareExportedFiles(exportedFiles: ExportedFiles) {
+        val shareIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
+            type = "text/csv"
+            putParcelableArrayListExtra(Intent.EXTRA_STREAM, exportedFiles.toUriArrayList(applicationContext, packageName))
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
+        val chooser = Intent.createChooser(shareIntent, "Share files using")
+        startActivity(chooser)
     }
 }

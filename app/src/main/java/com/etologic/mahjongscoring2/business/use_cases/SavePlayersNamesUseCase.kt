@@ -23,8 +23,20 @@ import javax.inject.Inject
 class SavePlayersNamesUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
 ) {
-    suspend operator fun invoke(dbGame: DBGame, names: Array<String>): Result<Boolean> {
-        dbGame.updateNames(names)
+    suspend operator fun invoke(
+        dbGame: DBGame,
+        nameP1: String?,
+        nameP2: String?,
+        nameP3: String?,
+        nameP4: String?
+    ): Result<Boolean> {
+        val validatedNames = arrayOf(
+            normalizePlayerName(nameP1),
+            normalizePlayerName(nameP2),
+            normalizePlayerName(nameP3),
+            normalizePlayerName(nameP4)
+        )
+        dbGame.updateNames(validatedNames)
         return gamesRepository.updateOne(dbGame)
     }
 
