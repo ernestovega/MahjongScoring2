@@ -16,8 +16,9 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
+import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
-import com.etologic.mahjongscoring2.business.model.entities.applyPenalties
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import javax.inject.Inject
 
@@ -26,6 +27,11 @@ class HuDrawUseCase @Inject constructor(
     private val endRoundUseCase: EndRoundUseCase,
 ) {
     suspend operator fun invoke(uiGame: UIGame): Result<Boolean> =
-        roundsRepository.updateOne(uiGame.currentRound.applyPenalties())
+        roundsRepository.updateOne(uiGame.currentRound.applyDraw())
             .onSuccess { endRoundUseCase(uiGame) }
+}
+
+fun Round.applyDraw(): Round = apply {
+    this.winnerInitialSeat = TableWinds.NONE
+    this.discarderInitialSeat = TableWinds.NONE
 }

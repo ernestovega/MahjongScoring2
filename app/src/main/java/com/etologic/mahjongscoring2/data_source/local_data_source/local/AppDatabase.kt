@@ -27,7 +27,7 @@ import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.Gam
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.RoundsDao
 import com.etologic.mahjongscoring2.data_source.model.DBGame
 
-@Database(entities = [DBGame::class, Round::class], version = 4)
+@Database(entities = [DBGame::class, Round::class], version = 5)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -41,6 +41,7 @@ object Migration1to2 : Migration(1, 2) {
         db.execSQL("DROP TABLE IF EXISTS Tables")
     }
 }
+
 object Migration2to3 : Migration(2, 3) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL("ALTER TABLE Games ADD COLUMN endDate INTEGER")
@@ -48,8 +49,26 @@ object Migration2to3 : Migration(2, 3) {
         db.execSQL("UPDATE Games SET endDate = strftime('%s','now')")
     }
 }
+
 object Migration3to4 : Migration(3, 4) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL("ALTER TABLE Games ADD COLUMN gameName TEXT DEFAULT ''")
+        db.execSQL("ALTER TABLE Games ADD COLUMN gameName TEXT")
+    }
+}
+
+object Migration4to5 : Migration(4, 5) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE Games ADD COLUMN winnerInitialSeat_new INTEGER")
+        db.execSQL("ALTER TABLE Games ADD COLUMN discarderInitialSeat_new INTEGER")
+        db.execSQL("UPDATE Games SET winnerInitialSeat_new = winnerInitialSeat")
+        db.execSQL("UPDATE Games SET discarderInitialSeat_new = discarderInitialSeat")
+        db.execSQL("DROP COLUMN winnerInitialSeat")
+        db.execSQL("DROP COLUMN discarderInitialSeat")
+        db.execSQL("ALTER TABLE Games ADD COLUMN winnerInitialSeat INTEGER")
+        db.execSQL("ALTER TABLE Games ADD COLUMN discarderInitialSeat INTEGER")
+        db.execSQL("UPDATE Games SET winnerInitialSeat = winnerInitialSeat_new")
+        db.execSQL("UPDATE Games SET discarderInitialSeat = discarderInitialSeat_new")
+        db.execSQL("DROP COLUMN winnerInitialSeat_new")
+        db.execSQL("DROP COLUMN discarderInitialSeat_new")
     }
 }

@@ -34,7 +34,6 @@ import com.etologic.mahjongscoring2.app.extensions.toStringOrHyphen
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HU
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PENALTY
-import com.etologic.mahjongscoring2.business.model.entities.areThereNotAppliedPenalties
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.databinding.GameActionDialogFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -124,7 +123,7 @@ class ActionDialogFragment : AppCompatDialogFragment() {
 
     private fun setButtons() {
         binding.btHandActionsDialogPenaltiesCancel.visibility =
-            if (activityViewModel.game.currentRound.areThereNotAppliedPenalties()) VISIBLE else GONE
+            if (activityViewModel.game.currentRound.areTherePenalties()) VISIBLE else GONE
     }
 
     private fun setListeners() {

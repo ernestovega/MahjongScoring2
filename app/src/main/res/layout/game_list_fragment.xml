@@ -100,21 +100,21 @@
         android:id="@+id/rvGameList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/llGameListFooter"
+        android:layout_above="@+id/llGameListFooterTotalPenalties"
         android:layout_below="@+id/llGameListHeader"
         android:background="@color/grayLight"
         android:fadeScrollbars="false"
         android:fadingEdgeLength="@dimen/standard_margin"
         android:requiresFadingEdge="vertical"
-        android:scrollbars="vertical"
         android:scrollIndicators="end"
+        android:scrollbars="vertical"
         tools:listitem="@layout/game_list_round_item" />
 
     <RelativeLayout
         android:id="@+id/rlGameListEmptyState"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/llGameListFooter"
+        android:layout_above="@+id/llGameListFooterTotalPenalties"
         android:layout_below="@+id/llGameListHeader">
 
         <ImageView
@@ -148,7 +148,79 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/llGameListFooter"
+        android:id="@+id/llGameListFooterTotalPenalties"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/llGameListFooterTotalPoints"
+        android:background="@color/purplePenalty"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/standard_margin"
+        android:paddingTop="@dimen/half_standard_margin"
+        android:paddingEnd="@dimen/standard_margin"
+        android:paddingBottom="@dimen/half_standard_margin"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:layout_width="@dimen/fourth_standard_margin"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/penalty"
+            android:gravity="center"
+            android:src="@drawable/ic_whistle_black_24"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/tvGameListFooterTotalPenaltiesP1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/half_standard_margin"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="-999" />
+
+        <TextView
+            android:id="@+id/tvGameListFooterTotalPenaltiesP2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/half_standard_margin"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="-999" />
+
+        <TextView
+            android:id="@+id/tvGameListFooterTotalPenaltiesP3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/half_standard_margin"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="-999" />
+
+        <TextView
+            android:id="@+id/tvGameListFooterTotalPenaltiesP4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="-999" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llGameListFooterTotalPoints"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -180,7 +252,8 @@
             android:lines="1"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="-999" />
 
         <TextView
             android:id="@+id/tvGameListFooterTotalPointsP2"
@@ -192,7 +265,8 @@
             android:lines="1"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="-999" />
 
         <TextView
             android:id="@+id/tvGameListFooterTotalPointsP3"
@@ -204,7 +278,8 @@
             android:lines="1"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="-999" />
 
         <TextView
             android:id="@+id/tvGameListFooterTotalPointsP4"
@@ -215,7 +290,8 @@
             android:lines="1"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="-999" />
 
     </LinearLayout>
 

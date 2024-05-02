@@ -24,7 +24,6 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.etologic.mahjongscoring2.app.base.RecyclerViewable
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.converters.TableWindsConverter
 import com.etologic.mahjongscoring2.data_source.model.DBGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
@@ -42,10 +41,10 @@ data class Round(
 ) : RecyclerViewable<Round>() {
 
     @TypeConverters(TableWindsConverter::class)
-    var winnerInitialSeat = NONE
+    var winnerInitialSeat: TableWinds? = null
 
     @TypeConverters(TableWindsConverter::class)
-    var discarderInitialSeat: TableWinds = NONE
+    var discarderInitialSeat: TableWinds? = null
     var handPoints: Int = 0
     var pointsP1: Int = 0
     var pointsP2: Int = 0
@@ -143,16 +142,8 @@ data class Round(
                     round1.isBestHand == round2.isBestHand
         }
     }
-}
 
-fun Round.applyPenalties(): Round {
-    pointsP1 += penaltyP1
-    pointsP2 += penaltyP2
-    pointsP3 += penaltyP3
-    pointsP4 += penaltyP4
-    return this
-}
+    fun isNotEnded(): Boolean = winnerInitialSeat == null
 
-fun Round.areThereNotAppliedPenalties(): Boolean =
-    (penaltyP1 != 0 || penaltyP2 != 0 || penaltyP3 != 0 || penaltyP4 != 0)
-            && pointsP1 == 0 && pointsP2 == 0 && pointsP3 == 0 && pointsP4 == 0
+    fun areTherePenalties(): Boolean = penaltyP1 != 0 || penaltyP2 != 0 || penaltyP3 != 0 || penaltyP4 != 0
+}

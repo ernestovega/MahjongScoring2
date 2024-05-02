@@ -55,7 +55,7 @@ object RankingTableHelper {
     }
 
     private fun setPlayersNamesAndScores(uiGame: UIGame): List<PlayerRanking> {
-        val scores = uiGame.getPlayersTotalPoints()
+        val scores = uiGame.getPlayersTotalPointsWithPenalties()
         return listOf(
             PlayerRanking(uiGame.dbGame.nameP1, scores[0]),
             PlayerRanking(uiGame.dbGame.nameP2, scores[1]),
@@ -114,7 +114,7 @@ object RankingTableHelper {
         val bestHands = ArrayList<BestHand>()
         for (round in uiGame.rounds) {
             val roundHandPoints = round.handPoints
-            val playerInitialPosition = uiGame.getPlayerInitialSeatByCurrentSeat(round.winnerInitialSeat)
+            val playerInitialPosition = uiGame.getPlayerInitialSeatByCurrentSeat(round.winnerInitialSeat!!)
             val playerName = uiGame.dbGame.getPlayerNameByInitialPosition(playerInitialPosition)
             val bestHand = BestHand(roundHandPoints, playerInitialPosition, playerName)
             if (bestHands.isEmpty() || roundHandPoints == bestHands[0].handValue) {

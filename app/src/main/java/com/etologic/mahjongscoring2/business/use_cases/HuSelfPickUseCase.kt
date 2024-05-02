@@ -19,7 +19,6 @@ package com.etologic.mahjongscoring2.business.use_cases
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
-import com.etologic.mahjongscoring2.business.model.entities.applyPenalties
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import javax.inject.Inject
@@ -33,14 +32,14 @@ class HuSelfPickUseCase @Inject constructor(
         roundsRepository.updateOne(uiGame.currentRound.applyHuSelfPick(huData))
             .onSuccess { endRoundUseCase(uiGame) }
 
-    private fun Round.applyHuSelfPick(huData: HuData): Round {
+    private fun Round.applyHuSelfPick(huData: HuData): Round = apply {
         this.winnerInitialSeat = huData.winnerInitialSeat
+        this.discarderInitialSeat = TableWinds.NONE
         this.handPoints = huData.points
         this.pointsP1 += calculateSelfPickSeatPoints(TableWinds.EAST, huData)
         this.pointsP2 += calculateSelfPickSeatPoints(TableWinds.SOUTH, huData)
         this.pointsP3 += calculateSelfPickSeatPoints(TableWinds.WEST, huData)
         this.pointsP4 += calculateSelfPickSeatPoints(TableWinds.NORTH, huData)
-        return this.applyPenalties()
     }
 
     private fun calculateSelfPickSeatPoints(seat: TableWinds, huData: HuData): Int =

@@ -22,5 +22,5 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 data class HuData(
     val points: Int,
     val winnerInitialSeat: TableWinds,
-    val discarderInitialSeat: TableWinds? = NONE,
+    val discarderInitialSeat: TableWinds = NONE,
 )

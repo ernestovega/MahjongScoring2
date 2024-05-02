@@ -76,8 +76,8 @@ data class UIGame(
             if (round.handPoints > bestHand.handValue) {
                 bestHand = BestHand(
                     handValue = round.handPoints,
-                    playerInitialPosition = round.winnerInitialSeat,
-                    playerName = dbGame.getPlayerNameByInitialPosition(round.winnerInitialSeat)
+                    playerInitialPosition = round.winnerInitialSeat!!,
+                    playerName = dbGame.getPlayerNameByInitialPosition(round.winnerInitialSeat!!)
                 )
             }
         }
@@ -139,7 +139,7 @@ data class UIGame(
     }
 
     fun getPlayersTotalPointsByCurrentSeat(): IntArray {
-        val points = getPlayersTotalPoints()
+        val points = getPlayersTotalPointsWithPenalties()
         val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
         val currentRoundNumber = currentRound.roundNumber
         pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRoundNumber).code] = points[EAST.code]
@@ -206,8 +206,32 @@ data class UIGame(
             else -> NORTH
         }
 
-    fun getPlayersTotalPointsStringSigned(): Array<String> {
-        val points = getPlayersTotalPoints()
+    fun getPlayersTotalPenaltiesStringSigned(): Array<String>? =
+        if (rounds.all { it.penaltyP1 == 0 && it.penaltyP2 == 0 && it.penaltyP3 == 0 && it.penaltyP4 == 0 }) {
+            null
+        } else {
+            val penalties = getPlayersTotalPenalties()
+            arrayOf(
+                String.format("%+d", penalties[EAST.code]),
+                String.format("%+d", penalties[SOUTH.code]),
+                String.format("%+d", penalties[WEST.code]),
+                String.format("%+d", penalties[NORTH.code])
+            )
+        }
+
+    private fun getPlayersTotalPenalties(): IntArray {
+        val points = intArrayOf(0, 0, 0, 0)
+        rounds.forEach {
+            points[EAST.code] += it.penaltyP1
+            points[SOUTH.code] += it.penaltyP2
+            points[WEST.code] += it.penaltyP3
+            points[NORTH.code] += it.penaltyP4
+        }
+        return points
+    }
+
+    fun getPlayersTotalPointsWithPenaltiesStringSigned(): Array<String> {
+        val points = getPlayersTotalPointsWithPenalties()
         return arrayOf(
             String.format("%+d", points[EAST.code]),
             String.format("%+d", points[SOUTH.code]),
@@ -216,13 +240,13 @@ data class UIGame(
         )
     }
 
-    fun getPlayersTotalPoints(): IntArray {
+    fun getPlayersTotalPointsWithPenalties(): IntArray {
         val points = intArrayOf(0, 0, 0, 0)
         rounds.forEach {
-            points[EAST.code] += it.pointsP1
-            points[SOUTH.code] += it.pointsP2
-            points[WEST.code] += it.pointsP3
-            points[NORTH.code] += it.pointsP4
+            points[EAST.code] += it.pointsP1 + it.penaltyP1
+            points[SOUTH.code] += it.pointsP2 + it.penaltyP2
+            points[WEST.code] += it.pointsP3 + it.penaltyP3
+            points[NORTH.code] += it.pointsP4 + it.penaltyP4
         }
         return points
     }

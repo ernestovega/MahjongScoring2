@@ -101,7 +101,7 @@ class OldGamesRvAdapter
         itemViewHolder.tvSouthPlayerName.text = uiGame.dbGame.nameP2
         itemViewHolder.tvWestPlayerName.text = uiGame.dbGame.nameP3
         itemViewHolder.tvNorthPlayerName.text = uiGame.dbGame.nameP4
-        val playersTotalPoints = uiGame.getPlayersTotalPoints().map { String.format(Locale.getDefault(), "%d", it) }
+        val playersTotalPoints = uiGame.getPlayersTotalPointsWithPenalties().map { String.format(Locale.getDefault(), "%d", it) }
         itemViewHolder.tvEastPlayerPoints.text = playersTotalPoints[0]
         itemViewHolder.tvSouthPlayerPoints.text = playersTotalPoints[1]
         itemViewHolder.tvWestPlayerPoints.text = playersTotalPoints[2]

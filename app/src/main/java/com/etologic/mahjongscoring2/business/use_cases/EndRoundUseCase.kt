@@ -18,10 +18,7 @@ package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
-import com.etologic.mahjongscoring2.data_source.model.DBGame
-import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import java.util.Date
 import javax.inject.Inject
 
 class EndRoundUseCase @Inject constructor(

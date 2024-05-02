@@ -69,7 +69,7 @@ class ExportGameToTextUseCase @Inject constructor(
         uiGame.rounds.forEach { round ->
             append(round.roundNumber.toString().padStart(2, ' '))
             append("  -  ")
-            append(uiGame.dbGame.getPlayerNameByInitialPosition(round.winnerInitialSeat))
+            append(uiGame.dbGame.getPlayerNameByInitialPosition(round.winnerInitialSeat!!))
             append("  -  ")
             append(round.handPoints.toString().padStart(2, ' '))
             append("  ")
@@ -78,7 +78,7 @@ class ExportGameToTextUseCase @Inject constructor(
             if (round.discarderInitialSeat == NONE) {
                 append(getStrRes(R.string.self_pick))
             } else {
-                append("${getStrRes(R.string.from)} ${uiGame.dbGame.getPlayerNameByInitialPosition(round.discarderInitialSeat)}")
+                append("${getStrRes(R.string.from)} ${uiGame.dbGame.getPlayerNameByInitialPosition(round.discarderInitialSeat!!)}")
             }
             append(".")
             appendLine()

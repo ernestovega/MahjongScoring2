@@ -111,7 +111,7 @@ class GameListFragment : BaseFragment() {
     private fun gameObserver(uiGame: UIGame) {
         roundsListObserver(uiGame.getEndedRounds())
         namesObserver(uiGame.dbGame.getPlayersNames())
-        totalsObserver(uiGame.getPlayersTotalPointsStringSigned())
+        totalsObserver(uiGame.getPlayersTotalPenaltiesStringSigned(), uiGame.getPlayersTotalPointsWithPenaltiesStringSigned())
     }
 
     private fun roundsListObserver(roundsList: List<Round>) {
@@ -137,12 +137,21 @@ class GameListFragment : BaseFragment() {
         }
     }
 
-    private fun totalsObserver(totals: Array<String>) {
+    private fun totalsObserver(totalPenalties: Array<String>?, totalPoints: Array<String>) {
         with(binding) {
-            tvGameListFooterTotalPointsP1.text = totals[0]
-            tvGameListFooterTotalPointsP2.text = totals[1]
-            tvGameListFooterTotalPointsP3.text = totals[2]
-            tvGameListFooterTotalPointsP4.text = totals[3]
+            if (totalPenalties == null) {
+                llGameListFooterTotalPenalties.visibility = GONE
+            } else {
+                tvGameListFooterTotalPenaltiesP1.text = totalPenalties[0]
+                tvGameListFooterTotalPenaltiesP2.text = totalPenalties[1]
+                tvGameListFooterTotalPenaltiesP3.text = totalPenalties[2]
+                tvGameListFooterTotalPenaltiesP4.text = totalPenalties[3]
+                llGameListFooterTotalPenalties.visibility = VISIBLE
+            }
+            tvGameListFooterTotalPointsP1.text = totalPoints[0]
+            tvGameListFooterTotalPointsP2.text = totalPoints[1]
+            tvGameListFooterTotalPointsP3.text = totalPoints[2]
+            tvGameListFooterTotalPointsP4.text = totalPoints[3]
         }
     }
 
