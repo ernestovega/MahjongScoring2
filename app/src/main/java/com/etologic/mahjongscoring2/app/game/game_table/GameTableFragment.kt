@@ -25,6 +25,7 @@ import android.view.View
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.RelativeLayout
 import android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM
 import android.widget.RelativeLayout.ALIGN_PARENT_END
 import android.widget.RelativeLayout.ALIGN_PARENT_START
@@ -203,17 +204,18 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
 
     private fun setFabPosition(position: Int) {
         with(binding) {
-            val params = LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+            val layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
             val standardMarginInPx = applyDimension(COMPLEX_UNIT_DIP, 16f, resources.displayMetrics).toInt()
-            params.setMargins(standardMarginInPx, standardMarginInPx, standardMarginInPx, standardMarginInPx)
+            layoutParams.setMargins(standardMarginInPx, standardMarginInPx, standardMarginInPx, standardMarginInPx)
             when (position) {
                 BOTTOM_END -> {
                     tvGameTableRoundNumberBottomEnd.visibility = GONE
                     tvGameTableRoundNumberTopStart.visibility = VISIBLE
                     tvGameTableRoundNumberTopEnd.visibility = VISIBLE
                     tvGameTableRoundNumberBottomStart.visibility = VISIBLE
-                    params.addRule(ALIGN_PARENT_BOTTOM)
-                    params.addRule(ALIGN_PARENT_END)
+                    layoutParams.removeRule(RelativeLayout.BELOW)
+                    layoutParams.addRule(ALIGN_PARENT_BOTTOM)
+                    layoutParams.addRule(ALIGN_PARENT_END)
                 }
 
                 TOP_START -> {
@@ -221,8 +223,8 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
                     tvGameTableRoundNumberTopStart.visibility = GONE
                     tvGameTableRoundNumberTopEnd.visibility = VISIBLE
                     tvGameTableRoundNumberBottomStart.visibility = VISIBLE
-                    params.addRule(ALIGN_PARENT_TOP)
-                    params.addRule(ALIGN_PARENT_START)
+                    layoutParams.addRule(RelativeLayout.BELOW, R.id.tvGameTableGameName)
+                    layoutParams.addRule(ALIGN_PARENT_START)
                 }
 
                 TOP_END -> {
@@ -230,8 +232,8 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
                     tvGameTableRoundNumberTopStart.visibility = VISIBLE
                     tvGameTableRoundNumberTopEnd.visibility = GONE
                     tvGameTableRoundNumberBottomStart.visibility = VISIBLE
-                    params.addRule(ALIGN_PARENT_TOP)
-                    params.addRule(ALIGN_PARENT_END)
+                    layoutParams.addRule(RelativeLayout.BELOW, R.id.tvGameTableGameName)
+                    layoutParams.addRule(ALIGN_PARENT_END)
                 }
 
                 BOTTOM_START -> {
@@ -239,11 +241,12 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
                     tvGameTableRoundNumberTopStart.visibility = VISIBLE
                     tvGameTableRoundNumberTopEnd.visibility = VISIBLE
                     tvGameTableRoundNumberBottomStart.visibility = GONE
-                    params.addRule(ALIGN_PARENT_BOTTOM)
-                    params.addRule(ALIGN_PARENT_START)
+                    layoutParams.removeRule(RelativeLayout.BELOW)
+                    layoutParams.addRule(ALIGN_PARENT_BOTTOM)
+                    layoutParams.addRule(ALIGN_PARENT_START)
                 }
             }
-            fabGameTable.layoutParams = params
+            fabGameTable.layoutParams = layoutParams
         }
     }
 

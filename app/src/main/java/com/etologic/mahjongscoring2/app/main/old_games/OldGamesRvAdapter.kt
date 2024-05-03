@@ -88,9 +88,6 @@ class OldGamesRvAdapter
         itemViewHolder.btItemShare.setOnSecureClickListener {
             itemViewHolder.gameId?.let { itemClickListener?.onOldGameItemShareClicked(it) }
         }
-        itemViewHolder.btItemResume.setOnSecureClickListener {
-            itemViewHolder.gameId?.let { itemClickListener?.onOldGameItemResumeClicked(it) }
-        }
     }
 
     private fun setFields(
@@ -137,7 +134,6 @@ class OldGamesRvAdapter
         val tvBestHandValue: TextView = binding.tvOldGameItemBestHandValue
         val btItemDelete: ImageButton = binding.btOldGameItemDelete
         val btItemShare: ImageButton = binding.btOldGameItemShare
-        val btItemResume: ImageButton = binding.btOldGameItemResume
         var gameId: GameId? = null
     }
 }
