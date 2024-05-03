@@ -136,7 +136,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/quarter_standard_margin"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/ic_penalty_white" />
+                        android:src="@drawable/ic_whistle_black_24"
+                        app:tint="@color/white" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -163,7 +164,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/quarter_standard_margin"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/ic_penalty_white" />
+                        android:src="@drawable/ic_whistle_black_24"
+                        app:tint="@color/white"/>
 
                     <TextView
                         android:layout_width="wrap_content"
