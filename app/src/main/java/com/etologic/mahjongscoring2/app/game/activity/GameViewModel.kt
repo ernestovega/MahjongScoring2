@@ -17,7 +17,6 @@
 package com.etologic.mahjongscoring2.app.game.activity
 
 import android.content.Context
-import android.text.Editable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,7 +25,6 @@ import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HAND_ACTION
-import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.EDIT_NAMES
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
@@ -38,6 +36,7 @@ import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.use_cases.CancelPenaltyUseCase
+import com.etologic.mahjongscoring2.business.use_cases.EditGameNamesUseCase
 import com.etologic.mahjongscoring2.business.use_cases.EndGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetOneGameFlowUseCase
@@ -46,7 +45,6 @@ import com.etologic.mahjongscoring2.business.use_cases.HuDrawUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuSelfPickUseCase
 import com.etologic.mahjongscoring2.business.use_cases.RemoveRoundUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ResumeGameUseCase
-import com.etologic.mahjongscoring2.business.use_cases.SaveGameNamesUseCase
 import com.etologic.mahjongscoring2.business.use_cases.SetPenaltyUseCase
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import dagger.assisted.Assisted
@@ -67,7 +65,7 @@ class GameViewModel @AssistedInject constructor(
     @ApplicationContext context: Context,
     getOneGameFlowUseCase: GetOneGameFlowUseCase,
     @Assisted private val gameId: GameId,
-    private val saveGameNamesUseCase: SaveGameNamesUseCase,
+    private val editGameNamesUseCase: EditGameNamesUseCase,
     private val huDiscardUseCase: HuDiscardUseCase,
     private val huSelfPickUseCase: HuSelfPickUseCase,
     private val huDrawUseCase: HuDrawUseCase,
@@ -134,22 +132,8 @@ class GameViewModel @AssistedInject constructor(
     lateinit var game: UIGame
 
     val gameFlow: SharedFlow<UIGame> = getOneGameFlowUseCase(gameId)
-        .onEach { game ->
-            showNamesDialogIfProceed(game)
-            this.game = game
-        }
+        .onEach { game -> this.game = game }
         .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
-
-    private fun showNamesDialogIfProceed(uiGame: UIGame) {
-        if (uiGame.rounds.size == 1 &&
-            uiGame.dbGame.nameP1 == playerOneLiteral &&
-            uiGame.dbGame.nameP2 == playerTwoLiteral &&
-            uiGame.dbGame.nameP3 == playerThreeLiteral &&
-            uiGame.dbGame.nameP4 == playerFourLiteral
-        ) {
-            navigateTo(EDIT_NAMES)
-        }
-    }
 
     //SELECTED PLAYER/SEAT
     fun onSeatClicked(wind: TableWinds) {
@@ -184,15 +168,21 @@ class GameViewModel @AssistedInject constructor(
         }
     }
 
-    fun savePlayersNames(gameName: Editable?, nameP1: Editable?, nameP2: Editable?, nameP3: Editable?, nameP4: Editable?) {
+    fun saveGameNames(
+        gameName: String,
+        nameP1: String,
+        nameP2: String,
+        nameP3: String,
+        nameP4: String,
+    ) {
         viewModelScope.launch {
-            saveGameNamesUseCase(
+            editGameNamesUseCase(
                 dbGame = game.dbGame,
-                gameName = gameName?.toString(),
-                nameP1 = nameP1?.toString(),
-                nameP2 = nameP2?.toString(),
-                nameP3 = nameP3?.toString(),
-                nameP4 = nameP4?.toString()
+                gameName = gameName,
+                nameP1 = nameP1,
+                nameP2 = nameP2,
+                nameP3 = nameP3,
+                nameP4 = nameP4,
             )
                 .onFailure(::showError)
         }

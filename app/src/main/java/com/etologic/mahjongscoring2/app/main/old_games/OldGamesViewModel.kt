@@ -19,7 +19,6 @@ package com.etologic.mahjongscoring2.app.main.old_games
 import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
-import com.etologic.mahjongscoring2.business.use_cases.CreateGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.DeleteGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetAllGamesFlowUseCase
 import com.etologic.mahjongscoring2.data_source.model.GameId
@@ -33,19 +32,11 @@ import javax.inject.Inject
 @HiltViewModel
 class OldGamesViewModel @Inject constructor(
     getAllGamesFlowUseCase: GetAllGamesFlowUseCase,
-    private val createGameUseCase: CreateGameUseCase,
     private val deleteGameUseCase: DeleteGameUseCase,
 ) : BaseViewModel() {
 
     val gamesState: SharedFlow<List<UIGame>> = getAllGamesFlowUseCase()
         .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
-
-    fun createGame(playersNames: Array<String>, successAction: (GameId) -> Unit) {
-        viewModelScope.launch {
-            createGameUseCase(playersNames)
-                .fold(successAction, ::showError)
-        }
-    }
 
     fun deleteGame(gameId: GameId) {
         viewModelScope.launch {

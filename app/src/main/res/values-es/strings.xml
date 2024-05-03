@@ -213,5 +213,8 @@
     <string name="complete_game">Partida completa</string>
     <string name="share_game_using">Compartir partida usando:</string>
     <string name="_4th">4°</string>
-    <string name="from">de</string>
+    <string name="from">De</string>
+    <string name="start">Empezar</string>
+    <string name="penalties">Penalizaciones</string>
+    <string name="rounds_dont_count_penalties">Los totales de cada ronda no tienen en cuenta las penalizaciones</string>
 </resources>

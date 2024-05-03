@@ -112,7 +112,7 @@ object RankingTableHelper {
 
     private fun getBestHands(uiGame: UIGame): List<BestHand> {
         val bestHands = ArrayList<BestHand>()
-        for (round in uiGame.rounds) {
+        for (round in uiGame.rounds.filter { it.winnerInitialSeat != null }) {
             val roundHandPoints = round.handPoints
             val playerInitialPosition = uiGame.getPlayerInitialSeatByCurrentSeat(round.winnerInitialSeat!!)
             val playerName = uiGame.dbGame.getPlayerNameByInitialPosition(playerInitialPosition)

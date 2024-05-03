@@ -19,11 +19,17 @@ package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper
-import com.etologic.mahjongscoring2.business.model.dtos.toText
+import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import kotlinx.coroutines.flow.firstOrNull
+import java.lang.String.format
+import java.util.Locale
 import javax.inject.Inject
 
 class ExportGameToTextUseCase @Inject constructor(
@@ -39,12 +45,12 @@ class ExportGameToTextUseCase @Inject constructor(
 
     private fun buildText(uiGame: UIGame, getStrRes: (Int) -> String): String =
         with(StringBuilder()) {
-            buildResultsText(uiGame, getStrRes)
+            buildFinalResultsText(uiGame, getStrRes)
             buildRoundsText(uiGame, getStrRes)
             toString()
         }
 
-    private fun StringBuilder.buildResultsText(uiGame: UIGame, getStrRes: (Int) -> String) {
+    private fun StringBuilder.buildFinalResultsText(uiGame: UIGame, getStrRes: (Int) -> String) {
         RankingTableHelper.generateRankingTable(uiGame)?.let { rankingData ->
             appendLine(uiGame.dbGame.gameName)
             appendLine()
@@ -54,34 +60,61 @@ class ExportGameToTextUseCase @Inject constructor(
             appendLine("${getStrRes(R.string._2nd)}:    ${rankingData.sortedPlayersRankings[1].toText()}")
             appendLine("${getStrRes(R.string._3rd)}:    ${rankingData.sortedPlayersRankings[2].toText()}")
             appendLine("${getStrRes(R.string._4th)}:    ${rankingData.sortedPlayersRankings[3].toText()}")
-            appendLine()
-            appendLine("${getStrRes(R.string.best_hand).uppercase()}:")
-            appendLine()
-            appendLine("${uiGame.getBestHand().playerName} (${uiGame.getBestHand().handValue})")
+            if (uiGame.getBestHand().playerInitialPosition != NONE) {
+                appendLine()
+                appendLine("${getStrRes(R.string.best_hand).uppercase()}:")
+                appendLine()
+                appendLine("${uiGame.getBestHand().playerName} (${uiGame.getBestHand().handValue})")
+            }
         }
             ?: appendLine(getStrRes(R.string.ups_something_wrong))
     }
 
     private fun StringBuilder.buildRoundsText(uiGame: UIGame, getStrRes: (Int) -> String) {
         appendLine()
-        appendLine("${getStrRes(R.string.rounds).uppercase()}:")
+        appendLine("${getStrRes(R.string.rounds).uppercase()} (${getStrRes(R.string.rounds_dont_count_penalties)}):")
         appendLine()
         uiGame.rounds.forEach { round ->
-            append(round.roundNumber.toString().padStart(2, ' '))
-            append("  -  ")
-            append(uiGame.dbGame.getPlayerNameByInitialPosition(round.winnerInitialSeat!!))
-            append("  -  ")
-            append(round.handPoints.toString().padStart(2, ' '))
-            append("  ")
-            append(getStrRes(R.string.points_).dropLast(1).lowercase())
-            append("  -  ")
-            if (round.discarderInitialSeat == NONE) {
-                append(getStrRes(R.string.self_pick))
-            } else {
-                append("${getStrRes(R.string.from)} ${uiGame.dbGame.getPlayerNameByInitialPosition(round.discarderInitialSeat!!)}")
+            append(round.roundNumber.toString().padStart(2))
+            appendLine()
+            append("${getStrRes(R.string.winner_)} ")
+            append(
+                when (round.winnerInitialSeat) {
+                    null -> "-"
+                    else -> uiGame.dbGame.getPlayerNameByInitialPosition(round.winnerInitialSeat!!)
+                }
+            )
+            appendLine()
+            append("${getStrRes(R.string.points_)} ${round.handPoints}")
+            appendLine()
+            append("${getStrRes(R.string.from)}: ")
+            append(
+                when (round.discarderInitialSeat) {
+                    null -> "-"
+                    NONE -> getStrRes(R.string.self_pick)
+                    else -> uiGame.dbGame.getPlayerNameByInitialPosition(round.discarderInitialSeat!!)
+                }
+            )
+            appendLine()
+            if (round.areTherePenalties()) {
+                append("${getStrRes(R.string.penalties)}: ")
+                append("${uiGame.dbGame.getPlayerNameByInitialPosition(EAST)}: ${round.penaltyP1.toText()} | ")
+                append("${uiGame.dbGame.getPlayerNameByInitialPosition(SOUTH)}: ${round.penaltyP2.toText()} | ")
+                append("${uiGame.dbGame.getPlayerNameByInitialPosition(WEST)}: ${round.penaltyP3.toText()} | ")
+                append("${uiGame.dbGame.getPlayerNameByInitialPosition(NORTH)}: ${round.penaltyP4.toText()}")
             }
-            append(".")
+            appendLine()
+            append("${getStrRes(R.string.totals)}: ")
+            append("${uiGame.dbGame.getPlayerNameByInitialPosition(EAST)}: ${round.totalPointsP1.toText()} | ")
+            append("${uiGame.dbGame.getPlayerNameByInitialPosition(SOUTH)}: ${round.totalPointsP2.toText()} | ")
+            append("${uiGame.dbGame.getPlayerNameByInitialPosition(WEST)}: ${round.totalPointsP3.toText()} | ")
+            append("${uiGame.dbGame.getPlayerNameByInitialPosition(NORTH)}: ${round.totalPointsP4.toText()}")
+            appendLine()
             appendLine()
         }
     }
 }
+
+private fun PlayerRanking.toText() = "$name    $points    (${format(Locale.getDefault(), "%+d", score)})"
+
+private fun Int.toText(): String = format(Locale.getDefault(), "%+d", this)

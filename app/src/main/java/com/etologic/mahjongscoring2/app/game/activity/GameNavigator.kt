@@ -21,16 +21,16 @@ import android.content.Intent
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.COMBINATIONS
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.DICE
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.EDIT_NAMES
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.EXIT
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HAND_ACTION
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HU
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.PENALTY
-import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.EDIT_NAMES
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.RANKING
+import com.etologic.mahjongscoring2.app.game.dialogs.edit_names.EditNamesDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.ActionDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.HuDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.PenaltyDialogFragment
-import com.etologic.mahjongscoring2.app.game.dialogs.names.NamesDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.KEY_WAS_GAME_ENDED
@@ -41,7 +41,7 @@ object GameNavigator {
     fun navigateTo(screen: GameScreens, activity: GameActivity, viewModel: GameViewModel) {
         when (screen) {
             COMBINATIONS -> activity.startActivity(Intent(activity, CombinationsActivity::class.java))
-            EDIT_NAMES -> NamesDialogFragment().show(activity.supportFragmentManager, NamesDialogFragment.TAG)
+            EDIT_NAMES -> EditNamesDialogFragment().show(activity.supportFragmentManager, EditNamesDialogFragment.TAG)
             DICE -> RollDiceDialogFragment().show(activity.supportFragmentManager, RollDiceDialogFragment.TAG)
             HAND_ACTION -> ActionDialogFragment().show(activity.supportFragmentManager, ActionDialogFragment.TAG)
             HU -> HuDialogFragment().show(activity.supportFragmentManager, HuDialogFragment.TAG)

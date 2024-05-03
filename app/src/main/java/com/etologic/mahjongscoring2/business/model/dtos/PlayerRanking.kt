@@ -16,14 +16,8 @@
  */
 package com.etologic.mahjongscoring2.business.model.dtos
 
-import java.lang.String.format
-import java.util.Locale
-
 data class PlayerRanking(
     val name: String,
     val score: Int,
     var points: String? = null,
 )
-
-fun PlayerRanking.toText() =
-    "$name    $points    (${format(Locale.getDefault(), "%+d", score)})"

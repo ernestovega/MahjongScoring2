@@ -1,5 +1,5 @@
 /*
- *     Copyright © 2023  Ernesto Vega de la Iglesia Soria
+ *     Copyright © 2024  Ernesto Vega de la Iglesia Soria
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.app.game.dialogs.names
+package com.etologic.mahjongscoring2.app.main.dialogs.setup_new_game
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -23,28 +23,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.activityViewModels
+import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.showKeyboard
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.GameNamesDialogFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NamesDialogFragment : AppCompatDialogFragment() {
+class SetupNewGameDialogFragment : AppCompatDialogFragment() {
 
     companion object {
-        const val TAG = "NamesDialogFragment"
+        const val TAG = "SetupNewGameDialogFragment"
     }
 
     private var _binding: GameNamesDialogFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val activityViewModel: GameViewModel by activityViewModels()
+    private val activityViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,14 +62,14 @@ class NamesDialogFragment : AppCompatDialogFragment() {
         setOnClickListeners()
         printNames()
         binding.tietNamesDialogGameName.showKeyboard(requireActivity().window)
+        binding.btNamesDialogSave.text = getString(R.string.start)
     }
 
     private fun printNames() {
-        val names = activityViewModel.game.dbGame.getPlayersNames()
-        binding.tietNamesDialogEast.setText(names[EAST.code])
-        binding.tietNamesDialogSouth.setText(names[SOUTH.code])
-        binding.tietNamesDialogWest.setText(names[WEST.code])
-        binding.tietNamesDialogNorth.setText(names[NORTH.code])
+        binding.tietNamesDialogEast.setText(getString(R.string.player_one))
+        binding.tietNamesDialogSouth.setText(getString(R.string.player_two))
+        binding.tietNamesDialogWest.setText(getString(R.string.player_three))
+        binding.tietNamesDialogNorth.setText(getString(R.string.player_four))
     }
 
     private fun setOnClickListeners() {
@@ -83,14 +80,18 @@ class NamesDialogFragment : AppCompatDialogFragment() {
             tietNamesDialogNorth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietNamesDialogNorth.selectAll() }
             btNamesDialogCancel.setOnSecureClickListener { dismiss() }
             btNamesDialogSave.setOnSecureClickListener {
-                activityViewModel.savePlayersNames(
-                    gameName = tietNamesDialogGameName.text,
-                    nameP1 = tietNamesDialogEast.text,
-                    nameP2 = tietNamesDialogSouth.text,
-                    nameP3 = tietNamesDialogWest.text,
-                    nameP4 = tietNamesDialogNorth.text
+                activityViewModel.createGame(
+                    gameName = tietNamesDialogGameName.text?.toString() ?: "",
+                    nameP1 = tietNamesDialogEast.text?.toString() ?: getString(R.string.player_one),
+                    nameP2 = tietNamesDialogSouth.text?.toString() ?: getString(R.string.player_two),
+                    nameP3 = tietNamesDialogWest.text?.toString() ?: getString(R.string.player_three),
+                    nameP4 = tietNamesDialogNorth.text?.toString() ?: getString(R.string.player_four),
+                    onSuccess = { gameId ->
+                        activityViewModel.activeGameId = gameId
+                        activityViewModel.navigateTo(MainViewModel.MainScreens.GAME)
+                        dismiss()
+                    }
                 )
-                dismiss()
             }
         }
     }

@@ -20,16 +20,16 @@ import com.etologic.mahjongscoring2.data_source.model.DBGame
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import javax.inject.Inject
 
-class SaveGameNamesUseCase @Inject constructor(
+class EditGameNamesUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
 ) {
     suspend operator fun invoke(
         dbGame: DBGame,
-        gameName: String?,
-        nameP1: String?,
-        nameP2: String?,
-        nameP3: String?,
-        nameP4: String?
+        gameName: String,
+        nameP1: String,
+        nameP2: String,
+        nameP3: String,
+        nameP4: String,
     ): Result<Boolean> {
         dbGame.updateNames(
             gameName = normalizeName(gameName),

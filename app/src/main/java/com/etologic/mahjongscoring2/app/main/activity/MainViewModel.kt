@@ -24,6 +24,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.business.model.dtos.ExportedDb
+import com.etologic.mahjongscoring2.business.use_cases.CreateGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportDbToCsvUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
@@ -36,6 +37,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
+    private val createGameUseCase: CreateGameUseCase,
     private val showInAppReviewUseCase: ShowInAppReviewUseCase,
     private val exportDbToCsvUseCase: ExportDbToCsvUseCase,
     private val exportGameToTextUseCase: ExportGameToTextUseCase,
@@ -43,6 +45,7 @@ class MainViewModel @Inject constructor(
 
     enum class MainScreens {
         OLD_GAMES,
+        SETUP_NEW_GAME,
         GAME,
         COMBINATIONS,
         DIFFS_CALCULATOR,
@@ -70,6 +73,20 @@ class MainViewModel @Inject constructor(
 
     fun navigateTo(screen: MainScreens) {
         currentScreen.postValue(screen)
+    }
+
+    fun createGame(
+        gameName: String,
+        nameP1: String,
+        nameP2: String,
+        nameP3: String,
+        nameP4: String,
+        onSuccess: (GameId) -> Unit
+    ) {
+        viewModelScope.launch {
+            createGameUseCase(gameName, nameP1, nameP2, nameP3, nameP4)
+                .fold(onSuccess, ::showError)
+        }
     }
 
     fun showInAppReviewIfProceed(activity: Activity) {

@@ -30,11 +30,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.R.string.player_one
 import com.etologic.mahjongscoring2.app.base.BaseFragment
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.SETUP_NEW_GAME
 import com.etologic.mahjongscoring2.business.model.entities.UIGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.databinding.MainOldgamesFragmentBinding
@@ -54,7 +54,6 @@ class OldGamesFragment : BaseFragment() {
 
     @Inject
     lateinit var rvAdapter: OldGamesRvAdapter
-    private lateinit var defaultNames: Array<String>
 
     private var _binding: MainOldgamesFragmentBinding? = null
     private val binding get() = _binding!!
@@ -75,13 +74,6 @@ class OldGamesFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        defaultNames =
-            arrayOf(
-                getString(player_one),
-                getString(R.string.player_two),
-                getString(R.string.player_three),
-                getString(R.string.player_four)
-            )
         setupRecyclerView()
         setToolbar()
         setOnClickListeners()
@@ -143,7 +135,7 @@ class OldGamesFragment : BaseFragment() {
 
     private fun setOnClickListeners() {
         binding.fabOldGames.setOnSecureClickListener {
-            viewModel.createGame(defaultNames) { gameId -> startGame(gameId) }
+            activityViewModel.navigateTo(SETUP_NEW_GAME)
         }
     }
 }

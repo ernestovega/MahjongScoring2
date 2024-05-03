@@ -59,20 +59,20 @@ data class UIGame(
                     this.winnerInitialSeat == bestHand.playerInitialPosition
         }
 
-            val bestHand = getBestHand()
-            rounds.forEachIndexed { index, round ->
-                val roundNumber = index + 1
-                round.setRoundNumber(roundNumber)
-                round.setTotals(roundNumber)
-                round.setBestHand(bestHand)
-            }
+        val bestHand = getBestHand()
+        rounds.forEachIndexed { index, round ->
+            val roundNumber = index + 1
+            round.setRoundNumber(roundNumber)
+            round.setTotals(roundNumber)
+            round.setBestHand(bestHand)
         }
+    }
 
     val currentRound: Round get() = rounds.last()
 
     fun getBestHand(): BestHand {
         var bestHand = BestHand()
-        this.rounds.forEach { round ->
+        this.rounds.filter { it.winnerInitialSeat != null }.forEach { round ->
             if (round.handPoints > bestHand.handValue) {
                 bestHand = BestHand(
                     handValue = round.handPoints,

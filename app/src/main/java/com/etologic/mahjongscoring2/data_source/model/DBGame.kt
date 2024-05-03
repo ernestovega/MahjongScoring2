@@ -22,7 +22,6 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.data_source.local_data_source.local.converters.DateConverter
-import java.util.Calendar
 import java.util.Date
 
 typealias GameId = Long
@@ -41,18 +40,6 @@ data class DBGame(
     @TypeConverters(DateConverter::class) val startDate: Date,
     @TypeConverters(DateConverter::class) var endDate: Date? = null,
 ) {
-
-    constructor(playersNames: Array<String>) : this(
-        gameId = NOT_SET_GAME_ID,
-        gameName = "",
-        nameP1 = playersNames[0],
-        nameP2 = playersNames[1],
-        nameP3 = playersNames[2],
-        nameP4 = playersNames[3],
-        startDate = Calendar.getInstance().time,
-        endDate = null,
-    )
-
     val isEnded: Boolean get() = endDate != null
 
     fun getPlayersNames(): Array<String> = arrayOf(nameP1, nameP2, nameP3, nameP4)
@@ -68,6 +55,6 @@ data class DBGame(
     }
 
     companion object {
-        private const val NOT_SET_GAME_ID: Long = 0
+        const val NOT_SET_GAME_ID: Long = 0
     }
 }

@@ -214,4 +214,7 @@
     <string name="share_game_using">使用以下方式分享游戏:</string>
     <string name="_4th">第四</string>
     <string name="from">从</string>
+    <string name="start">开始</string>
+    <string name="penalties">处罚</string>
+    <string name="rounds_dont_count_penalties">回合总数不考虑罚球</string>
 </resources>

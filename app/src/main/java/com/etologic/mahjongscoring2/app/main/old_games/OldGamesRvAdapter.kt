@@ -18,7 +18,9 @@ package com.etologic.mahjongscoring2.app.main.old_games
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
@@ -35,7 +37,6 @@ class OldGamesRvAdapter
 @Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface GameItemListener {
-
         fun onOldGameItemDeleteClicked(gameId: GameId)
         fun onOldGameItemShareClicked(gameId: GameId)
         fun onOldGameItemResumeClicked(gameId: GameId)
@@ -78,6 +79,9 @@ class OldGamesRvAdapter
         val game = games[position]
         val bestHand = game.getBestHand()
         setFields(itemViewHolder, game, bestHand)
+        itemViewHolder.cvContainer.setOnSecureClickListener {
+            itemViewHolder.gameId?.let { itemClickListener?.onOldGameItemResumeClicked(it) }
+        }
         itemViewHolder.btItemDelete.setOnSecureClickListener {
             itemViewHolder.gameId?.let { itemClickListener?.onOldGameItemDeleteClicked(it) }
         }
@@ -117,6 +121,7 @@ class OldGamesRvAdapter
 
     inner class OldGameItemViewHolder(binding: MainOldgameItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
+        val cvContainer: CardView = binding.cvOldGameItem
         val tvGameName: TextView = binding.tvOldGameItemGameName
         val tvStartDate: TextView = binding.tvOldGameItemStartDate
         val tvEastPlayerName: TextView = binding.tvOlgGameItemPlayerEastName
@@ -130,9 +135,9 @@ class OldGamesRvAdapter
         val tvRoundNumber: TextView = binding.tvOldGameItemRoundsNumber
         val tvBestHandPlayerName: TextView = binding.tvOldGameItemBestHandPlayerName
         val tvBestHandValue: TextView = binding.tvOldGameItemBestHandValue
-        val btItemDelete: TextView = binding.btOldGameItemDelete
-        val btItemShare: TextView = binding.btOldGameItemShare
-        val btItemResume: TextView = binding.btOldGameItemResume
+        val btItemDelete: ImageButton = binding.btOldGameItemDelete
+        val btItemShare: ImageButton = binding.btOldGameItemShare
+        val btItemResume: ImageButton = binding.btOldGameItemResume
         var gameId: GameId? = null
     }
 }

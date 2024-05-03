@@ -21,13 +21,31 @@ import com.etologic.mahjongscoring2.data_source.model.DBGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
+import java.util.Calendar
 import javax.inject.Inject
 
 class CreateGameUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
     private val roundsRepository: RoundsRepository
 ) {
-    suspend operator fun invoke(defaultNames: Array<String>): Result<GameId> =
-        gamesRepository.insertOne(DBGame(defaultNames))
+    suspend operator fun invoke(
+        gameName: String,
+        nameP1: String,
+        nameP2: String,
+        nameP3: String,
+        nameP4: String,
+    ): Result<GameId> =
+        gamesRepository.insertOne(
+            DBGame(
+                gameId = DBGame.NOT_SET_GAME_ID,
+                gameName = gameName,
+                nameP1 = nameP1,
+                nameP2 = nameP2,
+                nameP3 = nameP3,
+                nameP4 = nameP4,
+                startDate = Calendar.getInstance().time,
+                endDate = null,
+            )
+        )
             .onSuccess { gameId -> roundsRepository.insertOne(Round(gameId)) }
 }

@@ -215,5 +215,8 @@
     <string name="complete_game">Full game</string>
     <string name="share_game_using">Share game using:</string>
     <string name="_4th">4th</string>
-    <string name="from">from</string>
+    <string name="from">From</string>
+    <string name="start">Start</string>
+    <string name="penalties">Penalties</string>
+    <string name="rounds_dont_count_penalties">Rounds totals don\'t take penalties in account</string>
 </resources>
