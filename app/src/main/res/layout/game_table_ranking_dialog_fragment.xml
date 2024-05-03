@@ -224,8 +224,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tlRanking"
         android:layout_marginTop="@dimen/standard_margin"
-        android:layout_marginEnd="@dimen/second_standard_margin"
-        android:layout_toStartOf="@+id/btRankingDialogShare"
+        android:layout_marginStart="@dimen/standard_margin"
+        android:layout_alignParentStart="true"
         android:text="@string/resume" />
 
     <Button

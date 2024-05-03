@@ -22,6 +22,7 @@ import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
@@ -39,5 +40,5 @@ class GetOneGameFlowUseCase @Inject constructor(
             } else {
                 UIGame(dbGame, rounds)
             }
-        }.mapNotNull { it }
+        }.filterNotNull()
 }
