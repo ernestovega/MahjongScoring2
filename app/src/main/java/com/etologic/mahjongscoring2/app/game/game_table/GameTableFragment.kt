@@ -33,7 +33,9 @@ import android.widget.RelativeLayout.GONE
 import android.widget.RelativeLayout.LayoutParams
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.drawable.ic_dice_multiple_white_24dp
 import com.etologic.mahjongscoring2.R.drawable.ic_east
@@ -131,7 +133,7 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
         activityViewModel.getSeatsOrientation().observe(viewLifecycleOwner) { tableSeats.updateSeatsOrientation(it) }
         activityViewModel.shouldShowDiffs().observe(viewLifecycleOwner) { tableSeats.toggleDiffs(it) }
 
-        lifecycleScope.launch { activityViewModel.gameFlow.collect(::gameObserver) }
+        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { activityViewModel.gameFlow.collect(::gameObserver) } }
     }
 
     private fun gameObserver(uiGame: UIGame) {

@@ -138,7 +138,7 @@ class GameViewModel @AssistedInject constructor(
             showNamesDialogIfProceed(game)
             this.game = game
         }
-        .shareIn(viewModelScope, SharingStarted.Lazily)
+        .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
     private fun showNamesDialogIfProceed(uiGame: UIGame) {
         if (uiGame.rounds.size == 1 &&

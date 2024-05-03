@@ -449,7 +449,7 @@ class CombinationsViewModel @Inject constructor(
     val combinationsState: SharedFlow<List<Combination>> =
         combine(flowOf(combinations), combinationsFilter) { combinations, filter ->
             filterCombinations(combinations, filter)
-        }.shareIn(viewModelScope, SharingStarted.Lazily)
+        }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
     private fun filterCombinations(
         combinations: Array<Combination>,

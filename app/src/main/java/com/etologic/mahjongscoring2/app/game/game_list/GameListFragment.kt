@@ -25,7 +25,9 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseFragment
@@ -105,7 +107,7 @@ class GameListFragment : BaseFragment() {
     private fun initViewModel() {
         activityViewModel.getPageToShow().observe(viewLifecycleOwner) { pageToShowObserver(it) }
 
-        lifecycleScope.launch { activityViewModel.gameFlow.collect(::gameObserver) }
+        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { activityViewModel.gameFlow.collect(::gameObserver) } }
     }
 
     private fun gameObserver(uiGame: UIGame) {

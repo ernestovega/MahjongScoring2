@@ -25,7 +25,9 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.string.player_one
@@ -127,7 +129,7 @@ class OldGamesFragment : BaseFragment() {
 
     private fun observeViewModel() {
         viewModel.getError().observe(viewLifecycleOwner) { showError(it) }
-        lifecycleScope.launch { viewModel.gamesState.collect(::gamesObserver) }
+        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.gamesState.collect(::gamesObserver) } }
     }
 
     private fun gamesObserver(games: List<UIGame>) {

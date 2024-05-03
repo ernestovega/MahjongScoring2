@@ -22,7 +22,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager.widget.ViewPager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
@@ -187,7 +189,7 @@ class GameActivity : BaseActivity() {
         viewModel.shouldShowDiffs().observe(this) { toggleDiffs(it) }
         viewModel.getExportedGame().observe(this) { shareExportedGame(it) }
 
-        lifecycleScope.launch { viewModel.gameFlow.collect(::gameObserver) }
+        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.gameFlow.collect(::gameObserver) } }
     }
 
     private fun gameObserver(uiGame: UIGame) {

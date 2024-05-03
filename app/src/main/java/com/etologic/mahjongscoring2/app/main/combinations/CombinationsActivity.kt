@@ -25,7 +25,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
@@ -76,7 +78,7 @@ class CombinationsActivity : BaseActivity() {
     }
 
     private fun observeViewModel() {
-        lifecycleScope.launch { viewModel.combinationsState.collect(rvAdapter::setCombinations) }
+        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.combinationsState.collect(rvAdapter::setCombinations) } }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
