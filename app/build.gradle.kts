@@ -27,7 +27,7 @@ android {
     namespace = "com.etologic.mahjongscoring2"
 
     defaultConfig {
-        applicationId = "com.etologic.mahjongscoring2"
+        applicationId = "com.mahjongscoring.activities"
         minSdk = 23
         targetSdk = 34
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
