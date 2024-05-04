@@ -14,36 +14,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.data_source.local_data_source.local.converters
+package com.etologic.mahjongscoring2.data_source.local_data_source.converters
 
 import androidx.room.TypeConverter
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
+import java.util.Date
 
-class TableWindsConverter {
+class DateConverter {
 
     companion object {
 
         @TypeConverter
         @JvmStatic
-        fun toStatus(status: Int): TableWinds {
-            return when (status) {
-                EAST.code -> EAST
-                SOUTH.code -> SOUTH
-                WEST.code -> WEST
-                NORTH.code -> NORTH
-                else -> NONE
-            }
+        fun toDate(timestamp: Long?): Date? {
+            return if (timestamp == null) null else Date(timestamp)
         }
 
         @TypeConverter
         @JvmStatic
-        fun toInteger(tableWinds: TableWinds): Int {
-            return tableWinds.code
+        fun toTimestamp(date: Date?): Long? {
+            return date?.time
         }
     }
 }

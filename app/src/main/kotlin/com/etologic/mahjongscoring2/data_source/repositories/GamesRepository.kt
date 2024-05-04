@@ -14,30 +14,27 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.data_source.local_data_source.local.daos
+package com.etologic.mahjongscoring2.data_source.repositories
 
-import android.database.sqlite.SQLiteConstraintException
-import androidx.room.*
+import com.etologic.mahjongscoring2.data_source.local_data_source.daos.GamesDao
 import com.etologic.mahjongscoring2.data_source.model.DBGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-@Dao
-interface GamesDao {
+@Singleton
+class GamesRepository
+@Inject constructor(
+    private var gamesDao: GamesDao,
+) {
+    fun getAllFlow(): Flow<List<DBGame>> = gamesDao.getAll()
 
-    @Query("SELECT * from Games ORDER BY startDate DESC")
-    fun getAll(): Flow<List<DBGame>>
+    fun getOneFlow(gameId: GameId): Flow<DBGame> = gamesDao.getOne(gameId)
 
-    @Query("SELECT * from Games WHERE gameId = :gameId")
-    fun getOne(gameId: GameId): Flow<DBGame>
+    suspend fun insertOne(dbGame: DBGame): Result<GameId> = runCatching { gamesDao.insertOne(dbGame) }
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
-    @Throws(SQLiteConstraintException::class)
-    suspend fun insertOne(dbGame: DBGame): GameId
+    suspend fun updateOne(dbGame: DBGame): Result<Boolean> = runCatching { gamesDao.updateOne(dbGame) == 1 }
 
-    @Update
-    suspend fun updateOne(dbGame: DBGame): Int
-
-    @Query("DELETE FROM Games WHERE gameId = :gameId")
-    suspend fun deleteOne(gameId: GameId): Int
+    suspend fun deleteOne(gameId: GameId): Result<Boolean> = runCatching { gamesDao.deleteOne(gameId) == 1 }
 }

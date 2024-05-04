@@ -21,7 +21,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.data_source.local_data_source.local.converters.DateConverter
+import com.etologic.mahjongscoring2.data_source.local_data_source.converters.DateConverter
 import java.util.Date
 
 typealias GameId = Long

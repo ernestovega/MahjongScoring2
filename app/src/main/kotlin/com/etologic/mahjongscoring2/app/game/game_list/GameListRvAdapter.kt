@@ -36,6 +36,7 @@ import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.business.model.entities.RoundId
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
@@ -116,8 +117,7 @@ class GameListRvAdapter
                 SOUTH -> mHolder.tvPointsP2.setTextColor(it)
                 WEST -> mHolder.tvPointsP3.setTextColor(it)
                 NORTH -> mHolder.tvPointsP4.setTextColor(it)
-                else -> {
-                }
+                else -> {}
             }
         }
     }

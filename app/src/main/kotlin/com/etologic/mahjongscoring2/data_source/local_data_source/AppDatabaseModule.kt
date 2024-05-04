@@ -14,12 +14,12 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.data_source.local_data_source.local
+package com.etologic.mahjongscoring2.data_source.local_data_source
 
 import android.content.Context
 import androidx.room.Room
-import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.GamesDao
-import com.etologic.mahjongscoring2.data_source.local_data_source.local.daos.RoundsDao
+import com.etologic.mahjongscoring2.data_source.local_data_source.daos.GamesDao
+import com.etologic.mahjongscoring2.data_source.local_data_source.daos.RoundsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
