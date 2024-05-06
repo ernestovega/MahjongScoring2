@@ -35,7 +35,7 @@ class AppDataBaseModule {
     @Singleton
     fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase =
         Room.databaseBuilder(appContext, AppDatabase::class.java, "MahjongScoring2")
-            .addMigrations(Migration1to2, Migration2to3, Migration3to4, Migration4to5)
+            .addMigrations(Migration1to2)
             .build()
 
     @Provides

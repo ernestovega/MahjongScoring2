@@ -16,10 +16,11 @@
  */
 
 plugins {
-    alias(libs.plugins.com.android.application)
-    alias(libs.plugins.com.google.dagger.hilt.android)
-    alias(libs.plugins.com.google.devtools.ksp)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.room)
 }
 
 android {
@@ -36,10 +37,17 @@ android {
 
         ksp {
             arg("correctErrorTypes", "true")
-            arg("room.schemaLocation", "$projectDir/schemas")
             arg("room.incremental", "true")
             arg("room.expandProjection", "true")
         }
+
+        room {
+            schemaDirectory("$projectDir/schemas")
+        }
+    }
+
+    sourceSets {
+        getByName("androidTest").assets.srcDir("$projectDir/schemas")
     }
 
     buildTypes {
@@ -95,8 +103,10 @@ dependencies {
     ksp(libs.hilt.android.compiler)
 
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.room.test)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.truth)
 
     kspAndroidTest(libs.hilt.android.compiler)
 

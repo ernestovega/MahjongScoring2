@@ -5,7 +5,7 @@ androidx-appcompat = "1.6.1"
 androidx-browser = "1.8.0"
 androidx-cardview = "1.0.0"
 androidx-collection-ktx = "1.4.0"
-androidx-core-ktx = "1.13.0"
+androidx-core-ktx = "1.13.1"
 androidx-espresso-core = "3.5.1"
 androidx-fragment-ktx = "1.7.0"
 androidx-legacy-support-v4 = "1.0.0"
@@ -19,9 +19,9 @@ androidx-test-ext-junit = "1.1.5"
 hilt = "2.50"
 junit = "4.13.2"
 junit-jupiter = "5.10.1"
-kotlin-android = "1.9.21"
-ksp = "1.9.20-1.0.13"
-material = "1.11.0"
+kotlin-android = "1.9.23"
+ksp = "1.9.23-1.0.20"
+material = "1.12.0"
 review-ktx = "2.0.1"
 truth = "1.1.5"
 
@@ -43,6 +43,7 @@ androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx",
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recyclerview" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
+androidx-room-test = { module = "androidx.room:room-testing", version.ref = "androidx-room" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
@@ -54,9 +55,8 @@ review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "rev
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [plugins]
-com-android-application = { id = "com.android.application", version.ref = "agp" }
-com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
-com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
-
-[bundles]
+android-application = { id = "com.android.application", version.ref = "agp" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
+room = { id = "androidx.room", version.ref = "androidx-room" }

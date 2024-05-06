@@ -16,6 +16,7 @@
  */
 package com.etologic.mahjongscoring2.data_source.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -32,13 +33,13 @@ typealias GameId = Long
 )
 data class DBGame(
     @field:PrimaryKey(autoGenerate = true) val gameId: GameId,
-    var gameName: String = "",
     var nameP1: String = "",
     var nameP2: String = "",
     var nameP3: String = "",
     var nameP4: String = "",
     @TypeConverters(DateConverter::class) val startDate: Date,
     @TypeConverters(DateConverter::class) var endDate: Date? = null,
+    var gameName: String = "",
 ) {
     val isEnded: Boolean get() = endDate != null
 

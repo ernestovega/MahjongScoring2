@@ -27,7 +27,7 @@ import com.etologic.mahjongscoring2.data_source.local_data_source.daos.GamesDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.daos.RoundsDao
 import com.etologic.mahjongscoring2.data_source.model.DBGame
 
-@Database(entities = [DBGame::class, Round::class], version = 5)
+@Database(entities = [DBGame::class, Round::class], version = 2)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -35,41 +35,26 @@ abstract class AppDatabase : RoomDatabase() {
     abstract val roundsDao: RoundsDao
 }
 
-/** Dropping "Combinations" and "Tables" tables */
 object Migration1to2 : Migration(1, 2) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL("DROP TABLE IF EXISTS Combinations")
         db.execSQL("DROP TABLE IF EXISTS Tables")
-    }
-}
+        db.execSQL("ALTER TABLE Rounds DROP COLUMN roundDuration")
 
-/** Replace "Rounds.isEnded" column by "Games.endDate" one */
-object Migration2to3 : Migration(2, 3) {
-    override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL("ALTER TABLE Games ADD COLUMN endDate INTEGER")
+        db.execSQL("ALTER TABLE Games ADD COLUMN endDate INTEGER DEFAULT NULL")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN isEnded")
         db.execSQL("UPDATE Games SET endDate = startDate")
-    }
-}
 
-/** Add "Games.gameName" column */
-object Migration3to4 : Migration(3, 4) {
-    override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL("ALTER TABLE Games ADD COLUMN gameName TEXT")
-    }
-}
+        db.execSQL("ALTER TABLE Games ADD COLUMN gameName TEXT DEFAULT ''")
 
-/** Make "Rounds.winnerInitialSeat" and "Rounds.discarderInitialSeat" columns nullable */
-object Migration4to5 : Migration(4, 5) {
-    override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL("ALTER TABLE Rounds ADD COLUMN winnerInitialSeat_new INTEGER")
-        db.execSQL("ALTER TABLE Rounds ADD COLUMN discarderInitialSeat_new INTEGER")
+        db.execSQL("ALTER TABLE Rounds ADD COLUMN winnerInitialSeat_new INTEGER DEFAULT NULL")
+        db.execSQL("ALTER TABLE Rounds ADD COLUMN discarderInitialSeat_new INTEGER DEFAULT NULL")
         db.execSQL("UPDATE Rounds SET winnerInitialSeat_new = winnerInitialSeat")
         db.execSQL("UPDATE Rounds SET discarderInitialSeat_new = discarderInitialSeat")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN winnerInitialSeat")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN discarderInitialSeat")
-        db.execSQL("ALTER TABLE Rounds ADD COLUMN winnerInitialSeat INTEGER")
-        db.execSQL("ALTER TABLE Rounds ADD COLUMN discarderInitialSeat INTEGER")
+        db.execSQL("ALTER TABLE Rounds ADD COLUMN winnerInitialSeat INTEGER DEFAULT NULL")
+        db.execSQL("ALTER TABLE Rounds ADD COLUMN discarderInitialSeat INTEGER DEFAULT NULL")
         db.execSQL("UPDATE Rounds SET winnerInitialSeat = winnerInitialSeat_new")
         db.execSQL("UPDATE Rounds SET discarderInitialSeat = discarderInitialSeat_new")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN winnerInitialSeat_new")
