@@ -17,8 +17,8 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.dtos.ExportedDb
-import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.model.DbGame
+import com.etologic.mahjongscoring2.data_source.model.DbRound
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import kotlinx.coroutines.flow.firstOrNull
@@ -37,7 +37,7 @@ class ExportDbToCsvUseCase @Inject constructor(
         return ExportedDb(gamesCsvFile, roundsCsvFile)
     }
 
-    private fun convertDbGamesToCsv(dbGames: List<DBGame>): String {
+    private fun convertDbGamesToCsv(dbGames: List<DbGame>): String {
         val stringBuilder = StringBuilder()
         stringBuilder.appendLine(
             "gameId,gameName," +
@@ -58,7 +58,7 @@ class ExportDbToCsvUseCase @Inject constructor(
         return stringBuilder.toString()
     }
 
-    private fun convertRoundsToCsv(dbRounds: List<Round>): String {
+    private fun convertRoundsToCsv(dbRounds: List<DbRound>): String {
         val stringBuilder = StringBuilder()
         stringBuilder.appendLine(
             "gameId,roundId," +

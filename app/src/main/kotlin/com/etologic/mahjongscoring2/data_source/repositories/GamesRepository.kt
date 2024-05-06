@@ -17,7 +17,7 @@
 package com.etologic.mahjongscoring2.data_source.repositories
 
 import com.etologic.mahjongscoring2.data_source.local_data_source.daos.GamesDao
-import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.model.DbGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -28,13 +28,13 @@ class GamesRepository
 @Inject constructor(
     private var gamesDao: GamesDao,
 ) {
-    fun getAllFlow(): Flow<List<DBGame>> = gamesDao.getAll()
+    fun getAllFlow(): Flow<List<DbGame>> = gamesDao.getAll()
 
-    fun getOneFlow(gameId: GameId): Flow<DBGame> = gamesDao.getOne(gameId)
+    fun getOneFlow(gameId: GameId): Flow<DbGame> = gamesDao.getOne(gameId)
 
-    suspend fun insertOne(dbGame: DBGame): Result<GameId> = runCatching { gamesDao.insertOne(dbGame) }
+    suspend fun insertOne(dbGame: DbGame): Result<GameId> = runCatching { gamesDao.insertOne(dbGame) }
 
-    suspend fun updateOne(dbGame: DBGame): Result<Boolean> = runCatching { gamesDao.updateOne(dbGame) == 1 }
+    suspend fun updateOne(dbGame: DbGame): Result<Boolean> = runCatching { gamesDao.updateOne(dbGame) == 1 }
 
     suspend fun deleteOne(gameId: GameId): Result<Boolean> = runCatching { gamesDao.deleteOne(gameId) == 1 }
 }

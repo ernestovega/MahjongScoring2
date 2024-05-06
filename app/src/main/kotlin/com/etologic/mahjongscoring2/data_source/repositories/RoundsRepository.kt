@@ -16,10 +16,10 @@
  */
 package com.etologic.mahjongscoring2.data_source.repositories
 
-import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.entities.RoundId
 import com.etologic.mahjongscoring2.data_source.local_data_source.daos.RoundsDao
+import com.etologic.mahjongscoring2.data_source.model.DbRound
 import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.data_source.model.RoundId
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,13 +27,13 @@ import javax.inject.Singleton
 @Singleton
 class RoundsRepository @Inject constructor(private var roundsDao: RoundsDao) {
 
-    fun getAllFlow(): Flow<List<Round>> = roundsDao.getAll()
+    fun getAllFlow(): Flow<List<DbRound>> = roundsDao.getAll()
 
-    fun getAllByGame(gameId: GameId): Flow<List<Round>> = roundsDao.getGameRounds(gameId)
+    fun getAllByGame(gameId: GameId): Flow<List<DbRound>> = roundsDao.getGameRounds(gameId)
 
-    suspend fun insertOne(round: Round): Result<Boolean> = runCatching { roundsDao.insertOne(round) > 0 }
+    suspend fun insertOne(round: DbRound): Result<Boolean> = runCatching { roundsDao.insertOne(round) > 0 }
 
-    suspend fun updateOne(round: Round): Result<Boolean> = runCatching { roundsDao.updateOne(round) == 1 }
+    suspend fun updateOne(round: DbRound): Result<Boolean> = runCatching { roundsDao.updateOne(round) == 1 }
 
     suspend fun deleteByGame(gameId: GameId): Result<Boolean> = runCatching { roundsDao.deleteGameRounds(gameId) >= 0 }
 

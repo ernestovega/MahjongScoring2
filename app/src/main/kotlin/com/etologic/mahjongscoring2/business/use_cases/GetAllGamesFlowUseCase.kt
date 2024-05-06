@@ -16,12 +16,12 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.dropWhile
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
@@ -29,17 +29,18 @@ class GetAllGamesFlowUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
     private val roundsRepository: RoundsRepository,
 ) {
-    operator fun invoke(): Flow<List<UIGame>> =
+    operator fun invoke(): Flow<List<UiGame>> =
         combine(
             gamesRepository.getAllFlow(),
             roundsRepository.getAllFlow(),
-        ) { dbGames, rounds ->
+        ) { dbGames, dbRounds ->
             dbGames.map { game ->
-                val gameRounds = rounds.filter { round -> round.gameId == game.gameId }
+                val gameRounds = dbRounds.filter { round -> round.gameId == game.gameId }
                 if (gameRounds.isEmpty()) {
                     return@combine null
                 } else {
-                    UIGame(game, gameRounds)
+                    val uiRounds = dbRounds.map { UiRound(it) }
+                    UiGame(game, uiRounds)
                 }
             }
         }.mapNotNull { it }

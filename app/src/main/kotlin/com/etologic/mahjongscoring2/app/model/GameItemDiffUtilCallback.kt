@@ -19,12 +19,12 @@ package com.etologic.mahjongscoring2.app.model
 import androidx.recyclerview.widget.DiffUtil
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
-import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
-import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.NUM_MCR_PLAYERS
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NUM_MCR_PLAYERS
+import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import java.util.Locale
 
-class GameItemDiffUtilCallback(private val newList: List<UIGame>, private val oldList: List<UIGame>) : DiffUtil.Callback() {
+class GameItemDiffUtilCallback(private val newList: List<UiGame>, private val oldList: List<UiGame>) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {
         return oldList.size
@@ -55,8 +55,8 @@ class GameItemDiffUtilCallback(private val newList: List<UIGame>, private val ol
                         String.format(Locale.getDefault(), "%d", it)
                     }
                 ) &&
-                areBestHandsEqual(oldGame.getBestHand(), newGame.getBestHand())
-                && Round.areEqual(oldGame.rounds, newGame.rounds))
+                areBestHandsEqual(oldGame.getBestHand(), newGame.getBestHand()) &&
+                UiRound.areEqual(oldGame.rounds, newGame.rounds))
     }
 
     private fun arePlayersTotalsPointsEquals(

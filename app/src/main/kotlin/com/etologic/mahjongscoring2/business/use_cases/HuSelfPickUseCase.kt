@@ -17,8 +17,8 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
-import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import javax.inject.Inject
@@ -28,24 +28,24 @@ class HuSelfPickUseCase @Inject constructor(
     private val endRoundUseCase: EndRoundUseCase,
 ) {
 
-    suspend operator fun invoke(uiGame: UIGame, huData: HuData): Result<Boolean> =
-        roundsRepository.updateOne(uiGame.currentRound.applyHuSelfPick(huData))
+    suspend operator fun invoke(uiGame: UiGame, huData: HuData): Result<Boolean> =
+        roundsRepository.updateOne(uiGame.currentRound.applyHuSelfPick(huData).dbRound)
             .onSuccess { endRoundUseCase(uiGame) }
 
-    private fun Round.applyHuSelfPick(huData: HuData): Round = apply {
-        this.winnerInitialSeat = huData.winnerInitialSeat
-        this.discarderInitialSeat = TableWinds.NONE
-        this.handPoints = huData.points
-        this.pointsP1 += calculateSelfPickSeatPoints(TableWinds.EAST, huData)
-        this.pointsP2 += calculateSelfPickSeatPoints(TableWinds.SOUTH, huData)
-        this.pointsP3 += calculateSelfPickSeatPoints(TableWinds.WEST, huData)
-        this.pointsP4 += calculateSelfPickSeatPoints(TableWinds.NORTH, huData)
+    private fun UiRound.applyHuSelfPick(huData: HuData): UiRound = apply {
+        this.dbRound.winnerInitialSeat = huData.winnerInitialSeat
+        this.dbRound.discarderInitialSeat = TableWinds.NONE
+        this.dbRound.handPoints = huData.points
+        this.dbRound.pointsP1 += calculateSelfPickSeatPoints(TableWinds.EAST, huData)
+        this.dbRound.pointsP2 += calculateSelfPickSeatPoints(TableWinds.SOUTH, huData)
+        this.dbRound.pointsP3 += calculateSelfPickSeatPoints(TableWinds.WEST, huData)
+        this.dbRound.pointsP4 += calculateSelfPickSeatPoints(TableWinds.NORTH, huData)
     }
 
     private fun calculateSelfPickSeatPoints(seat: TableWinds, huData: HuData): Int =
         if (seat == huData.winnerInitialSeat) {
-            UIGame.getHuSelfPickWinnerPoints(huData.points)
+            UiGame.getHuSelfPickWinnerPoints(huData.points)
         } else {
-            UIGame.getHuSelfPickDiscarderPoints(huData.points)
+            UiGame.getHuSelfPickDiscarderPoints(huData.points)
         }
 }

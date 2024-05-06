@@ -36,9 +36,9 @@ import com.etologic.mahjongscoring2.app.game.activity.ShouldHighlightLastRound
 import com.etologic.mahjongscoring2.app.game.game_list.GameListRvAdapter.GameListItemListener
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
-import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.entities.RoundId
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.business.model.entities.UiRound
+import com.etologic.mahjongscoring2.data_source.model.RoundId
 import com.etologic.mahjongscoring2.databinding.GameListFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -110,13 +110,13 @@ class GameListFragment : BaseFragment() {
         viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { activityViewModel.gameFlow.collect(::gameObserver) } }
     }
 
-    private fun gameObserver(uiGame: UIGame) {
+    private fun gameObserver(uiGame: UiGame) {
         roundsListObserver(uiGame.getEndedRounds())
         namesObserver(uiGame.dbGame.getPlayersNames())
         totalsObserver(uiGame.getPlayersTotalPenaltiesStringSigned(), uiGame.getPlayersTotalPointsWithPenaltiesStringSigned())
     }
 
-    private fun roundsListObserver(roundsList: List<Round>) {
+    private fun roundsListObserver(roundsList: List<UiRound>) {
         with(binding) {
             rvAdapter.updateCollection(roundsList)
             if (roundsList.isEmpty()) {

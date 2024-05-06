@@ -16,8 +16,8 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.model.DbGame
+import com.etologic.mahjongscoring2.data_source.model.DbRound
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
@@ -36,8 +36,8 @@ class CreateGameUseCase @Inject constructor(
         nameP4: String,
     ): Result<GameId> =
         gamesRepository.insertOne(
-            DBGame(
-                gameId = DBGame.NOT_SET_GAME_ID,
+            DbGame(
+                gameId = DbGame.NOT_SET_GAME_ID,
                 gameName = gameName,
                 nameP1 = nameP1,
                 nameP2 = nameP2,
@@ -47,5 +47,5 @@ class CreateGameUseCase @Inject constructor(
                 endDate = null,
             )
         )
-            .onSuccess { gameId -> roundsRepository.insertOne(Round(gameId)) }
+            .onSuccess { gameId -> roundsRepository.insertOne(DbRound(gameId)) }
 }

@@ -18,7 +18,7 @@ package com.etologic.mahjongscoring2.data_source.local_data_source.daos
 
 import android.database.sqlite.SQLiteConstraintException
 import androidx.room.*
-import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.model.DbGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import kotlinx.coroutines.flow.Flow
 
@@ -26,17 +26,17 @@ import kotlinx.coroutines.flow.Flow
 interface GamesDao {
 
     @Query("SELECT * from Games ORDER BY startDate DESC")
-    fun getAll(): Flow<List<DBGame>>
+    fun getAll(): Flow<List<DbGame>>
 
     @Query("SELECT * from Games WHERE gameId = :gameId")
-    fun getOne(gameId: GameId): Flow<DBGame>
+    fun getOne(gameId: GameId): Flow<DbGame>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     @Throws(SQLiteConstraintException::class)
-    suspend fun insertOne(dbGame: DBGame): GameId
+    suspend fun insertOne(dbGame: DbGame): GameId
 
     @Update
-    suspend fun updateOne(dbGame: DBGame): Int
+    suspend fun updateOne(dbGame: DbGame): Int
 
     @Query("DELETE FROM Games WHERE gameId = :gameId")
     suspend fun deleteOne(gameId: GameId): Int

@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvOldGames"
@@ -92,7 +92,7 @@
                 android:layout_marginTop="@dimen/standard_margin"
                 android:layout_marginEnd="@dimen/second_standard_margin"
                 android:layout_marginRight="@dimen/second_standard_margin"
-                android:gravity="start"
+                android:gravity="center"
                 android:lineSpacingExtra="@dimen/half_standard_margin"
                 android:text="@string/theres_no_games_yet_start_one"
                 android:textColor="@color/gray"

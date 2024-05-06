@@ -20,7 +20,7 @@ package com.etologic.mahjongscoring2.business.model.dtos
 import com.etologic.mahjongscoring2.app.extensions.fourth
 import com.etologic.mahjongscoring2.app.extensions.second
 import com.etologic.mahjongscoring2.app.extensions.third
-import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MIN_MCR_POINTS
+import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MIN_MCR_POINTS
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import kotlin.math.abs
 import kotlin.math.ceil

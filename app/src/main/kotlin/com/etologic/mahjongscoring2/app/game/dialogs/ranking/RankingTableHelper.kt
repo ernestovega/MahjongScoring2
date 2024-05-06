@@ -19,7 +19,7 @@ package com.etologic.mahjongscoring2.app.game.dialogs.ranking
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 
 object RankingTableHelper {
 
@@ -34,7 +34,7 @@ object RankingTableHelper {
     private const val DRAW_SECOND_2 = "1.5"
     private const val DRAW_LAST_2 = "0.5"
 
-    fun generateRankingTable(uiGame: UIGame?): RankingData? {
+    fun generateRankingTable(uiGame: UiGame?): RankingData? {
         if (uiGame == null) return null
         val sortedPlayersRankings = getSortedPlayersRankings(uiGame)
         val bestHands = getBestHands(uiGame)
@@ -47,14 +47,14 @@ object RankingTableHelper {
         )
     }
 
-    private fun getSortedPlayersRankings(uiGame: UIGame): List<PlayerRanking> {
+    private fun getSortedPlayersRankings(uiGame: UiGame): List<PlayerRanking> {
         var playersRankings = setPlayersNamesAndScores(uiGame)
         playersRankings = playersRankings.sortedByDescending { it.score }
         setPlayersTablePoints(playersRankings)
         return playersRankings
     }
 
-    private fun setPlayersNamesAndScores(uiGame: UIGame): List<PlayerRanking> {
+    private fun setPlayersNamesAndScores(uiGame: UiGame): List<PlayerRanking> {
         val scores = uiGame.getPlayersTotalPointsWithPenalties()
         return listOf(
             PlayerRanking(uiGame.dbGame.nameP1, scores[0]),
@@ -110,11 +110,11 @@ object RankingTableHelper {
         return sortedPlayers
     }
 
-    private fun getBestHands(uiGame: UIGame): List<BestHand> {
+    private fun getBestHands(uiGame: UiGame): List<BestHand> {
         val bestHands = ArrayList<BestHand>()
-        for (round in uiGame.rounds.filter { it.winnerInitialSeat != null }) {
-            val roundHandPoints = round.handPoints
-            val playerInitialPosition = uiGame.getPlayerInitialSeatByCurrentSeat(round.winnerInitialSeat!!)
+        for (round in uiGame.rounds.filter { it.dbRound.winnerInitialSeat != null }) {
+            val roundHandPoints = round.dbRound.handPoints
+            val playerInitialPosition = uiGame.getPlayerInitialSeatByCurrentSeat(round.dbRound.winnerInitialSeat!!)
             val playerName = uiGame.dbGame.getPlayerNameByInitialPosition(playerInitialPosition)
             val bestHand = BestHand(roundHandPoints, playerInitialPosition, playerName)
             if (bestHands.isEmpty() || roundHandPoints == bestHands[0].handValue) {

@@ -20,7 +20,7 @@ package com.etologic.mahjongscoring2.business.use_cases
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper
 import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
@@ -43,14 +43,14 @@ class ExportGameToTextUseCase @Inject constructor(
         return buildText(uiGame, getStringRes)
     }
 
-    private fun buildText(uiGame: UIGame, getStrRes: (Int) -> String): String =
+    private fun buildText(uiGame: UiGame, getStrRes: (Int) -> String): String =
         with(StringBuilder()) {
             buildFinalResultsText(uiGame, getStrRes)
             buildRoundsText(uiGame, getStrRes)
             toString()
         }
 
-    private fun StringBuilder.buildFinalResultsText(uiGame: UIGame, getStrRes: (Int) -> String) {
+    private fun StringBuilder.buildFinalResultsText(uiGame: UiGame, getStrRes: (Int) -> String) {
         RankingTableHelper.generateRankingTable(uiGame)?.let { rankingData ->
             appendLine(uiGame.dbGame.gameName)
             appendLine()
@@ -70,7 +70,7 @@ class ExportGameToTextUseCase @Inject constructor(
             ?: appendLine(getStrRes(R.string.ups_something_wrong))
     }
 
-    private fun StringBuilder.buildRoundsText(uiGame: UIGame, getStrRes: (Int) -> String) {
+    private fun StringBuilder.buildRoundsText(uiGame: UiGame, getStrRes: (Int) -> String) {
         appendLine()
         appendLine("${getStrRes(R.string.rounds).uppercase()} (${getStrRes(R.string.rounds_dont_count_penalties)}):")
         appendLine()
@@ -79,29 +79,29 @@ class ExportGameToTextUseCase @Inject constructor(
             appendLine()
             append("${getStrRes(R.string.winner_)} ")
             append(
-                when (round.winnerInitialSeat) {
+                when (round.dbRound.winnerInitialSeat) {
                     null -> "-"
-                    else -> uiGame.dbGame.getPlayerNameByInitialPosition(round.winnerInitialSeat!!)
+                    else -> uiGame.dbGame.getPlayerNameByInitialPosition(round.dbRound.winnerInitialSeat!!)
                 }
             )
             appendLine()
-            append("${getStrRes(R.string.points_)} ${round.handPoints}")
+            append("${getStrRes(R.string.points_)} ${round.dbRound.handPoints}")
             appendLine()
             append("${getStrRes(R.string.from)}: ")
             append(
-                when (round.discarderInitialSeat) {
+                when (round.dbRound.discarderInitialSeat) {
                     null -> "-"
                     NONE -> getStrRes(R.string.self_pick)
-                    else -> uiGame.dbGame.getPlayerNameByInitialPosition(round.discarderInitialSeat!!)
+                    else -> uiGame.dbGame.getPlayerNameByInitialPosition(round.dbRound.discarderInitialSeat!!)
                 }
             )
             appendLine()
             if (round.areTherePenalties()) {
                 append("${getStrRes(R.string.penalties)}: ")
-                append("${uiGame.dbGame.getPlayerNameByInitialPosition(EAST)}: ${round.penaltyP1.toText()} | ")
-                append("${uiGame.dbGame.getPlayerNameByInitialPosition(SOUTH)}: ${round.penaltyP2.toText()} | ")
-                append("${uiGame.dbGame.getPlayerNameByInitialPosition(WEST)}: ${round.penaltyP3.toText()} | ")
-                append("${uiGame.dbGame.getPlayerNameByInitialPosition(NORTH)}: ${round.penaltyP4.toText()}")
+                append("${uiGame.dbGame.getPlayerNameByInitialPosition(EAST)}: ${round.dbRound.penaltyP1.toText()} | ")
+                append("${uiGame.dbGame.getPlayerNameByInitialPosition(SOUTH)}: ${round.dbRound.penaltyP2.toText()} | ")
+                append("${uiGame.dbGame.getPlayerNameByInitialPosition(WEST)}: ${round.dbRound.penaltyP3.toText()} | ")
+                append("${uiGame.dbGame.getPlayerNameByInitialPosition(NORTH)}: ${round.dbRound.penaltyP4.toText()}")
             }
             appendLine()
             append("${getStrRes(R.string.totals)}: ")

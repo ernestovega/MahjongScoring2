@@ -29,7 +29,6 @@ import android.widget.RelativeLayout
 import android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM
 import android.widget.RelativeLayout.ALIGN_PARENT_END
 import android.widget.RelativeLayout.ALIGN_PARENT_START
-import android.widget.RelativeLayout.ALIGN_PARENT_TOP
 import android.widget.RelativeLayout.GONE
 import android.widget.RelativeLayout.LayoutParams
 import androidx.core.content.ContextCompat.getDrawable
@@ -52,7 +51,7 @@ import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.RANKING
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.Companion.TAG
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.TableSeatsListener
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.databinding.GameTableFragmentBinding
 import com.google.android.material.badge.BadgeDrawable.BOTTOM_END
@@ -137,7 +136,7 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
         viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { activityViewModel.gameFlow.collect(::gameObserver) } }
     }
 
-    private fun gameObserver(uiGame: UIGame) {
+    private fun gameObserver(uiGame: UiGame) {
         setGameName(uiGame.dbGame.gameName)
         tableSeats.setSeats(uiGame)
         this.setRoundStuff(uiGame)
@@ -152,7 +151,7 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
         }
     }
 
-    private fun setRoundStuff(uiGame: UIGame) {
+    private fun setRoundStuff(uiGame: UiGame) {
         val isGameEnded: Boolean = uiGame.dbGame.isEnded
         val roundNumber: Int = uiGame.rounds.size
         setFab(isGameEnded, roundNumber)

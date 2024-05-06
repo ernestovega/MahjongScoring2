@@ -23,66 +23,58 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
-import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.model.DbGame
+import java.util.Locale
 
-data class UIGame(
-    val dbGame: DBGame,
-    val rounds: List<Round>,
+data class UiGame(
+    val dbGame: DbGame,
+    val rounds: List<UiRound>,
 ) {
+    val currentRound: UiRound get() = rounds.last()
+
     init {
-
-        fun Round.setRoundNumber(roundNumber: Int) {
-            this.roundNumber = roundNumber
-        }
-
-        fun Round.setTotals(roundNumber: Int) {
-            fun UIGame.getTotalPointsUntilRound(roundNumber: Int): IntArray {
-                val totalPoints = intArrayOf(0, 0, 0, 0)
-                for (i in 0..<roundNumber) {
-                    totalPoints[0] += rounds[i].pointsP1
-                    totalPoints[1] += rounds[i].pointsP2
-                    totalPoints[2] += rounds[i].pointsP3
-                    totalPoints[3] += rounds[i].pointsP4
-                }
-                return totalPoints
-            }
-
-            val newRoundTotals = getTotalPointsUntilRound(roundNumber)
-            this.totalPointsP1 = newRoundTotals[0]
-            this.totalPointsP2 = newRoundTotals[1]
-            this.totalPointsP3 = newRoundTotals[2]
-            this.totalPointsP4 = newRoundTotals[3]
-        }
-
-        fun Round.setBestHand(bestHand: BestHand) {
-            this.isBestHand = this.handPoints >= bestHand.handValue &&
-                    this.winnerInitialSeat == bestHand.playerInitialPosition
-        }
-
         val bestHand = getBestHand()
         rounds.forEachIndexed { index, round ->
             val roundNumber = index + 1
-            round.setRoundNumber(roundNumber)
-            round.setTotals(roundNumber)
-            round.setBestHand(bestHand)
+            val roundTotals = getTotalPointsUntilRound(roundNumber)
+            val isBestHand = getIsBestHand(round, bestHand)
+            round.roundNumber = roundNumber
+            round.totalPointsP1 = roundTotals[0]
+            round.totalPointsP2 = roundTotals[1]
+            round.totalPointsP3 = roundTotals[2]
+            round.totalPointsP4 = roundTotals[3]
+            round.isBestHand = isBestHand
         }
     }
 
-    val currentRound: Round get() = rounds.last()
-
     fun getBestHand(): BestHand {
         var bestHand = BestHand()
-        this.rounds.filter { it.winnerInitialSeat != null }.forEach { round ->
-            if (round.handPoints > bestHand.handValue) {
+        this.rounds.filter { it.dbRound.winnerInitialSeat != null }.forEach { round ->
+            if (round.dbRound.handPoints > bestHand.handValue) {
                 bestHand = BestHand(
-                    handValue = round.handPoints,
-                    playerInitialPosition = round.winnerInitialSeat!!,
-                    playerName = dbGame.getPlayerNameByInitialPosition(round.winnerInitialSeat!!)
+                    handValue = round.dbRound.handPoints,
+                    playerInitialPosition = round.dbRound.winnerInitialSeat!!,
+                    playerName = dbGame.getPlayerNameByInitialPosition(round.dbRound.winnerInitialSeat!!)
                 )
             }
         }
         return bestHand
     }
+
+    private fun getTotalPointsUntilRound(roundNumber: Int): IntArray {
+        val totalPoints = intArrayOf(0, 0, 0, 0)
+        for (i in 0..<roundNumber) {
+            totalPoints[0] += rounds[i].dbRound.pointsP1
+            totalPoints[1] += rounds[i].dbRound.pointsP2
+            totalPoints[2] += rounds[i].dbRound.pointsP3
+            totalPoints[3] += rounds[i].dbRound.pointsP4
+        }
+        return totalPoints
+    }
+
+    private fun getIsBestHand(round: UiRound, bestHand: BestHand) =
+        round.dbRound.handPoints >= bestHand.handValue &&
+                round.dbRound.winnerInitialSeat == bestHand.playerInitialPosition
 
     fun getCurrentEastSeatPlayerName(): String? {
         val playersNamesByCurrentRoundSeat = getPlayersNamesByCurrentRoundSeat()
@@ -131,10 +123,14 @@ data class UIGame(
     fun getPlayersNamesByCurrentRoundSeat(): Array<String> {
         val namesListByCurrentSeat = arrayOf("", "", "", "")
         val currentRoundNumber = currentRound.roundNumber
-        namesListByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRoundNumber).code] = dbGame.nameP1
-        namesListByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRoundNumber).code] = dbGame.nameP2
-        namesListByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRoundNumber).code] = dbGame.nameP3
-        namesListByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRoundNumber).code] = dbGame.nameP4
+        namesListByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRoundNumber).code] =
+            dbGame.nameP1
+        namesListByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRoundNumber).code] =
+            dbGame.nameP2
+        namesListByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRoundNumber).code] =
+            dbGame.nameP3
+        namesListByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRoundNumber).code] =
+            dbGame.nameP4
         return namesListByCurrentSeat
     }
 
@@ -142,10 +138,14 @@ data class UIGame(
         val points = getPlayersTotalPointsWithPenalties()
         val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
         val currentRoundNumber = currentRound.roundNumber
-        pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRoundNumber).code] = points[EAST.code]
-        pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRoundNumber).code] = points[SOUTH.code]
-        pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRoundNumber).code] = points[WEST.code]
-        pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRoundNumber).code] = points[NORTH.code]
+        pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRoundNumber).code] =
+            points[EAST.code]
+        pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRoundNumber).code] =
+            points[SOUTH.code]
+        pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRoundNumber).code] =
+            points[WEST.code]
+        pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRoundNumber).code] =
+            points[NORTH.code]
         return pointsByCurrentSeat
     }
 
@@ -163,10 +163,14 @@ data class UIGame(
         val pointsByCurrentSeat = intArrayOf(0, 0, 0, 0)
         val currentRound = currentRound
         val currentRoundNumber = currentRound.roundNumber
-        pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRoundNumber).code] = currentRound.penaltyP1
-        pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRoundNumber).code] = currentRound.penaltyP2
-        pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRoundNumber).code] = currentRound.penaltyP3
-        pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRoundNumber).code] = currentRound.penaltyP4
+        pointsByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRoundNumber).code] =
+            currentRound.dbRound.penaltyP1
+        pointsByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRoundNumber).code] =
+            currentRound.dbRound.penaltyP2
+        pointsByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRoundNumber).code] =
+            currentRound.dbRound.penaltyP3
+        pointsByCurrentSeat[getInitialNorthPlayerCurrentSeat(currentRoundNumber).code] =
+            currentRound.dbRound.penaltyP4
         return pointsByCurrentSeat
     }
 
@@ -207,25 +211,25 @@ data class UIGame(
         }
 
     fun getPlayersTotalPenaltiesStringSigned(): Array<String>? =
-        if (rounds.all { it.penaltyP1 == 0 && it.penaltyP2 == 0 && it.penaltyP3 == 0 && it.penaltyP4 == 0 }) {
+        if (rounds.all { it.dbRound.penaltyP1 == 0 && it.dbRound.penaltyP2 == 0 && it.dbRound.penaltyP3 == 0 && it.dbRound.penaltyP4 == 0 }) {
             null
         } else {
             val penalties = getPlayersTotalPenalties()
             arrayOf(
-                String.format("%+d", penalties[EAST.code]),
-                String.format("%+d", penalties[SOUTH.code]),
-                String.format("%+d", penalties[WEST.code]),
-                String.format("%+d", penalties[NORTH.code])
+                String.format(Locale.getDefault(), "%+d", penalties[EAST.code]),
+                String.format(Locale.getDefault(), "%+d", penalties[SOUTH.code]),
+                String.format(Locale.getDefault(), "%+d", penalties[WEST.code]),
+                String.format(Locale.getDefault(), "%+d", penalties[NORTH.code])
             )
         }
 
     private fun getPlayersTotalPenalties(): IntArray {
         val points = intArrayOf(0, 0, 0, 0)
         rounds.forEach {
-            points[EAST.code] += it.penaltyP1
-            points[SOUTH.code] += it.penaltyP2
-            points[WEST.code] += it.penaltyP3
-            points[NORTH.code] += it.penaltyP4
+            points[EAST.code] += it.dbRound.penaltyP1
+            points[SOUTH.code] += it.dbRound.penaltyP2
+            points[WEST.code] += it.dbRound.penaltyP3
+            points[NORTH.code] += it.dbRound.penaltyP4
         }
         return points
     }
@@ -233,20 +237,20 @@ data class UIGame(
     fun getPlayersTotalPointsWithPenaltiesStringSigned(): Array<String> {
         val points = getPlayersTotalPointsWithPenalties()
         return arrayOf(
-            String.format("%+d", points[EAST.code]),
-            String.format("%+d", points[SOUTH.code]),
-            String.format("%+d", points[WEST.code]),
-            String.format("%+d", points[NORTH.code])
+            String.format(Locale.getDefault(), "%+d", points[EAST.code]),
+            String.format(Locale.getDefault(), "%+d", points[SOUTH.code]),
+            String.format(Locale.getDefault(), "%+d", points[WEST.code]),
+            String.format(Locale.getDefault(), "%+d", points[NORTH.code])
         )
     }
 
     fun getPlayersTotalPointsWithPenalties(): IntArray {
         val points = intArrayOf(0, 0, 0, 0)
         rounds.forEach {
-            points[EAST.code] += it.pointsP1 + it.penaltyP1
-            points[SOUTH.code] += it.pointsP2 + it.penaltyP2
-            points[WEST.code] += it.pointsP3 + it.penaltyP3
-            points[NORTH.code] += it.pointsP4 + it.penaltyP4
+            points[EAST.code] += it.dbRound.pointsP1 + it.dbRound.penaltyP1
+            points[SOUTH.code] += it.dbRound.pointsP2 + it.dbRound.penaltyP2
+            points[WEST.code] += it.dbRound.pointsP3 + it.dbRound.penaltyP3
+            points[NORTH.code] += it.dbRound.pointsP4 + it.dbRound.penaltyP4
         }
         return points
     }
@@ -306,7 +310,7 @@ data class UIGame(
             else -> arrayOf()
         }
 
-    fun getEndedRounds(): List<Round> =
+    fun getEndedRounds(): List<UiRound> =
         rounds.takeIf { dbGame.isEnded } ?: rounds.dropLast(1)
 
     companion object {
@@ -318,11 +322,13 @@ data class UIGame(
         const val NUM_NO_WINNER_PLAYERS = 3
         const val POINTS_DISCARD_NEUTRAL_PLAYERS = -8
 
-        fun getHuSelfPickWinnerPoints(huPoints: Int) = (huPoints + MIN_MCR_POINTS) * NUM_NO_WINNER_PLAYERS
+        fun getHuSelfPickWinnerPoints(huPoints: Int) =
+            (huPoints + MIN_MCR_POINTS) * NUM_NO_WINNER_PLAYERS
 
         fun getHuSelfPickDiscarderPoints(huPoints: Int) = -(huPoints + MIN_MCR_POINTS)
 
-        fun getHuDiscardWinnerPoints(huPoints: Int) = huPoints + (MIN_MCR_POINTS * NUM_NO_WINNER_PLAYERS)
+        fun getHuDiscardWinnerPoints(huPoints: Int) =
+            huPoints + (MIN_MCR_POINTS * NUM_NO_WINNER_PLAYERS)
 
         fun getHuDiscardDiscarderPoints(huPoints: Int) = -(huPoints + MIN_MCR_POINTS)
 

@@ -21,13 +21,13 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.etologic.mahjongscoring2.business.model.entities.Round
 import com.etologic.mahjongscoring2.data_source.local_data_source.converters.DateConverter
 import com.etologic.mahjongscoring2.data_source.local_data_source.daos.GamesDao
 import com.etologic.mahjongscoring2.data_source.local_data_source.daos.RoundsDao
-import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.model.DbGame
+import com.etologic.mahjongscoring2.data_source.model.DbRound
 
-@Database(entities = [DBGame::class, Round::class], version = 2)
+@Database(entities = [DbGame::class, DbRound::class], version = 2)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 

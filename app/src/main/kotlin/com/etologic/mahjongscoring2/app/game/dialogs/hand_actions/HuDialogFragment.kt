@@ -29,8 +29,8 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.model.Seat
-import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MAX_MCR_POINTS
-import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MIN_MCR_POINTS
+import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MAX_MCR_POINTS
+import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MIN_MCR_POINTS
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE

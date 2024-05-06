@@ -45,7 +45,7 @@ import com.etologic.mahjongscoring2.app.model.SeatStates.DISABLED
 import com.etologic.mahjongscoring2.app.model.SeatStates.NORMAL
 import com.etologic.mahjongscoring2.app.model.SeatStates.SELECTED
 import com.etologic.mahjongscoring2.business.model.dtos.SeatDiffs
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
@@ -106,7 +106,7 @@ class GameTableSeatsFragment : BaseFragment() {
             NORTH -> arrayOf(NORMAL, NORMAL, NORMAL, SELECTED)
         }
 
-    fun setSeats(uiGame: UIGame) {
+    fun setSeats(uiGame: UiGame) {
         selectedPlayer = NONE
         setStates(getSeatsStates(uiGame))
         val playersTotalPointsByCurrentSeat = uiGame.getPlayersTotalPointsByCurrentSeat()
@@ -117,7 +117,7 @@ class GameTableSeatsFragment : BaseFragment() {
         setPenalties(uiGame.getPlayersPenaltiesByCurrentSeat(), uiGame.dbGame.isEnded)
     }
 
-    private fun getSeatsStates(uiGame: UIGame): Array<SeatStates> =
+    private fun getSeatsStates(uiGame: UiGame): Array<SeatStates> =
         if (uiGame.dbGame.isEnded) arrayOf(DISABLED, DISABLED, DISABLED, DISABLED) else getSeatsStates()
 
     private fun setStates(states: Array<SeatStates>) {
@@ -168,7 +168,7 @@ class GameTableSeatsFragment : BaseFragment() {
         binding.iGameTableSeatNorth.tvTableSeatNorthPoints.text = points[NORTH.code]
     }
 
-    private fun setPointsDiffs(uiGame: UIGame?) {
+    private fun setPointsDiffs(uiGame: UiGame?) {
         if (activityViewModel.shouldShowDiffs().value != false && !isUserFontTooBig()) {
             val tableDiffs = uiGame?.getTableDiffs()
             if (tableDiffs != null) {

@@ -35,7 +35,7 @@ import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.SETUP_NEW_GAME
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.databinding.MainOldgamesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -124,7 +124,7 @@ class OldGamesFragment : BaseFragment() {
         viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.gamesState.collect(::gamesObserver) } }
     }
 
-    private fun gamesObserver(games: List<UIGame>) {
+    private fun gamesObserver(games: List<UiGame>) {
         binding.emptyLayoutOldGames.visibility = if (games.isEmpty()) VISIBLE else GONE
         rvAdapter.setGames(games)
     }

@@ -18,29 +18,29 @@ package com.etologic.mahjongscoring2.data_source.local_data_source.daos
 
 import android.database.sqlite.SQLiteConstraintException
 import androidx.room.*
-import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.entities.RoundId
+import com.etologic.mahjongscoring2.data_source.model.DbRound
 import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.data_source.model.RoundId
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RoundsDao {
 
     @Query("SELECT * FROM Rounds")
-    fun getAll(): Flow<List<Round>>
+    fun getAll(): Flow<List<DbRound>>
 
     @Query("SELECT * FROM Rounds WHERE gameId = :gameId")
-    fun getGameRounds(gameId: GameId): Flow<List<Round>>
+    fun getGameRounds(gameId: GameId): Flow<List<DbRound>>
 
     @Query("SELECT * FROM Rounds WHERE gameId = :gameId AND roundId = :roundId")
-    fun getOne(gameId: GameId, roundId: RoundId): Round
+    fun getOne(gameId: GameId, roundId: RoundId): DbRound
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     @Throws(SQLiteConstraintException::class)
-    suspend fun insertOne(round: Round): RoundId
+    suspend fun insertOne(round: DbRound): RoundId
 
     @Update
-    suspend fun updateOne(round: Round): Int
+    suspend fun updateOne(round: DbRound): Int
 
     @Query("DELETE FROM Rounds WHERE gameId = :gameId")
     suspend fun deleteGameRounds(gameId: GameId): Int

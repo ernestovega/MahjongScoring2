@@ -39,8 +39,8 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTa
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.TABLE
 import com.etologic.mahjongscoring2.app.utils.shareExportedGame
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
-import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MAX_MCR_ROUNDS
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
@@ -192,7 +192,7 @@ class GameActivity : BaseActivity() {
         lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.gameFlow.collect(::gameObserver) } }
     }
 
-    private fun gameObserver(uiGame: UIGame) {
+    private fun gameObserver(uiGame: UiGame) {
         val isGameEnded = uiGame.dbGame.isEnded
 
         shouldBeShownResumeButton = isGameEnded && uiGame.rounds.size < MAX_MCR_ROUNDS

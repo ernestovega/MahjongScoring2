@@ -16,7 +16,6 @@
  */
 package com.etologic.mahjongscoring2.data_source.model
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -31,7 +30,7 @@ typealias GameId = Long
     tableName = "Games",
     indices = [Index(value = ["gameId"], unique = true)]
 )
-data class DBGame(
+data class DbGame(
     @field:PrimaryKey(autoGenerate = true) val gameId: GameId,
     var nameP1: String = "",
     var nameP2: String = "",

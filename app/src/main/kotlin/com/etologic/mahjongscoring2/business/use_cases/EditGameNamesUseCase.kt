@@ -16,7 +16,7 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.model.DbGame
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import javax.inject.Inject
 
@@ -24,7 +24,7 @@ class EditGameNamesUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
 ) {
     suspend operator fun invoke(
-        dbGame: DBGame,
+        dbGame: DbGame,
         gameName: String,
         nameP1: String,
         nameP2: String,
@@ -41,7 +41,7 @@ class EditGameNamesUseCase @Inject constructor(
         return gamesRepository.updateOne(dbGame)
     }
 
-    private fun DBGame.updateNames(
+    private fun DbGame.updateNames(
         gameName: String,
         nameP1: String,
         nameP2: String,

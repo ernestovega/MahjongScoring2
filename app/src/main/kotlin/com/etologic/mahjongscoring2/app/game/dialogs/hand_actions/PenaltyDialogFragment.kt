@@ -29,7 +29,7 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
-import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.NUM_NO_WINNER_PLAYERS
+import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NUM_NO_WINNER_PLAYERS
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.databinding.GamePenaltyDialogFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint

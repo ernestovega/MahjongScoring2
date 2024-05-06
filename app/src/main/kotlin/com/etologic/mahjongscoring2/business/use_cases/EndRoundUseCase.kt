@@ -16,8 +16,8 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.data_source.model.DbRound
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import javax.inject.Inject
 
@@ -25,9 +25,9 @@ class EndRoundUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
     private val endGameUseCase: EndGameUseCase,
 ) {
-    suspend operator fun invoke(uiGame: UIGame): Result<Boolean> =
-        if (uiGame.rounds.size < UIGame.MAX_MCR_ROUNDS) {
-            roundsRepository.insertOne(Round(uiGame.dbGame.gameId))
+    suspend operator fun invoke(uiGame: UiGame): Result<Boolean> =
+        if (uiGame.rounds.size < UiGame.MAX_MCR_ROUNDS) {
+            roundsRepository.insertOne(DbRound(uiGame.dbGame.gameId))
         } else {
             endGameUseCase(uiGame)
         }

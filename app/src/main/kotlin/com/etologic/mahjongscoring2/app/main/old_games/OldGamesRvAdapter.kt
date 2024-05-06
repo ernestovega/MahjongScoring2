@@ -27,7 +27,7 @@ import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.model.GameItemDiffUtilCallback
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.databinding.MainOldgameItemBinding
 import java.util.Locale
@@ -43,7 +43,7 @@ class OldGamesRvAdapter
     }
 
     private var itemClickListener: GameItemListener? = null
-    private var games: List<UIGame> = ArrayList()
+    private var games: List<UiGame> = ArrayList()
 
     init {
         games = ArrayList()
@@ -53,14 +53,14 @@ class OldGamesRvAdapter
         this.itemClickListener = listener
     }
 
-    fun setGames(newGames: List<UIGame>) {
+    fun setGames(newGames: List<UiGame>) {
         val result = DiffUtil.calculateDiff(GameItemDiffUtilCallback(newGames, games), false)
         saveNewGamesCopy(newGames)
         result.dispatchUpdatesTo(this)
     }
 
-    private fun saveNewGamesCopy(newGames: List<UIGame>) {
-        val newGamesCopy = ArrayList<UIGame>(newGames.size)
+    private fun saveNewGamesCopy(newGames: List<UiGame>) {
+        val newGamesCopy = ArrayList<UiGame>(newGames.size)
         newGames.map { newGamesCopy.add(it.copy()) }
         games = newGamesCopy
     }
@@ -92,7 +92,7 @@ class OldGamesRvAdapter
 
     private fun setFields(
         itemViewHolder: OldGameItemViewHolder,
-        uiGame: UIGame,
+        uiGame: UiGame,
         bestHand: BestHand
     ) {
         itemViewHolder.gameId = uiGame.dbGame.gameId

@@ -28,7 +28,7 @@ import androidx.fragment.app.activityViewModels
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
-import com.etologic.mahjongscoring2.business.model.entities.UIGame.Companion.MAX_MCR_ROUNDS
+import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.databinding.GameTableRankingDialogFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.String.format

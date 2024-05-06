@@ -20,7 +20,7 @@ package com.etologic.mahjongscoring2.data_source.local_data_source
 import androidx.room.testing.MigrationTestHelper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.etologic.mahjongscoring2.data_source.model.DBGame
+import com.etologic.mahjongscoring2.data_source.model.DbGame
 import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
@@ -112,7 +112,7 @@ class MigrationTest {
         // but you need to validate that the data was migrated properly.
 
         val expectedGames = listOf(
-            DBGame(
+            DbGame(
                 gameId = 1,
                 nameP1 = "Player A",
                 nameP2 = "Player B",
@@ -122,7 +122,7 @@ class MigrationTest {
                 endDate = null,
                 gameName = "",
             ),
-            DBGame(
+            DbGame(
                 gameId = 2,
                 nameP1 = "Player A2",
                 nameP2 = "Player B2",

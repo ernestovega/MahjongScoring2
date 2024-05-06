@@ -28,8 +28,7 @@ import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
-import com.etologic.mahjongscoring2.business.model.entities.RoundId
-import com.etologic.mahjongscoring2.business.model.entities.UIGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
@@ -47,6 +46,7 @@ import com.etologic.mahjongscoring2.business.use_cases.RemoveRoundUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ResumeGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.SetPenaltyUseCase
 import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.data_source.model.RoundId
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -129,9 +129,9 @@ class GameViewModel @AssistedInject constructor(
         _seatOrientation.postValue(DOWN)
     }
 
-    lateinit var game: UIGame
+    lateinit var game: UiGame
 
-    val gameFlow: SharedFlow<UIGame> = getOneGameFlowUseCase(gameId)
+    val gameFlow: SharedFlow<UiGame> = getOneGameFlowUseCase(gameId)
         .onEach { game -> this.game = game }
         .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 

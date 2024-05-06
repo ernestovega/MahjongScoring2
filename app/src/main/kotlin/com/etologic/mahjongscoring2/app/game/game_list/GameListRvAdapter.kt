@@ -33,18 +33,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R.color
 import com.etologic.mahjongscoring2.app.base.BaseRvAdapter
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.business.model.entities.Round
-import com.etologic.mahjongscoring2.business.model.entities.RoundId
+import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
+import com.etologic.mahjongscoring2.data_source.model.RoundId
 import com.etologic.mahjongscoring2.databinding.GameListRoundItemBinding
+import java.util.Locale
 import javax.inject.Inject
 
 class GameListRvAdapter
-@Inject constructor() : BaseRvAdapter<Round>() {
+@Inject constructor() : BaseRvAdapter<UiRound>() {
 
     interface GameListItemListener {
         fun onClick(view: View, roundId: RoundId)
@@ -85,34 +85,34 @@ class GameListRvAdapter
         setLooserColor(round, myHolder)
         setPenaltiesIcons(round, myHolder)
         setBackgroundColor(round, myHolder)
-        holder.llContainer.setOnSecureClickListener { itemListener?.onClick(holder.tvRoundNum, round.roundId) }
-        holder.llContainer.setOnLongClickListener { itemListener?.onClick(holder.tvRoundNum, round.roundId); true }
+        holder.llContainer.setOnSecureClickListener { itemListener?.onClick(holder.tvRoundNum, round.dbRound.roundId) }
+        holder.llContainer.setOnLongClickListener { itemListener?.onClick(holder.tvRoundNum, round.dbRound.roundId); true }
     }
 
-    private fun fillTexts(item: Round, mHolder: ItemViewHolder) {
+    private fun fillTexts(item: UiRound, mHolder: ItemViewHolder) {
         mHolder.tvRoundNum.text = item.roundNumber.toString()
-        mHolder.tvHandPoints.text = item.handPoints.toString()
+        mHolder.tvHandPoints.text = item.dbRound.handPoints.toString()
         (if (item.isBestHand) accent else grayMM)?.let { mHolder.tvHandPoints.setTextColor(it) }
-        mHolder.tvPointsP1.text = String.format("%+d", item.pointsP1)
-        mHolder.tvPointsP2.text = String.format("%+d", item.pointsP2)
-        mHolder.tvPointsP3.text = String.format("%+d", item.pointsP3)
-        mHolder.tvPointsP4.text = String.format("%+d", item.pointsP4)
-        mHolder.tvTotalPointsP1.text = String.format("%+d", item.totalPointsP1)
-        mHolder.tvTotalPointsP2.text = String.format("%+d", item.totalPointsP2)
-        mHolder.tvTotalPointsP3.text = String.format("%+d", item.totalPointsP3)
-        mHolder.tvTotalPointsP4.text = String.format("%+d", item.totalPointsP4)
+        mHolder.tvPointsP1.text = String.format(Locale.getDefault(), "%+d", item.dbRound.pointsP1)
+        mHolder.tvPointsP2.text = String.format(Locale.getDefault(), "%+d", item.dbRound.pointsP2)
+        mHolder.tvPointsP3.text = String.format(Locale.getDefault(), "%+d", item.dbRound.pointsP3)
+        mHolder.tvPointsP4.text = String.format(Locale.getDefault(), "%+d", item.dbRound.pointsP4)
+        mHolder.tvTotalPointsP1.text = String.format(Locale.getDefault(), "%+d", item.totalPointsP1)
+        mHolder.tvTotalPointsP2.text = String.format(Locale.getDefault(), "%+d", item.totalPointsP2)
+        mHolder.tvTotalPointsP3.text = String.format(Locale.getDefault(), "%+d", item.totalPointsP3)
+        mHolder.tvTotalPointsP4.text = String.format(Locale.getDefault(), "%+d", item.totalPointsP4)
     }
 
-    private fun setWinnerColor(item: Round, mHolder: ItemViewHolder) {
-        (if (item.winnerInitialSeat == EAST) greenMM else grayMM)?.let { mHolder.tvPointsP1.setTextColor(it) }
-        (if (item.winnerInitialSeat == SOUTH) greenMM else grayMM)?.let { mHolder.tvPointsP2.setTextColor(it) }
-        (if (item.winnerInitialSeat == WEST) greenMM else grayMM)?.let { mHolder.tvPointsP3.setTextColor(it) }
-        (if (item.winnerInitialSeat == NORTH) greenMM else grayMM)?.let { mHolder.tvPointsP4.setTextColor(it) }
+    private fun setWinnerColor(item: UiRound, mHolder: ItemViewHolder) {
+        (if (item.dbRound.winnerInitialSeat == EAST) greenMM else grayMM)?.let { mHolder.tvPointsP1.setTextColor(it) }
+        (if (item.dbRound.winnerInitialSeat == SOUTH) greenMM else grayMM)?.let { mHolder.tvPointsP2.setTextColor(it) }
+        (if (item.dbRound.winnerInitialSeat == WEST) greenMM else grayMM)?.let { mHolder.tvPointsP3.setTextColor(it) }
+        (if (item.dbRound.winnerInitialSeat == NORTH) greenMM else grayMM)?.let { mHolder.tvPointsP4.setTextColor(it) }
     }
 
-    private fun setLooserColor(item: Round, mHolder: ItemViewHolder) {
+    private fun setLooserColor(item: UiRound, mHolder: ItemViewHolder) {
         red?.let {
-            when (item.discarderInitialSeat) {
+            when (item.dbRound.discarderInitialSeat) {
                 EAST -> mHolder.tvPointsP1.setTextColor(it)
                 SOUTH -> mHolder.tvPointsP2.setTextColor(it)
                 WEST -> mHolder.tvPointsP3.setTextColor(it)
@@ -122,14 +122,14 @@ class GameListRvAdapter
         }
     }
 
-    private fun setPenaltiesIcons(item: Round, mHolder: ItemViewHolder) {
-        mHolder.ivPenaltyP1.visibility = if (item.penaltyP1 < 0) VISIBLE else GONE
-        mHolder.ivPenaltyP2.visibility = if (item.penaltyP2 < 0) VISIBLE else GONE
-        mHolder.ivPenaltyP3.visibility = if (item.penaltyP3 < 0) VISIBLE else GONE
-        mHolder.ivPenaltyP4.visibility = if (item.penaltyP4 < 0) VISIBLE else GONE
+    private fun setPenaltiesIcons(item: UiRound, mHolder: ItemViewHolder) {
+        mHolder.ivPenaltyP1.visibility = if (item.dbRound.penaltyP1 < 0) VISIBLE else GONE
+        mHolder.ivPenaltyP2.visibility = if (item.dbRound.penaltyP2 < 0) VISIBLE else GONE
+        mHolder.ivPenaltyP3.visibility = if (item.dbRound.penaltyP3 < 0) VISIBLE else GONE
+        mHolder.ivPenaltyP4.visibility = if (item.dbRound.penaltyP4 < 0) VISIBLE else GONE
     }
 
-    private fun setBackgroundColor(item: Round, mHolder: ItemViewHolder) {
+    private fun setBackgroundColor(item: UiRound, mHolder: ItemViewHolder) {
         (if (item.roundNumber % 2 == 0) gray else white)?.let {
             mHolder.setCurrentBackgroundColor(it)
         }
