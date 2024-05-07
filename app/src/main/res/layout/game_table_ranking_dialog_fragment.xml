@@ -211,10 +211,11 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tvRankingDialogBestHandTitle"
                     style="@style/tvRankingDialogOthers"
                     android:textSize="16sp"
                     android:layout_weight="1"
-                    android:text="@string/best_hand" />
+                    tools:text="@string/best_hand" />
 
                 <TextView
                     android:id="@+id/tvRankingDialogBestHandPlayerPoints"

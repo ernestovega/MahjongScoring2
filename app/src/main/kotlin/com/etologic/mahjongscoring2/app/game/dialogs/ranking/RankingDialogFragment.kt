@@ -16,6 +16,7 @@
  */
 package com.etologic.mahjongscoring2.app.game.dialogs.ranking
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.activityViewModels
+import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
@@ -87,8 +89,7 @@ class RankingDialogFragment : AppCompatDialogFragment() {
             val playerThird = rankingData.sortedPlayersRankings[2]
             val playerFourth = rankingData.sortedPlayersRankings[3]
 
-            btRankingDialogResume.visibility =
-                if (rankingData.numRounds < MAX_MCR_ROUNDS) VISIBLE else GONE
+            btRankingDialogResume.visibility = if (rankingData.numRounds < MAX_MCR_ROUNDS) VISIBLE else GONE
 
             tvRankingDialogPlayer1Name.text = playerFirst.name
             tvRankingDialogPlayer2Name.text = playerSecond.name
@@ -105,6 +106,8 @@ class RankingDialogFragment : AppCompatDialogFragment() {
             tvRankingDialogPlayer3Score.text = format(getDefault(), "%+d", playerThird.score)
             tvRankingDialogPlayer4Score.text = format(getDefault(), "%+d", playerFourth.score)
 
+            @SuppressLint("SetTextI18n")
+            tvRankingDialogBestHandTitle.text = "${getString(R.string.best_hand)}:"
             tvRankingDialogBestHandPlayerPoints.text = rankingData.bestHandPlayerPoints
             tvRankingDialogBestHandPlayerName.text = rankingData.bestHandPlayerName
         }
