@@ -30,7 +30,7 @@
     <color name="grayMM">#414141</color>
 
     <color name="red">#FF0000</color>
-
+    <color name="golden">#FFC107</color>
     <color name="purplePenalty">#7C00E7</color>
 
 </resources>

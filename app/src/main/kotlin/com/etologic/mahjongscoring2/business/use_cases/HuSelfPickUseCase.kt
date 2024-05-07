@@ -36,16 +36,5 @@ class HuSelfPickUseCase @Inject constructor(
         this.dbRound.winnerInitialSeat = huData.winnerInitialSeat
         this.dbRound.discarderInitialSeat = TableWinds.NONE
         this.dbRound.handPoints = huData.points
-        this.dbRound.pointsP1 += calculateSelfPickSeatPoints(TableWinds.EAST, huData)
-        this.dbRound.pointsP2 += calculateSelfPickSeatPoints(TableWinds.SOUTH, huData)
-        this.dbRound.pointsP3 += calculateSelfPickSeatPoints(TableWinds.WEST, huData)
-        this.dbRound.pointsP4 += calculateSelfPickSeatPoints(TableWinds.NORTH, huData)
     }
-
-    private fun calculateSelfPickSeatPoints(seat: TableWinds, huData: HuData): Int =
-        if (seat == huData.winnerInitialSeat) {
-            UiGame.getHuSelfPickWinnerPoints(huData.points)
-        } else {
-            UiGame.getHuSelfPickDiscarderPoints(huData.points)
-        }
 }

@@ -74,7 +74,7 @@ class ExportGameToTextUseCase @Inject constructor(
         appendLine()
         appendLine("${getStrRes(R.string.rounds).uppercase()} (${getStrRes(R.string.rounds_dont_count_penalties)}):")
         appendLine()
-        uiGame.rounds.forEach { round ->
+        uiGame.uiRounds.forEach { round ->
             append(round.roundNumber.toString().padStart(2))
             appendLine()
             append("${getStrRes(R.string.winner_)} ")

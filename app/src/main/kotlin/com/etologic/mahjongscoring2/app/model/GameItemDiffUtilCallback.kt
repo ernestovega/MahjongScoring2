@@ -56,7 +56,7 @@ class GameItemDiffUtilCallback(private val newList: List<UiGame>, private val ol
                     }
                 ) &&
                 areBestHandsEqual(oldGame.getBestHand(), newGame.getBestHand()) &&
-                UiRound.areEqual(oldGame.rounds, newGame.rounds))
+                UiRound.areEqual(oldGame.uiRounds, newGame.uiRounds))
     }
 
     private fun arePlayersTotalsPointsEquals(

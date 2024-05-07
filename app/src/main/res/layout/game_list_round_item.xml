@@ -44,15 +44,31 @@
             android:lines="1"
             tools:text="16" />
 
-        <TextView
-            android:id="@+id/tvGameListItemHandPoints"
-            android:layout_width="@dimen/second_standard_margin"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/half_standard_margin"
-            android:gravity="center"
-            android:lines="1"
-            android:textSize="16sp"
-            tools:text="8" />
+        <RelativeLayout
+            android:layout_width="@dimen/second_standard_and_half_margin"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvGameListItemHandPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:lines="1"
+                android:textSize="16sp"
+                tools:text="8" />
+
+            <ImageView
+                android:id="@+id/ivGameListItemBestHandIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/tvGameListItemHandPoints"
+                android:src="@drawable/ic_trophy"
+                android:visibility="gone"
+                app:tint="@color/golden"
+                tools:ignore="ContentDescription"
+                tools:visibility="visible" />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"

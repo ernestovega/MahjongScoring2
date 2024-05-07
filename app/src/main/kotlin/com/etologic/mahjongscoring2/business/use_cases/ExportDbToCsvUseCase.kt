@@ -63,14 +63,12 @@ class ExportDbToCsvUseCase @Inject constructor(
         stringBuilder.appendLine(
             "gameId,roundId," +
                     "winnerInitialSeat,discarderInitialSeat,handPoints," +
-                    "pointsP1,pointsP2,pointsP3,pointsP4," +
                     "penaltyP1,penaltyP2,penaltyP3,penaltyP4"
         )
         dbRounds.forEach { round ->
             stringBuilder.appendLine(
                 "${round.gameId},${round.roundId}," +
                         "${round.winnerInitialSeat},${round.discarderInitialSeat},${round.handPoints}," +
-                        "${round.pointsP1},${round.pointsP2},${round.pointsP3},${round.pointsP4}," +
                         "${round.penaltyP1},${round.penaltyP2},${round.penaltyP3},${round.penaltyP4}"
             )
         }

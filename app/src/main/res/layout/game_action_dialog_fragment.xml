@@ -85,7 +85,7 @@
                         android:layout_marginTop="@dimen/half_and_quarter_standard_margin"
                         android:layout_marginBottom="@dimen/quarter_standard_margin"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/ic_trophy_white_18dp" />
+                        android:src="@drawable/ic_trophy" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -111,7 +111,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/quarter_standard_margin"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/ic_flag_white" />
+                        android:src="@drawable/ic_flag" />
 
                     <TextView
                         android:layout_width="wrap_content"

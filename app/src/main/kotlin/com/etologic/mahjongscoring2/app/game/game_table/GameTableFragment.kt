@@ -37,11 +37,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.R.drawable.ic_dice_multiple_white_24dp
+import com.etologic.mahjongscoring2.R.drawable.ic_dice
 import com.etologic.mahjongscoring2.R.drawable.ic_east
 import com.etologic.mahjongscoring2.R.drawable.ic_north
 import com.etologic.mahjongscoring2.R.drawable.ic_south
-import com.etologic.mahjongscoring2.R.drawable.ic_trophy_white_18dp
+import com.etologic.mahjongscoring2.R.drawable.ic_trophy
 import com.etologic.mahjongscoring2.R.drawable.ic_west
 import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.app.base.BaseFragment
@@ -153,7 +153,7 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
 
     private fun setRoundStuff(uiGame: UiGame) {
         val isGameEnded: Boolean = uiGame.dbGame.isEnded
-        val roundNumber: Int = uiGame.rounds.size
+        val roundNumber: Int = uiGame.uiRounds.size
         setFab(isGameEnded, roundNumber)
         setRoundNumsAndWinds(isGameEnded, roundNumber)
     }
@@ -163,7 +163,7 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
             if (isGameEnded) {
                 if (fabGameTable.tag != "ic_trophy_white_18dp") {
                     fabGameTable.tag = "ic_trophy_white_18dp"
-                    fabGameTable.setImageResource(ic_trophy_white_18dp)
+                    fabGameTable.setImageResource(ic_trophy)
                     fabGameTable.setOnSecureClickListener { activityViewModel.navigateTo(RANKING) }
                     setFabPosition(BOTTOM_END)
                 }
@@ -171,7 +171,7 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
             } else {
                 if (fabGameTable.tag != "ic_dice_multiple_white_24dp") {
                     fabGameTable.tag = "ic_dice_multiple_white_24dp"
-                    fabGameTable.setImageResource(ic_dice_multiple_white_24dp)
+                    fabGameTable.setImageResource(ic_dice)
                     fabGameTable.setOnSecureClickListener { activityViewModel.navigateTo(DICE) }
                 }
                 moveDice(roundNumber)

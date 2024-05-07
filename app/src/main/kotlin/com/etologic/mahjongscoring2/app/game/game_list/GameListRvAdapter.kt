@@ -19,6 +19,7 @@ package com.etologic.mahjongscoring2.app.game.game_list
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -92,11 +93,11 @@ class GameListRvAdapter
     private fun fillTexts(item: UiRound, mHolder: ItemViewHolder) {
         mHolder.tvRoundNum.text = item.roundNumber.toString()
         mHolder.tvHandPoints.text = item.dbRound.handPoints.toString()
-        (if (item.isBestHand) accent else grayMM)?.let { mHolder.tvHandPoints.setTextColor(it) }
-        mHolder.tvPointsP1.text = String.format(Locale.getDefault(), "%+d", item.dbRound.pointsP1)
-        mHolder.tvPointsP2.text = String.format(Locale.getDefault(), "%+d", item.dbRound.pointsP2)
-        mHolder.tvPointsP3.text = String.format(Locale.getDefault(), "%+d", item.dbRound.pointsP3)
-        mHolder.tvPointsP4.text = String.format(Locale.getDefault(), "%+d", item.dbRound.pointsP4)
+        mHolder.ivBestHand.visibility = if (item.isBestHand) VISIBLE else GONE
+        mHolder.tvPointsP1.text = String.format(Locale.getDefault(), "%+d", item.pointsP1)
+        mHolder.tvPointsP2.text = String.format(Locale.getDefault(), "%+d", item.pointsP2)
+        mHolder.tvPointsP3.text = String.format(Locale.getDefault(), "%+d", item.pointsP3)
+        mHolder.tvPointsP4.text = String.format(Locale.getDefault(), "%+d", item.pointsP4)
         mHolder.tvTotalPointsP1.text = String.format(Locale.getDefault(), "%+d", item.totalPointsP1)
         mHolder.tvTotalPointsP2.text = String.format(Locale.getDefault(), "%+d", item.totalPointsP2)
         mHolder.tvTotalPointsP3.text = String.format(Locale.getDefault(), "%+d", item.totalPointsP3)
@@ -139,6 +140,7 @@ class GameListRvAdapter
         var llContainer: LinearLayout = binding.llGameListItemContainer
         var tvRoundNum: TextView = binding.tvGameListItemRoundNumber
         var tvHandPoints: TextView = binding.tvGameListItemHandPoints
+        var ivBestHand: ImageView = binding.ivGameListItemBestHandIcon
         var tvPointsP1: TextView = binding.tvGameListItemRoundPointsP1
         var tvPointsP2: TextView = binding.tvGameListItemRoundPointsP2
         var tvPointsP3: TextView = binding.tvGameListItemRoundPointsP3

@@ -195,8 +195,8 @@ class GameActivity : BaseActivity() {
     private fun gameObserver(uiGame: UiGame) {
         val isGameEnded = uiGame.dbGame.isEnded
 
-        shouldBeShownResumeButton = isGameEnded && uiGame.rounds.size < MAX_MCR_ROUNDS
-        shouldBeShownEndButton = isGameEnded.not() && uiGame.rounds.size > 1
+        shouldBeShownResumeButton = isGameEnded && uiGame.uiRounds.size < MAX_MCR_ROUNDS
+        shouldBeShownEndButton = isGameEnded.not() && uiGame.uiRounds.size > 1
 
         resumeGameItem?.isVisible = shouldBeShownResumeButton
         endGameItem?.isVisible = shouldBeShownEndButton
@@ -240,7 +240,7 @@ class GameActivity : BaseActivity() {
                 override fun onPageScrollStateChanged(state: Int) {}
                 override fun onPageSelected(position: Int) {
                     viewModel.showPage(getFromCode(position))
-                    supportActionBar?.setHomeAsUpIndicator(if (position == 0) R.drawable.ic_clear_white_24dp else R.drawable.ic_arrow_back_white_24dp)
+                    supportActionBar?.setHomeAsUpIndicator(if (position == 0) R.drawable.ic_clear_white_24dp else R.drawable.ic_arrow_back)
                 }
             })
         }

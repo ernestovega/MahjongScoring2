@@ -110,9 +110,9 @@ class CombinationsActivity : BaseActivity() {
                 val menuItem = binding.toolbarCombinations.menu?.getItem(1)
                 menuItem?.setIcon(
                     if (rvAdapter.toggleImageOrDescription() === SHOW)
-                        R.drawable.ic_library_books_white_24dp
+                        R.drawable.ic_books
                     else
-                        R.drawable.ic_photo_library_white_24dp
+                        R.drawable.ic_photos
                 )
                 return true
             }

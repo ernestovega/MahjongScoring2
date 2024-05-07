@@ -31,21 +31,9 @@ class HuDiscardUseCase @Inject constructor(
         roundsRepository.updateOne(uiGame.currentRound.applyHuDiscard(huData).dbRound)
             .onSuccess { endRoundUseCase(uiGame) }
 
-    private fun UiRound.applyHuDiscard(huData: HuData): UiRound {
+    private fun UiRound.applyHuDiscard(huData: HuData): UiRound = apply {
         this.dbRound.winnerInitialSeat = huData.winnerInitialSeat
         this.dbRound.discarderInitialSeat = huData.discarderInitialSeat
         this.dbRound.handPoints = huData.points
-        this.dbRound.pointsP1 += calculateDiscardSeatPoints(TableWinds.EAST, huData)
-        this.dbRound.pointsP2 += calculateDiscardSeatPoints(TableWinds.SOUTH, huData)
-        this.dbRound.pointsP3 += calculateDiscardSeatPoints(TableWinds.WEST, huData)
-        this.dbRound.pointsP4 += calculateDiscardSeatPoints(TableWinds.NORTH, huData)
-        return this
     }
-
-    private fun calculateDiscardSeatPoints(seat: TableWinds, huData: HuData): Int =
-        when (seat) {
-            huData.winnerInitialSeat -> UiGame.getHuDiscardWinnerPoints(huData.points)
-            huData.discarderInitialSeat -> UiGame.getHuDiscardDiscarderPoints(huData.points)
-            else -> UiGame.POINTS_DISCARD_NEUTRAL_PLAYERS
-        }
 }

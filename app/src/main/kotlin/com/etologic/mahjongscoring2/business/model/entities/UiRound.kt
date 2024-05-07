@@ -18,7 +18,6 @@
 package com.etologic.mahjongscoring2.business.model.entities
 
 import com.etologic.mahjongscoring2.app.base.RecyclerViewable
-import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.data_source.model.DbRound
 
 data class UiRound(
@@ -26,6 +25,10 @@ data class UiRound(
 ) : RecyclerViewable<UiRound>() {
 
     var roundNumber: Int = 0
+    var pointsP1: Int = 0
+    var pointsP2: Int = 0
+    var pointsP3: Int = 0
+    var pointsP4: Int = 0
     var totalPointsP1: Int = 0
     var totalPointsP2: Int = 0
     var totalPointsP3: Int = 0
@@ -50,6 +53,10 @@ data class UiRound(
 
     override fun getCopy(): UiRound = this.copy().apply {
         this@apply.roundNumber = this@UiRound.roundNumber
+        this@apply.pointsP1 = this@UiRound.pointsP1
+        this@apply.pointsP2 = this@UiRound.pointsP2
+        this@apply.pointsP3 = this@UiRound.pointsP3
+        this@apply.pointsP4 = this@UiRound.pointsP4
         this@apply.totalPointsP1 = this@UiRound.totalPointsP1
         this@apply.totalPointsP2 = this@UiRound.totalPointsP2
         this@apply.totalPointsP3 = this@UiRound.totalPointsP3
@@ -81,15 +88,15 @@ data class UiRound(
                     round1.dbRound.handPoints == round2.dbRound.handPoints &&
                     round1.dbRound.winnerInitialSeat === round2.dbRound.winnerInitialSeat &&
                     round1.dbRound.discarderInitialSeat === round2.dbRound.discarderInitialSeat &&
-                    round1.dbRound.pointsP1 == round2.dbRound.pointsP1 &&
-                    round1.dbRound.pointsP2 == round2.dbRound.pointsP2 &&
-                    round1.dbRound.pointsP3 == round2.dbRound.pointsP3 &&
-                    round1.dbRound.pointsP4 == round2.dbRound.pointsP4 &&
                     round1.dbRound.penaltyP1 == round2.dbRound.penaltyP1 &&
                     round1.dbRound.penaltyP2 == round2.dbRound.penaltyP2 &&
                     round1.dbRound.penaltyP3 == round2.dbRound.penaltyP3 &&
                     round1.dbRound.penaltyP4 == round2.dbRound.penaltyP4 &&
                     round1.roundNumber == round2.roundNumber &&
+                    round1.pointsP1 == round2.pointsP1 &&
+                    round1.pointsP2 == round2.pointsP2 &&
+                    round1.pointsP3 == round2.pointsP3 &&
+                    round1.pointsP4 == round2.pointsP4 &&
                     round1.totalPointsP1 == round2.totalPointsP1 &&
                     round1.totalPointsP2 == round2.totalPointsP2 &&
                     round1.totalPointsP3 == round2.totalPointsP3 &&

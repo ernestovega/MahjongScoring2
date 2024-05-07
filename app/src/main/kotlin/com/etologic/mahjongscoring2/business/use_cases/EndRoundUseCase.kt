@@ -26,7 +26,7 @@ class EndRoundUseCase @Inject constructor(
     private val endGameUseCase: EndGameUseCase,
 ) {
     suspend operator fun invoke(uiGame: UiGame): Result<Boolean> =
-        if (uiGame.rounds.size < UiGame.MAX_MCR_ROUNDS) {
+        if (uiGame.uiRounds.size < UiGame.MAX_MCR_ROUNDS) {
             roundsRepository.insertOne(DbRound(uiGame.dbGame.gameId))
         } else {
             endGameUseCase(uiGame)

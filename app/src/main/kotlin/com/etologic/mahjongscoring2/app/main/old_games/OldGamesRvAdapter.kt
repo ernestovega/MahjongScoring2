@@ -107,7 +107,7 @@ class OldGamesRvAdapter
         itemViewHolder.tvSouthPlayerPoints.text = playersTotalPoints[1]
         itemViewHolder.tvWestPlayerPoints.text = playersTotalPoints[2]
         itemViewHolder.tvNorthPlayerPoints.text = playersTotalPoints[3]
-        itemViewHolder.tvRoundNumber.text = uiGame.rounds.size.toString()
+        itemViewHolder.tvRoundNumber.text = uiGame.uiRounds.size.toString()
         setBestHand(itemViewHolder, bestHand)
     }
 

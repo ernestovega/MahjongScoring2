@@ -59,5 +59,10 @@ object Migration1to2 : Migration(1, 2) {
         db.execSQL("UPDATE Rounds SET discarderInitialSeat = discarderInitialSeat_new")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN winnerInitialSeat_new")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN discarderInitialSeat_new")
+
+        db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP1")
+        db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP2")
+        db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP3")
+        db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP4")
     }
 }

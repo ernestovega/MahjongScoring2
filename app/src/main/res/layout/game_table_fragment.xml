@@ -115,7 +115,7 @@
         android:layout_height="@dimen/fourth_standard_margin"
         android:layout_margin="@dimen/standard_margin"
         android:contentDescription="@string/throw_dice"
-        android:src="@drawable/ic_dice_multiple_white_24dp"
+        android:src="@drawable/ic_dice"
         android:tag="ic_dice_multiple_white_24dp"
         android:visibility="gone"
         tools:layout_alignParentBottom="true"

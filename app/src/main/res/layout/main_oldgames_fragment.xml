@@ -121,6 +121,7 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/standard_margin"
         android:contentDescription="@string/start_new_game"
-        android:src="@drawable/ic_play_arrow_white_24px" />
+        android:src="@drawable/ic_add"
+        android:tint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

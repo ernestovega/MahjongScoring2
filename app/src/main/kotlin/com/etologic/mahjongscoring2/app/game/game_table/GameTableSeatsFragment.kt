@@ -112,7 +112,7 @@ class GameTableSeatsFragment : BaseFragment() {
         val playersTotalPointsByCurrentSeat = uiGame.getPlayersTotalPointsByCurrentSeat()
         setPoints(playersTotalPointsByCurrentSeat.map { String.format(getDefault(), "%d", it) })
         setPointsDiffs(uiGame)
-        setWinds(uiGame.getSeatsCurrentWind(uiGame.rounds.size))
+        setWinds(uiGame.getSeatsCurrentWind(uiGame.uiRounds.size))
         setNames(uiGame.getPlayersNamesByCurrentRoundSeat())
         setPenalties(uiGame.getPlayersPenaltiesByCurrentSeat(), uiGame.dbGame.isEnded)
     }

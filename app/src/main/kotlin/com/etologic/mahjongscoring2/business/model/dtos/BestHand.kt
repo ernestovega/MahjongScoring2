@@ -18,8 +18,10 @@ package com.etologic.mahjongscoring2.business.model.dtos
 
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
+import com.etologic.mahjongscoring2.data_source.model.RoundId
 
 data class BestHand(
+    val roundNumber: Int = 0,
     val handValue: Int = 0,
     val playerInitialPosition: TableWinds = NONE,
     val playerName: String = "",

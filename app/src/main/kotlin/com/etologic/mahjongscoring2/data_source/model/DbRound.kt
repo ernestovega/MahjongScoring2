@@ -43,10 +43,6 @@ data class DbRound(
     @TypeConverters(TableWindsConverter::class) var winnerInitialSeat: TableWinds? = null
     @TypeConverters(TableWindsConverter::class) var discarderInitialSeat: TableWinds? = null
     var handPoints: Int = 0
-    var pointsP1: Int = 0
-    var pointsP2: Int = 0
-    var pointsP3: Int = 0
-    var pointsP4: Int = 0
     var penaltyP1: Int = 0
     var penaltyP2: Int = 0
     var penaltyP3: Int = 0

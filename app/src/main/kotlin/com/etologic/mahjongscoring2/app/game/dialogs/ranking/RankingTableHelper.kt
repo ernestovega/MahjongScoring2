@@ -16,7 +16,6 @@
  */
 package com.etologic.mahjongscoring2.app.game.dialogs.ranking
 
-import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
@@ -37,13 +36,13 @@ object RankingTableHelper {
     fun generateRankingTable(uiGame: UiGame?): RankingData? {
         if (uiGame == null) return null
         val sortedPlayersRankings = getSortedPlayersRankings(uiGame)
-        val bestHands = getBestHands(uiGame)
+        val bestHand = uiGame.getBestHand()
         return RankingData(
             sortedPlayersRankings,
-            if (bestHands.isEmpty()) "-" else bestHands[0].handValue.toString(),
-            if (bestHands.isEmpty()) "-" else bestHands[0].playerName,
-            uiGame.rounds.size,
-            uiGame.rounds.size.toString()
+            if (bestHand.handValue == 0) "-" else bestHand.handValue.toString(),
+            if (bestHand.handValue == 0) "-" else bestHand.playerName,
+            uiGame.uiRounds.size,
+            uiGame.uiRounds.size.toString()
         )
     }
 
@@ -108,22 +107,5 @@ object RankingTableHelper {
             }
         }
         return sortedPlayers
-    }
-
-    private fun getBestHands(uiGame: UiGame): List<BestHand> {
-        val bestHands = ArrayList<BestHand>()
-        for (round in uiGame.rounds.filter { it.dbRound.winnerInitialSeat != null }) {
-            val roundHandPoints = round.dbRound.handPoints
-            val playerInitialPosition = uiGame.getPlayerInitialSeatByCurrentSeat(round.dbRound.winnerInitialSeat!!)
-            val playerName = uiGame.dbGame.getPlayerNameByInitialPosition(playerInitialPosition)
-            val bestHand = BestHand(roundHandPoints, playerInitialPosition, playerName)
-            if (bestHands.isEmpty() || roundHandPoints == bestHands[0].handValue) {
-                bestHands.add(bestHand)
-            } else if (roundHandPoints > bestHands[0].handValue) {
-                bestHands.clear()
-                bestHands.add(bestHand)
-            }
-        }
-        return bestHands
     }
 }
