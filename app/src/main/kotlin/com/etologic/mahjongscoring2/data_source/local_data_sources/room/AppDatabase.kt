@@ -41,6 +41,7 @@ object Migration1to2 : Migration(1, 2) {
         //Remove "Combinations" and "Tables" tables and "Rounds.roundDuration" column
         db.execSQL("DROP TABLE IF EXISTS Combinations")
         db.execSQL("DROP TABLE IF EXISTS Tables")
+        db.execSQL("ALTER TABLE Rounds DROP COLUMN roundDuration")
 
         // Replace "Rounds.isEnded" column by new "Games.endDate" column
         db.execSQL("ALTER TABLE Games ADD COLUMN endDate INTEGER")
