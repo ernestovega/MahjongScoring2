@@ -86,6 +86,7 @@ class SetupNewGameDialogFragment : AppCompatDialogFragment() {
                     nameP2 = tietNamesDialogSouth.text?.toString() ?: getString(R.string.player_two),
                     nameP3 = tietNamesDialogWest.text?.toString() ?: getString(R.string.player_three),
                     nameP4 = tietNamesDialogNorth.text?.toString() ?: getString(R.string.player_four),
+                    enableDiffCalcs = cbNamesDialogEnableDiffsCalcs.isChecked,
                     onSuccess = { gameId ->
                         activityViewModel.activeGameId = gameId
                         activityViewModel.navigateTo(MainViewModel.MainScreens.GAME)

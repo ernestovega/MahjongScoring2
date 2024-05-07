@@ -195,8 +195,8 @@
     <string name="indirect">Indirect</string>
     <string name="to_be_by">Pour être \\ Par</string>
     <string name="points_needed">Points nécessaires:</string>
-    <string name="hide_diffs_calcs">Masquer les calculs</string>
-    <string name="show_diffs_calcs">Montrer les calculs</string>
+    <string name="disable_diffs_calcs">Désactiver les calculs</string>
+    <string name="enable_diffs_calcs">Activer les calculs</string>
     <string name="green_book_es">Livre Vert (PDF en espagnol)</string>
     <string name="diffsCalculator">Calculateur de Différences</string>
     <string name="diff">Points nécessaires</string>

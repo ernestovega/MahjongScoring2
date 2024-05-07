@@ -131,6 +131,7 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
     private fun startObservingTable() {
         activityViewModel.getSelectedSeat().observe(viewLifecycleOwner) { tableSeats.updateSeatState(it) }
         activityViewModel.getSeatsOrientation().observe(viewLifecycleOwner) { tableSeats.updateSeatsOrientation(it) }
+        activityViewModel.areDiffsEnabled().observe(viewLifecycleOwner) { tableSeats.toggleDiffsButton(it) }
         activityViewModel.shouldShowDiffs().observe(viewLifecycleOwner) { tableSeats.toggleDiffs(it) }
 
         viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { activityViewModel.gameFlow.collect(::gameObserver) } }

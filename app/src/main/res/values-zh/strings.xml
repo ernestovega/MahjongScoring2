@@ -195,8 +195,8 @@
     <string name="indirect">间接</string>
     <string name="to_be_by">成为 \\ 经过</string>
     <string name="points_needed">需要积分:</string>
-    <string name="hide_diffs_calcs">隐藏计算结果</string>
-    <string name="show_diffs_calcs">显示计算结果</string>
+    <string name="disable_diffs_calcs">禁用计算</string>
+    <string name="enable_diffs_calcs">启用计算</string>
     <string name="green_book_es">绿皮书 (西班牙语 PDF)</string>
     <string name="diffsCalculator">差异计算器</string>
     <string name="diff">需要积分</string>

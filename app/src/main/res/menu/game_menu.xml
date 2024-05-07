@@ -36,14 +36,15 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_show_diffs_calcs"
-        android:title="@string/show_diffs_calcs"
+        android:id="@+id/action_enable_diffs_calcs"
+        android:title="@string/enable_diffs_calcs"
         android:visible="false"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_hide_diffs_calcs"
-        android:title="@string/hide_diffs_calcs"
+        android:id="@+id/action_disable_diffs_calcs"
+        android:title="@string/disable_diffs_calcs"
+        android:visible="false"
         app:showAsAction="never" />
 
     <item

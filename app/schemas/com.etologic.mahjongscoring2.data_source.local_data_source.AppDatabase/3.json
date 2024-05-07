@@ -1,0 +1,185 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "b95d945066cc43d6864a7f58eba8d971",
+    "entities": [
+      {
+        "tableName": "Games",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nameP1` TEXT NOT NULL, `nameP2` TEXT NOT NULL, `nameP3` TEXT NOT NULL, `nameP4` TEXT NOT NULL, `startDate` INTEGER NOT NULL, `endDate` INTEGER, `gameName` TEXT NOT NULL DEFAULT '', `areDiffCalcsEnabled` INTEGER NOT NULL DEFAULT 1)",
+        "fields": [
+          {
+            "fieldPath": "gameId",
+            "columnName": "gameId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameP1",
+            "columnName": "nameP1",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameP2",
+            "columnName": "nameP2",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameP3",
+            "columnName": "nameP3",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameP4",
+            "columnName": "nameP4",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startDate",
+            "columnName": "startDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endDate",
+            "columnName": "endDate",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gameName",
+            "columnName": "gameName",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "areDiffCalcsEnabled",
+            "columnName": "areDiffCalcsEnabled",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "1"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "gameId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Games_gameId",
+            "unique": true,
+            "columnNames": [
+              "gameId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Games_gameId` ON `${TABLE_NAME}` (`gameId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Rounds",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER NOT NULL, `roundId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `winnerInitialSeat` INTEGER, `discarderInitialSeat` INTEGER, `handPoints` INTEGER NOT NULL, `penaltyP1` INTEGER NOT NULL, `penaltyP2` INTEGER NOT NULL, `penaltyP3` INTEGER NOT NULL, `penaltyP4` INTEGER NOT NULL, FOREIGN KEY(`gameId`) REFERENCES `Games`(`gameId`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "gameId",
+            "columnName": "gameId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roundId",
+            "columnName": "roundId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "winnerInitialSeat",
+            "columnName": "winnerInitialSeat",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "discarderInitialSeat",
+            "columnName": "discarderInitialSeat",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "handPoints",
+            "columnName": "handPoints",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "penaltyP1",
+            "columnName": "penaltyP1",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "penaltyP2",
+            "columnName": "penaltyP2",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "penaltyP3",
+            "columnName": "penaltyP3",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "penaltyP4",
+            "columnName": "penaltyP4",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "roundId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Rounds_gameId_roundId",
+            "unique": true,
+            "columnNames": [
+              "gameId",
+              "roundId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Rounds_gameId_roundId` ON `${TABLE_NAME}` (`gameId`, `roundId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Games",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "gameId"
+            ],
+            "referencedColumns": [
+              "gameId"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b95d945066cc43d6864a7f58eba8d971')"
+    ]
+  }
+}

@@ -34,6 +34,7 @@ class CreateGameUseCase @Inject constructor(
         nameP2: String,
         nameP3: String,
         nameP4: String,
+        enableDiffCalcs: Boolean,
     ): Result<GameId> =
         gamesRepository.insertOne(
             DbGame(
@@ -45,6 +46,7 @@ class CreateGameUseCase @Inject constructor(
                 nameP4 = nameP4,
                 startDate = Calendar.getInstance().time,
                 endDate = null,
+                areDiffCalcsEnabled = enableDiffCalcs,
             )
         )
             .onSuccess { gameId -> roundsRepository.insertOne(DbRound(gameId)) }

@@ -65,8 +65,8 @@ class GameActivity : BaseActivity() {
     private var shouldBeShownEndButton: Boolean = false
     private var endGameItem: MenuItem? = null
     private var resumeGameItem: MenuItem? = null
-    private var showCalcsItem: MenuItem? = null
-    private var hideCalcsItem: MenuItem? = null
+    private var enableCalcsItem: MenuItem? = null
+    private var disableCalcsItem: MenuItem? = null
 
     private lateinit var binding: GameActivityBinding
 
@@ -90,14 +90,11 @@ class GameActivity : BaseActivity() {
 
         resumeGameItem = menu.findItem(R.id.action_resume_game)
         endGameItem = menu.findItem(R.id.action_end_game)
-        showCalcsItem = menu.findItem(R.id.action_show_diffs_calcs)
-        hideCalcsItem = menu.findItem(R.id.action_hide_diffs_calcs)
+        enableCalcsItem = menu.findItem(R.id.action_enable_diffs_calcs)
+        disableCalcsItem = menu.findItem(R.id.action_disable_diffs_calcs)
 
         resumeGameItem?.isVisible = shouldBeShownResumeButton
         endGameItem?.isVisible = shouldBeShownEndButton
-
-        showCalcsItem?.isVisible = viewModel.shouldShowDiffs().value == false
-        hideCalcsItem?.isVisible = viewModel.shouldShowDiffs().value != false
 
         return true
     }
@@ -126,13 +123,13 @@ class GameActivity : BaseActivity() {
                 true
             }
 
-            R.id.action_show_diffs_calcs -> {
-                viewModel.showDiffs()
+            R.id.action_enable_diffs_calcs -> {
+                viewModel.enableDiffsFeature()
                 true
             }
 
-            R.id.action_hide_diffs_calcs -> {
-                viewModel.hideDiffs()
+            R.id.action_disable_diffs_calcs -> {
+                viewModel.disableDiffsFeature()
                 true
             }
 
@@ -186,7 +183,7 @@ class GameActivity : BaseActivity() {
         viewModel.getPageToShow()
             .observe(this) { it?.first?.code?.let { pageIndex -> binding.viewPagerGame.currentItem = pageIndex } }
         viewModel.getSeatsOrientation().observe(this) { updateSeatsOrientationIcon(it) }
-        viewModel.shouldShowDiffs().observe(this) { toggleDiffs(it) }
+        viewModel.areDiffsEnabled().observe(this) { toggleDiffsEnabling(it) }
         viewModel.getExportedGame().observe(this) { shareExportedGame(it) }
 
         lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.gameFlow.collect(::gameObserver) } }
@@ -213,13 +210,13 @@ class GameActivity : BaseActivity() {
         }
     }
 
-    private fun toggleDiffs(shouldShowDiffs: Boolean) {
+    private fun toggleDiffsEnabling(shouldShowDiffs: Boolean) {
         if (shouldShowDiffs) {
-            showCalcsItem?.isVisible = false
-            hideCalcsItem?.isVisible = true
+            enableCalcsItem?.isVisible = false
+            disableCalcsItem?.isVisible = true
         } else {
-            showCalcsItem?.isVisible = true
-            hideCalcsItem?.isVisible = false
+            enableCalcsItem?.isVisible = true
+            disableCalcsItem?.isVisible = false
         }
     }
 

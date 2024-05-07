@@ -27,7 +27,7 @@ import com.etologic.mahjongscoring2.data_source.local_data_source.daos.RoundsDao
 import com.etologic.mahjongscoring2.data_source.model.DbGame
 import com.etologic.mahjongscoring2.data_source.model.DbRound
 
-@Database(entities = [DbGame::class, DbRound::class], version = 2)
+@Database(entities = [DbGame::class, DbRound::class], version = 3)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -66,5 +66,11 @@ object Migration1to2 : Migration(1, 2) {
         db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP2")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP3")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP4")
+    }
+}
+
+object Migration2to3 : Migration(2, 3) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE Games ADD COLUMN areDiffCalcsEnabled INTEGER NOT NULL DEFAULT 1")
     }
 }

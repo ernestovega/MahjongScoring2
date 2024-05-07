@@ -99,13 +99,16 @@ class ActionDialogFragment : AppCompatDialogFragment() {
         binding.tvHandActionsDialogPlayerName.text = selectedSeat?.code?.let { windCode ->
             activityViewModel.game.getPlayersNamesByCurrentRoundSeat()[windCode]
         } ?: ""
-        selectedSeat?.let { setPlayerDiffs(it) }
+        if (activityViewModel.areDiffsEnabled().value == true) {
+            selectedSeat?.let { setPlayerDiffs(it) }
+        }
     }
 
     private fun setPlayerDiffs(playerSeat: TableWinds) {
         with(binding) {
             val playerDiffs = activityViewModel.game.getTableDiffs().seatsDiffs[playerSeat.code]
             with(iHandActionsDialogDiffs) {
+                tlActionDialogDiffs.visibility = VISIBLE
                 tvActionDialogDiffsFirstSelfPick.text = playerDiffs.pointsToBeFirst?.bySelfPick.toStringOrHyphen()
                 tvActionDialogDiffsFirstDirectHu.text = playerDiffs.pointsToBeFirst?.byDirectHu.toStringOrHyphen()
                 tvActionDialogDiffsFirstIndirectHu.text = playerDiffs.pointsToBeFirst?.byIndirectHu.toStringOrHyphen()

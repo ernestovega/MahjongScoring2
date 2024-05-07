@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright © 2023  Ernesto Vega de la Iglesia Soria
   ~
   ~     This program is free software: you can redistribute it and/or modify
@@ -16,105 +15,115 @@
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tlTableSeatDiffs"
+    android:id="@+id/llTableSeatDiffsContainer"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    tools:visibility="visible">
 
-    <TableRow>
+    <TableLayout
+        android:id="@+id/tlTableSeatDiffs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <TableRow>
 
-        <TextView
-            style="@style/diffsGameCell"
-            android:text="@string/self_abr" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <TextView
-            style="@style/diffsGameCell"
-            android:text="@string/direct_abr" />
+            <TextView
+                style="@style/diffsGameCell"
+                android:text="@string/self_abr" />
 
-        <TextView
-            style="@style/diffsGameCell"
-            android:text="@string/indirect_abr" />
+            <TextView
+                style="@style/diffsGameCell"
+                android:text="@string/direct_abr" />
 
-    </TableRow>
+            <TextView
+                style="@style/diffsGameCell"
+                android:text="@string/indirect_abr" />
 
-    <TableRow android:id="@+id/trActionDialogTableDiffsFirst">
+        </TableRow>
 
-        <TextView
-            style="@style/diffsGameCell"
-            android:text="@string/_1st" />
+        <TableRow android:id="@+id/trActionDialogTableDiffsFirst">
 
-        <TextView
-            android:id="@+id/tvTableSeatDiffsFirstSelfPick"
-            style="@style/diffsGameCell"
-            tools:text="8" />
+            <TextView
+                style="@style/diffsGameCell"
+                android:text="@string/_1st" />
 
-        <TextView
-            android:id="@+id/tvTableSeatDiffsFirstDirectHu"
-            style="@style/diffsGameCell"
-            tools:text="12" />
+            <TextView
+                android:id="@+id/tvTableSeatDiffsFirstSelfPick"
+                style="@style/diffsGameCell"
+                tools:text="8" />
 
-        <TextView
-            android:id="@+id/tvTableSeatDiffsFirstIndirectHu"
-            style="@style/diffsGameCell"
-            tools:text="20" />
+            <TextView
+                android:id="@+id/tvTableSeatDiffsFirstDirectHu"
+                style="@style/diffsGameCell"
+                tools:text="12" />
 
-    </TableRow>
+            <TextView
+                android:id="@+id/tvTableSeatDiffsFirstIndirectHu"
+                style="@style/diffsGameCell"
+                tools:text="20" />
 
-    <TableRow
-        android:id="@+id/trTableSeatDiffsSecond"
-        android:visibility="gone"
-        tools:visibility="visible">
+        </TableRow>
 
-        <TextView
-            style="@style/diffsGameCell"
-            android:text="@string/_2nd" />
+        <TableRow
+            android:id="@+id/trTableSeatDiffsSecond"
+            android:visibility="gone"
+            tools:visibility="visible">
 
-        <TextView
-            android:id="@+id/tvTableSeatDiffsSecondSelfPick"
-            style="@style/diffsGameCell"
-            tools:text="8" />
+            <TextView
+                style="@style/diffsGameCell"
+                android:text="@string/_2nd" />
 
-        <TextView
-            android:id="@+id/tvTableSeatDiffsSecondDirectHu"
-            style="@style/diffsGameCell"
-            tools:text="12" />
+            <TextView
+                android:id="@+id/tvTableSeatDiffsSecondSelfPick"
+                style="@style/diffsGameCell"
+                tools:text="8" />
 
-        <TextView
-            android:id="@+id/tvTableSeatDiffsSecondIndirectHu"
-            style="@style/diffsGameCell"
-            tools:text="20" />
+            <TextView
+                android:id="@+id/tvTableSeatDiffsSecondDirectHu"
+                style="@style/diffsGameCell"
+                tools:text="12" />
 
-    </TableRow>
+            <TextView
+                android:id="@+id/tvTableSeatDiffsSecondIndirectHu"
+                style="@style/diffsGameCell"
+                tools:text="20" />
 
-    <TableRow
-        android:id="@+id/trTableSeatDiffsThird"
-        android:visibility="gone"
-        tools:visibility="visible">
+        </TableRow>
 
-        <TextView
-            style="@style/diffsGameCell"
-            android:text="@string/_3rd" />
+        <TableRow
+            android:id="@+id/trTableSeatDiffsThird"
+            android:visibility="gone"
+            tools:visibility="visible">
 
-        <TextView
-            android:id="@+id/tvTableSeatDiffsThirdSelfPick"
-            style="@style/diffsGameCell"
-            tools:text="8" />
+            <TextView
+                style="@style/diffsGameCell"
+                android:text="@string/_3rd" />
 
-        <TextView
-            android:id="@+id/tvTableSeatDiffsThirdDirectHu"
-            style="@style/diffsGameCell"
-            tools:text="12" />
+            <TextView
+                android:id="@+id/tvTableSeatDiffsThirdSelfPick"
+                style="@style/diffsGameCell"
+                tools:text="8" />
 
-        <TextView
-            android:id="@+id/tvTableSeatDiffsThirdIndirectHu"
-            style="@style/diffsGameCell"
-            tools:text="20" />
+            <TextView
+                android:id="@+id/tvTableSeatDiffsThirdDirectHu"
+                style="@style/diffsGameCell"
+                tools:text="12" />
 
-    </TableRow>
+            <TextView
+                android:id="@+id/tvTableSeatDiffsThirdIndirectHu"
+                style="@style/diffsGameCell"
+                tools:text="20" />
 
-</TableLayout>
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright © 2023  Ernesto Vega de la Iglesia Soria
   ~
   ~     This program is free software: you can redistribute it and/or modify
@@ -84,6 +83,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTableSeatSouthName"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </RelativeLayout>

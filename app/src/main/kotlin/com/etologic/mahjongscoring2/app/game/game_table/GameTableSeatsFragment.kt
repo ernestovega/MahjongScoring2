@@ -16,6 +16,7 @@
  */
 package com.etologic.mahjongscoring2.app.game.game_table
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -23,6 +24,7 @@ import android.provider.Settings
 import android.util.TypedValue.COMPLEX_UNIT_DIP
 import android.util.TypedValue.applyDimension
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -115,6 +117,7 @@ class GameTableSeatsFragment : BaseFragment() {
         setWinds(uiGame.getSeatsCurrentWind(uiGame.uiRounds.size))
         setNames(uiGame.getPlayersNamesByCurrentRoundSeat())
         setPenalties(uiGame.getPlayersPenaltiesByCurrentSeat(), uiGame.dbGame.isEnded)
+        setPointsDiffs(activityViewModel.game)
     }
 
     private fun getSeatsStates(uiGame: UiGame): Array<SeatStates> =
@@ -169,7 +172,7 @@ class GameTableSeatsFragment : BaseFragment() {
     }
 
     private fun setPointsDiffs(uiGame: UiGame?) {
-        if (activityViewModel.shouldShowDiffs().value != false && !isUserFontTooBig()) {
+        if (!isUserFontTooBig()) {
             val tableDiffs = uiGame?.getTableDiffs()
             if (tableDiffs != null) {
                 with(binding.iGameTableSeatEast.iGameTableSeatEastDiffs) {
@@ -208,10 +211,10 @@ class GameTableSeatsFragment : BaseFragment() {
                 isUserFontTooBig()
 
             } else {
-                hideDiffs()
+                toggleDiffs(false)
             }
         } else {
-            hideDiffs()
+            toggleDiffs(false)
         }
     }
 
@@ -358,39 +361,49 @@ class GameTableSeatsFragment : BaseFragment() {
         initListeners()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initListeners() {
-        fun eastClick() { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
-        binding.iGameTableSeatEast.ivTableSeatEastSeatWindIcon.setOnSecureClickListener { eastClick() }
-        binding.iGameTableSeatEast.tvTableSeatEastName.setOnSecureClickListener { eastClick() }
-        binding.iGameTableSeatEast.tvTableSeatEastPoints.setOnSecureClickListener { eastClick() }
-        binding.iGameTableSeatEast.vGameTableSeatEastAuxStart.setOnSecureClickListener { eastClick() }
-        binding.iGameTableSeatEast.vGameTableSeatEastAuxEnd.setOnSecureClickListener { eastClick() }
-        binding.iGameTableSeatEast.tvTableSeatEastPenaltyPoints.setOnSecureClickListener { eastClick() }
-        binding.iGameTableSeatEast.iGameTableSeatEastDiffs.tlTableSeatDiffs.setOnSecureClickListener { eastClick() }
-        fun southClick() { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
-        binding.iGameTableSeatSouth.ivTableSeatSouthSeatWindIcon.setOnSecureClickListener { southClick() }
-        binding.iGameTableSeatSouth.tvTableSeatSouthName.setOnSecureClickListener { southClick() }
-        binding.iGameTableSeatSouth.tvTableSeatSouthPoints.setOnSecureClickListener { southClick() }
-        binding.iGameTableSeatSouth.vGameTableSeatSouthAuxStart.setOnSecureClickListener { southClick() }
-        binding.iGameTableSeatSouth.vGameTableSeatSouthAuxEnd.setOnSecureClickListener { southClick() }
-        binding.iGameTableSeatSouth.tvTableSeatSouthPenaltyPoints.setOnSecureClickListener { southClick() }
-        binding.iGameTableSeatSouth.iGameTableSeatSouthDiffs.tlTableSeatDiffs.setOnSecureClickListener { southClick() }
-        fun westClick() { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
-        binding.iGameTableSeatWest.ivTableSeatWestSeatWindIcon.setOnSecureClickListener { westClick() }
-        binding.iGameTableSeatWest.tvTableSeatWestName.setOnSecureClickListener { westClick() }
-        binding.iGameTableSeatWest.tvTableSeatWestPoints.setOnSecureClickListener { westClick() }
-        binding.iGameTableSeatWest.vGameTableSeatWestAuxStart.setOnSecureClickListener { westClick() }
-        binding.iGameTableSeatWest.vGameTableSeatWestAuxEnd.setOnSecureClickListener { westClick() }
-        binding.iGameTableSeatWest.tvTableSeatWestPenaltyPoints.setOnSecureClickListener { westClick() }
-        binding.iGameTableSeatWest.iGameTableSeatWestDiffs.tlTableSeatDiffs.setOnSecureClickListener { westClick() }
-        fun northClick() { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
-        binding.iGameTableSeatNorth.ivTableSeatNorthSeatWindIcon.setOnSecureClickListener { northClick() }
-        binding.iGameTableSeatNorth.tvTableSeatNorthName.setOnSecureClickListener { northClick() }
-        binding.iGameTableSeatNorth.tvTableSeatNorthPoints.setOnSecureClickListener { northClick() }
-        binding.iGameTableSeatNorth.vGameTableSeatNorthAuxStart.setOnSecureClickListener { northClick() }
-        binding.iGameTableSeatNorth.vGameTableSeatNorthAuxEnd.setOnSecureClickListener { northClick() }
-        binding.iGameTableSeatNorth.tvTableSeatNorthPenaltyPoints.setOnSecureClickListener { northClick() }
-        binding.iGameTableSeatNorth.iGameTableSeatNorthDiffs.tlTableSeatDiffs.setOnSecureClickListener { northClick() }
+        with(binding) {
+            fun eastClick() { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
+            iGameTableSeatEast.ivTableSeatEastSeatWindIcon.setOnSecureClickListener { eastClick() }
+            iGameTableSeatEast.tvTableSeatEastName.setOnSecureClickListener { eastClick() }
+            iGameTableSeatEast.tvTableSeatEastPoints.setOnSecureClickListener { eastClick() }
+            iGameTableSeatEast.vGameTableSeatEastAuxStart.setOnSecureClickListener { eastClick() }
+            iGameTableSeatEast.vGameTableSeatEastAuxEnd.setOnSecureClickListener { eastClick() }
+            iGameTableSeatEast.tvTableSeatEastPenaltyPoints.setOnSecureClickListener { eastClick() }
+            iGameTableSeatEast.iGameTableSeatEastDiffs.tlTableSeatDiffs.setOnSecureClickListener { eastClick() }
+            fun southClick() { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
+            iGameTableSeatSouth.ivTableSeatSouthSeatWindIcon.setOnSecureClickListener { southClick() }
+            iGameTableSeatSouth.tvTableSeatSouthName.setOnSecureClickListener { southClick() }
+            iGameTableSeatSouth.tvTableSeatSouthPoints.setOnSecureClickListener { southClick() }
+            iGameTableSeatSouth.vGameTableSeatSouthAuxStart.setOnSecureClickListener { southClick() }
+            iGameTableSeatSouth.vGameTableSeatSouthAuxEnd.setOnSecureClickListener { southClick() }
+            iGameTableSeatSouth.tvTableSeatSouthPenaltyPoints.setOnSecureClickListener { southClick() }
+            iGameTableSeatSouth.iGameTableSeatSouthDiffs.tlTableSeatDiffs.setOnSecureClickListener { southClick() }
+            fun westClick() { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
+            iGameTableSeatWest.ivTableSeatWestSeatWindIcon.setOnSecureClickListener { westClick() }
+            iGameTableSeatWest.tvTableSeatWestName.setOnSecureClickListener { westClick() }
+            iGameTableSeatWest.tvTableSeatWestPoints.setOnSecureClickListener { westClick() }
+            iGameTableSeatWest.vGameTableSeatWestAuxStart.setOnSecureClickListener { westClick() }
+            iGameTableSeatWest.vGameTableSeatWestAuxEnd.setOnSecureClickListener { westClick() }
+            iGameTableSeatWest.tvTableSeatWestPenaltyPoints.setOnSecureClickListener { westClick() }
+            iGameTableSeatWest.iGameTableSeatWestDiffs.tlTableSeatDiffs.setOnSecureClickListener { westClick() }
+            fun northClick() { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
+            iGameTableSeatNorth.ivTableSeatNorthSeatWindIcon.setOnSecureClickListener { northClick() }
+            iGameTableSeatNorth.tvTableSeatNorthName.setOnSecureClickListener { northClick() }
+            iGameTableSeatNorth.tvTableSeatNorthPoints.setOnSecureClickListener { northClick() }
+            iGameTableSeatNorth.vGameTableSeatNorthAuxStart.setOnSecureClickListener { northClick() }
+            iGameTableSeatNorth.vGameTableSeatNorthAuxEnd.setOnSecureClickListener { northClick() }
+            iGameTableSeatNorth.tvTableSeatNorthPenaltyPoints.setOnSecureClickListener { northClick() }
+            iGameTableSeatNorth.iGameTableSeatNorthDiffs.tlTableSeatDiffs.setOnSecureClickListener { northClick() }
+            btTableSeatsShowDiffs.setOnTouchListener { _, event ->
+                return@setOnTouchListener when (event.action) {
+                    MotionEvent.ACTION_DOWN -> { activityViewModel.showDiffs(); true }
+                    MotionEvent.ACTION_UP -> { activityViewModel.hideDiffs(); true }
+                    else -> false
+                }
+            }
+        }
     }
 
     fun updateSeatsOrientation(seatOrientation: SeatOrientation) {
@@ -417,18 +430,28 @@ class GameTableSeatsFragment : BaseFragment() {
         }
     }
 
-    fun toggleDiffs(shouldShowDiffs: Boolean) {
-        if (shouldShowDiffs) {
-            setPointsDiffs(activityViewModel.game)
+    fun toggleDiffsButton(areDiffsEnabled: Boolean) {
+        if (areDiffsEnabled) {
+            binding.btTableSeatsShowDiffs.visibility = VISIBLE
         } else {
-            hideDiffs()
+            binding.btTableSeatsShowDiffs.visibility = INVISIBLE
+            toggleDiffs(false)
         }
     }
 
-    private fun hideDiffs() {
-        binding.iGameTableSeatEast.iGameTableSeatEastDiffs.tlTableSeatDiffs.visibility = GONE
-        binding.iGameTableSeatSouth.iGameTableSeatSouthDiffs.tlTableSeatDiffs.visibility = GONE
-        binding.iGameTableSeatWest.iGameTableSeatWestDiffs.tlTableSeatDiffs.visibility = GONE
-        binding.iGameTableSeatNorth.iGameTableSeatNorthDiffs.tlTableSeatDiffs.visibility = GONE
+    fun toggleDiffs(shouldShowDiffs: Boolean) {
+        with(binding) {
+            if (shouldShowDiffs) {
+                iGameTableSeatEast.iGameTableSeatEastDiffs.llTableSeatDiffsContainer.visibility = VISIBLE
+                iGameTableSeatSouth.iGameTableSeatSouthDiffs.llTableSeatDiffsContainer.visibility = VISIBLE
+                iGameTableSeatWest.iGameTableSeatWestDiffs.llTableSeatDiffsContainer.visibility = VISIBLE
+                iGameTableSeatNorth.iGameTableSeatNorthDiffs.llTableSeatDiffsContainer.visibility = VISIBLE
+            } else {
+                iGameTableSeatEast.iGameTableSeatEastDiffs.llTableSeatDiffsContainer.visibility = GONE
+                iGameTableSeatSouth.iGameTableSeatSouthDiffs.llTableSeatDiffsContainer.visibility = GONE
+                iGameTableSeatWest.iGameTableSeatWestDiffs.llTableSeatDiffsContainer.visibility = GONE
+                iGameTableSeatNorth.iGameTableSeatNorthDiffs.llTableSeatDiffsContainer.visibility = GONE
+            }
+        }
     }
 }

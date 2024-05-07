@@ -43,6 +43,7 @@ data class DbGame(
     @TypeConverters(DateConverter::class) val startDate: Date,
     @TypeConverters(DateConverter::class) var endDate: Date? = null,
     @ColumnInfo(defaultValue="") var gameName: String = "",
+    @ColumnInfo(defaultValue="1") var areDiffCalcsEnabled: Boolean = true,
 ) {
     val isEnded: Boolean get() = endDate != null
 

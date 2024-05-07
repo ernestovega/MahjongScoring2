@@ -197,8 +197,8 @@
     <string name="indirect">Indirect</string>
     <string name="to_be_by">To be \\ By</string>
     <string name="points_needed">Points needed:</string>
-    <string name="hide_diffs_calcs">Hide diffs calcs</string>
-    <string name="show_diffs_calcs">Show diffs calcs</string>
+    <string name="disable_diffs_calcs">Disable diffs calcs</string>
+    <string name="enable_diffs_calcs">Enable diffs calcs</string>
     <string name="green_book_es">Green Book (Spanish PDF)</string>
     <string name="diffsCalculator">Diffs Calculator</string>
     <string name="diff">Needed points</string>
