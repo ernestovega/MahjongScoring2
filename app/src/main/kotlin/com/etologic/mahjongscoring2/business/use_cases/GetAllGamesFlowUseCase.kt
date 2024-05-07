@@ -39,8 +39,8 @@ class GetAllGamesFlowUseCase @Inject constructor(
                 if (gameRounds.isEmpty()) {
                     return@combine null
                 } else {
-                    val uiRounds = dbRounds.map { UiRound(it) }
-                    UiGame(game, uiRounds)
+                    val gameUiRounds = gameRounds.map { UiRound(it) }
+                    UiGame(game, gameUiRounds)
                 }
             }
         }.mapNotNull { it }
