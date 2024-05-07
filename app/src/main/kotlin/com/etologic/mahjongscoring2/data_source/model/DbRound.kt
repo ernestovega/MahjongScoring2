@@ -32,9 +32,12 @@ typealias RoundId = Long
     foreignKeys = [ForeignKey(
         entity = DbGame::class,
         parentColumns = ["gameId"],
-        childColumns = ["gameId"]
+        childColumns = ["gameId"],
     )],
-    indices = [Index(value = ["gameId", "roundId"], unique = true)]
+    indices = [Index(
+        value = ["gameId", "roundId"],
+        unique = true,
+    )],
 )
 data class DbRound(
     val gameId: GameId,

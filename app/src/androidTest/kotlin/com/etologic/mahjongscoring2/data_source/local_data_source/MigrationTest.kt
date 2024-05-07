@@ -138,12 +138,14 @@ class MigrationTest {
         gamesCursor.moveToFirst()
         do {
             val gameId = gamesCursor.getLong(gamesCursor.getColumnIndex("gameId"))
+            val startDate = gamesCursor.getLong(gamesCursor.getColumnIndex("startDate"))
             val endDate = gamesCursor.getLong(gamesCursor.getColumnIndex("endDate"))
-            val expectedGame = expectedGames.find { it.gameId == gameId }
-            val expectedDate = expectedGame?.endDate?.time
-            assertThat(expectedGame).isNotNull()
-            assertThat(expectedDate).isNotNull()
-            assertThat(endDate).isEqualTo(expectedDate)
+            val gameName = gamesCursor.getString(gamesCursor.getColumnIndex("gameName"))
+            val game = expectedGames.find { it.gameId == gameId }
+            assertThat(game).isNotNull()
+            assertThat(startDate).isNotNull()
+            assertThat(endDate).isEqualTo(startDate)
+            assertThat(gameName).isEmpty()
         } while (gamesCursor.moveToNext())
         gamesCursor.close()
         db.close()

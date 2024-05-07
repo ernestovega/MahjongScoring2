@@ -37,29 +37,32 @@ abstract class AppDatabase : RoomDatabase() {
 
 object Migration1to2 : Migration(1, 2) {
     override fun migrate(db: SupportSQLiteDatabase) {
+
+        //Remove "Combinations" and "Tables" tables and "Rounds.roundDuration" column
         db.execSQL("DROP TABLE IF EXISTS Combinations")
         db.execSQL("DROP TABLE IF EXISTS Tables")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN roundDuration")
 
-        db.execSQL("ALTER TABLE Games ADD COLUMN endDate INTEGER DEFAULT NULL")
-        db.execSQL("ALTER TABLE Rounds DROP COLUMN isEnded")
+        // Replace "Rounds.isEnded" column by new "Games.endDate" column
+        db.execSQL("ALTER TABLE Games ADD COLUMN endDate INTEGER")
         db.execSQL("UPDATE Games SET endDate = startDate")
+        db.execSQL("ALTER TABLE Rounds DROP COLUMN isEnded")
 
-        db.execSQL("ALTER TABLE Games ADD COLUMN gameName TEXT DEFAULT ''")
+        // Add "Games.gameName" column
+        db.execSQL("ALTER TABLE Games ADD COLUMN gameName TEXT NOT NULL DEFAULT ''")
+        db.execSQL("UPDATE Games SET gameName = ''")
 
-        db.execSQL("ALTER TABLE Rounds ADD COLUMN winnerInitialSeat_new INTEGER DEFAULT NULL")
-        db.execSQL("ALTER TABLE Rounds ADD COLUMN discarderInitialSeat_new INTEGER DEFAULT NULL")
+        // Make "Rounds.winnerInitialSeat" and "Rounds.discarderInitialSeat" columns nullable
+        db.execSQL("ALTER TABLE Rounds ADD COLUMN winnerInitialSeat_new INTEGER")
+        db.execSQL("ALTER TABLE Rounds ADD COLUMN discarderInitialSeat_new INTEGER")
         db.execSQL("UPDATE Rounds SET winnerInitialSeat_new = winnerInitialSeat")
         db.execSQL("UPDATE Rounds SET discarderInitialSeat_new = discarderInitialSeat")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN winnerInitialSeat")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN discarderInitialSeat")
-        db.execSQL("ALTER TABLE Rounds ADD COLUMN winnerInitialSeat INTEGER DEFAULT NULL")
-        db.execSQL("ALTER TABLE Rounds ADD COLUMN discarderInitialSeat INTEGER DEFAULT NULL")
-        db.execSQL("UPDATE Rounds SET winnerInitialSeat = winnerInitialSeat_new")
-        db.execSQL("UPDATE Rounds SET discarderInitialSeat = discarderInitialSeat_new")
-        db.execSQL("ALTER TABLE Rounds DROP COLUMN winnerInitialSeat_new")
-        db.execSQL("ALTER TABLE Rounds DROP COLUMN discarderInitialSeat_new")
+        db.execSQL("ALTER TABLE Rounds RENAME COLUMN winnerInitialSeat_new TO winnerInitialSeat")
+        db.execSQL("ALTER TABLE Rounds RENAME COLUMN discarderInitialSeat_new TO discarderInitialSeat")
 
+        // Remove "Rounds.pointsPX" columns
         db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP1")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP2")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP3")
