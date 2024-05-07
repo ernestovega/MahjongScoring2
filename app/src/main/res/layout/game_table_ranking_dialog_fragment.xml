@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright © 2023  Ernesto Vega de la Iglesia Soria
   ~
   ~     This program is free software: you can redistribute it and/or modify
@@ -16,6 +15,7 @@
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         <TableRow style="@style/TableRowRankingDialog">
 
             <TextView
-                android:layout_marginBottom="@dimen/half_standard_margin"
+                android:layout_marginBottom="@dimen/second_standard_margin"
                 android:layout_weight="12"
                 android:text="@string/final_results"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
@@ -44,10 +44,20 @@
 
         <TableRow style="@style/TableRowRankingDialog">
 
+            <ImageView
+                android:id="@+id/tvRankingDialogPlayer1Position"
+                style="@style/TextViewRankingDialogTableContent"
+                android:layout_weight="2"
+                android:contentDescription="@string/_1st"
+                android:src="@drawable/ic_trophy"
+                app:tint="@color/golden" />
+
             <TextView
                 android:id="@+id/tvRankingDialogPlayer1Name"
                 style="@style/TextViewRankingDialogTableContent"
-                android:layout_weight="7"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginEnd="@dimen/standard_margin"
+                android:layout_weight="6"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:ignore="HardcodedText"
                 tools:text="Player 1" />
@@ -71,9 +81,19 @@
         <TableRow style="@style/TableRowRankingDialog">
 
             <TextView
+                android:id="@+id/tvRankingDialogPlayer2Position"
+                style="@style/TextViewRankingDialogTableContent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/_2nd"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
                 android:id="@+id/tvRankingDialogPlayer2Name"
                 style="@style/TextViewRankingDialogTableContent"
-                android:layout_weight="7"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginEnd="@dimen/standard_margin"
+                android:layout_weight="6"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:ignore="HardcodedText"
                 tools:text="Player 2" />
@@ -97,9 +117,19 @@
         <TableRow style="@style/TableRowRankingDialog">
 
             <TextView
+                android:id="@+id/tvRankingDialogPlayer3Position"
+                style="@style/TextViewRankingDialogTableContent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/_3rd"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
                 android:id="@+id/tvRankingDialogPlayer3Name"
                 style="@style/TextViewRankingDialogTableContent"
-                android:layout_weight="7"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginEnd="@dimen/standard_margin"
+                android:layout_weight="6"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:ignore="HardcodedText"
                 tools:text="Player 3" />
@@ -123,9 +153,19 @@
         <TableRow style="@style/TableRowRankingDialog">
 
             <TextView
+                android:id="@+id/tvRankingDialogPlayer4Position"
+                style="@style/TextViewRankingDialogTableContent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/_4th"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
                 android:id="@+id/tvRankingDialogPlayer4Name"
                 style="@style/TextViewRankingDialogTableContent"
-                android:layout_weight="7"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginEnd="@dimen/standard_margin"
+                android:layout_weight="6"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:ignore="HardcodedText"
                 tools:text="Player 4" />
@@ -163,7 +203,7 @@
             <View
                 style="@style/tvRankingDialogOthers"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="2" />
 
             <LinearLayout
                 style="@style/tvRankingDialogOthers"
@@ -172,39 +212,44 @@
 
                 <TextView
                     style="@style/tvRankingDialogOthers"
+                    android:textSize="16sp"
                     android:layout_weight="1"
                     android:text="@string/best_hand" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tvRankingDialogBestHandPlayerPoints"
                     android:layout_width="0dp"
+                    android:layout_weight="0.5"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:textColor="@color/grayMM"
+                    tools:ignore="HardcodedText"
+                    tools:text="119" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight=".5"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:maxLines="1"
+                    android:textColor="@color/grayMM"
+                    tools:ignore="HardcodedText"
+                    android:text="-" />
 
-                    <TextView
-                        android:id="@+id/tvRankingDialogBestHandPlayerPoints"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:textColor="@color/grayMM"
-                        tools:ignore="HardcodedText"
-                        tools:text="119" />
-
-                    <TextView
-                        android:id="@+id/tvRankingDialogBestHandPlayerName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:textColor="@color/grayMM"
-                        tools:ignore="HardcodedText"
-                        tools:text="Juanito" />
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/tvRankingDialogBestHandPlayerName"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:textColor="@color/grayMM"
+                    tools:ignore="HardcodedText"
+                    tools:text="Juanito" />
 
             </LinearLayout>
 
@@ -223,9 +268,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tlRanking"
-        android:layout_marginTop="@dimen/standard_margin"
-        android:layout_marginStart="@dimen/standard_margin"
         android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/standard_margin"
+        android:layout_marginTop="@dimen/standard_margin"
         android:text="@string/resume" />
 
     <Button
@@ -234,8 +279,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tlRanking"
-        android:layout_toStartOf="@+id/btRankingDialogOk"
         android:layout_marginTop="@dimen/standard_margin"
+        android:layout_toStartOf="@+id/btRankingDialogOk"
         android:text="@string/share" />
 
     <Button

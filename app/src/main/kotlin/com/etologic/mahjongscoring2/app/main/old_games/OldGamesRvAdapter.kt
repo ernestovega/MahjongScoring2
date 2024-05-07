@@ -96,8 +96,9 @@ class OldGamesRvAdapter
         bestHand: BestHand
     ) {
         itemViewHolder.gameId = uiGame.dbGame.gameId
-        itemViewHolder.tvGameName.text = uiGame.dbGame.gameName
-        itemViewHolder.tvStartDate.text = DateTimeUtils.getPrettyDate(uiGame.dbGame.startDate)
+        val prettyStartDate = DateTimeUtils.getPrettyDate(uiGame.dbGame.startDate)
+        itemViewHolder.tvGameName.text = uiGame.dbGame.gameName.ifEmpty { prettyStartDate.replace("\n", " ") }
+        itemViewHolder.tvStartDate.text = prettyStartDate
         itemViewHolder.tvEastPlayerName.text = uiGame.dbGame.nameP1
         itemViewHolder.tvSouthPlayerName.text = uiGame.dbGame.nameP2
         itemViewHolder.tvWestPlayerName.text = uiGame.dbGame.nameP3
