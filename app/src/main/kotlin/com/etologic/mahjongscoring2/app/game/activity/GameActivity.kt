@@ -105,56 +105,26 @@ class GameActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                onBackBehaviour.invoke()
-                true
-            }
-
+        when (item.itemId) {
+            android.R.id.home -> onBackBehaviour.invoke()
             R.id.action_rotate_seats -> {
-                if (binding.viewPagerGame.currentItem == LIST.code) viewModel.showPage(TABLE)
+                if (binding.viewPagerGame.currentItem == LIST.code) {
+                    viewModel.showPage(TABLE)
+                }
                 viewModel.toggleSeatsRotation()
                 seatsOrientationMenuItem = item
-                true
             }
 
-            R.id.action_combinations -> {
-                viewModel.navigateTo(COMBINATIONS)
-                true
-            }
-
-            R.id.action_end_game -> {
-                viewModel.endGame()
-                true
-            }
-
-            R.id.action_enable_diffs_calcs -> {
-                viewModel.toggleDiffsFeature(true)
-                true
-            }
-
-            R.id.action_disable_diffs_calcs -> {
-                viewModel.toggleDiffsFeature(false)
-                true
-            }
-
-            R.id.action_resume_game -> {
-                viewModel.resumeGame()
-                true
-            }
-
-            R.id.action_edit_names -> {
-                viewModel.navigateTo(EDIT_NAMES)
-                true
-            }
-
-            R.id.action_share_game -> {
-                viewModel.shareGame(::getString)
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
+            R.id.action_combinations -> viewModel.navigateTo(COMBINATIONS)
+            R.id.action_end_game -> viewModel.endGame()
+            R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
+            R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
+            R.id.action_resume_game -> viewModel.resumeGame()
+            R.id.action_edit_names -> viewModel.navigateTo(EDIT_NAMES)
+            R.id.action_share_game -> viewModel.shareGame(::getString)
+            else -> return super.onOptionsItemSelected(item)
         }
+        return true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -163,11 +133,8 @@ class GameActivity : BaseActivity() {
         binding = GameActivityBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        orientationDownDrawable =
-            ContextCompat.getDrawable(applicationContext, R.drawable.ic_rotation_down)
-        orientationOutDrawable =
-            ContextCompat.getDrawable(applicationContext, R.drawable.ic_rotation_out)
+        orientationDownDrawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_rotation_down)
+        orientationOutDrawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_rotation_out)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -187,25 +154,11 @@ class GameActivity : BaseActivity() {
     private fun observeViewModel() {
         viewModel.getError().observe(this) { showError(it) }
         viewModel.getCurrentScreen().observe(this) { GameNavigator.navigateTo(it, this, viewModel) }
-        viewModel.getPageToShow()
-            .observe(this) {
-                it?.first?.code?.let { pageIndex ->
-                    binding.viewPagerGame.currentItem = pageIndex
-                }
-            }
+        viewModel.getPageToShow().observe(this) { it?.first?.code?.let { pageIndex -> binding.viewPagerGame.currentItem = pageIndex } }
         viewModel.getSeatsOrientation().observe(this) { updateSeatsOrientationIcon(it) }
         viewModel.getExportedGame().observe(this) { shareExportedGame(it) }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.gameFlow.collect(::gameObserver)
-            }
-        }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling)
-            }
-        }
+        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.gameFlow.collect(::gameObserver) } }
+        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling) } }
     }
 
     private fun gameObserver(uiGame: UiGame) {

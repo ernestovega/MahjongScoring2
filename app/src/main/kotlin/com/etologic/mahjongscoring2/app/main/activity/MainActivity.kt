@@ -27,7 +27,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat.START
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
@@ -60,6 +62,8 @@ class MainActivity : BaseActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     private var lastBackPress: Long = 0
+    private var enableCalcsItem: MenuItem? = null
+    private var disableCalcsItem: MenuItem? = null
 
     val gameActivityResultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -139,13 +143,22 @@ class MainActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
-        return super.onCreateOptionsMenu(menu)
+        super.onCreateOptionsMenu(menu)
+
+        enableCalcsItem = menu.findItem(R.id.action_enable_diffs_calcs)
+        disableCalcsItem = menu.findItem(R.id.action_disable_diffs_calcs)
+
+        toggleDiffsEnabling(viewModel.isDiffsCalcsFeatureEnabledFlow.value)
+
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> openDrawer()
             R.id.action_export_games -> lifecycleScope.launch { viewModel.exportDb(applicationContext) }
+            R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
+            R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -157,6 +170,7 @@ class MainActivity : BaseActivity() {
         viewModel.getCurrentScreen().observe(this) { goToScreen(it, this, viewModel) }
         viewModel.getExportedFiles().observe(this) { shareExportedDb(it) }
         viewModel.getExportedGame().observe(this) { shareExportedGame(it) }
+        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling) } }
     }
 
     private fun setToolbar(toolbar: Toolbar) {
@@ -166,5 +180,15 @@ class MainActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         actionBarDrawerToggle.syncState()
+    }
+
+    private fun toggleDiffsEnabling(shouldShowDiffs: Boolean) {
+        if (shouldShowDiffs) {
+            enableCalcsItem?.isVisible = false
+            disableCalcsItem?.isVisible = true
+        } else {
+            enableCalcsItem?.isVisible = true
+            disableCalcsItem?.isVisible = false
+        }
     }
 }

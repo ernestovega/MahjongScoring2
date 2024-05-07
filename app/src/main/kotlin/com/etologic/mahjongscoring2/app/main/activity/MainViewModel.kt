@@ -27,10 +27,15 @@ import com.etologic.mahjongscoring2.business.model.dtos.ExportedDb
 import com.etologic.mahjongscoring2.business.use_cases.CreateGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportDbToCsvUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
+import com.etologic.mahjongscoring2.business.use_cases.GetIsDiffCalcsFeatureEnabledUseCase
+import com.etologic.mahjongscoring2.business.use_cases.SaveIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -41,6 +46,8 @@ class MainViewModel @Inject constructor(
     private val showInAppReviewUseCase: ShowInAppReviewUseCase,
     private val exportDbToCsvUseCase: ExportDbToCsvUseCase,
     private val exportGameToTextUseCase: ExportGameToTextUseCase,
+    getIsDiffCalcsFeatureEnabledUseCase: GetIsDiffCalcsFeatureEnabledUseCase,
+    private val saveIsDiffCalcsFeatureEnabledUseCase: SaveIsDiffCalcsFeatureEnabledUseCase,
 ) : BaseViewModel() {
 
     enum class MainScreens {
@@ -66,6 +73,9 @@ class MainViewModel @Inject constructor(
     fun getExportedFiles(): LiveData<ExportedDb> = exportedDb
     private val exportedGame = MutableLiveData<String>()
     fun getExportedGame(): LiveData<String> = exportedGame
+
+    val isDiffsCalcsFeatureEnabledFlow: StateFlow<Boolean> = getIsDiffCalcsFeatureEnabledUseCase()
+        .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
     fun setToolbar(toolbar: Toolbar) {
         currentToolbar.postValue(toolbar)
@@ -108,6 +118,12 @@ class MainViewModel @Inject constructor(
                 exportGameToTextUseCase.invoke(gameId, getStringRes)
                     .also { exportedGame.postValue(it) }
             }
+        }
+    }
+
+    fun toggleDiffsFeature(isEnabled: Boolean) {
+        viewModelScope.launch {
+            saveIsDiffCalcsFeatureEnabledUseCase(isEnabled)
         }
     }
 }
