@@ -16,7 +16,7 @@
  */
 package com.etologic.mahjongscoring2.data_source.repositories
 
-import com.etologic.mahjongscoring2.data_source.local_data_source.daos.RoundsDao
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos.RoundsDao
 import com.etologic.mahjongscoring2.data_source.model.DbRound
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.data_source.model.RoundId

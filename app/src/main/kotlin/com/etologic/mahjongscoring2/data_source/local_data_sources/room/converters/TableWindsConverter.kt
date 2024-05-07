@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.data_source.local_data_source.converters
+package com.etologic.mahjongscoring2.data_source.local_data_sources.room.converters
 
 import androidx.room.TypeConverter
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds

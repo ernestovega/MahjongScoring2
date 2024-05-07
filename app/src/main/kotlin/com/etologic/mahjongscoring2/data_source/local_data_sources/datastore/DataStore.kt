@@ -14,15 +14,12 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.data_source.model.DbGame
-import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
-import javax.inject.Inject
+package com.etologic.mahjongscoring2.data_source.local_data_sources.datastore
 
-class SaveAreDiffCalcsEnabledUseCase @Inject constructor(
-    private val gamesRepository: GamesRepository,
-) {
-    suspend operator fun invoke(dbGame: DbGame, isEnabled: Boolean): Result<Boolean> =
-        gamesRepository.updateOne(dbGame.apply { areDiffCalcsEnabled = isEnabled })
-}
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "MahjongScoring2")

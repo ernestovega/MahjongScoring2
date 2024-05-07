@@ -81,11 +81,10 @@ class MainViewModel @Inject constructor(
         nameP2: String,
         nameP3: String,
         nameP4: String,
-        enableDiffCalcs: Boolean,
         onSuccess: (GameId) -> Unit,
     ) {
         viewModelScope.launch {
-            createGameUseCase.invoke(gameName, nameP1, nameP2, nameP3, nameP4, enableDiffCalcs)
+            createGameUseCase.invoke(gameName, nameP1, nameP2, nameP3, nameP4)
                 .fold(onSuccess, ::showError)
         }
     }

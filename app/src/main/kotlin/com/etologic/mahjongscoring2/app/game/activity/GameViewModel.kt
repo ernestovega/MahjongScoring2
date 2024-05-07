@@ -38,13 +38,14 @@ import com.etologic.mahjongscoring2.business.use_cases.CancelPenaltyUseCase
 import com.etologic.mahjongscoring2.business.use_cases.EditGameNamesUseCase
 import com.etologic.mahjongscoring2.business.use_cases.EndGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
+import com.etologic.mahjongscoring2.business.use_cases.GetIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetOneGameFlowUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuDiscardUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuDrawUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuSelfPickUseCase
 import com.etologic.mahjongscoring2.business.use_cases.RemoveRoundUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ResumeGameUseCase
-import com.etologic.mahjongscoring2.business.use_cases.SaveAreDiffCalcsEnabledUseCase
+import com.etologic.mahjongscoring2.business.use_cases.SaveIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.SetPenaltyUseCase
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.data_source.model.RoundId
@@ -55,8 +56,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -76,7 +79,8 @@ class GameViewModel @AssistedInject constructor(
     private val resumeGameUseCase: ResumeGameUseCase,
     private val endGameUseCase: EndGameUseCase,
     private val exportGameToTextUseCase: ExportGameToTextUseCase,
-    private val saveAreDiffCalcsEnabledUseCase: SaveAreDiffCalcsEnabledUseCase,
+    getIsDiffCalcsFeatureEnabledUseCase: GetIsDiffCalcsFeatureEnabledUseCase,
+    private val saveIsDiffCalcsFeatureEnabledUseCase: SaveIsDiffCalcsFeatureEnabledUseCase,
 ) : BaseViewModel() {
 
     @AssistedFactory
@@ -117,8 +121,6 @@ class GameViewModel @AssistedInject constructor(
     fun getSelectedSeat(): LiveData<TableWinds> = _selectedSeat
     private var _seatOrientation = MutableLiveData<SeatOrientation>()
     fun getSeatsOrientation(): LiveData<SeatOrientation> = _seatOrientation
-    private var _areDiffsEnabled = MutableLiveData<Boolean>()
-    fun areDiffsEnabled(): LiveData<Boolean> = _areDiffsEnabled
     private var _shouldShowDiffs = MutableLiveData<Boolean>()
     fun shouldShowDiffs(): LiveData<Boolean> = _shouldShowDiffs
     private val exportedGame = MutableLiveData<String>()
@@ -136,11 +138,11 @@ class GameViewModel @AssistedInject constructor(
     lateinit var game: UiGame
 
     val gameFlow: SharedFlow<UiGame> = getOneGameFlowUseCase(gameId)
-        .onEach { game ->
-            this.game = game
-            _areDiffsEnabled.postValue(game.dbGame.areDiffCalcsEnabled)
-        }
+        .onEach { game -> this.game = game }
         .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
+
+    val isDiffsCalcsFeatureEnabledFlow: StateFlow<Boolean> = getIsDiffCalcsFeatureEnabledUseCase()
+        .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
     //SELECTED PLAYER/SEAT
     fun onSeatClicked(wind: TableWinds) {
@@ -262,29 +264,15 @@ class GameViewModel @AssistedInject constructor(
         _seatOrientation.postValue(if (_seatOrientation.value == DOWN) OUT else DOWN)
     }
 
-    fun enableDiffsFeature() {
+    fun toggleDiffsFeature(isEnabled: Boolean) {
         viewModelScope.launch {
-            saveAreDiffCalcsEnabledUseCase(game.dbGame, true)
-                .onFailure(::showError)
+            saveIsDiffCalcsFeatureEnabledUseCase(isEnabled)
         }
     }
 
-    fun disableDiffsFeature() {
-        viewModelScope.launch {
-            saveAreDiffCalcsEnabledUseCase(game.dbGame, false)
-                .onFailure(::showError)
-        }
-    }
-
-    fun showDiffs() {
-        if (_areDiffsEnabled.value == true) {
-            _shouldShowDiffs.postValue(true)
-        }
-    }
-
-    fun hideDiffs() {
-        if (_areDiffsEnabled.value == true) {
-            _shouldShowDiffs.postValue(false)
+    fun toggleDiffsView(shouldShow: Boolean) {
+        if (isDiffsCalcsFeatureEnabledFlow.value) {
+            _shouldShowDiffs.postValue(shouldShow)
         }
     }
 

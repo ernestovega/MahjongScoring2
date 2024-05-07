@@ -129,12 +129,23 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
     }
 
     private fun startObservingTable() {
-        activityViewModel.getSelectedSeat().observe(viewLifecycleOwner) { tableSeats.updateSeatState(it) }
-        activityViewModel.getSeatsOrientation().observe(viewLifecycleOwner) { tableSeats.updateSeatsOrientation(it) }
-        activityViewModel.areDiffsEnabled().observe(viewLifecycleOwner) { tableSeats.toggleDiffsButton(it) }
-        activityViewModel.shouldShowDiffs().observe(viewLifecycleOwner) { tableSeats.toggleDiffs(it) }
+        activityViewModel.getSelectedSeat()
+            .observe(viewLifecycleOwner) { tableSeats.updateSeatState(it) }
+        activityViewModel.getSeatsOrientation()
+            .observe(viewLifecycleOwner) { tableSeats.updateSeatsOrientation(it) }
+        activityViewModel.shouldShowDiffs()
+            .observe(viewLifecycleOwner) { tableSeats.toggleDiffs(it) }
 
-        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { activityViewModel.gameFlow.collect(::gameObserver) } }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                activityViewModel.gameFlow.collect(::gameObserver)
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                activityViewModel.isDiffsCalcsFeatureEnabledFlow.collect(tableSeats::toggleDiffsButton)
+            }
+        }
     }
 
     private fun gameObserver(uiGame: UiGame) {
@@ -205,8 +216,14 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
     private fun setFabPosition(position: Int) {
         with(binding) {
             val layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
-            val standardMarginInPx = applyDimension(COMPLEX_UNIT_DIP, 16f, resources.displayMetrics).toInt()
-            layoutParams.setMargins(standardMarginInPx, standardMarginInPx, standardMarginInPx, standardMarginInPx)
+            val standardMarginInPx =
+                applyDimension(COMPLEX_UNIT_DIP, 16f, resources.displayMetrics).toInt()
+            layoutParams.setMargins(
+                standardMarginInPx,
+                standardMarginInPx,
+                standardMarginInPx,
+                standardMarginInPx
+            )
             when (position) {
                 BOTTOM_END -> {
                     tvGameTableRoundNumberBottomEnd.visibility = GONE

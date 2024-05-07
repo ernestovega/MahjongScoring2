@@ -23,7 +23,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.data_source.local_data_source.converters.TableWindsConverter
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.converters.TableWindsConverter
 
 typealias RoundId = Long
 

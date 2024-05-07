@@ -1,5 +1,5 @@
 /*
- *     Copyright © 2023  Ernesto Vega de la Iglesia Soria
+ *     Copyright © 2024  Ernesto Vega de la Iglesia Soria
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -14,25 +14,15 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.data_source.local_data_source.converters
+package com.etologic.mahjongscoring2.business.use_cases
 
-import androidx.room.TypeConverter
-import java.util.Date
+import com.etologic.mahjongscoring2.data_source.repositories.DiffsCalcsFeatureStateRepository
+import javax.inject.Inject
 
-class DateConverter {
-
-    companion object {
-
-        @TypeConverter
-        @JvmStatic
-        fun toDate(timestamp: Long?): Date? {
-            return if (timestamp == null) null else Date(timestamp)
-        }
-
-        @TypeConverter
-        @JvmStatic
-        fun toTimestamp(date: Date?): Long? {
-            return date?.time
-        }
+class SaveIsDiffCalcsFeatureEnabledUseCase @Inject constructor(
+    private val diffsCalcsFeatureStateRepository: DiffsCalcsFeatureStateRepository,
+) {
+    suspend operator fun invoke(isEnabled: Boolean) {
+        diffsCalcsFeatureStateRepository.save(isEnabled)
     }
 }

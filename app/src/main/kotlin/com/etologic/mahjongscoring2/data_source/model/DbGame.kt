@@ -22,7 +22,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.data_source.local_data_source.converters.DateConverter
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.converters.DateConverter
 import java.util.Date
 
 typealias GameId = Long
@@ -43,7 +43,6 @@ data class DbGame(
     @TypeConverters(DateConverter::class) val startDate: Date,
     @TypeConverters(DateConverter::class) var endDate: Date? = null,
     @ColumnInfo(defaultValue="") var gameName: String = "",
-    @ColumnInfo(defaultValue="1") var areDiffCalcsEnabled: Boolean = true,
 ) {
     val isEnded: Boolean get() = endDate != null
 

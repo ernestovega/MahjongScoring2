@@ -86,6 +86,7 @@ dependencies {
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.collection.ktx)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.datastore)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.lifecycle.runtime.ktx)

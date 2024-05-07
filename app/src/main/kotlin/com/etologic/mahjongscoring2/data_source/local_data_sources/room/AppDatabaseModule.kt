@@ -14,12 +14,12 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.data_source.local_data_source
+package com.etologic.mahjongscoring2.data_source.local_data_sources.room
 
 import android.content.Context
 import androidx.room.Room
-import com.etologic.mahjongscoring2.data_source.local_data_source.daos.GamesDao
-import com.etologic.mahjongscoring2.data_source.local_data_source.daos.RoundsDao
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos.GamesDao
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos.RoundsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,7 +35,7 @@ class AppDataBaseModule {
     @Singleton
     fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase =
         Room.databaseBuilder(appContext, AppDatabase::class.java, "MahjongScoring2")
-            .addMigrations(Migration1to2, Migration2to3)
+            .addMigrations(Migration1to2)
             .build()
 
     @Provides

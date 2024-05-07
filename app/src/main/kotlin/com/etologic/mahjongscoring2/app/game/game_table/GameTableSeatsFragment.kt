@@ -398,8 +398,8 @@ class GameTableSeatsFragment : BaseFragment() {
             iGameTableSeatNorth.iGameTableSeatNorthDiffs.tlTableSeatDiffs.setOnSecureClickListener { northClick() }
             btTableSeatsShowDiffs.setOnTouchListener { _, event ->
                 return@setOnTouchListener when (event.action) {
-                    MotionEvent.ACTION_DOWN -> { activityViewModel.showDiffs(); true }
-                    MotionEvent.ACTION_UP -> { activityViewModel.hideDiffs(); true }
+                    MotionEvent.ACTION_DOWN -> { activityViewModel.toggleDiffsView(true); true }
+                    MotionEvent.ACTION_UP -> { activityViewModel.toggleDiffsView(false); true }
                     else -> false
                 }
             }

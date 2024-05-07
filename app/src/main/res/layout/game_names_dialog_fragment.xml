@@ -131,14 +131,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <CheckBox
-                android:id="@+id/cbNamesDialogEnableDiffsCalcs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/standard_margin"
-                android:checked="true"
-                android:text="@string/enable_diffs_calcs" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

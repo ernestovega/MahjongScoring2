@@ -99,7 +99,7 @@ class ActionDialogFragment : AppCompatDialogFragment() {
         binding.tvHandActionsDialogPlayerName.text = selectedSeat?.code?.let { windCode ->
             activityViewModel.game.getPlayersNamesByCurrentRoundSeat()[windCode]
         } ?: ""
-        if (activityViewModel.areDiffsEnabled().value == true) {
+        if (activityViewModel.isDiffsCalcsFeatureEnabledFlow.value) {
             selectedSeat?.let { setPlayerDiffs(it) }
         }
     }

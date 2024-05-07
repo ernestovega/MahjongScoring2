@@ -14,20 +14,20 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.data_source.local_data_source
+package com.etologic.mahjongscoring2.data_source.local_data_sources.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.etologic.mahjongscoring2.data_source.local_data_source.converters.DateConverter
-import com.etologic.mahjongscoring2.data_source.local_data_source.daos.GamesDao
-import com.etologic.mahjongscoring2.data_source.local_data_source.daos.RoundsDao
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.converters.DateConverter
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos.GamesDao
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos.RoundsDao
 import com.etologic.mahjongscoring2.data_source.model.DbGame
 import com.etologic.mahjongscoring2.data_source.model.DbRound
 
-@Database(entities = [DbGame::class, DbRound::class], version = 3)
+@Database(entities = [DbGame::class, DbRound::class], version = 2)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -66,11 +66,5 @@ object Migration1to2 : Migration(1, 2) {
         db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP2")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP3")
         db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP4")
-    }
-}
-
-object Migration2to3 : Migration(2, 3) {
-    override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL("ALTER TABLE Games ADD COLUMN areDiffCalcsEnabled INTEGER NOT NULL DEFAULT 1")
     }
 }

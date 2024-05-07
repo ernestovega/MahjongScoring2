@@ -14,27 +14,34 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.data_source.repositories
 
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos.GamesDao
-import com.etologic.mahjongscoring2.data_source.model.DbGame
-import com.etologic.mahjongscoring2.data_source.model.GameId
+import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import com.etologic.mahjongscoring2.data_source.local_data_sources.datastore.dataStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class GamesRepository
-@Inject constructor(
-    private var gamesDao: GamesDao,
+class DiffsCalcsFeatureStateRepository @Inject constructor(
+    @ApplicationContext val context: Context,
 ) {
-    fun getAllFlow(): Flow<List<DbGame>> = gamesDao.getAll()
+    companion object {
+        private val KEY_IS_DIFFS_CALCS_FEATURE_ENABLED = booleanPreferencesKey("isDiffsCalcsFeatureEnabled")
+    }
 
-    fun getOneFlow(gameId: GameId): Flow<DbGame> = gamesDao.getOne(gameId)
+    val get: Flow<Boolean> =
+        context.dataStore.data.map { preferences ->
+            preferences[KEY_IS_DIFFS_CALCS_FEATURE_ENABLED] ?: true
+        }
 
-    suspend fun insertOne(dbGame: DbGame): Result<GameId> = runCatching { gamesDao.insertOne(dbGame) }
-
-    suspend fun updateOne(dbGame: DbGame): Result<Boolean> = runCatching { gamesDao.updateOne(dbGame) == 1 }
-
-    suspend fun deleteOne(gameId: GameId): Result<Boolean> = runCatching { gamesDao.deleteOne(gameId) == 1 }
+    suspend fun save(isEnabled: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[KEY_IS_DIFFS_CALCS_FEATURE_ENABLED] = isEnabled
+        }
+    }
 }

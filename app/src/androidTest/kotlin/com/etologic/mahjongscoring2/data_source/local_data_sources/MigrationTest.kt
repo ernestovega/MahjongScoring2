@@ -15,11 +15,13 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.etologic.mahjongscoring2.data_source.local_data_source
+package com.etologic.mahjongscoring2.data_source.local_data_sources
 
 import androidx.room.testing.MigrationTestHelper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.AppDatabase
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.Migration1to2
 import com.etologic.mahjongscoring2.data_source.model.DbGame
 import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
@@ -141,13 +143,11 @@ class MigrationTest {
             val startDate = gamesCursor.getLong(gamesCursor.getColumnIndex("startDate"))
             val endDate = gamesCursor.getLong(gamesCursor.getColumnIndex("endDate"))
             val gameName = gamesCursor.getString(gamesCursor.getColumnIndex("gameName"))
-            val areDiffCalcsEnabled = gamesCursor.getInt(gamesCursor.getColumnIndex("areDiffCalcsEnabled"))
             val game = expectedGames.find { it.gameId == gameId }
             assertThat(game).isNotNull()
             assertThat(startDate).isNotNull()
             assertThat(endDate).isEqualTo(startDate)
             assertThat(gameName).isEmpty()
-            assertThat(areDiffCalcsEnabled).isEqualTo(1)
         } while (gamesCursor.moveToNext())
         gamesCursor.close()
         db.close()

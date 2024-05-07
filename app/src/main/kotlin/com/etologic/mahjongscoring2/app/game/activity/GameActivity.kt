@@ -30,8 +30,8 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.base.ViewPagerAdapter
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.COMBINATIONS
-import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.EXIT
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.EDIT_NAMES
+import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.EXIT
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.RANKING
 import com.etologic.mahjongscoring2.app.game.game_list.GameListFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
@@ -73,7 +73,10 @@ class GameActivity : BaseActivity() {
     @Inject
     lateinit var gameViewModelFactory: GameViewModel.Factory
     private val viewModel by viewModels<GameViewModel> {
-        GameViewModel.provideFactory(gameViewModelFactory, intent.extras?.getLong(KEY_GAME_ID, -1) as GameId)
+        GameViewModel.provideFactory(
+            gameViewModelFactory,
+            intent.extras?.getLong(KEY_GAME_ID, -1) as GameId
+        )
     }
 
     override val onBackBehaviour = {
@@ -95,6 +98,8 @@ class GameActivity : BaseActivity() {
 
         resumeGameItem?.isVisible = shouldBeShownResumeButton
         endGameItem?.isVisible = shouldBeShownEndButton
+
+        toggleDiffsEnabling(viewModel.isDiffsCalcsFeatureEnabledFlow.value)
 
         return true
     }
@@ -124,12 +129,12 @@ class GameActivity : BaseActivity() {
             }
 
             R.id.action_enable_diffs_calcs -> {
-                viewModel.enableDiffsFeature()
+                viewModel.toggleDiffsFeature(true)
                 true
             }
 
             R.id.action_disable_diffs_calcs -> {
-                viewModel.disableDiffsFeature()
+                viewModel.toggleDiffsFeature(false)
                 true
             }
 
@@ -159,8 +164,10 @@ class GameActivity : BaseActivity() {
         val view = binding.root
         setContentView(view)
 
-        orientationDownDrawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_rotation_down)
-        orientationOutDrawable = ContextCompat.getDrawable(applicationContext, R.drawable.ic_rotation_out)
+        orientationDownDrawable =
+            ContextCompat.getDrawable(applicationContext, R.drawable.ic_rotation_down)
+        orientationOutDrawable =
+            ContextCompat.getDrawable(applicationContext, R.drawable.ic_rotation_out)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -181,12 +188,24 @@ class GameActivity : BaseActivity() {
         viewModel.getError().observe(this) { showError(it) }
         viewModel.getCurrentScreen().observe(this) { GameNavigator.navigateTo(it, this, viewModel) }
         viewModel.getPageToShow()
-            .observe(this) { it?.first?.code?.let { pageIndex -> binding.viewPagerGame.currentItem = pageIndex } }
+            .observe(this) {
+                it?.first?.code?.let { pageIndex ->
+                    binding.viewPagerGame.currentItem = pageIndex
+                }
+            }
         viewModel.getSeatsOrientation().observe(this) { updateSeatsOrientationIcon(it) }
-        viewModel.areDiffsEnabled().observe(this) { toggleDiffsEnabling(it) }
         viewModel.getExportedGame().observe(this) { shareExportedGame(it) }
 
-        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.gameFlow.collect(::gameObserver) } }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.gameFlow.collect(::gameObserver)
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling)
+            }
+        }
     }
 
     private fun gameObserver(uiGame: UiGame) {

@@ -14,37 +14,30 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.data_source.local_data_source.daos
+package com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos
 
 import android.database.sqlite.SQLiteConstraintException
 import androidx.room.*
-import com.etologic.mahjongscoring2.data_source.model.DbRound
+import com.etologic.mahjongscoring2.data_source.model.DbGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
-import com.etologic.mahjongscoring2.data_source.model.RoundId
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface RoundsDao {
+interface GamesDao {
 
-    @Query("SELECT * FROM Rounds")
-    fun getAll(): Flow<List<DbRound>>
+    @Query("SELECT * from Games ORDER BY startDate DESC")
+    fun getAll(): Flow<List<DbGame>>
 
-    @Query("SELECT * FROM Rounds WHERE gameId = :gameId")
-    fun getGameRounds(gameId: GameId): Flow<List<DbRound>>
-
-    @Query("SELECT * FROM Rounds WHERE gameId = :gameId AND roundId = :roundId")
-    fun getOne(gameId: GameId, roundId: RoundId): DbRound
+    @Query("SELECT * from Games WHERE gameId = :gameId")
+    fun getOne(gameId: GameId): Flow<DbGame>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     @Throws(SQLiteConstraintException::class)
-    suspend fun insertOne(round: DbRound): RoundId
+    suspend fun insertOne(dbGame: DbGame): GameId
 
     @Update
-    suspend fun updateOne(round: DbRound): Int
+    suspend fun updateOne(dbGame: DbGame): Int
 
-    @Query("DELETE FROM Rounds WHERE gameId = :gameId")
-    suspend fun deleteGameRounds(gameId: GameId): Int
-
-    @Query("DELETE FROM Rounds WHERE gameId = :gameId AND roundId = :roundId")
-    suspend fun deleteOne(gameId: GameId, roundId: RoundId): Int
+    @Query("DELETE FROM Games WHERE gameId = :gameId")
+    suspend fun deleteOne(gameId: GameId): Int
 }
