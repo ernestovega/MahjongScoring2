@@ -117,7 +117,7 @@ class GameTableSeatsFragment : BaseFragment() {
         setWinds(uiGame.getSeatsCurrentWind(uiGame.uiRounds.size))
         setNames(uiGame.getPlayersNamesByCurrentRoundSeat())
         setPenalties(uiGame.getPlayersPenaltiesByCurrentSeat(), uiGame.dbGame.isEnded)
-        setPointsDiffs(activityViewModel.game)
+        setPointsDiffs(activityViewModel.gameFlow.value)
     }
 
     private fun getSeatsStates(uiGame: UiGame): Array<SeatStates> =

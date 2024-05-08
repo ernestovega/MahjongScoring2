@@ -65,7 +65,7 @@ class RankingDialogFragment : AppCompatDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
-        RankingTableHelper.generateRankingTable(activityViewModel.game)
+        RankingTableHelper.generateRankingTable(activityViewModel.gameFlow.value)
             ?.let(this::fillRankingViews)
     }
 

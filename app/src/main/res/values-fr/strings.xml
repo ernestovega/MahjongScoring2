@@ -217,4 +217,5 @@
     <string name="start">Commencer</string>
     <string name="penalties">Pénalités</string>
     <string name="rounds_dont_count_penalties">Les totaux des tours ne tiennent pas compte des pénalités</string>
+    <string name="partials">Partiels</string>
 </resources>

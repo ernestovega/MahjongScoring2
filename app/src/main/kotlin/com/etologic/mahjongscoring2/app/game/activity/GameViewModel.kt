@@ -16,13 +16,11 @@
  */
 package com.etologic.mahjongscoring2.app.game.activity
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.HAND_ACTION
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages
@@ -52,13 +50,9 @@ import com.etologic.mahjongscoring2.data_source.model.RoundId
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -66,9 +60,8 @@ import kotlinx.coroutines.withContext
 typealias ShouldHighlightLastRound = Boolean
 
 class GameViewModel @AssistedInject constructor(
-    @ApplicationContext context: Context,
-    getOneGameFlowUseCase: GetOneGameFlowUseCase,
     @Assisted private val gameId: GameId,
+    getOneGameFlowUseCase: GetOneGameFlowUseCase,
     private val editGameNamesUseCase: EditGameNamesUseCase,
     private val huDiscardUseCase: HuDiscardUseCase,
     private val huSelfPickUseCase: HuSelfPickUseCase,
@@ -108,38 +101,22 @@ class GameViewModel @AssistedInject constructor(
     }
 
     var lastHighlightedRound: CharSequence = ""
-    private var playerOneLiteral: String? = null
-    private var playerTwoLiteral: String? = null
-    private var playerThreeLiteral: String? = null
-    private var playerFourLiteral: String? = null
 
     private val _pageToShow = MutableLiveData<Pair<GameTablePages, ShouldHighlightLastRound>?>()
     fun getPageToShow(): LiveData<Pair<GameTablePages, ShouldHighlightLastRound>?> = _pageToShow
     private val _currentScreen = MutableLiveData<GameScreens>()
     fun getCurrentScreen(): LiveData<GameScreens> = _currentScreen
-    private var _selectedSeat = MutableLiveData<TableWinds>()
+    private var _selectedSeat = MutableLiveData(NONE)
     fun getSelectedSeat(): LiveData<TableWinds> = _selectedSeat
-    private var _seatOrientation = MutableLiveData<SeatOrientation>()
+    private var _seatOrientation = MutableLiveData(DOWN)
     fun getSeatsOrientation(): LiveData<SeatOrientation> = _seatOrientation
     private var _shouldShowDiffs = MutableLiveData<Boolean>()
     fun shouldShowDiffs(): LiveData<Boolean> = _shouldShowDiffs
     private val exportedGame = MutableLiveData<String>()
     fun getExportedGame(): LiveData<String> = exportedGame
 
-    init {
-        playerOneLiteral = context.getString(R.string.player_one)
-        playerTwoLiteral = context.getString(R.string.player_two)
-        playerThreeLiteral = context.getString(R.string.player_three)
-        playerFourLiteral = context.getString(R.string.player_four)
-        _selectedSeat.postValue(NONE)
-        _seatOrientation.postValue(DOWN)
-    }
-
-    lateinit var game: UiGame
-
-    val gameFlow: SharedFlow<UiGame> = getOneGameFlowUseCase(gameId)
-        .onEach { game -> this.game = game }
-        .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
+    val gameFlow: StateFlow<UiGame> = getOneGameFlowUseCase(gameId)
+        .stateIn(viewModelScope, SharingStarted.Lazily, UiGame())
 
     val isDiffsCalcsFeatureEnabledFlow: StateFlow<Boolean> = getIsDiffCalcsFeatureEnabledUseCase()
         .stateIn(viewModelScope, SharingStarted.Lazily, false)
@@ -165,14 +142,14 @@ class GameViewModel @AssistedInject constructor(
     //GAME OPERATIONS
     fun resumeGame() {
         viewModelScope.launch {
-            resumeGameUseCase(game.dbGame, game.currentRound.roundNumber)
+            resumeGameUseCase(gameFlow.value.dbGame, gameFlow.value.currentRound.roundNumber)
                 .onFailure(::showError)
         }
     }
 
     fun endGame() {
         viewModelScope.launch {
-            endGameUseCase(game)
+            endGameUseCase(gameFlow.value)
                 .onFailure(::showError)
         }
     }
@@ -186,7 +163,7 @@ class GameViewModel @AssistedInject constructor(
     ) {
         viewModelScope.launch {
             editGameNamesUseCase(
-                dbGame = game.dbGame,
+                dbGame = gameFlow.value.dbGame,
                 gameName = gameName,
                 nameP1 = nameP1,
                 nameP2 = nameP2,
@@ -201,11 +178,11 @@ class GameViewModel @AssistedInject constructor(
     fun saveHuDiscardRound(discarderCurrentSeat: TableWinds, huPoints: Int) {
         viewModelScope.launch {
             huDiscardUseCase(
-                uiGame = game,
+                uiGame = gameFlow.value,
                 huData = HuData(
                     points = huPoints,
-                    winnerInitialSeat = game.getPlayerInitialSeatByCurrentSeat(_selectedSeat.value!!),
-                    discarderInitialSeat = game.getPlayerInitialSeatByCurrentSeat(discarderCurrentSeat),
+                    winnerInitialSeat = gameFlow.value.getPlayerInitialSeatByCurrentSeat(_selectedSeat.value!!),
+                    discarderInitialSeat = gameFlow.value.getPlayerInitialSeatByCurrentSeat(discarderCurrentSeat),
                 )
             ).fold({ showSavedRound() }, ::showError)
         }
@@ -214,10 +191,10 @@ class GameViewModel @AssistedInject constructor(
     fun saveHuSelfPickRound(huPoints: Int) {
         viewModelScope.launch {
             huSelfPickUseCase(
-                uiGame = game,
+                uiGame = gameFlow.value,
                 huData = HuData(
                     points = huPoints,
-                    winnerInitialSeat = game.getPlayerInitialSeatByCurrentSeat(_selectedSeat.value!!),
+                    winnerInitialSeat = gameFlow.value.getPlayerInitialSeatByCurrentSeat(_selectedSeat.value!!),
                 )
             ).fold({ showSavedRound() }, ::showError)
         }
@@ -225,7 +202,7 @@ class GameViewModel @AssistedInject constructor(
 
     fun saveDrawRound() {
         viewModelScope.launch {
-            huDrawUseCase(game)
+            huDrawUseCase(gameFlow.value)
                 .fold({ showSavedRound() }, ::showError)
         }
     }
@@ -237,16 +214,16 @@ class GameViewModel @AssistedInject constructor(
     fun savePenalty(penaltyData: PenaltyData) {
         viewModelScope.launch {
             penaltyData.penalizedPlayerInitialSeat =
-                game.getPlayerInitialSeatByCurrentSeat(_selectedSeat.value!!)
+                gameFlow.value.getPlayerInitialSeatByCurrentSeat(_selectedSeat.value!!)
 
-            setPenaltyUseCase(game.currentRound, penaltyData)
+            setPenaltyUseCase(gameFlow.value.currentRound, penaltyData)
                 .onFailure(::showError)
         }
     }
 
     fun cancelPenalties() {
         viewModelScope.launch {
-            cancelPenaltyUseCase(game.currentRound)
+            cancelPenaltyUseCase(gameFlow.value.currentRound)
                 .onFailure(::showError)
         }
     }

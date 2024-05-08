@@ -217,4 +217,5 @@
     <string name="start">开始</string>
     <string name="penalties">处罚</string>
     <string name="rounds_dont_count_penalties">回合总数不考虑罚球</string>
+    <string name="partials">部分</string>
 </resources>

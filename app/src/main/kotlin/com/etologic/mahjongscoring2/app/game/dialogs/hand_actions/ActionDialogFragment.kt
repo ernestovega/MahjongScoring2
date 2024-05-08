@@ -97,7 +97,7 @@ class ActionDialogFragment : AppCompatDialogFragment() {
             }
         )
         binding.tvHandActionsDialogPlayerName.text = selectedSeat?.code?.let { windCode ->
-            activityViewModel.game.getPlayersNamesByCurrentRoundSeat()[windCode]
+            activityViewModel.gameFlow.value.getPlayersNamesByCurrentRoundSeat()[windCode]
         } ?: ""
         if (activityViewModel.isDiffsCalcsFeatureEnabledFlow.value) {
             selectedSeat?.let { setPlayerDiffs(it) }
@@ -106,7 +106,7 @@ class ActionDialogFragment : AppCompatDialogFragment() {
 
     private fun setPlayerDiffs(playerSeat: TableWinds) {
         with(binding) {
-            val playerDiffs = activityViewModel.game.getTableDiffs().seatsDiffs[playerSeat.code]
+            val playerDiffs = activityViewModel.gameFlow.value.getTableDiffs().seatsDiffs[playerSeat.code]
             with(iHandActionsDialogDiffs) {
                 tlActionDialogDiffs.visibility = VISIBLE
                 tvActionDialogDiffsFirstSelfPick.text = playerDiffs.pointsToBeFirst?.bySelfPick.toStringOrHyphen()
@@ -126,7 +126,7 @@ class ActionDialogFragment : AppCompatDialogFragment() {
 
     private fun setButtons() {
         binding.btHandActionsDialogPenaltiesCancel.visibility =
-            if (activityViewModel.game.currentRound.areTherePenalties()) VISIBLE else GONE
+            if (activityViewModel.gameFlow.value.currentRound.areTherePenalties()) VISIBLE else GONE
     }
 
     private fun setListeners() {

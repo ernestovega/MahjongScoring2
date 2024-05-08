@@ -25,12 +25,15 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.data_source.model.DbGame
 import com.etologic.mahjongscoring2.data_source.model.DbRound
+import java.util.Date
 import java.util.Locale
 
 data class UiGame(
     val dbGame: DbGame,
     val uiRounds: List<UiRound>,
 ) {
+    constructor() : this(DbGame(gameId = -1, startDate = Date()), listOf(UiRound()))
+
     val currentRound: UiRound get() = uiRounds.last()
 
     init {

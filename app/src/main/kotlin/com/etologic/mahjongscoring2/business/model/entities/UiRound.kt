@@ -24,6 +24,8 @@ data class UiRound(
     var dbRound: DbRound
 ) : RecyclerViewable<UiRound>() {
 
+    constructor() : this(DbRound(-1, -1))
+
     var roundNumber: Int = 0
     var pointsP1: Int = 0
     var pointsP2: Int = 0

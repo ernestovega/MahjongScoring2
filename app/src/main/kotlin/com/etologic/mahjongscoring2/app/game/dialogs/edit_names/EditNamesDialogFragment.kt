@@ -70,11 +70,14 @@ class EditNamesDialogFragment : AppCompatDialogFragment() {
     }
 
     private fun printNames() {
-        val names = activityViewModel.game.dbGame.getPlayersNames()
-        binding.tietNamesDialogEast.setText(names[EAST.code])
-        binding.tietNamesDialogSouth.setText(names[SOUTH.code])
-        binding.tietNamesDialogWest.setText(names[WEST.code])
-        binding.tietNamesDialogNorth.setText(names[NORTH.code])
+        with(binding) {
+            tietNamesDialogGameName.setText(activityViewModel.gameFlow.value.dbGame.gameName)
+            val names = activityViewModel.gameFlow.value.dbGame.getPlayersNames()
+            tietNamesDialogEast.setText(names[EAST.code])
+            tietNamesDialogSouth.setText(names[SOUTH.code])
+            tietNamesDialogWest.setText(names[WEST.code])
+            tietNamesDialogNorth.setText(names[NORTH.code])
+        }
     }
 
     private fun setOnClickListeners() {

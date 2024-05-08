@@ -154,7 +154,7 @@ class RollDiceDialogFragment : AppCompatDialogFragment() {
             ivDice1.tag = 0
             ivDice2.tag = 0
 
-            tvDiceDialogFirst.text = activityViewModel.game.getCurrentEastSeatPlayerName() ?: getString(R.string.first)
+            tvDiceDialogFirst.text = activityViewModel.gameFlow.value.getCurrentEastSeatPlayerName() ?: getString(R.string.first)
 
             handler34 = Handler(Looper.getMainLooper()) {
                 //Receives message from timer to start dice roll
@@ -174,7 +174,7 @@ class RollDiceDialogFragment : AppCompatDialogFragment() {
     }
 
     private fun getSecondThrowerName(): String {
-        val uiGame = activityViewModel.game
+        val uiGame = activityViewModel.gameFlow.value
         return when (binding.ivDice1.tag as Int + binding.ivDice2.tag as Int) {
             5, 9 -> uiGame.getCurrentEastSeatPlayerName()
             2, 6, 10 -> uiGame.getCurrentSouthSeatPlayerName()

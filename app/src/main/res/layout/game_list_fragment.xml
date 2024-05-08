@@ -28,6 +28,7 @@
         android:layout_alignParentTop="true"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:paddingStart="@dimen/standard_margin"
         android:paddingTop="@dimen/half_standard_margin"
         android:paddingEnd="@dimen/standard_margin"
@@ -60,7 +61,8 @@
             android:gravity="center"
             android:lines="2"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Player AAAAA"/>
 
         <TextView
             android:id="@+id/tvGameListHeaderNameP2"
@@ -71,7 +73,8 @@
             android:gravity="center"
             android:lines="2"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Player BBBBB" />
 
         <TextView
             android:id="@+id/tvGameListHeaderNameP3"
@@ -82,7 +85,8 @@
             android:gravity="center"
             android:lines="2"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Player CCCCC" />
 
         <TextView
             android:id="@+id/tvGameListHeaderNameP4"
@@ -92,7 +96,8 @@
             android:gravity="center"
             android:lines="2"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Player DDDDD" />
 
     </LinearLayout>
 

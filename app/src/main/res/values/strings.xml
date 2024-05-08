@@ -219,4 +219,5 @@
     <string name="start">Start</string>
     <string name="penalties">Penalties</string>
     <string name="rounds_dont_count_penalties">Rounds totals don\'t take penalties in account</string>
+    <string name="partials">Partials</string>
 </resources>
