@@ -35,6 +35,7 @@ import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.SETUP_NEW_GAME
+import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import com.etologic.mahjongscoring2.databinding.MainOldgamesFragmentBinding
@@ -86,37 +87,32 @@ class OldGamesFragment : BaseFragment() {
         binding.rvOldGames.layoutManager = layoutManager
         rvAdapter.setOldGameItemListener(object : OldGamesRvAdapter.GameItemListener {
             override fun onOldGameItemDeleteClicked(gameId: GameId) {
-                deleteGame(gameId)
+                AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
+                    .setTitle(R.string.delete_game)
+                    .setMessage(R.string.are_you_sure)
+                    .setPositiveButton(R.string.delete) { _, _ -> viewModel.deleteGame(gameId) }
+                    .setNegativeButton(R.string.cancel, null)
+                    .create()
+                    .show()
             }
 
             override fun onOldGameItemShareClicked(gameId: GameId) {
-                shareGame(gameId)
+                requireContext().showShareGameDialog { shareGameOption ->
+                    activityViewModel.shareGame(
+                        gameId = gameId,
+                        option = shareGameOption,
+                        getExternalFilesDir = { requireContext().getExternalFilesDir(null) },
+                        getStringRes = { stringResId -> getString(stringResId) }
+                    )
+                }
             }
 
             override fun onOldGameItemResumeClicked(gameId: GameId) {
-                startGame(gameId)
+                activityViewModel.activeGameId = gameId
+                activityViewModel.navigateTo(GAME)
             }
         })
         binding.rvOldGames.adapter = rvAdapter
-    }
-
-    private fun deleteGame(gameId: GameId) {
-        AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
-            .setTitle(R.string.delete_game)
-            .setMessage(R.string.are_you_sure)
-            .setPositiveButton(R.string.delete) { _, _ -> viewModel.deleteGame(gameId) }
-            .setNegativeButton(R.string.cancel, null)
-            .create()
-            .show()
-    }
-
-    private fun shareGame(gameId: GameId) {
-        activityViewModel.shareGame(gameId, ::getString)
-    }
-
-    private fun startGame(gameId: GameId) {
-        activityViewModel.activeGameId = gameId
-        activityViewModel.navigateTo(GAME)
     }
 
     private fun observeViewModel() {

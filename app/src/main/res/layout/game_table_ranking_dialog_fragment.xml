@@ -214,7 +214,10 @@
                     android:id="@+id/tvRankingDialogBestHandTitle"
                     style="@style/tvRankingDialogOthers"
                     android:textSize="16sp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="@dimen/standard_margin"
+                    android:gravity="end"
                     tools:text="@string/best_hand" />
 
                 <TextView

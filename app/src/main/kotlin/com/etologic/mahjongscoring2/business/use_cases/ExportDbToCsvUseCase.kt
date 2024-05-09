@@ -16,7 +16,10 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.business.model.dtos.ExportedDb
+import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.app.utils.writeToFile
+import com.etologic.mahjongscoring2.business.model.exceptions.GamesNotFoundException
+import com.etologic.mahjongscoring2.business.model.exceptions.RoundsNotFoundException
 import com.etologic.mahjongscoring2.data_source.model.DbGame
 import com.etologic.mahjongscoring2.data_source.model.DbRound
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
@@ -29,56 +32,88 @@ class ExportDbToCsvUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
     private val roundsRepository: RoundsRepository,
 ) {
-    suspend operator fun invoke(externalFilesDir: File?): ExportedDb {
-        val csvGames = convertDbGamesToCsv(gamesRepository.getAllFlow().firstOrNull().orEmpty())
-        val csvRounds = convertRoundsToCsv(roundsRepository.getAllFlow().firstOrNull().orEmpty())
+    suspend operator fun invoke(
+        getExternalFilesDir: () -> File?,
+        getStringRes: (Int) -> String,
+    ): Result<List<File>> = runCatching {
+        val dbGames = gamesRepository.getAllFlow().firstOrNull() ?: throw GamesNotFoundException(getStringRes(R.string.ups_something_wrong))
+        val dbRounds = roundsRepository.getAllFlow().firstOrNull() ?: throw RoundsNotFoundException(getStringRes(R.string.ups_something_wrong))
+
+        val csvGames = convertDbGamesToCsv(dbGames)
+        val csvRounds = convertRoundsToCsv(dbRounds)
+
+        val externalFilesDir = getExternalFilesDir.invoke()
         val gamesCsvFile = writeToFile("Games", csvGames, externalFilesDir)
         val roundsCsvFile = writeToFile("Rounds", csvRounds, externalFilesDir)
-        return ExportedDb(gamesCsvFile, roundsCsvFile)
+
+        listOf(gamesCsvFile, roundsCsvFile)
     }
 
-    private fun convertDbGamesToCsv(dbGames: List<DbGame>): String {
-        val stringBuilder = StringBuilder()
-        stringBuilder.appendLine(
-            "gameId,gameName," +
-                    "nameP1,nameP2,nameP3,nameP4," +
-                    "startDate,endDate"
-        )
+    private fun convertDbGamesToCsv(dbGames: List<DbGame>): String =
+        with(StringBuilder()) {
+            buildGamesHeader()
+            buildGamesRows(dbGames)
+            toString()
+        }
+
+    private fun StringBuilder.buildGamesHeader() {
+        append("gameId,")
+        append("gameName,")
+        append("nameP1,")
+        append("nameP2,")
+        append("nameP3,")
+        append("nameP4,")
+        append("startDate,")
+        append("endDate")
+        appendLine()
+    }
+
+    private fun StringBuilder.buildGamesRows(dbGames: List<DbGame>) {
         dbGames.forEach { dbGame ->
-            stringBuilder.appendLine(
-                "${dbGame.gameId}," +
-                        "\"${normalizeName(dbGame.gameName)}\"," +
-                        "\"${normalizeName(dbGame.nameP1)}\"," +
-                        "\"${normalizeName(dbGame.nameP2)}\"," +
-                        "\"${normalizeName(dbGame.nameP3)}\"," +
-                        "\"${normalizeName(dbGame.nameP4)}\"," +
-                        "${dbGame.startDate},${dbGame.endDate}"
-            )
+            append("${dbGame.gameId},")
+            append("${normalizeName(dbGame.gameName)},")
+            append("${normalizeName(dbGame.nameP1)},")
+            append("${normalizeName(dbGame.nameP2)},")
+            append("${normalizeName(dbGame.nameP3)},")
+            append("${normalizeName(dbGame.nameP4)},")
+            append("${dbGame.startDate},")
+            append("${dbGame.endDate}")
+            appendLine()
         }
-        return stringBuilder.toString()
     }
 
-    private fun convertRoundsToCsv(dbRounds: List<DbRound>): String {
-        val stringBuilder = StringBuilder()
-        stringBuilder.appendLine(
-            "gameId,roundId," +
-                    "winnerInitialSeat,discarderInitialSeat,handPoints," +
-                    "penaltyP1,penaltyP2,penaltyP3,penaltyP4"
-        )
-        dbRounds.forEach { round ->
-            stringBuilder.appendLine(
-                "${round.gameId},${round.roundId}," +
-                        "${round.winnerInitialSeat},${round.discarderInitialSeat},${round.handPoints}," +
-                        "${round.penaltyP1},${round.penaltyP2},${round.penaltyP3},${round.penaltyP4}"
-            )
+    private fun convertRoundsToCsv(dbRounds: List<DbRound>): String =
+        with(StringBuilder()) {
+            buildRoundsHeader()
+            buildRoundsRows(dbRounds)
+            toString()
         }
-        return stringBuilder.toString()
+
+    private fun StringBuilder.buildRoundsHeader() {
+        append("gameId,")
+        append("roundId,")
+        append("winnerInitialSeat,")
+        append("discarderInitialSeat,")
+        append("handPoints,")
+        append("penaltyP1,")
+        append("penaltyP2,")
+        append("penaltyP3,")
+        append("penaltyP4")
+        appendLine()
     }
 
-    private fun writeToFile(tableName: String, csvData: String, externalFilesDir: File?): File {
-        val fileName = "$tableName.csv"
-        val file = File(externalFilesDir, fileName)
-        file.writeText(csvData)
-        return file
+    private fun StringBuilder.buildRoundsRows(dbRounds: List<DbRound>) {
+        dbRounds.forEach { dbRound ->
+            append("${dbRound.gameId},")
+            append("${dbRound.roundId},")
+            append("${dbRound.winnerInitialSeat?.code},")
+            append("${dbRound.discarderInitialSeat?.code},")
+            append("${dbRound.handPoints},")
+            append("${dbRound.penaltyP1},")
+            append("${dbRound.penaltyP2},")
+            append("${dbRound.penaltyP3},")
+            append("${dbRound.penaltyP4}")
+            appendLine()
+        }
     }
 }

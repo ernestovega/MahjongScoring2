@@ -203,14 +203,14 @@
     <string name="i_think_is_enough_jajaja">Je pense que c\'est suffisant, n\'est-ce pas? 🤣</string>
     <string name="send_email">Envoyer un courriel</string>
 
-    <!--  Translations V2.1.1  -->
+    <!--  Translations V2.2.0  -->
     <string name="export_games">Exporter des jeux</string>
     <string name="share_files_using">Partager des fichiers avec</string>
     <string name="double_quotes_warn">⚠️ Les guillemets doubles ne sont pas autorisés (seront effacés lors de l\'enregistrement)</string>
     <string name="game_name">Nom de la partie</string>
     <string name="share">Partager</string>
     <string name="share_game">Partager la partie</string>
-    <string name="complete_game">Partie complète</string>
+    <string name="share_games">Partager des jeux</string>
     <string name="share_game_using">Partager la partie en utilisant:</string>
     <string name="_4th">4ème</string>
     <string name="from">De</string>
@@ -218,4 +218,10 @@
     <string name="penalties">Pénalités</string>
     <string name="rounds_dont_count_penalties">Les totaux des tours ne tiennent pas compte des pénalités</string>
     <string name="partials">Partiels</string>
+    <string name="plain_text">Texte brut</string>
+    <string name="table_csv">Tableau (fichier CSV)</string>
+    <string name="round">Rond</string>
+    <string name="games">Jeux</string>
+    <string name="name">Nom</string>
+    <string name="player_abbr">J</string>
 </resources>

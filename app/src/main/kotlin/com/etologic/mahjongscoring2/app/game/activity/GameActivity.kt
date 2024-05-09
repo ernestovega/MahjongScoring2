@@ -38,7 +38,9 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.Companion.getFromCode
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.TABLE
-import com.etologic.mahjongscoring2.app.utils.shareExportedGame
+import com.etologic.mahjongscoring2.app.utils.shareFiles
+import com.etologic.mahjongscoring2.app.utils.shareText
+import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
@@ -121,7 +123,14 @@ class GameActivity : BaseActivity() {
             R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
             R.id.action_resume_game -> viewModel.resumeGame()
             R.id.action_edit_names -> viewModel.navigateTo(EDIT_NAMES)
-            R.id.action_share_game -> viewModel.shareGame(::getString)
+            R.id.action_share_game -> showShareGameDialog { shareGameOption ->
+                viewModel.shareGame(
+                    option = shareGameOption,
+                    getExternalFilesDir = { getExternalFilesDir(null) },
+                    getStringRes = { stringResId -> getString(stringResId) }
+                )
+            }
+
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -156,7 +165,8 @@ class GameActivity : BaseActivity() {
         viewModel.getCurrentScreen().observe(this) { GameNavigator.navigateTo(it, this, viewModel) }
         viewModel.getPageToShow().observe(this) { it?.first?.code?.let { pageIndex -> binding.viewPagerGame.currentItem = pageIndex } }
         viewModel.getSeatsOrientation().observe(this) { updateSeatsOrientationIcon(it) }
-        viewModel.getExportedGame().observe(this) { shareExportedGame(it) }
+        viewModel.getExportedText().observe(this) { shareText(it) }
+        viewModel.getExportedFiles().observe(this) { shareFiles(it) }
         lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.gameFlow.collect(::gameObserver) } }
         lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling) } }
     }

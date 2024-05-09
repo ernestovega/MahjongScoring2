@@ -26,12 +26,12 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
+import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
 import com.etologic.mahjongscoring2.data_source.model.GameId
 import kotlinx.coroutines.flow.firstOrNull
 import java.lang.String.format
 import java.util.Locale
 import javax.inject.Inject
-import kotlin.math.round
 
 class ExportGameToTextUseCase @Inject constructor(
     private val getOneGameFlowUseCase: GetOneGameFlowUseCase
@@ -39,9 +39,9 @@ class ExportGameToTextUseCase @Inject constructor(
     suspend operator fun invoke(
         gameId: GameId,
         getStringRes: (Int) -> String,
-    ): String {
-        val uiGame = getOneGameFlowUseCase.invoke(gameId).firstOrNull() ?: return getStringRes(R.string.ups_something_wrong)
-        return buildText(uiGame, getStringRes)
+    ): Result<String> = runCatching {
+        val uiGame = getOneGameFlowUseCase.invoke(gameId).firstOrNull() ?: throw GameNotFoundException(getStringRes(R.string.ups_something_wrong))
+        buildText(uiGame, getStringRes)
     }
 
     private fun buildText(uiGame: UiGame, getStrRes: (Int) -> String): String =
@@ -57,10 +57,10 @@ class ExportGameToTextUseCase @Inject constructor(
             appendLine()
             appendLine("${getStrRes(R.string.final_results).uppercase()}:")
             appendLine()
-            appendLine("${getStrRes(R.string._1st)}:    ${rankingData.sortedPlayersRankings[0].toText()}")
-            appendLine("${getStrRes(R.string._2nd)}:    ${rankingData.sortedPlayersRankings[1].toText()}")
-            appendLine("${getStrRes(R.string._3rd)}:    ${rankingData.sortedPlayersRankings[2].toText()}")
-            appendLine("${getStrRes(R.string._4th)}:    ${rankingData.sortedPlayersRankings[3].toText()}")
+            appendLine("${getStrRes(R.string._1st)}:    ${rankingData.sortedPlayersRankings[0].toSignedString()}")
+            appendLine("${getStrRes(R.string._2nd)}:    ${rankingData.sortedPlayersRankings[1].toSignedString()}")
+            appendLine("${getStrRes(R.string._3rd)}:    ${rankingData.sortedPlayersRankings[2].toSignedString()}")
+            appendLine("${getStrRes(R.string._4th)}:    ${rankingData.sortedPlayersRankings[3].toSignedString()}")
             if (uiGame.getBestHand().playerInitialPosition != NONE) {
                 appendLine()
                 appendLine("${getStrRes(R.string.best_hand).uppercase()}:")
@@ -84,7 +84,7 @@ class ExportGameToTextUseCase @Inject constructor(
                     when (round.dbRound.winnerInitialSeat) {
                         null -> "-"
                         NONE -> getStrRes(R.string.draw)
-                        else -> uiGame.dbGame.getPlayerNameByInitialPosition(round.dbRound.winnerInitialSeat!!)
+                        else -> normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(round.dbRound.winnerInitialSeat!!))
                     }
                 )
                 appendLine()
@@ -100,36 +100,39 @@ class ExportGameToTextUseCase @Inject constructor(
                             else -> getStrRes(R.string.self_pick)
                         }
 
-                        else -> uiGame.dbGame.getPlayerNameByInitialPosition(round.dbRound.discarderInitialSeat!!)
+                        else -> normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(round.dbRound.discarderInitialSeat!!))
                     }
                 )
+                appendLine()
                 if (round.areTherePenalties()) {
                     appendLine()
-                    append("${getStrRes(R.string.penalties)}: ")
-                    append("${uiGame.dbGame.getPlayerNameByInitialPosition(EAST)}: ${round.dbRound.penaltyP1.toText()} | ")
-                    append("${uiGame.dbGame.getPlayerNameByInitialPosition(SOUTH)}: ${round.dbRound.penaltyP2.toText()} | ")
-                    append("${uiGame.dbGame.getPlayerNameByInitialPosition(WEST)}: ${round.dbRound.penaltyP3.toText()} | ")
-                    append("${uiGame.dbGame.getPlayerNameByInitialPosition(NORTH)}: ${round.dbRound.penaltyP4.toText()}")
+                    appendLine("${getStrRes(R.string.penalties)}: ")
+                    appendLine("${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(EAST))}: ${round.dbRound.penaltyP1.toSignedString()}")
+                    appendLine("${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(SOUTH))}: ${round.dbRound.penaltyP2.toSignedString()}")
+                    appendLine("${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(WEST))}: ${round.dbRound.penaltyP3.toSignedString()}")
+                    appendLine("${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(NORTH))}: ${round.dbRound.penaltyP4.toSignedString()}")
                 }
-                appendLine()
-                append("${getStrRes(R.string.partials)}: ")
-                append("${uiGame.dbGame.getPlayerNameByInitialPosition(EAST)}: ${round.pointsP1.toText()} | ")
-                append("${uiGame.dbGame.getPlayerNameByInitialPosition(SOUTH)}: ${round.pointsP2.toText()} | ")
-                append("${uiGame.dbGame.getPlayerNameByInitialPosition(WEST)}: ${round.pointsP3.toText()} | ")
-                append("${uiGame.dbGame.getPlayerNameByInitialPosition(NORTH)}: ${round.pointsP4.toText()}")
-                appendLine()
-                append("${getStrRes(R.string.totals)}: ")
-                append("${uiGame.dbGame.getPlayerNameByInitialPosition(EAST)}: ${round.totalPointsP1.toText()} | ")
-                append("${uiGame.dbGame.getPlayerNameByInitialPosition(SOUTH)}: ${round.totalPointsP2.toText()} | ")
-                append("${uiGame.dbGame.getPlayerNameByInitialPosition(WEST)}: ${round.totalPointsP3.toText()} | ")
-                append("${uiGame.dbGame.getPlayerNameByInitialPosition(NORTH)}: ${round.totalPointsP4.toText()}")
-                appendLine()
-                appendLine()
+                if (round.dbRound.discarderInitialSeat != null && round.dbRound.discarderInitialSeat != NONE) {
+                    appendLine()
+                    appendLine("${getStrRes(R.string.partials)}: ")
+                    appendLine("${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(EAST))}: ${round.pointsP1.toSignedString()}")
+                    appendLine("${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(SOUTH))}: ${round.pointsP2.toSignedString()}")
+                    appendLine("${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(WEST))}: ${round.pointsP3.toSignedString()}")
+                    appendLine("${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(NORTH))}: ${round.pointsP4.toSignedString()}")
+                    appendLine()
+                    appendLine("${getStrRes(R.string.totals)}: ")
+                    appendLine("${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(EAST))}: ${round.totalPointsP1.toSignedString()}")
+                    appendLine("${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(SOUTH))}: ${round.totalPointsP2.toSignedString()}")
+                    appendLine("${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(WEST))}: ${round.totalPointsP3.toSignedString()}")
+                    appendLine("${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(NORTH))}: ${round.totalPointsP4.toSignedString()}")
+                    appendLine()
+                    appendLine()
+                }
             }
         }
     }
 }
 
-private fun PlayerRanking.toText() = "$name    $points    (${format(Locale.getDefault(), "%+d", score)})"
+private fun PlayerRanking.toSignedString() = "$name    $points    (${format(Locale.getDefault(), "%+d", score)})"
 
-private fun Int.toText(): String = format(Locale.getDefault(), "%+d", this)
+private fun Int.toSignedString(): String = format(Locale.getDefault(), "%+d", this)

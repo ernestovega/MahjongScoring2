@@ -17,15 +17,18 @@
 package com.etologic.mahjongscoring2.app.main.activity
 
 import android.app.Activity
-import android.content.Context
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.business.model.dtos.ExportedDb
+import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
+import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions.CSV
+import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions.TEXT
 import com.etologic.mahjongscoring2.business.use_cases.CreateGameUseCase
+import com.etologic.mahjongscoring2.business.use_cases.ExportAllGamesToCsvUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportDbToCsvUseCase
+import com.etologic.mahjongscoring2.business.use_cases.ExportGameToCsvUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.SaveIsDiffCalcsFeatureEnabledUseCase
@@ -38,6 +41,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -46,6 +50,8 @@ class MainViewModel @Inject constructor(
     private val showInAppReviewUseCase: ShowInAppReviewUseCase,
     private val exportDbToCsvUseCase: ExportDbToCsvUseCase,
     private val exportGameToTextUseCase: ExportGameToTextUseCase,
+    private val exportGameToCsvUseCase: ExportGameToCsvUseCase,
+    private val exportAllGamesToCsvUseCase: ExportAllGamesToCsvUseCase,
     getIsDiffCalcsFeatureEnabledUseCase: GetIsDiffCalcsFeatureEnabledUseCase,
     private val saveIsDiffCalcsFeatureEnabledUseCase: SaveIsDiffCalcsFeatureEnabledUseCase,
 ) : BaseViewModel() {
@@ -65,24 +71,24 @@ class MainViewModel @Inject constructor(
 
     var activeGameId: GameId? = null
 
-    private val currentScreen = MutableLiveData<MainScreens>()
-    fun getCurrentScreen(): LiveData<MainScreens> = currentScreen
-    private val currentToolbar = MutableLiveData<Toolbar>()
-    fun getCurrentToolbar(): LiveData<Toolbar> = currentToolbar
-    private val exportedDb = MutableLiveData<ExportedDb>()
-    fun getExportedFiles(): LiveData<ExportedDb> = exportedDb
-    private val exportedGame = MutableLiveData<String>()
-    fun getExportedGame(): LiveData<String> = exportedGame
+    private val _currentScreen = MutableLiveData<MainScreens>()
+    fun getCurrentScreen(): LiveData<MainScreens> = _currentScreen
+    private val _currentToolbar = MutableLiveData<Toolbar>()
+    fun getCurrentToolbar(): LiveData<Toolbar> = _currentToolbar
+    private val _exportedText = MutableLiveData<String>()
+    fun getExportedText(): LiveData<String> = _exportedText
+    private val _exportedFiles = MutableLiveData<List<File>>()
+    fun getExportedFiles(): LiveData<List<File>> = _exportedFiles
 
     val isDiffsCalcsFeatureEnabledFlow: StateFlow<Boolean> = getIsDiffCalcsFeatureEnabledUseCase()
         .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
     fun setToolbar(toolbar: Toolbar) {
-        currentToolbar.postValue(toolbar)
+        _currentToolbar.postValue(toolbar)
     }
 
     fun navigateTo(screen: MainScreens) {
-        currentScreen.postValue(screen)
+        _currentScreen.postValue(screen)
     }
 
     fun createGame(
@@ -103,20 +109,34 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch { showInAppReviewUseCase(activity) }
     }
 
-    fun exportDb(context: Context) {
+    fun exportDb(getExternalFilesDir: () -> File?, getStringRes: (Int) -> String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                exportDbToCsvUseCase.invoke(context.getExternalFilesDir(null))
-                    .also { exportedDb.postValue(it) }
+                exportDbToCsvUseCase.invoke(getExternalFilesDir, getStringRes)
+                    .fold(_exportedFiles::postValue, ::showError)
             }
         }
     }
 
-    fun shareGame(gameId: GameId, getStringRes: (Int) -> String) {
+    fun shareGame(gameId: GameId, option: ShareGameOptions, getExternalFilesDir: () -> File?, getStringRes: (Int) -> String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                exportGameToTextUseCase.invoke(gameId, getStringRes)
-                    .also { exportedGame.postValue(it) }
+                when (option) {
+                    TEXT -> exportGameToTextUseCase.invoke(gameId, getStringRes)
+                        .fold(_exportedText::postValue, ::showError)
+
+                    CSV -> exportGameToCsvUseCase.invoke(gameId, getExternalFilesDir, getStringRes)
+                        .fold(_exportedFiles::postValue, ::showError)
+                }
+            }
+        }
+    }
+
+    fun shareAllGames(getExternalFilesDir: () -> File?, getStringRes: (Int) -> String) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                exportAllGamesToCsvUseCase.invoke(getExternalFilesDir, getStringRes)
+                    .fold(_exportedFiles::postValue, ::showError)
             }
         }
     }

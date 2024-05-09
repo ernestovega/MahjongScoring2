@@ -19,10 +19,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/action_export_games"
-        android:icon="@drawable/ic_export"
+        android:id="@+id/action_export_db"
         android:title="@string/export_games"
         android:tooltipText="@string/export_games"
+        android:visible="false"
+        app:showAsAction="never"
+        tools:targetApi="o" />
+
+    <item
+        android:id="@+id/action_share_all_games"
+        android:title="@string/share_games"
+        android:tooltipText="@string/share_games"
         app:showAsAction="never"
         tools:targetApi="o" />
 

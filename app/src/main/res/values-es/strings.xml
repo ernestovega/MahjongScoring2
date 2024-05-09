@@ -203,14 +203,14 @@
     <string name="i_think_is_enough_jajaja">Creo que ya es suficiente, ¿no? 🤣</string>
     <string name="send_email">Enviar correo</string>
 
-    <!--  Translations V2.1.1  -->
+    <!--  Translations V2.2.0  -->
     <string name="export_games">Exportar partidas</string>
     <string name="share_files_using">Compartir archivos usando:</string>
     <string name="double_quotes_warn">⚠️ Las comillas no están permitidas (se borrarán al guardar)</string>
     <string name="game_name">Nombre de la partida</string>
     <string name="share">Compartir</string>
     <string name="share_game">Compartir partida</string>
-    <string name="complete_game">Partida completa</string>
+    <string name="share_games">Compartir partidas</string>
     <string name="share_game_using">Compartir partida usando:</string>
     <string name="_4th">4°</string>
     <string name="from">De</string>
@@ -218,4 +218,10 @@
     <string name="penalties">Penalizaciones</string>
     <string name="rounds_dont_count_penalties">Los totales de cada ronda no tienen en cuenta las penalizaciones</string>
     <string name="partials">Parciales</string>
+    <string name="plain_text">Texto plano</string>
+    <string name="table_csv">Tabla (archivo CSV)</string>
+    <string name="round">Ronda</string>
+    <string name="games">Partidas</string>
+    <string name="name">Nombre</string>
+    <string name="player_abbr">J</string>
 </resources>

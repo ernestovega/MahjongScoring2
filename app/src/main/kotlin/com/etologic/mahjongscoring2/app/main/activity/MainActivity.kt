@@ -42,8 +42,8 @@ import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_SPANISH
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.MM_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
-import com.etologic.mahjongscoring2.app.utils.shareExportedDb
-import com.etologic.mahjongscoring2.app.utils.shareExportedGame
+import com.etologic.mahjongscoring2.app.utils.shareFiles
+import com.etologic.mahjongscoring2.app.utils.shareText
 import com.etologic.mahjongscoring2.databinding.MainActivityBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -150,13 +150,16 @@ class MainActivity : BaseActivity() {
 
         toggleDiffsEnabling(viewModel.isDiffsCalcsFeatureEnabledFlow.value)
 
+        menu.findItem(R.id.action_export_db).isVisible = BuildConfig.DEBUG
+
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> openDrawer()
-            R.id.action_export_games -> lifecycleScope.launch { viewModel.exportDb(applicationContext) }
+            R.id.action_export_db -> lifecycleScope.launch { viewModel.exportDb({ getExternalFilesDir(null) }, { getString(it) }) }
+            R.id.action_share_all_games -> lifecycleScope.launch { viewModel.shareAllGames({ getExternalFilesDir(null) }, { getString(it) }) }
             R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
             R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
             else -> return super.onOptionsItemSelected(item)
@@ -168,8 +171,9 @@ class MainActivity : BaseActivity() {
         viewModel.getError().observe(this) { showError(it) }
         viewModel.getCurrentToolbar().observe(this) { setToolbar(it) }
         viewModel.getCurrentScreen().observe(this) { goToScreen(it, this, viewModel) }
-        viewModel.getExportedFiles().observe(this) { shareExportedDb(it) }
-        viewModel.getExportedGame().observe(this) { shareExportedGame(it) }
+        viewModel.getExportedFiles().observe(this) { shareFiles(it,) }
+        viewModel.getExportedText().observe(this) { shareText(it) }
+        viewModel.getExportedFiles().observe(this) { shareFiles(it,) }
         lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling) } }
     }
 

@@ -203,14 +203,14 @@
     <string name="i_think_is_enough_jajaja">我想这已经足够了，对吗? 🤣</string>
     <string name="send_email">发电子邮件</string>
 
-    <!--  Translations V2.1.1  -->
+    <!--  Translations V2.2.0  -->
     <string name="export_games">导出游戏</string>
     <string name="share_files_using">使用以下方式分享文件</string>
     <string name="double_quotes_warn">⚠️ 不允许使用双引号 (保存时将被删除)</string>
     <string name="game_name">比赛名称</string>
     <string name="share">分享</string>
     <string name="share_game">分享游戏</string>
-    <string name="complete_game">完整的比赛</string>
+    <string name="share_games">分享游戏</string>
     <string name="share_game_using">使用以下方式分享游戏:</string>
     <string name="_4th">第四</string>
     <string name="from">从</string>
@@ -218,4 +218,10 @@
     <string name="penalties">处罚</string>
     <string name="rounds_dont_count_penalties">回合总数不考虑罚球</string>
     <string name="partials">部分</string>
+    <string name="plain_text">纯文本</string>
+    <string name="table_csv">表格 (CSV 文件)</string>
+    <string name="round">圆形的</string>
+    <string name="games">游戏</string>
+    <string name="name">姓名</string>
+    <string name="player_abbr">玩家</string>
 </resources>

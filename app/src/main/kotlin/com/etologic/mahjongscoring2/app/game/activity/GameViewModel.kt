@@ -30,11 +30,15 @@ import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
+import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
+import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions.CSV
+import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions.TEXT
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.use_cases.CancelPenaltyUseCase
 import com.etologic.mahjongscoring2.business.use_cases.EditGameNamesUseCase
 import com.etologic.mahjongscoring2.business.use_cases.EndGameUseCase
+import com.etologic.mahjongscoring2.business.use_cases.ExportGameToCsvUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetOneGameFlowUseCase
@@ -56,6 +60,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 typealias ShouldHighlightLastRound = Boolean
 
@@ -72,6 +77,7 @@ class GameViewModel @AssistedInject constructor(
     private val resumeGameUseCase: ResumeGameUseCase,
     private val endGameUseCase: EndGameUseCase,
     private val exportGameToTextUseCase: ExportGameToTextUseCase,
+    private val exportGameToCsvUseCase: ExportGameToCsvUseCase,
     getIsDiffCalcsFeatureEnabledUseCase: GetIsDiffCalcsFeatureEnabledUseCase,
     private val saveIsDiffCalcsFeatureEnabledUseCase: SaveIsDiffCalcsFeatureEnabledUseCase,
 ) : BaseViewModel() {
@@ -112,8 +118,10 @@ class GameViewModel @AssistedInject constructor(
     fun getSeatsOrientation(): LiveData<SeatOrientation> = _seatOrientation
     private var _shouldShowDiffs = MutableLiveData<Boolean>()
     fun shouldShowDiffs(): LiveData<Boolean> = _shouldShowDiffs
-    private val exportedGame = MutableLiveData<String>()
-    fun getExportedGame(): LiveData<String> = exportedGame
+    private val _exportedText = MutableLiveData<String>()
+    fun getExportedText(): LiveData<String> = _exportedText
+    private val _exportedFiles = MutableLiveData<List<File>>()
+    fun getExportedFiles(): LiveData<List<File>> = _exportedFiles
 
     val gameFlow: StateFlow<UiGame> = getOneGameFlowUseCase(gameId)
         .stateIn(viewModelScope, SharingStarted.Lazily, UiGame())
@@ -254,11 +262,16 @@ class GameViewModel @AssistedInject constructor(
     }
 
     //SHARE ACTIONS
-    fun shareGame(getStringRes: (Int) -> String) {
+    fun shareGame(option: ShareGameOptions, getExternalFilesDir: () -> File?, getStringRes: (Int) -> String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                exportGameToTextUseCase.invoke(gameId, getStringRes)
-                    .also { exportedGame.postValue(it) }
+                when (option) {
+                    TEXT -> exportGameToTextUseCase.invoke(gameId, getStringRes)
+                        .fold(_exportedText::postValue, ::showError)
+
+                    CSV -> exportGameToCsvUseCase.invoke(gameId, getExternalFilesDir, getStringRes)
+                        .fold(_exportedFiles::postValue, ::showError)
+                }
             }
         }
     }

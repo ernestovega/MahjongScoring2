@@ -15,23 +15,6 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.etologic.mahjongscoring2.business.model.dtos
+package com.etologic.mahjongscoring2.business.model.exceptions
 
-import android.content.Context
-import android.net.Uri
-import androidx.core.content.FileProvider
-import java.io.File
-
-data class ExportedDb(
-    val csvGames: File,
-    val csvRounds: File,
-) {
-    fun toUriArrayList(context: Context, packageName: String): ArrayList<Uri> =
-        arrayListOf(
-            getUri(context, packageName, csvGames),
-            getUri(context, packageName, csvRounds),
-        )
-
-    private fun getUri(context: Context, packageName: String, file: File): Uri =
-        FileProvider.getUriForFile(context, "${packageName}.provider", file)
-}
+class GameNotFoundException(message: String) : Exception(message)
