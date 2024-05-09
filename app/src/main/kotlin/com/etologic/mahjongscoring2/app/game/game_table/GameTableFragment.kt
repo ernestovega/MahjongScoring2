@@ -53,6 +53,7 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.C
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.TableSeatsListener
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame.Companion.NOT_SET_GAME_ID
 import com.etologic.mahjongscoring2.databinding.GameTableFragmentBinding
 import com.google.android.material.badge.BadgeDrawable.BOTTOM_END
 import com.google.android.material.badge.BadgeDrawable.BOTTOM_START
@@ -149,9 +150,11 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
     }
 
     private fun gameObserver(uiGame: UiGame) {
-        setGameName(uiGame.dbGame.gameName)
-        tableSeats.setSeats(uiGame)
-        this.setRoundStuff(uiGame)
+        if (uiGame.dbGame.gameId != NOT_SET_GAME_ID) {
+            setGameName(uiGame.dbGame.gameName)
+            tableSeats.setSeats(uiGame)
+            this.setRoundStuff(uiGame)
+        }
     }
 
     private fun setGameName(gameName: String) {

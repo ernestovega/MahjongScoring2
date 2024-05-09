@@ -24,8 +24,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.converters.DateConverter
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos.GamesDao
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos.RoundsDao
-import com.etologic.mahjongscoring2.data_source.model.DbGame
-import com.etologic.mahjongscoring2.data_source.model.DbRound
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 
 @Database(entities = [DbGame::class, DbRound::class], version = 2)
 @TypeConverters(DateConverter::class)
@@ -41,31 +41,23 @@ object Migration1to2 : Migration(1, 2) {
         //Remove "Combinations" and "Tables" tables and "Rounds.roundDuration" column
         db.execSQL("DROP TABLE IF EXISTS Combinations")
         db.execSQL("DROP TABLE IF EXISTS Tables")
-        db.execSQL("ALTER TABLE Rounds DROP COLUMN roundDuration")
 
         // Replace "Rounds.isEnded" column by new "Games.endDate" column
         db.execSQL("ALTER TABLE Games ADD COLUMN endDate INTEGER")
         db.execSQL("UPDATE Games SET endDate = startDate")
-        db.execSQL("ALTER TABLE Rounds DROP COLUMN isEnded")
 
         // Add "Games.gameName" column
         db.execSQL("ALTER TABLE Games ADD COLUMN gameName TEXT NOT NULL DEFAULT ''")
         db.execSQL("UPDATE Games SET gameName = ''")
 
+        // Remove "Rounds.roundDuration", "Rounds.isEnded" and "Rounds.pointsPX" columns.
         // Make "Rounds.winnerInitialSeat" and "Rounds.discarderInitialSeat" columns nullable
-        db.execSQL("ALTER TABLE Rounds ADD COLUMN winnerInitialSeat_new INTEGER")
-        db.execSQL("ALTER TABLE Rounds ADD COLUMN discarderInitialSeat_new INTEGER")
-        db.execSQL("UPDATE Rounds SET winnerInitialSeat_new = winnerInitialSeat")
-        db.execSQL("UPDATE Rounds SET discarderInitialSeat_new = discarderInitialSeat")
-        db.execSQL("ALTER TABLE Rounds DROP COLUMN winnerInitialSeat")
-        db.execSQL("ALTER TABLE Rounds DROP COLUMN discarderInitialSeat")
-        db.execSQL("ALTER TABLE Rounds RENAME COLUMN winnerInitialSeat_new TO winnerInitialSeat")
-        db.execSQL("ALTER TABLE Rounds RENAME COLUMN discarderInitialSeat_new TO discarderInitialSeat")
-
-        // Remove "Rounds.pointsPX" columns
-        db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP1")
-        db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP2")
-        db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP3")
-        db.execSQL("ALTER TABLE Rounds DROP COLUMN pointsP4")
+        db.execSQL("CREATE TABLE IF NOT EXISTS `Rounds_temp` (`gameId` INTEGER NOT NULL, `roundId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `winnerInitialSeat` INTEGER, `discarderInitialSeat` INTEGER, `handPoints` INTEGER NOT NULL, `penaltyP1` INTEGER NOT NULL, `penaltyP2` INTEGER NOT NULL, `penaltyP3` INTEGER NOT NULL, `penaltyP4` INTEGER NOT NULL, FOREIGN KEY(`gameId`) REFERENCES `Games`(`gameId`) ON UPDATE NO ACTION ON DELETE NO ACTION )")
+        db.execSQL("INSERT INTO `Rounds_temp` SELECT `gameId`,`roundId`,`winnerInitialSeat`,`discarderInitialSeat`,`handPoints`,`penaltyP1`,`penaltyP2`,`penaltyP3`,`penaltyP4` FROM `Rounds`")
+        db.execSQL("DROP TABLE `Rounds`")
+        db.execSQL("ALTER TABLE `Rounds_temp` RENAME TO `Rounds`")
+        db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_Rounds_gameId_roundId` ON `Rounds` (`gameId`, `roundId`)")
     }
+
+
 }

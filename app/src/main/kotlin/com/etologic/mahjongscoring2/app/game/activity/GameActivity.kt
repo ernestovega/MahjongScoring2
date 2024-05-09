@@ -46,7 +46,7 @@ import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MAX
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
-import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
 import com.etologic.mahjongscoring2.databinding.GameActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -127,7 +127,6 @@ class GameActivity : BaseActivity() {
                 viewModel.shareGame(
                     option = shareGameOption,
                     getExternalFilesDir = { getExternalFilesDir(null) },
-                    getStringRes = { stringResId -> getString(stringResId) }
                 )
             }
 

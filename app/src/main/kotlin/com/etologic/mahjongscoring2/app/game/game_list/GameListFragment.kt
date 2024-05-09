@@ -38,7 +38,7 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiRound
-import com.etologic.mahjongscoring2.data_source.model.RoundId
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.RoundId
 import com.etologic.mahjongscoring2.databinding.GameListFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay

@@ -215,15 +215,15 @@
     <string name="share_games">Share games</string>
     <string name="share_game_using">Share game using:</string>
     <string name="_4th">4th</string>
-    <string name="from">From</string>
     <string name="start">Start</string>
-    <string name="penalties">Penalties</string>
-    <string name="rounds_dont_count_penalties">Rounds totals don\'t take penalties in account</string>
-    <string name="partials">Partials</string>
-    <string name="plain_text">Plain text</string>
-    <string name="table_csv">Table (CSV file)</string>
-    <string name="round">Round</string>
-    <string name="games">Games</string>
-    <string name="name">Name</string>
-    <string name="player_abbr">P</string>
+    <string name="plain_text">Plain text (only final results)</string>
+    <string name="table_csv">CSV table (all game data)</string>
+    <!--    <string name="round">Round</string>-->
+    <!--    <string name="games">Games</string>-->
+    <!--    <string name="name">Name</string>-->
+    <!--    <string name="player_abbr">P</string>-->
+    <!--    <string name="from">From</string>-->
+    <!--    <string name="penalties">Penalties</string>-->
+    <!--    <string name="rounds_dont_count_penalties">Rounds totals don\'t take penalties in account</string>-->
+    <!--    <string name="partials">Partials</string>-->
 </resources>

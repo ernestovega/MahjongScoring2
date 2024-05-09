@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright © 2023  Ernesto Vega de la Iglesia Soria
   ~
   ~     This program is free software: you can redistribute it and/or modify
@@ -213,15 +212,15 @@
     <string name="share_games">分享游戏</string>
     <string name="share_game_using">使用以下方式分享游戏:</string>
     <string name="_4th">第四</string>
-    <string name="from">从</string>
     <string name="start">开始</string>
-    <string name="penalties">处罚</string>
-    <string name="rounds_dont_count_penalties">回合总数不考虑罚球</string>
-    <string name="partials">部分</string>
-    <string name="plain_text">纯文本</string>
-    <string name="table_csv">表格 (CSV 文件)</string>
-    <string name="round">圆形的</string>
-    <string name="games">游戏</string>
-    <string name="name">姓名</string>
-    <string name="player_abbr">玩家</string>
+    <string name="plain_text">纯文本 (仅最终结果)</string>
+    <string name="table_csv">CSV 表 (所有数据)</string>
+    <!--    <string name="round">圆形的</string>-->
+    <!--    <string name="games">游戏</string>-->
+    <!--    <string name="name">姓名</string>-->
+    <!--    <string name="player_abbr">玩家</string>-->
+    <!--    <string name="from">从</string>-->
+    <!--    <string name="penalties">处罚</string>-->
+    <!--    <string name="rounds_dont_count_penalties">回合总数不考虑罚球</string>-->
+    <!--    <string name="partials">部分</string>-->
 </resources>

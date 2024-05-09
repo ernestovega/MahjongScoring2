@@ -81,7 +81,6 @@ class RankingDialogFragment : AppCompatDialogFragment() {
                     activityViewModel.shareGame(
                         option = shareGameOption,
                         getExternalFilesDir = { getExternalFilesDir(null) },
-                        getStringRes = { stringResId -> getString(stringResId) }
                     )
                 }
             }

@@ -18,9 +18,9 @@ package com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos
 
 import android.database.sqlite.SQLiteConstraintException
 import androidx.room.*
-import com.etologic.mahjongscoring2.data_source.model.DbRound
-import com.etologic.mahjongscoring2.data_source.model.GameId
-import com.etologic.mahjongscoring2.data_source.model.RoundId
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.RoundId
 import kotlinx.coroutines.flow.Flow
 
 @Dao

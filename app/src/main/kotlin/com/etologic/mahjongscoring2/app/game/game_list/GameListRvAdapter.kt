@@ -39,7 +39,7 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
-import com.etologic.mahjongscoring2.data_source.model.RoundId
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.RoundId
 import com.etologic.mahjongscoring2.databinding.GameListRoundItemBinding
 import java.util.Locale
 import javax.inject.Inject

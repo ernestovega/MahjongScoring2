@@ -26,6 +26,8 @@ import androidx.core.content.FileProvider
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
 import java.io.File
+import java.lang.String.format
+import java.util.Locale
 
 fun Context.showShareGameDialog(
     shareGame: (ShareGameOptions) -> Unit,

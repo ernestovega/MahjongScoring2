@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright © 2023  Ernesto Vega de la Iglesia Soria
   ~
   ~     This program is free software: you can redistribute it and/or modify
@@ -213,15 +212,15 @@
     <string name="share_games">Compartir partidas</string>
     <string name="share_game_using">Compartir partida usando:</string>
     <string name="_4th">4°</string>
-    <string name="from">De</string>
     <string name="start">Empezar</string>
-    <string name="penalties">Penalizaciones</string>
-    <string name="rounds_dont_count_penalties">Los totales de cada ronda no tienen en cuenta las penalizaciones</string>
-    <string name="partials">Parciales</string>
-    <string name="plain_text">Texto plano</string>
-    <string name="table_csv">Tabla (archivo CSV)</string>
-    <string name="round">Ronda</string>
-    <string name="games">Partidas</string>
-    <string name="name">Nombre</string>
-    <string name="player_abbr">J</string>
+    <string name="plain_text">Texto plano (sólo resultado final)</string>
+    <string name="table_csv">Tabla CSV (todos los datos)</string>
+    <!--    <string name="round">Ronda</string>-->
+    <!--    <string name="games">Partidas</string>-->
+    <!--    <string name="name">Nombre</string>-->
+    <!--    <string name="player_abbr">J</string>-->
+    <!--    <string name="from">De</string>-->
+    <!--    <string name="penalties">Penalizaciones</string>-->
+    <!--    <string name="rounds_dont_count_penalties">Los totales de cada ronda no tienen en cuenta las penalizaciones</string>-->
+    <!--    <string name="partials">Parciales</string>-->
 </resources>

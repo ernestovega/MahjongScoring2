@@ -16,9 +16,9 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.data_source.model.DbGame
-import com.etologic.mahjongscoring2.data_source.model.DbRound
-import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import java.util.Calendar

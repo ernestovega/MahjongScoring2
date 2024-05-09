@@ -29,11 +29,11 @@ import com.etologic.mahjongscoring2.business.use_cases.CreateGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportAllGamesToCsvUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportDbToCsvUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToCsvUseCase
-import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
+import com.etologic.mahjongscoring2.business.use_cases.ExportGameResultsToTextUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.SaveIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
-import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -49,7 +49,7 @@ class MainViewModel @Inject constructor(
     private val createGameUseCase: CreateGameUseCase,
     private val showInAppReviewUseCase: ShowInAppReviewUseCase,
     private val exportDbToCsvUseCase: ExportDbToCsvUseCase,
-    private val exportGameToTextUseCase: ExportGameToTextUseCase,
+    private val exportGameResultsToTextUseCase: ExportGameResultsToTextUseCase,
     private val exportGameToCsvUseCase: ExportGameToCsvUseCase,
     private val exportAllGamesToCsvUseCase: ExportAllGamesToCsvUseCase,
     getIsDiffCalcsFeatureEnabledUseCase: GetIsDiffCalcsFeatureEnabledUseCase,
@@ -109,33 +109,33 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch { showInAppReviewUseCase(activity) }
     }
 
-    fun exportDb(getExternalFilesDir: () -> File?, getStringRes: (Int) -> String) {
+    fun exportDb(getExternalFilesDir: () -> File?) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                exportDbToCsvUseCase.invoke(getExternalFilesDir, getStringRes)
+                exportDbToCsvUseCase.invoke(getExternalFilesDir)
                     .fold(_exportedFiles::postValue, ::showError)
             }
         }
     }
 
-    fun shareGame(gameId: GameId, option: ShareGameOptions, getExternalFilesDir: () -> File?, getStringRes: (Int) -> String) {
+    fun shareGame(gameId: GameId, option: ShareGameOptions, getExternalFilesDir: () -> File?) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 when (option) {
-                    TEXT -> exportGameToTextUseCase.invoke(gameId, getStringRes)
+                    TEXT -> exportGameResultsToTextUseCase.invoke(gameId)
                         .fold(_exportedText::postValue, ::showError)
 
-                    CSV -> exportGameToCsvUseCase.invoke(gameId, getExternalFilesDir, getStringRes)
+                    CSV -> exportGameToCsvUseCase.invoke(gameId, getExternalFilesDir)
                         .fold(_exportedFiles::postValue, ::showError)
                 }
             }
         }
     }
 
-    fun shareAllGames(getExternalFilesDir: () -> File?, getStringRes: (Int) -> String) {
+    fun shareAllGames(getExternalFilesDir: () -> File?) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                exportAllGamesToCsvUseCase.invoke(getExternalFilesDir, getStringRes)
+                exportAllGamesToCsvUseCase.invoke(getExternalFilesDir)
                     .fold(_exportedFiles::postValue, ::showError)
             }
         }

@@ -17,57 +17,55 @@
 
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.utils.writeToFile
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
-import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
 import kotlinx.coroutines.flow.firstOrNull
 import java.io.File
-import java.lang.String.format
-import java.util.Locale
 import javax.inject.Inject
 
 class ExportGameToCsvUseCase @Inject constructor(
     private val getOneGameFlowUseCase: GetOneGameFlowUseCase
 ) {
     @Throws(GameNotFoundException::class)
-    suspend operator fun invoke(
-        gameId: GameId,
-        getExternalFilesDir: () -> File?,
-        getStringRes: (Int) -> String,
-    ): Result<List<File>> = runCatching {
-        val uiGame = getOneGameFlowUseCase.invoke(gameId).firstOrNull() ?: throw GameNotFoundException(getStringRes(R.string.ups_something_wrong))
-        val csvText = buildCsvText(uiGame, getStringRes)
-        val csvFile = writeToFile(
-            name = "${getStringRes(R.string.game)}_${normalizeName(uiGame.dbGame.gameName).replace(" ", "-")}",
-            csvText = csvText,
-            externalFilesDir = getExternalFilesDir.invoke(),
-        )
-        listOf(csvFile)
-    }
+    suspend operator fun invoke(gameId: GameId, getExternalFilesDir: () -> File?): Result<List<File>> =
+        runCatching {
+            val uiGame = getOneGameFlowUseCase.invoke(gameId).firstOrNull() ?: throw GameNotFoundException()
+            val csvText = buildCsvText(uiGame)
+            val csvFile = writeToFile(
+                name = "Game_${normalizeName(uiGame.dbGame.gameName).replace(" ", "-")}",
+                csvText = csvText,
+                externalFilesDir = getExternalFilesDir.invoke(),
+            )
+            listOf(csvFile)
+        }
 
-    private fun buildCsvText(uiGame: UiGame, getStrRes: (Int) -> String): String =
+    private fun buildCsvText(uiGame: UiGame): String =
         with(StringBuilder()) {
-            buildHeader(uiGame, getStrRes)
+            buildHeader(uiGame)
             buildRows(uiGame)
             toString()
         }
 
-    private fun StringBuilder.buildHeader(uiGame: UiGame, getStrRes: (Int) -> String) {
-        append("${getStrRes(R.string.round)},")
-        append("${getStrRes(R.string.winner_).replace(":", "")},")
-        append("${getStrRes(R.string.discarder_)},")
-        append("${getStrRes(R.string.points_).replace(":", "")} ${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(TableWinds.EAST))},")
-        append("${getStrRes(R.string.points_).replace(":", "")} ${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(TableWinds.SOUTH))},")
-        append("${getStrRes(R.string.points_).replace(":", "")} ${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(TableWinds.WEST))},")
-        append("${getStrRes(R.string.points_).replace(":", "")} ${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(TableWinds.NORTH))},")
-        append("${getStrRes(R.string.penalty)} ${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(TableWinds.EAST))},")
-        append("${getStrRes(R.string.penalty)} ${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(TableWinds.SOUTH))},")
-        append("${getStrRes(R.string.penalty)} ${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(TableWinds.WEST))},")
-        append("${getStrRes(R.string.penalty)} ${normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(TableWinds.NORTH))}")
+    private fun StringBuilder.buildHeader(uiGame: UiGame) {
+        val initialEastPlayerName = normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(EAST))
+        val initialSouthPlayerName = normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(SOUTH))
+        val initialWestPlayerName = normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(WEST))
+        val initialNorthPlayerName = normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(NORTH))
+
+        append("Round,")
+        append("Winner,")
+        append("Discarder,")
+        append("Points_$initialEastPlayerName,")
+        append("Points_$initialSouthPlayerName,")
+        append("Points_$initialWestPlayerName,")
+        append("Points_$initialNorthPlayerName,")
+        append("Penalty_$initialEastPlayerName,")
+        append("Penalty_$initialSouthPlayerName,")
+        append("Penalty_$initialWestPlayerName,")
+        append("Penalty_$initialNorthPlayerName")
         appendLine()
     }
 
@@ -90,17 +88,15 @@ class ExportGameToCsvUseCase @Inject constructor(
                     else -> normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(uiRound.dbRound.discarderInitialSeat!!))
                 }
             ).also { append(",") }
-            append("${uiRound.pointsP1.toSignedString()},")
-            append("${uiRound.pointsP2.toSignedString()},")
-            append("${uiRound.pointsP3.toSignedString()},")
-            append("${uiRound.pointsP4.toSignedString()},")
-            append("${uiRound.dbRound.penaltyP1.toSignedString()},")
-            append("${uiRound.dbRound.penaltyP2.toSignedString()},")
-            append("${uiRound.dbRound.penaltyP3.toSignedString()},")
-            append(uiRound.dbRound.penaltyP4.toSignedString())
+            append("${uiRound.pointsP1},")
+            append("${uiRound.pointsP2},")
+            append("${uiRound.pointsP3},")
+            append("${uiRound.pointsP4},")
+            append("${uiRound.dbRound.penaltyP1},")
+            append("${uiRound.dbRound.penaltyP2},")
+            append("${uiRound.dbRound.penaltyP3},")
+            append(uiRound.dbRound.penaltyP4)
             appendLine()
         }
     }
-
-    private fun Int.toSignedString(): String = format(Locale.getDefault(), "%+d", this)
 }

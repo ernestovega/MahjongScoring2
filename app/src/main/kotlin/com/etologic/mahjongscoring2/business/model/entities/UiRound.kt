@@ -18,7 +18,7 @@
 package com.etologic.mahjongscoring2.business.model.entities
 
 import com.etologic.mahjongscoring2.app.base.RecyclerViewable
-import com.etologic.mahjongscoring2.data_source.model.DbRound
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 
 data class UiRound(
     var dbRound: DbRound

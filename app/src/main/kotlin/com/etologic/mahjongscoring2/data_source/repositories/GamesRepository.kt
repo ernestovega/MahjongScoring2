@@ -17,8 +17,8 @@
 package com.etologic.mahjongscoring2.data_source.repositories
 
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos.GamesDao
-import com.etologic.mahjongscoring2.data_source.model.DbGame
-import com.etologic.mahjongscoring2.data_source.model.GameId
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton

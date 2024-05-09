@@ -17,4 +17,4 @@
 
 package com.etologic.mahjongscoring2.business.model.exceptions
 
-class GameNotFoundException(message: String) : Exception(message)
+class GameNotFoundException : Exception()

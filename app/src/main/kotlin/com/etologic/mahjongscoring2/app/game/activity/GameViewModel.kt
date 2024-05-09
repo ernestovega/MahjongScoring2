@@ -39,7 +39,7 @@ import com.etologic.mahjongscoring2.business.use_cases.CancelPenaltyUseCase
 import com.etologic.mahjongscoring2.business.use_cases.EditGameNamesUseCase
 import com.etologic.mahjongscoring2.business.use_cases.EndGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToCsvUseCase
-import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
+import com.etologic.mahjongscoring2.business.use_cases.ExportGameResultsToTextUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetOneGameFlowUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuDiscardUseCase
@@ -49,8 +49,8 @@ import com.etologic.mahjongscoring2.business.use_cases.RemoveRoundUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ResumeGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.SaveIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.SetPenaltyUseCase
-import com.etologic.mahjongscoring2.data_source.model.GameId
-import com.etologic.mahjongscoring2.data_source.model.RoundId
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.RoundId
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -76,7 +76,7 @@ class GameViewModel @AssistedInject constructor(
     private val removeRoundUseCase: RemoveRoundUseCase,
     private val resumeGameUseCase: ResumeGameUseCase,
     private val endGameUseCase: EndGameUseCase,
-    private val exportGameToTextUseCase: ExportGameToTextUseCase,
+    private val exportGameResultsToTextUseCase: ExportGameResultsToTextUseCase,
     private val exportGameToCsvUseCase: ExportGameToCsvUseCase,
     getIsDiffCalcsFeatureEnabledUseCase: GetIsDiffCalcsFeatureEnabledUseCase,
     private val saveIsDiffCalcsFeatureEnabledUseCase: SaveIsDiffCalcsFeatureEnabledUseCase,
@@ -262,14 +262,14 @@ class GameViewModel @AssistedInject constructor(
     }
 
     //SHARE ACTIONS
-    fun shareGame(option: ShareGameOptions, getExternalFilesDir: () -> File?, getStringRes: (Int) -> String) {
+    fun shareGame(option: ShareGameOptions, getExternalFilesDir: () -> File?) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 when (option) {
-                    TEXT -> exportGameToTextUseCase.invoke(gameId, getStringRes)
+                    TEXT -> exportGameResultsToTextUseCase.invoke(gameId)
                         .fold(_exportedText::postValue, ::showError)
 
-                    CSV -> exportGameToCsvUseCase.invoke(gameId, getExternalFilesDir, getStringRes)
+                    CSV -> exportGameToCsvUseCase.invoke(gameId, getExternalFilesDir)
                         .fold(_exportedFiles::postValue, ::showError)
                 }
             }

@@ -158,8 +158,8 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> openDrawer()
-            R.id.action_export_db -> lifecycleScope.launch { viewModel.exportDb({ getExternalFilesDir(null) }, { getString(it) }) }
-            R.id.action_share_all_games -> lifecycleScope.launch { viewModel.shareAllGames({ getExternalFilesDir(null) }, { getString(it) }) }
+            R.id.action_export_db -> lifecycleScope.launch { viewModel.exportDb { getExternalFilesDir(null) } }
+            R.id.action_share_all_games -> lifecycleScope.launch { viewModel.shareAllGames { getExternalFilesDir(null) } }
             R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
             R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
             else -> return super.onOptionsItemSelected(item)
@@ -171,9 +171,9 @@ class MainActivity : BaseActivity() {
         viewModel.getError().observe(this) { showError(it) }
         viewModel.getCurrentToolbar().observe(this) { setToolbar(it) }
         viewModel.getCurrentScreen().observe(this) { goToScreen(it, this, viewModel) }
-        viewModel.getExportedFiles().observe(this) { shareFiles(it,) }
+        viewModel.getExportedFiles().observe(this) { shareFiles(it) }
         viewModel.getExportedText().observe(this) { shareText(it) }
-        viewModel.getExportedFiles().observe(this) { shareFiles(it,) }
+        viewModel.getExportedFiles().observe(this) { shareFiles(it) }
         lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling) } }
     }
 

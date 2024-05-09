@@ -17,7 +17,6 @@
 
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.utils.writeToFile
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
@@ -25,57 +24,48 @@ import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundExcept
 import com.etologic.mahjongscoring2.business.model.exceptions.GamesNotFoundException
 import kotlinx.coroutines.flow.firstOrNull
 import java.io.File
-import java.lang.String.format
-import java.util.Locale
 import javax.inject.Inject
 
 class ExportAllGamesToCsvUseCase @Inject constructor(
     private val getAllGamesFlowUseCase: GetAllGamesFlowUseCase
 ) {
     @Throws(GameNotFoundException::class)
-    suspend operator fun invoke(
-        getExternalFilesDir: () -> File?,
-        getStringRes: (Int) -> String,
-    ): Result<List<File>> = runCatching {
-        val uiGames = getAllGamesFlowUseCase.invoke().firstOrNull() ?: throw GamesNotFoundException(getStringRes(R.string.ups_something_wrong))
-        val csvText = buildCsvText(uiGames, getStringRes)
-        val csvFile = writeToFile(
-            name = getStringRes(R.string.games),
-            csvText = csvText,
-            externalFilesDir = getExternalFilesDir.invoke(),
-        )
-        listOf(csvFile)
-    }
+    suspend operator fun invoke(getExternalFilesDir: () -> File?): Result<List<File>> =
+        runCatching {
+            val uiGames = getAllGamesFlowUseCase.invoke().firstOrNull() ?: throw GamesNotFoundException()
+            val csvText = buildCsvText(uiGames)
+            val csvFile = writeToFile(
+                name = "Games",
+                csvText = csvText,
+                externalFilesDir = getExternalFilesDir.invoke(),
+            )
+            listOf(csvFile)
+        }
 
-    private fun buildCsvText(uiGames: List<UiGame>, getStrRes: (Int) -> String): String =
+    private fun buildCsvText(uiGames: List<UiGame>): String =
         with(StringBuilder()) {
-            buildHeader(getStrRes)
+            buildHeader()
             buildRows(uiGames)
             toString()
         }
 
-    private fun StringBuilder.buildHeader(getStrRes: (Int) -> String) {
-        val pointsWord = getStrRes(R.string.points_).replace(":", "")
-        val player1Abbr = "${getStrRes(R.string.player_abbr)}1"
-        val player2Abbr = "${getStrRes(R.string.player_abbr)}2"
-        val player3Abbr = "${getStrRes(R.string.player_abbr)}3"
-        val player4Abbr = "${getStrRes(R.string.player_abbr)}4"
-        append("${getStrRes(R.string.game_name)},")
-        append("${getStrRes(R.string.round)},")
-        append("${getStrRes(R.string.winner_).replace(":", "")},")
-        append("${getStrRes(R.string.discarder_)},")
-        append("${getStrRes(R.string.name)}_${player1Abbr},")
-        append("${getStrRes(R.string.name)}_${player2Abbr},")
-        append("${getStrRes(R.string.name)}_${player3Abbr},")
-        append("${getStrRes(R.string.name)}_${player4Abbr},")
-        append("${pointsWord}_${player1Abbr},")
-        append("${pointsWord}_${player2Abbr},")
-        append("${pointsWord}_${player3Abbr},")
-        append("${pointsWord}_${player4Abbr},")
-        append("${getStrRes(R.string.penalty)}_${player1Abbr},")
-        append("${getStrRes(R.string.penalty)}_${player2Abbr},")
-        append("${getStrRes(R.string.penalty)}_${player3Abbr},")
-        append("${getStrRes(R.string.penalty)}_${player4Abbr}")
+    private fun StringBuilder.buildHeader() {
+        append("Game name,")
+        append("Round,")
+        append("Winner,")
+        append("Discarder,")
+        append("Name P1,")
+        append("Name P2,")
+        append("Name P3,")
+        append("Name P4,")
+        append("Points P1,")
+        append("Points P2,")
+        append("Points P3,")
+        append("Points P4,")
+        append("Penalty P1,")
+        append("Penalty P2,")
+        append("Penalty P3,")
+        append("Penalty P4")
         appendLine()
     }
 
@@ -89,37 +79,35 @@ class ExportAllGamesToCsvUseCase @Inject constructor(
                 /*GameName*/append("${uiGame.dbGame.gameName},")
                 /*Round*/append("${uiRound.roundNumber},")
                 /*Winner*/append(
-                    when (uiRound.dbRound.winnerInitialSeat) {
-                        null,
-                        NONE -> "-"
+                when (uiRound.dbRound.winnerInitialSeat) {
+                    null,
+                    NONE -> "-"
 
-                        else -> normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(uiRound.dbRound.winnerInitialSeat!!))
-                    }
-                ).also { append(",") }
+                    else -> normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(uiRound.dbRound.winnerInitialSeat!!))
+                }
+            ).also { append(",") }
                 /*Discarder*/append(
-                    when (uiRound.dbRound.discarderInitialSeat) {
-                        null,
-                        NONE -> "-"
+                when (uiRound.dbRound.discarderInitialSeat) {
+                    null,
+                    NONE -> "-"
 
-                        else -> normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(uiRound.dbRound.discarderInitialSeat!!))
-                    }
-                ).also { append(",") }
-                /*NameP1*/append("${nameP1},")
-                /*NameP2*/append("${nameP2},")
-                /*NameP3*/append("${nameP3},")
-                /*NameP4*/append("${nameP4},")
-                /*PointsP1*/append("${uiRound.pointsP1.toSignedString()},")
-                /*PointsP2*/append("${uiRound.pointsP2.toSignedString()},")
-                /*PointsP3*/append("${uiRound.pointsP3.toSignedString()},")
-                /*PointsP4*/append("${uiRound.pointsP4.toSignedString()},")
-                /*PenaltyP1*/append("${uiRound.dbRound.penaltyP1.toSignedString()},")
-                /*PenaltyP2*/append("${uiRound.dbRound.penaltyP2.toSignedString()},")
-                /*PenaltyP3*/append("${uiRound.dbRound.penaltyP3.toSignedString()},")
-                /*PenaltyP4*/append(uiRound.dbRound.penaltyP4.toSignedString())
+                    else -> normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(uiRound.dbRound.discarderInitialSeat!!))
+                }
+            ).also { append(",") }
+                /*Name P1*/append("${nameP1},")
+                /*Name P2*/append("${nameP2},")
+                /*Name P3*/append("${nameP3},")
+                /*Name P4*/append("${nameP4},")
+                /*Points P1*/append("${uiRound.pointsP1},")
+                /*Points P2*/append("${uiRound.pointsP2},")
+                /*Points P3*/append("${uiRound.pointsP3},")
+                /*Points P4*/append("${uiRound.pointsP4},")
+                /*Penalty P1*/append("${uiRound.dbRound.penaltyP1},")
+                /*Penalty P2*/append("${uiRound.dbRound.penaltyP2},")
+                /*Penalty P3*/append("${uiRound.dbRound.penaltyP3},")
+                /*Penalty P4*/append("${uiRound.dbRound.penaltyP4}")
                 appendLine()
             }
         }
     }
-
-    private fun Int.toSignedString(): String = format(Locale.getDefault(), "%+d", this)
 }

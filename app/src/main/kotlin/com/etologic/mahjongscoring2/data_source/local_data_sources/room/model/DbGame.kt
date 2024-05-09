@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.data_source.model
+package com.etologic.mahjongscoring2.data_source.local_data_sources.room.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

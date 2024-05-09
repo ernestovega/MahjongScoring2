@@ -24,8 +24,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.AppDatabase
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.Migration1to2
-import com.etologic.mahjongscoring2.data_source.model.DbGame
-import com.etologic.mahjongscoring2.data_source.model.DbRound
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
