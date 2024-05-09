@@ -33,7 +33,7 @@ android {
         targetSdk = 34
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         versionCode = 6
-        versionName = "2.1.1"
+        versionName = "2.2.0"
 
         ksp {
             arg("correctErrorTypes", "true")
