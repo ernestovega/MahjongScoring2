@@ -18,7 +18,6 @@ package com.etologic.mahjongscoring2.business.model.dtos
 
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.RoundId
 
 data class BestHand(
     val roundNumber: Int = 0,

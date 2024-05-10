@@ -29,7 +29,7 @@ import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.app.utils.toStringSigned
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
+import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.databinding.MainOldgameItemBinding
 import javax.inject.Inject
 

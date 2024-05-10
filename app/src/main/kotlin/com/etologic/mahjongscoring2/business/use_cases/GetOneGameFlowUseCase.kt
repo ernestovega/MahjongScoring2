@@ -16,16 +16,14 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-import android.util.Log
+import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiRound
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class GetOneGameFlowUseCase @Inject constructor(
@@ -49,8 +47,21 @@ class GetOneGameFlowUseCase @Inject constructor(
                     startDate = dbGame.startDate,
                     endDate = dbGame.endDate,
                     gameName = dbGame.gameName,
-                    uiRounds = dbRounds.map { UiRound(it) },
+                    uiRounds = dbRounds.map { dbRound ->
+                        UiRound(
+                            gameId = dbRound.gameId,
+                            roundId = dbRound.roundId,
+                            winnerInitialSeat = dbRound.winnerInitialSeat,
+                            discarderInitialSeat = dbRound.discarderInitialSeat,
+                            handPoints = dbRound.handPoints,
+                            penaltyP1 = dbRound.penaltyP1,
+                            penaltyP2 = dbRound.penaltyP2,
+                            penaltyP3 = dbRound.penaltyP3,
+                            penaltyP4 = dbRound.penaltyP4,
+                        )
+                    },
                 )
             }
-        }.filterNotNull()
+        }
+            .filterNotNull()
 }

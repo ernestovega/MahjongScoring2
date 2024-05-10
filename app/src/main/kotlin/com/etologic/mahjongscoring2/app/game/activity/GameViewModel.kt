@@ -49,8 +49,8 @@ import com.etologic.mahjongscoring2.business.use_cases.RemoveRoundUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ResumeGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.SaveIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.SetPenaltyUseCase
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.RoundId
+import com.etologic.mahjongscoring2.business.model.entities.GameId
+import com.etologic.mahjongscoring2.business.model.entities.RoundId
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

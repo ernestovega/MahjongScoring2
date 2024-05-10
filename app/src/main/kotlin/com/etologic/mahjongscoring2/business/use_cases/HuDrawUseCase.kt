@@ -17,8 +17,9 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
-import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import javax.inject.Inject
 
@@ -27,11 +28,20 @@ class HuDrawUseCase @Inject constructor(
     private val endRoundUseCase: EndRoundUseCase,
 ) {
     suspend operator fun invoke(uiGame: UiGame): Result<Boolean> =
-        roundsRepository.updateOne(uiGame.currentRound.applyDraw().dbRound)
+        with(uiGame.currentRound) {
+            roundsRepository.updateOne(
+                DbRound(
+                    gameId = this.gameId,
+                    roundId = this.roundId,
+                    winnerInitialSeat = NONE,
+                    discarderInitialSeat = NONE,
+                    handPoints = this.handPoints,
+                    penaltyP1 = this.penaltyP1,
+                    penaltyP2 = this.penaltyP2,
+                    penaltyP3 = this.penaltyP3,
+                    penaltyP4 = this.penaltyP4,
+                )
+            )
+        }
             .onSuccess { endRoundUseCase(uiGame) }
-}
-
-fun UiRound.applyDraw(): UiRound = apply {
-    this.dbRound.winnerInitialSeat = TableWinds.NONE
-    this.dbRound.discarderInitialSeat = TableWinds.NONE
 }

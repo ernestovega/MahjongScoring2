@@ -17,6 +17,7 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.business.model.entities.UiRound.Companion.NOT_SET_ROUND_ID
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import javax.inject.Inject
@@ -27,7 +28,12 @@ class EndRoundUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(uiGame: UiGame): Result<Boolean> =
         if (uiGame.uiRounds.size < UiGame.MAX_MCR_ROUNDS) {
-            roundsRepository.insertOne(DbRound(uiGame.gameId))
+            roundsRepository.insertOne(
+                DbRound(
+                    gameId = uiGame.gameId,
+                    roundId = NOT_SET_ROUND_ID
+                )
+            )
         } else {
             endGameUseCase(uiGame)
         }

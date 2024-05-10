@@ -22,10 +22,10 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import com.etologic.mahjongscoring2.business.model.entities.GameId
+import com.etologic.mahjongscoring2.business.model.entities.RoundId
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.converters.TableWindsConverter
-
-typealias RoundId = Long
 
 @Entity(
     tableName = "Rounds",
@@ -43,20 +43,34 @@ data class DbRound(
     val gameId: GameId,
     @field:PrimaryKey(autoGenerate = true) val roundId: RoundId,
 ) {
-    @TypeConverters(TableWindsConverter::class) var winnerInitialSeat: TableWinds? = null
-    @TypeConverters(TableWindsConverter::class) var discarderInitialSeat: TableWinds? = null
+    @TypeConverters(TableWindsConverter::class)
+    var winnerInitialSeat: TableWinds? = null
+
+    @TypeConverters(TableWindsConverter::class)
+    var discarderInitialSeat: TableWinds? = null
     var handPoints: Int = 0
     var penaltyP1: Int = 0
     var penaltyP2: Int = 0
     var penaltyP3: Int = 0
     var penaltyP4: Int = 0
 
-    constructor(gameId: GameId) : this(
-        gameId = gameId,
-        roundId = NOT_SET_ROUND_ID
-    )
-
-    companion object {
-        private const val NOT_SET_ROUND_ID: RoundId = 0
+    constructor(
+        gameId: GameId,
+        roundId: RoundId,
+        winnerInitialSeat: TableWinds?,
+        discarderInitialSeat: TableWinds?,
+        handPoints: Int,
+        penaltyP1: Int,
+        penaltyP2: Int,
+        penaltyP3: Int,
+        penaltyP4: Int,
+    ) : this(gameId, roundId) {
+        this.winnerInitialSeat = winnerInitialSeat
+        this.discarderInitialSeat = discarderInitialSeat
+        this.handPoints = handPoints
+        this.penaltyP1 = penaltyP1
+        this.penaltyP2 = penaltyP2
+        this.penaltyP3 = penaltyP3
+        this.penaltyP4 = penaltyP4
     }
 }

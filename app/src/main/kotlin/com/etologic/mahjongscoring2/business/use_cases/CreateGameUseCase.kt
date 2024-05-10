@@ -16,10 +16,11 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
+import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
+import com.etologic.mahjongscoring2.business.model.entities.UiRound.Companion.NOT_SET_ROUND_ID
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import java.util.Date
@@ -48,5 +49,12 @@ class CreateGameUseCase @Inject constructor(
                 endDate = null,
             )
         )
-            .onSuccess { gameId -> roundsRepository.insertOne(DbRound(gameId)) }
+            .onSuccess { gameId ->
+                roundsRepository.insertOne(
+                    DbRound(
+                        gameId = gameId,
+                        roundId = NOT_SET_ROUND_ID
+                    )
+                )
+            }
 }

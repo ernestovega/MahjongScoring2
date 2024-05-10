@@ -20,6 +20,8 @@ import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import javax.inject.Inject
 
@@ -28,12 +30,20 @@ class HuDiscardUseCase @Inject constructor(
     private val endRoundUseCase: EndRoundUseCase,
 ) {
     suspend operator fun invoke(uiGame: UiGame, huData: HuData): Result<Boolean> =
-        roundsRepository.updateOne(uiGame.currentRound.applyHuDiscard(huData).dbRound)
+        with(uiGame.currentRound) {
+            roundsRepository.updateOne(
+                DbRound(
+                    gameId = this.gameId,
+                    roundId = this.roundId,
+                    winnerInitialSeat = huData.winnerInitialSeat,
+                    discarderInitialSeat = huData.discarderInitialSeat,
+                    handPoints = huData.points,
+                    penaltyP1 = this.penaltyP1,
+                    penaltyP2 = this.penaltyP2,
+                    penaltyP3 = this.penaltyP3,
+                    penaltyP4 = this.penaltyP4,
+                )
+            )
+        }
             .onSuccess { endRoundUseCase(uiGame) }
-
-    private fun UiRound.applyHuDiscard(huData: HuData): UiRound = apply {
-        this.dbRound.winnerInitialSeat = huData.winnerInitialSeat
-        this.dbRound.discarderInitialSeat = huData.discarderInitialSeat
-        this.dbRound.handPoints = huData.points
-    }
 }

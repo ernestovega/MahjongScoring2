@@ -79,19 +79,19 @@ class ExportAllGamesToCsvUseCase @Inject constructor(
                 /*GameName*/append("${uiGame.gameName},")
                 /*Round*/append("${uiRound.roundNumber},")
                 /*Winner*/append(
-                when (uiRound.dbRound.winnerInitialSeat) {
+                when (uiRound.winnerInitialSeat) {
                     null,
                     NONE -> "-"
 
-                    else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.dbRound.winnerInitialSeat!!))
+                    else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.winnerInitialSeat))
                 }
             ).also { append(",") }
                 /*Discarder*/append(
-                when (uiRound.dbRound.discarderInitialSeat) {
+                when (uiRound.discarderInitialSeat) {
                     null,
                     NONE -> "-"
 
-                    else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.dbRound.discarderInitialSeat!!))
+                    else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.discarderInitialSeat))
                 }
             ).also { append(",") }
                 /*Name P1*/append("${nameP1},")
@@ -102,10 +102,10 @@ class ExportAllGamesToCsvUseCase @Inject constructor(
                 /*Points P2*/append("${uiRound.pointsP2},")
                 /*Points P3*/append("${uiRound.pointsP3},")
                 /*Points P4*/append("${uiRound.pointsP4},")
-                /*Penalty P1*/append("${uiRound.dbRound.penaltyP1},")
-                /*Penalty P2*/append("${uiRound.dbRound.penaltyP2},")
-                /*Penalty P3*/append("${uiRound.dbRound.penaltyP3},")
-                /*Penalty P4*/append("${uiRound.dbRound.penaltyP4}")
+                /*Penalty P1*/append("${uiRound.penaltyP1},")
+                /*Penalty P2*/append("${uiRound.penaltyP2},")
+                /*Penalty P3*/append("${uiRound.penaltyP3},")
+                /*Penalty P4*/append("${uiRound.penaltyP4}")
                 appendLine()
             }
         }

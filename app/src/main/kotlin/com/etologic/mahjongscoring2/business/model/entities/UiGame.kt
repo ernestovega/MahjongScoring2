@@ -24,9 +24,9 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
 import java.util.Date
+
+typealias GameId = Long
 
 data class UiGame(
     val gameId: GameId,
@@ -85,31 +85,26 @@ data class UiGame(
     }
 
     private fun getRoundPoints(uiRound: UiRound): IntArray =
-        when (uiRound.dbRound.winnerInitialSeat) {
-            null,
-            NONE -> intArrayOf(
-                uiRound.dbRound.penaltyP1,
-                uiRound.dbRound.penaltyP2,
-                uiRound.dbRound.penaltyP3,
-                uiRound.dbRound.penaltyP4,
-            )
+        with(uiRound) {
+            when (winnerInitialSeat) {
+                null,
+                NONE -> intArrayOf(penaltyP1, penaltyP2, penaltyP3, penaltyP4)
 
-            else -> if (uiRound.dbRound.discarderInitialSeat == null ||
-                uiRound.dbRound.discarderInitialSeat == NONE
-            ) {
-                intArrayOf(
-                    calculateSelfPickSeatPoints(EAST, uiRound.dbRound) + uiRound.dbRound.penaltyP1,
-                    calculateSelfPickSeatPoints(SOUTH, uiRound.dbRound) + uiRound.dbRound.penaltyP2,
-                    calculateSelfPickSeatPoints(WEST, uiRound.dbRound) + uiRound.dbRound.penaltyP3,
-                    calculateSelfPickSeatPoints(NORTH, uiRound.dbRound) + uiRound.dbRound.penaltyP4,
-                )
-            } else {
-                intArrayOf(
-                    calculateDiscardSeatPoints(EAST, uiRound.dbRound) + uiRound.dbRound.penaltyP1,
-                    calculateDiscardSeatPoints(SOUTH, uiRound.dbRound) + uiRound.dbRound.penaltyP2,
-                    calculateDiscardSeatPoints(WEST, uiRound.dbRound) + uiRound.dbRound.penaltyP3,
-                    calculateDiscardSeatPoints(NORTH, uiRound.dbRound) + uiRound.dbRound.penaltyP4,
-                )
+                else -> if (discarderInitialSeat == null || discarderInitialSeat == NONE) {
+                    intArrayOf(
+                        penaltyP1 + calculateSelfPickSeatPoints(EAST, winnerInitialSeat, handPoints),
+                        penaltyP2 + calculateSelfPickSeatPoints(SOUTH, winnerInitialSeat, handPoints),
+                        penaltyP3 + calculateSelfPickSeatPoints(WEST, winnerInitialSeat, handPoints),
+                        penaltyP4 + calculateSelfPickSeatPoints(NORTH, winnerInitialSeat, handPoints),
+                    )
+                } else {
+                    intArrayOf(
+                        penaltyP1 + calculateDiscardSeatPoints(EAST, winnerInitialSeat, discarderInitialSeat, handPoints),
+                        penaltyP2 + calculateDiscardSeatPoints(SOUTH, winnerInitialSeat, discarderInitialSeat, handPoints),
+                        penaltyP3 + calculateDiscardSeatPoints(WEST, winnerInitialSeat, discarderInitialSeat, handPoints),
+                        penaltyP4 + calculateDiscardSeatPoints(NORTH, winnerInitialSeat, discarderInitialSeat, handPoints),
+                    )
+                }
             }
         }
 
@@ -124,31 +119,40 @@ data class UiGame(
         return totalPoints
     }
 
-    private fun calculateSelfPickSeatPoints(seat: TableWinds, dbRound: DbRound): Int =
-        if (seat == dbRound.winnerInitialSeat) {
-            getHuSelfPickWinnerPoints(dbRound.handPoints)
+    private fun calculateSelfPickSeatPoints(
+        seat: TableWinds,
+        winnerInitialSeat: TableWinds,
+        handPoints: Int,
+    ): Int =
+        if (seat == winnerInitialSeat) {
+            getHuSelfPickWinnerPoints(handPoints)
         } else {
-            getHuSelfPickDiscarderPoints(dbRound.handPoints)
+            getHuSelfPickDiscarderPoints(handPoints)
         }
 
-    private fun calculateDiscardSeatPoints(seat: TableWinds, dbRound: DbRound): Int =
+    private fun calculateDiscardSeatPoints(
+        seat: TableWinds,
+        winnerInitialSeat: TableWinds,
+        discarderInitialSeat: TableWinds,
+        handPoints: Int,
+    ): Int =
         when (seat) {
-            dbRound.winnerInitialSeat -> getHuDiscardWinnerPoints(dbRound.handPoints)
-            dbRound.discarderInitialSeat -> getHuDiscardDiscarderPoints(dbRound.handPoints)
+            winnerInitialSeat -> getHuDiscardWinnerPoints(handPoints)
+            discarderInitialSeat -> getHuDiscardDiscarderPoints(handPoints)
             else -> POINTS_DISCARD_NEUTRAL_PLAYERS
         }
 
     fun getBestHand(): BestHand {
         var bestHand = BestHand()
         this.uiRounds
-            .filter { it.dbRound.winnerInitialSeat != null }
+            .filter { it.winnerInitialSeat != null }
             .forEach { uiRound ->
-                if (uiRound.dbRound.handPoints > bestHand.handValue) {
+                if (uiRound.handPoints > bestHand.handValue) {
                     bestHand = BestHand(
                         roundNumber = uiRound.roundNumber,
-                        handValue = uiRound.dbRound.handPoints,
-                        playerInitialPosition = uiRound.dbRound.winnerInitialSeat!!,
-                        playerName = getPlayerNameByInitialPosition(uiRound.dbRound.winnerInitialSeat!!)
+                        handValue = uiRound.handPoints,
+                        playerInitialPosition = uiRound.winnerInitialSeat!!,
+                        playerName = getPlayerNameByInitialPosition(uiRound.winnerInitialSeat)
                     )
                 }
             }
@@ -236,10 +240,10 @@ data class UiGame(
 
     fun getPlayersPenaltiesByCurrentSeat(): IntArray {
         val penaltiesByInitialSeat = intArrayOf(
-            currentRound.dbRound.penaltyP1,
-            currentRound.dbRound.penaltyP2,
-            currentRound.dbRound.penaltyP3,
-            currentRound.dbRound.penaltyP4,
+            currentRound.penaltyP1,
+            currentRound.penaltyP2,
+            currentRound.penaltyP3,
+            currentRound.penaltyP4,
         )
         return intArrayOf(
             penaltiesByInitialSeat[getPlayerInitialSeatByCurrentSeat(EAST).code],

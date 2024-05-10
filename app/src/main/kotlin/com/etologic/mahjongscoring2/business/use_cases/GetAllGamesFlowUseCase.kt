@@ -22,6 +22,7 @@ import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
@@ -48,10 +49,22 @@ class GetAllGamesFlowUseCase @Inject constructor(
                         startDate = dbGame.startDate,
                         endDate = dbGame.endDate,
                         gameName = dbGame.gameName,
-                        uiRounds = gameRounds.map { UiRound(it) },
+                        uiRounds = dbRounds.map { dbRound ->
+                            UiRound(
+                                gameId = dbRound.gameId,
+                                roundId = dbRound.roundId,
+                                winnerInitialSeat = dbRound.winnerInitialSeat,
+                                discarderInitialSeat = dbRound.discarderInitialSeat,
+                                handPoints = dbRound.handPoints,
+                                penaltyP1 = dbRound.penaltyP1,
+                                penaltyP2 = dbRound.penaltyP2,
+                                penaltyP3 = dbRound.penaltyP3,
+                                penaltyP4 = dbRound.penaltyP4,
+                            )
+                        },
                     )
                 }
             }
-        }.mapNotNull { it }
-
+        }
+            .filterNotNull()
 }

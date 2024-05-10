@@ -20,39 +20,60 @@ import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import javax.inject.Inject
 
 class SetPenaltyUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
 ) {
-    suspend operator fun invoke(round: UiRound, penaltyData: PenaltyData): Result<Boolean> {
-        round.updatePenalties(penaltyData)
-        return roundsRepository.updateOne(round.dbRound)
-    }
+    suspend operator fun invoke(uiRound: UiRound, penaltyData: PenaltyData): Result<Boolean> =
+        roundsRepository.updateOne(
+            if (penaltyData.isDivided) {
+                getDbRoundApplyingAllPlayersPenaltyPoints(uiRound, penaltyData.penalizedPlayerInitialSeat, penaltyData.points)
+            } else {
+                getDbRoundApplyingOnePlayerPenaltyPoints(uiRound, penaltyData.penalizedPlayerInitialSeat, penaltyData.points)
+            }
+        )
 
-    private fun UiRound.updatePenalties(penaltyData: PenaltyData) {
-        if (penaltyData.isDivided) {
-            this.setAllPlayersPenaltyPoints(penaltyData.penalizedPlayerInitialSeat, penaltyData.points)
-        } else {
-            this.setPlayerPenaltyPoints(penaltyData.penalizedPlayerInitialSeat, penaltyData.points)
+    private fun getDbRoundApplyingAllPlayersPenaltyPoints(
+        uiRound: UiRound,
+        penalizedPlayerInitialSeat: TableWinds,
+        penaltyPoints: Int
+    ): DbRound =
+        with(uiRound) {
+            UiGame.getPenaltyOtherPlayersPoints(penaltyPoints).let { noPenalizedPlayerPoints ->
+                DbRound(
+                    gameId = gameId,
+                    roundId = roundId,
+                    winnerInitialSeat = winnerInitialSeat,
+                    discarderInitialSeat = discarderInitialSeat,
+                    handPoints = handPoints,
+                    penaltyP1 = penaltyP1 + if (EAST === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints,
+                    penaltyP2 = penaltyP2 + if (SOUTH === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints,
+                    penaltyP3 = penaltyP3 + if (WEST === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints,
+                    penaltyP4 = penaltyP4 + if (NORTH === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints,
+                )
+            }
         }
-    }
 
-    private fun UiRound.setPlayerPenaltyPoints(penalizedPlayerInitialPosition: TableWinds, penaltyPoints: Int) {
-        when (penalizedPlayerInitialPosition) {
-            TableWinds.EAST -> this.dbRound.penaltyP1 -= penaltyPoints
-            TableWinds.SOUTH -> this.dbRound.penaltyP2 -= penaltyPoints
-            TableWinds.WEST -> this.dbRound.penaltyP3 -= penaltyPoints
-            else -> this.dbRound.penaltyP4 -= penaltyPoints
+    private fun getDbRoundApplyingOnePlayerPenaltyPoints(
+        uiRound: UiRound,
+        penalizedPlayerInitialPosition: TableWinds,
+        penaltyPoints: Int
+    ): DbRound =
+        with(uiRound) {
+            DbRound(
+                gameId = gameId,
+                roundId = roundId,
+                winnerInitialSeat = winnerInitialSeat,
+                discarderInitialSeat = discarderInitialSeat,
+                handPoints = handPoints,
+                penaltyP1 = if (penalizedPlayerInitialPosition == EAST) penaltyP1 - penaltyPoints else penaltyP1,
+                penaltyP2 = if (penalizedPlayerInitialPosition == SOUTH) penaltyP2 - penaltyPoints else penaltyP2,
+                penaltyP3 = if (penalizedPlayerInitialPosition == WEST) penaltyP3 - penaltyPoints else penaltyP3,
+                penaltyP4 = if (penalizedPlayerInitialPosition == NORTH) penaltyP4 - penaltyPoints else penaltyP4,
+            )
         }
-    }
-
-    private fun UiRound.setAllPlayersPenaltyPoints(penalizedPlayerInitialSeat: TableWinds, penaltyPoints: Int) {
-        val noPenalizedPlayerPoints = UiGame.getPenaltyOtherPlayersPoints(penaltyPoints)
-        this.dbRound.penaltyP1 += if (TableWinds.EAST === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
-        this.dbRound.penaltyP2 += if (TableWinds.SOUTH === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
-        this.dbRound.penaltyP3 += if (TableWinds.WEST === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
-        this.dbRound.penaltyP4 += if (TableWinds.NORTH === penalizedPlayerInitialSeat) -penaltyPoints else noPenalizedPlayerPoints
-    }
 }

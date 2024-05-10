@@ -23,7 +23,7 @@ import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
 import com.etologic.mahjongscoring2.business.model.exceptions.RankingDataGenerationException
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
+import com.etologic.mahjongscoring2.business.model.entities.GameId
 import kotlinx.coroutines.flow.firstOrNull
 import java.lang.String.format
 import java.util.Locale
@@ -79,15 +79,15 @@ class ExportGameResultsToTextUseCase @Inject constructor(
 //        appendLine("(${getStrRes(R.string.rounds_dont_count_penalties)})")
 //        appendLine()
 //        uiGame.uiRounds.forEach { round ->
-//            if (round.dbRound.winnerInitialSeat != null || round.areTherePenalties()) {
+//            if (round.winnerInitialSeat != null || round.areTherePenalties()) {
 //                append(round.roundNumber.toString().padStart(2))
 //                appendLine()
 //                append("${getStrRes(R.string.winner_)} ")
 //                append(
-//                    when (round.dbRound.winnerInitialSeat) {
+//                    when (round.winnerInitialSeat) {
 //                        null -> "-"
 //                        NONE -> getStrRes(R.string.draw)
-//                        else -> normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(round.dbRound.winnerInitialSeat!!))
+//                        else -> normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(round.winnerInitialSeat!!))
 //                    }
 //                )
 //                appendLine()
@@ -95,7 +95,7 @@ class ExportGameResultsToTextUseCase @Inject constructor(
 //                appendLine()
 //                append("${getStrRes(R.string.from)}: ")
 //                append(
-//                    when (round.dbRound.discarderInitialSeat) {
+//                    when (round.discarderInitialSeat) {
 //                        null -> "-"
 //                        NONE -> when (round.dbRound.winnerInitialSeat) {
 //                            null -> "-"
@@ -110,12 +110,12 @@ class ExportGameResultsToTextUseCase @Inject constructor(
 //                if (round.areTherePenalties()) {
 //                    appendLine()
 //                    appendLine("${getStrRes(R.string.penalties)}: ")
-//                    appendLine("$initialEastPlayerName: ${round.dbRound.penaltyP1.toSignedString()}")
-//                    appendLine("$initialSouthPlayerName: ${round.dbRound.penaltyP2.toSignedString()}")
-//                    appendLine("$initialWestPlayerName: ${round.dbRound.penaltyP3.toSignedString()}")
-//                    appendLine("$initialNorthPlayerName: ${round.dbRound.penaltyP4.toSignedString()}")
+//                    appendLine("$initialEastPlayerName: ${round.penaltyP1.toSignedString()}")
+//                    appendLine("$initialSouthPlayerName: ${round.penaltyP2.toSignedString()}")
+//                    appendLine("$initialWestPlayerName: ${round.penaltyP3.toSignedString()}")
+//                    appendLine("$initialNorthPlayerName: ${round.penaltyP4.toSignedString()}")
 //                }
-//                if (round.dbRound.discarderInitialSeat != null && round.dbRound.discarderInitialSeat != NONE) {
+//                if (round.discarderInitialSeat != null && round.discarderInitialSeat != NONE) {
 //                    appendLine()
 //                    appendLine("${getStrRes(R.string.partials)}: ")
 //                    appendLine("$initialEastPlayerName: ${round.pointsP1.toSignedString()}")

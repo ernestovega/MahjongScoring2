@@ -21,7 +21,7 @@ import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.use_cases.DeleteGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetAllGamesFlowUseCase
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
+import com.etologic.mahjongscoring2.business.model.entities.GameId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted

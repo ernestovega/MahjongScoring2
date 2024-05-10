@@ -39,7 +39,7 @@ import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTa
 import com.etologic.mahjongscoring2.app.utils.toStringSigned
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiRound
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.RoundId
+import com.etologic.mahjongscoring2.business.model.entities.RoundId
 import com.etologic.mahjongscoring2.databinding.GameListFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -143,10 +143,10 @@ class GameListFragment : BaseFragment() {
     private fun setFooter(uiGame: UiGame) {
         with(binding) {
             if (uiGame.currentRound.areTherePenalties()) {
-                tvGameListFooterTotalPenaltiesP1.text = uiGame.currentRound.dbRound.penaltyP1.toStringSigned()
-                tvGameListFooterTotalPenaltiesP2.text = uiGame.currentRound.dbRound.penaltyP2.toStringSigned()
-                tvGameListFooterTotalPenaltiesP3.text = uiGame.currentRound.dbRound.penaltyP3.toStringSigned()
-                tvGameListFooterTotalPenaltiesP4.text = uiGame.currentRound.dbRound.penaltyP4.toStringSigned()
+                tvGameListFooterTotalPenaltiesP1.text = uiGame.currentRound.penaltyP1.toStringSigned()
+                tvGameListFooterTotalPenaltiesP2.text = uiGame.currentRound.penaltyP2.toStringSigned()
+                tvGameListFooterTotalPenaltiesP3.text = uiGame.currentRound.penaltyP3.toStringSigned()
+                tvGameListFooterTotalPenaltiesP4.text = uiGame.currentRound.penaltyP4.toStringSigned()
                 llGameListFooterTotalPenalties.visibility = VISIBLE
             } else {
                 llGameListFooterTotalPenalties.visibility = GONE

@@ -21,7 +21,7 @@ import com.etologic.mahjongscoring2.app.utils.writeToFile
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
+import com.etologic.mahjongscoring2.business.model.entities.GameId
 import kotlinx.coroutines.flow.firstOrNull
 import java.io.File
 import javax.inject.Inject
@@ -73,29 +73,29 @@ class ExportGameToCsvUseCase @Inject constructor(
         uiGame.uiRounds.forEach { uiRound ->
             append("${uiRound.roundNumber},")
             append(
-                when (uiRound.dbRound.winnerInitialSeat) {
+                when (uiRound.winnerInitialSeat) {
                     null,
                     NONE -> "-"
 
-                    else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.dbRound.winnerInitialSeat!!))
+                    else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.winnerInitialSeat))
                 }
             ).also { append(",") }
             append(
-                when (uiRound.dbRound.discarderInitialSeat) {
+                when (uiRound.discarderInitialSeat) {
                     null,
                     NONE -> "-"
 
-                    else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.dbRound.discarderInitialSeat!!))
+                    else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.discarderInitialSeat))
                 }
             ).also { append(",") }
             append("${uiRound.pointsP1},")
             append("${uiRound.pointsP2},")
             append("${uiRound.pointsP3},")
             append("${uiRound.pointsP4},")
-            append("${uiRound.dbRound.penaltyP1},")
-            append("${uiRound.dbRound.penaltyP2},")
-            append("${uiRound.dbRound.penaltyP3},")
-            append(uiRound.dbRound.penaltyP4)
+            append("${uiRound.penaltyP1},")
+            append("${uiRound.penaltyP2},")
+            append("${uiRound.penaltyP3},")
+            append(uiRound.penaltyP4)
             appendLine()
         }
     }

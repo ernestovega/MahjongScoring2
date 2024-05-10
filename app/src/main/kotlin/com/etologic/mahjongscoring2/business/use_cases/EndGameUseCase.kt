@@ -17,7 +17,10 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import java.util.Date
@@ -30,14 +33,31 @@ class EndGameUseCase @Inject constructor(
     suspend operator fun invoke(uiGame: UiGame): Result<Boolean> =
         if (uiGame.currentRound.isNotEnded()) {
             if (uiGame.currentRound.areTherePenalties()) {
-                roundsRepository.updateOne(uiGame.currentRound.applyDraw().dbRound)
+                // Apply draw
+                roundsRepository.updateOne(
+                    DbRound(
+                        gameId = uiGame.currentRound.gameId,
+                        roundId = uiGame.currentRound.roundId,
+                        winnerInitialSeat = NONE,
+                        discarderInitialSeat = NONE,
+                        handPoints = uiGame.currentRound.handPoints,
+                        penaltyP1 = uiGame.currentRound.penaltyP1,
+                        penaltyP2 = uiGame.currentRound.penaltyP2,
+                        penaltyP3 = uiGame.currentRound.penaltyP3,
+                        penaltyP4 = uiGame.currentRound.penaltyP4,
+                    )
+                )
             } else {
-                roundsRepository.deleteOne(uiGame.gameId, uiGame.currentRound.dbRound.roundId)
+                roundsRepository.deleteOne(
+                    gameId = uiGame.gameId,
+                    roundId = uiGame.currentRound.roundId
+                )
             }
         } else {
             Result.success(true)
         }
             .onSuccess {
+                // Apply game end
                 gamesRepository.updateOne(
                     DbGame(
                         gameId = uiGame.gameId,

@@ -18,6 +18,7 @@ package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MAX_MCR_ROUNDS
+import com.etologic.mahjongscoring2.business.model.entities.UiRound.Companion.NOT_SET_ROUND_ID
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
@@ -44,7 +45,10 @@ class ResumeGameUseCase @Inject constructor(
                 )
             )
             roundsRepository.insertOne(
-                DbRound(uiGame.gameId)
+                DbRound(
+                    gameId = uiGame.gameId,
+                    roundId = NOT_SET_ROUND_ID
+                )
             )
         } else {
             Result.success(false)

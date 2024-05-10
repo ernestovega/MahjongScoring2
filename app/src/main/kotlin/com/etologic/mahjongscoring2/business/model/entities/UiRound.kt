@@ -19,13 +19,21 @@ package com.etologic.mahjongscoring2.business.model.entities
 
 import com.etologic.mahjongscoring2.app.base.RecyclerViewable
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds
+
+typealias RoundId = Long
 
 data class UiRound(
-    var dbRound: DbRound
+    val gameId: GameId,
+    val roundId: RoundId,
+    val winnerInitialSeat: TableWinds?,
+    val discarderInitialSeat: TableWinds?,
+    val handPoints: Int,
+    val penaltyP1: Int,
+    val penaltyP2: Int,
+    val penaltyP3: Int,
+    val penaltyP4: Int,
 ) : RecyclerViewable<UiRound>() {
-
-    constructor() : this(DbRound(NOT_SET_GAME_ID))
 
     var roundNumber: Int = 0
     var pointsP1: Int = 0
@@ -38,18 +46,26 @@ data class UiRound(
     var totalPointsP4: Int = 0
     var isBestHand: Boolean = false
 
-    fun isNotEnded(): Boolean =
-        dbRound.winnerInitialSeat == null
+    constructor() : this(
+        gameId = NOT_SET_GAME_ID,
+        roundId = NOT_SET_ROUND_ID,
+        winnerInitialSeat = null,
+        discarderInitialSeat = null,
+        handPoints = 0,
+        penaltyP1 = 0,
+        penaltyP2 = 0,
+        penaltyP3 = 0,
+        penaltyP4 = 0,
+    )
+
+    fun isNotEnded(): Boolean = winnerInitialSeat == null
 
     fun areTherePenalties(): Boolean =
-        dbRound.penaltyP1 != 0 ||
-                dbRound.penaltyP2 != 0 ||
-                dbRound.penaltyP3 != 0 ||
-                dbRound.penaltyP4 != 0
+        penaltyP1 != 0 || penaltyP2 != 0 || penaltyP3 != 0 || penaltyP4 != 0
 
     override fun compareIdTo(`object`: UiRound): Boolean =
-        dbRound.gameId == `object`.dbRound.gameId &&
-                dbRound.roundId == `object`.dbRound.roundId
+        gameId == `object`.gameId &&
+                roundId == `object`.roundId
 
     override fun compareContentsTo(`object`: UiRound): Boolean =
         areEqual(this, `object`)
@@ -68,33 +84,37 @@ data class UiRound(
     }
 
     companion object {
+        const val NOT_SET_ROUND_ID: RoundId = 0
+
         fun areEqual(rounds1: List<UiRound>?, rounds2: List<UiRound>?): Boolean {
-            if (rounds1 == null && rounds2 == null)
+            if (rounds1 == null && rounds2 == null) {
                 return true
-            else if (rounds1 != null && rounds2 != null) {
-                if (rounds1.size != rounds2.size)
+            } else if (rounds1 != null && rounds2 != null) {
+                if (rounds1.size != rounds2.size) {
                     return false
-                else {
+                } else {
                     for (i in rounds1.indices) {
-                        if (!areEqual(rounds1[i], rounds2[i]))
+                        if (!areEqual(rounds1[i], rounds2[i])) {
                             return false
+                        }
                     }
                     return true
                 }
-            } else
+            } else {
                 return false
+            }
         }
 
-        private fun areEqual(round1: UiRound, round2: UiRound): Boolean {
-            return round1.dbRound.gameId == round2.dbRound.gameId &&
-                    round1.dbRound.roundId == round2.dbRound.roundId &&
-                    round1.dbRound.handPoints == round2.dbRound.handPoints &&
-                    round1.dbRound.winnerInitialSeat === round2.dbRound.winnerInitialSeat &&
-                    round1.dbRound.discarderInitialSeat === round2.dbRound.discarderInitialSeat &&
-                    round1.dbRound.penaltyP1 == round2.dbRound.penaltyP1 &&
-                    round1.dbRound.penaltyP2 == round2.dbRound.penaltyP2 &&
-                    round1.dbRound.penaltyP3 == round2.dbRound.penaltyP3 &&
-                    round1.dbRound.penaltyP4 == round2.dbRound.penaltyP4 &&
+        private fun areEqual(round1: UiRound, round2: UiRound): Boolean =
+            round1.gameId == round2.gameId &&
+                    round1.roundId == round2.roundId &&
+                    round1.handPoints == round2.handPoints &&
+                    round1.winnerInitialSeat === round2.winnerInitialSeat &&
+                    round1.discarderInitialSeat === round2.discarderInitialSeat &&
+                    round1.penaltyP1 == round2.penaltyP1 &&
+                    round1.penaltyP2 == round2.penaltyP2 &&
+                    round1.penaltyP3 == round2.penaltyP3 &&
+                    round1.penaltyP4 == round2.penaltyP4 &&
                     round1.roundNumber == round2.roundNumber &&
                     round1.pointsP1 == round2.pointsP1 &&
                     round1.pointsP2 == round2.pointsP2 &&
@@ -105,6 +125,5 @@ data class UiRound(
                     round1.totalPointsP3 == round2.totalPointsP3 &&
                     round1.totalPointsP4 == round2.totalPointsP4 &&
                     round1.isBestHand == round2.isBestHand
-        }
     }
 }
