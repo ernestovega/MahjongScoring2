@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "579374161053",
+    "project_id": "mahjong-scoring-2",
+    "storage_bucket": "mahjong-scoring-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579374161053:android:424f0136d1e3117c48c874",
+        "android_client_info": {
+          "package_name": "com.mahjongscoring.activities"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByJyFj60dGbHo1JY807oYUvjbqXvEi3c8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

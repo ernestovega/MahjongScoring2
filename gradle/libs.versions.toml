@@ -25,6 +25,9 @@ ksp = "1.9.23-1.0.20"
 material = "1.12.0"
 review-ktx = "2.0.1"
 truth = "1.1.5"
+google-services = "4.4.1"
+firebase-bom = "33.0.0"
+firebase-crashlytics = "2.9.9" #Crashes due to a circular dependency on 3.0.0
 
 [libraries]
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
@@ -55,6 +58,9 @@ junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jun
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "review-ktx" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -62,3 +68,5 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
 room = { id = "androidx.room", version.ref = "androidx-room" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }

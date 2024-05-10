@@ -21,6 +21,8 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.room)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -96,9 +98,12 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
     implementation(libs.hilt.android)
     implementation(libs.material)
     implementation(libs.review.ktx)
+    implementation(platform(libs.firebase.bom))
 
     ksp(libs.androidx.room.compiler)
     ksp(libs.hilt.android.compiler)
