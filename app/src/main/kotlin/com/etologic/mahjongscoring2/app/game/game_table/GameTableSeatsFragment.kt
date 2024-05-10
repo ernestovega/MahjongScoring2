@@ -112,10 +112,10 @@ class GameTableSeatsFragment : BaseFragment() {
         selectedPlayer = NONE
         setStates(getSeatsStates(uiGame))
         val playersTotalPointsByCurrentSeat = uiGame.getPlayersTotalPointsByCurrentSeat()
-        setPoints(playersTotalPointsByCurrentSeat.map { String.format(getDefault(), "%d", it) })
+        setPoints(playersTotalPointsByCurrentSeat.map { it.toString() })
         setPointsDiffs(uiGame)
         setWinds(uiGame.getSeatsCurrentWind(uiGame.uiRounds.size))
-        setNames(uiGame.getPlayersNamesByCurrentRoundSeat())
+        setNames(uiGame.getPlayersNamesByCurrentSeat())
         setPenalties(uiGame.getPlayersPenaltiesByCurrentSeat(), uiGame.dbGame.isEnded)
         setPointsDiffs(activityViewModel.gameFlow.value)
     }

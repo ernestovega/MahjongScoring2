@@ -92,7 +92,7 @@ class HuDialogFragment : AppCompatDialogFragment() {
     }
 
     private fun initViews() {
-        val playersNamesByCurrentSeat = activityViewModel.gameFlow.value.getPlayersNamesByCurrentRoundSeat()
+        val playersNamesByCurrentSeat = activityViewModel.gameFlow.value.getPlayersNamesByCurrentSeat()
         val winnerSeat = activityViewModel.getSelectedSeat().value ?: NONE
         val looser1Seat = TableWinds.asArray[(if (winnerSeat == EAST) SOUTH else EAST).code]
         val looser2Seat = TableWinds.asArray[(if (winnerSeat in listOf(EAST, SOUTH)) WEST else SOUTH).code]

@@ -85,7 +85,7 @@ class PenaltyDialogFragment : AppCompatDialogFragment() {
     private fun initPlayerViews() {
         with(binding.iPenaltyDialogPlayerContainer) {
             val selectedSeat = activityViewModel.getSelectedSeat().value ?: TableWinds.NONE
-            val playersNamesByCurrentSeat = activityViewModel.gameFlow.value.getPlayersNamesByCurrentRoundSeat()
+            val playersNamesByCurrentSeat = activityViewModel.gameFlow.value.getPlayersNamesByCurrentSeat()
             ivTableSeatMediumSeatWind.setImageDrawable(getWindIcon(selectedSeat))
             tvTableSeatMediumName.text = playersNamesByCurrentSeat[selectedSeat.code]
         }

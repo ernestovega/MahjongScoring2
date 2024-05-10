@@ -53,15 +53,12 @@ object RankingTableHelper {
         return playersRankings
     }
 
-    private fun setPlayersNamesAndScores(uiGame: UiGame): List<PlayerRanking> {
-        val scores = uiGame.getPlayersTotalPointsWithPenalties()
-        return listOf(
-            PlayerRanking(uiGame.dbGame.nameP1, scores[0]),
-            PlayerRanking(uiGame.dbGame.nameP2, scores[1]),
-            PlayerRanking(uiGame.dbGame.nameP3, scores[2]),
-            PlayerRanking(uiGame.dbGame.nameP4, scores[3])
-        )
-    }
+    private fun setPlayersNamesAndScores(uiGame: UiGame): List<PlayerRanking> = listOf(
+        PlayerRanking(uiGame.dbGame.nameP1, uiGame.currentRound.totalPointsP1),
+        PlayerRanking(uiGame.dbGame.nameP2, uiGame.currentRound.totalPointsP2),
+        PlayerRanking(uiGame.dbGame.nameP3, uiGame.currentRound.totalPointsP3),
+        PlayerRanking(uiGame.dbGame.nameP4, uiGame.currentRound.totalPointsP4)
+    )
 
     private fun setPlayersTablePoints(sortedPlayers: List<PlayerRanking>): List<PlayerRanking> {
         sortedPlayers[0].points = FIRST_POSITION_POINTS

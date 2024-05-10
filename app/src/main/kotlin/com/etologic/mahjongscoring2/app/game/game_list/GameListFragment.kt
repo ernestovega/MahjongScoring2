@@ -36,6 +36,7 @@ import com.etologic.mahjongscoring2.app.game.activity.ShouldHighlightLastRound
 import com.etologic.mahjongscoring2.app.game.game_list.GameListRvAdapter.GameListItemListener
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
+import com.etologic.mahjongscoring2.app.utils.toStringSigned
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.RoundId
@@ -111,12 +112,12 @@ class GameListFragment : BaseFragment() {
     }
 
     private fun gameObserver(uiGame: UiGame) {
-        roundsListObserver(uiGame.getEndedRounds())
-        namesObserver(uiGame.dbGame.getPlayersNames())
-        totalsObserver(uiGame.getPlayersTotalPenaltiesStringSigned(), uiGame.getPlayersTotalPointsWithPenaltiesStringSigned())
+        setRoundsList(uiGame.getEndedRounds())
+        setNames(uiGame.dbGame.getPlayersNames())
+        setFooter(uiGame)
     }
 
-    private fun roundsListObserver(roundsList: List<UiRound>) {
+    private fun setRoundsList(roundsList: List<UiRound>) {
         with(binding) {
             rvAdapter.updateCollection(roundsList)
             if (roundsList.isEmpty()) {
@@ -130,7 +131,7 @@ class GameListFragment : BaseFragment() {
         }
     }
 
-    private fun namesObserver(names: Array<String>) {
+    private fun setNames(names: Array<String>) {
         with(binding) {
             tvGameListHeaderNameP1.text = names[0]
             tvGameListHeaderNameP2.text = names[1]
@@ -139,21 +140,21 @@ class GameListFragment : BaseFragment() {
         }
     }
 
-    private fun totalsObserver(totalPenalties: Array<String>?, totalPoints: Array<String>) {
+    private fun setFooter(uiGame: UiGame) {
         with(binding) {
-            if (totalPenalties == null) {
-                llGameListFooterTotalPenalties.visibility = GONE
-            } else {
-                tvGameListFooterTotalPenaltiesP1.text = totalPenalties[0]
-                tvGameListFooterTotalPenaltiesP2.text = totalPenalties[1]
-                tvGameListFooterTotalPenaltiesP3.text = totalPenalties[2]
-                tvGameListFooterTotalPenaltiesP4.text = totalPenalties[3]
+            if (uiGame.currentRound.areTherePenalties()) {
+                tvGameListFooterTotalPenaltiesP1.text = uiGame.currentRound.dbRound.penaltyP1.toStringSigned()
+                tvGameListFooterTotalPenaltiesP2.text = uiGame.currentRound.dbRound.penaltyP2.toStringSigned()
+                tvGameListFooterTotalPenaltiesP3.text = uiGame.currentRound.dbRound.penaltyP3.toStringSigned()
+                tvGameListFooterTotalPenaltiesP4.text = uiGame.currentRound.dbRound.penaltyP4.toStringSigned()
                 llGameListFooterTotalPenalties.visibility = VISIBLE
+            } else {
+                llGameListFooterTotalPenalties.visibility = GONE
             }
-            tvGameListFooterTotalPointsP1.text = totalPoints[0]
-            tvGameListFooterTotalPointsP2.text = totalPoints[1]
-            tvGameListFooterTotalPointsP3.text = totalPoints[2]
-            tvGameListFooterTotalPointsP4.text = totalPoints[3]
+            tvGameListFooterTotalPointsP1.text = uiGame.currentRound.totalPointsP1.toStringSigned()
+            tvGameListFooterTotalPointsP2.text = uiGame.currentRound.totalPointsP2.toStringSigned()
+            tvGameListFooterTotalPointsP3.text = uiGame.currentRound.totalPointsP3.toStringSigned()
+            tvGameListFooterTotalPointsP4.text = uiGame.currentRound.totalPointsP4.toStringSigned()
         }
     }
 

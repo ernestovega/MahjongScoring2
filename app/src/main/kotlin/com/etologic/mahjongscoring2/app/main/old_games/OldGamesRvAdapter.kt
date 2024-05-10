@@ -26,11 +26,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.model.GameItemDiffUtilCallback
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
+import com.etologic.mahjongscoring2.app.utils.toStringSigned
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
 import com.etologic.mahjongscoring2.databinding.MainOldgameItemBinding
-import java.util.Locale
 import javax.inject.Inject
 
 class OldGamesRvAdapter
@@ -103,11 +103,10 @@ class OldGamesRvAdapter
         itemViewHolder.tvSouthPlayerName.text = uiGame.dbGame.nameP2
         itemViewHolder.tvWestPlayerName.text = uiGame.dbGame.nameP3
         itemViewHolder.tvNorthPlayerName.text = uiGame.dbGame.nameP4
-        val playersTotalPoints = uiGame.getPlayersTotalPointsWithPenalties().map { String.format(Locale.getDefault(), "%d", it) }
-        itemViewHolder.tvEastPlayerPoints.text = playersTotalPoints[0]
-        itemViewHolder.tvSouthPlayerPoints.text = playersTotalPoints[1]
-        itemViewHolder.tvWestPlayerPoints.text = playersTotalPoints[2]
-        itemViewHolder.tvNorthPlayerPoints.text = playersTotalPoints[3]
+        itemViewHolder.tvEastPlayerPoints.text = uiGame.currentRound.totalPointsP1.toStringSigned()
+        itemViewHolder.tvSouthPlayerPoints.text = uiGame.currentRound.totalPointsP2.toStringSigned()
+        itemViewHolder.tvWestPlayerPoints.text = uiGame.currentRound.totalPointsP3.toStringSigned()
+        itemViewHolder.tvNorthPlayerPoints.text = uiGame.currentRound.totalPointsP4.toStringSigned()
         itemViewHolder.tvRoundNumber.text = uiGame.uiRounds.size.toString()
         setBestHand(itemViewHolder, bestHand)
     }
