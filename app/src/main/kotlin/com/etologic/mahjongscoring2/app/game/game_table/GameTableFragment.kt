@@ -52,8 +52,8 @@ import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.Companion.TAG
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableSeatsFragment.TableSeatsListener
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame.Companion.NOT_SET_GAME_ID
 import com.etologic.mahjongscoring2.databinding.GameTableFragmentBinding
 import com.google.android.material.badge.BadgeDrawable.BOTTOM_END
 import com.google.android.material.badge.BadgeDrawable.BOTTOM_START
@@ -150,8 +150,8 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
     }
 
     private fun gameObserver(uiGame: UiGame) {
-        if (uiGame.dbGame.gameId != NOT_SET_GAME_ID) {
-            setGameName(uiGame.dbGame.gameName)
+        if (uiGame.gameId != NOT_SET_GAME_ID) {
+            setGameName(uiGame.gameName)
             tableSeats.setSeats(uiGame)
             this.setRoundStuff(uiGame)
         }
@@ -167,7 +167,7 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
     }
 
     private fun setRoundStuff(uiGame: UiGame) {
-        val isGameEnded: Boolean = uiGame.dbGame.isEnded
+        val isGameEnded: Boolean = uiGame.isEnded
         val roundNumber: Int = uiGame.uiRounds.size
         setFab(isGameEnded, roundNumber)
         setRoundNumsAndWinds(isGameEnded, roundNumber)

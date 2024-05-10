@@ -52,7 +52,7 @@ object GameNavigator {
     }
 
     private fun exitGame(activity: GameActivity, viewModel: GameViewModel) {
-        activity.setResult(RESULT_OK, Intent().apply { putExtra(KEY_WAS_GAME_ENDED, viewModel.gameFlow.value.dbGame.isEnded) })
+        activity.setResult(RESULT_OK, Intent().apply { putExtra(KEY_WAS_GAME_ENDED, viewModel.gameFlow.value.isEnded) })
         activity.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         activity.finish()
     }

@@ -71,8 +71,8 @@ class EditNamesDialogFragment : AppCompatDialogFragment() {
 
     private fun printNames() {
         with(binding) {
-            tietNamesDialogGameName.setText(activityViewModel.gameFlow.value.dbGame.gameName)
-            val names = activityViewModel.gameFlow.value.dbGame.getPlayersNames()
+            tietNamesDialogGameName.setText(activityViewModel.gameFlow.value.gameName)
+            val names = activityViewModel.gameFlow.value.playersNames
             tietNamesDialogEast.setText(names[EAST.code])
             tietNamesDialogSouth.setText(names[SOUTH.code])
             tietNamesDialogWest.setText(names[WEST.code])

@@ -71,19 +71,19 @@ class ExportAllGamesToCsvUseCase @Inject constructor(
 
     private fun StringBuilder.buildRows(uiGames: List<UiGame>) {
         uiGames.forEach { uiGame ->
-            val nameP1 = normalizeName(uiGame.dbGame.nameP1)
-            val nameP2 = normalizeName(uiGame.dbGame.nameP2)
-            val nameP3 = normalizeName(uiGame.dbGame.nameP3)
-            val nameP4 = normalizeName(uiGame.dbGame.nameP4)
+            val nameP1 = normalizeName(uiGame.nameP1)
+            val nameP2 = normalizeName(uiGame.nameP2)
+            val nameP3 = normalizeName(uiGame.nameP3)
+            val nameP4 = normalizeName(uiGame.nameP4)
             uiGame.uiRounds.forEach { uiRound ->
-                /*GameName*/append("${uiGame.dbGame.gameName},")
+                /*GameName*/append("${uiGame.gameName},")
                 /*Round*/append("${uiRound.roundNumber},")
                 /*Winner*/append(
                 when (uiRound.dbRound.winnerInitialSeat) {
                     null,
                     NONE -> "-"
 
-                    else -> normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(uiRound.dbRound.winnerInitialSeat!!))
+                    else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.dbRound.winnerInitialSeat!!))
                 }
             ).also { append(",") }
                 /*Discarder*/append(
@@ -91,7 +91,7 @@ class ExportAllGamesToCsvUseCase @Inject constructor(
                     null,
                     NONE -> "-"
 
-                    else -> normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(uiRound.dbRound.discarderInitialSeat!!))
+                    else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.dbRound.discarderInitialSeat!!))
                 }
             ).also { append(",") }
                 /*Name P1*/append("${nameP1},")

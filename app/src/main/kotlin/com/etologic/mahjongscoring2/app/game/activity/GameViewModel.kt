@@ -150,7 +150,7 @@ class GameViewModel @AssistedInject constructor(
     //GAME OPERATIONS
     fun resumeGame() {
         viewModelScope.launch {
-            resumeGameUseCase(gameFlow.value.dbGame, gameFlow.value.currentRound.roundNumber)
+            resumeGameUseCase(gameFlow.value, gameFlow.value.currentRound.roundNumber)
                 .onFailure(::showError)
         }
     }
@@ -171,40 +171,29 @@ class GameViewModel @AssistedInject constructor(
     ) {
         viewModelScope.launch {
             editGameNamesUseCase(
-                dbGame = gameFlow.value.dbGame,
-                gameName = gameName,
-                nameP1 = nameP1,
-                nameP2 = nameP2,
-                nameP3 = nameP3,
-                nameP4 = nameP4,
+                uiGame = gameFlow.value,
+                newGameName = gameName,
+                newNameP1 = nameP1,
+                newNameP2 = nameP2,
+                newNameP3 = nameP3,
+                newNameP4 = nameP4,
             )
                 .onFailure(::showError)
         }
     }
 
     //ROUND OPERATIONS
-    fun saveHuDiscardRound(discarderCurrentSeat: TableWinds, huPoints: Int) {
+    fun saveHuDiscardRound(huData: HuData) {
         viewModelScope.launch {
-            huDiscardUseCase(
-                uiGame = gameFlow.value,
-                huData = HuData(
-                    points = huPoints,
-                    winnerInitialSeat = gameFlow.value.getPlayerInitialSeatByCurrentSeat(_selectedSeat.value!!),
-                    discarderInitialSeat = gameFlow.value.getPlayerInitialSeatByCurrentSeat(discarderCurrentSeat),
-                )
-            ).fold({ showSavedRound() }, ::showError)
+            huDiscardUseCase(gameFlow.value, huData)
+                .fold({ showSavedRound() }, ::showError)
         }
     }
 
-    fun saveHuSelfPickRound(huPoints: Int) {
+    fun saveHuSelfPickRound(huData: HuData) {
         viewModelScope.launch {
-            huSelfPickUseCase(
-                uiGame = gameFlow.value,
-                huData = HuData(
-                    points = huPoints,
-                    winnerInitialSeat = gameFlow.value.getPlayerInitialSeatByCurrentSeat(_selectedSeat.value!!),
-                )
-            ).fold({ showSavedRound() }, ::showError)
+            huSelfPickUseCase(gameFlow.value, huData)
+                .fold({ showSavedRound() }, ::showError)
         }
     }
 
@@ -221,9 +210,6 @@ class GameViewModel @AssistedInject constructor(
 
     fun savePenalty(penaltyData: PenaltyData) {
         viewModelScope.launch {
-            penaltyData.penalizedPlayerInitialSeat =
-                gameFlow.value.getPlayerInitialSeatByCurrentSeat(_selectedSeat.value!!)
-
             setPenaltyUseCase(gameFlow.value.currentRound, penaltyData)
                 .onFailure(::showError)
         }

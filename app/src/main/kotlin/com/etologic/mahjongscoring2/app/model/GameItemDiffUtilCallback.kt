@@ -35,18 +35,18 @@ class GameItemDiffUtilCallback(private val newList: List<UiGame>, private val ol
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].dbGame.gameId == newList[newItemPosition].dbGame.gameId
+        return oldList[oldItemPosition].gameId == newList[newItemPosition].gameId
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val newGame = newList[newItemPosition]
         val oldGame = oldList[oldItemPosition]
-        return (oldGame.dbGame.gameId == newGame.dbGame.gameId &&
-                oldGame.dbGame.nameP1 == newGame.dbGame.nameP1 &&
-                oldGame.dbGame.nameP2 == newGame.dbGame.nameP2 &&
-                oldGame.dbGame.nameP3 == newGame.dbGame.nameP3 &&
-                oldGame.dbGame.nameP4 == newGame.dbGame.nameP4 &&
-                DateTimeUtils.areEqual(oldGame.dbGame.startDate, newGame.dbGame.startDate) &&
+        return (oldGame.gameId == newGame.gameId &&
+                oldGame.nameP1 == newGame.nameP1 &&
+                oldGame.nameP2 == newGame.nameP2 &&
+                oldGame.nameP3 == newGame.nameP3 &&
+                oldGame.nameP4 == newGame.nameP4 &&
+                DateTimeUtils.areEqual(oldGame.startDate, newGame.startDate) &&
                 arePlayersTotalsPointsEquals(
                     oldGame.getPlayersTotalPointsByCurrentSeat().map {
                         String.format(Locale.getDefault(), "%d", it)

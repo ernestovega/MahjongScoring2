@@ -116,12 +116,12 @@ class GameTableSeatsFragment : BaseFragment() {
         setPointsDiffs(uiGame)
         setWinds(uiGame.getSeatsCurrentWind(uiGame.uiRounds.size))
         setNames(uiGame.getPlayersNamesByCurrentSeat())
-        setPenalties(uiGame.getPlayersPenaltiesByCurrentSeat(), uiGame.dbGame.isEnded)
-        setPointsDiffs(activityViewModel.gameFlow.value)
+        setPenalties(uiGame.getPlayersPenaltiesByCurrentSeat(), uiGame.isEnded)
+        setPointsDiffs(uiGame)
     }
 
     private fun getSeatsStates(uiGame: UiGame): Array<SeatStates> =
-        if (uiGame.dbGame.isEnded) arrayOf(DISABLED, DISABLED, DISABLED, DISABLED) else getSeatsStates()
+        if (uiGame.isEnded) arrayOf(DISABLED, DISABLED, DISABLED, DISABLED) else getSeatsStates()
 
     private fun setStates(states: Array<SeatStates>) {
         areSeatsDisabled = states[0] == DISABLED && states[1] == DISABLED && states[2] == DISABLED && states[3] == DISABLED

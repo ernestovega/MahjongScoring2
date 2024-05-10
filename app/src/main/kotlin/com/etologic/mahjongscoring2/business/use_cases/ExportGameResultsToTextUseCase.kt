@@ -50,7 +50,7 @@ class ExportGameResultsToTextUseCase @Inject constructor(
         RankingTableHelper.generateRankingTable(uiGame)?.let { rankingData ->
             appendLine("- GAME:")
             appendLine()
-            appendLine(uiGame.dbGame.gameName)
+            appendLine(uiGame.gameName)
             appendLine()
             appendLine("- FINAL RESULTS:")
             appendLine()

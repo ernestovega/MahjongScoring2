@@ -17,6 +17,7 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import java.util.Date
@@ -31,11 +32,23 @@ class EndGameUseCase @Inject constructor(
             if (uiGame.currentRound.areTherePenalties()) {
                 roundsRepository.updateOne(uiGame.currentRound.applyDraw().dbRound)
             } else {
-                roundsRepository.deleteOne(uiGame.dbGame.gameId, uiGame.currentRound.dbRound.roundId)
+                roundsRepository.deleteOne(uiGame.gameId, uiGame.currentRound.dbRound.roundId)
             }
         } else {
             Result.success(true)
         }
-            .onSuccess { gamesRepository.updateOne(uiGame.dbGame.apply { endDate = Date() }) }
-
+            .onSuccess {
+                gamesRepository.updateOne(
+                    DbGame(
+                        gameId = uiGame.gameId,
+                        nameP1 = uiGame.nameP1,
+                        nameP2 = uiGame.nameP2,
+                        nameP3 = uiGame.nameP3,
+                        nameP4 = uiGame.nameP4,
+                        startDate = uiGame.startDate,
+                        endDate = Date(),
+                        gameName = uiGame.gameName,
+                    )
+                )
+            }
 }

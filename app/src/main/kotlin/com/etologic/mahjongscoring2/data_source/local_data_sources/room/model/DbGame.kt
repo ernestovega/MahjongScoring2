@@ -43,22 +43,4 @@ data class DbGame(
     @TypeConverters(DateConverter::class) val startDate: Date,
     @TypeConverters(DateConverter::class) var endDate: Date? = null,
     @ColumnInfo(defaultValue="") var gameName: String = "",
-) {
-    val isEnded: Boolean get() = endDate != null
-
-    fun getPlayersNames(): Array<String> = arrayOf(nameP1, nameP2, nameP3, nameP4)
-
-    fun getPlayerNameByInitialPosition(initialPosition: TableWinds): String {
-        return when (initialPosition) {
-            TableWinds.NONE -> ""
-            TableWinds.EAST -> nameP1
-            TableWinds.SOUTH -> nameP2
-            TableWinds.WEST -> nameP3
-            TableWinds.NORTH -> nameP4
-        }
-    }
-
-    companion object {
-        const val NOT_SET_GAME_ID: Long = 0
-    }
-}
+)

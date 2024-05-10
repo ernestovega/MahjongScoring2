@@ -16,6 +16,7 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import javax.inject.Inject
@@ -24,34 +25,23 @@ class EditGameNamesUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
 ) {
     suspend operator fun invoke(
-        dbGame: DbGame,
-        gameName: String,
-        nameP1: String,
-        nameP2: String,
-        nameP3: String,
-        nameP4: String,
-    ): Result<Boolean> {
-        dbGame.updateNames(
-            gameName = normalizeName(gameName),
-            nameP1 = normalizeName(nameP1),
-            nameP2 = normalizeName(nameP2),
-            nameP3 = normalizeName(nameP3),
-            nameP4 = normalizeName(nameP4),
+        uiGame: UiGame,
+        newGameName: String,
+        newNameP1: String,
+        newNameP2: String,
+        newNameP3: String,
+        newNameP4: String,
+    ): Result<Boolean> =
+        gamesRepository.updateOne(
+            DbGame(
+                gameId = uiGame.gameId,
+                nameP1 = normalizeName(newNameP1),
+                nameP2 = normalizeName(newNameP2),
+                nameP3 = normalizeName(newNameP3),
+                nameP4 = normalizeName(newNameP4),
+                startDate = uiGame.startDate,
+                endDate = uiGame.endDate,
+                gameName = normalizeName(newGameName),
+            )
         )
-        return gamesRepository.updateOne(dbGame)
-    }
-
-    private fun DbGame.updateNames(
-        gameName: String,
-        nameP1: String,
-        nameP2: String,
-        nameP3: String,
-        nameP4: String
-    ) {
-        this.gameName = gameName
-        this.nameP1 = nameP1
-        this.nameP2 = nameP2
-        this.nameP3 = nameP3
-        this.nameP4 = nameP4
-    }
 }

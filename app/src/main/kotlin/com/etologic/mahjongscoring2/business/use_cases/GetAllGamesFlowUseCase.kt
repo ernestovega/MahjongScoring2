@@ -34,13 +34,22 @@ class GetAllGamesFlowUseCase @Inject constructor(
             gamesRepository.getAllFlow(),
             roundsRepository.getAllFlow(),
         ) { dbGames, dbRounds ->
-            dbGames.map { game ->
-                val gameRounds = dbRounds.filter { round -> round.gameId == game.gameId }
+            dbGames.map { dbGame ->
+                val gameRounds = dbRounds.filter { round -> round.gameId == dbGame.gameId }
                 if (gameRounds.isEmpty()) {
                     return@combine null
                 } else {
-                    val gameUiRounds = gameRounds.map { UiRound(it) }
-                    UiGame(game, gameUiRounds)
+                    UiGame(
+                        gameId = dbGame.gameId,
+                        nameP1 = dbGame.nameP1,
+                        nameP2 = dbGame.nameP2,
+                        nameP3 = dbGame.nameP3,
+                        nameP4 = dbGame.nameP4,
+                        startDate = dbGame.startDate,
+                        endDate = dbGame.endDate,
+                        gameName = dbGame.gameName,
+                        uiRounds = gameRounds.map { UiRound(it) },
+                    )
                 }
             }
         }.mapNotNull { it }

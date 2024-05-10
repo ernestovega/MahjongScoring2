@@ -29,6 +29,7 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.model.Seat
+import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MAX_MCR_POINTS
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MIN_MCR_POINTS
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
@@ -52,7 +53,6 @@ class HuDialogFragment : AppCompatDialogFragment() {
     private var southIcon: Drawable? = null
     private var westIcon: Drawable? = null
     private var northIcon: Drawable? = null
-    private var isDialogCancelled = true
 
     private var _binding: GameHuDialogFragmentBinding? = null
     private val binding get() = _binding!!
@@ -128,11 +128,25 @@ class HuDialogFragment : AppCompatDialogFragment() {
                     cnpGameHuDialog.setError()
                 } else {
                     if (cdsGameHuDialog.selectedSeatWind == NONE) {
-                        activityViewModel.saveHuSelfPickRound(winnerHandPoints)
+                        val huData = HuData(
+                            points = winnerHandPoints,
+                            winnerInitialSeat = activityViewModel.gameFlow.value.getPlayerInitialSeatByCurrentSeat(
+                                activityViewModel.getSelectedSeat().value!!
+                            ),
+                        )
+                        activityViewModel.saveHuSelfPickRound(huData)
                     } else {
-                        activityViewModel.saveHuDiscardRound(cdsGameHuDialog.selectedSeatWind, winnerHandPoints)
+                        val huData = HuData(
+                            points = winnerHandPoints,
+                            winnerInitialSeat = activityViewModel.gameFlow.value.getPlayerInitialSeatByCurrentSeat(
+                                activityViewModel.getSelectedSeat().value!!
+                            ),
+                            discarderInitialSeat = activityViewModel.gameFlow.value.getPlayerInitialSeatByCurrentSeat(
+                                cdsGameHuDialog.selectedSeatWind
+                            ),
+                        )
+                        activityViewModel.saveHuDiscardRound(huData)
                     }
-                    isDialogCancelled = false
                     dismiss()
                 }
             }
@@ -140,9 +154,7 @@ class HuDialogFragment : AppCompatDialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        if (isDialogCancelled) {
-            activityViewModel.unselectSelectedSeat()
-        }
+        activityViewModel.unselectSelectedSeat()
         super.onDismiss(dialog)
     }
 }

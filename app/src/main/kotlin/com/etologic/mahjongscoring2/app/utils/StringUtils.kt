@@ -17,4 +17,4 @@
 
 package com.etologic.mahjongscoring2.app.utils
 
-fun Int.toStringSigned(): String = if (this >= 0) "+$this" else "$this"
+fun Int.toStringSigned(): String = if (this > 0) "+$this" else "$this"

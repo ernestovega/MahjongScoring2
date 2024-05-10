@@ -16,6 +16,7 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
+import android.util.Log
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
@@ -24,6 +25,7 @@ import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class GetOneGameFlowUseCase @Inject constructor(
@@ -38,8 +40,17 @@ class GetOneGameFlowUseCase @Inject constructor(
             if (dbRounds.isEmpty()) {
                 null
             } else {
-                val uiRounds = dbRounds.map { UiRound(it) }
-                UiGame(dbGame, uiRounds)
+                UiGame(
+                    gameId = dbGame.gameId,
+                    nameP1 = dbGame.nameP1,
+                    nameP2 = dbGame.nameP2,
+                    nameP3 = dbGame.nameP3,
+                    nameP4 = dbGame.nameP4,
+                    startDate = dbGame.startDate,
+                    endDate = dbGame.endDate,
+                    gameName = dbGame.gameName,
+                    uiRounds = dbRounds.map { UiRound(it) },
+                )
             }
         }.filterNotNull()
 }

@@ -45,7 +45,6 @@ class PenaltyDialogFragment : AppCompatDialogFragment() {
     private var southIcon: Drawable? = null
     private var westIcon: Drawable? = null
     private var northIcon: Drawable? = null
-    private var isDialogCancelled = true
 
     private var _binding: GamePenaltyDialogFragmentBinding? = null
     private val binding get() = _binding!!
@@ -122,13 +121,19 @@ class PenaltyDialogFragment : AppCompatDialogFragment() {
     }
 
     private fun saveAndFinish(penaltyPoints: Int, isDivided: Boolean) {
-        activityViewModel.savePenalty(PenaltyData(penaltyPoints, isDivided))
-        isDialogCancelled = false
+        val penaltyData = PenaltyData(
+            points = penaltyPoints,
+            isDivided = isDivided,
+            penalizedPlayerInitialSeat = activityViewModel.gameFlow.value.getPlayerInitialSeatByCurrentSeat(
+                activityViewModel.getSelectedSeat().value!!
+            )
+        )
+        activityViewModel.savePenalty(penaltyData)
         dismiss()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        if (isDialogCancelled) activityViewModel.unselectSelectedSeat()
+        activityViewModel.unselectSelectedSeat()
         super.onDismiss(dialog)
     }
 }

@@ -95,19 +95,19 @@ class OldGamesRvAdapter
         uiGame: UiGame,
         bestHand: BestHand
     ) {
-        itemViewHolder.gameId = uiGame.dbGame.gameId
-        val prettyStartDate = DateTimeUtils.getPrettyDate(uiGame.dbGame.startDate)
-        itemViewHolder.tvGameName.text = uiGame.dbGame.gameName.ifEmpty { prettyStartDate.replace("\n", " ") }
+        itemViewHolder.gameId = uiGame.gameId
+        val prettyStartDate = DateTimeUtils.getPrettyDate(uiGame.startDate)
+        itemViewHolder.tvGameName.text = uiGame.gameName.ifEmpty { prettyStartDate.replace("\n", " ") }
         itemViewHolder.tvStartDate.text = prettyStartDate
-        itemViewHolder.tvEastPlayerName.text = uiGame.dbGame.nameP1
-        itemViewHolder.tvSouthPlayerName.text = uiGame.dbGame.nameP2
-        itemViewHolder.tvWestPlayerName.text = uiGame.dbGame.nameP3
-        itemViewHolder.tvNorthPlayerName.text = uiGame.dbGame.nameP4
+        itemViewHolder.tvEastPlayerName.text = uiGame.nameP1
+        itemViewHolder.tvSouthPlayerName.text = uiGame.nameP2
+        itemViewHolder.tvWestPlayerName.text = uiGame.nameP3
+        itemViewHolder.tvNorthPlayerName.text = uiGame.nameP4
         itemViewHolder.tvEastPlayerPoints.text = uiGame.currentRound.totalPointsP1.toStringSigned()
         itemViewHolder.tvSouthPlayerPoints.text = uiGame.currentRound.totalPointsP2.toStringSigned()
         itemViewHolder.tvWestPlayerPoints.text = uiGame.currentRound.totalPointsP3.toStringSigned()
         itemViewHolder.tvNorthPlayerPoints.text = uiGame.currentRound.totalPointsP4.toStringSigned()
-        itemViewHolder.tvRoundNumber.text = uiGame.uiRounds.size.toString()
+        itemViewHolder.tvRoundNumber.text = uiGame.getEndedRounds().size.toString()
         setBestHand(itemViewHolder, bestHand)
     }
 

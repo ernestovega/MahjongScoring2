@@ -16,12 +16,13 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
+import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.GameId
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import java.util.Calendar
+import java.util.Date
 import javax.inject.Inject
 
 class CreateGameUseCase @Inject constructor(
@@ -37,13 +38,13 @@ class CreateGameUseCase @Inject constructor(
     ): Result<GameId> =
         gamesRepository.insertOne(
             DbGame(
-                gameId = DbGame.NOT_SET_GAME_ID,
+                gameId = NOT_SET_GAME_ID,
                 gameName = gameName,
                 nameP1 = nameP1,
                 nameP2 = nameP2,
                 nameP3 = nameP3,
                 nameP4 = nameP4,
-                startDate = Calendar.getInstance().time,
+                startDate = Date(),
                 endDate = null,
             )
         )

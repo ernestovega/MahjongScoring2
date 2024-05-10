@@ -171,7 +171,7 @@ class GameActivity : BaseActivity() {
     }
 
     private fun gameObserver(uiGame: UiGame) {
-        val isGameEnded = uiGame.dbGame.isEnded
+        val isGameEnded = uiGame.isEnded
 
         shouldBeShownResumeButton = isGameEnded && uiGame.uiRounds.size < MAX_MCR_ROUNDS
         shouldBeShownEndButton = isGameEnded.not() && uiGame.uiRounds.size > 1

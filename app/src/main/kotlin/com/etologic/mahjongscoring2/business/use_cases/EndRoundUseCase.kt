@@ -27,7 +27,7 @@ class EndRoundUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(uiGame: UiGame): Result<Boolean> =
         if (uiGame.uiRounds.size < UiGame.MAX_MCR_ROUNDS) {
-            roundsRepository.insertOne(DbRound(uiGame.dbGame.gameId))
+            roundsRepository.insertOne(DbRound(uiGame.gameId))
         } else {
             endGameUseCase(uiGame)
         }

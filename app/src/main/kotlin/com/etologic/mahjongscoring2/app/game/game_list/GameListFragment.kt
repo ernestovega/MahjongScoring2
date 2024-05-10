@@ -113,7 +113,7 @@ class GameListFragment : BaseFragment() {
 
     private fun gameObserver(uiGame: UiGame) {
         setRoundsList(uiGame.getEndedRounds())
-        setNames(uiGame.dbGame.getPlayersNames())
+        setNames(uiGame.playersNames)
         setFooter(uiGame)
     }
 

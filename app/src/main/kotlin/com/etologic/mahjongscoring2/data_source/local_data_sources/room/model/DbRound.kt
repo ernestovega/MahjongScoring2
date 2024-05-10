@@ -41,7 +41,7 @@ typealias RoundId = Long
 )
 data class DbRound(
     val gameId: GameId,
-    @field:PrimaryKey(autoGenerate = true) val roundId: RoundId
+    @field:PrimaryKey(autoGenerate = true) val roundId: RoundId,
 ) {
     @TypeConverters(TableWindsConverter::class) var winnerInitialSeat: TableWinds? = null
     @TypeConverters(TableWindsConverter::class) var discarderInitialSeat: TableWinds? = null
@@ -51,7 +51,10 @@ data class DbRound(
     var penaltyP3: Int = 0
     var penaltyP4: Int = 0
 
-    constructor(gameId: GameId) : this(gameId, NOT_SET_ROUND_ID)
+    constructor(gameId: GameId) : this(
+        gameId = gameId,
+        roundId = NOT_SET_ROUND_ID
+    )
 
     companion object {
         private const val NOT_SET_ROUND_ID: RoundId = 0

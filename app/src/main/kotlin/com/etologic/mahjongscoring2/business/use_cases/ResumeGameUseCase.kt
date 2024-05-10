@@ -16,21 +16,36 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
+import java.util.Date
 import javax.inject.Inject
 
 class ResumeGameUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
     private val roundsRepository: RoundsRepository,
 ) {
-    suspend operator fun invoke(dbGame: DbGame, gameRoundsNumber: Int): Result<Boolean> =
+    suspend operator fun invoke(uiGame: UiGame, gameRoundsNumber: Int): Result<Boolean> =
         if (gameRoundsNumber < MAX_MCR_ROUNDS) {
-            gamesRepository.updateOne(dbGame.apply { endDate = null })
-            roundsRepository.insertOne(DbRound(dbGame.gameId))
+            gamesRepository.updateOne(
+                DbGame(
+                    gameId = uiGame.gameId,
+                    nameP1 = uiGame.nameP1,
+                    nameP2 = uiGame.nameP2,
+                    nameP3 = uiGame.nameP3,
+                    nameP4 = uiGame.nameP4,
+                    startDate = uiGame.startDate,
+                    endDate = null,
+                    gameName = uiGame.gameName,
+                )
+            )
+            roundsRepository.insertOne(
+                DbRound(uiGame.gameId)
+            )
         } else {
             Result.success(false)
         }

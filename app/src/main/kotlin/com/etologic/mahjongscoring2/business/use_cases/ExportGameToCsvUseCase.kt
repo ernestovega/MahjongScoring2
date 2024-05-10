@@ -35,7 +35,7 @@ class ExportGameToCsvUseCase @Inject constructor(
             val uiGame = getOneGameFlowUseCase.invoke(gameId).firstOrNull() ?: throw GameNotFoundException()
             val csvText = buildCsvText(uiGame)
             val csvFile = writeToFile(
-                name = "Game_${normalizeName(uiGame.dbGame.gameName).replace(" ", "-")}",
+                name = "Game_${normalizeName(uiGame.gameName).replace(" ", "-")}",
                 csvText = csvText,
                 externalFilesDir = getExternalFilesDir.invoke(),
             )
@@ -50,10 +50,10 @@ class ExportGameToCsvUseCase @Inject constructor(
         }
 
     private fun StringBuilder.buildHeader(uiGame: UiGame) {
-        val initialEastPlayerName = normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(EAST))
-        val initialSouthPlayerName = normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(SOUTH))
-        val initialWestPlayerName = normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(WEST))
-        val initialNorthPlayerName = normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(NORTH))
+        val initialEastPlayerName = normalizeName(uiGame.getPlayerNameByInitialPosition(EAST))
+        val initialSouthPlayerName = normalizeName(uiGame.getPlayerNameByInitialPosition(SOUTH))
+        val initialWestPlayerName = normalizeName(uiGame.getPlayerNameByInitialPosition(WEST))
+        val initialNorthPlayerName = normalizeName(uiGame.getPlayerNameByInitialPosition(NORTH))
 
         append("Round,")
         append("Winner,")
@@ -77,7 +77,7 @@ class ExportGameToCsvUseCase @Inject constructor(
                     null,
                     NONE -> "-"
 
-                    else -> normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(uiRound.dbRound.winnerInitialSeat!!))
+                    else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.dbRound.winnerInitialSeat!!))
                 }
             ).also { append(",") }
             append(
@@ -85,7 +85,7 @@ class ExportGameToCsvUseCase @Inject constructor(
                     null,
                     NONE -> "-"
 
-                    else -> normalizeName(uiGame.dbGame.getPlayerNameByInitialPosition(uiRound.dbRound.discarderInitialSeat!!))
+                    else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.dbRound.discarderInitialSeat!!))
                 }
             ).also { append(",") }
             append("${uiRound.pointsP1},")
