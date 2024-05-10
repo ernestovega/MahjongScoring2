@@ -16,20 +16,26 @@
  */
 package com.etologic.mahjongscoring2.app.main.old_games
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
+import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper
 import com.etologic.mahjongscoring2.app.model.GameItemDiffUtilCallback
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.app.utils.toStringSigned
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
-import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.GameId
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.databinding.MainOldgameItemBinding
 import javax.inject.Inject
 
@@ -44,6 +50,7 @@ class OldGamesRvAdapter
 
     private var itemClickListener: GameItemListener? = null
     private var games: List<UiGame> = ArrayList()
+    private var tintedTrophyIcon: Drawable? = null
 
     init {
         games = ArrayList()
@@ -70,6 +77,10 @@ class OldGamesRvAdapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val trophyIcon = AppCompatResources.getDrawable(parent.context, R.drawable.ic_trophy)
+        val goldenColor = ContextCompat.getColor(parent.context, R.color.golden)
+        tintedTrophyIcon = trophyIcon?.let { DrawableCompat.wrap(it) }
+        tintedTrophyIcon?.let { DrawableCompat.setTint(it, goldenColor) }
         val itemBinding = MainOldgameItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return OldGameItemViewHolder(itemBinding)
     }
@@ -107,8 +118,44 @@ class OldGamesRvAdapter
         itemViewHolder.tvSouthPlayerPoints.text = uiGame.currentRound.totalPointsP2.toStringSigned()
         itemViewHolder.tvWestPlayerPoints.text = uiGame.currentRound.totalPointsP3.toStringSigned()
         itemViewHolder.tvNorthPlayerPoints.text = uiGame.currentRound.totalPointsP4.toStringSigned()
+        setWinnerIcon(uiGame, itemViewHolder)
         itemViewHolder.tvRoundNumber.text = uiGame.getEndedRounds().size.toString()
         setBestHand(itemViewHolder, bestHand)
+    }
+
+    private fun setWinnerIcon(uiGame: UiGame, itemViewHolder: OldGameItemViewHolder) {
+        itemViewHolder.tvEastPlayerPoints.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null)
+        itemViewHolder.tvSouthPlayerPoints.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null)
+        itemViewHolder.tvWestPlayerPoints.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null)
+        itemViewHolder.tvNorthPlayerPoints.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null)
+        RankingTableHelper.generateRankingTable(uiGame)?.sortedPlayersRankings?.first()?.let {
+            when (it.name) {
+                uiGame.nameP1 -> {
+                    with(itemViewHolder.tvEastPlayerPoints) {
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, tintedTrophyIcon, null)
+                        compoundDrawablePadding = 8
+                    }
+                }
+                uiGame.nameP2 -> {
+                    with(itemViewHolder.tvSouthPlayerPoints) {
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, tintedTrophyIcon, null)
+                        compoundDrawablePadding = 8
+                    }
+                }
+                uiGame.nameP3 -> {
+                    with(itemViewHolder.tvWestPlayerPoints) {
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, tintedTrophyIcon, null)
+                        compoundDrawablePadding = 8
+                    }
+                }
+                uiGame.nameP4 -> {
+                    with(itemViewHolder.tvNorthPlayerPoints) {
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, tintedTrophyIcon, null)
+                        compoundDrawablePadding = 8
+                    }
+                }
+            }
+        }
     }
 
     private fun setBestHand(itemViewHolder: OldGameItemViewHolder, bestHand: BestHand) {

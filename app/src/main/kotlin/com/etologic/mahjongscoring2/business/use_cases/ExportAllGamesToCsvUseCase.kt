@@ -51,6 +51,7 @@ class ExportAllGamesToCsvUseCase @Inject constructor(
 
     private fun StringBuilder.buildHeader() {
         append("Game name,")
+        append("Game id,")
         append("Round,")
         append("Winner,")
         append("Discarder,")
@@ -77,6 +78,7 @@ class ExportAllGamesToCsvUseCase @Inject constructor(
             val nameP4 = normalizeName(uiGame.nameP4)
             uiGame.uiRounds.forEach { uiRound ->
                 /*GameName*/append("${uiGame.gameName},")
+                /*GameId*/append("${uiGame.gameId},")
                 /*Round*/append("${uiRound.roundNumber},")
                 /*Winner*/append(
                 when (uiRound.winnerInitialSeat) {

@@ -49,7 +49,7 @@ class GetAllGamesFlowUseCase @Inject constructor(
                         startDate = dbGame.startDate,
                         endDate = dbGame.endDate,
                         gameName = dbGame.gameName,
-                        uiRounds = dbRounds.map { dbRound ->
+                        uiRounds = gameRounds.map { dbRound ->
                             UiRound(
                                 gameId = dbRound.gameId,
                                 roundId = dbRound.roundId,

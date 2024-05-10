@@ -18,6 +18,7 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper
+import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
@@ -48,21 +49,20 @@ class ExportGameResultsToTextUseCase @Inject constructor(
 
     private fun StringBuilder.buildFinalResultsText(uiGame: UiGame) {
         RankingTableHelper.generateRankingTable(uiGame)?.let { rankingData ->
-            appendLine("- GAME:")
+//            appendLine("- GAME:")
+//            appendLine()
+            appendLine(uiGame.gameName.ifBlank { DateTimeUtils.getPrettyDate(uiGame.startDate).replace("\n", " ") })
             appendLine()
-            appendLine(uiGame.gameName)
-            appendLine()
-            appendLine("- FINAL RESULTS:")
-            appendLine()
+//            appendLine("- FINAL RESULTS:")
+//            appendLine()
             appendLine("1st:    ${rankingData.sortedPlayersRankings[0].toSignedString()}")
             appendLine("2nd:    ${rankingData.sortedPlayersRankings[1].toSignedString()}")
             appendLine("3rd:    ${rankingData.sortedPlayersRankings[2].toSignedString()}")
             appendLine("4th:    ${rankingData.sortedPlayersRankings[3].toSignedString()}")
+            appendLine()
             if (uiGame.getBestHand().playerInitialPosition != NONE) {
+                append("Best hand: ${uiGame.getBestHand().playerName} (${uiGame.getBestHand().handValue})")
                 appendLine()
-                appendLine("- BEST HAND:")
-                appendLine()
-                appendLine("${uiGame.getBestHand().playerName} (${uiGame.getBestHand().handValue})")
             }
         }
             ?: throw RankingDataGenerationException()
