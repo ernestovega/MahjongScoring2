@@ -56,9 +56,14 @@
             android:title="@string/ema_web" />
 
         <item
-            android:id="@+id/nav_contact"
+            android:id="@+id/nav_contact_mahjong_madrid"
             android:icon="@drawable/ic_email_black_18px"
-            android:title="@string/contact" />
+            android:title="@string/contact_mahjong_madrid" />
+
+        <item
+            android:id="@+id/nav_contact_app_support"
+            android:icon="@drawable/ic_support"
+            android:title="@string/contact_app_support" />
 
     </group>
 

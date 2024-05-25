@@ -66,7 +66,8 @@ class MainViewModel @Inject constructor(
         GREEN_BOOK_SPANISH,
         MM_WEB,
         EMA_WEB,
-        CONTACT,
+        CONTACT_MAHJONG_MADRID,
+        CONTACT_APP_SUPPORT,
     }
 
     var activeGameId: GameId? = null

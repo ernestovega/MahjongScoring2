@@ -22,7 +22,6 @@
     <string name="old_games">Partidas antiguas</string>
     <string name="combinations">Combinaciones</string>
     <string name="green_book_en">Libro Verde (PDF en Inglés)</string>
-    <string name="contact">Contacto</string>
     <string name="press_again_to_exit">Pulsa de nuevo para salir</string>
     <string name="theres_no_games_yet_start_one">No hay partidas aún.\nEmpieza una!</string>
     <string name="best_hand">Mejor mano</string>
@@ -223,4 +222,8 @@
     <!--    <string name="penalties">Penalizaciones</string>-->
     <!--    <string name="rounds_dont_count_penalties">Los totales de cada ronda no tienen en cuenta las penalizaciones</string>-->
     <!--    <string name="partials">Parciales</string>-->
+
+    <!--  Translations V2.3.0  -->
+    <string name="contact_mahjong_madrid">Contactar Mahjong Madrid</string>
+    <string name="contact_app_support">Contactar Soporte app</string>
 </resources>

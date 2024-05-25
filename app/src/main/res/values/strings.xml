@@ -25,7 +25,6 @@
     <string name="old_games">Old games</string>
     <string name="combinations">Combinations</string>
     <string name="green_book_en">Green Book (English PDF)</string>
-    <string name="contact">Contact</string>
     <string name="press_again_to_exit">Press again to exit</string>
     <string name="theres_no_games_yet_start_one">There aren\'t games yet.\nStart one!</string>
     <string name="best_hand">Best hand</string>
@@ -226,4 +225,8 @@
     <!--    <string name="penalties">Penalties</string>-->
     <!--    <string name="rounds_dont_count_penalties">Rounds totals don\'t take penalties in account</string>-->
     <!--    <string name="partials">Partials</string>-->
+
+    <!--  Translations V2.3.0  -->
+    <string name="contact_mahjong_madrid">Contact Mahjong Madrid</string>
+    <string name="contact_app_support">Contact app support</string>
 </resources>

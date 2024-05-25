@@ -35,7 +35,8 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
 import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToScreen
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT_APP_SUPPORT
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT_MAHJONG_MADRID
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.DIFFS_CALCULATOR
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.EMA_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_ENGLISH
@@ -130,7 +131,8 @@ class MainActivity : BaseActivity() {
                 R.id.nav_greenbook_es -> viewModel.navigateTo(GREEN_BOOK_SPANISH)
                 R.id.nav_mm_web -> viewModel.navigateTo(MM_WEB)
                 R.id.nav_ema_web -> viewModel.navigateTo(EMA_WEB)
-                R.id.nav_contact -> viewModel.navigateTo(CONTACT)
+                R.id.nav_contact_mahjong_madrid -> viewModel.navigateTo(CONTACT_MAHJONG_MADRID)
+                R.id.nav_contact_app_support -> viewModel.navigateTo(CONTACT_APP_SUPPORT)
                 else -> return@setNavigationItemSelectedListener false
             }
             return@setNavigationItemSelectedListener true

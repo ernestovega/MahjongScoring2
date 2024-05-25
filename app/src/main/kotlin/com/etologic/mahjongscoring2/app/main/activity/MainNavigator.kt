@@ -34,7 +34,8 @@ import com.etologic.mahjongscoring2.app.game.activity.GameActivity
 import com.etologic.mahjongscoring2.app.game.activity.GameActivity.Companion.KEY_GAME_ID
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT_APP_SUPPORT
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT_MAHJONG_MADRID
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.DIFFS_CALCULATOR
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.EMA_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
@@ -56,7 +57,8 @@ object MainNavigator {
     private const val MAHJONG_MADRID_URL = "https://www.mahjongmadrid.com"
     private const val EMA_URL = "http://mahjong-europe.org/"
     private const val EMAIL_SUBJECT = "Mahjong Scoring ${BuildConfig.VERSION_NAME}"
-    private const val EMAIL_ADDRESS = "mahjongmadrid@gmail.com"
+    private const val MAHJONG_MADRID_EMAIL_ADDRESS = "mahjongmadrid@gmail.com"
+    private const val APP_SUPPORT_EMAIL_ADDRESS = "ernestovega85@gmail.com"
 
     fun goToScreen(screen: MainScreens, activity: MainActivity, viewModel: MainViewModel) {
         when (screen) {
@@ -69,7 +71,8 @@ object MainNavigator {
             GREEN_BOOK_SPANISH -> goToGreenBook(GREEN_BOOK_SPANISH_URL, activity)
             MM_WEB -> goToWebsite(MAHJONG_MADRID_URL, activity)
             EMA_WEB -> goToWebsite(EMA_URL, activity)
-            CONTACT -> goToContact(activity)
+            CONTACT_MAHJONG_MADRID -> goToContact(activity, MAHJONG_MADRID_EMAIL_ADDRESS)
+            CONTACT_APP_SUPPORT -> goToContact(activity, APP_SUPPORT_EMAIL_ADDRESS)
         }
     }
 
@@ -110,10 +113,10 @@ object MainNavigator {
         }
     }
 
-    private fun goToContact(activity: MainActivity) {
+    private fun goToContact(activity: MainActivity, emailAddress: String) {
         with(Intent(ACTION_SENDTO)) {
             data = Uri.parse("mailto:")
-            putExtra(Intent.EXTRA_EMAIL, arrayOf(EMAIL_ADDRESS))
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(emailAddress))
             putExtra(Intent.EXTRA_SUBJECT, EMAIL_SUBJECT)
             try {
                 activity.startActivity(Intent.createChooser(this, activity.getString(R.string.send_email)))
