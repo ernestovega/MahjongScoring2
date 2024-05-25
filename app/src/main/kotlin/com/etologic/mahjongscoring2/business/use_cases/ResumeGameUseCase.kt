@@ -19,38 +19,53 @@ package com.etologic.mahjongscoring2.business.use_cases
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.business.model.entities.UiRound.Companion.NOT_SET_ROUND_ID
+import com.etologic.mahjongscoring2.business.model.exceptions.GameRoundsNumberExceededException
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
-import com.etologic.mahjongscoring2.data_source.repositories.GamesRepository
-import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
-import java.util.Date
+import com.etologic.mahjongscoring2.data_source.repositories.games.DefaultGamesRepository
+import com.etologic.mahjongscoring2.data_source.repositories.games.GamesRepository
+import com.etologic.mahjongscoring2.data_source.repositories.rounds.DefaultRoundsRepository
+import com.etologic.mahjongscoring2.data_source.repositories.rounds.RoundsRepository
 import javax.inject.Inject
 
 class ResumeGameUseCase @Inject constructor(
     private val gamesRepository: GamesRepository,
     private val roundsRepository: RoundsRepository,
 ) {
-    suspend operator fun invoke(uiGame: UiGame, gameRoundsNumber: Int): Result<Boolean> =
-        if (gameRoundsNumber < MAX_MCR_ROUNDS) {
-            gamesRepository.updateOne(
-                DbGame(
-                    gameId = uiGame.gameId,
-                    nameP1 = uiGame.nameP1,
-                    nameP2 = uiGame.nameP2,
-                    nameP3 = uiGame.nameP3,
-                    nameP4 = uiGame.nameP4,
-                    startDate = uiGame.startDate,
-                    endDate = null,
-                    gameName = uiGame.gameName,
-                )
-            )
+    suspend operator fun invoke(uiGame: UiGame): Result<Boolean> =
+        runCatching {
+            if (uiGame.uiRounds.size < MAX_MCR_ROUNDS) {
+                removeEndDateFromGame(uiGame)
+                insertOngoingRoundIfNotPresent(uiGame)
+            } else {
+                throw GameRoundsNumberExceededException()
+            }
+        }
+
+    private suspend fun insertOngoingRoundIfNotPresent(uiGame: UiGame): Boolean =
+        if (uiGame.uiRounds.last().isOngoing().not()) {
             roundsRepository.insertOne(
                 DbRound(
                     gameId = uiGame.gameId,
                     roundId = NOT_SET_ROUND_ID
                 )
-            )
+            ).getOrThrow()
         } else {
-            Result.success(false)
+            false
         }
+
+    private suspend fun removeEndDateFromGame(uiGame: UiGame) {
+        gamesRepository.updateOne(
+            DbGame(
+                gameId = uiGame.gameId,
+                nameP1 = uiGame.nameP1,
+                nameP2 = uiGame.nameP2,
+                nameP3 = uiGame.nameP3,
+                nameP4 = uiGame.nameP4,
+                startDate = uiGame.startDate,
+                endDate = null,
+                gameName = uiGame.gameName,
+            )
+        )
+    }
 }

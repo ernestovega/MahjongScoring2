@@ -18,29 +18,31 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.app.utils.writeToFile
-import com.etologic.mahjongscoring2.business.model.entities.UiGame
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
-import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
 import com.etologic.mahjongscoring2.business.model.entities.GameId
-import kotlinx.coroutines.flow.firstOrNull
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
+import com.etologic.mahjongscoring2.business.use_cases.utils.normalizeName
 import java.io.File
 import javax.inject.Inject
 
 class ExportGameToCsvUseCase @Inject constructor(
-    private val getOneGameFlowUseCase: GetOneGameFlowUseCase
+    private val getOneGameUseCase: GetOneGameUseCase,
 ) {
-    @Throws(GameNotFoundException::class)
     suspend operator fun invoke(gameId: GameId, getExternalFilesDir: () -> File?): Result<List<File>> =
-        runCatching {
-            val uiGame = getOneGameFlowUseCase.invoke(gameId).firstOrNull() ?: throw GameNotFoundException()
-            val csvText = buildCsvText(uiGame)
-            val csvFile = writeToFile(
-                name = "Game_${normalizeName(uiGame.gameName).replace(" ", "-")}",
-                csvText = csvText,
-                externalFilesDir = getExternalFilesDir.invoke(),
-            )
-            listOf(csvFile)
-        }
+        getOneGameUseCase(gameId)
+            .mapCatching { uiGame ->
+                val csvText = buildCsvText(uiGame)
+                val csvFile = writeToFile(
+                    name = "Game_${normalizeName(uiGame.gameName).replace(" ", "-")}",
+                    csvText = csvText,
+                    externalFilesDir = getExternalFilesDir.invoke(),
+                )
+                listOf(csvFile)
+            }
 
     private fun buildCsvText(uiGame: UiGame): String =
         with(StringBuilder()) {

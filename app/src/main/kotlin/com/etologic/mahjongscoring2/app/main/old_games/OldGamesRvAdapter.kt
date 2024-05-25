@@ -114,12 +114,12 @@ class OldGamesRvAdapter
         itemViewHolder.tvSouthPlayerName.text = uiGame.nameP2
         itemViewHolder.tvWestPlayerName.text = uiGame.nameP3
         itemViewHolder.tvNorthPlayerName.text = uiGame.nameP4
-        itemViewHolder.tvEastPlayerPoints.text = uiGame.currentRound.totalPointsP1.toStringSigned()
-        itemViewHolder.tvSouthPlayerPoints.text = uiGame.currentRound.totalPointsP2.toStringSigned()
-        itemViewHolder.tvWestPlayerPoints.text = uiGame.currentRound.totalPointsP3.toStringSigned()
-        itemViewHolder.tvNorthPlayerPoints.text = uiGame.currentRound.totalPointsP4.toStringSigned()
+        itemViewHolder.tvEastPlayerPoints.text = uiGame.ongoingRound.totalPointsP1.toStringSigned()
+        itemViewHolder.tvSouthPlayerPoints.text = uiGame.ongoingRound.totalPointsP2.toStringSigned()
+        itemViewHolder.tvWestPlayerPoints.text = uiGame.ongoingRound.totalPointsP3.toStringSigned()
+        itemViewHolder.tvNorthPlayerPoints.text = uiGame.ongoingRound.totalPointsP4.toStringSigned()
         setWinnerIcon(uiGame, itemViewHolder)
-        itemViewHolder.tvRoundNumber.text = uiGame.getEndedRounds().size.toString()
+        itemViewHolder.tvRoundNumber.text = uiGame.finishedRounds.size.toString()
         setBestHand(itemViewHolder, bestHand)
     }
 

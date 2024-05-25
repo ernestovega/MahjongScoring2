@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.data_source.repositories
+package com.etologic.mahjongscoring2.data_source.repositories.games
 
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos.GamesDao
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
@@ -24,17 +24,18 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GamesRepository
-@Inject constructor(
+class DefaultGamesRepository @Inject constructor(
     private var gamesDao: GamesDao,
-) {
-    fun getAllFlow(): Flow<List<DbGame>> = gamesDao.getAll()
+) : GamesRepository {
+    override fun getAllFlow(): Flow<List<DbGame>> = gamesDao.getAllFlow()
 
-    fun getOneFlow(gameId: GameId): Flow<DbGame> = gamesDao.getOne(gameId)
+    override fun getOneFlow(gameId: GameId): Flow<DbGame> = gamesDao.getOneFlow(gameId)
 
-    suspend fun insertOne(dbGame: DbGame): Result<GameId> = runCatching { gamesDao.insertOne(dbGame) }
+    override suspend fun getOne(gameId: GameId): Result<DbGame> = runCatching { gamesDao.getOne(gameId) }
 
-    suspend fun updateOne(dbGame: DbGame): Result<Boolean> = runCatching { gamesDao.updateOne(dbGame) == 1 }
+    override suspend fun insertOne(dbGame: DbGame): Result<GameId> = runCatching { gamesDao.insertOne(dbGame) }
 
-    suspend fun deleteOne(gameId: GameId): Result<Boolean> = runCatching { gamesDao.deleteOne(gameId) == 1 }
+    override suspend fun updateOne(dbGame: DbGame): Result<Boolean> = runCatching { gamesDao.updateOne(dbGame) == 1 }
+
+    override suspend fun deleteOne(gameId: GameId): Result<Boolean> = runCatching { gamesDao.deleteOne(gameId) == 1 }
 }

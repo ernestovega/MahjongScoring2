@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.data_source.repositories
+package com.etologic.mahjongscoring2.data_source.repositories.rounds
 
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos.RoundsDao
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
@@ -25,19 +25,23 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RoundsRepository @Inject constructor(private var roundsDao: RoundsDao) {
+class DefaultRoundsRepository @Inject constructor(
+    private var roundsDao: RoundsDao
+) : RoundsRepository {
 
-    fun getAllFlow(): Flow<List<DbRound>> = roundsDao.getAll()
+    override fun getAllFlow(): Flow<List<DbRound>> = roundsDao.getAllFlow()
 
-    fun getAllByGame(gameId: GameId): Flow<List<DbRound>> = roundsDao.getGameRounds(gameId)
+    override fun getGameRoundsFlow(gameId: GameId): Flow<List<DbRound>> = roundsDao.getGameRoundsFlow(gameId)
 
-    suspend fun insertOne(round: DbRound): Result<Boolean> = runCatching { roundsDao.insertOne(round) > 0 }
+    override suspend fun getGameRounds(gameId: GameId): Result<List<DbRound>> = runCatching { roundsDao.getGameRounds(gameId) }
 
-    suspend fun updateOne(round: DbRound): Result<Boolean> = runCatching { roundsDao.updateOne(round) == 1 }
+    override suspend fun getOne(gameId: GameId, roundId: RoundId): Result<DbRound> = runCatching { roundsDao.getOne(gameId, roundId) }
 
-    suspend fun deleteByGame(gameId: GameId): Result<Boolean> = runCatching { roundsDao.deleteGameRounds(gameId) >= 0 }
+    override suspend fun insertOne(dbRound: DbRound): Result<Boolean> = runCatching { roundsDao.insertOne(dbRound) > 0 }
 
-    suspend fun deleteOne(gameId: GameId, roundId: RoundId): Result<Boolean> = runCatching {
-        roundsDao.deleteOne(gameId, roundId) == 1
-    }
+    override suspend fun updateOne(dbRound: DbRound): Result<Boolean> = runCatching { roundsDao.updateOne(dbRound) == 1 }
+
+    override suspend fun deleteGameRounds(gameId: GameId): Result<Boolean> = runCatching { roundsDao.deleteGameRounds(gameId) >= 0 }
+
+    override suspend fun deleteOne(gameId: GameId, roundId: RoundId): Result<Boolean> = runCatching { roundsDao.deleteOne(gameId, roundId) == 1 }
 }

@@ -39,7 +39,7 @@ data class UiGame(
     val gameName: String,
     val uiRounds: List<UiRound>,
 ) {
-    val currentRound: UiRound = uiRounds.last()
+    val ongoingRound: UiRound = uiRounds.last()
     val isEnded: Boolean = endDate != null
     val playersNames: Array<String> = arrayOf(nameP1, nameP2, nameP3, nameP4)
 
@@ -171,7 +171,7 @@ data class UiGame(
 
     fun getCurrentEastSeatPlayerName(): String? {
         val playersNamesByCurrentRoundSeat = getPlayersNamesByCurrentSeat()
-        return when (currentRound.roundNumber) {
+        return when (ongoingRound.roundNumber) {
             1, 5, 9, 13 -> playersNamesByCurrentRoundSeat[EAST.code]
             2, 6, 10, 14 -> playersNamesByCurrentRoundSeat[SOUTH.code]
             3, 7, 11, 15 -> playersNamesByCurrentRoundSeat[WEST.code]
@@ -182,7 +182,7 @@ data class UiGame(
 
     fun getCurrentSouthSeatPlayerName(): String? {
         val playersNamesByCurrentRoundSeat = getPlayersNamesByCurrentSeat()
-        return when (currentRound.roundNumber) {
+        return when (ongoingRound.roundNumber) {
             1, 5, 9, 13 -> playersNamesByCurrentRoundSeat[SOUTH.code]
             2, 6, 10, 14 -> playersNamesByCurrentRoundSeat[WEST.code]
             3, 7, 11, 15 -> playersNamesByCurrentRoundSeat[NORTH.code]
@@ -193,7 +193,7 @@ data class UiGame(
 
     fun getCurrentWestSeatPlayerName(): String? {
         val playersNamesByCurrentRoundSeat = getPlayersNamesByCurrentSeat()
-        return when (currentRound.roundNumber) {
+        return when (ongoingRound.roundNumber) {
             1, 5, 9, 13 -> playersNamesByCurrentRoundSeat[WEST.code]
             2, 6, 10, 14 -> playersNamesByCurrentRoundSeat[NORTH.code]
             3, 7, 11, 15 -> playersNamesByCurrentRoundSeat[EAST.code]
@@ -204,7 +204,7 @@ data class UiGame(
 
     fun getCurrentNorthSeatPlayerName(): String? {
         val playersNamesByCurrentRoundSeat = getPlayersNamesByCurrentSeat()
-        return when (currentRound.roundNumber) {
+        return when (ongoingRound.roundNumber) {
             1, 5, 9, 13 -> playersNamesByCurrentRoundSeat[NORTH.code]
             2, 6, 10, 14 -> playersNamesByCurrentRoundSeat[EAST.code]
             3, 7, 11, 15 -> playersNamesByCurrentRoundSeat[SOUTH.code]
@@ -215,7 +215,7 @@ data class UiGame(
 
     fun getPlayersNamesByCurrentSeat(): Array<String> {
         val namesListByCurrentSeat = arrayOf("", "", "", "")
-        val currentRoundNumber = currentRound.roundNumber
+        val currentRoundNumber = ongoingRound.roundNumber
         namesListByCurrentSeat[getInitialEastPlayerCurrentSeat(currentRoundNumber).code] = nameP1
         namesListByCurrentSeat[getInitialSouthPlayerCurrentSeat(currentRoundNumber).code] = nameP2
         namesListByCurrentSeat[getInitialWestPlayerCurrentSeat(currentRoundNumber).code] = nameP3
@@ -225,10 +225,10 @@ data class UiGame(
 
     fun getPlayersTotalPointsByCurrentSeat(): IntArray {
         val totalPointsByInitialSeat = intArrayOf(
-            currentRound.totalPointsP1,
-            currentRound.totalPointsP2,
-            currentRound.totalPointsP3,
-            currentRound.totalPointsP4,
+            ongoingRound.totalPointsP1,
+            ongoingRound.totalPointsP2,
+            ongoingRound.totalPointsP3,
+            ongoingRound.totalPointsP4,
         )
         return intArrayOf(
             totalPointsByInitialSeat[getPlayerInitialSeatByCurrentSeat(EAST).code],
@@ -240,10 +240,10 @@ data class UiGame(
 
     fun getPlayersPenaltiesByCurrentSeat(): IntArray {
         val penaltiesByInitialSeat = intArrayOf(
-            currentRound.penaltyP1,
-            currentRound.penaltyP2,
-            currentRound.penaltyP3,
-            currentRound.penaltyP4,
+            ongoingRound.penaltyP1,
+            ongoingRound.penaltyP2,
+            ongoingRound.penaltyP3,
+            ongoingRound.penaltyP4,
         )
         return intArrayOf(
             penaltiesByInitialSeat[getPlayerInitialSeatByCurrentSeat(EAST).code],
@@ -300,7 +300,7 @@ data class UiGame(
         }
 
     fun getPlayerInitialSeatByCurrentSeat(currentSeatPosition: TableWinds): TableWinds =
-        when (currentRound.roundNumber) {
+        when (ongoingRound.roundNumber) {
             1, 2, 3, 4 -> getPlayerInitialPositionBySeatInRoundEast(currentSeatPosition)
             5, 6, 7, 8 -> getPlayerInitialPositionBySeatInRoundSouth(currentSeatPosition)
             9, 10, 11, 12 -> getPlayerInitialPositionBySeatInRoundWest(currentSeatPosition)
@@ -354,8 +354,8 @@ data class UiGame(
             else -> arrayOf()
         }
 
-    fun getEndedRounds(): List<UiRound> =
-        uiRounds.takeIf { isEnded } ?: uiRounds.dropLast(1)
+    val finishedRounds: List<UiRound>
+        get() = uiRounds.filter { !it.isOngoing() }
 
     companion object {
 

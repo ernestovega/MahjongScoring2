@@ -1,5 +1,5 @@
 /*
- *     Copyright © 2023  Ernesto Vega de la Iglesia Soria
+ *     Copyright © 2024  Ernesto Vega de la Iglesia Soria
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -14,20 +14,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.business.model.entities.GameId
+package com.etologic.mahjongscoring2.business.use_cases.di
+
 import com.etologic.mahjongscoring2.data_source.repositories.games.DefaultGamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.games.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.rounds.DefaultRoundsRepository
 import com.etologic.mahjongscoring2.data_source.repositories.rounds.RoundsRepository
-import javax.inject.Inject
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-class DeleteGameUseCase @Inject constructor(
-    private val gamesRepository: GamesRepository,
-    private val roundsRepository: RoundsRepository,
-) {
-    suspend operator fun invoke(gameId: GameId): Result<Boolean> =
-        roundsRepository.deleteGameRounds(gameId)
-            .also { gamesRepository.deleteOne(gameId) }
+@Module
+@InstallIn(SingletonComponent::class)
+interface Module {
+
+    @Binds
+    fun provideGamesRepository(gamesRepository: DefaultGamesRepository): GamesRepository
+
+    @Binds
+    fun provideRoundsRepository(roundsRepository: DefaultRoundsRepository): RoundsRepository
 }

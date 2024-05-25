@@ -73,4 +73,6 @@ data class DbRound(
         this.penaltyP3 = penaltyP3
         this.penaltyP4 = penaltyP4
     }
+
+    fun isOngoing(): Boolean = winnerInitialSeat == null
 }

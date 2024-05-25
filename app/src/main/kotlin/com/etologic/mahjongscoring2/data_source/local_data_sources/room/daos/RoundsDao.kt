@@ -27,13 +27,16 @@ import kotlinx.coroutines.flow.Flow
 interface RoundsDao {
 
     @Query("SELECT * FROM Rounds")
-    fun getAll(): Flow<List<DbRound>>
+    fun getAllFlow(): Flow<List<DbRound>>
 
     @Query("SELECT * FROM Rounds WHERE gameId = :gameId")
-    fun getGameRounds(gameId: GameId): Flow<List<DbRound>>
+    fun getGameRoundsFlow(gameId: GameId): Flow<List<DbRound>>
+
+    @Query("SELECT * FROM Rounds WHERE gameId = :gameId")
+    suspend fun getGameRounds(gameId: GameId): List<DbRound>
 
     @Query("SELECT * FROM Rounds WHERE gameId = :gameId AND roundId = :roundId")
-    fun getOne(gameId: GameId, roundId: RoundId): DbRound
+    suspend fun getOne(gameId: GameId, roundId: RoundId): DbRound
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     @Throws(SQLiteConstraintException::class)

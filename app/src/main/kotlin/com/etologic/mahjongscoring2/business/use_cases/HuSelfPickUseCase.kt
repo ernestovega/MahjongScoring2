@@ -18,11 +18,10 @@ package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
-import com.etologic.mahjongscoring2.business.model.entities.UiRound
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
-import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
+import com.etologic.mahjongscoring2.data_source.repositories.rounds.DefaultRoundsRepository
+import com.etologic.mahjongscoring2.data_source.repositories.rounds.RoundsRepository
 import javax.inject.Inject
 
 class HuSelfPickUseCase @Inject constructor(
@@ -31,7 +30,7 @@ class HuSelfPickUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(uiGame: UiGame, huData: HuData): Result<Boolean> =
-        with(uiGame.currentRound) {
+        with(uiGame.ongoingRound) {
             roundsRepository.updateOne(
                 DbRound(
                     gameId = this.gameId,
@@ -46,5 +45,5 @@ class HuSelfPickUseCase @Inject constructor(
                 )
             )
         }
-            .onSuccess { endRoundUseCase(uiGame) }
+            .onSuccess { endRoundUseCase(uiGame.gameId) }
 }

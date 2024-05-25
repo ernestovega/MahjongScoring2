@@ -112,7 +112,7 @@ class GameListFragment : BaseFragment() {
     }
 
     private fun gameObserver(uiGame: UiGame) {
-        setRoundsList(uiGame.getEndedRounds())
+        setRoundsList(uiGame.finishedRounds)
         setNames(uiGame.playersNames)
         setFooter(uiGame)
     }
@@ -142,19 +142,19 @@ class GameListFragment : BaseFragment() {
 
     private fun setFooter(uiGame: UiGame) {
         with(binding) {
-            if (uiGame.currentRound.areTherePenalties()) {
-                tvGameListFooterTotalPenaltiesP1.text = uiGame.currentRound.penaltyP1.toStringSigned()
-                tvGameListFooterTotalPenaltiesP2.text = uiGame.currentRound.penaltyP2.toStringSigned()
-                tvGameListFooterTotalPenaltiesP3.text = uiGame.currentRound.penaltyP3.toStringSigned()
-                tvGameListFooterTotalPenaltiesP4.text = uiGame.currentRound.penaltyP4.toStringSigned()
+            if (uiGame.ongoingRound.areTherePenalties()) {
+                tvGameListFooterTotalPenaltiesP1.text = uiGame.ongoingRound.penaltyP1.toStringSigned()
+                tvGameListFooterTotalPenaltiesP2.text = uiGame.ongoingRound.penaltyP2.toStringSigned()
+                tvGameListFooterTotalPenaltiesP3.text = uiGame.ongoingRound.penaltyP3.toStringSigned()
+                tvGameListFooterTotalPenaltiesP4.text = uiGame.ongoingRound.penaltyP4.toStringSigned()
                 llGameListFooterTotalPenalties.visibility = VISIBLE
             } else {
                 llGameListFooterTotalPenalties.visibility = GONE
             }
-            tvGameListFooterTotalPointsP1.text = uiGame.currentRound.totalPointsP1.toStringSigned()
-            tvGameListFooterTotalPointsP2.text = uiGame.currentRound.totalPointsP2.toStringSigned()
-            tvGameListFooterTotalPointsP3.text = uiGame.currentRound.totalPointsP3.toStringSigned()
-            tvGameListFooterTotalPointsP4.text = uiGame.currentRound.totalPointsP4.toStringSigned()
+            tvGameListFooterTotalPointsP1.text = uiGame.ongoingRound.totalPointsP1.toStringSigned()
+            tvGameListFooterTotalPointsP2.text = uiGame.ongoingRound.totalPointsP2.toStringSigned()
+            tvGameListFooterTotalPointsP3.text = uiGame.ongoingRound.totalPointsP3.toStringSigned()
+            tvGameListFooterTotalPointsP4.text = uiGame.ongoingRound.totalPointsP4.toStringSigned()
         }
     }
 

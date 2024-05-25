@@ -16,32 +16,30 @@
  */
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.business.model.dtos.HuData
-import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.business.model.entities.GameId
+import com.etologic.mahjongscoring2.business.model.entities.RoundId
+import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 import com.etologic.mahjongscoring2.data_source.repositories.rounds.DefaultRoundsRepository
 import com.etologic.mahjongscoring2.data_source.repositories.rounds.RoundsRepository
 import javax.inject.Inject
 
-class HuDiscardUseCase @Inject constructor(
+class DeleteRoundUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
-    private val endRoundUseCase: EndRoundUseCase,
 ) {
-    suspend operator fun invoke(uiGame: UiGame, huData: HuData): Result<Boolean> =
-        with(uiGame.ongoingRound) {
-            roundsRepository.updateOne(
-                DbRound(
-                    gameId = this.gameId,
-                    roundId = this.roundId,
-                    winnerInitialSeat = huData.winnerInitialSeat,
-                    discarderInitialSeat = huData.discarderInitialSeat,
-                    handPoints = huData.points,
-                    penaltyP1 = this.penaltyP1,
-                    penaltyP2 = this.penaltyP2,
-                    penaltyP3 = this.penaltyP3,
-                    penaltyP4 = this.penaltyP4,
-                )
-            )
-        }
-            .onSuccess { endRoundUseCase(uiGame.gameId) }
+    suspend operator fun invoke(gameId: GameId, roundId: RoundId): Result<Boolean> =
+        roundsRepository.getOne(gameId, roundId)
+            .mapCatching { dbRound ->
+                roundsRepository.deleteOne(gameId, roundId)
+                    .onSuccess {
+                        if (dbRound.isOngoing()) {
+                            roundsRepository.insertOne(
+                                DbRound(
+                                    gameId = dbRound.gameId,
+                                    roundId = UiRound.NOT_SET_ROUND_ID
+                                )
+                            )
+                        }
+                    }.getOrThrow()
+            }
 }

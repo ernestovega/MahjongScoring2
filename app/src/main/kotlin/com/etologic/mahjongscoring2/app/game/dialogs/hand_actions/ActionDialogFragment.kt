@@ -126,7 +126,7 @@ class ActionDialogFragment : AppCompatDialogFragment() {
 
     private fun setButtons() {
         binding.btHandActionsDialogPenaltiesCancel.visibility =
-            if (activityViewModel.gameFlow.value.currentRound.areTherePenalties()) VISIBLE else GONE
+            if (activityViewModel.gameFlow.value.ongoingRound.areTherePenalties()) VISIBLE else GONE
     }
 
     private fun setListeners() {

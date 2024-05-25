@@ -17,13 +17,22 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.GameId
-import com.etologic.mahjongscoring2.business.model.entities.RoundId
-import com.etologic.mahjongscoring2.data_source.repositories.RoundsRepository
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
+import com.etologic.mahjongscoring2.business.model.exceptions.RoundsNotFoundException
+import com.etologic.mahjongscoring2.business.use_cases.mappers.toUiGame
+import com.etologic.mahjongscoring2.data_source.repositories.games.GamesRepository
+import com.etologic.mahjongscoring2.data_source.repositories.rounds.RoundsRepository
 import javax.inject.Inject
 
-class RemoveRoundUseCase @Inject constructor(
+class GetOneGameUseCase @Inject constructor(
+    private val gamesRepository: GamesRepository,
     private val roundsRepository: RoundsRepository,
 ) {
-    suspend operator fun invoke(gameId: GameId, roundId: RoundId): Result<Boolean> =
-        roundsRepository.deleteOne(gameId, roundId)
+    suspend operator fun invoke(gameId: GameId): Result<UiGame> =
+        runCatching {
+            val dbGame = gamesRepository.getOne(gameId).getOrNull() ?: throw GameNotFoundException()
+            val dbGameRounds = roundsRepository.getGameRounds(gameId).getOrNull() ?: throw RoundsNotFoundException()
+            dbGame.toUiGame(dbGameRounds)
+        }
 }

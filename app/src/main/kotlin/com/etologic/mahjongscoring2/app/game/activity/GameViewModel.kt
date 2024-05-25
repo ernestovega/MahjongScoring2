@@ -45,7 +45,7 @@ import com.etologic.mahjongscoring2.business.use_cases.GetOneGameFlowUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuDiscardUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuDrawUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuSelfPickUseCase
-import com.etologic.mahjongscoring2.business.use_cases.RemoveRoundUseCase
+import com.etologic.mahjongscoring2.business.use_cases.DeleteRoundUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ResumeGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.SaveIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.SetPenaltyUseCase
@@ -73,7 +73,7 @@ class GameViewModel @AssistedInject constructor(
     private val huDrawUseCase: HuDrawUseCase,
     private val setPenaltyUseCase: SetPenaltyUseCase,
     private val cancelPenaltyUseCase: CancelPenaltyUseCase,
-    private val removeRoundUseCase: RemoveRoundUseCase,
+    private val deleteRoundUseCase: DeleteRoundUseCase,
     private val resumeGameUseCase: ResumeGameUseCase,
     private val endGameUseCase: EndGameUseCase,
     private val exportGameResultsToTextUseCase: ExportGameResultsToTextUseCase,
@@ -150,7 +150,7 @@ class GameViewModel @AssistedInject constructor(
     //GAME OPERATIONS
     fun resumeGame() {
         viewModelScope.launch {
-            resumeGameUseCase(gameFlow.value, gameFlow.value.currentRound.roundNumber)
+            resumeGameUseCase(gameFlow.value)
                 .onFailure(::showError)
         }
     }
@@ -210,21 +210,21 @@ class GameViewModel @AssistedInject constructor(
 
     fun savePenalty(penaltyData: PenaltyData) {
         viewModelScope.launch {
-            setPenaltyUseCase(gameFlow.value.currentRound, penaltyData)
+            setPenaltyUseCase(gameFlow.value.ongoingRound, penaltyData)
                 .onFailure(::showError)
         }
     }
 
     fun cancelPenalties() {
         viewModelScope.launch {
-            cancelPenaltyUseCase(gameFlow.value.currentRound)
+            cancelPenaltyUseCase(gameFlow.value.ongoingRound)
                 .onFailure(::showError)
         }
     }
 
     fun removeRound(roundId: RoundId) {
         viewModelScope.launch {
-            removeRoundUseCase(gameId, roundId)
+            deleteRoundUseCase(gameId, roundId)
                 .onSuccess { lastHighlightedRound = "" }
                 .onFailure(::showError)
         }

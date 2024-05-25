@@ -58,8 +58,6 @@ data class UiRound(
         penaltyP4 = 0,
     )
 
-    fun isNotEnded(): Boolean = winnerInitialSeat == null
-
     fun areTherePenalties(): Boolean =
         penaltyP1 != 0 || penaltyP2 != 0 || penaltyP3 != 0 || penaltyP4 != 0
 
@@ -82,6 +80,8 @@ data class UiRound(
         this@apply.totalPointsP4 = this@UiRound.totalPointsP4
         this@apply.isBestHand = this@UiRound.isBestHand
     }
+
+    fun isOngoing(): Boolean = winnerInitialSeat == null
 
     companion object {
         const val NOT_SET_ROUND_ID: RoundId = 0

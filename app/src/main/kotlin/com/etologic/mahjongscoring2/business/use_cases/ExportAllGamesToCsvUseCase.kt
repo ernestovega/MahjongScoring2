@@ -22,6 +22,7 @@ import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
 import com.etologic.mahjongscoring2.business.model.exceptions.GamesNotFoundException
+import com.etologic.mahjongscoring2.business.use_cases.utils.normalizeName
 import kotlinx.coroutines.flow.firstOrNull
 import java.io.File
 import javax.inject.Inject

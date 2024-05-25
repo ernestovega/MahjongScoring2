@@ -15,9 +15,6 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.etologic.mahjongscoring2.business.use_cases
+package com.etologic.mahjongscoring2.business.model.exceptions
 
-internal fun normalizeName(name: String?): String =
-    (name ?: "")
-        .trim()
-        .replace("\"", "")
+class GameRoundsNumberExceededException : Throwable()

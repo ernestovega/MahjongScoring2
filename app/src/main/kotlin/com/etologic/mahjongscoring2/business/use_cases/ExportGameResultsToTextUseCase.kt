@@ -20,25 +20,20 @@ package com.etologic.mahjongscoring2.business.use_cases
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingTableHelper
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
+import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
-import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
 import com.etologic.mahjongscoring2.business.model.exceptions.RankingDataGenerationException
-import com.etologic.mahjongscoring2.business.model.entities.GameId
-import kotlinx.coroutines.flow.firstOrNull
 import java.lang.String.format
 import java.util.Locale
 import javax.inject.Inject
 
 class ExportGameResultsToTextUseCase @Inject constructor(
-    private val getOneGameFlowUseCase: GetOneGameFlowUseCase
+    private val getOneGameUseCase: GetOneGameUseCase,
 ) {
-    @Throws(GameNotFoundException::class, RankingDataGenerationException::class)
     suspend operator fun invoke(gameId: GameId): Result<String> =
-        runCatching {
-            val uiGame = getOneGameFlowUseCase.invoke(gameId).firstOrNull() ?: throw GameNotFoundException()
-            buildText(uiGame)
-        }
+        getOneGameUseCase(gameId)
+            .mapCatching { buildText(it) }
 
     private fun buildText(uiGame: UiGame): String =
         with(StringBuilder()) {
