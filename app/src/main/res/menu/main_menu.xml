@@ -34,6 +34,13 @@
         tools:targetApi="o" />
 
     <item
+        android:id="@+id/action_import_game"
+        android:title="@string/import_game"
+        android:tooltipText="@string/import_game"
+        app:showAsAction="never"
+        tools:targetApi="o" />
+
+    <item
         android:id="@+id/action_enable_diffs_calcs"
         android:title="@string/enable_diffs_calcs"
         android:visible="false"

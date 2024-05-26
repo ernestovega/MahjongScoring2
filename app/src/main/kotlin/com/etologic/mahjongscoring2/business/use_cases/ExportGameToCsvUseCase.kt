@@ -70,7 +70,10 @@ class ExportGameToCsvUseCase @Inject constructor(
         append("Penalty $initialEastPlayerName,")
         append("Penalty $initialSouthPlayerName,")
         append("Penalty $initialWestPlayerName,")
-        append("Penalty $initialNorthPlayerName")
+        append("Penalty $initialNorthPlayerName,")
+        append("Game name,")
+        append("Game start date,")
+        append("Game end date")
         appendLine()
     }
 
@@ -101,7 +104,10 @@ class ExportGameToCsvUseCase @Inject constructor(
             append("${uiRound.penaltyP1},")
             append("${uiRound.penaltyP2},")
             append("${uiRound.penaltyP3},")
-            append(uiRound.penaltyP4)
+            append("${uiRound.penaltyP4},")
+            append("${uiGame.gameName},")
+            append("${uiGame.startDate},")
+            append(uiGame.endDate)
             appendLine()
         }
     }

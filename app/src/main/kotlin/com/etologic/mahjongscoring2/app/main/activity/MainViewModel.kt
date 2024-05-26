@@ -17,6 +17,8 @@
 package com.etologic.mahjongscoring2.app.main.activity
 
 import android.app.Activity
+import android.content.ContentResolver
+import android.net.Uri
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -34,6 +36,7 @@ import com.etologic.mahjongscoring2.business.use_cases.GetIsDiffCalcsFeatureEnab
 import com.etologic.mahjongscoring2.business.use_cases.SaveIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
 import com.etologic.mahjongscoring2.business.model.entities.GameId
+import com.etologic.mahjongscoring2.business.use_cases.ImportGameFromCsvUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -52,6 +55,7 @@ class MainViewModel @Inject constructor(
     private val exportGameResultsToTextUseCase: ExportGameResultsToTextUseCase,
     private val exportGameToCsvUseCase: ExportGameToCsvUseCase,
     private val exportAllGamesToCsvUseCase: ExportAllGamesToCsvUseCase,
+    private val importGameFromCsvUseCase: ImportGameFromCsvUseCase,
     getIsDiffCalcsFeatureEnabledUseCase: GetIsDiffCalcsFeatureEnabledUseCase,
     private val saveIsDiffCalcsFeatureEnabledUseCase: SaveIsDiffCalcsFeatureEnabledUseCase,
 ) : BaseViewModel() {
@@ -68,6 +72,7 @@ class MainViewModel @Inject constructor(
         EMA_WEB,
         CONTACT_MAHJONG_MADRID,
         CONTACT_APP_SUPPORT,
+        IMPORT_GAME,
     }
 
     var activeGameId: GameId? = null
@@ -145,6 +150,15 @@ class MainViewModel @Inject constructor(
     fun toggleDiffsFeature(isEnabled: Boolean) {
         viewModelScope.launch {
             saveIsDiffCalcsFeatureEnabledUseCase(isEnabled)
+        }
+    }
+
+    fun importGame(uri: Uri, getContentResolver: () -> ContentResolver) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                importGameFromCsvUseCase.invoke(uri, getContentResolver)
+                    .fold({}, ::showError)
+            }
         }
     }
 }
