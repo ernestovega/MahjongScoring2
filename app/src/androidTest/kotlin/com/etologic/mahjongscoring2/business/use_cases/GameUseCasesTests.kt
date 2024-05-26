@@ -120,7 +120,7 @@ class GameUseCasesTests {
 
         val game = games.first()
         assertThat(game.gameId).isEqualTo(1)
-        assertThat(game.gameName).isEqualTo("Test game name 1")
+        assertThat(game.gameName).isEqualTo("Test Game Name 1")
         assertThat(game.nameP1).isEqualTo("Test Player 1")
         assertThat(game.nameP2).isEqualTo("Test Player 2")
         assertThat(game.nameP3).isEqualTo("Test Player 3")
