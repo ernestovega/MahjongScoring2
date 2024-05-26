@@ -52,7 +52,7 @@
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal"
                     android:textStyle="bold|italic"
-                    android:inputType="textPersonName|textAutoComplete|textCapSentences"
+                    android:inputType="textPersonName|textAutoComplete|textCapWords"
                     android:maxLength="60"
                     android:maxLines="2"
                     android:selectAllOnFocus="true" />
@@ -71,9 +71,10 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_east"
                     android:drawablePadding="@dimen/standard_margin"
-                    android:inputType="textPersonName|textAutoComplete|textCapSentences"
+                    android:inputType="textPersonName|textAutoComplete|textCapWords"
                     android:maxLength="14"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:selectAllOnFocus="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_south"
                     android:drawablePadding="@dimen/standard_margin"
-                    android:inputType="textPersonName|textAutoComplete|textCapSentences"
+                    android:inputType="textPersonName|textAutoComplete|textCapWords"
                     android:maxLength="14"
                     android:maxLines="1"
                     android:selectAllOnFocus="true" />
@@ -106,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_west"
                     android:drawablePadding="@dimen/standard_margin"
-                    android:inputType="textPersonName|textAutoComplete|textCapSentences"
+                    android:inputType="textPersonName|textAutoComplete|textCapWords"
                     android:maxLength="14"
                     android:maxLines="1"
                     android:selectAllOnFocus="true" />
@@ -124,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_north"
                     android:drawablePadding="@dimen/standard_margin"
-                    android:inputType="textPersonName|textAutoComplete|textCapSentences"
+                    android:inputType="textPersonName|textAutoComplete|textCapWords"
                     android:maxLength="14"
                     android:maxLines="1"
                     android:selectAllOnFocus="true" />

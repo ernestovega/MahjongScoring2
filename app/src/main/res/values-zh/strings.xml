@@ -224,7 +224,7 @@
     <!--    <string name="rounds_dont_count_penalties">回合总数不考虑罚球</string>-->
     <!--    <string name="partials">部分</string>-->
 
-    <!--  Translations V2.3.0  -->
+    <!--  Translations V2.2.1  -->
     <string name="contact_mahjong_madrid">联系马德里麻将</string>
     <string name="contact_app_support">联系应用程序支持</string>
 </resources>

@@ -35,7 +35,7 @@ import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions.CSV
 import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions.TEXT
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
-import com.etologic.mahjongscoring2.business.use_cases.CancelPenaltyUseCase
+import com.etologic.mahjongscoring2.business.use_cases.CancelAllPenaltiesUseCase
 import com.etologic.mahjongscoring2.business.use_cases.EditGameNamesUseCase
 import com.etologic.mahjongscoring2.business.use_cases.EndGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToCsvUseCase
@@ -72,7 +72,7 @@ class GameViewModel @AssistedInject constructor(
     private val huSelfPickUseCase: HuSelfPickUseCase,
     private val huDrawUseCase: HuDrawUseCase,
     private val setPenaltyUseCase: SetPenaltyUseCase,
-    private val cancelPenaltyUseCase: CancelPenaltyUseCase,
+    private val cancelAllPenaltiesUseCase: CancelAllPenaltiesUseCase,
     private val deleteRoundUseCase: DeleteRoundUseCase,
     private val resumeGameUseCase: ResumeGameUseCase,
     private val endGameUseCase: EndGameUseCase,
@@ -217,7 +217,7 @@ class GameViewModel @AssistedInject constructor(
 
     fun cancelPenalties() {
         viewModelScope.launch {
-            cancelPenaltyUseCase(gameFlow.value.ongoingRound)
+            cancelAllPenaltiesUseCase(gameFlow.value.ongoingRound)
                 .onFailure(::showError)
         }
     }

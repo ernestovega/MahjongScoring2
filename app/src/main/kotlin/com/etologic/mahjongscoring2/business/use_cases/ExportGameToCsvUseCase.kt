@@ -17,6 +17,7 @@
 
 package com.etologic.mahjongscoring2.business.use_cases
 
+import androidx.annotation.VisibleForTesting
 import com.etologic.mahjongscoring2.app.utils.writeToFile
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
@@ -37,14 +38,15 @@ class ExportGameToCsvUseCase @Inject constructor(
             .mapCatching { uiGame ->
                 val csvText = buildCsvText(uiGame)
                 val csvFile = writeToFile(
-                    name = "Game_${normalizeName(uiGame.gameName).replace(" ", "-")}",
+                    name = normalizeName(uiGame.gameName).replace(" ", "_"),
                     csvText = csvText,
                     externalFilesDir = getExternalFilesDir.invoke(),
                 )
                 listOf(csvFile)
             }
 
-    private fun buildCsvText(uiGame: UiGame): String =
+    @VisibleForTesting
+    fun buildCsvText(uiGame: UiGame): String =
         with(StringBuilder()) {
             buildHeader(uiGame)
             buildRows(uiGame)
@@ -60,14 +62,15 @@ class ExportGameToCsvUseCase @Inject constructor(
         append("Round,")
         append("Winner,")
         append("Discarder,")
-        append("Points_$initialEastPlayerName,")
-        append("Points_$initialSouthPlayerName,")
-        append("Points_$initialWestPlayerName,")
-        append("Points_$initialNorthPlayerName,")
-        append("Penalty_$initialEastPlayerName,")
-        append("Penalty_$initialSouthPlayerName,")
-        append("Penalty_$initialWestPlayerName,")
-        append("Penalty_$initialNorthPlayerName")
+        append("Hand Points,")
+        append("Points $initialEastPlayerName,")
+        append("Points $initialSouthPlayerName,")
+        append("Points $initialWestPlayerName,")
+        append("Points $initialNorthPlayerName,")
+        append("Penalty $initialEastPlayerName,")
+        append("Penalty $initialSouthPlayerName,")
+        append("Penalty $initialWestPlayerName,")
+        append("Penalty $initialNorthPlayerName")
         appendLine()
     }
 
@@ -90,6 +93,7 @@ class ExportGameToCsvUseCase @Inject constructor(
                     else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.discarderInitialSeat))
                 }
             ).also { append(",") }
+            append("${uiRound.handPoints},")
             append("${uiRound.pointsP1},")
             append("${uiRound.pointsP2},")
             append("${uiRound.pointsP3},")

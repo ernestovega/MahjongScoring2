@@ -15,15 +15,13 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.etologic.mahjongscoring2.data_source.local_data_sources
+package com.etologic.mahjongscoring2.data_source.local_data_sources.room
 
 import androidx.room.Room
 import androidx.room.testing.MigrationTestHelper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.AppDatabase
-import com.etologic.mahjongscoring2.data_source.local_data_sources.room.Migration1to2
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 import com.google.common.truth.Truth.assertThat

@@ -223,7 +223,7 @@
     <!--    <string name="rounds_dont_count_penalties">Les totaux des tours ne tiennent pas compte des pénalités</string>-->
     <!--    <string name="partials">Partiels</string>-->
 
-    <!--  Translations V2.3.0  -->
+    <!--  Translations V2.2.1  -->
     <string name="contact_mahjong_madrid">Contacter Mahjong Madrid</string>
     <string name="contact_app_support">Contacter l\'assistance de l\'app</string>
 </resources>

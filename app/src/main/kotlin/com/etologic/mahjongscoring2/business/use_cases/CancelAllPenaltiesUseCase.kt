@@ -18,11 +18,10 @@ package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
-import com.etologic.mahjongscoring2.data_source.repositories.rounds.DefaultRoundsRepository
 import com.etologic.mahjongscoring2.data_source.repositories.rounds.RoundsRepository
 import javax.inject.Inject
 
-class CancelPenaltyUseCase @Inject constructor(
+class CancelAllPenaltiesUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
 ) {
     suspend operator fun invoke(uiRound: UiRound): Result<Boolean> =

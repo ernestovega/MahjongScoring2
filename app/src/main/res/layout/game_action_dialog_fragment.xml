@@ -47,32 +47,33 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/ivHandActionsDialogPlayerSeatWind"
-                    style="@style/TextViewTableSeat"
-                    android:layout_width="@dimen/second_standard_margin"
-                    android:layout_height="@dimen/second_standard_margin"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/white"
-                    app:tint="@color/grayMM"
-                    tools:ignore="ContentDescription"
-                    tools:src="@drawable/ic_east" />
-
-                <TextView
-                    android:id="@+id/tvHandActionsDialogPlayerName"
-                    style="@style/TextViewTableSeat"
+                <include
+                    android:id="@+id/iGameHuDialogWinnerContainer"
+                    layout="@layout/table_seat_medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/grayMM"
-                    tools:text="Player name" />
+                    android:layout_gravity="center"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/half_standard_margin"
+                    android:background="@color/gray" />
 
                 <include
                     android:id="@+id/iHandActionsDialogDiffs"
                     layout="@layout/game_action_dialog_diffs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/half_standard_margin" />
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_marginBottom="@dimen/half_standard_margin" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/half_standard_margin"
+                    android:background="@color/gray"
+                    android:layout_marginBottom="@dimen/standard_margin" />
 
                 <LinearLayout
                     android:id="@+id/btHandActionsDialogHu"
@@ -85,7 +86,8 @@
                         android:layout_marginTop="@dimen/half_and_quarter_standard_margin"
                         android:layout_marginBottom="@dimen/quarter_standard_margin"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/ic_trophy" />
+                        android:src="@drawable/ic_trophy"
+                        app:tint="@color/white" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -111,7 +113,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/quarter_standard_margin"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/ic_flag" />
+                        android:src="@drawable/ic_flag"
+                        app:tint="@color/white" />
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -56,7 +56,7 @@ class ExportGameResultsToTextUseCase @Inject constructor(
             appendLine("4th:    ${rankingData.sortedPlayersRankings[3].toSignedString()}")
             appendLine()
             if (uiGame.getBestHand().playerInitialPosition != NONE) {
-                append("Best hand: ${uiGame.getBestHand().playerName} (${uiGame.getBestHand().handValue})")
+                append("Best hand:    ${uiGame.getBestHand().handValue}  -  ${uiGame.getBestHand().playerName}")
                 appendLine()
             }
         }

@@ -87,7 +87,7 @@ class ActionDialogFragment : AppCompatDialogFragment() {
 
     private fun setPlayer() {
         val selectedSeat = activityViewModel.getSelectedSeat().value
-        binding.ivHandActionsDialogPlayerSeatWind.setImageDrawable(
+        binding.iGameHuDialogWinnerContainer.ivTableSeatMediumSeatWind.setImageDrawable(
             when (selectedSeat) {
                 TableWinds.EAST -> eastIcon
                 TableWinds.SOUTH -> southIcon
@@ -96,7 +96,7 @@ class ActionDialogFragment : AppCompatDialogFragment() {
                 else -> null
             }
         )
-        binding.tvHandActionsDialogPlayerName.text = selectedSeat?.code?.let { windCode ->
+        binding.iGameHuDialogWinnerContainer.tvTableSeatMediumName.text = selectedSeat?.code?.let { windCode ->
             activityViewModel.gameFlow.value.getPlayersNamesByCurrentSeat()[windCode]
         } ?: ""
         if (activityViewModel.isDiffsCalcsFeatureEnabledFlow.value) {
