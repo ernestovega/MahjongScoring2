@@ -208,7 +208,6 @@
     <string name="game_name">Nom de la partie</string>
     <string name="share">Partager</string>
     <string name="share_game">Partager la partie</string>
-    <string name="share_games">Partager des jeux</string>
     <string name="share_game_using">Partager la partie en utilisant:</string>
     <string name="_4th">4ème</string>
     <string name="start">Commencer</string>
@@ -228,5 +227,6 @@
     <string name="contact_app_support">Contacter l\'assistance de l\'app</string>
 
     <!--  Translations V2.3.0  -->
-    <string name="import_game">Importer un jeu</string>
+    <string name="import_games">Importer des jeux</string>
+    <string name="importable">Importable (toutes les données)</string>
 </resources>

@@ -41,7 +41,7 @@ import com.etologic.mahjongscoring2.R.drawable.ic_dice
 import com.etologic.mahjongscoring2.R.drawable.ic_east
 import com.etologic.mahjongscoring2.R.drawable.ic_north
 import com.etologic.mahjongscoring2.R.drawable.ic_south
-import com.etologic.mahjongscoring2.R.drawable.ic_trophy
+import com.etologic.mahjongscoring2.R.drawable.ic_trophy_white
 import com.etologic.mahjongscoring2.R.drawable.ic_west
 import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.app.base.BaseFragment
@@ -175,7 +175,7 @@ class GameTableFragment : BaseFragment(), TableSeatsListener {
             if (isGameEnded) {
                 if (fabGameTable.tag != "ic_trophy_white_18dp") {
                     fabGameTable.tag = "ic_trophy_white_18dp"
-                    fabGameTable.setImageResource(ic_trophy)
+                    fabGameTable.setImageResource(ic_trophy_white)
                     fabGameTable.setOnSecureClickListener { activityViewModel.navigateTo(RANKING) }
                     setFabPosition(BOTTOM_END)
                 }

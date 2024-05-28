@@ -71,9 +71,9 @@ class GameUseCasesTests {
     private lateinit var setPenaltyUseCase: SetPenaltyUseCase
     private lateinit var cancelAllPenaltiesUseCase: CancelAllPenaltiesUseCase
     private lateinit var editGameNamesUseCase: EditGameNamesUseCase
-    private lateinit var exportGameResultsToTextUseCase: ExportGameResultsToTextUseCase
+    private lateinit var exportGameToTextUseCase: ExportGameToTextUseCase
     private lateinit var exportGameToCsvUseCase: ExportGameToCsvUseCase
-    private lateinit var exportAllGamesToCsvUseCase: ExportAllGamesToCsvUseCase
+    private lateinit var exportGamesToJsonUseCase: ExportGamesToJsonUseCase
     private lateinit var importGameFromCsvUseCase: ImportGameFromCsvUseCase
 
     @Before
@@ -104,9 +104,9 @@ class GameUseCasesTests {
         setPenaltyUseCase = SetPenaltyUseCase(roundsRepository)
         cancelAllPenaltiesUseCase = CancelAllPenaltiesUseCase(roundsRepository)
         editGameNamesUseCase = EditGameNamesUseCase(gamesRepository)
-        exportGameResultsToTextUseCase = ExportGameResultsToTextUseCase(getOneGameUseCase)
+        exportGameToTextUseCase = ExportGameToTextUseCase(getOneGameUseCase)
         exportGameToCsvUseCase = ExportGameToCsvUseCase(getOneGameUseCase)
-        exportAllGamesToCsvUseCase = ExportAllGamesToCsvUseCase(getAllGamesFlowUseCase)
+        exportGamesToJsonUseCase = ExportGamesToJsonUseCase(getAllGamesFlowUseCase)
         importGameFromCsvUseCase = ImportGameFromCsvUseCase(gamesRepository, roundsRepository, deleteGameUseCase)
     }
 
@@ -423,7 +423,7 @@ class GameUseCasesTests {
         val game = createCompleteGame()
 
         // When we call the UseCase for exporting the final results to text
-        val exportedText = exportGameResultsToTextUseCase(game.gameId).getOrThrow()
+        val exportedText = exportGameToTextUseCase(game.gameId).getOrThrow()
 
         // Then we expect the right text
         val expectedText = "Test Game Name 1\n\n" +

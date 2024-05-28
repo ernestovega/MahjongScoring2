@@ -18,7 +18,7 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import androidx.annotation.VisibleForTesting
-import com.etologic.mahjongscoring2.app.utils.writeToFile
+import com.etologic.mahjongscoring2.app.utils.writeToCsvFile
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
@@ -37,9 +37,9 @@ class ExportGameToCsvUseCase @Inject constructor(
         getOneGameUseCase(gameId)
             .mapCatching { uiGame ->
                 val csvText = buildCsvText(uiGame)
-                val csvFile = writeToFile(
-                    name = normalizeName(uiGame.gameName).replace(" ", "_"),
-                    csvText = csvText,
+                val csvFile = writeToCsvFile(
+                    fileName = "${normalizeName(uiGame.gameName).replace(" ", "_")}.csv",
+                    fileText = csvText,
                     externalFilesDir = getExternalFilesDir.invoke(),
                 )
                 listOf(csvFile)

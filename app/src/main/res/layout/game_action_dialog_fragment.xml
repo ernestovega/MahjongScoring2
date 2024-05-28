@@ -86,7 +86,7 @@
                         android:layout_marginTop="@dimen/half_and_quarter_standard_margin"
                         android:layout_marginBottom="@dimen/quarter_standard_margin"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/ic_trophy"
+                        android:src="@drawable/ic_trophy_white"
                         app:tint="@color/white" />
 
                     <TextView

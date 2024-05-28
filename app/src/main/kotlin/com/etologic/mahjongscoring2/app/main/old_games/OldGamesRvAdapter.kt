@@ -23,8 +23,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
@@ -50,7 +48,7 @@ class OldGamesRvAdapter
 
     private var itemClickListener: GameItemListener? = null
     private var games: List<UiGame> = ArrayList()
-    private var tintedTrophyIcon: Drawable? = null
+    private var trophyIcon: Drawable? = null
 
     init {
         games = ArrayList()
@@ -77,10 +75,7 @@ class OldGamesRvAdapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val trophyIcon = AppCompatResources.getDrawable(parent.context, R.drawable.ic_trophy)
-        val goldenColor = ContextCompat.getColor(parent.context, R.color.golden)
-        tintedTrophyIcon = trophyIcon?.let { DrawableCompat.wrap(it) }
-        tintedTrophyIcon?.let { DrawableCompat.setTint(it, goldenColor) }
+        trophyIcon = AppCompatResources.getDrawable(parent.context, R.drawable.ic_trophy_golden)
         val itemBinding = MainOldgameItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return OldGameItemViewHolder(itemBinding)
     }
@@ -132,25 +127,25 @@ class OldGamesRvAdapter
             when (it.name) {
                 uiGame.nameP1 -> {
                     with(itemViewHolder.tvEastPlayerPoints) {
-                        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, tintedTrophyIcon, null)
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, trophyIcon, null)
                         compoundDrawablePadding = 8
                     }
                 }
                 uiGame.nameP2 -> {
                     with(itemViewHolder.tvSouthPlayerPoints) {
-                        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, tintedTrophyIcon, null)
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, trophyIcon, null)
                         compoundDrawablePadding = 8
                     }
                 }
                 uiGame.nameP3 -> {
                     with(itemViewHolder.tvWestPlayerPoints) {
-                        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, tintedTrophyIcon, null)
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, trophyIcon, null)
                         compoundDrawablePadding = 8
                     }
                 }
                 uiGame.nameP4 -> {
                     with(itemViewHolder.tvNorthPlayerPoints) {
-                        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, tintedTrophyIcon, null)
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, trophyIcon, null)
                         compoundDrawablePadding = 8
                     }
                 }

@@ -41,7 +41,7 @@ import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.EMA_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_ENGLISH
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_SPANISH
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.IMPORT_GAME
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.IMPORT_GAMES
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.MM_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
 import com.etologic.mahjongscoring2.app.utils.shareFiles
@@ -82,7 +82,7 @@ class MainActivity : BaseActivity() {
     ) { activityResult ->
         if (activityResult.resultCode == RESULT_OK) {
             activityResult.data?.data?.let { uri ->
-                viewModel.importGame(uri) { applicationContext.contentResolver }
+                viewModel.importGames(uri) { applicationContext.contentResolver }
             }
         }
     }
@@ -163,17 +163,14 @@ class MainActivity : BaseActivity() {
 
         toggleDiffsEnabling(viewModel.isDiffsCalcsFeatureEnabledFlow.value)
 
-        menu.findItem(R.id.action_export_db).isVisible = BuildConfig.DEBUG
-
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> openDrawer()
-            R.id.action_export_db -> lifecycleScope.launch { viewModel.exportDb { getExternalFilesDir(null) } }
-            R.id.action_share_all_games -> lifecycleScope.launch { viewModel.shareAllGames { getExternalFilesDir(null) } }
-            R.id.action_import_game -> viewModel.navigateTo(IMPORT_GAME)
+            R.id.action_export_games -> lifecycleScope.launch { viewModel.exportGames { getExternalFilesDir(null) } }
+            R.id.action_import_games -> viewModel.navigateTo(IMPORT_GAMES)
             R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
             R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
             else -> return super.onOptionsItemSelected(item)
