@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright © 2024  Ernesto Vega de la Iglesia Soria
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+<resources>
+    <!--  Translations V2.0.0  -->
+    <string name="app_name">Mahjong Scoring MCR</string>
+    <string name="close_drawer">Sluit menu</string>
+    <string name="open_drawer">Open menu</string>
+    <string name="old_games">Vorige spellen</string>
+    <string name="combinations">Combinaties</string>
+    <string name="green_book_en">Groene boek</string>
+    <string name="press_again_to_exit">Druk nog eens om te verlaten</string>
+    <string name="theres_no_games_yet_start_one">Er zijn nog geen spellen.\nStart één!</string>
+    <string name="best_hand">Beste hand</string>
+    <string name="rounds">Rondes</string>
+    <string name="delete">Verwijder</string>
+    <string name="resume">Hervat</string>
+    <string name="delete_game">Verwijder spel</string>
+    <string name="are_you_sure">Ben je zeker?</string>
+    <string name="search">Zoek</string>
+    <string name="combination_name">Combinatie naam</string>
+    <string name="toggle_descriptions">Wissel beschrijving</string>
+    <string name="no_email_apps_founded">Kon de email app niet vinden</string>
+    <string name="table">Tafel</string>
+    <string name="game">Partij</string>
+    <string name="totals">Totalen</string>
+    <string name="number_symbol">#</string>
+    <string name="final_results">Eind resultaten</string>
+    <string name="cancel_penalties">Maak alle straffen ongedaan</string>
+    <string name="draw">Gelijk spel</string>
+    <string name="east">Oost</string>
+    <string name="west">West</string>
+    <string name="south">Zuid</string>
+    <string name="north">Noord</string>
+    <string name="ups_something_wrong">Oeps! Daar ging iets mis.</string>
+    <string name="list">Lijst</string>
+    <string name="close">Sluit</string>
+    <string name="player_east_name">Naam speler Oost</string>
+    <string name="player_south_name">Naam speler Zuid</string>
+    <string name="player_west_name">Naam speler West</string>
+    <string name="player_north_name">Naam speler Noord</string>
+    <string name="player_one">Speler A</string>
+    <string name="player_two">Speler B</string>
+    <string name="player_three">Speler C</string>
+    <string name="player_four">Speler D</string>
+    <string name="divided">Verdeeld</string>
+    <string name="edit_names">Verander namen</string>
+    <string name="save">Bewaar</string>
+    <string name="penalty">Straf</string>
+    <string name="zero">0</string>
+    <string name="nine">9</string>
+    <string name="eight">8</string>
+    <string name="seven">7</string>
+    <string name="six">6</string>
+    <string name="five">5</string>
+    <string name="four">4</string>
+    <string name="three">3</string>
+    <string name="two">2</string>
+    <string name="one">1</string>
+    <string name="end">Einde</string>
+    <string name="mahjong">Mahjong</string>
+    <string name="backspace">Backspace</string>
+    <string name="ok">OK</string>
+    <string name="discarder_">Weggooien?</string>
+    <string name="cancel">Ongedaan maken?</string>
+    <string name="pts">Pnt</string>
+    <string name="delete_round">Verwijder ronde</string>
+    <string name="first">Eerste</string>
+    <string name="second">Tweede</string>
+    <string name="rotate_seats">Wissel van plaats</string>
+    <string name="pure_double_chow">Zuivere dubbele Chow</string>
+    <string name="mixed_double_chow">Gemengde dubbele Chow</string>
+    <string name="short_straight">Korte straat</string>
+    <string name="two_terminal_chows">Twee hoeksteen Chows</string>
+    <string name="pung_of_terminals_or_honors">Pung van hoek- of troefstenen</string>
+    <string name="melded_kong">Open Kong</string>
+    <string name="one_voided_suit">Eén ontbrekende kleur</string>
+    <string name="no_honors">Geen troefstenen</string>
+    <string name="edge_wait">Wachtend op randsteen</string>
+    <string name="closed_wait">Wachtend op middelste steen</string>
+    <string name="single_waiting">Wachtend op sluitpaar</string>
+    <string name="self_drawn">Zelf gepakt</string>
+    <string name="flower_tiles">Bloemen of seizoenen</string>
+    <string name="dragon_pung">Pung draken</string>
+    <string name="prevalent_wind">Wind van de ronde</string>
+    <string name="seat_wind">Eigen wind</string>
+    <string name="concealed_hand">Verborgen hand</string>
+    <string name="all_chows">Alleen Chows</string>
+    <string name="tile_hog">Stenenvreter \ Vier gelijken in 2 of meer combinaties</string>
+    <string name="double_pungs">Dubbele Pungs</string>
+    <string name="two_concealed_pungs">Twee dichte Pungs</string>
+    <string name="concealed_kong">Dichte Kong</string>
+    <string name="all_simples">Pure eenvoud</string>
+    <string name="outside_hand">Handje buitenkantje</string>
+    <string name="fully_concealed_hand">Verborgen schat</string>
+    <string name="two_melded_kongs">Twee open Kongs</string>
+    <string name="last_tile">Laatste steen</string>
+    <string name="all_pungs">Alleen Pungs</string>
+    <string name="half_flush">Schoon spel</string>
+    <string name="mixed_shifted_chows">Gemengde oplopende Chows</string>
+    <string name="all_types">Alle soorten</string>
+    <string name="melded_hand">Open hand</string>
+    <string name="two_dragon_pungs">Twee Pungs draken</string>
+    <string name="mixed_straight">Gemengde straat</string>
+    <string name="reversible_tiles">Omkeerbare stenen</string>
+    <string name="mixed_triple_chow">Gemengde drievoudige Chow</string>
+    <string name="mixed_shifted_pungs">Gemengde oplopende Pungs</string>
+    <string name="chicken_hand">Winst zonder punten - chicken hand</string>
+    <string name="last_tile_draw">Laatste steen getrokken</string>
+    <string name="last_tile_claim">Laatste steen geclaimd</string>
+    <string name="out_with_replacement_tile">Uit met vervangende steen na Kong</string>
+    <string name="robbing_the_kong">Kongroof</string>
+    <string name="two_concealed_kongs">Twee dichte Kongs</string>
+    <string name="lesser_honors_and_knitted_tiles">Verweven straat met minder troefstenen</string>
+    <string name="knitted_straight">Verweven straat</string>
+    <string name="upper_four">Hoogste vier</string>
+    <string name="lower_four">Laagste vier</string>
+    <string name="big_three_winds">Grote drie winden</string>
+    <string name="pure_straight">Zuivere straat</string>
+    <string name="three_suited_terminal_chows">Driekleurs hoeksteen Chows</string>
+    <string name="pure_shifted_chows">Zuivere oplopende Chows</string>
+    <string name="all_fives">Overal vijven</string>
+    <string name="triple_pungs">Drie gelijke Pungs</string>
+    <string name="three_concealed_pungs">Drie gesloten Pungs</string>
+    <string name="seven_pairs">Zeven tweelingen</string>
+    <string name="greater_honors_and_knitted_tiles">Verweven straat met alle troefstenen</string>
+    <string name="all_even_pungs">Alleen even Pungs</string>
+    <string name="full_flush">Zuiver spel</string>
+    <string name="pure_triple_chow">Zuivere drievoudige Chows</string>
+    <string name="pure_shifted_pungs">Zuivere oplopende Pungs</string>
+    <string name="upper_tiles">Hoogste stenen</string>
+    <string name="medium_tiles">Middelste stenen</string>
+    <string name="lower_tiles">Laagste stenen</string>
+    <string name="four_pure_shifted_chows">Vier oplopende pure Chows</string>
+    <string name="three_kongs">Drie Kongs</string>
+    <string name="all_terminals_and_honors">Alleen hoek- en troefstenen</string>
+    <string name="quadruple_chow">Vier gelijke zuivere Chows</string>
+    <string name="four_pure_shifted_pungs">Vier zuivere oplopende Pungs</string>
+    <string name="all_terminals">Alleen hoekstenen</string>
+    <string name="all_honors">Alleen troefstenen</string>
+    <string name="little_four_winds">Kleine vier winden</string>
+    <string name="little_three_dragons">Kleine drie draken</string>
+    <string name="four_concealed_pungs">Vier gesloten Pungs</string>
+    <string name="pure_terminal_chows">Zuivere hoeksteen Chows</string>
+    <string name="big_three_dragons">Grote drie draken</string>
+    <string name="thirteen_orphans">Dertien wezen</string>
+    <string name="big_four_winds">Grote vier winden</string>
+    <string name="all_green">Jade spel</string>
+    <string name="nine_gates">Negen poorten</string>
+    <string name="four_kongs">Vier Kongs</string>
+    <string name="seven_shifted_pairs">Zeven oplopende tweelingen</string>
+    <string name="description_edge_wait">Win met 3 of 7 met 1–2 of 8–9</string>
+    <string name="description_closed_wait">Win met de middelste Chow steen</string>
+    <string name="description_single_waiting">Win met sluitpaar</string>
+    <string name="description_self_drawn">Win met een steen van de muur gepakt</string>
+    <string name="description_concealed_hand">Alle stenen getrokken behalve de laatste</string>
+    <string name="description_fully_concealed_hand">Alle stenen zijn van de muur getrokken ook de laatste</string>
+    <string name="description_last_tile">Win met de steen die al drie keer open op tafel ligt</string>
+    <string name="description_melded_hand">Vier combinaties liggen open op tafel</string>
+    <string name="description_last_tile_draw">Win met de laatste steen van de muur</string>
+    <string name="description_last_tile_claim">Win met de laatste afgelegde steen nadat de muur geheel gebruikt is</string>
+    <string name="description_out_with_replacement_tile">Win met de vervangende steen na Kong declaratie</string>
+    <string name="description_robbing_the_kong">Win met de steen die een andere speler aan een open Kong wilde toevoegen</string>
+
+    <!--  Translations V2.1.0  -->
+    <string name="throw_dice">Gooi de dobbelstenen</string>
+    <string name="start_new_game">Start een nieuwe partij</string>
+    <string name="self_abr">Z</string>
+    <string name="direct_abr">D</string>
+    <string name="indirect_abr">l</string>
+    <string name="_1st">1ste</string>
+    <string name="_2nd">2de</string>
+    <string name="_3rd">3de</string>
+    <string name="mahjong_madrid_web">Mahjong Madrid (web)</string>
+    <string name="ema_web">EMA (web)</string>
+    <string name="winner_">Winnaar:</string>
+    <string name="points_">Punten:</string>
+    <string name="self_pick">Zelf gepakt</string>
+    <string name="direct">Direct</string>
+    <string name="indirect">Indirect</string>
+    <string name="to_be_by">Wordt \\ Door</string>
+    <string name="points_needed">Punten nodig:</string>
+    <string name="disable_diffs_calcs">Verberg de berekeningen</string>
+    <string name="enable_diffs_calcs">Toon de berekeningen</string>
+    <string name="green_book_es">Groene boek (Spaans PDF)</string>
+    <string name="diffsCalculator">Rekenmachine voor de verschillen</string>
+    <string name="diff">Punten nodig</string>
+    <string name="i_think_is_enough_jajaja">Ik denk dat voldoende is, of niet? 🤣</string>
+    <string name="send_email">Verzend Email</string>
+
+    <!--  Translations V2.2.0  -->
+    <string name="export_games">Exporteer partijen</string>
+    <string name="share_files_using">Deel je bestand met:</string>
+    <string name="double_quotes_warn">⚠️Dubbele quotes zijn niet toegstaan (deze worden verwijderd bij bewaren)</string>
+    <string name="game_name">Partij naam</string>
+    <string name="share">Deel</string>
+    <string name="share_game">Deel partij</string>
+    <string name="share_game_using">Deel partij met:</string>
+    <string name="_4th">4de</string>
+    <string name="start">Start</string>
+    <string name="plain_text">Platte tekst (alleen de eindresultaten)</string>
+    <string name="table_csv">CSV tabel (alle partij data)</string>
+    <!--    <string name="round">Rond</string>-->
+    <!--    <string name="games">Jeux</string>-->
+    <!--    <string name="name">Nom</string>-->
+    <!--    <string name="player_abbr">J</string>-->
+    <!--    <string name="from">De</string>-->
+    <!--    <string name="penalties">Pénalités</string>-->
+    <!--    <string name="rounds_dont_count_penalties">Les totaux des tours ne tiennent pas compte des pénalités</string>-->
+    <!--    <string name="partials">Partiels</string>-->
+
+    <!--  Translations V2.2.1  -->
+    <string name="contact_mahjong_madrid">Neem contact op met Mahjong Madrid</string>
+    <string name="contact_app_support">Neem contact op met app support</string>
+
+    <!--  Translations V2.3.0  -->
+    <string name="import_games">Games importeren</string>
+    <string name="importable">Importeerbaar (alle spelgegevens)</string>
+</resources>
