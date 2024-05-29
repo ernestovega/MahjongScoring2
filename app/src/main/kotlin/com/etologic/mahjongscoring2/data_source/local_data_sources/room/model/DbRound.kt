@@ -24,6 +24,7 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.RoundId
+import com.etologic.mahjongscoring2.business.model.entities.UiRound.Companion.NOT_SET_ROUND_ID
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.converters.TableWindsConverter
 
@@ -56,14 +57,14 @@ data class DbRound(
 
     constructor(
         gameId: GameId,
-        roundId: RoundId,
+        roundId: RoundId = NOT_SET_ROUND_ID,
         winnerInitialSeat: TableWinds?,
         discarderInitialSeat: TableWinds?,
-        handPoints: Int,
-        penaltyP1: Int,
-        penaltyP2: Int,
-        penaltyP3: Int,
-        penaltyP4: Int,
+        handPoints: Int = 0,
+        penaltyP1: Int = 0,
+        penaltyP2: Int = 0,
+        penaltyP3: Int = 0,
+        penaltyP4: Int = 0,
     ) : this(gameId, roundId) {
         this.winnerInitialSeat = winnerInitialSeat
         this.discarderInitialSeat = discarderInitialSeat

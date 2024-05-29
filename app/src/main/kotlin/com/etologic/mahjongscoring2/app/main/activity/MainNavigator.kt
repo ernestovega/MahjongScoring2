@@ -41,6 +41,7 @@ import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_ENGLISH
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_SPANISH
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.IMPORT_GAMES
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.MM_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.SETUP_NEW_GAME
@@ -73,6 +74,7 @@ object MainNavigator {
             EMA_WEB -> goToWebsite(EMA_URL, activity)
             CONTACT_MAHJONG_MADRID -> goToContact(activity, MAHJONG_MADRID_EMAIL_ADDRESS)
             CONTACT_APP_SUPPORT -> goToContact(activity, APP_SUPPORT_EMAIL_ADDRESS)
+            IMPORT_GAMES -> goToPickFile(activity)
         }
     }
 
@@ -124,5 +126,14 @@ object MainNavigator {
                 Snackbar.make(activity.binding.drawerLayoutMain, R.string.no_email_apps_founded, Snackbar.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun goToPickFile(activity: MainActivity) {
+        activity.pickFileResultLauncher.launch(
+            Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "*/*"
+            }
+        )
     }
 }

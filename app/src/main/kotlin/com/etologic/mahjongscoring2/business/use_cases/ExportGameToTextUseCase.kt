@@ -28,7 +28,7 @@ import java.lang.String.format
 import java.util.Locale
 import javax.inject.Inject
 
-class ExportGameResultsToTextUseCase @Inject constructor(
+class ExportGameToTextUseCase @Inject constructor(
     private val getOneGameUseCase: GetOneGameUseCase,
 ) {
     suspend operator fun invoke(gameId: GameId): Result<String> =

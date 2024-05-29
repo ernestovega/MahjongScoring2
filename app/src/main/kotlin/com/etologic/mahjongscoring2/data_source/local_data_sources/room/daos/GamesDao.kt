@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface GamesDao {
 
-    @Query("SELECT * from Games ORDER BY startDate DESC")
+    @Query("SELECT * from Games ORDER BY startDate DESC, gameId DESC")
     fun getAllFlow(): Flow<List<DbGame>>
 
     @Query("SELECT * from Games WHERE gameId = :gameId")

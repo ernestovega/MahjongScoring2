@@ -208,7 +208,6 @@
     <string name="game_name">比赛名称</string>
     <string name="share">分享</string>
     <string name="share_game">分享游戏</string>
-    <string name="share_games">分享游戏</string>
     <string name="share_game_using">使用以下方式分享游戏:</string>
     <string name="_4th">第四</string>
     <string name="start">开始</string>
@@ -226,4 +225,8 @@
     <!--  Translations V2.2.1  -->
     <string name="contact_mahjong_madrid">联系马德里麻将</string>
     <string name="contact_app_support">联系应用程序支持</string>
+
+    <!--  Translations V2.3.0  -->
+    <string name="import_games">导入游戏</string>
+    <string name="importable">可导入 (所有数据)</string>
 </resources>

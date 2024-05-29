@@ -211,7 +211,6 @@
     <string name="game_name">Game name</string>
     <string name="share">Share</string>
     <string name="share_game">Share game</string>
-    <string name="share_games">Share games</string>
     <string name="share_game_using">Share game using:</string>
     <string name="_4th">4th</string>
     <string name="start">Start</string>
@@ -229,4 +228,8 @@
     <!--  Translations V2.2.1  -->
     <string name="contact_mahjong_madrid">Contact Mahjong Madrid</string>
     <string name="contact_app_support">Contact app support</string>
+
+    <!--  Translations V2.3.0  -->
+    <string name="import_games">Import games</string>
+    <string name="importable">Importable (all game data)</string>
 </resources>

@@ -39,7 +39,7 @@ import com.etologic.mahjongscoring2.business.use_cases.CancelAllPenaltiesUseCase
 import com.etologic.mahjongscoring2.business.use_cases.EditGameNamesUseCase
 import com.etologic.mahjongscoring2.business.use_cases.EndGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToCsvUseCase
-import com.etologic.mahjongscoring2.business.use_cases.ExportGameResultsToTextUseCase
+import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetOneGameFlowUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuDiscardUseCase
@@ -51,6 +51,8 @@ import com.etologic.mahjongscoring2.business.use_cases.SaveIsDiffCalcsFeatureEna
 import com.etologic.mahjongscoring2.business.use_cases.SetPenaltyUseCase
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.RoundId
+import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions.JSON
+import com.etologic.mahjongscoring2.business.use_cases.ExportGameToJsonUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -76,8 +78,9 @@ class GameViewModel @AssistedInject constructor(
     private val deleteRoundUseCase: DeleteRoundUseCase,
     private val resumeGameUseCase: ResumeGameUseCase,
     private val endGameUseCase: EndGameUseCase,
-    private val exportGameResultsToTextUseCase: ExportGameResultsToTextUseCase,
+    private val exportGameToTextUseCase: ExportGameToTextUseCase,
     private val exportGameToCsvUseCase: ExportGameToCsvUseCase,
+    private val exportGameToJsonUseCase: ExportGameToJsonUseCase,
     getIsDiffCalcsFeatureEnabledUseCase: GetIsDiffCalcsFeatureEnabledUseCase,
     private val saveIsDiffCalcsFeatureEnabledUseCase: SaveIsDiffCalcsFeatureEnabledUseCase,
 ) : BaseViewModel() {
@@ -252,10 +255,13 @@ class GameViewModel @AssistedInject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 when (option) {
-                    TEXT -> exportGameResultsToTextUseCase.invoke(gameId)
+                    TEXT -> exportGameToTextUseCase.invoke(gameId)
                         .fold(_exportedText::postValue, ::showError)
 
                     CSV -> exportGameToCsvUseCase.invoke(gameId, getExternalFilesDir)
+                        .fold(_exportedFiles::postValue, ::showError)
+
+                    JSON -> exportGameToJsonUseCase.invoke(gameId, getExternalFilesDir)
                         .fold(_exportedFiles::postValue, ::showError)
                 }
             }

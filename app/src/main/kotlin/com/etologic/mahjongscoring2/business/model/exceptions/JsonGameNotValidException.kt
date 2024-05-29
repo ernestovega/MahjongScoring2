@@ -1,5 +1,5 @@
 /*
- *     Copyright © 2023  Ernesto Vega de la Iglesia Soria
+ *     Copyright © 2024  Ernesto Vega de la Iglesia Soria
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -14,26 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.business.model.enums
 
-enum class TableWinds(val code: Int) {
-    NONE(-1),
-    EAST(0),
-    SOUTH(1),
-    WEST(2),
-    NORTH(3);
+package com.etologic.mahjongscoring2.business.model.exceptions
 
-    companion object {
-        fun from(code: Int?): TableWinds? =
-            when(code) {
-                EAST.code -> EAST
-                SOUTH.code -> SOUTH
-                WEST.code -> WEST
-                NORTH.code -> NORTH
-                null -> null
-                else -> NONE
-            }
-
-        val asArray = arrayOf(EAST, SOUTH, WEST, NORTH)
-    }
-}
+class JsonGameNotValidException : Exception()

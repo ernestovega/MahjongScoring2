@@ -18,9 +18,10 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import androidx.annotation.VisibleForTesting
-import com.etologic.mahjongscoring2.app.utils.writeToFile
+import com.etologic.mahjongscoring2.app.utils.writeToCsvFile
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
@@ -37,9 +38,9 @@ class ExportGameToCsvUseCase @Inject constructor(
         getOneGameUseCase(gameId)
             .mapCatching { uiGame ->
                 val csvText = buildCsvText(uiGame)
-                val csvFile = writeToFile(
-                    name = normalizeName(uiGame.gameName).replace(" ", "_"),
-                    csvText = csvText,
+                val csvFile = writeToCsvFile(
+                    fileName = "${normalizeName(uiGame.gameName).replace(" ", "_")}.csv",
+                    fileText = csvText,
                     externalFilesDir = getExternalFilesDir.invoke(),
                 )
                 listOf(csvFile)
@@ -70,39 +71,74 @@ class ExportGameToCsvUseCase @Inject constructor(
         append("Penalty $initialEastPlayerName,")
         append("Penalty $initialSouthPlayerName,")
         append("Penalty $initialWestPlayerName,")
-        append("Penalty $initialNorthPlayerName")
+        append("Penalty $initialNorthPlayerName,")
+        append("Game name,")
+        append("Game start date,")
+        append("Game end date")
         appendLine()
     }
 
     private fun StringBuilder.buildRows(uiGame: UiGame) {
         uiGame.uiRounds.forEach { uiRound ->
-            append("${uiRound.roundNumber},")
-            append(
-                when (uiRound.winnerInitialSeat) {
-                    null,
-                    NONE -> "-"
-
-                    else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.winnerInitialSeat))
-                }
-            ).also { append(",") }
-            append(
-                when (uiRound.discarderInitialSeat) {
-                    null,
-                    NONE -> "-"
-
-                    else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.discarderInitialSeat))
-                }
-            ).also { append(",") }
-            append("${uiRound.handPoints},")
-            append("${uiRound.pointsP1},")
-            append("${uiRound.pointsP2},")
-            append("${uiRound.pointsP3},")
-            append("${uiRound.pointsP4},")
-            append("${uiRound.penaltyP1},")
-            append("${uiRound.penaltyP2},")
-            append("${uiRound.penaltyP3},")
-            append(uiRound.penaltyP4)
-            appendLine()
+            buildRoundDataRow(uiRound, uiGame)
+            buildRoundTotalsRow(uiRound)
         }
+    }
+
+    private fun StringBuilder.buildRoundDataRow(
+        uiRound: UiRound,
+        uiGame: UiGame
+    ) {
+        append("${uiRound.roundNumber},") // 1
+        append(
+            when (uiRound.winnerInitialSeat) {
+                null,
+                NONE -> "-"
+
+                else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.winnerInitialSeat))
+            }
+        ).also { append(",") } // 2
+        append(
+            when (uiRound.discarderInitialSeat) {
+                null,
+                NONE -> "-"
+
+                else -> normalizeName(uiGame.getPlayerNameByInitialPosition(uiRound.discarderInitialSeat))
+            }
+        ).also { append(",") } // 3
+        append("${uiRound.handPoints},") // 4
+        append("${uiRound.pointsP1},") // 5
+        append("${uiRound.pointsP2},") // 6
+        append("${uiRound.pointsP3},") // 7
+        append("${uiRound.pointsP4},") // 8
+        append("${uiRound.penaltyP1},") // 9
+        append("${uiRound.penaltyP2},") // 10
+        append("${uiRound.penaltyP3},") // 11
+        append("${uiRound.penaltyP4},") // 12
+        append("${uiGame.gameName},") // 13
+        append("${uiGame.startDate},") // 14
+        append(uiGame.endDate) // 15
+        appendLine()
+    }
+
+    private fun StringBuilder.buildRoundTotalsRow(
+        uiRound: UiRound,
+    ) {
+        append("-,") // 1
+        append("-,") // 2
+        append("-,") // 3
+        append("-,") // 4
+        append("${uiRound.totalPointsP1},") // 5
+        append("${uiRound.totalPointsP2},") // 6
+        append("${uiRound.totalPointsP3},") // 7
+        append("${uiRound.totalPointsP4},") // 8
+        append("-,") // 9
+        append("-,") // 10
+        append("-,") // 11
+        append("-,") // 12
+        append("-,") // 13
+        append("-,") // 14
+        append("-") // 15
+        appendLine()
     }
 }

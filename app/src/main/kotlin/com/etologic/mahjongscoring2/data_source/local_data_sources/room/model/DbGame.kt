@@ -22,6 +22,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.etologic.mahjongscoring2.business.model.entities.GameId
+import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.converters.DateConverter
 import java.util.Date
 
@@ -33,12 +34,12 @@ import java.util.Date
     )],
 )
 data class DbGame(
-    @field:PrimaryKey(autoGenerate = true) val gameId: GameId,
+    @field:PrimaryKey(autoGenerate = true) val gameId: GameId = NOT_SET_GAME_ID,
     var nameP1: String = "",
     var nameP2: String = "",
     var nameP3: String = "",
     var nameP4: String = "",
-    @TypeConverters(DateConverter::class) val startDate: Date,
+    @TypeConverters(DateConverter::class) val startDate: Date = Date(),
     @TypeConverters(DateConverter::class) var endDate: Date? = null,
     @ColumnInfo(defaultValue="") var gameName: String = "",
 )
