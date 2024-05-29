@@ -67,13 +67,6 @@ class MainViewModel @Inject constructor(
         GAME,
         COMBINATIONS,
         DIFFS_CALCULATOR,
-        GREEN_BOOK_ENGLISH,
-        GREEN_BOOK_SPANISH,
-        MM_WEB,
-        EMA_WEB,
-        CONTACT_MAHJONG_MADRID,
-        CONTACT_APP_SUPPORT,
-        IMPORT_GAMES,
     }
 
     var activeGameId: GameId? = null

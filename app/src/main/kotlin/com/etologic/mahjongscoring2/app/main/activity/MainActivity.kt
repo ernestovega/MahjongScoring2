@@ -33,16 +33,16 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseActivity
+import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToContactMM
+import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToContactSupport
+import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToGreenBookEnglish
+import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToGreenBookSpanish
+import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToPickFile
 import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToScreen
+import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToWebsiteEMA
+import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToWebsiteMM
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT_APP_SUPPORT
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.CONTACT_MAHJONG_MADRID
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.DIFFS_CALCULATOR
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.EMA_WEB
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_ENGLISH
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GREEN_BOOK_SPANISH
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.IMPORT_GAMES
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.MM_WEB
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
 import com.etologic.mahjongscoring2.app.utils.shareFiles
 import com.etologic.mahjongscoring2.app.utils.shareText
@@ -138,12 +138,12 @@ class MainActivity : BaseActivity() {
                 R.id.nav_oldgames -> viewModel.navigateTo(OLD_GAMES)
                 R.id.nav_combinations -> viewModel.navigateTo(COMBINATIONS)
                 R.id.action_diffs_calculator -> viewModel.navigateTo(DIFFS_CALCULATOR)
-                R.id.nav_greenbook_en -> viewModel.navigateTo(GREEN_BOOK_ENGLISH)
-                R.id.nav_greenbook_es -> viewModel.navigateTo(GREEN_BOOK_SPANISH)
-                R.id.nav_mm_web -> viewModel.navigateTo(MM_WEB)
-                R.id.nav_ema_web -> viewModel.navigateTo(EMA_WEB)
-                R.id.nav_contact_mahjong_madrid -> viewModel.navigateTo(CONTACT_MAHJONG_MADRID)
-                R.id.nav_contact_app_support -> viewModel.navigateTo(CONTACT_APP_SUPPORT)
+                R.id.nav_greenbook_en -> goToGreenBookEnglish()
+                R.id.nav_greenbook_es -> goToGreenBookSpanish()
+                R.id.nav_mm_web -> goToWebsiteMM()
+                R.id.nav_ema_web -> goToWebsiteEMA()
+                R.id.nav_contact_mahjong_madrid -> goToContactMM()
+                R.id.nav_contact_app_support -> goToContactSupport()
                 else -> return@setNavigationItemSelectedListener false
             }
             return@setNavigationItemSelectedListener true
@@ -170,7 +170,7 @@ class MainActivity : BaseActivity() {
         when (item.itemId) {
             android.R.id.home -> openDrawer()
             R.id.action_export_games -> lifecycleScope.launch { viewModel.exportGames { getExternalFilesDir(null) } }
-            R.id.action_import_games -> viewModel.navigateTo(IMPORT_GAMES)
+            R.id.action_import_games -> goToPickFile()
             R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
             R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
             else -> return super.onOptionsItemSelected(item)
@@ -182,7 +182,6 @@ class MainActivity : BaseActivity() {
         viewModel.getError().observe(this) { showError(it) }
         viewModel.getCurrentToolbar().observe(this) { setToolbar(it) }
         viewModel.getCurrentScreen().observe(this) { goToScreen(it, this, viewModel) }
-        viewModel.getExportedFiles().observe(this) { shareFiles(it) }
         viewModel.getExportedText().observe(this) { shareText(it) }
         viewModel.getExportedFiles().observe(this) { shareFiles(it) }
         lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling) } }
