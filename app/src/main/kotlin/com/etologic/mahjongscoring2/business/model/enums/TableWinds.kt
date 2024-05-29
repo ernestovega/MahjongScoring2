@@ -24,12 +24,13 @@ enum class TableWinds(val code: Int) {
     NORTH(3);
 
     companion object {
-        fun from(name: String): TableWinds =
-            when(name) {
-                "EAST" -> EAST
-                "SOUTH" -> SOUTH
-                "WEST" -> WEST
-                "NORTH" -> NORTH
+        fun from(code: Int?): TableWinds? =
+            when(code) {
+                EAST.code -> EAST
+                SOUTH.code -> SOUTH
+                WEST.code -> WEST
+                NORTH.code -> NORTH
+                null -> null
                 else -> NONE
             }
 

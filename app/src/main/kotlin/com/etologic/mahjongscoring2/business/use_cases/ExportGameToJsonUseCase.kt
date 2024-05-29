@@ -17,10 +17,12 @@
 
 package com.etologic.mahjongscoring2.business.use_cases
 
+import androidx.annotation.VisibleForTesting
 import com.etologic.mahjongscoring2.app.utils.writeToCsvFile
 import com.etologic.mahjongscoring2.business.model.dtos.PortableGame
 import com.etologic.mahjongscoring2.business.model.dtos.toPortableGame
 import com.etologic.mahjongscoring2.business.model.entities.GameId
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.use_cases.utils.normalizeName
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
@@ -33,8 +35,8 @@ class ExportGameToJsonUseCase @Inject constructor(
     suspend operator fun invoke(gameId: GameId, getExternalFilesDir: () -> File?): Result<List<File>> =
         getOneGameUseCase(gameId)
             .mapCatching { uiGame ->
-                val csvGames = listOf(uiGame.toPortableGame())
-                val jsonText = Json.encodeToString(ListSerializer(PortableGame.serializer()), csvGames)
+                val portableGames = listOf(uiGame.toPortableGame())
+                val jsonText = Json.encodeToString(ListSerializer(PortableGame.serializer()), portableGames)
                 val jsonFile = writeToCsvFile(
                     fileName = "${normalizeName(uiGame.gameName).replace(" ", "_")}.json",
                     fileText = jsonText,
@@ -42,4 +44,11 @@ class ExportGameToJsonUseCase @Inject constructor(
                 )
                 listOf(jsonFile)
             }
+
+    @VisibleForTesting
+    fun jsonFrom(uiGame: UiGame): String =
+        Json.encodeToString(
+            serializer = ListSerializer(PortableGame.serializer()),
+            value = listOf(uiGame.toPortableGame()),
+        )
 }

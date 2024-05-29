@@ -35,7 +35,7 @@ import com.etologic.mahjongscoring2.business.use_cases.ExportGameToJsonUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGamesToJsonUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetIsDiffCalcsFeatureEnabledUseCase
-import com.etologic.mahjongscoring2.business.use_cases.ImportGamesUseCase
+import com.etologic.mahjongscoring2.business.use_cases.ImportGamesFromJsonUseCase
 import com.etologic.mahjongscoring2.business.use_cases.SaveIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -56,7 +56,7 @@ class MainViewModel @Inject constructor(
     private val exportGameToCsvUseCase: ExportGameToCsvUseCase,
     private val exportGameToJsonUseCase: ExportGameToJsonUseCase,
     private val exportGamesToJsonUseCase: ExportGamesToJsonUseCase,
-    private val importGamesUseCase: ImportGamesUseCase,
+    private val importGamesFromJsonUseCase: ImportGamesFromJsonUseCase,
     getIsDiffCalcsFeatureEnabledUseCase: GetIsDiffCalcsFeatureEnabledUseCase,
     private val saveIsDiffCalcsFeatureEnabledUseCase: SaveIsDiffCalcsFeatureEnabledUseCase,
 ) : BaseViewModel() {
@@ -151,7 +151,7 @@ class MainViewModel @Inject constructor(
     fun importGames(uri: Uri, getContentResolver: () -> ContentResolver) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                importGamesUseCase(uri, getContentResolver)
+                importGamesFromJsonUseCase(uri, getContentResolver)
                     .fold({}, ::showError)
             }
         }

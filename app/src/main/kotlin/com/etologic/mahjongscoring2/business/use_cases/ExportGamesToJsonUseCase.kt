@@ -17,9 +17,11 @@
 
 package com.etologic.mahjongscoring2.business.use_cases
 
+import androidx.annotation.VisibleForTesting
 import com.etologic.mahjongscoring2.app.utils.writeToCsvFile
 import com.etologic.mahjongscoring2.business.model.dtos.PortableGame
 import com.etologic.mahjongscoring2.business.model.dtos.toPortableGame
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
 import com.etologic.mahjongscoring2.business.model.exceptions.GamesNotFoundException
 import kotlinx.coroutines.flow.firstOrNull
@@ -35,8 +37,7 @@ class ExportGamesToJsonUseCase @Inject constructor(
     suspend operator fun invoke(getExternalFilesDir: () -> File?): Result<List<File>> =
         runCatching {
             val uiGames = getAllGamesFlowUseCase.invoke().firstOrNull() ?: throw GamesNotFoundException()
-            val portableGames = uiGames.map { uiGame -> uiGame.toPortableGame() }
-            val jsonText = Json.encodeToString(ListSerializer(PortableGame.serializer()), portableGames)
+            val jsonText = jsonFrom(uiGames)
             val jsonFile = writeToCsvFile(
                 fileName = "MahjongMadrid2_DataBase.json",
                 fileText = jsonText,
@@ -44,4 +45,11 @@ class ExportGamesToJsonUseCase @Inject constructor(
             )
             listOf(jsonFile)
         }
+
+    @VisibleForTesting
+    fun jsonFrom(uiGames: List<UiGame>): String =
+        Json.encodeToString(
+            serializer = ListSerializer(PortableGame.serializer()),
+            value = uiGames.map { uiGame -> uiGame.toPortableGame() }
+        )
 }

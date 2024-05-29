@@ -32,7 +32,7 @@ interface RoundsDao {
     @Query("SELECT * FROM Rounds WHERE gameId = :gameId")
     fun getGameRoundsFlow(gameId: GameId): Flow<List<DbRound>>
 
-    @Query("SELECT * FROM Rounds WHERE gameId = :gameId")
+    @Query("SELECT * FROM Rounds WHERE gameId = :gameId ORDER BY roundId ASC")
     suspend fun getGameRounds(gameId: GameId): List<DbRound>
 
     @Query("SELECT * FROM Rounds WHERE gameId = :gameId AND roundId = :roundId")

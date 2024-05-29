@@ -60,11 +60,11 @@ data class DbRound(
         roundId: RoundId = NOT_SET_ROUND_ID,
         winnerInitialSeat: TableWinds?,
         discarderInitialSeat: TableWinds?,
-        handPoints: Int,
-        penaltyP1: Int,
-        penaltyP2: Int,
-        penaltyP3: Int,
-        penaltyP4: Int,
+        handPoints: Int = 0,
+        penaltyP1: Int = 0,
+        penaltyP2: Int = 0,
+        penaltyP3: Int = 0,
+        penaltyP4: Int = 0,
     ) : this(gameId, roundId) {
         this.winnerInitialSeat = winnerInitialSeat
         this.discarderInitialSeat = discarderInitialSeat

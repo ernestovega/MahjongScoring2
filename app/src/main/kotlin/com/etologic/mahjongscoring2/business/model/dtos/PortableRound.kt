@@ -26,8 +26,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PortableRound(
     val roundNumber: Int,
-    val winnerInitialSeat: String,
-    val discarderInitialSeat: String,
+    val winnerInitialSeat: Int?,
+    val discarderInitialSeat: Int?,
     val handPoints: Int,
     val pointsP1: Int,
     val pointsP2: Int,
@@ -41,8 +41,8 @@ data class PortableRound(
 
 fun UiRound.toPortableRound() = PortableRound(
     roundNumber = roundNumber,
-    winnerInitialSeat = winnerInitialSeat?.toString().orEmpty(),
-    discarderInitialSeat = discarderInitialSeat?.toString().orEmpty(),
+    winnerInitialSeat = winnerInitialSeat?.code,
+    discarderInitialSeat = discarderInitialSeat?.code,
     handPoints = handPoints,
     pointsP1 = pointsP1,
     pointsP2 = pointsP2,

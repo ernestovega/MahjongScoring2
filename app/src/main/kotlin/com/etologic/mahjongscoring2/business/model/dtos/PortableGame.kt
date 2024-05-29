@@ -29,8 +29,8 @@ import java.util.Locale
 @Serializable
 data class PortableGame(
     val gameName: String,
-    val startDate: String,
-    val endDate: String,
+    val startDate: Long,
+    val endDate: Long?,
     val nameP1: String,
     val nameP2: String,
     val nameP3: String,
@@ -40,8 +40,8 @@ data class PortableGame(
 
 fun UiGame.toPortableGame() = PortableGame(
     gameName = gameName,
-    startDate = startDate.toString(),
-    endDate = endDate?.toString().orEmpty(),
+    startDate = startDate.time,
+    endDate = endDate?.time,
     nameP1 = nameP1,
     nameP2 = nameP2,
     nameP3 = nameP3,
@@ -56,8 +56,8 @@ fun PortableGame.toDbGame(gameId: GameId): DbGame =
         nameP2 = nameP2,
         nameP3 = nameP3,
         nameP4 = nameP4,
-        startDate = startDate.toDate(),
-        endDate = endDate.toDate(),
+        startDate = Date(startDate),
+        endDate = endDate?.let { Date(it) },
         gameName = gameName,
     )
 

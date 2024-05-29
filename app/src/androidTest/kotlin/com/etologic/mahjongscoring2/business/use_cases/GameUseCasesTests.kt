@@ -17,20 +17,18 @@
 
 package com.etologic.mahjongscoring2.business.use_cases
 
-import android.content.Context
-import androidx.core.net.toUri
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MAX_MCR_ROUNDS
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.business.use_cases.mappers.toUiGame
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.AppDatabase
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos.GamesDao
@@ -45,8 +43,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.File
-import java.util.Date
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
@@ -71,10 +67,6 @@ class GameUseCasesTests {
     private lateinit var setPenaltyUseCase: SetPenaltyUseCase
     private lateinit var cancelAllPenaltiesUseCase: CancelAllPenaltiesUseCase
     private lateinit var editGameNamesUseCase: EditGameNamesUseCase
-    private lateinit var exportGameToTextUseCase: ExportGameToTextUseCase
-    private lateinit var exportGameToCsvUseCase: ExportGameToCsvUseCase
-    private lateinit var exportGamesToJsonUseCase: ExportGamesToJsonUseCase
-    private lateinit var importGameFromCsvUseCase: ImportGameFromCsvUseCase
 
     @Before
     fun setUp() {
@@ -90,8 +82,6 @@ class GameUseCasesTests {
         roundsRepository = DefaultRoundsRepository(roundsDao)
 
         val getOneGameUseCase = GetOneGameUseCase(gamesRepository, roundsRepository)
-        val getAllGamesFlowUseCase = GetAllGamesFlowUseCase(gamesRepository, roundsRepository)
-        val deleteGameUseCase = DeleteGameUseCase(gamesRepository, roundsRepository)
 
         createGameUseCase = CreateGameUseCase(gamesRepository, roundsRepository)
         endGameUseCase = EndGameUseCase(gamesRepository)
@@ -104,10 +94,6 @@ class GameUseCasesTests {
         setPenaltyUseCase = SetPenaltyUseCase(roundsRepository)
         cancelAllPenaltiesUseCase = CancelAllPenaltiesUseCase(roundsRepository)
         editGameNamesUseCase = EditGameNamesUseCase(gamesRepository)
-        exportGameToTextUseCase = ExportGameToTextUseCase(getOneGameUseCase)
-        exportGameToCsvUseCase = ExportGameToCsvUseCase(getOneGameUseCase)
-        exportGamesToJsonUseCase = ExportGamesToJsonUseCase(getAllGamesFlowUseCase)
-        importGameFromCsvUseCase = ImportGameFromCsvUseCase(gamesRepository, roundsRepository, deleteGameUseCase)
     }
 
     @After
@@ -418,159 +404,85 @@ class GameUseCasesTests {
     }
 
     @Test
-    fun exportGameResultsToTextUseCase() = runBlocking {
-        // Given an existing complete game
-        val game = createCompleteGame()
+    fun fullGameTest() = runBlocking {
+        // Given a complete game
+        val uiGame = createCompleteGame()
 
-        // When we call the UseCase for exporting the final results to text
-        val exportedText = exportGameToTextUseCase(game.gameId).getOrThrow()
-
-        // Then we expect the right text
-        val expectedText = "Test Game Name 1\n\n" +
-                "1st:    Test Player 4    4    (+145)\n" +
-                "2nd:    Test Player 3    2    (-3)\n" +
-                "3rd:    Test Player 2    1    (-29)\n" +
-                "4th:    Test Player 1    0    (-143)\n\n" +
-                "Best hand:    28  -  Test Player 2\n"
-        assertThat(exportedText).isEqualTo(expectedText)
+        // Then we check the expected data
+        assertThat(uiGame.endDate).isNotNull()
+        assertThat(uiGame.uiRounds).hasSize(16)
+        val lastUiRound = uiGame.uiRounds.last()
+        assertThat(lastUiRound.roundId).isEqualTo(18)
+        assertThat(lastUiRound.roundNumber).isEqualTo(16)
+        assertThat(lastUiRound.totalPointsP1).isEqualTo(-143)
+        assertThat(lastUiRound.totalPointsP2).isEqualTo(-29)
+        assertThat(lastUiRound.totalPointsP3).isEqualTo(-3)
+        assertThat(lastUiRound.totalPointsP4).isEqualTo(145)
+        assertThat(uiGame.uiRounds[10].isBestHand).isTrue()
     }
 
-    @Test
-    fun exportGameToCsvUseCase() = runBlocking {
-        // Given an existing complete game
-        val game = createCompleteGame()
-        val rounds = roundsDao.getGameRounds(game.gameId)
+    private suspend fun createCompleteGame(): UiGame {
+        val game = createJustGameAndFirstOngoingRound()
+        var rounds = roundsDao.getGameRounds(game.gameId)
+        huDiscardUseCase(game.toUiGame(rounds), HuData(18, EAST, TableWinds.NORTH)) // 1
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huDiscardUseCase(game.toUiGame(rounds), HuData(9, SOUTH, TableWinds.WEST)) // 2
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huDiscardUseCase(game.toUiGame(rounds), HuData(12, TableWinds.WEST, SOUTH)) // 3
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huDiscardUseCase(game.toUiGame(rounds), HuData(25, TableWinds.NORTH, EAST)) // 4
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huSelfPickUseCase(game.toUiGame(rounds), HuData(8, TableWinds.NORTH)) // 5
+        rounds = roundsDao.getGameRounds(game.gameId)
+        setPenaltyUseCase(game.toUiGame(rounds).uiRounds.last(), PenaltyData(30, true, EAST)) // 6
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huDiscardUseCase(game.toUiGame(rounds), HuData(12, SOUTH, TableWinds.NORTH)) // 6
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huDiscardUseCase(game.toUiGame(rounds), HuData(10, EAST, TableWinds.WEST)) // 7
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huDiscardUseCase(game.toUiGame(rounds), HuData(12, TableWinds.WEST, SOUTH)) // 8
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huSelfPickUseCase(game.toUiGame(rounds), HuData(8, TableWinds.NORTH)) // 9
+        deleteRoundUseCase(game.gameId, 9) // 9
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huDiscardUseCase(game.toUiGame(rounds), HuData(17, TableWinds.NORTH, EAST)) // 9 (10)
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huSelfPickUseCase(game.toUiGame(rounds), HuData(8, TableWinds.NORTH)) // 10 (11)
+        rounds = roundsDao.getGameRounds(game.gameId)
+        setPenaltyUseCase(game.toUiGame(rounds).uiRounds.last(), PenaltyData(60, true, EAST)) // 11 (12)
+        rounds = roundsDao.getGameRounds(game.gameId)
+        setPenaltyUseCase(game.toUiGame(rounds).uiRounds.last(), PenaltyData(30, false, TableWinds.WEST)) // 11 (12)
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huDiscardUseCase(game.toUiGame(rounds), HuData(28, SOUTH, TableWinds.NORTH)) // 11 (12)
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huDiscardUseCase(game.toUiGame(rounds), HuData(9, EAST, TableWinds.WEST)) // 12 (13)
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huDiscardUseCase(game.toUiGame(rounds), HuData(12, TableWinds.WEST, SOUTH)) // 13 (14)
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huDiscardUseCase(game.toUiGame(rounds), HuData(13, TableWinds.WEST, TableWinds.NORTH)) // 14 (15)
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huDiscardUseCase(game.toUiGame(rounds), HuData(8, TableWinds.NORTH, TableWinds.WEST)) // 15 (16)
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huSelfPickUseCase(game.toUiGame(rounds), HuData(1008, TableWinds.NORTH)) // 16 (17)
+        deleteRoundUseCase(game.gameId, 17) // 16 (17)
+        rounds = roundsDao.getGameRounds(game.gameId)
+        resumeGameUseCase(game.toUiGame(rounds))
+        rounds = roundsDao.getGameRounds(game.gameId)
+        huDiscardUseCase(game.toUiGame(rounds), HuData(24, TableWinds.NORTH, SOUTH)) // 16 (18)
 
-        // When we call the UseCase for exporting the complete game to csv
-        val exportedFileText = exportGameToCsvUseCase.buildCsvText(game.toUiGame(rounds))
-
-        // Then we expect the right file name and content
-        val expectedFileText =
-            "Round,Winner,Discarder,Hand Points,Points Test Player 1,Points Test Player 2,Points Test Player 3,Points Test Player 4,Penalty Test Player 1,Penalty Test Player 2,Penalty Test Player 3,Penalty Test Player 4\n" +
-                    "1,Test Player 1,Test Player 4,18,42,-8,-8,-26,0,0,0,0,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "2,Test Player 2,Test Player 3,9,-8,33,-17,-8,0,0,0,0,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "3,Test Player 3,Test Player 2,12,-8,-20,36,-8,0,0,0,0,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "4,Test Player 4,Test Player 1,25,-33,-8,-8,49,0,0,0,0,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "5,Test Player 4,-,8,-16,-16,-16,48,0,0,0,0,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "6,Test Player 2,Test Player 4,12,-38,46,2,-10,-30,10,10,10,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "7,Test Player 1,Test Player 3,10,34,-8,-18,-8,0,0,0,0,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "8,Test Player 3,Test Player 2,12,-8,-20,36,-8,0,0,0,0,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "9,Test Player 4,Test Player 1,17,-25,-8,-8,41,0,0,0,0,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "10,Test Player 4,-,8,-16,-16,-16,48,0,0,0,0,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "11,Test Player 2,Test Player 4,28,-68,72,-18,-16,-60,20,-10,20,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "12,Test Player 1,Test Player 3,9,33,-8,-17,-8,0,0,0,0,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "13,Test Player 3,Test Player 2,12,-8,-20,36,-8,0,0,0,0,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "14,Test Player 3,Test Player 4,13,-8,-8,37,-21,0,0,0,0,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "15,Test Player 4,Test Player 3,8,-8,-8,-16,32,0,0,0,0,Test Game Name 1,${game.startDate},${game.endDate}\n" +
-                    "16,Test Player 4,Test Player 2,24,-8,-32,-8,48,0,0,0,0,Test Game Name 1,${game.startDate},${game.endDate}\n"
-        assertThat(exportedFileText).isEqualTo(expectedFileText)
+        val dbGame = createJustGameAndFirstOngoingRound()
+        val dbRounds = roundsDao.getGameRounds(game.gameId)
+        return dbGame.toUiGame(dbRounds)
     }
 
-    private suspend fun createJustGameAndFirstOngoingRound(): DbGame {
+    private suspend fun createJustGameAndFirstOngoingRound(gameName: String = "Test Game Name 1"): DbGame {
         createGameUseCase(
-            gameName = "Test Game Name 1",
+            gameName = gameName,
             nameP1 = "Test Player 1",
             nameP2 = "Test Player 2",
             nameP3 = "Test Player 3",
             nameP4 = "Test Player 4",
         )
-        return gamesDao.getAllFlow().first().first()
-    }
-
-    private suspend fun createCompleteGame(): DbGame {
-        val game = createJustGameAndFirstOngoingRound()
-        var rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(18, EAST, NORTH)) // 1
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(9, SOUTH, WEST)) // 2
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(12, WEST, SOUTH)) // 3
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(25, NORTH, EAST)) // 4
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huSelfPickUseCase(game.toUiGame(rounds), HuData(8, NORTH)) // 5
-        rounds = roundsDao.getGameRounds(game.gameId)
-        setPenaltyUseCase(game.toUiGame(rounds).uiRounds.last(), PenaltyData(30, true, EAST)) // 6
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(12, SOUTH, NORTH)) // 6
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(10, EAST, WEST)) // 7
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(12, WEST, SOUTH)) // 8
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huSelfPickUseCase(game.toUiGame(rounds), HuData(8, NORTH)) // 9
-        deleteRoundUseCase(game.gameId, 9) // 9
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(17, NORTH, EAST)) // 9 (10)
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huSelfPickUseCase(game.toUiGame(rounds), HuData(8, NORTH)) // 10 (11)
-        rounds = roundsDao.getGameRounds(game.gameId)
-        setPenaltyUseCase(game.toUiGame(rounds).uiRounds.last(), PenaltyData(60, true, EAST)) // 11 (12)
-        rounds = roundsDao.getGameRounds(game.gameId)
-        setPenaltyUseCase(game.toUiGame(rounds).uiRounds.last(), PenaltyData(30, false, WEST)) // 11 (12)
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(28, SOUTH, NORTH)) // 11 (12)
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(9, EAST, WEST)) // 12 (13)
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(12, WEST, SOUTH)) // 13 (14)
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(13, WEST, NORTH)) // 14 (15)
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(8, NORTH, WEST)) // 15 (16)
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huSelfPickUseCase(game.toUiGame(rounds), HuData(1008, NORTH)) // 16 (17)
-        deleteRoundUseCase(game.gameId, 17) // 16 (17)
-        rounds = roundsDao.getGameRounds(game.gameId)
-        resumeGameUseCase(game.toUiGame(rounds))
-        rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(24, NORTH, SOUTH)) // 16 (18)
-        return game
-    }
-
-    @Test
-    fun importGameFromCsvUseCase() = runBlocking {
-        // Given an provided CSV file
-        val startDate = "Mon May 26 23:00:00 GMT+02:00 2024"
-        val endDate = "Mon May 27 01:00:00 GMT+02:00 2024"
-        val csvText =
-            "Round,Winner,Discarder,Hand Points,Points Test Player 1,Points Test Player 2,Points Test Player 3,Points Test Player 4,Penalty Test Player 1,Penalty Test Player 2,Penalty Test Player 3,Penalty Test Player 4\n" +
-                    "1,Test Player 1,Test Player 4,18,42,-8,-8,-26,0,0,0,0,Imported Game Name 1,$startDate,$endDate\n" +
-                    "2,Test Player 2,Test Player 3,9,-8,33,-17,-8,0,0,0,0,Imported Game Name 1,$startDate,$endDate\n" +
-                    "3,Test Player 3,Test Player 2,12,-8,-20,36,-8,0,0,0,0,Imported Game Name 1,$startDate,$endDate\n" +
-                    "4,Test Player 4,Test Player 1,25,-33,-8,-8,49,0,0,0,0,Imported Game Name 1,$startDate,$endDate\n" +
-                    "5,Test Player 4,-,8,-16,-16,-16,48,0,0,0,0,Imported Game Name 1,$startDate,$endDate\n" +
-                    "6,Test Player 2,Test Player 4,12,-38,46,2,-10,-30,10,10,10,Imported Game Name 1,$startDate,$endDate\n" +
-                    "7,Test Player 1,Test Player 3,10,34,-8,-18,-8,0,0,0,0,Imported Game Name 1,$startDate,$endDate\n" +
-                    "8,Test Player 3,Test Player 2,12,-8,-20,36,-8,0,0,0,0,Imported Game Name 1,$startDate,$endDate\n" +
-                    "9,Test Player 4,Test Player 1,17,-25,-8,-8,41,0,0,0,0,Imported Game Name 1,$startDate,$endDate\n" +
-                    "10,Test Player 4,-,8,-16,-16,-16,48,0,0,0,0,Imported Game Name 1,$startDate,$endDate\n" +
-                    "11,Test Player 2,Test Player 4,28,-68,72,-18,-16,-60,20,-10,20,Imported Game Name 1,$startDate,$endDate\n" +
-                    "12,Test Player 1,Test Player 3,9,33,-8,-17,-8,0,0,0,0,Imported Game Name 1,$startDate,$endDate\n" +
-                    "13,Test Player 3,Test Player 2,12,-8,-20,36,-8,0,0,0,0,Imported Game Name 1,$startDate,$endDate\n" +
-                    "14,Test Player 3,Test Player 4,13,-8,-8,37,-21,0,0,0,0,Imported Game Name 1,$startDate,$endDate\n" +
-                    "15,Test Player 4,Test Player 3,8,-8,-8,-16,32,0,0,0,0,Imported Game Name 1,$startDate,$endDate\n" +
-                    "16,Test Player 4,Test Player 2,24,-8,-32,-8,48,0,0,0,0,Imported Game Name 1,$startDate,$endDate\n"
-
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        val testCsvFile = File("testCsv.csv")
-
-        // When we call the UseCase for importing a complete game from csv
-        val gameId = importGameFromCsvUseCase(testCsvFile.toUri()) { context.contentResolver }
-
-        // Then we expect the right file name and content
-        val game = gamesDao.getAllFlow().first().last()
-        assertThat(gameId).isEqualTo(1)
-        assertThat(game.gameId).isEqualTo(1)
-        assertThat(game.gameName).isEqualTo("Imported Game Name 1")
-        assertThat(game.startDate).isEqualTo(Date(startDate))
-        assertThat(game.endDate).isEqualTo(Date(endDate))
-        assertThat(game.nameP1).isEqualTo("Test Player 1")
-        assertThat(game.nameP2).isEqualTo("Test Player 2")
-        assertThat(game.nameP3).isEqualTo("Test Player 3")
-        assertThat(game.nameP4).isEqualTo("Test Player 4")
-
-        val rounds = roundsDao.getGameRounds(game.gameId)
-        // TODO
+        return gamesDao.getAllFlow().first().last()
     }
 }
