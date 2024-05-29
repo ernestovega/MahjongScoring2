@@ -22,6 +22,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
+import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
@@ -33,6 +34,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R.color
 import com.etologic.mahjongscoring2.app.base.BaseRvAdapter
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
+import com.etologic.mahjongscoring2.app.utils.toStringSigned
 import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
@@ -83,7 +85,7 @@ class GameListRvAdapter
         fillTexts(round, myHolder)
         setWinnerColor(round, myHolder)
         setLooserColor(round, myHolder)
-        setPenaltiesIcons(round, myHolder)
+        setPenalties(round, myHolder)
         setBackgroundColor(round, myHolder)
         holder.llContainer.setOnSecureClickListener { itemListener?.onClick(holder.tvRoundNum, round.roundId) }
         holder.llContainer.setOnLongClickListener { itemListener?.onClick(holder.tvRoundNum, round.roundId); true }
@@ -122,11 +124,26 @@ class GameListRvAdapter
         }
     }
 
-    private fun setPenaltiesIcons(item: UiRound, mHolder: ItemViewHolder) {
-        mHolder.ivPenaltyP1.visibility = if (item.penaltyP1 < 0) VISIBLE else GONE
-        mHolder.ivPenaltyP2.visibility = if (item.penaltyP2 < 0) VISIBLE else GONE
-        mHolder.ivPenaltyP3.visibility = if (item.penaltyP3 < 0) VISIBLE else GONE
-        mHolder.ivPenaltyP4.visibility = if (item.penaltyP4 < 0) VISIBLE else GONE
+    private fun setPenalties(item: UiRound, mHolder: ItemViewHolder) {
+        with(mHolder) {
+            if (item.areTherePenalties()) {
+                tvPenaltyP1.text = item.penaltyP1.toStringSigned()
+                tvPenaltyP2.text = item.penaltyP2.toStringSigned()
+                tvPenaltyP3.text = item.penaltyP3.toStringSigned()
+                tvPenaltyP4.text = item.penaltyP4.toStringSigned()
+                (if (item.penaltyP1 < 0) red else greenMM)?.let { tvPenaltyP1.setTextColor(it) }
+                (if (item.penaltyP2 < 0) red else greenMM)?.let { tvPenaltyP2.setTextColor(it) }
+                (if (item.penaltyP3 < 0) red else greenMM)?.let { tvPenaltyP3.setTextColor(it) }
+                (if (item.penaltyP4 < 0) red else greenMM)?.let { tvPenaltyP4.setTextColor(it) }
+                llPenaltiesContainer.visibility = VISIBLE
+            } else {
+                llPenaltiesContainer.visibility = GONE
+            }
+            ivPenaltyP1.visibility = if (item.penaltyP1 < 0) VISIBLE else GONE
+            ivPenaltyP2.visibility = if (item.penaltyP2 < 0) VISIBLE else GONE
+            ivPenaltyP3.visibility = if (item.penaltyP3 < 0) VISIBLE else GONE
+            ivPenaltyP4.visibility = if (item.penaltyP4 < 0) VISIBLE else GONE
+        }
     }
 
     private fun setBackgroundColor(item: UiRound, mHolder: ItemViewHolder) {
@@ -148,6 +165,11 @@ class GameListRvAdapter
         var ivPenaltyP2: ImageView = binding.ivGameListItemPenaltyIconP2
         var ivPenaltyP3: ImageView = binding.ivGameListItemPenaltyIconP3
         var ivPenaltyP4: ImageView = binding.ivGameListItemPenaltyIconP4
+        var llPenaltiesContainer: LinearLayout = binding.llGameListItemRoundPenalties
+        var tvPenaltyP1: TextView = binding.tvGameListItemRoundPenaltiesP1
+        var tvPenaltyP2: TextView = binding.tvGameListItemRoundPenaltiesP2
+        var tvPenaltyP3: TextView = binding.tvGameListItemRoundPenaltiesP3
+        var tvPenaltyP4: TextView = binding.tvGameListItemRoundPenaltiesP4
         var tvTotalPointsP1: TextView = binding.tvGameListItemRoundTotalPointsP1
         var tvTotalPointsP2: TextView = binding.tvGameListItemRoundTotalPointsP2
         var tvTotalPointsP3: TextView = binding.tvGameListItemRoundTotalPointsP3

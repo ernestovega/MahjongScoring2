@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright © 2023  Ernesto Vega de la Iglesia Soria
   ~
   ~     This program is free software: you can redistribute it and/or modify
@@ -182,6 +181,59 @@
                 tools:ignore="ContentDescription" />
 
         </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- ROUND PENALTIES -->
+    <LinearLayout
+        android:id="@+id/llGameListItemRoundPenalties"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="@dimen/standard_margin"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/half_standard_margin" />
+
+        <TextView
+            android:layout_width="@dimen/second_standard_margin"
+            android:layout_height="match_parent"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/tvGameListItemRoundPenaltiesP1"
+            style="@style/TextViewGameListItemTotal"
+            android:gravity="end"
+            android:layout_marginEnd="@dimen/half_and_quarter_standard_margin"
+            android:textSize="12sp"
+            tools:text="+38" />
+
+        <TextView
+            android:id="@+id/tvGameListItemRoundPenaltiesP2"
+            style="@style/TextViewGameListItemTotal"
+            android:gravity="end"
+            android:layout_marginEnd="@dimen/half_and_quarter_standard_margin"
+            android:textSize="12sp"
+            tools:text="-16" />
+
+        <TextView
+            android:id="@+id/tvGameListItemRoundPenaltiesP3"
+            style="@style/TextViewGameListItemTotal"
+            android:gravity="end"
+            android:layout_marginEnd="@dimen/half_and_quarter_standard_margin"
+            android:textSize="12sp"
+            tools:text="-16" />
+
+        <TextView
+            android:id="@+id/tvGameListItemRoundPenaltiesP4"
+            style="@style/TextViewGameListItemTotal"
+            android:gravity="end"
+            android:layout_marginEnd="@dimen/half_and_quarter_standard_margin"
+            android:textSize="12sp"
+            tools:text="-16" />
 
     </LinearLayout>
 
