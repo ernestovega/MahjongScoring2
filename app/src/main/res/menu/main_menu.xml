@@ -19,18 +19,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/action_export_games"
-        android:title="@string/export_games"
-        android:tooltipText="@string/export_games"
-        app:showAsAction="never"
-        tools:targetApi="o" />
-
-    <item
-        android:id="@+id/action_import_games"
-        android:title="@string/import_games"
-        android:tooltipText="@string/import_games"
-        app:showAsAction="never"
-        tools:targetApi="o" />
+        android:id="@+id/action_change_language"
+        android:title="@string/language"
+        android:visible="true"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_enable_diffs_calcs"
@@ -43,5 +35,19 @@
         android:title="@string/disable_diffs_calcs"
         android:visible="false"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_export_games"
+        android:title="@string/export_games"
+        android:tooltipText="@string/export_games"
+        app:showAsAction="never"
+        tools:targetApi="o" />
+
+    <item
+        android:id="@+id/action_import_games"
+        android:title="@string/import_games"
+        android:tooltipText="@string/import_games"
+        app:showAsAction="never"
+        tools:targetApi="o" />
 
 </menu>

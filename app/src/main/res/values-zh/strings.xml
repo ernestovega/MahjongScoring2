@@ -229,4 +229,11 @@
     <!--  Translations V2.3.0  -->
     <string name="import_games">导入游戏</string>
     <string name="importable">可导入 (所有数据)</string>
+    <string name="language">语言</string>
+    <string name="choose_language">选择语言:</string>
+    <string name="chinese">🇨🇳中文</string>
+    <string name="dutch">🇳🇱荷兰语</string>
+    <string name="french">🇫🇷法语</string>
+    <string name="english">🇬🇧英语</string>
+    <string name="spanish">🇪🇸西班牙语</string>
 </resources>

@@ -78,7 +78,11 @@ class CombinationsActivity : BaseActivity() {
     }
 
     private fun observeViewModel() {
-        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.combinationsState.collect(rvAdapter::setCombinations) } }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.combinationsState.collect(rvAdapter::setCombinations)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

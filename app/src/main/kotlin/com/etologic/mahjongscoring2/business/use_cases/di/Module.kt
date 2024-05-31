@@ -17,14 +17,18 @@
 
 package com.etologic.mahjongscoring2.business.use_cases.di
 
+import com.etologic.mahjongscoring2.app.main.activity.LanguageHelper
+import com.etologic.mahjongscoring2.data_source.repositories.LanguageRepository
 import com.etologic.mahjongscoring2.data_source.repositories.games.DefaultGamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.games.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.rounds.DefaultRoundsRepository
 import com.etologic.mahjongscoring2.data_source.repositories.rounds.RoundsRepository
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -35,4 +39,12 @@ interface Module {
 
     @Binds
     fun provideRoundsRepository(roundsRepository: DefaultRoundsRepository): RoundsRepository
+
+    companion object {
+        @Provides
+        @Singleton
+        fun provideLanguageHelper(languageRepository: LanguageRepository): LanguageHelper {
+            return LanguageHelper(languageRepository)
+        }
+    }
 }

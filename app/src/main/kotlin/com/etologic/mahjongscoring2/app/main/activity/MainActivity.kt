@@ -44,6 +44,7 @@ import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToWebsiteM
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.DIFFS_CALCULATOR
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
+import com.etologic.mahjongscoring2.app.utils.goToChooseLanguage
 import com.etologic.mahjongscoring2.app.utils.shareFiles
 import com.etologic.mahjongscoring2.app.utils.shareText
 import com.etologic.mahjongscoring2.databinding.MainActivityBinding
@@ -137,7 +138,7 @@ class MainActivity : BaseActivity() {
             when (menuItem.itemId) {
                 R.id.nav_oldgames -> viewModel.navigateTo(OLD_GAMES)
                 R.id.nav_combinations -> viewModel.navigateTo(COMBINATIONS)
-                R.id.action_diffs_calculator -> viewModel.navigateTo(DIFFS_CALCULATOR)
+                R.id.nav_diffs_calculator -> viewModel.navigateTo(DIFFS_CALCULATOR)
                 R.id.nav_greenbook_en -> goToGreenBookEnglish()
                 R.id.nav_greenbook_es -> goToGreenBookSpanish()
                 R.id.nav_mm_web -> goToWebsiteMM()
@@ -169,10 +170,11 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> openDrawer()
-            R.id.action_export_games -> lifecycleScope.launch { viewModel.exportGames { getExternalFilesDir(null) } }
-            R.id.action_import_games -> goToPickFile()
+            R.id.action_change_language -> goToChooseLanguage(languageHelper.getCurrentLanguage()) { languageHelper.changeLanguage(it, this) }
             R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
             R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
+            R.id.action_export_games -> lifecycleScope.launch { viewModel.exportGames { getExternalFilesDir(null) } }
+            R.id.action_import_games -> goToPickFile()
             else -> return super.onOptionsItemSelected(item)
         }
         return true

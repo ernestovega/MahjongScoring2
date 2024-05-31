@@ -31,7 +31,7 @@
             android:title="@string/combinations" />
 
         <item
-            android:id="@+id/action_diffs_calculator"
+            android:id="@+id/nav_diffs_calculator"
             android:icon="@drawable/ic_calc"
             android:title="@string/diffsCalculator" />
 

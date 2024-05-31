@@ -18,17 +18,32 @@ package com.etologic.mahjongscoring2.app.base
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.addCallback
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.R.anim.*
+import com.etologic.mahjongscoring2.R.anim.enter_from_left
+import com.etologic.mahjongscoring2.R.anim.enter_from_right
+import com.etologic.mahjongscoring2.R.anim.exit_to_left
+import com.etologic.mahjongscoring2.R.anim.exit_to_right
+import com.etologic.mahjongscoring2.app.main.activity.LanguageHelper
+import com.etologic.mahjongscoring2.app.main.activity.MainActivity
+import com.etologic.mahjongscoring2.app.main.activity.toLocale
+import com.etologic.mahjongscoring2.app.utils.setLocale
+import java.util.Locale
+import javax.inject.Inject
+
 
 @SuppressLint("Registered")
 abstract class BaseActivity : AppCompatActivity() {
 
     abstract val onBackBehaviour: () -> Unit
+
+    @Inject
+    lateinit var languageHelper: LanguageHelper
+    private var mCurrentLocale: Locale? = null
 
     private fun setOnBackPressedCallback() {
         onBackPressedDispatcher.addCallback(this) { onBackBehaviour.invoke() }
@@ -56,5 +71,16 @@ abstract class BaseActivity : AppCompatActivity() {
     private fun showMessage(message: String) {
         val builder = AlertDialog.Builder(this, R.style.AlertDialogStyleMM)
         builder.setMessage(message).show()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mCurrentLocale = resources.configuration.locale
+        val locale = languageHelper.getCurrentLanguage().toLocale()
+        if (locale != mCurrentLocale) {
+            setLocale(locale.language)
+            mCurrentLocale = locale
+            recreate()
+        }
     }
 }

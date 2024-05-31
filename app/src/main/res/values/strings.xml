@@ -232,4 +232,11 @@
     <!--  Translations V2.3.0  -->
     <string name="import_games">Import games</string>
     <string name="importable">Importable (all game data)</string>
+    <string name="language">Language</string>
+    <string name="choose_language">Choose language:</string>
+    <string name="chinese">🇨🇳Chinese</string>
+    <string name="dutch">🇳🇱Dutch</string>
+    <string name="french">🇫🇷French</string>
+    <string name="english">🇬🇧English</string>
+    <string name="spanish">🇪🇸Spanish</string>
 </resources>

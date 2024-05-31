@@ -17,7 +17,20 @@
 package com.etologic.mahjongscoring2.injection
 
 import android.app.Application
+import com.etologic.mahjongscoring2.app.main.activity.LanguageHelper
+import com.etologic.mahjongscoring2.app.utils.setLocale
 import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
+
 
 @HiltAndroidApp
-class MahjongScoringApp : Application()
+class MahjongScoringApp : Application() {
+
+    @Inject
+    lateinit var languageHelper: LanguageHelper
+
+    override fun onCreate() {
+        super.onCreate()
+        setLocale(languageHelper.getCurrentLanguage())
+    }
+}
