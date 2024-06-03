@@ -236,7 +236,7 @@
     <string name="choose_language">Choose language:</string>
     <string name="chinese">🇨🇳Chinese</string>
     <string name="dutch">🇳🇱Dutch</string>
+    <string name="english">🇬🇧English (default)</string>
     <string name="french">🇫🇷French</string>
-    <string name="english">🇬🇧English</string>
     <string name="spanish">🇪🇸Spanish</string>
 </resources>

@@ -20,10 +20,8 @@ package com.etologic.mahjongscoring2.data_source.repositories
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.etologic.mahjongscoring2.app.utils.setLocale
 import com.etologic.mahjongscoring2.data_source.local_data_sources.datastore.dataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
@@ -39,14 +37,10 @@ class LanguageRepository @Inject constructor(
         private val KEY_LANGUAGE = stringPreferencesKey("language")
     }
 
-    fun getFlow(): Flow<String> = runBlocking {
+    fun get(): String = runBlocking {
         context.dataStore.data.map { preferences ->
             preferences[KEY_LANGUAGE] ?: Locale.getDefault().language
-        }
-    }
-
-    fun get(): String = runBlocking {
-        getFlow().first()
+        }.first()
     }
 
     suspend fun save(language: String): Result<Unit> {

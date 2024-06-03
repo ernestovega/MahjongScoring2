@@ -18,7 +18,7 @@ package com.etologic.mahjongscoring2.app.base
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.addCallback
 import androidx.annotation.IdRes
@@ -29,10 +29,7 @@ import com.etologic.mahjongscoring2.R.anim.enter_from_right
 import com.etologic.mahjongscoring2.R.anim.exit_to_left
 import com.etologic.mahjongscoring2.R.anim.exit_to_right
 import com.etologic.mahjongscoring2.app.main.activity.LanguageHelper
-import com.etologic.mahjongscoring2.app.main.activity.MainActivity
-import com.etologic.mahjongscoring2.app.main.activity.toLocale
-import com.etologic.mahjongscoring2.app.utils.setLocale
-import java.util.Locale
+import com.etologic.mahjongscoring2.app.main.activity.setLocale
 import javax.inject.Inject
 
 
@@ -43,7 +40,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     @Inject
     lateinit var languageHelper: LanguageHelper
-    private var mCurrentLocale: Locale? = null
+    private var currentLanguage: String? = null
 
     private fun setOnBackPressedCallback() {
         onBackPressedDispatcher.addCallback(this) { onBackBehaviour.invoke() }
@@ -75,11 +72,17 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        mCurrentLocale = resources.configuration.locale
-        val locale = languageHelper.getCurrentLanguage().toLocale()
-        if (locale != mCurrentLocale) {
-            setLocale(locale.language)
-            mCurrentLocale = locale
+        currentLanguage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            resources.configuration.locales.get(0).language
+        } else {
+            @Suppress("DEPRECATION")
+            resources.configuration.locale.language
+        }
+        val savedLanguage = languageHelper.getCurrentLanguage()
+
+        if (currentLanguage != savedLanguage) {
+            setLocale(savedLanguage)
+            currentLanguage = savedLanguage
             recreate()
         }
     }

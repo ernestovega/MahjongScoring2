@@ -103,7 +103,7 @@ object MainNavigator {
         goToWebsite(EMA_URL)
     }
 
-    fun Activity.goToWebsite(url: String) {
+    private fun Activity.goToWebsite(url: String) {
         with(Intent(ACTION_VIEW, Uri.parse(url))) {
             addFlags(FLAG_ACTIVITY_NO_HISTORY or FLAG_ACTIVITY_NEW_DOCUMENT or FLAG_ACTIVITY_MULTIPLE_TASK)
             try {

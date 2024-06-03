@@ -44,7 +44,6 @@ import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToWebsiteM
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.COMBINATIONS
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.DIFFS_CALCULATOR
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
-import com.etologic.mahjongscoring2.app.utils.goToChooseLanguage
 import com.etologic.mahjongscoring2.app.utils.shareFiles
 import com.etologic.mahjongscoring2.app.utils.shareText
 import com.etologic.mahjongscoring2.databinding.MainActivityBinding
@@ -65,6 +64,7 @@ class MainActivity : BaseActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     private var lastBackPress: Long = 0
+    private var changeLanguageItem: MenuItem? = null
     private var enableCalcsItem: MenuItem? = null
     private var disableCalcsItem: MenuItem? = null
 
@@ -159,6 +159,7 @@ class MainActivity : BaseActivity() {
         menuInflater.inflate(R.menu.main_menu, menu)
         super.onCreateOptionsMenu(menu)
 
+        changeLanguageItem = menu.findItem(R.id.action_change_language)
         enableCalcsItem = menu.findItem(R.id.action_enable_diffs_calcs)
         disableCalcsItem = menu.findItem(R.id.action_disable_diffs_calcs)
 

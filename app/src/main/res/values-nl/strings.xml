@@ -233,7 +233,7 @@
     <string name="choose_language">Kies taal:</string>
     <string name="chinese">🇨🇳Chinees</string>
     <string name="dutch">🇳🇱Nederlands</string>
+    <string name="english">🇬🇧Engels (standaard)</string>
     <string name="french">🇫🇷Frans</string>
-    <string name="english">🇬🇧Engels</string>
     <string name="spanish">🇪🇸Spaans</string>
 </resources>

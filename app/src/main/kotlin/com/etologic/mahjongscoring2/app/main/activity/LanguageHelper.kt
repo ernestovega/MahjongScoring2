@@ -17,13 +17,26 @@
 
 package com.etologic.mahjongscoring2.app.main.activity
 
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
+import android.os.Build
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
+import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.data_source.repositories.LanguageRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
+
+const val CHINESE = "zh"
+const val DUTCH = "nl"
+const val ENGLISH = "en"
+const val FRENCH = "fr"
+const val SPANISH = "es"
 
 @Singleton
 class LanguageHelper @Inject constructor(
@@ -44,4 +57,71 @@ class LanguageHelper @Inject constructor(
     }
 }
 
-fun String.toLocale(): Locale = Locale(this)
+fun Context.setLocale(language: String): Context {
+    val locale = when (language) {
+        CHINESE -> Locale.CHINESE
+        DUTCH -> Locale("nl", "")
+        ENGLISH -> Locale.ENGLISH
+        FRENCH -> Locale.FRENCH
+        SPANISH -> Locale("es", "")
+        else -> Locale.ENGLISH
+    }
+    Locale.setDefault(locale)
+
+    val resources: Resources = resources
+    val configuration: Configuration = resources.configuration
+
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        configuration.setLocale(locale)
+        createConfigurationContext(configuration)
+    } else {
+        @Suppress("DEPRECATION")
+        configuration.locale = locale
+        @Suppress("DEPRECATION")
+        resources.updateConfiguration(configuration, resources.displayMetrics)
+        this
+    }
+}
+
+fun Context.goToChooseLanguage(
+    currentLanguage: String,
+    changeLanguage: (language: String) -> Unit,
+) {
+    AlertDialog.Builder(this, R.style.AlertDialogStyleMM)
+        .setTitle(R.string.choose_language)
+        .setSingleChoiceItems(
+            /* items = */
+            arrayOf(
+                getString(R.string.chinese),
+                getString(R.string.dutch),
+                getString(R.string.english),
+                getString(R.string.french),
+                getString(R.string.spanish),
+            ),
+            /* checkedItem = */
+            when (currentLanguage) {
+                CHINESE -> 0
+                DUTCH -> 1
+                ENGLISH -> 2
+                FRENCH -> 3
+                SPANISH -> 4
+                else -> 2
+            },
+        )
+        /* listener = */ { dialog, newSelectedItem ->
+            changeLanguage(
+                when (newSelectedItem) {
+                    0 -> CHINESE
+                    1 -> DUTCH
+                    2 -> ENGLISH
+                    3 -> FRENCH
+                    4 -> SPANISH
+                    else -> ENGLISH
+                }
+            )
+            dialog.dismiss()
+        }
+        .setNegativeButton(R.string.cancel, null)
+        .create()
+        .show()
+}

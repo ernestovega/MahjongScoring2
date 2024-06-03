@@ -233,7 +233,7 @@
     <string name="choose_language">Elegir idioma:</string>
     <string name="chinese">🇨🇳Chino</string>
     <string name="dutch">🇳🇱Holandés</string>
+    <string name="english">🇬🇧Inglés (por defecto)</string>
     <string name="french">🇫🇷Francés</string>
-    <string name="english">🇬🇧Inglés</string>
     <string name="spanish">🇪🇸Español</string>
 </resources>
