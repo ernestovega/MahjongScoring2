@@ -31,6 +31,6 @@ class MahjongScoringApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        setLocale(languageHelper.getCurrentLanguage())
+        setLocale(languageHelper.currentLanguage)
     }
 }

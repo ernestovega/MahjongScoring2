@@ -171,7 +171,8 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> openDrawer()
-            R.id.action_change_language -> goToChooseLanguage(languageHelper.getCurrentLanguage()) { languageHelper.changeLanguage(it, this) }
+            R.id.action_change_language -> goToChooseLanguage(languageHelper.currentLanguage) { languageHelper.changeLanguage(it, this) }
+
             R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
             R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
             R.id.action_export_games -> lifecycleScope.launch { viewModel.exportGames { getExternalFilesDir(null) } }

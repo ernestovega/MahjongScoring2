@@ -26,7 +26,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.data_source.repositories.LanguageRepository
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
@@ -42,7 +43,15 @@ const val SPANISH = "es"
 class LanguageHelper @Inject constructor(
     private val languageRepository: LanguageRepository,
 ) {
-    fun getCurrentLanguage(): String = languageRepository.get()
+    var currentLanguage: String = ENGLISH
+
+    init {
+        CoroutineScope(Dispatchers.Unconfined).launch {
+            languageRepository.get().collect {
+                currentLanguage = it
+            }
+        }
+    }
 
     fun changeLanguage(language: String, activity: MainActivity) {
         with(activity) {

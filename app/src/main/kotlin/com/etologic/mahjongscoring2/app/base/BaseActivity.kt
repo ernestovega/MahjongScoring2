@@ -30,6 +30,8 @@ import com.etologic.mahjongscoring2.R.anim.exit_to_left
 import com.etologic.mahjongscoring2.R.anim.exit_to_right
 import com.etologic.mahjongscoring2.app.main.activity.LanguageHelper
 import com.etologic.mahjongscoring2.app.main.activity.setLocale
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 
@@ -78,7 +80,7 @@ abstract class BaseActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             resources.configuration.locale.language
         }
-        val savedLanguage = languageHelper.getCurrentLanguage()
+        val savedLanguage = languageHelper.currentLanguage
 
         if (currentLanguage != savedLanguage) {
             setLocale(savedLanguage)
