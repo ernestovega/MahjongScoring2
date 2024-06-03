@@ -35,8 +35,8 @@ android {
         minSdk = 23
         targetSdk = 34
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        versionCode = 7
-        versionName = "2.2.1"
+        versionCode = 8
+        versionName = "2.3.0"
 
         ksp {
             arg("correctErrorTypes", "true")
@@ -122,4 +122,8 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.truth)
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

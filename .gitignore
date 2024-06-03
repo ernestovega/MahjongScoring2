@@ -9,3 +9,4 @@
 *.aab
 app/release/output-metadata.json
 *.dm
+*.salive
