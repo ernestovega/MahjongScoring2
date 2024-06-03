@@ -95,8 +95,9 @@ dependencies {
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.navigation.runtime.ktx)
+//    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.fragment.ktx)
+//    implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.room.ktx)
@@ -112,6 +113,7 @@ dependencies {
     ksp(libs.hilt.android.compiler)
 
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.navigation.test)
     androidTestImplementation(libs.androidx.room.test)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.hilt.android.testing)

@@ -1,7 +1,7 @@
 [versions]
 agp = "8.4.1"
 androidx-annotation = "1.8.0"
-androidx-appcompat = "1.6.1"
+androidx-appcompat = "1.7.0"
 androidx-browser = "1.8.0"
 androidx-cardview = "1.0.0"
 androidx-collection-ktx = "1.4.0"
@@ -10,16 +10,14 @@ androidx-datastore = "1.1.1"
 androidx-espresso-core = "3.5.1"
 androidx-fragment-ktx = "1.7.1"
 androidx-legacy-support-v4 = "1.0.0"
-androidx-lifecycle-livedata-ktx = "2.8.0"
-androidx-lifecycle-viewmodel-ktx = "2.8.0"
-androidx-navigation-fragment-ktx = "2.7.7"
-androidx-navigation-runtime-ktx = "2.7.7"
+androidx-lifecycle = "2.8.1"
+androidx-navigation = "2.7.7"
 androidx-recyclerview = "1.3.2"
 androidx-room = "2.6.1"
 androidx-test-ext-junit = "1.1.5"
 firebase-crashlytics = "2.9.9" #Crashes due to a circular dependency on 3.0.0
-firebase-bom = "33.0.0"
-google-services = "4.4.1"
+firebase-bom = "33.1.0"
+google-services = "4.4.2"
 hilt = "2.50"
 junit = "4.13.2"
 junit-jupiter = "5.10.1"
@@ -41,16 +39,21 @@ androidx-datastore = { module = "androidx.datastore:datastore-preferences", vers
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment-ktx" }
 androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "androidx-legacy-support-v4" }
-androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-livedata-ktx" }
-androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle-viewmodel-ktx" }
-androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidx-navigation-fragment-ktx" }
-androidx-navigation-runtime-ktx = { module = "androidx.navigation:navigation-runtime-ktx", version.ref = "androidx-navigation-runtime-ktx" }
-androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidx-navigation-runtime-ktx" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+#androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
+androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidx-navigation" }
+#androidx-navigation-runtime-ktx = { module = "androidx.navigation:navigation-runtime-ktx", version.ref = "androidx-navigation" }
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidx-navigation" }
+androidx-navigation-test = { module = "androidx.navigation:navigation-testing", version.ref = "androidx-navigation" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recyclerview" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
 androidx-room-test = { module = "androidx.room:room-testing", version.ref = "androidx-room" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
@@ -60,12 +63,10 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "review-ktx" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
-firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
-firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+androidx-navigation-safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidx-navigation" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
