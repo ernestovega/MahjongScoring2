@@ -16,9 +16,42 @@
  */
 package com.etologic.mahjongscoring2.app.base
 
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.app.main.activity.MainActivity
+import com.etologic.mahjongscoring2.app.main.activity.MainViewModel
 
 abstract class BaseFragment : Fragment() {
+
+    protected val activityViewModel: MainViewModel by activityViewModels()
+
+    protected open val menuProvider = object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(R.menu.empty_menu, menu)
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            if (menuItem.itemId == android.R.id.home) {
+                (activity as? MainActivity)?.openDrawer()
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        activity?.addMenuProvider(menuProvider, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        super.onViewCreated(view, savedInstanceState)
+    }
 
     protected fun showError(throwable: Throwable) {
         val activity = activity

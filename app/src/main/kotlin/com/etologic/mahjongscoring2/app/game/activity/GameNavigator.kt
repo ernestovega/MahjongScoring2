@@ -34,13 +34,13 @@ import com.etologic.mahjongscoring2.app.game.dialogs.hand_actions.PenaltyDialogF
 import com.etologic.mahjongscoring2.app.game.dialogs.ranking.RankingDialogFragment
 import com.etologic.mahjongscoring2.app.game.dialogs.roll_dice.RollDiceDialogFragment
 import com.etologic.mahjongscoring2.app.main.activity.MainActivity.Companion.KEY_WAS_GAME_ENDED
-import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
+import com.etologic.mahjongscoring2.app.main.combinations.CombinationsFragment
 
 object GameNavigator {
 
     fun navigateTo(screen: GameScreens, activity: GameActivity, viewModel: GameViewModel) {
         when (screen) {
-            COMBINATIONS -> activity.startActivity(Intent(activity, CombinationsActivity::class.java))
+            COMBINATIONS -> activity.startActivity(Intent(activity, CombinationsFragment::class.java))
             EDIT_NAMES -> EditNamesDialogFragment().show(activity.supportFragmentManager, EditNamesDialogFragment.TAG)
             DICE -> RollDiceDialogFragment().show(activity.supportFragmentManager, RollDiceDialogFragment.TAG)
             HAND_ACTION -> ActionDialogFragment().show(activity.supportFragmentManager, ActionDialogFragment.TAG)

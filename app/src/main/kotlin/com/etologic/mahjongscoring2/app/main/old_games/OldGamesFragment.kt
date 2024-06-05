@@ -19,11 +19,14 @@ package com.etologic.mahjongscoring2.app.main.old_games
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -32,12 +35,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseFragment
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel
+import com.etologic.mahjongscoring2.app.main.activity.MainActivity
+import com.etologic.mahjongscoring2.app.main.activity.MainNavigator.goToPickFile
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.SETUP_NEW_GAME
+import com.etologic.mahjongscoring2.app.main.activity.goToChooseLanguage
 import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
-import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.GameId
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.databinding.MainOldgamesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -50,7 +55,6 @@ class OldGamesFragment : BaseFragment() {
         const val TAG = "OldGamesFragment"
     }
 
-    private val activityViewModel: MainViewModel by activityViewModels()
     private val viewModel: OldGamesViewModel by viewModels()
 
     @Inject
@@ -59,11 +63,48 @@ class OldGamesFragment : BaseFragment() {
     private var _binding: MainOldgamesFragmentBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
+    private var changeLanguageItem: MenuItem? = null
+    private var enableCalcsItem: MenuItem? = null
+    private var disableCalcsItem: MenuItem? = null
+
+    override val menuProvider = object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(R.menu.old_games_menu, menu)
+
+            changeLanguageItem = menu.findItem(R.id.action_change_language)
+            enableCalcsItem = menu.findItem(R.id.action_enable_diffs_calcs)
+            disableCalcsItem = menu.findItem(R.id.action_disable_diffs_calcs)
+
+            toggleDiffsEnabling(activityViewModel.isDiffsCalcsFeatureEnabledFlow.value)
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            with(activity as? MainActivity) {
+                when (menuItem.itemId) {
+                    android.R.id.home -> this?.openDrawer()
+                    R.id.action_change_language -> this?.goToChooseLanguage(languageHelper.currentLanguage) { languageHelper.changeLanguage(it, this) }
+                    R.id.action_enable_diffs_calcs -> activityViewModel.toggleDiffsFeature(true)
+                    R.id.action_disable_diffs_calcs -> activityViewModel.toggleDiffsFeature(false)
+                    R.id.action_export_games -> lifecycleScope.launch { activityViewModel.exportGames { this@with?.getExternalFilesDir(null) } }
+                    R.id.action_import_games -> this?.goToPickFile()
+                    else -> return false
+                }
+                return true
+            }
+        }
+    }
+
+    private fun toggleDiffsEnabling(shouldShowDiffs: Boolean) {
+        if (shouldShowDiffs) {
+            enableCalcsItem?.isVisible = false
+            disableCalcsItem?.isVisible = true
+        } else {
+            enableCalcsItem?.isVisible = true
+            disableCalcsItem?.isVisible = false
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = MainOldgamesFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -116,7 +157,12 @@ class OldGamesFragment : BaseFragment() {
 
     private fun observeViewModel() {
         viewModel.getError().observe(viewLifecycleOwner) { showError(it) }
-        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.gamesState.collect(::gamesObserver) } }
+        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.gamesState.collect(::gamesObserver) }
+        }
+        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) {
+            activityViewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling) }
+        }
     }
 
     private fun gamesObserver(games: List<UiGame>) {

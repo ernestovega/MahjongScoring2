@@ -64,9 +64,6 @@ class MainActivity : BaseActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     private var lastBackPress: Long = 0
-    private var changeLanguageItem: MenuItem? = null
-    private var enableCalcsItem: MenuItem? = null
-    private var disableCalcsItem: MenuItem? = null
 
     val gameActivityResultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -111,7 +108,7 @@ class MainActivity : BaseActivity() {
         setContentView(view)
     }
 
-    private fun openDrawer() {
+    fun openDrawer() {
         binding.drawerLayoutMain.openDrawer(START, true)
     }
 
@@ -155,32 +152,32 @@ class MainActivity : BaseActivity() {
         binding.drawerLayoutMain.closeDrawer(START, true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        super.onCreateOptionsMenu(menu)
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        menuInflater.inflate(R.menu.main_menu, menu)
+//        super.onCreateOptionsMenu(menu)
+//
+//        changeLanguageItem = menu.findItem(R.id.action_change_language)
+//        enableCalcsItem = menu.findItem(R.id.action_enable_diffs_calcs)
+//        disableCalcsItem = menu.findItem(R.id.action_disable_diffs_calcs)
+//
+//        toggleDiffsEnabling(viewModel.isDiffsCalcsFeatureEnabledFlow.value)
+//
+//        return true
+//    }
 
-        changeLanguageItem = menu.findItem(R.id.action_change_language)
-        enableCalcsItem = menu.findItem(R.id.action_enable_diffs_calcs)
-        disableCalcsItem = menu.findItem(R.id.action_disable_diffs_calcs)
-
-        toggleDiffsEnabling(viewModel.isDiffsCalcsFeatureEnabledFlow.value)
-
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> openDrawer()
-            R.id.action_change_language -> goToChooseLanguage(languageHelper.currentLanguage) { languageHelper.changeLanguage(it, this) }
-
-            R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
-            R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
-            R.id.action_export_games -> lifecycleScope.launch { viewModel.exportGames { getExternalFilesDir(null) } }
-            R.id.action_import_games -> goToPickFile()
-            else -> return super.onOptionsItemSelected(item)
-        }
-        return true
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when (item.itemId) {
+//            android.R.id.home -> openDrawer()
+//            R.id.action_change_language -> goToChooseLanguage(languageHelper.currentLanguage) { languageHelper.changeLanguage(it, this) }
+//
+//            R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
+//            R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
+//            R.id.action_export_games -> lifecycleScope.launch { viewModel.exportGames { getExternalFilesDir(null) } }
+//            R.id.action_import_games -> goToPickFile()
+//            else -> return super.onOptionsItemSelected(item)
+//        }
+//        return true
+//    }
 
     private fun observeViewModel() {
         viewModel.getError().observe(this) { showError(it) }
@@ -188,7 +185,6 @@ class MainActivity : BaseActivity() {
         viewModel.getCurrentScreen().observe(this) { goToScreen(it, this, viewModel) }
         viewModel.getExportedText().observe(this) { shareText(it) }
         viewModel.getExportedFiles().observe(this) { shareFiles(it) }
-        lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { viewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling) } }
     }
 
     private fun setToolbar(toolbar: Toolbar) {
@@ -198,15 +194,5 @@ class MainActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         actionBarDrawerToggle.syncState()
-    }
-
-    private fun toggleDiffsEnabling(shouldShowDiffs: Boolean) {
-        if (shouldShowDiffs) {
-            enableCalcsItem?.isVisible = false
-            disableCalcsItem?.isVisible = true
-        } else {
-            enableCalcsItem?.isVisible = true
-            disableCalcsItem?.isVisible = false
-        }
     }
 }

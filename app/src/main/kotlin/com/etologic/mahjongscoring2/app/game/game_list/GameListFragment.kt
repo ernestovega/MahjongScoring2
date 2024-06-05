@@ -30,16 +30,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseFragment
+import com.etologic.mahjongscoring2.app.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.game.activity.ShouldHighlightLastRound
 import com.etologic.mahjongscoring2.app.game.game_list.GameListRvAdapter.GameListItemListener
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.game.game_table.GameTableFragment.GameTablePages.LIST
 import com.etologic.mahjongscoring2.app.utils.toStringSigned
+import com.etologic.mahjongscoring2.business.model.entities.RoundId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiRound
-import com.etologic.mahjongscoring2.business.model.entities.RoundId
 import com.etologic.mahjongscoring2.databinding.GameListFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -47,7 +47,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class GameListFragment : BaseFragment() {
+class GameListFragment : BaseGameFragment() {
 
     private var _binding: GameListFragmentBinding? = null
     private val binding get() = _binding!!

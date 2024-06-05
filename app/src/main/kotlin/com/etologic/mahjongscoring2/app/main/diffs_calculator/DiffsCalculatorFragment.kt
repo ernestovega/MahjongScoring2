@@ -17,13 +17,16 @@
 package com.etologic.mahjongscoring2.app.main.diffs_calculator
 
 import android.os.Bundle
-import android.view.MenuItem
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseActivity
-import com.etologic.mahjongscoring2.databinding.DiffsCalculatorActivityBinding
+import com.etologic.mahjongscoring2.app.base.BaseFragment
+import com.etologic.mahjongscoring2.databinding.DiffsCalculatorFragmentBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,39 +34,42 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DiffsCalculatorActivity : BaseActivity() {
+class DiffsCalculatorFragment : BaseFragment() {
 
     companion object {
+        const val TAG = "DiffsCalculatorFragment"
         const val NUM_CALCS_INTERVAL: Int = 200
         const val MIN_POINTS_NEEDED: Int = 32
         const val MAX_INTERVALS: Int = 10
+        const val MAX_ITEMS: Int = NUM_CALCS_INTERVAL * MAX_INTERVALS
     }
 
-    private lateinit var binding: DiffsCalculatorActivityBinding
+    private var _binding: DiffsCalculatorFragmentBinding? = null
+    private val binding get() = _binding!!
 
     @Inject
     lateinit var rvAdapter: DiffsCalculatorRvAdapter
 
-    override val onBackBehaviour = { finish() }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
-        super.onCreate(savedInstanceState)
-        binding = DiffsCalculatorActivityBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = DiffsCalculatorFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
         setupToolbar()
         setupRecyclerView()
         loadFirstInterval()
     }
 
     private fun setupToolbar() {
-        setSupportActionBar(binding.toolbarDiffsCalculator)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        activityViewModel.setToolbar(binding.toolbarDiffsCalculator)
     }
 
     private fun setupRecyclerView() {
@@ -86,45 +92,47 @@ class DiffsCalculatorActivity : BaseActivity() {
     }
 
     private fun loadFirstInterval() {
-        lifecycleScope.launch {
-            rvAdapter.setFirstDiffs(getFirstInterval())
-        }
-    }
 
-    private fun getFirstInterval(): List<Diff> {
-        val list = mutableListOf<Diff>()
-        for (i in MIN_POINTS_NEEDED..<MIN_POINTS_NEEDED + NUM_CALCS_INTERVAL) { list.add(Diff(i)) }
-        return list
+        fun getFirstInterval(): List<Diff> {
+            val list = mutableListOf<Diff>()
+            for (i in MIN_POINTS_NEEDED..<MIN_POINTS_NEEDED + NUM_CALCS_INTERVAL) {
+                list.add(Diff(i))
+            }
+            return list
+        }
+
+        lifecycleScope.launch {
+            val firstInterval = getFirstInterval()
+            rvAdapter.setFirstDiffs(firstInterval)
+        }
     }
 
     private fun loadNextInterval() {
+
+        fun getNextInterval(): List<Diff> {
+            val numCurrentIntervals = rvAdapter.itemCount / NUM_CALCS_INTERVAL
+            return if (numCurrentIntervals < MAX_INTERVALS) {
+                val list = mutableListOf<Diff>()
+                val nextFirstPointsNeeded = NUM_CALCS_INTERVAL * numCurrentIntervals + MIN_POINTS_NEEDED
+                for (i in nextFirstPointsNeeded..<nextFirstPointsNeeded + NUM_CALCS_INTERVAL) {
+                    list.add(Diff(i))
+                }
+                list
+            } else {
+                val myLayoutManager = binding.recyclerViewDiffsCalculator.layoutManager as LinearLayoutManager
+                val lastVisibleItemPosition = myLayoutManager.findLastVisibleItemPosition()
+                if (lastVisibleItemPosition == MAX_ITEMS - 1) {
+                    Snackbar.make(binding.root, R.string.i_think_is_enough_jajaja, LENGTH_LONG).show()
+                }
+                emptyList()
+            }
+        }
+
         lifecycleScope.launch {
-            rvAdapter.setNextDiffs(getNextInterval())
-        }
-    }
-
-    private fun getNextInterval(): List<Diff> {
-        val numCurrentIntervals = rvAdapter.itemCount / NUM_CALCS_INTERVAL
-        return if (numCurrentIntervals < MAX_INTERVALS) {
-            val list = mutableListOf<Diff>()
-            val nextFirstPointsNeeded = NUM_CALCS_INTERVAL * numCurrentIntervals + MIN_POINTS_NEEDED
-            for (i in nextFirstPointsNeeded..<nextFirstPointsNeeded + NUM_CALCS_INTERVAL) {
-                list.add(Diff(i))
+            val nextInterval = getNextInterval()
+            if (nextInterval.isNotEmpty()) {
+                rvAdapter.setNextDiffs(nextInterval)
             }
-            list
-        } else {
-            Snackbar.make(binding.root, R.string.i_think_is_enough_jajaja, LENGTH_LONG).show()
-            emptyList()
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                onBackBehaviour.invoke()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 }

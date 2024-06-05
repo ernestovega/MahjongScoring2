@@ -45,6 +45,7 @@ import com.etologic.mahjongscoring2.R.drawable.ic_trophy_white
 import com.etologic.mahjongscoring2.R.drawable.ic_west
 import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.app.base.BaseFragment
+import com.etologic.mahjongscoring2.app.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel.GameScreens.DICE
@@ -63,7 +64,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class GameTableFragment : BaseFragment(), TableSeatsListener {
+class GameTableFragment : BaseGameFragment(), TableSeatsListener {
 
     enum class GameTablePages(val code: Int) {
         TABLE(0),

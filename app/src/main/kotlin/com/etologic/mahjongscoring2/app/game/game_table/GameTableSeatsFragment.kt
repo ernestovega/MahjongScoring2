@@ -39,7 +39,7 @@ import androidx.core.content.ContextCompat.getDrawable
 import androidx.fragment.app.activityViewModels
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.color
-import com.etologic.mahjongscoring2.app.base.BaseFragment
+import com.etologic.mahjongscoring2.app.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.game.activity.GameViewModel
 import com.etologic.mahjongscoring2.app.model.SeatStates
@@ -62,7 +62,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale.getDefault
 
 @AndroidEntryPoint
-class GameTableSeatsFragment : BaseFragment() {
+class GameTableSeatsFragment : BaseGameFragment() {
 
     companion object {
         const val TAG = "GameTableSeatsFragment"

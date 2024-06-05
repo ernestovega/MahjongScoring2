@@ -23,7 +23,7 @@
             android:id="@+id/nav_oldgames"
             android:icon="@drawable/ic_history_black_24px"
             android:title="@string/old_games"
-            android:visible="false" />
+            android:visible="true" />
 
         <item
             android:id="@+id/nav_combinations"

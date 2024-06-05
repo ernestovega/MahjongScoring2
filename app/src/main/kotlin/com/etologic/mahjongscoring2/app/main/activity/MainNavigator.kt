@@ -24,6 +24,7 @@ import android.content.Intent.FLAG_ACTIVITY_MULTIPLE_TASK
 import android.content.Intent.FLAG_ACTIVITY_NEW_DOCUMENT
 import android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
 import android.net.Uri
+import androidx.fragment.app.Fragment
 import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.anim.enter_from_left
@@ -39,9 +40,9 @@ import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.OLD_GAMES
 import com.etologic.mahjongscoring2.app.main.activity.MainViewModel.MainScreens.SETUP_NEW_GAME
-import com.etologic.mahjongscoring2.app.main.combinations.CombinationsActivity
+import com.etologic.mahjongscoring2.app.main.combinations.CombinationsFragment
 import com.etologic.mahjongscoring2.app.main.dialogs.setup_new_game.SetupNewGameDialogFragment
-import com.etologic.mahjongscoring2.app.main.diffs_calculator.DiffsCalculatorActivity
+import com.etologic.mahjongscoring2.app.main.diffs_calculator.DiffsCalculatorFragment
 import com.etologic.mahjongscoring2.app.main.old_games.OldGamesFragment
 import com.google.android.material.snackbar.Snackbar
 
@@ -61,17 +62,27 @@ object MainNavigator {
             SETUP_NEW_GAME -> SetupNewGameDialogFragment().show(activity.supportFragmentManager, SetupNewGameDialogFragment.TAG)
             GAME -> goToGame(activity, viewModel)
             COMBINATIONS -> goToCombinations(activity)
-            DIFFS_CALCULATOR -> activity.startActivity(Intent(activity, DiffsCalculatorActivity::class.java))
+            DIFFS_CALCULATOR -> goToDiffsCalculator(activity)
         }
     }
 
     private fun goToOldGames(activity: MainActivity) {
+        replaceFragment(activity, OldGamesFragment(), OldGamesFragment.TAG)
+    }
+
+    private fun goToDiffsCalculator(activity: MainActivity) {
+        replaceFragment(activity, DiffsCalculatorFragment(), DiffsCalculatorFragment.TAG)
+    }
+
+    private fun goToCombinations(activity: MainActivity) {
+        replaceFragment(activity, CombinationsFragment(), CombinationsFragment.TAG)
+    }
+
+    private fun replaceFragment(activity: MainActivity, fragment: Fragment, tag: String) {
         activity.supportFragmentManager.beginTransaction().apply {
-            if (isEmpty) {
-                setCustomAnimations(enter_from_left, exit_to_right, enter_from_right, exit_to_left)
-                add(frameLayoutMain, OldGamesFragment(), OldGamesFragment.TAG)
-                commit()
-            }
+            setCustomAnimations(enter_from_left, exit_to_right, enter_from_right, exit_to_left)
+            replace(frameLayoutMain, fragment, tag)
+            commit()
         }
     }
 
@@ -81,10 +92,6 @@ object MainNavigator {
                 putExtra(KEY_GAME_ID, viewModel.activeGameId)
             }
         )
-    }
-
-    private fun goToCombinations(activity: MainActivity) {
-        activity.startActivity(Intent(activity, CombinationsActivity::class.java))
     }
 
     fun Activity.goToGreenBookEnglish() {
@@ -117,6 +124,7 @@ object MainNavigator {
     fun MainActivity.goToContactMM() {
         goToContact(MAHJONG_MADRID_EMAIL_ADDRESS)
     }
+
     fun MainActivity.goToContactSupport() {
         goToContact(APP_SUPPORT_EMAIL_ADDRESS)
     }
