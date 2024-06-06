@@ -19,7 +19,7 @@ package com.etologic.mahjongscoring2.data_source.repositories
 
 import android.content.Context
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.main.activity.setLocale
+import com.etologic.mahjongscoring2.app.utils.setLocale
 import com.etologic.mahjongscoring2.business.model.entities.Combination
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first

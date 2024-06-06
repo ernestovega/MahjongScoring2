@@ -17,7 +17,7 @@
 
 package com.etologic.mahjongscoring2.business.use_cases.di
 
-import com.etologic.mahjongscoring2.app.main.activity.LanguageHelper
+import com.etologic.mahjongscoring2.app.utils.LanguageHelper
 import com.etologic.mahjongscoring2.data_source.repositories.LanguageRepository
 import com.etologic.mahjongscoring2.data_source.repositories.games.DefaultGamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.games.GamesRepository

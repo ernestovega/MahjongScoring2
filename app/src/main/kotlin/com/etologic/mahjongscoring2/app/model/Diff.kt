@@ -14,23 +14,17 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.injection
 
-import android.app.Application
-import com.etologic.mahjongscoring2.app.utils.LanguageHelper
-import com.etologic.mahjongscoring2.app.utils.setLocale
-import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
+package com.etologic.mahjongscoring2.app.model
 
+import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsByDirectHu
+import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsByIndirectHu
+import com.etologic.mahjongscoring2.business.model.dtos.getNeededPointsBySelfPick
 
-@HiltAndroidApp
-class MahjongScoringApp : Application() {
-
-    @Inject
-    lateinit var languageHelper: LanguageHelper
-
-    override fun onCreate() {
-        super.onCreate()
-        setLocale(languageHelper.currentLanguage)
-    }
+data class Diff(
+    val pointsNeeded: Int
+) {
+    val selfPick: Int = pointsNeeded.getNeededPointsBySelfPick()
+    val directHu: Int = pointsNeeded.getNeededPointsByDirectHu()
+    val indirectHu: Int = pointsNeeded.getNeededPointsByIndirectHu()
 }

@@ -28,8 +28,8 @@ import javax.inject.Inject
 class ShowInAppReviewUseCase @Inject constructor(
     private val inAppReviewRepository: InAppReviewRepository
 ) {
-    suspend operator fun invoke(activity: Activity) {
-        inAppReviewRepository.requestLaunch(activity)
+    suspend operator fun invoke() {
+        inAppReviewRepository.requestLaunch()
             .onEach { reviewInfo ->
                 if (BuildConfig.DEBUG) {
                     if (reviewInfo != null) {

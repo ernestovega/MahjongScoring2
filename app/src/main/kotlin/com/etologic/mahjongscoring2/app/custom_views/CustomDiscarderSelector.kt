@@ -23,9 +23,9 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.extensions.second
-import com.etologic.mahjongscoring2.app.extensions.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.extensions.third
+import com.etologic.mahjongscoring2.app.utils.second
+import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
+import com.etologic.mahjongscoring2.app.utils.third
 import com.etologic.mahjongscoring2.app.model.Seat
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE

@@ -26,8 +26,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.main.activity.MainActivity
-import com.etologic.mahjongscoring2.app.main.activity.MainViewModel
+import com.etologic.mahjongscoring2.app.screens.MainActivity
+import com.etologic.mahjongscoring2.app.screens.MainViewModel
 
 abstract class BaseFragment : Fragment() {
 

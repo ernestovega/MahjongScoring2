@@ -28,10 +28,8 @@ import com.etologic.mahjongscoring2.R.anim.enter_from_left
 import com.etologic.mahjongscoring2.R.anim.enter_from_right
 import com.etologic.mahjongscoring2.R.anim.exit_to_left
 import com.etologic.mahjongscoring2.R.anim.exit_to_right
-import com.etologic.mahjongscoring2.app.main.activity.LanguageHelper
-import com.etologic.mahjongscoring2.app.main.activity.setLocale
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
+import com.etologic.mahjongscoring2.app.utils.LanguageHelper
+import com.etologic.mahjongscoring2.app.utils.setLocale
 import javax.inject.Inject
 
 

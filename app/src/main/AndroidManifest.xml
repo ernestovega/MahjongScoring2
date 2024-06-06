@@ -40,7 +40,7 @@
         tools:targetApi="tiramisu">
 
         <activity
-            android:name="com.etologic.mahjongscoring2.app.main.activity.MainActivity"
+            android:name="com.etologic.mahjongscoring2.app.screens.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
@@ -60,12 +60,6 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name="com.etologic.mahjongscoring2.app.game.activity.GameActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"
-            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
