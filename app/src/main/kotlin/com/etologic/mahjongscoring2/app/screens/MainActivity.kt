@@ -66,7 +66,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var languageHelper: LanguageHelper
     private var currentLanguage: String? = null
 
-    private var currentGameMenuItem: MenuItem? = null
     private var lastBackPress: Long = 0
 
     val pickFileResultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
