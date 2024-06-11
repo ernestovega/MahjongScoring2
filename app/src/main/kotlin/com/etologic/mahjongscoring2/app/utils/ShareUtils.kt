@@ -27,9 +27,7 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
 import java.io.File
 
-fun Context.showShareGameDialog(
-    shareGame: (ShareGameOptions) -> Unit,
-) {
+fun Context.showShareGameDialog(shareGame: (ShareGameOptions) -> Unit) {
     AlertDialog.Builder(this, R.style.AlertDialogStyleMM)
         .setTitle(R.string.share_game)
         .setSingleChoiceItems(

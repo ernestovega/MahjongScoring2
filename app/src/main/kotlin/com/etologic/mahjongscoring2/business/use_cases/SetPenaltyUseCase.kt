@@ -20,9 +20,11 @@ import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
-import com.etologic.mahjongscoring2.data_source.repositories.rounds.DefaultRoundsRepository
 import com.etologic.mahjongscoring2.data_source.repositories.rounds.RoundsRepository
 import javax.inject.Inject
 

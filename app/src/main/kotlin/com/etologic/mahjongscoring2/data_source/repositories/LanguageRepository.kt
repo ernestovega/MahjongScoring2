@@ -23,9 +23,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.etologic.mahjongscoring2.data_source.local_data_sources.datastore.dataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton

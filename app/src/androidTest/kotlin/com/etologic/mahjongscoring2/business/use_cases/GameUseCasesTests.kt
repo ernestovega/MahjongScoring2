@@ -278,7 +278,7 @@ class GameUseCasesTests {
 
         // When we call the UseCase to delete the round 1
         var firstRound = rounds.first()
-        deleteRoundUseCase(game.gameId, firstRound.roundId)
+        deleteRoundUseCase(firstRound.roundId)
 
         // Then we expect 1 round ongoing
         rounds = roundsDao.getGameRounds(game.gameId)
@@ -302,7 +302,7 @@ class GameUseCasesTests {
 
         // When we call the UseCase to delete the last round
         var lastRound = rounds.last()
-        deleteRoundUseCase(game.gameId, lastRound.roundId)
+        deleteRoundUseCase(lastRound.roundId)
 
         // Then we expect 15 rounds, none ongoing and game endDate not null
         rounds = roundsDao.getGameRounds(game.gameId)
@@ -443,7 +443,7 @@ class GameUseCasesTests {
         huDiscardUseCase(game.toUiGame(rounds), HuData(12, TableWinds.WEST, SOUTH)) // 8
         rounds = roundsDao.getGameRounds(game.gameId)
         huSelfPickUseCase(game.toUiGame(rounds), HuData(8, TableWinds.NORTH)) // 9
-        deleteRoundUseCase(game.gameId, 9) // 9
+        deleteRoundUseCase(9) // 9
         rounds = roundsDao.getGameRounds(game.gameId)
         huDiscardUseCase(game.toUiGame(rounds), HuData(17, TableWinds.NORTH, EAST)) // 9 (10)
         rounds = roundsDao.getGameRounds(game.gameId)
@@ -464,7 +464,7 @@ class GameUseCasesTests {
         huDiscardUseCase(game.toUiGame(rounds), HuData(8, TableWinds.NORTH, TableWinds.WEST)) // 15 (16)
         rounds = roundsDao.getGameRounds(game.gameId)
         huSelfPickUseCase(game.toUiGame(rounds), HuData(1008, TableWinds.NORTH)) // 16 (17)
-        deleteRoundUseCase(game.gameId, 17) // 16 (17)
+        deleteRoundUseCase(17) // 16 (17)
         rounds = roundsDao.getGameRounds(game.gameId)
         resumeGameUseCase(game.toUiGame(rounds))
         rounds = roundsDao.getGameRounds(game.gameId)

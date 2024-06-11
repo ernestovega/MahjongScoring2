@@ -17,9 +17,10 @@
 
 package com.etologic.mahjongscoring2.data_source.repositories
 
-import android.app.Activity
+import android.content.Context
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManagerFactory
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -27,11 +28,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class InAppReviewRepository @Inject constructor() {
+class InAppReviewRepository @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
 
-    fun requestLaunch(activity: Activity): Flow<ReviewInfo?> =
+    fun requestLaunch(): Flow<ReviewInfo?> =
         callbackFlow {
-            ReviewManagerFactory.create(activity)
+            ReviewManagerFactory.create(context)
                 .requestReviewFlow()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {

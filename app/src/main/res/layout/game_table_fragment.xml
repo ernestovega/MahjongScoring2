@@ -19,7 +19,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grayLight">
+    android:background="@color/grayLight"
+    tools:context="com.etologic.mahjongscoring2.app.screens.game.game_table.GameTableFragment">
 
     <TextView
         android:id="@+id/tvGameTableGameName"
@@ -31,12 +32,11 @@
         android:padding="@dimen/standard_margin"
         tools:text="Mahjong Madrid Championship 2024 blablablabla" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fcvGameTableSeats"
+    <com.etologic.mahjongscoring2.app.custom_views.GameTableSeats
+        android:id="@+id/gtsGameTableSeats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tvGameTableGameName"
-        android:tag="GameTableSeatsFragment" />
+        android:layout_below="@+id/tvGameTableGameName" />
 
     <TextView
         android:id="@+id/tvGameTableRoundNumberTopStart"

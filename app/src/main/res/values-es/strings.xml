@@ -236,4 +236,7 @@
     <string name="english">🇬🇧Inglés (por defecto)</string>
     <string name="french">🇫🇷Francés</string>
     <string name="spanish">🇪🇸Español</string>
+
+    <!--  Translations V2.4.0  -->
+    <string name="current_game">Partida actual</string>
 </resources>

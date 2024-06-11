@@ -17,7 +17,6 @@
 package com.etologic.mahjongscoring2.business.model.dtos
 
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 
 data class PenaltyData(
     val points: Int,

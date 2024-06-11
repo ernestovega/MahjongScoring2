@@ -25,21 +25,21 @@
 
     <include
         android:id="@+id/iDiscarderSelectorPlayer1Container"
-        layout="@layout/table_seat_small"
+        layout="@layout/custom_table_seat_small"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
     <include
         android:id="@+id/iDiscarderSelectorPlayer2Container"
-        layout="@layout/table_seat_small"
+        layout="@layout/custom_table_seat_small"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
     <include
         android:id="@+id/iDiscarderSelectorPlayer3Container"
-        layout="@layout/table_seat_small"
+        layout="@layout/custom_table_seat_small"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />

@@ -236,4 +236,7 @@
     <string name="english">🇬🇧英语 (默认)</string>
     <string name="french">🇫🇷法语</string>
     <string name="spanish">🇪🇸西班牙语</string>
+
+    <!--  Translations V2.4.0  -->
+    <string name="current_game">当前游戏</string>
 </resources>

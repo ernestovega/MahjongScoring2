@@ -16,7 +16,6 @@
  */
 package com.etologic.mahjongscoring2.app.utils
 
-import com.etologic.mahjongscoring2.app.extensions.capitalize
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

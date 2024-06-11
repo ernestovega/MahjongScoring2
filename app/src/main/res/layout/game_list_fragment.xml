@@ -113,7 +113,7 @@
         android:requiresFadingEdge="vertical"
         android:scrollIndicators="end"
         android:scrollbars="vertical"
-        tools:listitem="@layout/game_list_round_item" />
+        tools:listitem="@layout/game_list_item" />
 
     <RelativeLayout
         android:id="@+id/rlGameListEmptyState"

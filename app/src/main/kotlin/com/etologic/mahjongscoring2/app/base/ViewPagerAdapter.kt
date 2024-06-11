@@ -17,28 +17,18 @@
 package com.etologic.mahjongscoring2.app.base
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.etologic.mahjongscoring2.app.screens.game.game_list.GameListFragment
+import com.etologic.mahjongscoring2.app.screens.game.game_table.GameTableFragment
 
-class ViewPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-    private val mFragments = ArrayList<Fragment>()
-    private val mFragmentTitles = ArrayList<String>()
+    override fun getItemCount(): Int = 2
 
-    fun addFragment(fragment: Fragment, title: String) {
-        mFragments.add(fragment)
-        mFragmentTitles.add(title)
-    }
-
-    override fun getItem(position: Int): Fragment {
-        return mFragments[position]
-    }
-
-    override fun getCount(): Int {
-        return mFragments.size
-    }
-
-    override fun getPageTitle(position: Int): CharSequence {
-        return mFragmentTitles[position]
-    }
+    override fun createFragment(position: Int): Fragment =
+        if (position == 0) {
+            GameTableFragment()
+        } else {
+            GameListFragment()
+        }
 }

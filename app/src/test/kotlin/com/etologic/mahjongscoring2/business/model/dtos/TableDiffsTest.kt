@@ -1,8 +1,8 @@
 package com.etologic.mahjongscoring2.business.model.dtos
 
-import com.etologic.mahjongscoring2.app.extensions.fourth
-import com.etologic.mahjongscoring2.app.extensions.second
-import com.etologic.mahjongscoring2.app.extensions.third
+import com.etologic.mahjongscoring2.app.utils.fourth
+import com.etologic.mahjongscoring2.app.utils.second
+import com.etologic.mahjongscoring2.app.utils.third
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.DynamicTest
