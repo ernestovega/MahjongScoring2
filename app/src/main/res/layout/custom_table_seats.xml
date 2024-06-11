@@ -36,7 +36,7 @@
 
     <include
         android:id="@+id/iGameTableSeatEast"
-        layout="@layout/game_table_seat_east"
+        layout="@layout/custom_table_seat_east"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btTableSeatsShowDiffs"
@@ -44,7 +44,7 @@
 
     <include
         android:id="@+id/iGameTableSeatSouth"
-        layout="@layout/game_table_seat_south"
+        layout="@layout/custom_table_seat_south"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -53,7 +53,7 @@
 
     <include
         android:id="@+id/iGameTableSeatWest"
-        layout="@layout/game_table_seat_west"
+        layout="@layout/custom_table_seat_west"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btTableSeatsShowDiffs"
@@ -61,7 +61,7 @@
 
     <include
         android:id="@+id/iGameTableSeatNorth"
-        layout="@layout/game_table_seat_north"
+        layout="@layout/custom_table_seat_north"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

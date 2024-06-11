@@ -26,14 +26,14 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/second_standard_margin"
+        android:layout_margin="@dimen/standard_margin"
         app:cardBackgroundColor="@color/grayLight"
         app:cardCornerRadius="@dimen/half_standard_margin"
         app:cardMaxElevation="8dp"
         app:contentPadding="@dimen/standard_margin">
 
         <ScrollView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fadeScrollbars="false"
             android:fadingEdgeLength="@dimen/standard_margin"
@@ -46,71 +46,96 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
 
-                <include
-                    android:id="@+id/iPenaltyDialogPlayerContainer"
-                    layout="@layout/table_seat_medium"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvGameHuDialogWinnerText"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/winner_"
+                    android:textColor="@color/grayMM" />
+
+                <include
+                    android:id="@+id/iGameHuDialogWinnerContainer"
+                    layout="@layout/custom_table_seat_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvGameHuDialogWinnerText"
                     android:layout_centerHorizontal="true" />
 
                 <View
-                    android:id="@+id/vPenaltyDialogSeparator2"
+                    android:id="@+id/vGameHuDialogSeparator1"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/iPenaltyDialogPlayerContainer"
+                    android:layout_below="@+id/iGameHuDialogWinnerContainer"
                     android:layout_marginTop="@dimen/half_standard_margin"
                     android:background="@color/gray" />
 
                 <TextView
-                    android:id="@+id/tvPenaltyDialogPointsText"
+                    android:id="@+id/tvGameHuDialogDiscarderText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/vPenaltyDialogSeparator2"
+                    android:layout_below="@+id/vGameHuDialogSeparator1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="@dimen/half_standard_margin"
+                    android:layout_marginTop="@dimen/half_standard_margin"
+                    android:layout_marginEnd="@dimen/half_standard_margin"
+                    android:layout_marginBottom="@dimen/half_standard_margin"
+                    android:text="@string/discarder_"
+                    android:textColor="@color/grayMM" />
+
+                <com.etologic.mahjongscoring2.app.custom_views.CustomDiscarderSelector
+                    android:id="@+id/cdsGameHuDialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvGameHuDialogDiscarderText" />
+
+                <View
+                    android:id="@+id/vGameHuDialogSeparator2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/cdsGameHuDialog"
+                    android:layout_marginTop="@dimen/half_standard_margin"
+                    android:background="@color/gray" />
+
+                <TextView
+                    android:id="@+id/tvGameHuDialogPointsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vGameHuDialogSeparator2"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/half_standard_margin"
                     android:text="@string/points_"
                     android:textColor="@color/grayMM" />
 
                 <com.etologic.mahjongscoring2.app.custom_views.CustomNumPad
-                    android:id="@+id/cnpPenaltyDialog"
+                    android:id="@+id/cnpGameHuDialog"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvPenaltyDialogPointsText"
+                    android:layout_below="@+id/tvGameHuDialogPointsText"
                     android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:inputType="numberDecimal"
-                    android:maxLength="4"
-                    android:maxLines="1" />
-
-                <CheckBox
-                    android:id="@+id/cbPenaltyDialog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/cnpPenaltyDialog"
-                    android:layout_alignStart="@+id/cnpPenaltyDialog"
-                    android:layout_marginTop="@dimen/standard_margin"
-                    android:checked="true"
-                    android:text="@string/divided" />
+                    android:layout_gravity="center" />
 
                 <Button
-                    android:id="@+id/btPenaltyDialogCancel"
+                    android:id="@+id/btGameHuDialogCancel"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/cbPenaltyDialog"
-                    android:layout_toStartOf="@+id/btPenaltyDialogSave"
+                    android:layout_below="@+id/cnpGameHuDialog"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_toStartOf="@+id/btGameHuDialogOk"
                     android:background="@android:color/transparent"
                     android:text="@string/close"
                     android:textColor="@color/colorAccent" />
 
                 <Button
-                    android:id="@+id/btPenaltyDialogSave"
+                    android:id="@+id/btGameHuDialogOk"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/cbPenaltyDialog"
+                    android:layout_below="@+id/cnpGameHuDialog"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/standard_margin"
                     android:background="@android:color/transparent"
                     android:text="@string/save" />
 

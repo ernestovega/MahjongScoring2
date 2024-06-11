@@ -28,13 +28,13 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.model.ShowState
 import com.etologic.mahjongscoring2.app.model.ShowState.HIDE
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
+import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.entities.Combination
 import com.etologic.mahjongscoring2.databinding.CombinationItemBinding
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 class CombinationsRvAdapter

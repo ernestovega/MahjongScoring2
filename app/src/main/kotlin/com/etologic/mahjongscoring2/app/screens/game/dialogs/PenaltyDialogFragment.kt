@@ -14,28 +14,34 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions
+package com.etologic.mahjongscoring2.app.screens.game.dialogs
 
 import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle.State.STARTED
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NUM_NO_WINNER_PLAYERS
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.databinding.GamePenaltyDialogFragmentBinding
+import com.etologic.mahjongscoring2.databinding.GameDialogPenaltyFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PenaltyDialogFragment : AppCompatDialogFragment() {
+class PenaltyDialogFragment : BaseGameDialogFragment() {
 
     companion object {
         const val TAG = "PenaltyDialogFragment"
@@ -46,17 +52,15 @@ class PenaltyDialogFragment : AppCompatDialogFragment() {
     private var westIcon: Drawable? = null
     private var northIcon: Drawable? = null
 
-    private var _binding: GamePenaltyDialogFragmentBinding? = null
+    private var _binding: GameDialogPenaltyFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private val activityViewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = GamePenaltyDialogFragmentBinding.inflate(inflater, container, false)
+        _binding = GameDialogPenaltyFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -77,16 +81,36 @@ class PenaltyDialogFragment : AppCompatDialogFragment() {
             westIcon = ContextCompat.getDrawable(it, R.drawable.ic_west)
             northIcon = ContextCompat.getDrawable(it, R.drawable.ic_north)
         }
-        setOnClickListeners()
-        initPlayerViews()
+        startObservingTable()
     }
 
-    private fun initPlayerViews() {
-        with(binding.iPenaltyDialogPlayerContainer) {
-            val selectedSeat = activityViewModel.getSelectedSeat().value ?: TableWinds.NONE
-            val playersNamesByCurrentSeat = activityViewModel.gameFlow.value.getPlayersNamesByCurrentSeat()
-            ivTableSeatMediumSeatWind.setImageDrawable(getWindIcon(selectedSeat))
-            tvTableSeatMediumName.text = playersNamesByCurrentSeat[selectedSeat.code]
+    private fun startObservingTable() {
+        Log.d("PenaltyDialogFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
+
+        fun toScreenData(game: UiGame, winnerSeat: TableWinds) = Pair(game, winnerSeat)
+
+        with (viewLifecycleOwner.lifecycleScope) {
+            launch {
+                repeatOnLifecycle(STARTED) {
+                    combine(
+                        flow = gameViewModel.gameFlow,
+                        flow2 = gameViewModel.selectedSeatFlow,
+                        transform = ::toScreenData,
+                    ).first().let { initViews(it) }
+                }
+            }
+        }
+    }
+
+    private fun initViews(screenData: Pair<UiGame, TableWinds>) {
+        val (game, selectedSeat) = screenData
+        if (game.gameId != UiGame.NOT_SET_GAME_ID) {
+            with(binding.iPenaltyDialogPlayerContainer) {
+                val playersNamesByCurrentSeat = game.getPlayersNamesByCurrentSeat()
+                ivTableSeatMediumSeatWind.setImageDrawable(getWindIcon(selectedSeat))
+                tvTableSeatMediumName.text = playersNamesByCurrentSeat[selectedSeat.code]
+            }
+            setListeners(game, selectedSeat)
         }
     }
 
@@ -99,20 +123,20 @@ class PenaltyDialogFragment : AppCompatDialogFragment() {
             else -> null
         }
 
-    private fun setOnClickListeners() {
+    private fun setListeners(game: UiGame, selectedSeat: TableWinds) {
         with(binding) {
             btPenaltyDialogSave.setOnSecureClickListener {
                 val penaltyPoints = cnpPenaltyDialog.getPoints() ?: 0
                 if (penaltyPoints > 0) {
                     if (cbPenaltyDialog.isChecked) {
                         if (penaltyPoints % NUM_NO_WINNER_PLAYERS == 0)
-                            saveAndFinish(penaltyPoints, true)
+                            saveAndFinish(game, selectedSeat, penaltyPoints, isDivided = true)
                         else {
                             cnpPenaltyDialog.setError()
                             cbPenaltyDialog.error = ""
                         }
                     } else
-                        saveAndFinish(penaltyPoints, false)
+                        saveAndFinish(game, selectedSeat, penaltyPoints, isDivided = false)
                 } else
                     cnpPenaltyDialog.setError()
             }
@@ -120,20 +144,18 @@ class PenaltyDialogFragment : AppCompatDialogFragment() {
         }
     }
 
-    private fun saveAndFinish(penaltyPoints: Int, isDivided: Boolean) {
+    private fun saveAndFinish(game: UiGame, selectedSeat: TableWinds, penaltyPoints: Int, isDivided: Boolean) {
         val penaltyData = PenaltyData(
             points = penaltyPoints,
             isDivided = isDivided,
-            penalizedPlayerInitialSeat = activityViewModel.gameFlow.value.getPlayerInitialSeatByCurrentSeat(
-                activityViewModel.getSelectedSeat().value!!
-            )
+            penalizedPlayerInitialSeat = game.getPlayerInitialSeatByCurrentSeat(selectedSeat)
         )
-        activityViewModel.savePenalty(penaltyData)
+        gameViewModel.savePenalty(penaltyData)
         dismiss()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        activityViewModel.unselectSelectedSeat()
+        gameViewModel.unselectSelectedSeat()
         super.onDismiss(dialog)
     }
 }

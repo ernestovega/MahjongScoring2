@@ -23,7 +23,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
-import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
@@ -226,7 +225,7 @@ class ExportImportGamesUseCasesTests {
             endDate = null,
         )
         // Make 3rd game last round ongoing
-        roundsDao.deleteOne(uiGameToExport3.gameId, uiGameToExport3.uiRounds.last().roundId)
+        roundsDao.deleteOne(uiGameToExport3.uiRounds.last().roundId)
         roundsDao.insertOne(DbRound(uiGameToExport3.gameId, NOT_SET_GAME_ID))
         val dbGameToExport3 = gamesDao.getAllFlow().first().first()
         val dbRoundsGameToExport3 = roundsDao.getGameRounds(uiGameToExport3.gameId)
@@ -363,7 +362,7 @@ class ExportImportGamesUseCasesTests {
         /*  8  (8) */ roundsDao.insertOne(DbRound(gameId, NOT_SET_GAME_ID, WEST, SOUTH, 12))
         /*         */
         val round9Id = roundsDao.insertOne(DbRound(gameId, NOT_SET_GAME_ID))
-        /*         */ roundsDao.deleteOne(gameId, round9Id)
+        /*         */ roundsDao.deleteOne(round9Id)
         /*  9 (10) */ roundsDao.insertOne(DbRound(gameId, NOT_SET_GAME_ID, NORTH, EAST, 17))
         /* 10 (11) */ roundsDao.insertOne(DbRound(gameId, NOT_SET_GAME_ID, NORTH, NONE, 8))
         /* 11 (12) */ roundsDao.insertOne(DbRound(gameId, NOT_SET_GAME_ID, SOUTH, NORTH, 28, -60, 20, -10, 20))
@@ -373,7 +372,7 @@ class ExportImportGamesUseCasesTests {
         /* 15 (16) */ roundsDao.insertOne(DbRound(gameId, NOT_SET_GAME_ID, NORTH, WEST, 8))
         /*         */
         val round17Id = roundsDao.insertOne(DbRound(gameId, NOT_SET_GAME_ID))
-        /*         */ roundsDao.deleteOne(gameId, round17Id)
+        /*         */ roundsDao.deleteOne(round17Id)
         /* 16 (18) */ roundsDao.insertOne(DbRound(gameId, NOT_SET_GAME_ID, NORTH, SOUTH, 24))
 
         val dbRounds = roundsDao.getGameRounds(gameId)

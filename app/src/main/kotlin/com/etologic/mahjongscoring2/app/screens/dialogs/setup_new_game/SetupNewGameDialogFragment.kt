@@ -21,34 +21,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.fragment.app.activityViewModels
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.screens.MainViewModel
+import com.etologic.mahjongscoring2.app.base.BaseMainDialogFragment
+import com.etologic.mahjongscoring2.app.screens.MainViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.showKeyboard
-import com.etologic.mahjongscoring2.databinding.GameNamesDialogFragmentBinding
+import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
+import com.etologic.mahjongscoring2.databinding.DialogEditNamesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SetupNewGameDialogFragment : AppCompatDialogFragment() {
+class SetupNewGameDialogFragment : BaseMainDialogFragment() {
 
     companion object {
         const val TAG = "SetupNewGameDialogFragment"
     }
 
-    private var _binding: GameNamesDialogFragmentBinding? = null
+    private var _binding: DialogEditNamesFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private val activityViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = GameNamesDialogFragmentBinding.inflate(inflater, container, false)
+        _binding = DialogEditNamesFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -88,7 +85,7 @@ class SetupNewGameDialogFragment : AppCompatDialogFragment() {
                     nameP4 = tietNamesDialogNorth.text?.toString() ?: getString(R.string.player_four),
                     onSuccess = { gameId ->
                         activityViewModel.activeGameId = gameId
-                        activityViewModel.navigateTo(MainViewModel.MainScreens.GAME)
+                        activityViewModel.navigateTo(GAME)
                         dismiss()
                     }
                 )

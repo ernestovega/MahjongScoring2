@@ -34,13 +34,13 @@ import com.etologic.mahjongscoring2.R.color
 import com.etologic.mahjongscoring2.app.base.BaseRvAdapter
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.utils.toStringSigned
+import com.etologic.mahjongscoring2.business.model.entities.RoundId
 import com.etologic.mahjongscoring2.business.model.entities.UiRound
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
-import com.etologic.mahjongscoring2.business.model.entities.RoundId
-import com.etologic.mahjongscoring2.databinding.GameListRoundItemBinding
+import com.etologic.mahjongscoring2.databinding.GameListItemBinding
 import java.util.Locale
 import javax.inject.Inject
 
@@ -65,7 +65,7 @@ class GameListRvAdapter
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         initResources(parent.context)
-        val itemBinding = GameListRoundItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemBinding = GameListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(itemBinding)
     }
 
@@ -151,7 +151,7 @@ class GameListRvAdapter
         }
     }
 
-    inner class ItemViewHolder(binding: GameListRoundItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ItemViewHolder(binding: GameListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         var llContainer: LinearLayout = binding.llGameListItemContainer
         var tvRoundNum: TextView = binding.tvGameListItemRoundNumber
         var tvHandPoints: TextView = binding.tvGameListItemHandPoints

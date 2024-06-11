@@ -14,22 +14,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions
+package com.etologic.mahjongscoring2.app.screens.game.dialogs
 
 import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle.State.STARTED
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
+import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.app.model.Seat
+import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MAX_MCR_POINTS
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MIN_MCR_POINTS
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
@@ -38,11 +41,14 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
-import com.etologic.mahjongscoring2.databinding.GameHuDialogFragmentBinding
+import com.etologic.mahjongscoring2.databinding.GameDialogHuFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HuDialogFragment : AppCompatDialogFragment() {
+class HuDialogFragment : BaseGameDialogFragment() {
 
     companion object {
         const val TAG = "HuDialogFragment"
@@ -54,10 +60,8 @@ class HuDialogFragment : AppCompatDialogFragment() {
     private var westIcon: Drawable? = null
     private var northIcon: Drawable? = null
 
-    private var _binding: GameHuDialogFragmentBinding? = null
+    private var _binding: GameDialogHuFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private val activityViewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,7 +69,7 @@ class HuDialogFragment : AppCompatDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         isCancelable = false
-        _binding = GameHuDialogFragmentBinding.inflate(inflater, container, false)
+        _binding = GameDialogHuFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -87,27 +91,48 @@ class HuDialogFragment : AppCompatDialogFragment() {
             westIcon = ContextCompat.getDrawable(it, R.drawable.ic_west)
             northIcon = ContextCompat.getDrawable(it, R.drawable.ic_north)
         }
-        initViews()
-        setListeners()
+        startObservingTable()
     }
 
-    private fun initViews() {
-        val playersNamesByCurrentSeat = activityViewModel.gameFlow.value.getPlayersNamesByCurrentSeat()
-        val winnerSeat = activityViewModel.getSelectedSeat().value ?: NONE
-        val looser1Seat = TableWinds.asArray[(if (winnerSeat == EAST) SOUTH else EAST).code]
-        val looser2Seat = TableWinds.asArray[(if (winnerSeat in listOf(EAST, SOUTH)) WEST else SOUTH).code]
-        val looser3Seat = TableWinds.asArray[(if (winnerSeat in listOf(EAST, SOUTH, WEST)) NORTH else WEST).code]
+    private fun startObservingTable() {
+        Log.d("HuDialogFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
 
-        binding.iGameHuDialogWinnerContainer.ivTableSeatMediumSeatWind.setImageDrawable(getWindIcon(winnerSeat))
-        binding.iGameHuDialogWinnerContainer.tvTableSeatMediumName.text = playersNamesByCurrentSeat[winnerSeat.code]
+        fun toScreenData(game: UiGame, penalizedSeat: TableWinds) = Pair(game, penalizedSeat)
+        
+        with (viewLifecycleOwner.lifecycleScope) {
+            launch {
+                repeatOnLifecycle(STARTED) {
+                    combine(
+                        flow = gameViewModel.gameFlow,
+                        flow2 = gameViewModel.selectedSeatFlow,
+                        transform = ::toScreenData,
+                    ).first().let { initViews(it) }
+                }
+            }
+        }
+    }
 
-        binding.cdsGameHuDialog.initPlayers(
-            listOf(
-                Seat(name = playersNamesByCurrentSeat[looser1Seat.code], seatWind = looser1Seat),
-                Seat(name = playersNamesByCurrentSeat[looser2Seat.code], seatWind = looser2Seat),
-                Seat(name = playersNamesByCurrentSeat[looser3Seat.code], seatWind = looser3Seat),
+    private suspend fun initViews(screenData: Pair<UiGame, TableWinds>) {
+        val (game, penalizedSeat) = screenData
+        if (game.gameId != UiGame.NOT_SET_GAME_ID) {
+            val playersNamesByCurrentSeat = game.getPlayersNamesByCurrentSeat()
+            val looser1Seat = TableWinds.asArray[(if (penalizedSeat == EAST) SOUTH else EAST).code]
+            val looser2Seat = TableWinds.asArray[(if (penalizedSeat in listOf(EAST, SOUTH)) WEST else SOUTH).code]
+            val looser3Seat = TableWinds.asArray[(if (penalizedSeat in listOf(EAST, SOUTH, WEST)) NORTH else WEST).code]
+
+            binding.iGameHuDialogWinnerContainer.ivTableSeatMediumSeatWind.setImageDrawable(getWindIcon(penalizedSeat))
+            binding.iGameHuDialogWinnerContainer.tvTableSeatMediumName.text = playersNamesByCurrentSeat[penalizedSeat.code]
+
+            binding.cdsGameHuDialog.initPlayers(
+                listOf(
+                    Seat(name = playersNamesByCurrentSeat[looser1Seat.code], seatWind = looser1Seat),
+                    Seat(name = playersNamesByCurrentSeat[looser2Seat.code], seatWind = looser2Seat),
+                    Seat(name = playersNamesByCurrentSeat[looser3Seat.code], seatWind = looser3Seat),
+                )
             )
-        )
+
+            setListeners(game, penalizedSeat)
+        }
     }
 
     private fun getWindIcon(wind: TableWinds?) =
@@ -119,7 +144,7 @@ class HuDialogFragment : AppCompatDialogFragment() {
             else -> null
         }
 
-    private fun setListeners() {
+    private fun setListeners(game: UiGame, penalizedSeat: TableWinds) {
         with(binding) {
             btGameHuDialogCancel.setOnSecureClickListener { dismiss() }
             btGameHuDialogOk.setOnSecureClickListener {
@@ -130,22 +155,16 @@ class HuDialogFragment : AppCompatDialogFragment() {
                     if (cdsGameHuDialog.selectedSeatWind == NONE) {
                         val huData = HuData(
                             points = winnerHandPoints,
-                            winnerInitialSeat = activityViewModel.gameFlow.value.getPlayerInitialSeatByCurrentSeat(
-                                activityViewModel.getSelectedSeat().value!!
-                            ),
+                            winnerInitialSeat = game.getPlayerInitialSeatByCurrentSeat(penalizedSeat),
                         )
-                        activityViewModel.saveHuSelfPickRound(huData)
+                        gameViewModel.saveHuSelfPickRound(huData)
                     } else {
                         val huData = HuData(
                             points = winnerHandPoints,
-                            winnerInitialSeat = activityViewModel.gameFlow.value.getPlayerInitialSeatByCurrentSeat(
-                                activityViewModel.getSelectedSeat().value!!
-                            ),
-                            discarderInitialSeat = activityViewModel.gameFlow.value.getPlayerInitialSeatByCurrentSeat(
-                                cdsGameHuDialog.selectedSeatWind
-                            ),
+                            winnerInitialSeat = game.getPlayerInitialSeatByCurrentSeat(penalizedSeat),
+                            discarderInitialSeat = game.getPlayerInitialSeatByCurrentSeat(cdsGameHuDialog.selectedSeatWind),
                         )
-                        activityViewModel.saveHuDiscardRound(huData)
+                        gameViewModel.saveHuDiscardRound(huData)
                     }
                     dismiss()
                 }
@@ -154,7 +173,7 @@ class HuDialogFragment : AppCompatDialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        activityViewModel.unselectSelectedSeat()
+        gameViewModel.unselectSelectedSeat()
         super.onDismiss(dialog)
     }
 }

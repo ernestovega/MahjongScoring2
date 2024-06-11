@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright © 2023  Ernesto Vega de la Iglesia Soria
   ~
   ~     This program is free software: you can redistribute it and/or modify
@@ -16,18 +15,13 @@
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <item
         android:id="@+id/action_rotate_seats"
         android:icon="@drawable/ic_rotation_down"
         android:title="@string/rotate_seats"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_combinations"
-        android:icon="@drawable/ic_books"
-        android:title="@string/combinations"
         app:showAsAction="ifRoom" />
 
     <item
@@ -45,17 +39,18 @@
         android:id="@+id/action_disable_diffs_calcs"
         android:title="@string/disable_diffs_calcs"
         android:visible="false"
+        app:showAsAction="never"
+        tools:visible="true" />
+
+    <item
+        android:id="@+id/action_share_game"
+        android:title="@string/share"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_resume_game"
         android:title="@string/resume"
         android:visible="false"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_share_game"
-        android:title="@string/share"
         app:showAsAction="never" />
 
     <item

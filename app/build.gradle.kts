@@ -101,6 +101,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.viewpager2)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
     implementation(libs.hilt.android)

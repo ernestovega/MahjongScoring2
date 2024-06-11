@@ -20,7 +20,6 @@ import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiRound.Companion.NOT_SET_ROUND_ID
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
-import com.etologic.mahjongscoring2.data_source.repositories.rounds.DefaultRoundsRepository
 import com.etologic.mahjongscoring2.data_source.repositories.rounds.RoundsRepository
 import javax.inject.Inject
 

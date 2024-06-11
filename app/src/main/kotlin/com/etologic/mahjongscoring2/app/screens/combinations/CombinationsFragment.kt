@@ -27,43 +27,46 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseFragment
-import com.etologic.mahjongscoring2.app.screens.MainActivity
+import com.etologic.mahjongscoring2.app.base.BaseMainFragment
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
+import com.etologic.mahjongscoring2.app.screens.MainActivity
 import com.etologic.mahjongscoring2.databinding.CombinationsFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CombinationsFragment : BaseFragment() {
+class CombinationsFragment : BaseMainFragment() {
 
     companion object {
         const val TAG = "CombinationsFragment"
     }
+
+    @Inject
+    lateinit var rvAdapter: CombinationsRvAdapter
 
     private var _binding: CombinationsFragmentBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: CombinationsViewModel by viewModels()
 
-    @Inject
-    lateinit var rvAdapter: CombinationsRvAdapter
+    override val fragmentToolbar: Toolbar get() = binding.toolbarCombinations
 
     override val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.combinations_menu, menu)
             val searchManager = getSystemService(requireContext(), SearchManager::class.java)
             val searchView = menu.findItem(R.id.action_search_combination)?.actionView as? SearchView
-            searchView?.setSearchableInfo(searchManager?.getSearchableInfo(activity?.componentName))
+            searchView?.setSearchableInfo(searchManager?.getSearchableInfo(requireActivity().componentName))
             searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
                     return false
@@ -101,13 +104,8 @@ class CombinationsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupToolbar()
         setupRecyclerView()
-        observeViewModel()
-    }
-
-    private fun setupToolbar() {
-        activityViewModel.setToolbar(binding.toolbarCombinations)
+        startObservingViewModel()
     }
 
     private fun setupRecyclerView() {
@@ -118,11 +116,9 @@ class CombinationsFragment : BaseFragment() {
         handler.post { binding.recyclerViewCombinations.adapter = rvAdapter }
     }
 
-    private fun observeViewModel() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.combinationsState.collect(rvAdapter::setCombinations)
-            }
+    private fun startObservingViewModel() {
+        with (viewLifecycleOwner.lifecycleScope) {
+            launch { repeatOnLifecycle(STARTED) { viewModel.combinationsState.collect(rvAdapter::setCombinations) } }
         }
     }
 }

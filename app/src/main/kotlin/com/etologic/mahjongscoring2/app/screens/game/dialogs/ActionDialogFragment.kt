@@ -14,32 +14,38 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions
+package com.etologic.mahjongscoring2.app.screens.game.dialogs
 
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle.State.STARTED
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
-import com.etologic.mahjongscoring2.app.screens.openHuDialog
-import com.etologic.mahjongscoring2.app.screens.openPenaltyDialog
+import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.app.screens.game.openHuDialog
+import com.etologic.mahjongscoring2.app.screens.game.openPenaltyDialog
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.utils.toStringOrHyphen
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.databinding.GameActionDialogFragmentBinding
+import com.etologic.mahjongscoring2.databinding.GameDialogHandActionsFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ActionDialogFragment : AppCompatDialogFragment() {
+class ActionDialogFragment : BaseGameDialogFragment() {
 
     companion object {
         const val TAG = "ActionsDialogFragment"
@@ -50,17 +56,15 @@ class ActionDialogFragment : AppCompatDialogFragment() {
     private var westIcon: Drawable? = null
     private var northIcon: Drawable? = null
     private var isDialogCancelled = true
-    private var _binding: GameActionDialogFragmentBinding? = null
+    private var _binding: GameDialogHandActionsFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private val activityViewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = GameActionDialogFragmentBinding.inflate(inflater, container, false)
+        _binding = GameDialogHandActionsFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -76,17 +80,44 @@ class ActionDialogFragment : AppCompatDialogFragment() {
             westIcon = ContextCompat.getDrawable(it, R.drawable.ic_west)
             northIcon = ContextCompat.getDrawable(it, R.drawable.ic_north)
         }
-        initViews()
         setListeners()
+        startObservingTable()
     }
 
-    private fun initViews() {
-        setPlayer()
-        setButtons()
+    private fun startObservingTable() {
+        Log.d(
+            "ActionDialogFragment",
+            "GameViewModel: ${gameViewModel.hashCode()} - parentFragment.parentFragment: ${parentFragment?.parentFragment.hashCode()}"
+        )
+
+        fun toScreenData(
+            game: UiGame,
+            selectedSeat: TableWinds,
+            isDiffsCalcsFeatureEnabled: Boolean
+        ) = Triple(game, selectedSeat, isDiffsCalcsFeatureEnabled)
+
+        with(viewLifecycleOwner.lifecycleScope) {
+            launch {
+                repeatOnLifecycle(STARTED) {
+                    combine(
+                        flow = gameViewModel.gameFlow,
+                        flow2 = gameViewModel.selectedSeatFlow,
+                        flow3 = gameViewModel.isDiffsCalcsFeatureEnabledFlow,
+                        transform = ::toScreenData
+                    ).first().let { initViews(it) }
+                }
+            }
+        }
     }
 
-    private fun setPlayer() {
-        val selectedSeat = activityViewModel.getSelectedSeat().value
+
+    private fun initViews(screenData: Triple<UiGame, TableWinds, Boolean>) {
+        val (game, selectedSeat, isDiffsCalcsFeatureEnabled) = screenData
+        setPlayer(game, selectedSeat, isDiffsCalcsFeatureEnabled)
+        setButtons(game)
+    }
+
+    private fun setPlayer(game: UiGame, selectedSeat: TableWinds, isDiffsCalcsFeatureEnabled: Boolean) {
         binding.iGameHuDialogWinnerContainer.ivTableSeatMediumSeatWind.setImageDrawable(
             when (selectedSeat) {
                 TableWinds.EAST -> eastIcon
@@ -96,17 +127,15 @@ class ActionDialogFragment : AppCompatDialogFragment() {
                 else -> null
             }
         )
-        binding.iGameHuDialogWinnerContainer.tvTableSeatMediumName.text = selectedSeat?.code?.let { windCode ->
-            activityViewModel.gameFlow.value.getPlayersNamesByCurrentSeat()[windCode]
-        } ?: ""
-        if (activityViewModel.isDiffsCalcsFeatureEnabledFlow.value) {
-            selectedSeat?.let { setPlayerDiffs(it) }
+        binding.iGameHuDialogWinnerContainer.tvTableSeatMediumName.text = game.getPlayersNamesByCurrentSeat()[selectedSeat.code]
+        if (isDiffsCalcsFeatureEnabled) {
+            setPlayerDiffs(game, selectedSeat)
         }
     }
 
-    private fun setPlayerDiffs(playerSeat: TableWinds) {
+    private fun setPlayerDiffs(game: UiGame, playerSeat: TableWinds) {
         with(binding) {
-            val playerDiffs = activityViewModel.gameFlow.value.getTableDiffs().seatsDiffs[playerSeat.code]
+            val playerDiffs = game.getTableDiffs().seatsDiffs[playerSeat.code]
             with(iHandActionsDialogDiffs) {
                 tlActionDialogDiffs.visibility = VISIBLE
                 tvActionDialogDiffsFirstSelfPick.text = playerDiffs.pointsToBeFirst?.bySelfPick.toStringOrHyphen()
@@ -124,26 +153,26 @@ class ActionDialogFragment : AppCompatDialogFragment() {
         }
     }
 
-    private fun setButtons() {
+    private fun setButtons(game: UiGame) {
         binding.btHandActionsDialogPenaltiesCancel.visibility =
-            if (activityViewModel.gameFlow.value.ongoingRound.areTherePenalties()) VISIBLE else GONE
+            if (game.ongoingRound.areTherePenalties()) VISIBLE else GONE
     }
 
     private fun setListeners() {
         with(binding) {
             root.setOnSecureClickListener { dismiss() }
             btHandActionsDialogHu.setOnSecureClickListener {
-                activity?.openHuDialog()
+                openHuDialog()
                 isDialogCancelled = false
                 dismiss()
             }
             btHandActionsDialogDraw.setOnSecureClickListener {
-                activityViewModel.saveDrawRound()
+                gameViewModel.saveDrawRound()
                 isDialogCancelled = false
                 dismiss()
             }
             btHandActionsDialogPenalty.setOnSecureClickListener {
-                activity?.openPenaltyDialog()
+                openPenaltyDialog()
                 isDialogCancelled = false
                 dismiss()
             }
@@ -152,7 +181,7 @@ class ActionDialogFragment : AppCompatDialogFragment() {
                     .setTitle(R.string.cancel_penalties)
                     .setMessage(R.string.are_you_sure)
                     .setPositiveButton(R.string.ok) { _, _ ->
-                        activityViewModel.cancelPenalties()
+                        gameViewModel.cancelPenalties()
                         dismiss()
                     }
                     .setNegativeButton(R.string.close, null)
@@ -164,7 +193,7 @@ class ActionDialogFragment : AppCompatDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         if (isDialogCancelled) {
-            activityViewModel.unselectSelectedSeat()
+            gameViewModel.unselectSelectedSeat()
         }
         super.onDismiss(dialog)
     }

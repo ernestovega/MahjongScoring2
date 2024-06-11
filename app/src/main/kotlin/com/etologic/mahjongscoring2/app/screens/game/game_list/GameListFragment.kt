@@ -18,20 +18,19 @@ package com.etologic.mahjongscoring2.app.screens.game.game_list
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseGameFragment
-import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.app.screens.game.ShouldHighlightLastRound
 import com.etologic.mahjongscoring2.app.screens.game.game_list.GameListRvAdapter.GameListItemListener
 import com.etologic.mahjongscoring2.app.screens.game.game_table.GameTableFragment
@@ -55,8 +54,6 @@ class GameListFragment : BaseGameFragment() {
     @Inject
     lateinit var rvAdapter: GameListRvAdapter
 
-    private val activityViewModel: GameViewModel by activityViewModels()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -74,7 +71,7 @@ class GameListFragment : BaseGameFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        initViewModel()
+        startObservingTable()
     }
 
     private fun setupRecyclerView() {
@@ -92,7 +89,7 @@ class GameListFragment : BaseGameFragment() {
                             AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
                                 .setTitle(R.string.delete_round)
                                 .setMessage(R.string.are_you_sure)
-                                .setPositiveButton(R.string.ok) { _, _ -> activityViewModel.removeRound(roundId) }
+                                .setPositiveButton(R.string.ok) { _, _ -> gameViewModel.removeRound(roundId) }
                                 .setNegativeButton(R.string.close, null)
                                 .create()
                                 .show()
@@ -105,16 +102,20 @@ class GameListFragment : BaseGameFragment() {
         })
     }
 
-    private fun initViewModel() {
-        activityViewModel.getPageToShow().observe(viewLifecycleOwner) { pageToShowObserver(it) }
-
-        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { activityViewModel.gameFlow.collect(::gameObserver) } }
+    private fun startObservingTable() {
+        Log.d("GameListFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
+        with(viewLifecycleOwner.lifecycleScope) {
+            launch { repeatOnLifecycle(STARTED) { gameViewModel.gameFlow.collect(::gameObserver) } }
+            launch { repeatOnLifecycle(STARTED) { gameViewModel.pageToShowFlow.collect(::pageToShowObserver) } }
+        }
     }
 
-    private fun gameObserver(uiGame: UiGame) {
-        setRoundsList(uiGame.finishedRounds)
-        setNames(uiGame.playersNames)
-        setFooter(uiGame)
+    private fun gameObserver(game: UiGame) {
+        if (game.gameId != UiGame.NOT_SET_GAME_ID) {
+            setRoundsList(game.finishedRounds)
+            setNames(game.playersNames)
+            setFooter(game)
+        }
     }
 
     private fun setRoundsList(roundsList: List<UiRound>) {
@@ -158,21 +159,18 @@ class GameListFragment : BaseGameFragment() {
         }
     }
 
-    private fun pageToShowObserver(pageToShow: Pair<GameTableFragment.GameTablePages, ShouldHighlightLastRound>?) {
-        if (pageToShow != null) {
-            val (pageIndex, shouldHighlightLastRound) = pageToShow
-            if (pageIndex == LIST && shouldHighlightLastRound) {
-                lifecycleScope.launch {
-                    activityViewModel.showPage(null)
-                    delay(300)
-                    val lastItemPosition = rvAdapter.itemCount.minus(1)
-                    if (lastItemPosition >= 0) {
-                        val lastItem = binding.rvGameList.findViewHolderForAdapterPosition(lastItemPosition)
-                                as GameListRvAdapter.ItemViewHolder
-                        if (activityViewModel.lastHighlightedRound != lastItem.tvRoundNum.text) {
-                            activityViewModel.lastHighlightedRound = lastItem.tvRoundNum.text
-                            lastItem.highlight()
-                        }
+    private fun pageToShowObserver(pageToShow: Pair<GameTableFragment.GameTablePages, ShouldHighlightLastRound>) {
+        val (pageIndex, shouldHighlightLastRound) = pageToShow
+        if (pageIndex == LIST && shouldHighlightLastRound) {
+            lifecycleScope.launch {
+                gameViewModel.showPage(LIST)
+                delay(300)
+                val lastItemPosition = rvAdapter.itemCount.minus(1)
+                if (lastItemPosition >= 0) {
+                    val lastItem = binding.rvGameList.findViewHolderForAdapterPosition(lastItemPosition) as GameListRvAdapter.ItemViewHolder
+                    if (gameViewModel.lastHighlightedRound != lastItem.tvRoundNum.text) {
+                        gameViewModel.lastHighlightedRound = lastItem.tvRoundNum.text
+                        lastItem.highlight()
                     }
                 }
             }

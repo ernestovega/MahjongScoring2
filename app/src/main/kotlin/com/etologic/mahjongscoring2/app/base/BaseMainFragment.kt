@@ -21,6 +21,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -29,9 +30,11 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.screens.MainActivity
 import com.etologic.mahjongscoring2.app.screens.MainViewModel
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseMainFragment : Fragment() {
 
     protected val activityViewModel: MainViewModel by activityViewModels()
+
+    abstract val fragmentToolbar: Toolbar
 
     protected open val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -49,12 +52,8 @@ abstract class BaseFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.addMenuProvider(menuProvider, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        activityViewModel.setToolbar(fragmentToolbar)
+        requireActivity().addMenuProvider(menuProvider, viewLifecycleOwner, Lifecycle.State.RESUMED)
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    protected fun showError(throwable: Throwable) {
-        val activity = activity
-        if (activity is BaseActivity) activity.showError(throwable)
     }
 }

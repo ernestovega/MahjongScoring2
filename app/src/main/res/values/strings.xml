@@ -239,4 +239,7 @@
     <string name="english">🇬🇧English (default)</string>
     <string name="french">🇫🇷French</string>
     <string name="spanish">🇪🇸Spanish</string>
+
+    <!--  Translations V2.4.0  -->
+    <string name="current_game">Current game</string>
 </resources>

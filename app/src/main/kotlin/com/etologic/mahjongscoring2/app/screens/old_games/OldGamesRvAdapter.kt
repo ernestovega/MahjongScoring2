@@ -26,15 +26,15 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.screens.game.dialogs.ranking.RankingTableHelper
 import com.etologic.mahjongscoring2.app.model.GameItemDiffUtilCallback
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.RankingTableHelper
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
+import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.utils.toStringSigned
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
-import com.etologic.mahjongscoring2.databinding.MainOldgameItemBinding
+import com.etologic.mahjongscoring2.databinding.OldGamesItemBinding
 import javax.inject.Inject
 
 class OldGamesRvAdapter
@@ -76,7 +76,7 @@ class OldGamesRvAdapter
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         trophyIcon = AppCompatResources.getDrawable(parent.context, R.drawable.ic_trophy_golden)
-        val itemBinding = MainOldgameItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemBinding = OldGamesItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return OldGameItemViewHolder(itemBinding)
     }
 
@@ -158,7 +158,7 @@ class OldGamesRvAdapter
         itemViewHolder.tvBestHandValue.text = if (bestHand.handValue == 0) "-" else bestHand.handValue.toString()
     }
 
-    inner class OldGameItemViewHolder(binding: MainOldgameItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class OldGameItemViewHolder(binding: OldGamesItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val cvContainer: CardView = binding.cvOldGameItem
         val tvGameName: TextView = binding.tvOldGameItemGameName

@@ -16,18 +16,26 @@
  */
 package com.etologic.mahjongscoring2.app.base
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.BuildConfig
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
 
 open class BaseViewModel : ViewModel() {
 
-    private var error = MutableLiveData<Throwable>()
-    fun getError(): LiveData<Throwable> = error
+    private var _error = MutableStateFlow<Throwable?>(null)
+    val errorFlow: Flow<Throwable> = _error.filterNotNull()
 
     fun showError(throwable: Throwable) {
-        error.postValue(throwable)
-        if (BuildConfig.DEBUG) { throwable.printStackTrace() }
+        viewModelScope.launch {
+            _error.emit(throwable)
+
+            if (BuildConfig.DEBUG) {
+                throwable.printStackTrace()
+            }
+        }
     }
 }

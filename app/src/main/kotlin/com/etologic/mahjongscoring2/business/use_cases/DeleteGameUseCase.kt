@@ -17,9 +17,7 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.GameId
-import com.etologic.mahjongscoring2.data_source.repositories.games.DefaultGamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.games.GamesRepository
-import com.etologic.mahjongscoring2.data_source.repositories.rounds.DefaultRoundsRepository
 import com.etologic.mahjongscoring2.data_source.repositories.rounds.RoundsRepository
 import javax.inject.Inject
 

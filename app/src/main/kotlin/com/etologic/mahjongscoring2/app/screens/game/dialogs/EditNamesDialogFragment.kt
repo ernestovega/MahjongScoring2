@@ -14,45 +14,48 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.app.screens.game.dialogs.edit_names
+package com.etologic.mahjongscoring2.app.screens.game.dialogs
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle.State.STARTED
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
+import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.showKeyboard
+import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
-import com.etologic.mahjongscoring2.databinding.GameNamesDialogFragmentBinding
+import com.etologic.mahjongscoring2.databinding.DialogEditNamesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class EditNamesDialogFragment : AppCompatDialogFragment() {
+class EditNamesDialogFragment : BaseGameDialogFragment() {
 
     companion object {
         const val TAG = "EditNamesDialogFragment"
     }
 
-    private var _binding: GameNamesDialogFragmentBinding? = null
+    private var _binding: DialogEditNamesFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private val activityViewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = GameNamesDialogFragmentBinding.inflate(inflater, container, false)
+        _binding = DialogEditNamesFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -63,24 +66,29 @@ class EditNamesDialogFragment : AppCompatDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setOnClickListeners()
-        printNames()
         binding.tietNamesDialogGameName.showKeyboard(requireActivity().window)
         binding.btNamesDialogSave.text = getString(R.string.save)
+        startObservingTable()
     }
 
-    private fun printNames() {
+    private fun startObservingTable() {
+        Log.d("EditNamesDialogFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
+        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(STARTED) { gameViewModel.gameFlow.first().let { initViews(it) } } }
+    }
+
+    private fun initViews(game: UiGame) {
         with(binding) {
-            tietNamesDialogGameName.setText(activityViewModel.gameFlow.value.gameName)
-            val names = activityViewModel.gameFlow.value.playersNames
+            tietNamesDialogGameName.setText(game.gameName)
+            val names = game.playersNames
             tietNamesDialogEast.setText(names[EAST.code])
             tietNamesDialogSouth.setText(names[SOUTH.code])
             tietNamesDialogWest.setText(names[WEST.code])
             tietNamesDialogNorth.setText(names[NORTH.code])
         }
+        setListeners(game)
     }
 
-    private fun setOnClickListeners() {
+    private fun setListeners(game: UiGame) {
         with(binding) {
             tietNamesDialogEast.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietNamesDialogEast.selectAll() }
             tietNamesDialogSouth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietNamesDialogSouth.selectAll() }
@@ -88,7 +96,8 @@ class EditNamesDialogFragment : AppCompatDialogFragment() {
             tietNamesDialogNorth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietNamesDialogNorth.selectAll() }
             btNamesDialogCancel.setOnSecureClickListener { dismiss() }
             btNamesDialogSave.setOnSecureClickListener {
-                activityViewModel.saveGameNames(
+                gameViewModel.saveGameNames(
+                    game = game,
                     gameName = tietNamesDialogGameName.text?.toString() ?: "",
                     nameP1 = tietNamesDialogEast.text?.toString() ?: getString(R.string.player_one),
                     nameP2 = tietNamesDialogSouth.text?.toString() ?: getString(R.string.player_two),

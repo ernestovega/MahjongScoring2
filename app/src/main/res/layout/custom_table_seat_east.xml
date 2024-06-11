@@ -16,34 +16,34 @@
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rlTableSeatSouthContainer"
+    android:id="@+id/rlTableSeatEastContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/ivTableSeatSouthSeatWindIcon"
+        android:id="@+id/ivTableSeatEastSeatWindIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:scaleType="centerInside"
         tools:ignore="ContentDescription"
-        tools:src="@drawable/ic_south" />
+        tools:src="@drawable/ic_east" />
 
     <TextView
-        android:id="@+id/tvTableSeatSouthPoints"
+        android:id="@+id/tvTableSeatEastPoints"
         style="@style/TextViewTableSeat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivTableSeatSouthSeatWindIcon"
+        android:layout_below="@+id/ivTableSeatEastSeatWindIcon"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/table_player_points_text_size"
         tools:text="-000" />
 
     <TextView
-        android:id="@+id/tvTableSeatSouthPenaltyPoints"
+        android:id="@+id/tvTableSeatEastPenaltyPoints"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTableSeatSouthPoints"
+        android:layout_below="@+id/tvTableSeatEastPoints"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-8dp"
         android:textSize="@dimen/table_player_penalty_points_text_size"
@@ -53,36 +53,38 @@
         tools:visibility="visible" />
 
     <View
-        android:id="@+id/vGameTableSeatSouthAuxStart"
+        android:id="@+id/vGameTableSeatEastAuxStart"
         style="@style/auxView"
-        android:layout_above="@+id/tvTableSeatSouthName"
-        android:layout_below="@+id/ivTableSeatSouthSeatWindIcon"
-        android:layout_toStartOf="@+id/tvTableSeatSouthPoints" />
+        android:layout_above="@+id/tvTableSeatEastName"
+        android:layout_below="@+id/ivTableSeatEastSeatWindIcon"
+        android:layout_centerHorizontal="true"
+        android:layout_toStartOf="@+id/tvTableSeatEastPoints" />
 
     <View
-        android:id="@+id/vGameTableSeatSouthAuxEnd"
+        android:id="@+id/vGameTableSeatEastAuxEnd"
         style="@style/auxView"
-        android:layout_above="@+id/tvTableSeatSouthName"
-        android:layout_below="@+id/ivTableSeatSouthSeatWindIcon"
+        android:layout_above="@+id/tvTableSeatEastName"
+        android:layout_below="@+id/ivTableSeatEastSeatWindIcon"
         android:layout_centerHorizontal="true"
-        android:layout_toEndOf="@+id/tvTableSeatSouthPoints" />
+        android:layout_toEndOf="@+id/tvTableSeatEastPoints" />
+
 
     <TextView
-        android:id="@+id/tvTableSeatSouthName"
+        android:id="@+id/tvTableSeatEastName"
         style="@style/TextViewTableSeat"
         android:layout_width="164dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTableSeatSouthPenaltyPoints"
+        android:layout_below="@+id/tvTableSeatEastPenaltyPoints"
         android:layout_centerHorizontal="true"
         android:ellipsize="end"
         tools:text="@string/player_name_placeholder" />
 
     <include
-        android:id="@+id/iGameTableSeatSouthDiffs"
-        layout="@layout/game_table_seat_diffs"
+        android:id="@+id/iGameTableSeatEastDiffs"
+        layout="@layout/custom_diffs_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTableSeatSouthName"
+        android:layout_below="@+id/tvTableSeatEastName"
         android:layout_centerHorizontal="true"
         android:visibility="gone"
         tools:visibility="visible" />

@@ -24,7 +24,6 @@ import android.content.Intent.FLAG_ACTIVITY_MULTIPLE_TASK
 import android.content.Intent.FLAG_ACTIVITY_NEW_DOCUMENT
 import android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
 import android.net.Uri
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.etologic.mahjongscoring2.BuildConfig
@@ -43,13 +42,6 @@ import com.etologic.mahjongscoring2.app.screens.combinations.CombinationsFragmen
 import com.etologic.mahjongscoring2.app.screens.dialogs.setup_new_game.SetupNewGameDialogFragment
 import com.etologic.mahjongscoring2.app.screens.diffs_calculator.DiffsCalculatorFragment
 import com.etologic.mahjongscoring2.app.screens.game.GameFragment
-import com.etologic.mahjongscoring2.app.screens.game.GameFragment.Companion.KEY_GAME_ID
-import com.etologic.mahjongscoring2.app.screens.game.dialogs.edit_names.EditNamesDialogFragment
-import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.ActionDialogFragment
-import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HuDialogFragment
-import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.PenaltyDialogFragment
-import com.etologic.mahjongscoring2.app.screens.game.dialogs.ranking.RankingDialogFragment
-import com.etologic.mahjongscoring2.app.screens.game.dialogs.roll_dice.RollDiceDialogFragment
 import com.etologic.mahjongscoring2.app.screens.old_games.OldGamesFragment
 import com.google.android.material.snackbar.Snackbar
 
@@ -63,39 +55,35 @@ private const val APP_SUPPORT_EMAIL_ADDRESS = "ernestovega85@gmail.com"
 
 object MainNavigator {
 
-    fun MainActivity.goToScreen(screen: MainScreens, viewModel: MainViewModel) {
+    fun MainActivity.goToScreen(screen: MainScreens) {
         when (screen) {
             OLD_GAMES -> goToOldGames()
-            GAME -> goToGame(viewModel)
+            GAME -> goToGame()
             COMBINATIONS -> goToCombinations()
             DIFFS_CALCULATOR -> goToDiffsCalculator()
         }
     }
 
     private fun MainActivity.goToOldGames() {
-        replaceFragment(OldGamesFragment::class.java, OldGamesFragment.TAG)
+        replaceFragment(OldGamesFragment(), OldGamesFragment.TAG)
     }
 
     private fun MainActivity.goToDiffsCalculator() {
-        replaceFragment(DiffsCalculatorFragment::class.java, DiffsCalculatorFragment.TAG)
+        replaceFragment(DiffsCalculatorFragment(), DiffsCalculatorFragment.TAG)
     }
 
     private fun MainActivity.goToCombinations() {
-        replaceFragment(CombinationsFragment::class.java, CombinationsFragment.TAG)
+        replaceFragment(CombinationsFragment(), CombinationsFragment.TAG)
     }
 
-    private fun MainActivity.goToGame(viewModel: MainViewModel) {
-        replaceFragment(
-            fragmentClass = GameFragment::class.java,
-            tag = GameFragment.TAG,
-            args = viewModel.activeGameId?.let { gameId -> Bundle().apply { putLong(KEY_GAME_ID, gameId) } },
-        )
+    private fun MainActivity.goToGame() {
+        replaceFragment(GameFragment(), GameFragment.TAG)
     }
 
-    private fun MainActivity.replaceFragment(fragmentClass: Class<out Fragment>, tag: String, args: Bundle? = null) {
+    private fun MainActivity.replaceFragment(fragment: Fragment, tag: String) {
         this.supportFragmentManager.beginTransaction().apply {
             setCustomAnimations(enter_from_left, exit_to_right, enter_from_right, exit_to_left)
-            replace(frameLayoutMain, fragmentClass, args, tag)
+            replace(frameLayoutMain, fragment, tag)
             commit()
         }
     }
@@ -161,34 +149,4 @@ fun MainActivity.goToPickFile() {
             type = "*/*"
         }
     )
-}
-
-fun Activity.openRankingDialog() {
-    this as AppCompatActivity
-    RankingDialogFragment().show(supportFragmentManager, RankingDialogFragment.TAG)
-}
-
-fun Activity.openPenaltyDialog() {
-    this as AppCompatActivity
-    PenaltyDialogFragment().show(supportFragmentManager, PenaltyDialogFragment.TAG)
-}
-
-fun Activity.openHuDialog() {
-    this as AppCompatActivity
-    HuDialogFragment().show(supportFragmentManager, HuDialogFragment.TAG)
-}
-
-fun Activity.openHandActionsDialog() {
-    this as AppCompatActivity
-    ActionDialogFragment().show(supportFragmentManager, ActionDialogFragment.TAG)
-}
-
-fun Activity.openRollDiceDialog() {
-    this as AppCompatActivity
-    RollDiceDialogFragment().show(supportFragmentManager, RollDiceDialogFragment.TAG)
-}
-
-fun Activity.openEditNamesDialog() {
-    this as AppCompatActivity
-    EditNamesDialogFragment().show(supportFragmentManager, EditNamesDialogFragment.TAG)
 }

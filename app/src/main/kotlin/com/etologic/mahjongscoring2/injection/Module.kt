@@ -15,7 +15,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.etologic.mahjongscoring2.business.use_cases.di
+package com.etologic.mahjongscoring2.injection
 
 import com.etologic.mahjongscoring2.app.utils.LanguageHelper
 import com.etologic.mahjongscoring2.data_source.repositories.LanguageRepository

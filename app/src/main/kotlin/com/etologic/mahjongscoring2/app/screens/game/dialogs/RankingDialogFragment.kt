@@ -14,47 +14,50 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.app.screens.game.dialogs.ranking
+package com.etologic.mahjongscoring2.app.screens.game.dialogs
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
-import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle.State.STARTED
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MAX_MCR_ROUNDS
-import com.etologic.mahjongscoring2.databinding.GameTableRankingDialogFragmentBinding
+import com.etologic.mahjongscoring2.databinding.GameDialogRankingFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.lang.String.format
 import java.util.Locale.getDefault
 
 @AndroidEntryPoint
-class RankingDialogFragment : AppCompatDialogFragment() {
+class RankingDialogFragment : BaseGameDialogFragment() {
 
     companion object {
         const val TAG = "RankingDialogFragment"
     }
 
-    private var _binding: GameTableRankingDialogFragmentBinding? = null
+    private var _binding: GameDialogRankingFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private val activityViewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = GameTableRankingDialogFragmentBinding.inflate(inflater, container, false)
+        _binding = GameDialogRankingFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -65,20 +68,29 @@ class RankingDialogFragment : AppCompatDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setOnClickListeners()
-        RankingTableHelper.generateRankingTable(activityViewModel.gameFlow.value)
+        setListeners()
+        startObservingTable()
+    }
+
+    private fun startObservingTable() {
+        Log.d("RankingDialogFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
+        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(STARTED) { gameViewModel.gameFlow.first().let { initViews(it) } } }
+    }
+
+    private fun initViews(game: UiGame) {
+        RankingTableHelper.generateRankingTable(game)
             ?.let(this::fillRankingViews)
     }
 
-    private fun setOnClickListeners() {
+    private fun setListeners() {
         binding.btRankingDialogResume.setOnSecureClickListener {
-            activityViewModel.resumeGame()
+            gameViewModel.resumeGame()
             dismiss()
         }
         binding.btRankingDialogShare.setOnSecureClickListener {
-            with (requireContext()) {
+            with(requireContext()) {
                 showShareGameDialog { shareGameOption ->
-                    activityViewModel.shareGame(
+                    gameViewModel.shareGame(
                         option = shareGameOption,
                         getExternalFilesDir = { getExternalFilesDir(null) },
                     )

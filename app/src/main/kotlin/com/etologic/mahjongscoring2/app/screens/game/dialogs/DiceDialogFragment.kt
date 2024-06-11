@@ -14,38 +14,43 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.app.screens.game.dialogs.roll_dice
+package com.etologic.mahjongscoring2.app.screens.game.dialogs
 
 import android.media.AudioAttributes
 import android.media.SoundPool
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.VISIBLE
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle.State.STARTED
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment.DiceNumber.FIVE
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment.DiceNumber.FOUR
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment.DiceNumber.ONE
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment.DiceNumber.SIX
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment.DiceNumber.THREE
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment.DiceNumber.TWO
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
-import com.etologic.mahjongscoring2.app.screens.game.dialogs.roll_dice.RollDiceDialogFragment.DiceNumber.FIVE
-import com.etologic.mahjongscoring2.app.screens.game.dialogs.roll_dice.RollDiceDialogFragment.DiceNumber.FOUR
-import com.etologic.mahjongscoring2.app.screens.game.dialogs.roll_dice.RollDiceDialogFragment.DiceNumber.ONE
-import com.etologic.mahjongscoring2.app.screens.game.dialogs.roll_dice.RollDiceDialogFragment.DiceNumber.SIX
-import com.etologic.mahjongscoring2.app.screens.game.dialogs.roll_dice.RollDiceDialogFragment.DiceNumber.THREE
-import com.etologic.mahjongscoring2.app.screens.game.dialogs.roll_dice.RollDiceDialogFragment.DiceNumber.TWO
-import com.etologic.mahjongscoring2.databinding.GameDiceDialogFragmentBinding
+import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.databinding.GameDialogDiceFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.util.Random
 import java.util.Timer
 import java.util.TimerTask
 
 @AndroidEntryPoint
-class RollDiceDialogFragment : AppCompatDialogFragment() {
+class DiceDialogFragment : BaseGameDialogFragment() {
 
     companion object {
         const val TAG: String = "RollDiceDialogFragment"
@@ -95,17 +100,15 @@ class RollDiceDialogFragment : AppCompatDialogFragment() {
         }
     }
 
-    private var _binding: GameDiceDialogFragmentBinding? = null
+    private var _binding: GameDialogDiceFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private val activityViewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = GameDiceDialogFragmentBinding.inflate(inflater, container, false)
+        _binding = GameDialogDiceFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -117,8 +120,17 @@ class RollDiceDialogFragment : AppCompatDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         zero = resources.getString(R.string.zero)
+        startObservingTable()
+    }
+
+    private fun startObservingTable() {
+        Log.d("RollDiceDialogFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
+        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(STARTED) { gameViewModel.gameFlow.first().let { initViews(it) } } }
+    }
+
+    private fun initViews(game: UiGame) {
         initSound()
-        initDice()
+        initDice(game)
     }
 
     private fun initSound() {
@@ -130,14 +142,14 @@ class RollDiceDialogFragment : AppCompatDialogFragment() {
         soundId = diceSound.load(context, R.raw.shake_dice, 1)
     }
 
-    private fun initDice() {
+    private fun initDice(game: UiGame) {
         with(binding) {
             handler12 = Handler(Looper.getMainLooper()) {
                 //Receives message from timer to start dice roll
                 rollNewDice(ivDice1)
                 rollNewDice(ivDice2)
 
-                tvDiceDialogSecond.text = getSecondThrowerName()
+                tvDiceDialogSecond.text = getSecondThrowerName(game)
                 if (tvDiceDialogSecond.visibility != VISIBLE) tvDiceDialogSecond.visibility =
                     VISIBLE
                 if (ivDice3.visibility != VISIBLE) ivDice3.visibility = VISIBLE
@@ -154,7 +166,7 @@ class RollDiceDialogFragment : AppCompatDialogFragment() {
             ivDice1.tag = 0
             ivDice2.tag = 0
 
-            tvDiceDialogFirst.text = activityViewModel.gameFlow.value.getCurrentEastSeatPlayerName() ?: getString(R.string.first)
+            tvDiceDialogFirst.text = game.getCurrentEastSeatPlayerName() ?: getString(R.string.first)
 
             handler34 = Handler(Looper.getMainLooper()) {
                 //Receives message from timer to start dice roll
@@ -173,13 +185,12 @@ class RollDiceDialogFragment : AppCompatDialogFragment() {
         }
     }
 
-    private fun getSecondThrowerName(): String {
-        val uiGame = activityViewModel.gameFlow.value
+    private fun getSecondThrowerName(game: UiGame): String {
         return when (binding.ivDice1.tag as Int + binding.ivDice2.tag as Int) {
-            5, 9 -> uiGame.getCurrentEastSeatPlayerName()
-            2, 6, 10 -> uiGame.getCurrentSouthSeatPlayerName()
-            3, 7, 11 -> uiGame.getCurrentWestSeatPlayerName()
-            4, 8, 12 -> uiGame.getCurrentNorthSeatPlayerName()
+            5, 9 -> game.getCurrentEastSeatPlayerName()
+            2, 6, 10 -> game.getCurrentSouthSeatPlayerName()
+            3, 7, 11 -> game.getCurrentWestSeatPlayerName()
+            4, 8, 12 -> game.getCurrentNorthSeatPlayerName()
             else -> null
         } ?: getString(R.string.second)
     }

@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,6 +55,6 @@ class CombinationsViewModel @Inject constructor(
     }
 
     fun searchCombination(filter: String) {
-        combinationsFilter.tryEmit(filter)
+        viewModelScope.launch { combinationsFilter.emit(filter) }
     }
 }

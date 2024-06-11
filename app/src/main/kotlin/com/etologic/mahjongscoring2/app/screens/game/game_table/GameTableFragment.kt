@@ -18,6 +18,8 @@ package com.etologic.mahjongscoring2.app.screens.game.game_table
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.util.TypedValue.COMPLEX_UNIT_DIP
 import android.util.TypedValue.applyDimension
 import android.view.LayoutInflater
@@ -32,8 +34,7 @@ import android.widget.RelativeLayout.ALIGN_PARENT_START
 import android.widget.RelativeLayout.GONE
 import android.widget.RelativeLayout.LayoutParams
 import androidx.core.content.ContextCompat.getDrawable
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
@@ -45,15 +46,12 @@ import com.etologic.mahjongscoring2.R.drawable.ic_trophy_white
 import com.etologic.mahjongscoring2.R.drawable.ic_west
 import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.app.base.BaseGameFragment
-import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
-import com.etologic.mahjongscoring2.app.screens.game.game_table.GameTableSeatsFragment.Companion.TAG
-import com.etologic.mahjongscoring2.app.screens.game.game_table.GameTableSeatsFragment.TableSeatsListener
-import com.etologic.mahjongscoring2.app.screens.openHandActionsDialog
-import com.etologic.mahjongscoring2.app.screens.openRankingDialog
-import com.etologic.mahjongscoring2.app.screens.openRollDiceDialog
+import com.etologic.mahjongscoring2.app.custom_views.GameTableSeats
+import com.etologic.mahjongscoring2.app.screens.game.openHandActionsDialog
+import com.etologic.mahjongscoring2.app.screens.game.openRankingDialog
+import com.etologic.mahjongscoring2.app.screens.game.openRollDiceDialog
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
-import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.databinding.GameTableFragmentBinding
 import com.google.android.material.badge.BadgeDrawable.BOTTOM_END
@@ -64,31 +62,19 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class GameTableFragment : BaseGameFragment(), TableSeatsListener {
+class GameTableFragment : BaseGameFragment() {
 
     enum class GameTablePages(val code: Int) {
         TABLE(0),
         LIST(1);
-
-        companion object {
-            fun getFromCode(code: Int): GameTablePages = if (code == 1) LIST else TABLE
-        }
     }
 
-    private var tableSeats: GameTableSeatsFragment = GameTableSeatsFragment()
     private var eastIcon: Drawable? = null
     private var southIcon: Drawable? = null
     private var westIcon: Drawable? = null
     private var northIcon: Drawable? = null
     private var _binding: GameTableFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private val activityViewModel: GameViewModel by activityViewModels()
-
-    override fun onSeatClick(wind: TableWinds) {
-        activityViewModel.onSeatClicked(wind)
-        activity?.openHandActionsDialog()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -107,9 +93,8 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initResources()
-        initTableSeats()
-        setOnClickListeners()
-        startObservingTable()
+        setListeners()
+        startObservingGame()
     }
 
     private fun initResources() {
@@ -119,40 +104,42 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
         northIcon = context?.let { getDrawable(it, ic_north) }
     }
 
-    private fun initTableSeats() {
-        childFragmentManager.beginTransaction()
-            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-            .add(R.id.fcvGameTableSeats, tableSeats, TAG)
-            .commit()
-    }
-
-    private fun setOnClickListeners() {
-        tableSeats.setTableSeatsListener(this)
-        binding.fabGameTable.setOnSecureClickListener { activity?.openRollDiceDialog() }
-    }
-
-    private fun startObservingTable() {
-        activityViewModel.getSelectedSeat().observe(viewLifecycleOwner) { tableSeats.updateSeatState(it) }
-        activityViewModel.getSeatsOrientation().observe(viewLifecycleOwner) { tableSeats.updateSeatsOrientation(it) }
-        activityViewModel.shouldShowDiffs().observe(viewLifecycleOwner) { tableSeats.toggleDiffs(it) }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                activityViewModel.gameFlow.collect(::gameObserver)
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                activityViewModel.isDiffsCalcsFeatureEnabledFlow.collect(tableSeats::toggleDiffsButton)
-            }
+    private fun startObservingGame() {
+        Log.d("GameTableFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
+        with(viewLifecycleOwner.lifecycleScope) {
+            launch { repeatOnLifecycle(STARTED) { gameViewModel.gameFlow.collect(::gameObserver) } }
+            launch { repeatOnLifecycle(STARTED) { gameViewModel.isDiffsCalcsFeatureEnabledFlow.collect(binding.gtsGameTableSeats::toggleDiffsButton) } }
+            launch { repeatOnLifecycle(STARTED) { gameViewModel.selectedSeatFlow.collect(binding.gtsGameTableSeats::updateSeatState) } }
+            launch { repeatOnLifecycle(STARTED) { gameViewModel.seatsOrientationFlow.collect(binding.gtsGameTableSeats::updateSeatsOrientation) } }
+            launch { repeatOnLifecycle(STARTED) { gameViewModel.shouldShowDiffsFlow.collect(binding.gtsGameTableSeats::toggleDiffs) } }
         }
     }
 
-    private fun gameObserver(uiGame: UiGame) {
-        if (uiGame.gameId != NOT_SET_GAME_ID) {
-            setGameName(uiGame.gameName)
-            tableSeats.setSeats(uiGame)
-            this.setRoundStuff(uiGame)
+    private fun gameObserver(game: UiGame) {
+        if (game.gameId != UiGame.NOT_SET_GAME_ID) {
+            setGameName(game.gameName)
+            setRoundStuff(game)
+            binding.gtsGameTableSeats.setSeats(game, isUserFontTooBig())
+        }
+    }
+
+    private fun isUserFontTooBig(): Boolean =
+        Settings.System.getFloat(requireActivity().contentResolver, Settings.System.FONT_SCALE, 1f) > 1.5f
+
+    private fun setListeners() {
+        with(binding) {
+            fabGameTable.setOnSecureClickListener { openRollDiceDialog() }
+
+            gtsGameTableSeats.setTableSeatsListener(object : GameTableSeats.GameTableSeatsListener {
+                override fun onSeatClick(wind: TableWinds) {
+                    gameViewModel.onSeatClicked(wind)
+                    openHandActionsDialog()
+                }
+
+                override fun toggleDiffsView(shouldShowDiffs: Boolean) {
+                    gameViewModel.toggleDiffsView(shouldShowDiffs)
+                }
+            })
         }
     }
 
@@ -165,20 +152,18 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
         }
     }
 
-    private fun setRoundStuff(uiGame: UiGame) {
-        val isGameEnded: Boolean = uiGame.isEnded
-        val roundNumber: Int = uiGame.uiRounds.size
-        setFab(isGameEnded, roundNumber)
-        setRoundNumsAndWinds(isGameEnded, roundNumber)
+    private fun setRoundStuff(game: UiGame) {
+        setFab(game)
+        setRoundsNumAndWind(game)
     }
 
-    private fun setFab(isGameEnded: Boolean, roundNumber: Int) {
+    private fun setFab(game: UiGame) {
         with(binding) {
-            if (isGameEnded) {
+            if (game.isEnded) {
                 if (fabGameTable.tag != "ic_trophy_white_18dp") {
                     fabGameTable.tag = "ic_trophy_white_18dp"
                     fabGameTable.setImageResource(ic_trophy_white)
-                    fabGameTable.setOnSecureClickListener { activity?.openRankingDialog() }
+                    fabGameTable.setOnSecureClickListener { openRankingDialog() }
                     setFabPosition(BOTTOM_END)
                 }
 
@@ -186,9 +171,9 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
                 if (fabGameTable.tag != "ic_dice_multiple_white_24dp") {
                     fabGameTable.tag = "ic_dice_multiple_white_24dp"
                     fabGameTable.setImageResource(ic_dice)
-                    fabGameTable.setOnSecureClickListener { activity?.openRollDiceDialog() }
+                    fabGameTable.setOnSecureClickListener { openRollDiceDialog() }
                 }
-                moveDice(roundNumber)
+                moveDice(game.uiRounds.size)
             }
             if (fabGameTable.visibility != VISIBLE) fabGameTable.visibility = VISIBLE
         }
@@ -269,9 +254,9 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
         }
     }
 
-    private fun setRoundNumsAndWinds(isGameEnded: Boolean, roundNumber: Int) {
+    private fun setRoundsNumAndWind(game: UiGame) {
         with(binding) {
-            if (isGameEnded) {
+            if (game.isEnded) {
                 val endString = getString(string.end)
 
                 tvGameTableRoundNumberTopStart.text = endString
@@ -288,7 +273,9 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
                 tvGameTableRoundNumberBottomEnd
                     .setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             } else {
-                roundNumber.toString().let {
+                val numRounds = game.uiRounds.size
+
+                game.uiRounds.size.toString().let {
                     tvGameTableRoundNumberTopStart.text = it
                     tvGameTableRoundNumberTopEnd.text = it
                     tvGameTableRoundNumberBottomStart.text = it
@@ -296,7 +283,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
                 }
 
                 when {
-                    roundNumber < 5 -> {
+                    numRounds < 5 -> {
                         tvGameTableRoundNumberTopStart
                             .setCompoundDrawablesWithIntrinsicBounds(null, null, null, eastIcon)
                         tvGameTableRoundNumberTopEnd
@@ -307,7 +294,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
                             .setCompoundDrawablesWithIntrinsicBounds(null, null, null, eastIcon)
                     }
 
-                    roundNumber < 9 -> {
+                    numRounds < 9 -> {
                         tvGameTableRoundNumberTopStart
                             .setCompoundDrawablesWithIntrinsicBounds(null, null, null, southIcon)
                         tvGameTableRoundNumberTopEnd
@@ -318,7 +305,7 @@ class GameTableFragment : BaseGameFragment(), TableSeatsListener {
                             .setCompoundDrawablesWithIntrinsicBounds(null, null, null, southIcon)
                     }
 
-                    roundNumber < 13 -> {
+                    numRounds < 13 -> {
                         tvGameTableRoundNumberTopStart
                             .setCompoundDrawablesWithIntrinsicBounds(null, null, null, westIcon)
                         tvGameTableRoundNumberTopEnd

@@ -14,38 +14,29 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.app.screens.game.game_table
+package com.etologic.mahjongscoring2.app.custom_views
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Bundle
-import android.provider.Settings
+import android.util.AttributeSet
 import android.util.TypedValue.COMPLEX_UNIT_DIP
 import android.util.TypedValue.applyDimension
 import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RelativeLayout.GONE
-import android.widget.RelativeLayout.INVISIBLE
-import android.widget.RelativeLayout.VISIBLE
+import android.widget.RelativeLayout
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.getDrawable
-import androidx.fragment.app.activityViewModels
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.R.color
-import com.etologic.mahjongscoring2.app.base.BaseGameFragment
-import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
-import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.app.model.SeatStates
 import com.etologic.mahjongscoring2.app.model.SeatStates.DISABLED
 import com.etologic.mahjongscoring2.app.model.SeatStates.NORMAL
 import com.etologic.mahjongscoring2.app.model.SeatStates.SELECTED
+import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.dtos.SeatDiffs
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
@@ -57,19 +48,14 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
-import com.etologic.mahjongscoring2.databinding.GameTableSeatsFragmentBinding
-import dagger.hilt.android.AndroidEntryPoint
+import com.etologic.mahjongscoring2.databinding.CustomTableSeatsBinding
 import java.util.Locale.getDefault
 
-@AndroidEntryPoint
-class GameTableSeatsFragment : BaseGameFragment() {
+class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLayout(context, attributeSet) {
 
-    companion object {
-        const val TAG = "GameTableSeatsFragment"
-    }
-
-    interface TableSeatsListener {
+    interface GameTableSeatsListener {
         fun onSeatClick(wind: TableWinds)
+        fun toggleDiffsView(shouldShowDiffs: Boolean)
     }
 
     private var eastIcon: Drawable? = null
@@ -83,20 +69,53 @@ class GameTableSeatsFragment : BaseGameFragment() {
     private var greenColor: Int? = null
     private var purplePenalty: Int? = null
 
-    private val activityViewModel: GameViewModel by activityViewModels()
-
-    private var listener: TableSeatsListener? = null
     private var selectedPlayer: TableWinds = NONE
     private var areSeatsDisabled: Boolean = false
     private var margin = 0
 
-    fun setTableSeatsListener(tableSeatsListener: TableSeatsListener) {
-        listener = tableSeatsListener
+    private var _binding: CustomTableSeatsBinding? = null
+    private val binding get() = _binding!!
+
+    private var listener: GameTableSeatsListener? = null
+
+    init {
+        _binding = CustomTableSeatsBinding.inflate(LayoutInflater.from(context), this, true)
+
+        eastIcon = getDrawable(context, R.drawable.ic_east)
+        southIcon = getDrawable(context, R.drawable.ic_south)
+        westIcon = getDrawable(context, R.drawable.ic_west)
+        northIcon = getDrawable(context, R.drawable.ic_north)
+        grayNormalColor = getColor(context, R.color.grayMM)
+        grayDisabledColor = getColor(context, R.color.gray)
+        accentColor = getColor(context, R.color.colorAccent)
+        redColor = getColor(context, R.color.red)
+        greenColor = getColor(context, R.color.colorPrimary)
+        purplePenalty = getColor(context, R.color.purplePenalty)
+        margin = applyDimension(COMPLEX_UNIT_DIP, 16f, resources.displayMetrics).toInt()
+
+        setListeners()
+    }
+
+    fun setTableSeatsListener(gameTableSeatsListener: GameTableSeatsListener) {
+        listener = gameTableSeatsListener
     }
 
     fun updateSeatState(wind: TableWinds) {
         selectedPlayer = wind
         setStates(getSeatsStates())
+    }
+
+    fun setSeats(game: UiGame, isUserFontTooBig: Boolean) {
+        if (game.gameId != UiGame.NOT_SET_GAME_ID) {
+            selectedPlayer = NONE
+            setStates(getSeatsStates(game))
+            val playersTotalPointsByCurrentSeat = game.getPlayersTotalPointsByCurrentSeat()
+            setPoints(playersTotalPointsByCurrentSeat.map { it.toString() })
+            setWinds(game.getSeatsCurrentWind(game.uiRounds.size))
+            setNames(game.getPlayersNamesByCurrentSeat())
+            setPenalties(game.getPlayersPenaltiesByCurrentSeat(), game.isEnded)
+            setPointsDiffs(game, isUserFontTooBig)
+        }
     }
 
     private fun getSeatsStates(): Array<SeatStates> =
@@ -107,18 +126,6 @@ class GameTableSeatsFragment : BaseGameFragment() {
             WEST -> arrayOf(NORMAL, NORMAL, SELECTED, NORMAL)
             NORTH -> arrayOf(NORMAL, NORMAL, NORMAL, SELECTED)
         }
-
-    fun setSeats(uiGame: UiGame) {
-        selectedPlayer = NONE
-        setStates(getSeatsStates(uiGame))
-        val playersTotalPointsByCurrentSeat = uiGame.getPlayersTotalPointsByCurrentSeat()
-        setPoints(playersTotalPointsByCurrentSeat.map { it.toString() })
-        setPointsDiffs(uiGame)
-        setWinds(uiGame.getSeatsCurrentWind(uiGame.uiRounds.size))
-        setNames(uiGame.getPlayersNamesByCurrentSeat())
-        setPenalties(uiGame.getPlayersPenaltiesByCurrentSeat(), uiGame.isEnded)
-        setPointsDiffs(uiGame)
-    }
 
     private fun getSeatsStates(uiGame: UiGame): Array<SeatStates> =
         if (uiGame.isEnded) arrayOf(DISABLED, DISABLED, DISABLED, DISABLED) else getSeatsStates()
@@ -171,8 +178,8 @@ class GameTableSeatsFragment : BaseGameFragment() {
         binding.iGameTableSeatNorth.tvTableSeatNorthPoints.text = points[NORTH.code]
     }
 
-    private fun setPointsDiffs(uiGame: UiGame?) {
-        if (!isUserFontTooBig()) {
+    private fun setPointsDiffs(uiGame: UiGame?, isUserFontTooBig: Boolean) {
+        if (!isUserFontTooBig) {
             val tableDiffs = uiGame?.getTableDiffs()
             if (tableDiffs != null) {
                 with(binding.iGameTableSeatEast.iGameTableSeatEastDiffs) {
@@ -207,9 +214,6 @@ class GameTableSeatsFragment : BaseGameFragment() {
                         tvTableSeatDiffsThirdSelfPick, tvTableSeatDiffsThirdDirectHu, tvTableSeatDiffsThirdIndirectHu, trTableSeatDiffsThird,
                     )
                 }
-
-                isUserFontTooBig()
-
             } else {
                 toggleDiffs(false)
             }
@@ -217,13 +221,6 @@ class GameTableSeatsFragment : BaseGameFragment() {
             toggleDiffs(false)
         }
     }
-
-    private fun isUserFontTooBig(): Boolean =
-        Settings.System.getFloat(
-            activity?.contentResolver,
-            Settings.System.FONT_SCALE,
-            1f
-        ) > 1.5f
 
     private fun setSeatDiffs(
         seatDiffs: SeatDiffs,
@@ -322,47 +319,9 @@ class GameTableSeatsFragment : BaseGameFragment() {
         textView.text = name ?: ""
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        margin = applyDimension(COMPLEX_UNIT_DIP, 16f, resources.displayMetrics).toInt()
-    }
-
-    private var _binding: GameTableSeatsFragmentBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = GameTableSeatsFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        context?.let {
-            eastIcon = getDrawable(it, R.drawable.ic_east)
-            southIcon = getDrawable(it, R.drawable.ic_south)
-            westIcon = getDrawable(it, R.drawable.ic_west)
-            northIcon = getDrawable(it, R.drawable.ic_north)
-            grayNormalColor = getColor(it, color.grayMM)
-            grayDisabledColor = getColor(it, color.gray)
-            accentColor = getColor(it, color.colorAccent)
-            redColor = getColor(it, color.red)
-            greenColor = getColor(it, color.colorPrimary)
-            purplePenalty = getColor(it, color.purplePenalty)
-        }
-        initListeners()
-    }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun initListeners() {
+    private fun setListeners() {
         with(binding) {
             fun eastClick() { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
             iGameTableSeatEast.ivTableSeatEastSeatWindIcon.setOnSecureClickListener { eastClick() }
@@ -372,6 +331,7 @@ class GameTableSeatsFragment : BaseGameFragment() {
             iGameTableSeatEast.vGameTableSeatEastAuxEnd.setOnSecureClickListener { eastClick() }
             iGameTableSeatEast.tvTableSeatEastPenaltyPoints.setOnSecureClickListener { eastClick() }
             iGameTableSeatEast.iGameTableSeatEastDiffs.tlTableSeatDiffs.setOnSecureClickListener { eastClick() }
+
             fun southClick() { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
             iGameTableSeatSouth.ivTableSeatSouthSeatWindIcon.setOnSecureClickListener { southClick() }
             iGameTableSeatSouth.tvTableSeatSouthName.setOnSecureClickListener { southClick() }
@@ -380,6 +340,7 @@ class GameTableSeatsFragment : BaseGameFragment() {
             iGameTableSeatSouth.vGameTableSeatSouthAuxEnd.setOnSecureClickListener { southClick() }
             iGameTableSeatSouth.tvTableSeatSouthPenaltyPoints.setOnSecureClickListener { southClick() }
             iGameTableSeatSouth.iGameTableSeatSouthDiffs.tlTableSeatDiffs.setOnSecureClickListener { southClick() }
+
             fun westClick() { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
             iGameTableSeatWest.ivTableSeatWestSeatWindIcon.setOnSecureClickListener { westClick() }
             iGameTableSeatWest.tvTableSeatWestName.setOnSecureClickListener { westClick() }
@@ -388,6 +349,7 @@ class GameTableSeatsFragment : BaseGameFragment() {
             iGameTableSeatWest.vGameTableSeatWestAuxEnd.setOnSecureClickListener { westClick() }
             iGameTableSeatWest.tvTableSeatWestPenaltyPoints.setOnSecureClickListener { westClick() }
             iGameTableSeatWest.iGameTableSeatWestDiffs.tlTableSeatDiffs.setOnSecureClickListener { westClick() }
+
             fun northClick() { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
             iGameTableSeatNorth.ivTableSeatNorthSeatWindIcon.setOnSecureClickListener { northClick() }
             iGameTableSeatNorth.tvTableSeatNorthName.setOnSecureClickListener { northClick() }
@@ -396,12 +358,14 @@ class GameTableSeatsFragment : BaseGameFragment() {
             iGameTableSeatNorth.vGameTableSeatNorthAuxEnd.setOnSecureClickListener { northClick() }
             iGameTableSeatNorth.tvTableSeatNorthPenaltyPoints.setOnSecureClickListener { northClick() }
             iGameTableSeatNorth.iGameTableSeatNorthDiffs.tlTableSeatDiffs.setOnSecureClickListener { northClick() }
+
             btTableSeatsShowDiffs.setOnTouchListener { _, event ->
-                return@setOnTouchListener when (event.action) {
-                    MotionEvent.ACTION_DOWN -> { activityViewModel.toggleDiffsView(true); true }
-                    MotionEvent.ACTION_UP -> { activityViewModel.toggleDiffsView(false); true }
-                    else -> false
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> listener?.toggleDiffsView(true)
+                    MotionEvent.ACTION_UP -> listener?.toggleDiffsView(false)
+                    else -> return@setOnTouchListener false
                 }
+                return@setOnTouchListener true
             }
         }
     }

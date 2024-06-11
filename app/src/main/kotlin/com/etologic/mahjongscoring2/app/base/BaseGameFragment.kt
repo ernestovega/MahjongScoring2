@@ -1,5 +1,5 @@
 /*
- *     Copyright © 2023  Ernesto Vega de la Iglesia Soria
+ *     Copyright © 2024  Ernesto Vega de la Iglesia Soria
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -17,11 +17,11 @@
 package com.etologic.mahjongscoring2.app.base
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
+import com.etologic.mahjongscoring2.app.screens.game.findGameFragment
 
 abstract class BaseGameFragment : Fragment() {
 
-    protected fun showError(throwable: Throwable) {
-        val activity = activity
-        if (activity is BaseActivity) activity.showError(throwable)
-    }
+    protected val gameViewModel by viewModels<GameViewModel>(ownerProducer = { findGameFragment() })
 }

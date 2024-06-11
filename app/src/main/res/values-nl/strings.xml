@@ -236,4 +236,7 @@
     <string name="english">🇬🇧Engels (standaard)</string>
     <string name="french">🇫🇷Frans</string>
     <string name="spanish">🇪🇸Spaans</string>
+
+    <!--  Translations V2.4.0  -->
+    <string name="current_game">Huidige spel</string>
 </resources>

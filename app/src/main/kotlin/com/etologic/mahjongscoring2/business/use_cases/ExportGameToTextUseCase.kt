@@ -17,7 +17,7 @@
 
 package com.etologic.mahjongscoring2.business.use_cases
 
-import com.etologic.mahjongscoring2.app.screens.game.dialogs.ranking.RankingTableHelper
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.RankingTableHelper
 import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
 import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
 import com.etologic.mahjongscoring2.business.model.entities.GameId

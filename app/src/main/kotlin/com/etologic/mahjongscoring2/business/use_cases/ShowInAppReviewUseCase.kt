@@ -17,7 +17,6 @@
 
 package com.etologic.mahjongscoring2.business.use_cases
 
-import android.app.Activity
 import android.util.Log
 import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.data_source.repositories.InAppReviewRepository

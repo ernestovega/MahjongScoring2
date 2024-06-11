@@ -14,6 +14,7 @@ androidx-lifecycle = "2.8.1"
 androidx-navigation = "2.7.7"
 androidx-recyclerview = "1.3.2"
 androidx-room = "2.6.1"
+androidx-viewpager2 = "1.1.0"
 androidx-test-ext-junit = "1.1.5"
 firebase-crashlytics = "2.9.9" #Crashes due to a circular dependency on 3.0.0
 firebase-bom = "33.1.0"
@@ -51,6 +52,7 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
 androidx-room-test = { module = "androidx.room:room-testing", version.ref = "androidx-room" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "androidx-viewpager2" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }

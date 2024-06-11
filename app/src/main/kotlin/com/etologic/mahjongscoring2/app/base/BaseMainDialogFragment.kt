@@ -14,12 +14,13 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.business.model.dtos
+package com.etologic.mahjongscoring2.app.base
 
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.fragment.app.activityViewModels
+import com.etologic.mahjongscoring2.app.screens.MainViewModel
 
-data class PenaltyData(
-    val points: Int,
-    val isDivided: Boolean,
-    val penalizedPlayerInitialSeat: TableWinds,
-)
+abstract class BaseMainDialogFragment : AppCompatDialogFragment() {
+
+    protected val activityViewModel by activityViewModels<MainViewModel>()
+}

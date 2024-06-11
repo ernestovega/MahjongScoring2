@@ -20,11 +20,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseFragment
+import com.etologic.mahjongscoring2.app.base.BaseMainFragment
 import com.etologic.mahjongscoring2.app.model.Diff
 import com.etologic.mahjongscoring2.databinding.DiffsCalculatorFragmentBinding
 import com.google.android.material.snackbar.Snackbar
@@ -34,7 +35,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DiffsCalculatorFragment : BaseFragment() {
+class DiffsCalculatorFragment : BaseMainFragment() {
 
     companion object {
         const val TAG = "DiffsCalculatorFragment"
@@ -44,11 +45,13 @@ class DiffsCalculatorFragment : BaseFragment() {
         const val MAX_ITEMS: Int = NUM_CALCS_INTERVAL * MAX_INTERVALS
     }
 
+    @Inject
+    lateinit var rvAdapter: DiffsCalculatorRvAdapter
+
     private var _binding: DiffsCalculatorFragmentBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var rvAdapter: DiffsCalculatorRvAdapter
+    override val fragmentToolbar: Toolbar get() = binding.toolbarDiffsCalculator
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = DiffsCalculatorFragmentBinding.inflate(inflater, container, false)
@@ -63,13 +66,7 @@ class DiffsCalculatorFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        setupToolbar()
-        setupRecyclerView()
         loadFirstInterval()
-    }
-
-    private fun setupToolbar() {
-        activityViewModel.setToolbar(binding.toolbarDiffsCalculator)
     }
 
     private fun setupRecyclerView() {

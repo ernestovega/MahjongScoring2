@@ -49,7 +49,7 @@
 
                 <include
                     android:id="@+id/iGameHuDialogWinnerContainer"
-                    layout="@layout/table_seat_medium"
+                    layout="@layout/custom_table_seat_medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"/>
@@ -62,7 +62,7 @@
 
                 <include
                     android:id="@+id/iHandActionsDialogDiffs"
-                    layout="@layout/game_action_dialog_diffs"
+                    layout="@layout/custom_diffs_big"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/standard_margin"

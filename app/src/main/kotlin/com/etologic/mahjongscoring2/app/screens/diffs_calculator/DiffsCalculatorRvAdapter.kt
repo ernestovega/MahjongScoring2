@@ -25,8 +25,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.screens.diffs_calculator.DiffsCalculatorFragment.Companion.NUM_CALCS_INTERVAL
 import com.etologic.mahjongscoring2.app.model.Diff
+import com.etologic.mahjongscoring2.app.screens.diffs_calculator.DiffsCalculatorFragment.Companion.NUM_CALCS_INTERVAL
 import com.etologic.mahjongscoring2.databinding.DiffsCalculatorItemBinding
 import javax.inject.Inject
 

@@ -26,14 +26,15 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseFragment
+import com.etologic.mahjongscoring2.app.base.BaseMainFragment
 import com.etologic.mahjongscoring2.app.screens.MainActivity
 import com.etologic.mahjongscoring2.app.screens.MainViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.screens.goToPickFile
@@ -43,29 +44,32 @@ import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
-import com.etologic.mahjongscoring2.databinding.MainOldgamesFragmentBinding
+import com.etologic.mahjongscoring2.databinding.OldGamesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class OldGamesFragment : BaseFragment() {
+class OldGamesFragment : BaseMainFragment() {
 
     companion object {
         const val TAG = "OldGamesFragment"
     }
 
-    private val viewModel: OldGamesViewModel by viewModels()
+    private var changeLanguageItem: MenuItem? = null
+    private var enableCalcsItem: MenuItem? = null
+    private var disableCalcsItem: MenuItem? = null
 
     @Inject
     lateinit var rvAdapter: OldGamesRvAdapter
 
-    private var _binding: MainOldgamesFragmentBinding? = null
+    private var _binding: OldGamesFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private var changeLanguageItem: MenuItem? = null
-    private var enableCalcsItem: MenuItem? = null
-    private var disableCalcsItem: MenuItem? = null
+    private val viewModel: OldGamesViewModel by viewModels()
+
+    override val fragmentToolbar: Toolbar get() = binding.toolbarOldGames
+
 
     override val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -105,7 +109,7 @@ class OldGamesFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = MainOldgamesFragmentBinding.inflate(inflater, container, false)
+        _binding = OldGamesFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -119,7 +123,7 @@ class OldGamesFragment : BaseFragment() {
         setupRecyclerView()
         setToolbar()
         setOnClickListeners()
-        observeViewModel()
+        startObservingViewModel()
     }
 
     private fun setupRecyclerView() {
@@ -155,13 +159,10 @@ class OldGamesFragment : BaseFragment() {
         binding.rvOldGames.adapter = rvAdapter
     }
 
-    private fun observeViewModel() {
-        viewModel.getError().observe(viewLifecycleOwner) { showError(it) }
-        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) {
-            viewModel.gamesState.collect(::gamesObserver) }
-        }
-        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) {
-            activityViewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling) }
+    private fun startObservingViewModel() {
+        with (viewLifecycleOwner.lifecycleScope) {
+            launch { repeatOnLifecycle(STARTED) { viewModel.gamesState.collect(::gamesObserver) } }
+            launch { repeatOnLifecycle(STARTED) { activityViewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling) } }
         }
     }
 
@@ -176,7 +177,7 @@ class OldGamesFragment : BaseFragment() {
 
     private fun setOnClickListeners() {
         binding.fabOldGames.setOnSecureClickListener {
-            activity?.openSetupNewGameDialog()
+            requireActivity().openSetupNewGameDialog()
         }
     }
 }

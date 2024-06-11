@@ -28,6 +28,7 @@
     <color name="gray">#BBB</color>
     <color name="grayDiffs">#888</color>
     <color name="grayMM">#414141</color>
+    <color name="black">#000</color>
 
     <color name="red">#FF0000</color>
     <color name="golden">#FFC107</color>
