@@ -98,8 +98,8 @@ class HuDialogFragment : BaseGameDialogFragment() {
         Log.d("HuDialogFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
 
         fun toScreenData(game: UiGame, penalizedSeat: TableWinds) = Pair(game, penalizedSeat)
-        
-        with (viewLifecycleOwner.lifecycleScope) {
+
+        with(viewLifecycleOwner.lifecycleScope) {
             launch {
                 repeatOnLifecycle(STARTED) {
                     combine(

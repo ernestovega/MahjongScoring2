@@ -36,6 +36,7 @@ class DiffsCalculatorRvAdapter
     private var diffs = mutableListOf<Diff>()
     private var gray: Int? = null
     private var white: Int? = null
+
     @SuppressLint("NotifyDataSetChanged")
     fun setFirstDiffs(firstDiffs: List<Diff>) {
         diffs.addAll(firstDiffs)

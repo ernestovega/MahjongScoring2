@@ -38,8 +38,8 @@
             android:fadeScrollbars="false"
             android:fadingEdgeLength="@dimen/standard_margin"
             android:requiresFadingEdge="vertical"
-            android:scrollbars="vertical"
-            android:scrollIndicators="end">
+            android:scrollIndicators="end"
+            android:scrollbars="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                     layout="@layout/custom_table_seat_medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" />
 
                 <View
                     android:layout_width="match_parent"
@@ -72,8 +72,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/half_standard_margin"
-                    android:background="@color/gray"
-                    android:layout_marginBottom="@dimen/standard_margin" />
+                    android:layout_marginBottom="@dimen/standard_margin"
+                    android:background="@color/gray" />
 
                 <LinearLayout
                     android:id="@+id/btHandActionsDialogHu"
@@ -168,7 +168,7 @@
                         android:layout_marginBottom="@dimen/quarter_standard_margin"
                         android:importantForAccessibility="no"
                         android:src="@drawable/ic_whistle_black_24"
-                        app:tint="@color/white"/>
+                        app:tint="@color/white" />
 
                     <TextView
                         android:layout_width="wrap_content"

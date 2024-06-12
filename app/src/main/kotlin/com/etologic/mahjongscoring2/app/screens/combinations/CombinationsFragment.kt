@@ -85,6 +85,7 @@ class CombinationsFragment : BaseMainFragment() {
                     android.R.id.home -> this?.openDrawer()
                     R.id.action_toggle_combination_explanation -> binding.toolbarCombinations.menu?.findItem(menuItem.itemId)
                         ?.setIcon(if (rvAdapter.toggleImageOrDescription() === SHOW) R.drawable.ic_books else R.drawable.ic_photos)
+
                     else -> return false
                 }
                 return true
@@ -117,7 +118,7 @@ class CombinationsFragment : BaseMainFragment() {
     }
 
     private fun startObservingViewModel() {
-        with (viewLifecycleOwner.lifecycleScope) {
+        with(viewLifecycleOwner.lifecycleScope) {
             launch { repeatOnLifecycle(STARTED) { viewModel.combinationsState.collect(rvAdapter::setCombinations) } }
         }
     }

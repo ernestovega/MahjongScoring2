@@ -47,13 +47,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray"
-        android:paddingTop="@dimen/quarter_standard_margin"
-        android:paddingBottom="@dimen/quarter_standard_margin"
         android:fadeScrollbars="false"
         android:fadingEdgeLength="@dimen/standard_margin"
+        android:paddingTop="@dimen/quarter_standard_margin"
+        android:paddingBottom="@dimen/quarter_standard_margin"
         android:requiresFadingEdge="vertical"
-        android:scrollbars="vertical"
         android:scrollIndicators="end"
+        android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

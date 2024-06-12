@@ -25,7 +25,7 @@ enum class TableWinds(val code: Int) {
 
     companion object {
         fun from(code: Int?): TableWinds? =
-            when(code) {
+            when (code) {
                 EAST.code -> EAST
                 SOUTH.code -> SOUTH
                 WEST.code -> WEST

@@ -38,8 +38,8 @@
             android:fadeScrollbars="false"
             android:fadingEdgeLength="@dimen/standard_margin"
             android:requiresFadingEdge="vertical"
-            android:scrollbars="vertical"
-            android:scrollIndicators="end">
+            android:scrollIndicators="end"
+            android:scrollbars="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"

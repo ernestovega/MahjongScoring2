@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright © 2024  Ernesto Vega de la Iglesia Soria
   ~
   ~     This program is free software: you can redistribute it and/or modify
@@ -30,19 +29,19 @@
     <TextView
         android:id="@+id/tvDiffsCalculatorItemSelfPick"
         style="@style/diffsCalculatorCell"
-        tools:text="9"
-        android:textStyle="normal" />
+        android:textStyle="normal"
+        tools:text="9" />
 
     <TextView
         android:id="@+id/tvDiffsCalculatorItemDirectHu"
         style="@style/diffsCalculatorCell"
-        tools:text="17"
-        android:textStyle="normal" />
+        android:textStyle="normal"
+        tools:text="17" />
 
     <TextView
         android:id="@+id/tvDiffsCalculatorItemIndirectHu"
         style="@style/diffsCalculatorCell"
-        tools:text="33"
-        android:textStyle="normal" />
+        android:textStyle="normal"
+        tools:text="33" />
 
 </LinearLayout>

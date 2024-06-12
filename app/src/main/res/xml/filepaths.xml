@@ -16,5 +16,7 @@
   -->
 
 <paths>
-    <external-files-path name="share" path="."/>
+    <external-files-path
+        name="share"
+        path="." />
 </paths>

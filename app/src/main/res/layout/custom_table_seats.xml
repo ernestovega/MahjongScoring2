@@ -31,8 +31,8 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_calc"
         android:visibility="invisible"
-        tools:visibility="visible"
-        app:tint="@color/gray" />
+        app:tint="@color/gray"
+        tools:visibility="visible" />
 
     <include
         android:id="@+id/iGameTableSeatEast"

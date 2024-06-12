@@ -131,18 +131,21 @@ class OldGamesRvAdapter
                         compoundDrawablePadding = 8
                     }
                 }
+
                 uiGame.nameP2 -> {
                     with(itemViewHolder.tvSouthPlayerPoints) {
                         setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, trophyIcon, null)
                         compoundDrawablePadding = 8
                     }
                 }
+
                 uiGame.nameP3 -> {
                     with(itemViewHolder.tvWestPlayerPoints) {
                         setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, trophyIcon, null)
                         compoundDrawablePadding = 8
                     }
                 }
+
                 uiGame.nameP4 -> {
                     with(itemViewHolder.tvNorthPlayerPoints) {
                         setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, trophyIcon, null)

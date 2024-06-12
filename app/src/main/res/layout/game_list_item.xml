@@ -206,32 +206,32 @@
         <TextView
             android:id="@+id/tvGameListItemRoundPenaltiesP1"
             style="@style/TextViewGameListItemTotal"
-            android:gravity="end"
             android:layout_marginEnd="@dimen/half_and_quarter_standard_margin"
+            android:gravity="end"
             android:textSize="12sp"
             tools:text="+38" />
 
         <TextView
             android:id="@+id/tvGameListItemRoundPenaltiesP2"
             style="@style/TextViewGameListItemTotal"
-            android:gravity="end"
             android:layout_marginEnd="@dimen/half_and_quarter_standard_margin"
+            android:gravity="end"
             android:textSize="12sp"
             tools:text="-16" />
 
         <TextView
             android:id="@+id/tvGameListItemRoundPenaltiesP3"
             style="@style/TextViewGameListItemTotal"
-            android:gravity="end"
             android:layout_marginEnd="@dimen/half_and_quarter_standard_margin"
+            android:gravity="end"
             android:textSize="12sp"
             tools:text="-16" />
 
         <TextView
             android:id="@+id/tvGameListItemRoundPenaltiesP4"
             style="@style/TextViewGameListItemTotal"
-            android:gravity="end"
             android:layout_marginEnd="@dimen/half_and_quarter_standard_margin"
+            android:gravity="end"
             android:textSize="12sp"
             tools:text="-16" />
 

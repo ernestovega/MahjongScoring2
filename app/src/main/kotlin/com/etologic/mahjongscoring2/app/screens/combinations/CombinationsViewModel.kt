@@ -49,7 +49,7 @@ class CombinationsViewModel @Inject constructor(
         combinations: Array<Combination>,
         filter: String
     ) = combinations.filter { combination ->
-            combination.combinationName.contains(filter, ignoreCase = true) ||
+        combination.combinationName.contains(filter, ignoreCase = true) ||
                 combination.combinationDescription?.contains(filter, ignoreCase = true) == true ||
                 combination.combinationPoints.toString().contains(filter, ignoreCase = true)
     }

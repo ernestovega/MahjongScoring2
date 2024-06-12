@@ -80,9 +80,9 @@
         android:fadeScrollbars="false"
         android:fadingEdgeLength="@dimen/standard_margin"
         android:requiresFadingEdge="vertical"
-        android:scrollbars="vertical"
         android:scrollIndicators="end"
-        tools:listitem="@layout/diffs_calculator_item"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:scrollbars="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/diffs_calculator_item" />
 
 </LinearLayout>

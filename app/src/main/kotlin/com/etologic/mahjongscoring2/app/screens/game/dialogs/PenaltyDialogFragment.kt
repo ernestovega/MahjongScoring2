@@ -89,7 +89,7 @@ class PenaltyDialogFragment : BaseGameDialogFragment() {
 
         fun toScreenData(game: UiGame, winnerSeat: TableWinds) = Pair(game, winnerSeat)
 
-        with (viewLifecycleOwner.lifecycleScope) {
+        with(viewLifecycleOwner.lifecycleScope) {
             launch {
                 repeatOnLifecycle(STARTED) {
                     combine(

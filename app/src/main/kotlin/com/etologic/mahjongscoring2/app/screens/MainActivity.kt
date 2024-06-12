@@ -21,7 +21,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -153,7 +152,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startObservingViewModel() {
-        with (lifecycleScope) {
+        with(lifecycleScope) {
             launch { repeatOnLifecycle(STARTED) { viewModel.errorFlow.collect(::showError) } }
             launch { repeatOnLifecycle(STARTED) { viewModel.currentScreenFlow.collect { currentScreenObserver(it) } } }
             launch { repeatOnLifecycle(STARTED) { viewModel.currentToolbarFlow.collect(::setToolbar) } }
@@ -190,7 +189,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun currentGameNameObserver(gameName: String?) {
-        with (binding.navigationViewMain.menu.findItem(R.id.nav_current_game)) {
+        with(binding.navigationViewMain.menu.findItem(R.id.nav_current_game)) {
             title = gameName ?: getString(R.string.current_game)
             setVisible(gameName.isNullOrBlank().not())
         }

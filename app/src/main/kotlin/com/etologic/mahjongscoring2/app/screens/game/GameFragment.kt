@@ -174,7 +174,7 @@ class GameFragment : BaseMainFragment() {
             if (isGameEnded) {
                 openRankingDialog()
             }
-            
+
             activityViewModel.setCurrentGameName(game.gameName)
         }
     }

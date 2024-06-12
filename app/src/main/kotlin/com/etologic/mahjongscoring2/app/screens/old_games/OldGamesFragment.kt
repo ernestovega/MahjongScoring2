@@ -86,7 +86,13 @@ class OldGamesFragment : BaseMainFragment() {
             with(activity as? MainActivity) {
                 when (menuItem.itemId) {
                     android.R.id.home -> this?.openDrawer()
-                    R.id.action_change_language -> this?.goToChooseLanguage(languageHelper.currentLanguage) { languageHelper.changeLanguage(it, this) }
+                    R.id.action_change_language -> this?.goToChooseLanguage(languageHelper.currentLanguage) {
+                        languageHelper.changeLanguage(
+                            it,
+                            this
+                        )
+                    }
+
                     R.id.action_enable_diffs_calcs -> activityViewModel.toggleDiffsFeature(true)
                     R.id.action_disable_diffs_calcs -> activityViewModel.toggleDiffsFeature(false)
                     R.id.action_export_games -> lifecycleScope.launch { activityViewModel.exportGames { this@with?.getExternalFilesDir(null) } }
@@ -160,7 +166,7 @@ class OldGamesFragment : BaseMainFragment() {
     }
 
     private fun startObservingViewModel() {
-        with (viewLifecycleOwner.lifecycleScope) {
+        with(viewLifecycleOwner.lifecycleScope) {
             launch { repeatOnLifecycle(STARTED) { viewModel.gamesState.collect(::gamesObserver) } }
             launch { repeatOnLifecycle(STARTED) { activityViewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling) } }
         }

@@ -41,5 +41,5 @@ data class DbGame(
     var nameP4: String = "",
     @TypeConverters(DateConverter::class) val startDate: Date = Date(),
     @TypeConverters(DateConverter::class) var endDate: Date? = null,
-    @ColumnInfo(defaultValue="") var gameName: String = "",
+    @ColumnInfo(defaultValue = "") var gameName: String = "",
 )
