@@ -20,26 +20,23 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
-import androidx.activity.addCallback
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GravityCompat.START
 import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.screens.MainNavigator.goToScreen
-import com.etologic.mahjongscoring2.app.screens.MainViewModel.MainScreens.COMBINATIONS
-import com.etologic.mahjongscoring2.app.screens.MainViewModel.MainScreens.DIFFS_CALCULATOR
-import com.etologic.mahjongscoring2.app.screens.MainViewModel.MainScreens.GAME
-import com.etologic.mahjongscoring2.app.screens.MainViewModel.MainScreens.OLD_GAMES
 import com.etologic.mahjongscoring2.app.utils.LanguageHelper
 import com.etologic.mahjongscoring2.app.utils.setLocale
 import com.etologic.mahjongscoring2.app.utils.shareFiles
@@ -59,6 +56,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: MainActivityBinding
 
+    private lateinit var appBarConfiguration: AppBarConfiguration
+
     private val viewModel: MainViewModel by viewModels()
 
     @Inject
@@ -77,85 +76,68 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val navController by lazy { (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment).navController }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         binding = MainActivityBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
+        setupToolbar()
+        setOnBackBehaviour()
     }
 
-    fun openDrawer() {
-        binding.drawerLayoutMain.openDrawer(START, true)
+    private fun setupToolbar() {
+        appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
+        setSupportActionBar(binding.toolbar)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        binding.navigationView.setupWithNavController(navController)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun setOnBackBehaviour() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (navController.currentDestination?.id == R.id.oldGamesFragment) {
+                    val currentTimeMillis = System.currentTimeMillis()
+                    if (currentTimeMillis - lastBackPress > LAST_BACK_PRESSED_MIN_TIME) {
+                        Snackbar.make(binding.navigationView, R.string.press_again_to_exit, Snackbar.LENGTH_LONG).show()
+                        lastBackPress = currentTimeMillis
+                    } else {
+                        finish()
+                    }
+                } else {
+                    onSupportNavigateUp()
+                }
+            }
+        })
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        setOnBackBehaviour()
         setupDrawer()
         startObservingViewModel()
     }
 
-    private fun setOnBackBehaviour() {
-        onBackPressedDispatcher.addCallback(this) {
-            if (binding.drawerLayoutMain.isDrawerOpen(START))
-                closeDrawer()
-            else if (supportFragmentManager.backStackEntryCount > 1)
-                supportFragmentManager.popBackStack()
-            else {
-                val currentTimeMillis = System.currentTimeMillis()
-                if (currentTimeMillis - lastBackPress > LAST_BACK_PRESSED_MIN_TIME) {
-                    Snackbar.make(binding.navigationViewMain, R.string.press_again_to_exit, Snackbar.LENGTH_LONG).show()
-                    lastBackPress = currentTimeMillis
-                } else
-                    finish()
-            }
-        }
-    }
-
     private fun setupDrawer() {
-        setAppVersion()
-        setMenuItemSelectedListener()
-    }
+        with(binding.navigationView) {
+            getHeaderView(0)?.findViewById<TextView>(R.id.tvDrawerHeaderAppVersion)?.text = BuildConfig.VERSION_NAME
 
-    private fun setAppVersion() {
-        val tvAppVersion = binding.navigationViewMain.getHeaderView(0)?.findViewById<TextView>(R.id.tvDrawerHeaderAppVersion)
-        tvAppVersion?.text = BuildConfig.VERSION_NAME
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    private fun setMenuItemSelectedListener() {
-        binding.navigationViewMain.setNavigationItemSelectedListener { menuItem ->
-            this.closeDrawer()
-            when (menuItem.itemId) {
-                R.id.nav_current_game -> viewModel.navigateTo(GAME)
-                R.id.nav_old_games -> viewModel.navigateTo(OLD_GAMES)
-                R.id.nav_combinations -> viewModel.navigateTo(COMBINATIONS)
-                R.id.nav_diffs_calculator -> viewModel.navigateTo(DIFFS_CALCULATOR)
-                R.id.nav_greenbook_en -> goToGreenBookEnglish()
-                R.id.nav_greenbook_es -> goToGreenBookSpanish()
-                R.id.nav_mm_web -> goToWebsiteMM()
-                R.id.nav_ema_web -> goToWebsiteEMA()
-                R.id.nav_contact_mahjong_madrid -> goToContactMM()
-                R.id.nav_contact_app_support -> goToContactSupport()
-                else -> return@setNavigationItemSelectedListener false
-            }
-            return@setNavigationItemSelectedListener true
+            menu.findItem(R.id.nav_greenbook_en)?.setOnMenuItemClickListener { goToGreenBookEnglish(); true }
+            menu.findItem(R.id.nav_greenbook_es)?.setOnMenuItemClickListener { goToGreenBookSpanish(); true }
+            menu.findItem(R.id.nav_mm_web)?.setOnMenuItemClickListener { goToWebsiteMM(); true }
+            menu.findItem(R.id.nav_ema_web)?.setOnMenuItemClickListener { goToWebsiteEMA(); true }
+            menu.findItem(R.id.nav_contact_mahjong_madrid)?.setOnMenuItemClickListener { goToContactMM(); true }
+            menu.findItem(R.id.nav_contact_app_support)?.setOnMenuItemClickListener { goToContactSupport(); true }
         }
-    }
-
-    private fun closeDrawer() {
-        binding.drawerLayoutMain.closeDrawer(START, true)
     }
 
     private fun startObservingViewModel() {
         with(lifecycleScope) {
             launch { repeatOnLifecycle(STARTED) { viewModel.errorFlow.collect(::showError) } }
-            launch { repeatOnLifecycle(STARTED) { viewModel.currentScreenFlow.collect { currentScreenObserver(it) } } }
-            launch { repeatOnLifecycle(STARTED) { viewModel.currentToolbarFlow.collect(::setToolbar) } }
             launch { repeatOnLifecycle(STARTED) { viewModel.exportedTextFlow.collect(::shareText) } }
             launch { repeatOnLifecycle(STARTED) { viewModel.exportedFilesFlow.collect(::shareFiles) } }
             launch { repeatOnLifecycle(STARTED) { viewModel.currentGameNameFlow.collect(::currentGameNameObserver) } }
@@ -172,26 +154,10 @@ class MainActivity : AppCompatActivity() {
         builder.setMessage(message).show()
     }
 
-    private fun currentScreenObserver(screen: MainViewModel.MainScreens) {
-        goToScreen(screen)
-        if (screen == GAME) {
-            binding.navigationViewMain.setCheckedItem(R.id.nav_current_game)
-        }
-    }
-
-    private fun setToolbar(toolbar: Toolbar) {
-        setSupportActionBar(toolbar)
-        val actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.drawerLayoutMain, R.string.open_drawer, R.string.close_drawer)
-        binding.drawerLayoutMain.addDrawerListener(actionBarDrawerToggle)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeButtonEnabled(true)
-        actionBarDrawerToggle.syncState()
-    }
-
     private fun currentGameNameObserver(gameName: String?) {
-        with(binding.navigationViewMain.menu.findItem(R.id.nav_current_game)) {
+        binding.navigationView.menu.findItem(R.id.gameFragment)?.apply {
             title = gameName ?: getString(R.string.current_game)
-            setVisible(gameName.isNullOrBlank().not())
+            isVisible = gameName.isNullOrBlank().not()
         }
     }
 

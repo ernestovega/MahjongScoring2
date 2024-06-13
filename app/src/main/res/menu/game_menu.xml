@@ -25,6 +25,12 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_combinations"
+        android:icon="@drawable/ic_books"
+        android:title="@string/combinations"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_edit_names"
         android:title="@string/edit_names"
         app:showAsAction="never" />
@@ -38,9 +44,7 @@
     <item
         android:id="@+id/action_disable_diffs_calcs"
         android:title="@string/disable_diffs_calcs"
-        android:visible="false"
-        app:showAsAction="never"
-        tools:visible="true" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_share_game"

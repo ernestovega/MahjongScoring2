@@ -21,9 +21,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseMainDialogFragment
-import com.etologic.mahjongscoring2.app.screens.MainViewModel.MainScreens.GAME
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.showKeyboard
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
@@ -85,7 +85,7 @@ class SetupNewGameDialogFragment : BaseMainDialogFragment() {
                     nameP4 = tietNamesDialogNorth.text?.toString() ?: getString(R.string.player_four),
                     onSuccess = { gameId ->
                         activityViewModel.activeGameId = gameId
-                        activityViewModel.navigateTo(GAME)
+                        findNavController().navigate(R.id.gameFragment)
                         dismiss()
                     }
                 )

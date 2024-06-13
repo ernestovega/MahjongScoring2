@@ -14,21 +14,22 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.app.base
+package com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.etologic.mahjongscoring2.app.screens.game.game_list.GameListFragment
-import com.etologic.mahjongscoring2.app.screens.game.game_table.GameTableFragment
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.hand_action_hu.HuFragment
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.hand_action_penalty.PenaltyFragment
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.hand_actions.HandActionsFragment
 
-class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class HandActionsViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-    override fun getItemCount(): Int = 2
+    override fun getItemCount(): Int = 3
 
     override fun createFragment(position: Int): Fragment =
-        if (position == 0) {
-            GameTableFragment()
-        } else {
-            GameListFragment()
+        when (position) {
+            0 -> HandActionsFragment()
+            1 -> HuFragment()
+            else -> PenaltyFragment()
         }
 }

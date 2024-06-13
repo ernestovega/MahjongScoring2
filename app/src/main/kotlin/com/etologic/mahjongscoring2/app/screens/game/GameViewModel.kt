@@ -19,8 +19,7 @@ package com.etologic.mahjongscoring2.app.screens.game
 
 import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.app.screens.game.game_table.GameTableFragment
-import com.etologic.mahjongscoring2.app.screens.game.game_table.GameTableFragment.GameTablePages.TABLE
+import com.etologic.mahjongscoring2.app.screens.game.GameFragment.GamePages.TABLE
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.GameId
@@ -107,7 +106,7 @@ class GameViewModel @Inject constructor(
     val seatsOrientationFlow: StateFlow<SeatOrientation> = _seatOrientationFlow
 
     private val _pageToShowFlow = MutableStateFlow(TABLE to false)
-    val pageToShowFlow: StateFlow<Pair<GameTableFragment.GameTablePages, ShouldHighlightLastRound>> = _pageToShowFlow
+    val pageToShowFlow: StateFlow<Pair<GameFragment.GamePages, ShouldHighlightLastRound>> = _pageToShowFlow
 
     private var _selectedSeatFlow = MutableStateFlow(NONE)
     val selectedSeatFlow: StateFlow<TableWinds> = _selectedSeatFlow
@@ -137,7 +136,7 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    fun showPage(page: GameTableFragment.GameTablePages, highlightLastRound: Boolean = false) {
+    fun showPage(page: GameFragment.GamePages, highlightLastRound: Boolean = false) {
         viewModelScope.launch {
             _pageToShowFlow.emit(page to highlightLastRound)
         }
@@ -203,7 +202,7 @@ class GameViewModel @Inject constructor(
     }
 
     private fun showSavedRound() {
-        showPage(page = GameTableFragment.GameTablePages.LIST, highlightLastRound = true)
+        showPage(page = GameFragment.GamePages.LIST, highlightLastRound = true)
     }
 
     fun savePenalty(penaltyData: PenaltyData) {

@@ -27,7 +27,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
@@ -39,6 +38,7 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseMainFragment
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
 import com.etologic.mahjongscoring2.app.screens.MainActivity
+import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
 import com.etologic.mahjongscoring2.databinding.CombinationsFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -59,8 +59,6 @@ class CombinationsFragment : BaseMainFragment() {
 
     private val viewModel: CombinationsViewModel by viewModels()
 
-    override val fragmentToolbar: Toolbar get() = binding.toolbarCombinations
-
     override val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.combinations_menu, menu)
@@ -80,27 +78,19 @@ class CombinationsFragment : BaseMainFragment() {
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-            with(activity as? MainActivity) {
-                when (menuItem.itemId) {
-                    android.R.id.home -> this?.openDrawer()
-                    R.id.action_toggle_combination_explanation -> binding.toolbarCombinations.menu?.findItem(menuItem.itemId)
-                        ?.setIcon(if (rvAdapter.toggleImageOrDescription() === SHOW) R.drawable.ic_books else R.drawable.ic_photos)
+            when (menuItem.itemId) {
+                R.id.action_toggle_combination_explanation -> (activity as? MainActivity)?.binding?.toolbar?.menu?.findItem(menuItem.itemId)
+                    ?.setIcon(if (rvAdapter.toggleImageOrDescription() === SHOW) R.drawable.ic_books else R.drawable.ic_photos)
 
-                    else -> return false
-                }
-                return true
+                else -> return false
             }
+            return true
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = CombinationsFragmentBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -121,5 +111,15 @@ class CombinationsFragment : BaseMainFragment() {
         with(viewLifecycleOwner.lifecycleScope) {
             launch { repeatOnLifecycle(STARTED) { viewModel.combinationsState.collect(rvAdapter::setCombinations) } }
         }
+    }
+
+    override fun onPause() {
+        binding.root.hideKeyboard()
+        super.onPause()
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

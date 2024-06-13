@@ -26,18 +26,16 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseMainFragment
-import com.etologic.mahjongscoring2.app.base.ViewPagerAdapter
 import com.etologic.mahjongscoring2.app.screens.MainActivity
-import com.etologic.mahjongscoring2.app.screens.game.game_table.GameTableFragment
 import com.etologic.mahjongscoring2.app.utils.shareFiles
 import com.etologic.mahjongscoring2.app.utils.shareText
 import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
@@ -57,6 +55,11 @@ class GameFragment : BaseMainFragment() {
         const val TAG = "GameFragment"
     }
 
+    enum class GamePages(val code: Int) {
+        TABLE(0),
+        LIST(1);
+    }
+
     private var orientationDownDrawable: Drawable? = null
     private var orientationOutDrawable: Drawable? = null
     private var seatsOrientationMenuItem: MenuItem? = null
@@ -72,16 +75,9 @@ class GameFragment : BaseMainFragment() {
 
     private val gameViewModel by viewModels<GameViewModel>()
 
-    override val fragmentToolbar: Toolbar get() = binding.toolbarGame
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = GameFragmentBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 
     override val menuProvider = object : MenuProvider {
@@ -105,19 +101,19 @@ class GameFragment : BaseMainFragment() {
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             with(activity as? MainActivity) {
                 when (menuItem.itemId) {
-                    android.R.id.home -> this?.openDrawer()
                     R.id.action_rotate_seats -> {
-                        if (binding.viewPagerGame.currentItem == GameTableFragment.GameTablePages.LIST.code) {
-                            gameViewModel.showPage(GameTableFragment.GameTablePages.TABLE)
+                        if (binding.viewPagerGame.currentItem == GamePages.LIST.code) {
+                            gameViewModel.showPage(GamePages.TABLE)
                         }
                         gameViewModel.toggleSeatsRotation()
                     }
 
+                    R.id.action_combinations -> findNavController().navigate(R.id.combinationsFragment)
                     R.id.action_end_game -> gameViewModel.endGame()
                     R.id.action_enable_diffs_calcs -> gameViewModel.toggleDiffsFeature(true)
                     R.id.action_disable_diffs_calcs -> gameViewModel.toggleDiffsFeature(false)
                     R.id.action_resume_game -> gameViewModel.resumeGame()
-                    R.id.action_edit_names -> openEditNamesDialog()
+                    R.id.action_edit_names -> findNavController().navigate(R.id.action_gameFragment_to_editNamesDialogFragment)
                     R.id.action_share_game -> this@with?.showShareGameDialog { shareGameOption ->
                         gameViewModel.shareGame(
                             option = shareGameOption,
@@ -140,11 +136,6 @@ class GameFragment : BaseMainFragment() {
         startObservingViewModel()
     }
 
-    override fun onResume() {
-        super.onResume()
-        gameViewModel.setGameId(activityViewModel.activeGameId)
-    }
-
     private fun startObservingViewModel() {
         Log.d("GameFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
         with(viewLifecycleOwner.lifecycleScope) {
@@ -157,7 +148,7 @@ class GameFragment : BaseMainFragment() {
         }
     }
 
-    private fun pageToShowObserver(it: Pair<GameTableFragment.GameTablePages, ShouldHighlightLastRound>?) {
+    private fun pageToShowObserver(it: Pair<GamePages, ShouldHighlightLastRound>?) {
         it?.first?.code?.let { pageIndex -> binding.viewPagerGame.currentItem = pageIndex }
     }
 
@@ -172,7 +163,7 @@ class GameFragment : BaseMainFragment() {
             endGameItem?.isVisible = shouldBeShownEndButton
 
             if (isGameEnded) {
-                openRankingDialog()
+                findNavController().navigate(R.id.action_gameFragment_to_rankingDialogFragment)
             }
 
             activityViewModel.setCurrentGameName(game.gameName)
@@ -200,12 +191,22 @@ class GameFragment : BaseMainFragment() {
         with(binding) {
             // ViewPagerAdapter
             viewPagerGame.offscreenPageLimit = 1
-            viewPagerGame.adapter = ViewPagerAdapter(this@GameFragment)
+            viewPagerGame.adapter = GameViewPagerAdapter(this@GameFragment)
 
             // TabLayout
             TabLayoutMediator(tabLayoutGame, viewPagerGame) { tab, position ->
                 tab.text = getString(if (position == 0) R.string.table else R.string.list)
             }.attach()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        gameViewModel.setGameId(activityViewModel.activeGameId)
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

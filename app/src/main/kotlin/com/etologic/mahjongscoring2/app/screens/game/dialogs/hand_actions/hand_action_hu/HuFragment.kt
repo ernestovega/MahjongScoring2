@@ -14,9 +14,8 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.app.screens.game.dialogs
+package com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.hand_action_hu
 
-import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -28,7 +27,7 @@ import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.app.base.BaseGameHandActionsDialogFragment
 import com.etologic.mahjongscoring2.app.model.Seat
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
@@ -48,10 +47,10 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HuDialogFragment : BaseGameDialogFragment() {
+class HuFragment : BaseGameHandActionsDialogFragment() {
 
     companion object {
-        const val TAG = "HuDialogFragment"
+        const val TAG = "HuFragment"
     }
 
     private var greenColor: Int? = null
@@ -68,18 +67,8 @@ class HuDialogFragment : BaseGameDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        isCancelable = false
         _binding = GameDialogHuFragmentBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun getTheme(): Int {
-        return R.style.FullScreenDialogMM
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -95,9 +84,7 @@ class HuDialogFragment : BaseGameDialogFragment() {
     }
 
     private fun startObservingTable() {
-        Log.d("HuDialogFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
-
-        fun toScreenData(game: UiGame, penalizedSeat: TableWinds) = Pair(game, penalizedSeat)
+        Log.d("HuFragment", "GameViewModel: ${gameViewModel.hashCode()}")
 
         with(viewLifecycleOwner.lifecycleScope) {
             launch {
@@ -105,14 +92,15 @@ class HuDialogFragment : BaseGameDialogFragment() {
                     combine(
                         flow = gameViewModel.gameFlow,
                         flow2 = gameViewModel.selectedSeatFlow,
-                        transform = ::toScreenData,
-                    ).first().let { initViews(it) }
+                    ) { game, penalizedSeat -> Pair(game, penalizedSeat) }
+                        .first()
+                        .let { initViews(it) }
                 }
             }
         }
     }
 
-    private suspend fun initViews(screenData: Pair<UiGame, TableWinds>) {
+    private fun initViews(screenData: Pair<UiGame, TableWinds>) {
         val (game, penalizedSeat) = screenData
         if (game.gameId != UiGame.NOT_SET_GAME_ID) {
             val playersNamesByCurrentSeat = game.getPlayersNamesByCurrentSeat()
@@ -146,7 +134,7 @@ class HuDialogFragment : BaseGameDialogFragment() {
 
     private fun setListeners(game: UiGame, penalizedSeat: TableWinds) {
         with(binding) {
-            btGameHuDialogCancel.setOnSecureClickListener { dismiss() }
+            btGameHuDialogCancel.setOnSecureClickListener { dismissDialog() }
             btGameHuDialogOk.setOnSecureClickListener {
                 val winnerHandPoints = cnpGameHuDialog.getPoints()
                 if (winnerHandPoints == null || winnerHandPoints < MIN_MCR_POINTS || winnerHandPoints > MAX_MCR_POINTS) {
@@ -166,14 +154,14 @@ class HuDialogFragment : BaseGameDialogFragment() {
                         )
                         gameViewModel.saveHuDiscardRound(huData)
                     }
-                    dismiss()
+                    dismissDialog()
                 }
             }
         }
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        gameViewModel.unselectSelectedSeat()
-        super.onDismiss(dialog)
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

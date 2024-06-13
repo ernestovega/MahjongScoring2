@@ -14,14 +14,21 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.app.base
+package com.etologic.mahjongscoring2.app.screens.game
 
-import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.fragment.app.viewModels
-import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
-import com.etologic.mahjongscoring2.app.screens.game.findGameFragment
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.etologic.mahjongscoring2.app.screens.game.game_list.GameListFragment
+import com.etologic.mahjongscoring2.app.screens.game.game_table.GameTableFragment
 
-abstract class BaseGameDialogFragment : AppCompatDialogFragment() {
+class GameViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-    protected val gameViewModel by viewModels<GameViewModel>(ownerProducer = { findGameFragment() })
+    override fun getItemCount(): Int = 2
+
+    override fun createFragment(position: Int): Fragment =
+        if (position == 0) {
+            GameTableFragment()
+        } else {
+            GameListFragment()
+        }
 }

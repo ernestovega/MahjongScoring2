@@ -23,52 +23,34 @@
     android:orientation="vertical"
     tools:context=".app.screens.diffs_calculator.DiffsCalculatorFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarDiffsCalculator"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:elevation="@dimen/toolbar_elevation"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="@string/diffsCalculator"
-            tools:ignore="UnusedAttribute" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <LinearLayout
         android:id="@+id/llDiffsCalculatorTitles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
             style="@style/diffsCalculatorCell"
             android:lines="2"
             android:text="@string/diff"
-            android:textColor="@color/grayLight" />
+            android:textColor="@color/white" />
 
         <TextView
             style="@style/diffsCalculatorCell"
             android:text="@string/self_pick"
-            android:textColor="@color/grayLight" />
+            android:textColor="@color/white" />
 
         <TextView
             style="@style/diffsCalculatorCell"
             android:text="@string/direct"
-            android:textColor="@color/grayLight" />
+            android:textColor="@color/white" />
 
         <TextView
             style="@style/diffsCalculatorCell"
             android:text="@string/indirect"
-            android:textColor="@color/grayLight" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
@@ -82,7 +64,6 @@
         android:requiresFadingEdge="vertical"
         android:scrollIndicators="end"
         android:scrollbars="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/diffs_calculator_item" />
 
 </LinearLayout>

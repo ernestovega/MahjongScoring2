@@ -18,10 +18,8 @@ package com.etologic.mahjongscoring2.app.screens
 
 import android.content.ContentResolver
 import android.net.Uri
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.app.screens.MainViewModel.MainScreens.OLD_GAMES
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
 import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
@@ -61,13 +59,6 @@ class MainViewModel @Inject constructor(
     private val saveIsDiffCalcsFeatureEnabledUseCase: SaveIsDiffCalcsFeatureEnabledUseCase,
 ) : BaseViewModel() {
 
-    enum class MainScreens {
-        OLD_GAMES,
-        GAME,
-        COMBINATIONS,
-        DIFFS_CALCULATOR,
-    }
-
     var activeGameId: GameId = NOT_SET_GAME_ID
         set(value) {
             field = value
@@ -76,10 +67,6 @@ class MainViewModel @Inject constructor(
             }
         }
 
-    private val _currentScreenFlow = MutableStateFlow(OLD_GAMES)
-    val currentScreenFlow: Flow<MainScreens> = _currentScreenFlow
-    private val _currentToolbarFlow = MutableStateFlow<Toolbar?>(null)
-    val currentToolbarFlow: Flow<Toolbar> = _currentToolbarFlow.filterNotNull()
     private val _exportedTextFlow = MutableStateFlow<String?>(null)
     val exportedTextFlow: Flow<String> = _exportedTextFlow.filterNotNull()
     private val _exportedFilesFlow = MutableStateFlow<List<File>?>(null)
@@ -89,14 +76,6 @@ class MainViewModel @Inject constructor(
 
     val isDiffsCalcsFeatureEnabledFlow: StateFlow<Boolean> = getIsDiffCalcsFeatureEnabledUseCase()
         .stateIn(viewModelScope, SharingStarted.Lazily, false)
-
-    fun setToolbar(toolbar: Toolbar) {
-        viewModelScope.launch { _currentToolbarFlow.emit(toolbar) }
-    }
-
-    fun navigateTo(screen: MainScreens) {
-        viewModelScope.launch { _currentScreenFlow.emit(screen) }
-    }
 
     fun createGame(
         gameName: String,

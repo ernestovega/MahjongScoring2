@@ -26,19 +26,17 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseMainFragment
 import com.etologic.mahjongscoring2.app.screens.MainActivity
-import com.etologic.mahjongscoring2.app.screens.MainViewModel.MainScreens.GAME
-import com.etologic.mahjongscoring2.app.screens.goToPickFile
-import com.etologic.mahjongscoring2.app.screens.openSetupNewGameDialog
+import com.etologic.mahjongscoring2.app.screens.goToPickFileToImport
 import com.etologic.mahjongscoring2.app.utils.goToChooseLanguage
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
@@ -68,9 +66,6 @@ class OldGamesFragment : BaseMainFragment() {
 
     private val viewModel: OldGamesViewModel by viewModels()
 
-    override val fragmentToolbar: Toolbar get() = binding.toolbarOldGames
-
-
     override val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.old_games_menu, menu)
@@ -85,18 +80,12 @@ class OldGamesFragment : BaseMainFragment() {
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             with(activity as? MainActivity) {
                 when (menuItem.itemId) {
-                    android.R.id.home -> this?.openDrawer()
-                    R.id.action_change_language -> this?.goToChooseLanguage(languageHelper.currentLanguage) {
-                        languageHelper.changeLanguage(
-                            it,
-                            this
-                        )
-                    }
+                    R.id.action_change_language -> this?.goToChooseLanguage(languageHelper.currentLanguage) { languageHelper.changeLanguage(it, this) }
 
                     R.id.action_enable_diffs_calcs -> activityViewModel.toggleDiffsFeature(true)
                     R.id.action_disable_diffs_calcs -> activityViewModel.toggleDiffsFeature(false)
                     R.id.action_export_games -> lifecycleScope.launch { activityViewModel.exportGames { this@with?.getExternalFilesDir(null) } }
-                    R.id.action_import_games -> this?.goToPickFile()
+                    R.id.action_import_games -> this?.goToPickFileToImport()
                     else -> return false
                 }
                 return true
@@ -119,15 +108,9 @@ class OldGamesFragment : BaseMainFragment() {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        setToolbar()
         setOnClickListeners()
         startObservingViewModel()
     }
@@ -159,7 +142,7 @@ class OldGamesFragment : BaseMainFragment() {
 
             override fun onOldGameItemResumeClicked(gameId: GameId) {
                 activityViewModel.activeGameId = gameId
-                activityViewModel.navigateTo(GAME)
+                findNavController().navigate(R.id.gameFragment)
             }
         })
         binding.rvOldGames.adapter = rvAdapter
@@ -177,13 +160,14 @@ class OldGamesFragment : BaseMainFragment() {
         rvAdapter.setGames(games)
     }
 
-    private fun setToolbar() {
-        activityViewModel.setToolbar(binding.toolbarOldGames)
-    }
-
     private fun setOnClickListeners() {
         binding.fabOldGames.setOnSecureClickListener {
-            requireActivity().openSetupNewGameDialog()
+            findNavController().navigate(R.id.action_oldGamesFragment_to_setupNewGameDialogFragment)
         }
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

@@ -14,9 +14,8 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.app.screens.game.dialogs
+package com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.hand_action_penalty
 
-import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -28,7 +27,7 @@ import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.app.base.BaseGameHandActionsDialogFragment
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
@@ -41,10 +40,10 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PenaltyDialogFragment : BaseGameDialogFragment() {
+class PenaltyFragment : BaseGameHandActionsDialogFragment() {
 
     companion object {
-        const val TAG = "PenaltyDialogFragment"
+        const val TAG = "PenaltyFragment"
     }
 
     private var eastIcon: Drawable? = null
@@ -64,15 +63,6 @@ class PenaltyDialogFragment : BaseGameDialogFragment() {
         return binding.root
     }
 
-    override fun getTheme(): Int {
-        return R.style.FullScreenDialogMM
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context?.let {
@@ -85,9 +75,7 @@ class PenaltyDialogFragment : BaseGameDialogFragment() {
     }
 
     private fun startObservingTable() {
-        Log.d("PenaltyDialogFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
-
-        fun toScreenData(game: UiGame, winnerSeat: TableWinds) = Pair(game, winnerSeat)
+        Log.d("PenaltyFragment", "GameViewModel: ${gameViewModel.hashCode()}")
 
         with(viewLifecycleOwner.lifecycleScope) {
             launch {
@@ -95,8 +83,9 @@ class PenaltyDialogFragment : BaseGameDialogFragment() {
                     combine(
                         flow = gameViewModel.gameFlow,
                         flow2 = gameViewModel.selectedSeatFlow,
-                        transform = ::toScreenData,
-                    ).first().let { initViews(it) }
+                    ) { game, winnerSeat -> Pair(game, winnerSeat) }
+                        .first()
+                        .let { initViews(it) }
                 }
             }
         }
@@ -125,6 +114,7 @@ class PenaltyDialogFragment : BaseGameDialogFragment() {
 
     private fun setListeners(game: UiGame, selectedSeat: TableWinds) {
         with(binding) {
+            btPenaltyDialogCancel.setOnSecureClickListener { dismissDialog() }
             btPenaltyDialogSave.setOnSecureClickListener {
                 val penaltyPoints = cnpPenaltyDialog.getPoints() ?: 0
                 if (penaltyPoints > 0) {
@@ -140,7 +130,6 @@ class PenaltyDialogFragment : BaseGameDialogFragment() {
                 } else
                     cnpPenaltyDialog.setError()
             }
-            btPenaltyDialogCancel.setOnSecureClickListener { dismiss() }
         }
     }
 
@@ -151,11 +140,11 @@ class PenaltyDialogFragment : BaseGameDialogFragment() {
             penalizedPlayerInitialSeat = game.getPlayerInitialSeatByCurrentSeat(selectedSeat)
         )
         gameViewModel.savePenalty(penaltyData)
-        dismiss()
+        dismissDialog()
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        gameViewModel.unselectSelectedSeat()
-        super.onDismiss(dialog)
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

@@ -14,10 +14,9 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.app.screens.game.dialogs
+package com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.hand_actions
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -31,9 +30,7 @@ import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
-import com.etologic.mahjongscoring2.app.screens.game.openHuDialog
-import com.etologic.mahjongscoring2.app.screens.game.openPenaltyDialog
+import com.etologic.mahjongscoring2.app.base.BaseGameHandActionsDialogFragment
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.utils.toStringOrHyphen
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
@@ -45,10 +42,10 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ActionDialogFragment : BaseGameDialogFragment() {
+class HandActionsFragment : BaseGameHandActionsDialogFragment() {
 
     companion object {
-        const val TAG = "ActionsDialogFragment"
+        const val TAG = "HandActionsFragment"
     }
 
     private var eastIcon: Drawable? = null
@@ -68,10 +65,6 @@ class ActionDialogFragment : BaseGameDialogFragment() {
         return binding.root
     }
 
-    override fun getTheme(): Int {
-        return R.style.FullScreenDialogMM
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         context?.let {
@@ -85,15 +78,12 @@ class ActionDialogFragment : BaseGameDialogFragment() {
     }
 
     private fun startObservingTable() {
-        Log.d(
-            "ActionDialogFragment",
-            "GameViewModel: ${gameViewModel.hashCode()} - parentFragment.parentFragment: ${parentFragment?.parentFragment.hashCode()}"
-        )
+        Log.d("HandActionsFragment", "GameViewModel: ${gameViewModel.hashCode()}")
 
         fun toScreenData(
             game: UiGame,
             selectedSeat: TableWinds,
-            isDiffsCalcsFeatureEnabled: Boolean
+            isDiffsCalcsFeatureEnabled: Boolean,
         ) = Triple(game, selectedSeat, isDiffsCalcsFeatureEnabled)
 
         with(viewLifecycleOwner.lifecycleScope) {
@@ -160,42 +150,27 @@ class ActionDialogFragment : BaseGameDialogFragment() {
 
     private fun setListeners() {
         with(binding) {
-            root.setOnSecureClickListener { dismiss() }
-            btHandActionsDialogHu.setOnSecureClickListener {
-                openHuDialog()
-                isDialogCancelled = false
-                dismiss()
-            }
+            root.setOnSecureClickListener { dismissDialog() }
+            btHandActionsDialogHu.setOnSecureClickListener { showPage(HandActionsPages.HU) }
             btHandActionsDialogDraw.setOnSecureClickListener {
                 gameViewModel.saveDrawRound()
                 isDialogCancelled = false
-                dismiss()
+                dismissDialog()
             }
-            btHandActionsDialogPenalty.setOnSecureClickListener {
-                openPenaltyDialog()
-                isDialogCancelled = false
-                dismiss()
-            }
+            btHandActionsDialogPenalty.setOnSecureClickListener { showPage(HandActionsPages.PENALTY) }
             btHandActionsDialogPenaltiesCancel.setOnSecureClickListener {
                 AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
                     .setTitle(R.string.cancel_penalties)
                     .setMessage(R.string.are_you_sure)
                     .setPositiveButton(R.string.ok) { _, _ ->
                         gameViewModel.cancelPenalties()
-                        dismiss()
+                        dismissDialog()
                     }
                     .setNegativeButton(R.string.close, null)
                     .create()
                     .show()
             }
         }
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        if (isDialogCancelled) {
-            gameViewModel.unselectSelectedSeat()
-        }
-        super.onDismiss(dialog)
     }
 
     override fun onDestroyView() {

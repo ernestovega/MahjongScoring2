@@ -16,12 +16,43 @@
  */
 package com.etologic.mahjongscoring2.app.base
 
+import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.etologic.mahjongscoring2.app.screens.game.GameFragment
 import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
-import com.etologic.mahjongscoring2.app.screens.game.findGameFragment
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HandActionsDialogFragment
 
 abstract class BaseGameFragment : Fragment() {
 
-    protected val gameViewModel by viewModels<GameViewModel>(ownerProducer = { findGameFragment() })
+    protected val gameViewModel by viewModels<GameViewModel>(ownerProducer = { requireParentFragment() })
+}
+
+abstract class BaseGameDialogFragment : AppCompatDialogFragment() {
+
+    protected val gameViewModel by viewModels<GameViewModel>(ownerProducer = { findParentGameFragment() })
+
+}
+
+private fun Fragment.findParentGameFragment() =
+    requireParentFragment().childFragmentManager.fragments.filterIsInstance<GameFragment>().firstOrNull()
+        ?: throw IllegalStateException()
+
+abstract class BaseGameHandActionsDialogFragment : Fragment() {
+
+    protected val gameViewModel by viewModels<GameViewModel>(ownerProducer = { requireParentFragment().findParentGameFragment() })
+
+    enum class HandActionsPages(val index: Int) {
+        ACTIONS(0),
+        HU(1),
+        PENALTY(2);
+    }
+
+    protected fun Fragment.showPage(page: HandActionsPages) {
+        (parentFragment as? HandActionsDialogFragment)?.showPage(page.index)
+    }
+
+    protected fun Fragment.dismissDialog() {
+        (parentFragment as? HandActionsDialogFragment)?.dismiss()
+    }
 }

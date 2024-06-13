@@ -16,6 +16,87 @@
   -->
 
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/nav_graph_main">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main"
+    app:startDestination="@+id/oldGamesFragment">
+
+    <fragment
+        android:id="@+id/oldGamesFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.old_games.OldGamesFragment"
+        android:label="@string/old_games"
+        tools:layout="@layout/old_games_fragment">
+
+        <action
+            android:id="@+id/action_oldGamesFragment_to_setupNewGameDialogFragment"
+            app:destination="@id/setupNewGameDialogFragment" />
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/setupNewGameDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.dialogs.setup_new_game.SetupNewGameDialogFragment"
+        android:label="SetupNewGameDialogFragment"
+        tools:layout="@layout/dialog_edit_names_fragment"/>
+
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.game.GameFragment"
+        android:label="@string/game"
+        tools:layout="@layout/game_fragment">
+
+        <action
+            android:id="@+id/action_gameFragment_to_diceDialogFragment"
+            app:destination="@id/diceDialogFragment" />
+
+        <action
+            android:id="@+id/action_gameFragment_to_editNamesDialogFragment"
+            app:destination="@id/editNamesDialogFragment" />
+
+        <action
+            android:id="@+id/action_gameFragment_to_handActionsDialogFragment"
+            app:destination="@id/handActionsDialogFragment" />
+
+        <action
+            android:id="@+id/action_gameFragment_to_rankingDialogFragment"
+            app:destination="@id/rankingDialogFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/combinationsFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.combinations.CombinationsFragment"
+        android:label="@string/combinations"
+        tools:layout="@layout/combinations_fragment" />
+
+    <fragment
+        android:id="@+id/diffsCalculatorFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.diffs_calculator.DiffsCalculatorFragment"
+        android:label="@string/diffsCalculator"
+        tools:layout="@layout/diffs_calculator_fragment" />
+
+    <dialog
+        android:id="@+id/diceDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment"
+        android:label="DiceDialogFragment"
+        tools:layout="@layout/game_dialog_dice_fragment" />
+
+    <dialog
+        android:id="@+id/editNamesDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.game.dialogs.EditNamesDialogFragment"
+        android:label="EditNamesDialogFragment"
+        tools:layout="@layout/dialog_edit_names_fragment" />
+
+    <dialog
+        android:id="@+id/handActionsDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HandActionsDialogFragment"
+        android:label="HandActionsDialogFragment"
+        tools:layout="@layout/game_dialog_hand_actions_fragment" />
+
+    <dialog
+        android:id="@+id/rankingDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.game.dialogs.RankingDialogFragment"
+        android:label="RankingDialogFragment"
+        tools:layout="@layout/game_dialog_ranking_fragment" />
 
 </navigation>

@@ -31,10 +31,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseGameFragment
+import com.etologic.mahjongscoring2.app.screens.game.GameFragment
 import com.etologic.mahjongscoring2.app.screens.game.ShouldHighlightLastRound
 import com.etologic.mahjongscoring2.app.screens.game.game_list.GameListRvAdapter.GameListItemListener
-import com.etologic.mahjongscoring2.app.screens.game.game_table.GameTableFragment
-import com.etologic.mahjongscoring2.app.screens.game.game_table.GameTableFragment.GameTablePages.LIST
+import com.etologic.mahjongscoring2.app.screens.game.GameFragment.GamePages.LIST
 import com.etologic.mahjongscoring2.app.utils.toStringSigned
 import com.etologic.mahjongscoring2.business.model.entities.RoundId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
@@ -159,7 +159,7 @@ class GameListFragment : BaseGameFragment() {
         }
     }
 
-    private fun pageToShowObserver(pageToShow: Pair<GameTableFragment.GameTablePages, ShouldHighlightLastRound>) {
+    private fun pageToShowObserver(pageToShow: Pair<GameFragment.GamePages, ShouldHighlightLastRound>) {
         val (pageIndex, shouldHighlightLastRound) = pageToShow
         if (pageIndex == LIST && shouldHighlightLastRound) {
             lifecycleScope.launch {

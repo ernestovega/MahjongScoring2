@@ -18,9 +18,12 @@ package com.etologic.mahjongscoring2.app.screens.diffs_calculator
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
+import androidx.core.view.MenuProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -51,16 +54,14 @@ class DiffsCalculatorFragment : BaseMainFragment() {
     private var _binding: DiffsCalculatorFragmentBinding? = null
     private val binding get() = _binding!!
 
-    override val fragmentToolbar: Toolbar get() = binding.toolbarDiffsCalculator
+    override val menuProvider: MenuProvider = object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {}
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean = false
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = DiffsCalculatorFragmentBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -131,5 +132,10 @@ class DiffsCalculatorFragment : BaseMainFragment() {
                 rvAdapter.setNextDiffs(nextInterval)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

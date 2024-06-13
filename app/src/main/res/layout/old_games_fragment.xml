@@ -14,114 +14,86 @@
   ~     You should have received a copy of the GNU General Public License
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grayLight"
-    tools:context=".app.screens.old_games.OldGamesFragment"
-    tools:ignore="Overdraw">
+    tools:context=".app.screens.old_games.OldGamesFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarOldGames"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:elevation="@dimen/toolbar_elevation"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="@string/old_games"
-            tools:ignore="UnusedAttribute" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <FrameLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOldGames"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:background="@color/gray"
+        android:fadeScrollbars="false"
+        android:fadingEdgeLength="@dimen/standard_margin"
+        android:requiresFadingEdge="vertical"
+        android:scrollIndicators="end"
+        android:scrollbars="vertical" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvOldGames"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/gray"
-            android:fadeScrollbars="false"
-            android:fadingEdgeLength="@dimen/standard_margin"
-            android:requiresFadingEdge="vertical"
-            android:scrollIndicators="end"
-            android:scrollbars="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    <LinearLayout
+        android:id="@+id/emptyLayoutOldGames"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grayLight"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
 
-        <LinearLayout
-            android:id="@+id/emptyLayoutOldGames"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/grayLight"
-            android:clickable="true"
-            android:focusable="true"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/second_standard_margin"
+            android:layout_marginLeft="@dimen/second_standard_margin"
+            android:layout_marginTop="120dp"
+            android:layout_marginEnd="@dimen/second_standard_margin"
+            android:layout_marginRight="@dimen/second_standard_margin"
+            android:src="@drawable/img_empty_box"
+            app:tint="@color/gray"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/second_standard_margin"
+            android:layout_marginLeft="@dimen/second_standard_margin"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/second_standard_margin"
+            android:layout_marginRight="@dimen/second_standard_margin"
             android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
+            android:lineSpacingExtra="@dimen/half_standard_margin"
+            android:text="@string/theres_no_games_yet_start_one"
+            android:textColor="@color/gray"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/second_standard_margin"
-                android:layout_marginLeft="@dimen/second_standard_margin"
-                android:layout_marginTop="120dp"
-                android:layout_marginEnd="@dimen/second_standard_margin"
-                android:layout_marginRight="@dimen/second_standard_margin"
-                android:src="@drawable/img_empty_box"
-                app:tint="@color/gray"
-                tools:ignore="ContentDescription" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/third_standard_margin"
+            android:layout_marginTop="@dimen/second_standard_margin"
+            android:layout_marginEnd="@dimen/second_standard_margin"
+            android:layout_marginBottom="@dimen/second_standard_margin"
+            android:src="@drawable/arrow"
+            app:tint="@color/gray"
+            tools:ignore="ContentDescription" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/second_standard_margin"
-                android:layout_marginLeft="@dimen/second_standard_margin"
-                android:layout_marginTop="@dimen/standard_margin"
-                android:layout_marginEnd="@dimen/second_standard_margin"
-                android:layout_marginRight="@dimen/second_standard_margin"
-                android:gravity="center"
-                android:lineSpacingExtra="@dimen/half_standard_margin"
-                android:text="@string/theres_no_games_yet_start_one"
-                android:textColor="@color/gray"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/third_standard_margin"
-                android:layout_marginTop="@dimen/second_standard_margin"
-                android:layout_marginEnd="@dimen/second_standard_margin"
-                android:layout_marginBottom="@dimen/second_standard_margin"
-                android:src="@drawable/arrow"
-                app:tint="@color/gray"
-                tools:ignore="ContentDescription" />
-
-        </LinearLayout>
-
-    </FrameLayout>
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabOldGames"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/standard_margin"
         android:contentDescription="@string/start_new_game"
         android:src="@drawable/ic_add"
         android:tint="@color/white" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

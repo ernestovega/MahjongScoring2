@@ -53,7 +53,7 @@ import java.util.TimerTask
 class DiceDialogFragment : BaseGameDialogFragment() {
 
     companion object {
-        const val TAG: String = "RollDiceDialogFragment"
+        const val TAG: String = "DiceDialogFragment"
     }
 
     private enum class DiceNumber(val code: Int) {
@@ -124,7 +124,7 @@ class DiceDialogFragment : BaseGameDialogFragment() {
     }
 
     private fun startObservingTable() {
-        Log.d("RollDiceDialogFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
+        Log.d("DiceDialogFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
         viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(STARTED) { gameViewModel.gameFlow.first().let { initViews(it) } } }
     }
 

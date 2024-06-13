@@ -37,6 +37,7 @@ import androidx.core.content.ContextCompat.getDrawable
 import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.R.drawable.ic_dice
 import com.etologic.mahjongscoring2.R.drawable.ic_east
@@ -47,9 +48,6 @@ import com.etologic.mahjongscoring2.R.drawable.ic_west
 import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.app.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.custom_views.GameTableSeats
-import com.etologic.mahjongscoring2.app.screens.game.openHandActionsDialog
-import com.etologic.mahjongscoring2.app.screens.game.openRankingDialog
-import com.etologic.mahjongscoring2.app.screens.game.openRollDiceDialog
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
@@ -63,11 +61,6 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class GameTableFragment : BaseGameFragment() {
-
-    enum class GameTablePages(val code: Int) {
-        TABLE(0),
-        LIST(1);
-    }
 
     private var eastIcon: Drawable? = null
     private var southIcon: Drawable? = null
@@ -128,12 +121,12 @@ class GameTableFragment : BaseGameFragment() {
 
     private fun setListeners() {
         with(binding) {
-            fabGameTable.setOnSecureClickListener { openRollDiceDialog() }
+            fabGameTable.setOnSecureClickListener { findNavController().navigate(R.id.action_gameFragment_to_diceDialogFragment) }
 
             gtsGameTableSeats.setTableSeatsListener(object : GameTableSeats.GameTableSeatsListener {
                 override fun onSeatClick(wind: TableWinds) {
                     gameViewModel.onSeatClicked(wind)
-                    openHandActionsDialog()
+                    findNavController().navigate(R.id.action_gameFragment_to_handActionsDialogFragment)
                 }
 
                 override fun toggleDiffsView(shouldShowDiffs: Boolean) {
@@ -163,7 +156,7 @@ class GameTableFragment : BaseGameFragment() {
                 if (fabGameTable.tag != "ic_trophy_white_18dp") {
                     fabGameTable.tag = "ic_trophy_white_18dp"
                     fabGameTable.setImageResource(ic_trophy_white)
-                    fabGameTable.setOnSecureClickListener { openRankingDialog() }
+                    fabGameTable.setOnSecureClickListener { findNavController().navigate(R.id.action_gameFragment_to_rankingDialogFragment) }
                     setFabPosition(BOTTOM_END)
                 }
 
@@ -171,8 +164,7 @@ class GameTableFragment : BaseGameFragment() {
                 if (fabGameTable.tag != "ic_dice_multiple_white_24dp") {
                     fabGameTable.tag = "ic_dice_multiple_white_24dp"
                     fabGameTable.setImageResource(ic_dice)
-                    fabGameTable.setOnSecureClickListener { openRollDiceDialog() }
-                }
+                    fabGameTable.setOnSecureClickListener { findNavController().navigate(R.id.action_gameFragment_to_diceDialogFragment) } }
                 moveDice(game.uiRounds.size)
             }
             if (fabGameTable.visibility != VISIBLE) fabGameTable.visibility = VISIBLE

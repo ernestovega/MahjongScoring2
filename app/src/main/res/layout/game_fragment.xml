@@ -14,50 +14,26 @@
   ~     You should have received a copy of the GNU General Public License
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grayLight"
+    android:orientation="vertical"
     tools:context=".app.screens.game.GameFragment">
 
-    <RelativeLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutGame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:tabIndicatorHeight="4dp"
+        app:tabBackground="@color/colorPrimary"
+        app:tabTextColor="@color/white" />
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/ablGame"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerGame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbarGame"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                android:elevation="@dimen/toolbar_elevation"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="@string/game"
-                tools:ignore="UnusedAttribute" />
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayoutGame"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabIndicatorHeight="4dp"
-                app:tabTextColor="@color/white" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPagerGame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/ablGame"
-            android:background="@color/grayLight" />
-
-    </RelativeLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

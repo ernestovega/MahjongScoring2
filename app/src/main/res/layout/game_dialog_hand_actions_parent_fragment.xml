@@ -14,19 +14,16 @@
   ~     You should have received a copy of the GNU General Public License
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
-
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/recyclerViewCombinations"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
-    android:fadeScrollbars="false"
-    android:fadingEdgeLength="@dimen/standard_margin"
-    android:paddingTop="@dimen/quarter_standard_margin"
-    android:paddingBottom="@dimen/quarter_standard_margin"
-    android:requiresFadingEdge="vertical"
-    android:scrollIndicators="end"
-    android:scrollbars="vertical"
-    tools:context=".app.screens.combinations.CombinationsFragment"
-    tools:listitem="@layout/combination_item" />
+    tools:background="@color/blackTransparent"
+    tools:context=".app.screens.game.dialogs.hand_actions.HandActionsDialogFragment">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerHandActionsParentDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
