@@ -23,11 +23,18 @@ import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.use_cases.DeleteGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetAllGamesFlowUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+sealed interface OldGamesUiState {
+    data object Loading : OldGamesUiState
+    data class Loaded(val oldGamesList: List<UiGame>) : OldGamesUiState
+    data object Empty : OldGamesUiState
+}
 
 @HiltViewModel
 class OldGamesViewModel @Inject constructor(
@@ -35,8 +42,16 @@ class OldGamesViewModel @Inject constructor(
     private val deleteGameUseCase: DeleteGameUseCase,
 ) : BaseViewModel() {
 
-    val gamesState: SharedFlow<List<UiGame>> = getAllGamesFlowUseCase()
-        .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
+    val oldGamesUiState: StateFlow<OldGamesUiState> =
+        getAllGamesFlowUseCase.invoke()
+            .map { oldGames ->
+                if (oldGames.isEmpty()) {
+                    OldGamesUiState.Empty
+                } else {
+                    OldGamesUiState.Loaded(oldGames)
+                }
+            }
+            .stateIn(viewModelScope, SharingStarted.Lazily, OldGamesUiState.Loading)
 
     fun deleteGame(gameId: GameId) {
         viewModelScope.launch {

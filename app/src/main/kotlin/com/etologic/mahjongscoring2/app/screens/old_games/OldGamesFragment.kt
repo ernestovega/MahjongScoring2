@@ -41,7 +41,6 @@ import com.etologic.mahjongscoring2.app.utils.goToChooseLanguage
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
 import com.etologic.mahjongscoring2.business.model.entities.GameId
-import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.databinding.OldGamesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -148,21 +147,30 @@ class OldGamesFragment : BaseMainFragment() {
         binding.rvOldGames.adapter = rvAdapter
     }
 
+    private fun setOnClickListeners() {
+        binding.fabOldGames.setOnSecureClickListener {
+            findNavController().navigate(R.id.action_oldGamesFragment_to_setupNewGameDialogFragment)
+        }
+    }
+
     private fun startObservingViewModel() {
         with(viewLifecycleOwner.lifecycleScope) {
-            launch { repeatOnLifecycle(STARTED) { viewModel.gamesState.collect(::gamesObserver) } }
+            launch { repeatOnLifecycle(STARTED) { viewModel.oldGamesUiState.collect(::gamesObserver) } }
             launch { repeatOnLifecycle(STARTED) { activityViewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling) } }
         }
     }
 
-    private fun gamesObserver(games: List<UiGame>) {
-        binding.emptyLayoutOldGames.visibility = if (games.isEmpty()) VISIBLE else GONE
-        rvAdapter.setGames(games)
-    }
-
-    private fun setOnClickListeners() {
-        binding.fabOldGames.setOnSecureClickListener {
-            findNavController().navigate(R.id.action_oldGamesFragment_to_setupNewGameDialogFragment)
+    private fun gamesObserver(uiState: OldGamesUiState) {
+        when (uiState) {
+            is OldGamesUiState.Loading -> {}
+            is OldGamesUiState.Loaded -> {
+                rvAdapter.setGames(uiState.oldGamesList)
+                binding.emptyLayoutOldGames.visibility = GONE
+            }
+            is OldGamesUiState.Empty -> {
+                rvAdapter.setGames(emptyList())
+                binding.emptyLayoutOldGames.visibility = VISIBLE
+            }
         }
     }
 

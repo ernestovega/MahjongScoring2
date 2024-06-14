@@ -117,24 +117,16 @@ class CombinationsFragment : BaseMainFragment() {
                         is CombinationsUiState.Loading -> {}
                         is CombinationsUiState.Loaded -> {
                             rvAdapter.setCombinations(uiState.combinationsList)
-                            hideEmptyLayer()
+                            binding.emptyLayoutCombinations.visibility = GONE
                         }
                         is CombinationsUiState.Empty -> {
                             rvAdapter.setCombinations(emptyList())
-                            showEmptyLayer()
+                            binding.emptyLayoutCombinations.visibility = VISIBLE
                         }
                     }
                 }
             }
         }
-    }
-
-    private fun hideEmptyLayer() {
-        binding.emptyLayoutCombinations.visibility = GONE
-    }
-
-    private fun showEmptyLayer() {
-        binding.emptyLayoutCombinations.visibility = VISIBLE
     }
 
     override fun onPause() {

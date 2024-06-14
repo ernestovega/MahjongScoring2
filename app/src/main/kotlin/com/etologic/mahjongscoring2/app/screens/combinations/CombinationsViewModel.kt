@@ -52,8 +52,8 @@ class CombinationsViewModel @Inject constructor(
             if (filteredCombinations.isEmpty()) {
                 CombinationsUiState.Empty
             } else {
-            CombinationsUiState.Loaded(filteredCombinations)
-                }
+                CombinationsUiState.Loaded(filteredCombinations)
+            }
         }.stateIn(viewModelScope, SharingStarted.Lazily, CombinationsUiState.Loading)
 
     private fun filterCombinations(
