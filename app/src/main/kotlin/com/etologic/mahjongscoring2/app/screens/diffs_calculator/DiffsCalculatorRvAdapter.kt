@@ -26,7 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.model.Diff
-import com.etologic.mahjongscoring2.app.screens.diffs_calculator.DiffsCalculatorFragment.Companion.NUM_CALCS_INTERVAL
+import com.etologic.mahjongscoring2.app.screens.diffs_calculator.DiffsCalculatorViewModel.Companion.NUM_CALCS_INTERVAL
 import com.etologic.mahjongscoring2.databinding.DiffsCalculatorItemBinding
 import javax.inject.Inject
 
@@ -38,14 +38,11 @@ class DiffsCalculatorRvAdapter
     private var white: Int? = null
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setFirstDiffs(firstDiffs: List<Diff>) {
-        diffs.addAll(firstDiffs)
-        notifyDataSetChanged()
-    }
-
-    fun setNextDiffs(newDiffs: List<Diff>) {
+    fun setDiffs(newDiffs: List<Diff>) {
         val currentSize = diffs.size
-        diffs.addAll(newDiffs)
+        val newSize = newDiffs.size
+        val newInterval = newDiffs.subList(currentSize, newSize)
+        diffs.addAll(newInterval)
         notifyItemRangeInserted(currentSize, NUM_CALCS_INTERVAL)
     }
 

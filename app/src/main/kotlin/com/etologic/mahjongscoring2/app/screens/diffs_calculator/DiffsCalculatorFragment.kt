@@ -24,12 +24,15 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseMainFragment
-import com.etologic.mahjongscoring2.app.model.Diff
+import com.etologic.mahjongscoring2.app.screens.diffs_calculator.DiffsCalculatorViewModel.Companion.MAX_ITEMS
 import com.etologic.mahjongscoring2.databinding.DiffsCalculatorFragmentBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
@@ -42,10 +45,7 @@ class DiffsCalculatorFragment : BaseMainFragment() {
 
     companion object {
         const val TAG = "DiffsCalculatorFragment"
-        const val NUM_CALCS_INTERVAL: Int = 200
-        const val MIN_POINTS_NEEDED: Int = 32
-        const val MAX_INTERVALS: Int = 10
-        const val MAX_ITEMS: Int = NUM_CALCS_INTERVAL * MAX_INTERVALS
+        private const val ITEM_NUMBER_THRESHOLD_TO_LOAD_NEXT_INTERVAL: Int = 10
     }
 
     @Inject
@@ -54,10 +54,14 @@ class DiffsCalculatorFragment : BaseMainFragment() {
     private var _binding: DiffsCalculatorFragmentBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: DiffsCalculatorViewModel by viewModels()
+
     override val menuProvider: MenuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {}
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean = false
     }
+
+    private val maxReachedSnackBar by lazy { Snackbar.make(binding.root, R.string.i_think_is_enough_jajaja, LENGTH_LONG) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = DiffsCalculatorFragmentBinding.inflate(inflater, container, false)
@@ -67,7 +71,7 @@ class DiffsCalculatorFragment : BaseMainFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        loadFirstInterval()
+        startObservingViewModel()
     }
 
     private fun setupRecyclerView() {
@@ -79,57 +83,29 @@ class DiffsCalculatorFragment : BaseMainFragment() {
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    val lastVisibleItemPosition = myLayoutManager.findLastVisibleItemPosition()
+                    val lastCompletelyVisibleItemPosition = myLayoutManager.findLastCompletelyVisibleItemPosition()
                     val totalItemCount = myLayoutManager.itemCount
-                    if (lastVisibleItemPosition == totalItemCount - 1) {
-                        loadNextInterval()
+                    if (lastCompletelyVisibleItemPosition == MAX_ITEMS - 1) {
+                        val isScrollingDown = dy > 0
+                        if (isScrollingDown && maxReachedSnackBar.isShownOrQueued.not()) {
+                            maxReachedSnackBar.show()
+                        }
+                    } else if (lastCompletelyVisibleItemPosition >= totalItemCount - ITEM_NUMBER_THRESHOLD_TO_LOAD_NEXT_INTERVAL) {
+                        viewModel.loadNextInterval()
                     }
                 }
             })
         }
     }
 
-    private fun loadFirstInterval() {
-
-        fun getFirstInterval(): List<Diff> {
-            val list = mutableListOf<Diff>()
-            for (i in MIN_POINTS_NEEDED..<MIN_POINTS_NEEDED + NUM_CALCS_INTERVAL) {
-                list.add(Diff(i))
-            }
-            return list
-        }
-
-        lifecycleScope.launch {
-            val firstInterval = getFirstInterval()
-            rvAdapter.setFirstDiffs(firstInterval)
-        }
-    }
-
-    private fun loadNextInterval() {
-
-        fun getNextInterval(): List<Diff> {
-            val numCurrentIntervals = rvAdapter.itemCount / NUM_CALCS_INTERVAL
-            return if (numCurrentIntervals < MAX_INTERVALS) {
-                val list = mutableListOf<Diff>()
-                val nextFirstPointsNeeded = NUM_CALCS_INTERVAL * numCurrentIntervals + MIN_POINTS_NEEDED
-                for (i in nextFirstPointsNeeded..<nextFirstPointsNeeded + NUM_CALCS_INTERVAL) {
-                    list.add(Diff(i))
+    private fun startObservingViewModel() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.diffsCalculatorUiState.collect { uiState ->
+                    if (uiState is DiffsCalculatorViewModel.Loaded) {
+                        rvAdapter.setDiffs(uiState.diffsList)
+                    }
                 }
-                list
-            } else {
-                val myLayoutManager = binding.recyclerViewDiffsCalculator.layoutManager as LinearLayoutManager
-                val lastVisibleItemPosition = myLayoutManager.findLastVisibleItemPosition()
-                if (lastVisibleItemPosition == MAX_ITEMS - 1) {
-                    Snackbar.make(binding.root, R.string.i_think_is_enough_jajaja, LENGTH_LONG).show()
-                }
-                emptyList()
-            }
-        }
-
-        lifecycleScope.launch {
-            val nextInterval = getNextInterval()
-            if (nextInterval.isNotEmpty()) {
-                rvAdapter.setNextDiffs(nextInterval)
             }
         }
     }
