@@ -78,17 +78,16 @@ fun Context.setLocale(language: String): Context {
     }
     Locale.setDefault(locale)
 
-    val resources: Resources = resources
-    val configuration: Configuration = resources.configuration
-
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        configuration.setLocale(locale)
-        createConfigurationContext(configuration)
+        val config = Configuration()
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+        this
     } else {
         @Suppress("DEPRECATION")
-        configuration.locale = locale
+        resources.configuration.locale = locale
         @Suppress("DEPRECATION")
-        resources.updateConfiguration(configuration, resources.displayMetrics)
+        resources.updateConfiguration(resources.configuration, resources.displayMetrics)
         this
     }
 }

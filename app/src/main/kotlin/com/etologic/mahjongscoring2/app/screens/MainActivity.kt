@@ -16,7 +16,9 @@
  */
 package com.etologic.mahjongscoring2.app.screens
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -169,12 +171,18 @@ class MainActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             resources.configuration.locale.language
         }
-        val savedLanguage = languageHelper.currentLanguage
 
-        if (currentLanguage != savedLanguage) {
-            setLocale(savedLanguage)
-            currentLanguage = savedLanguage
-            recreate()
+        if (currentLanguage != languageHelper.currentLanguage) {
+            currentLanguage = languageHelper.currentLanguage
+            setLocale(languageHelper.currentLanguage)
+            restartMainActivity()
         }
+    }
+
+    private fun restartMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        finish()
     }
 }
