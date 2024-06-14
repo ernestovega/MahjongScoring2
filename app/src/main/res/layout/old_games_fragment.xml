@@ -67,7 +67,7 @@
             android:layout_marginRight="@dimen/second_standard_margin"
             android:gravity="center"
             android:lineSpacingExtra="@dimen/half_standard_margin"
-            android:text="@string/theres_no_games_yet_start_one"
+            android:text="@string/there_arent_games_yet_start_one"
             android:textColor="@color/gray"
             android:textSize="20sp"
             android:textStyle="bold" />

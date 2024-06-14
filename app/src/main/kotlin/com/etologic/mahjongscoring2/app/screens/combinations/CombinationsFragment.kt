@@ -25,6 +25,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat.getSystemService
@@ -108,9 +110,31 @@ class CombinationsFragment : BaseMainFragment() {
     }
 
     private fun startObservingViewModel() {
-        with(viewLifecycleOwner.lifecycleScope) {
-            launch { repeatOnLifecycle(STARTED) { viewModel.combinationsState.collect(rvAdapter::setCombinations) } }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(STARTED) {
+                viewModel.combinationsUiState.collect { uiState ->
+                    when (uiState) {
+                        is CombinationsUiState.Loading -> {}
+                        is CombinationsUiState.Loaded -> {
+                            rvAdapter.setCombinations(uiState.combinationsList)
+                            hideEmptyLayer()
+                        }
+                        is CombinationsUiState.Empty -> {
+                            rvAdapter.setCombinations(emptyList())
+                            showEmptyLayer()
+                        }
+                    }
+                }
+            }
         }
+    }
+
+    private fun hideEmptyLayer() {
+        binding.emptyLayoutCombinations.visibility = GONE
+    }
+
+    private fun showEmptyLayer() {
+        binding.emptyLayoutCombinations.visibility = VISIBLE
     }
 
     override fun onPause() {

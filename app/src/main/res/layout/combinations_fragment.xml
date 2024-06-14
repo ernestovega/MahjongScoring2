@@ -14,19 +14,79 @@
   ~     You should have received a copy of the GNU General Public License
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
-
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/recyclerViewCombinations"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray"
-    android:fadeScrollbars="false"
-    android:fadingEdgeLength="@dimen/standard_margin"
-    android:paddingTop="@dimen/quarter_standard_margin"
-    android:paddingBottom="@dimen/quarter_standard_margin"
-    android:requiresFadingEdge="vertical"
-    android:scrollIndicators="end"
-    android:scrollbars="vertical"
-    tools:context=".app.screens.combinations.CombinationsFragment"
-    tools:listitem="@layout/combination_item" />
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewCombinations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray"
+        android:fadeScrollbars="false"
+        android:fadingEdgeLength="@dimen/standard_margin"
+        android:paddingTop="@dimen/quarter_standard_margin"
+        android:paddingBottom="@dimen/quarter_standard_margin"
+        android:requiresFadingEdge="vertical"
+        android:scrollIndicators="end"
+        android:scrollbars="vertical"
+        tools:context=".app.screens.combinations.CombinationsFragment"
+        tools:listitem="@layout/combination_item" />
+
+    <LinearLayout
+        android:id="@+id/emptyLayoutCombinations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grayLight"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fourth_standard_margin"
+            android:layout_marginTop="@dimen/second_standard_margin"
+            android:layout_marginEnd="@dimen/second_standard_margin"
+            android:layout_marginBottom="@dimen/second_standard_margin"
+            android:src="@drawable/arrow"
+            app:tint="@color/gray"
+            tools:ignore="ContentDescription"
+            android:rotation="-90"
+            android:rotationY="180"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/second_standard_margin"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/second_standard_margin"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/second_standard_margin"
+            android:layout_marginRight="@dimen/second_standard_margin"
+            android:src="@drawable/img_empty_box"
+            app:tint="@color/gray"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/second_standard_margin"
+            android:layout_marginLeft="@dimen/second_standard_margin"
+            android:layout_marginTop="@dimen/second_standard_margin"
+            android:layout_marginEnd="@dimen/second_standard_margin"
+            android:layout_marginRight="@dimen/second_standard_margin"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/half_standard_margin"
+            android:text="@string/there_arent_combinations_try_new_search"
+            android:textColor="@color/gray"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -23,7 +23,7 @@
     <string name="combinations">Combinaciones</string>
     <string name="green_book_en">Libro Verde (PDF en Inglés)</string>
     <string name="press_again_to_exit">Pulsa de nuevo para salir</string>
-    <string name="theres_no_games_yet_start_one">No hay partidas aún.\nEmpieza una!</string>
+    <string name="there_arent_games_yet_start_one">No hay partidas aún.\nEmpieza una!</string>
     <string name="best_hand">Mejor mano</string>
     <string name="rounds">Rondas</string>
     <string name="delete">Eliminar</string>
@@ -239,4 +239,5 @@
 
     <!--  Translations V2.4.0  -->
     <string name="current_game">Partida actual</string>
+    <string name="there_arent_combinations_try_new_search">No hay combinaciones bajo este criterio, prueba con uno diferente.</string>
 </resources>

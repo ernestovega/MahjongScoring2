@@ -19,6 +19,7 @@ package com.etologic.mahjongscoring2.app.screens.diffs_calculator
 import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.app.model.Diff
+import com.etologic.mahjongscoring2.app.screens.diffs_calculator.DiffsCalculatorUiState.Loaded
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -28,19 +29,20 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class DiffsCalculatorViewModel @Inject constructor() : BaseViewModel() {
-
-    sealed interface DiffsCalculatorUiState
+sealed interface DiffsCalculatorUiState {
     data object Loading : DiffsCalculatorUiState
     data class Loaded(val diffsList: List<Diff>) : DiffsCalculatorUiState
+}
+
+@HiltViewModel
+class DiffsCalculatorViewModel @Inject constructor() : BaseViewModel() {
 
     private val _diffsListFlow: MutableStateFlow<List<Diff>> = MutableStateFlow(getFirstInterval())
 
     val diffsCalculatorUiState: StateFlow<DiffsCalculatorUiState> =
         _diffsListFlow
             .map(::Loaded)
-            .stateIn(viewModelScope, SharingStarted.Lazily, Loading)
+            .stateIn(viewModelScope, SharingStarted.Lazily, DiffsCalculatorUiState.Loading)
 
     private fun getFirstInterval(): List<Diff> =
         mutableListOf<Diff>().apply {

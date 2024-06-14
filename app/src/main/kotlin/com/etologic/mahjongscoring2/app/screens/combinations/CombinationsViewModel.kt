@@ -22,13 +22,19 @@ import com.etologic.mahjongscoring2.business.model.entities.Combination
 import com.etologic.mahjongscoring2.data_source.repositories.CombinationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+sealed interface CombinationsUiState {
+    data object Loading : CombinationsUiState
+    data class Loaded(val combinationsList: List<Combination>) : CombinationsUiState
+    data object Empty : CombinationsUiState
+}
 
 @HiltViewModel
 class CombinationsViewModel @Inject constructor(
@@ -37,22 +43,28 @@ class CombinationsViewModel @Inject constructor(
 
     private val combinationsFilter: MutableStateFlow<String> = MutableStateFlow("")
 
-    val combinationsState: SharedFlow<List<Combination>> =
+    val combinationsUiState: StateFlow<CombinationsUiState> =
         combine(
             flowOf(combinationsRepository.combinations),
-            combinationsFilter
+            combinationsFilter,
         ) { combinations, filter ->
-            filterCombinations(combinations, filter)
-        }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
+            val filteredCombinations = filterCombinations(combinations, filter)
+            if (filteredCombinations.isEmpty()) {
+                CombinationsUiState.Empty
+            } else {
+            CombinationsUiState.Loaded(filteredCombinations)
+                }
+        }.stateIn(viewModelScope, SharingStarted.Lazily, CombinationsUiState.Loading)
 
     private fun filterCombinations(
-        combinations: Array<Combination>,
-        filter: String
-    ) = combinations.filter { combination ->
-        combination.combinationName.contains(filter, ignoreCase = true) ||
-                combination.combinationDescription?.contains(filter, ignoreCase = true) == true ||
-                combination.combinationPoints.toString().contains(filter, ignoreCase = true)
-    }
+        allCombinations: Array<Combination>,
+        filter: String,
+    ): List<Combination> =
+        allCombinations.filter { combination ->
+            combination.combinationName.contains(filter, ignoreCase = true) ||
+                    combination.combinationDescription?.contains(filter, ignoreCase = true) == true ||
+                    combination.combinationPoints.toString().contains(filter, ignoreCase = true)
+        }
 
     fun searchCombination(filter: String) {
         viewModelScope.launch { combinationsFilter.emit(filter) }

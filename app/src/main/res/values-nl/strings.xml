@@ -23,7 +23,7 @@
     <string name="combinations">Combinaties</string>
     <string name="green_book_en">Groene boek</string>
     <string name="press_again_to_exit">Druk nog eens om te verlaten</string>
-    <string name="theres_no_games_yet_start_one">Er zijn nog geen spellen.\nStart één!</string>
+    <string name="there_arent_games_yet_start_one">Er zijn nog geen spellen.\nStart één!</string>
     <string name="best_hand">Beste hand</string>
     <string name="rounds">Rondes</string>
     <string name="delete">Verwijder</string>
@@ -239,4 +239,5 @@
 
     <!--  Translations V2.4.0  -->
     <string name="current_game">Huidige spel</string>
+    <string name="there_arent_combinations_try_new_search">Er zijn geen combinaties onder dit criterium, probeer een andere.</string>
 </resources>

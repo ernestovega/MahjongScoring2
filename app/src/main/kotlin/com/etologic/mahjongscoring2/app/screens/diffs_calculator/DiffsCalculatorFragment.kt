@@ -102,8 +102,9 @@ class DiffsCalculatorFragment : BaseMainFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.diffsCalculatorUiState.collect { uiState ->
-                    if (uiState is DiffsCalculatorViewModel.Loaded) {
-                        rvAdapter.setDiffs(uiState.diffsList)
+                    when (uiState) {
+                        is DiffsCalculatorUiState.Loading -> {}
+                        is DiffsCalculatorUiState.Loaded -> rvAdapter.setDiffs(uiState.diffsList)
                     }
                 }
             }
