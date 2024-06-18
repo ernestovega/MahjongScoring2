@@ -17,27 +17,23 @@
 
 package com.etologic.mahjongscoring2.app.base
 
-import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.etologic.mahjongscoring2.app.screens.game.GameFragment
 import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HandActionsDialogFragment
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HandActionsViewPagerAdapter
 
-abstract class BaseGameFragment : Fragment() {
-
-    protected val gameViewModel by viewModels<GameViewModel>(
-        ownerProducer = { requireParentFragment() }
-    )
-}
-
-abstract class BaseGameDialogFragment : AppCompatDialogFragment() {
+abstract class BaseGameHandActionsDialogFragment : Fragment() {
 
     protected val gameViewModel by viewModels<GameViewModel>(
-        ownerProducer = { findParentGameFragment() }
+        ownerProducer = { requireParentFragment().findParentGameFragment() }
     )
 
-}
+    protected fun Fragment.showPage(page: HandActionsViewPagerAdapter.HandActions) {
+        (parentFragment as? HandActionsDialogFragment)?.showPage(page)
+    }
 
-fun Fragment.findParentGameFragment() =
-    requireParentFragment().childFragmentManager.fragments.filterIsInstance<GameFragment>().firstOrNull()
-        ?: throw IllegalStateException()
+    protected fun Fragment.dismissDialog() {
+        (parentFragment as? HandActionsDialogFragment)?.dismiss()
+    }
+}

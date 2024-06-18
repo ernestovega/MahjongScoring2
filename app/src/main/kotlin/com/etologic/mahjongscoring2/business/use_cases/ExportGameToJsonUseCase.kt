@@ -18,32 +18,39 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import androidx.annotation.VisibleForTesting
-import com.etologic.mahjongscoring2.app.utils.writeToCsvFile
 import com.etologic.mahjongscoring2.business.model.dtos.PortableGame
 import com.etologic.mahjongscoring2.business.model.dtos.toPortableGame
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
+import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
 import com.etologic.mahjongscoring2.business.use_cases.utils.normalizeName
+import com.etologic.mahjongscoring2.business.use_cases.utils.toFileNameFormat
+import com.etologic.mahjongscoring2.business.use_cases.utils.writeToCsvFile
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import java.io.File
 import javax.inject.Inject
 
 class ExportGameToJsonUseCase @Inject constructor(
-    private val getOneGameUseCase: GetOneGameUseCase,
+    private val getOneGameFlowUseCase: GetOneGameFlowUseCase,
 ) {
-    suspend operator fun invoke(gameId: GameId, getExternalFilesDir: () -> File?): Result<List<File>> =
-        getOneGameUseCase(gameId)
-            .mapCatching { uiGame ->
-                val portableGames = listOf(uiGame.toPortableGame())
-                val jsonText = Json.encodeToString(ListSerializer(PortableGame.serializer()), portableGames)
-                val jsonFile = writeToCsvFile(
-                    fileName = "${normalizeName(uiGame.gameName).replace(" ", "_")}.json",
-                    fileText = jsonText,
-                    externalFilesDir = getExternalFilesDir.invoke(),
-                )
-                listOf(jsonFile)
-            }
+    suspend operator fun invoke(gameId: GameId, directory: File?): Result<File> =
+        runCatching {
+            getOneGameFlowUseCase.invoke(gameId)
+                .firstOrNull()
+                ?.let { uiGame ->
+                    val portableGames = listOf(uiGame.toPortableGame())
+                    val jsonText = Json.encodeToString(ListSerializer(PortableGame.serializer()), portableGames)
+                    val fileName = normalizeName(uiGame.gameName)
+                        .replace(" ", "_")
+                        .ifEmpty { uiGame.startDate.toFileNameFormat() }
+                        .plus(".json")
+                    val jsonFile = writeToCsvFile(fileName, jsonText, directory)
+                    jsonFile
+                }
+                ?: throw GameNotFoundException(gameId)
+        }
 
     @VisibleForTesting
     fun jsonFrom(uiGame: UiGame): String =

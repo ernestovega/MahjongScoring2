@@ -14,21 +14,19 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.hand_action_hu
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle.State.STARTED
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseGameHandActionsDialogFragment
 import com.etologic.mahjongscoring2.app.model.Seat
+import com.etologic.mahjongscoring2.app.screens.game.GameUiState
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
@@ -42,9 +40,6 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.GameDialogHuFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HuFragment : BaseGameHandActionsDialogFragment() {
@@ -80,36 +75,18 @@ class HuFragment : BaseGameHandActionsDialogFragment() {
             westIcon = ContextCompat.getDrawable(it, R.drawable.ic_west)
             northIcon = ContextCompat.getDrawable(it, R.drawable.ic_north)
         }
-        startObservingTable()
+        initViews(gameViewModel.gameUiStateFlow.value as GameUiState.Loaded)
     }
 
-    private fun startObservingTable() {
-        Log.d("HuFragment", "GameViewModel: ${gameViewModel.hashCode()}")
+    private fun initViews(uiGameState: GameUiState.Loaded) {
+        if (uiGameState.game.gameId != UiGame.NOT_SET_GAME_ID) {
+            val playersNamesByCurrentSeat = uiGameState.game.getPlayersNamesByCurrentSeat()
+            val looser1Seat = TableWinds.asArray[(if (uiGameState.selectedSeat == EAST) SOUTH else EAST).code]
+            val looser2Seat = TableWinds.asArray[(if (uiGameState.selectedSeat in listOf(EAST, SOUTH)) WEST else SOUTH).code]
+            val looser3Seat = TableWinds.asArray[(if (uiGameState.selectedSeat in listOf(EAST, SOUTH, WEST)) NORTH else WEST).code]
 
-        with(viewLifecycleOwner.lifecycleScope) {
-            launch {
-                repeatOnLifecycle(STARTED) {
-                    combine(
-                        flow = gameViewModel.gameFlow,
-                        flow2 = gameViewModel.selectedSeatFlow,
-                    ) { game, penalizedSeat -> Pair(game, penalizedSeat) }
-                        .first()
-                        .let { initViews(it) }
-                }
-            }
-        }
-    }
-
-    private fun initViews(screenData: Pair<UiGame, TableWinds>) {
-        val (game, penalizedSeat) = screenData
-        if (game.gameId != UiGame.NOT_SET_GAME_ID) {
-            val playersNamesByCurrentSeat = game.getPlayersNamesByCurrentSeat()
-            val looser1Seat = TableWinds.asArray[(if (penalizedSeat == EAST) SOUTH else EAST).code]
-            val looser2Seat = TableWinds.asArray[(if (penalizedSeat in listOf(EAST, SOUTH)) WEST else SOUTH).code]
-            val looser3Seat = TableWinds.asArray[(if (penalizedSeat in listOf(EAST, SOUTH, WEST)) NORTH else WEST).code]
-
-            binding.iGameHuDialogWinnerContainer.ivTableSeatMediumSeatWind.setImageDrawable(getWindIcon(penalizedSeat))
-            binding.iGameHuDialogWinnerContainer.tvTableSeatMediumName.text = playersNamesByCurrentSeat[penalizedSeat.code]
+            binding.iGameHuDialogWinnerContainer.ivTableSeatMediumSeatWind.setImageDrawable(getWindIcon(uiGameState.selectedSeat))
+            binding.iGameHuDialogWinnerContainer.tvTableSeatMediumName.text = playersNamesByCurrentSeat[uiGameState.selectedSeat.code]
 
             binding.cdsGameHuDialog.initPlayers(
                 listOf(
@@ -119,7 +96,7 @@ class HuFragment : BaseGameHandActionsDialogFragment() {
                 )
             )
 
-            setListeners(game, penalizedSeat)
+            setListeners(uiGameState.game, uiGameState.selectedSeat)
         }
     }
 

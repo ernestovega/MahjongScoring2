@@ -14,6 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.custom_views
 
 import android.annotation.SuppressLint
@@ -106,16 +107,14 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
     }
 
     fun setSeats(game: UiGame, isUserFontTooBig: Boolean) {
-        if (game.gameId != UiGame.NOT_SET_GAME_ID) {
-            selectedPlayer = NONE
-            setStates(getSeatsStates(game))
-            val playersTotalPointsByCurrentSeat = game.getPlayersTotalPointsByCurrentSeat()
-            setPoints(playersTotalPointsByCurrentSeat.map { it.toString() })
-            setWinds(game.getSeatsCurrentWind(game.uiRounds.size))
-            setNames(game.getPlayersNamesByCurrentSeat())
-            setPenalties(game.getPlayersPenaltiesByCurrentSeat(), game.isEnded)
-            setPointsDiffs(game, isUserFontTooBig)
-        }
+        selectedPlayer = NONE
+        setStates(getSeatsStates(game))
+        val playersTotalPointsByCurrentSeat = game.getPlayersTotalPointsByCurrentSeat()
+        setPoints(playersTotalPointsByCurrentSeat.map { it.toString() })
+        setWinds(game.getSeatsCurrentWind(game.uiRounds.size))
+        setNames(game.getPlayersNamesByCurrentSeat())
+        setPenalties(game.getPlayersPenaltiesByCurrentSeat(), game.isEnded)
+        setPointsDiffs(game, isUserFontTooBig)
     }
 
     private fun getSeatsStates(): Array<SeatStates> =
@@ -215,10 +214,10 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
                     )
                 }
             } else {
-                toggleDiffs(false)
+                toggleDiffsViews(false)
             }
         } else {
-            toggleDiffs(false)
+            toggleDiffsViews(false)
         }
     }
 
@@ -399,11 +398,11 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
             binding.btTableSeatsShowDiffs.visibility = VISIBLE
         } else {
             binding.btTableSeatsShowDiffs.visibility = INVISIBLE
-            toggleDiffs(false)
+            toggleDiffsViews(false)
         }
     }
 
-    fun toggleDiffs(shouldShowDiffs: Boolean) {
+    fun toggleDiffsViews(shouldShowDiffs: Boolean) {
         with(binding) {
             if (shouldShowDiffs) {
                 iGameTableSeatEast.iGameTableSeatEastDiffs.llTableSeatDiffsContainer.visibility = VISIBLE

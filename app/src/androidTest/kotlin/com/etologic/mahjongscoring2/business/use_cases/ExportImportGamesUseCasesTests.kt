@@ -78,13 +78,13 @@ class ExportImportGamesUseCasesTests {
         gamesRepository = DefaultGamesRepository(gamesDao)
         roundsRepository = DefaultRoundsRepository(roundsDao)
 
-        val getOneGameUseCase = GetOneGameUseCase(gamesRepository, roundsRepository)
+        val getOneGameFlowUseCase = GetOneGameFlowUseCase(gamesRepository, roundsRepository)
         val getAllGamesFlowUseCase = GetAllGamesFlowUseCase(gamesRepository, roundsRepository)
         val deleteGameUseCase = DeleteGameUseCase(gamesRepository, roundsRepository)
 
-        exportGameToTextUseCase = ExportGameToTextUseCase(getOneGameUseCase)
-        exportGameToCsvUseCase = ExportGameToCsvUseCase(getOneGameUseCase)
-        exportGameToJsonUseCase = ExportGameToJsonUseCase(getOneGameUseCase)
+        exportGameToTextUseCase = ExportGameToTextUseCase(getOneGameFlowUseCase)
+        exportGameToCsvUseCase = ExportGameToCsvUseCase(getOneGameFlowUseCase)
+        exportGameToJsonUseCase = ExportGameToJsonUseCase(getOneGameFlowUseCase)
         exportGamesToJsonUseCase = ExportGamesToJsonUseCase(getAllGamesFlowUseCase)
         importGamesFromJsonUseCase = ImportGamesFromJsonUseCase(gamesRepository, roundsRepository, deleteGameUseCase)
     }
@@ -100,7 +100,7 @@ class ExportImportGamesUseCasesTests {
         val game = createCompleteGame()
 
         // When we call the UseCase for exporting the final results to text
-        val exportedText = exportGameToTextUseCase(game.gameId).getOrThrow()
+        val exportedText = exportGameToTextUseCase.invoke(game.gameId).getOrThrow()
 
         // Then we expect the right text
         val expectedText = "Test Game Name 1\n\n" +

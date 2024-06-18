@@ -51,7 +51,7 @@ fun Activity.shareText(exportedGame: String) {
     startActivity(chooser)
 }
 
-fun Activity.shareFiles(files: List<File>, mimeType: String = "text/csv") {
+fun Activity.shareFiles(files: Array<File>, mimeType: String = "text/csv") {
     val shareIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
         type = mimeType
         putParcelableArrayListExtra(Intent.EXTRA_STREAM, files.toUriArrayList(applicationContext, packageName))
@@ -61,7 +61,7 @@ fun Activity.shareFiles(files: List<File>, mimeType: String = "text/csv") {
     startActivity(chooser)
 }
 
-private fun List<File>.toUriArrayList(context: Context, packageName: String): ArrayList<Uri> {
+private fun Array<File>.toUriArrayList(context: Context, packageName: String): ArrayList<Uri> {
     fun getUri(context: Context, packageName: String, file: File): Uri =
         FileProvider.getUriForFile(context, "${packageName}.provider", file)
 
@@ -69,8 +69,3 @@ private fun List<File>.toUriArrayList(context: Context, packageName: String): Ar
     return arrayListOf(*uris.toTypedArray())
 }
 
-fun writeToCsvFile(fileName: String, fileText: String, externalFilesDir: File?): File {
-    val file = File(externalFilesDir, fileName)
-    file.writeText(fileText)
-    return file
-}

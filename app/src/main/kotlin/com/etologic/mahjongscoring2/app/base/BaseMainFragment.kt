@@ -14,19 +14,20 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.base
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.appcompat.widget.Toolbar
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import com.etologic.mahjongscoring2.app.screens.MainActivity
 import com.etologic.mahjongscoring2.app.screens.MainViewModel
 
@@ -34,24 +35,44 @@ abstract class BaseMainFragment : Fragment() {
 
     protected val activityViewModel: MainViewModel by activityViewModels()
 
-    abstract val menuProvider: MenuProvider
+    protected open val onBackOrUpClick: () -> Unit = { findNavController().navigateUp() }
+
+    protected open val toolbarMenuProvider: MenuProvider = object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {}
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            when (menuItem.itemId) {
+                android.R.id.home -> onBackOrUpClick.invoke()
+                else -> return false
+            }
+            return true
+        }
+    }
 
     override fun onResume() {
         super.onResume()
-        setToolbar()
+        setToolbarMenuProvider()
+    }
+
+    private fun setToolbarMenuProvider() {
+        (activity as? MainActivity)?.apply {
+            addMenuProvider(toolbarMenuProvider, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setToolbar()
+        setOnBackBehaviour()
     }
 
-    private fun setToolbar() {
-        (activity as? MainActivity)?.addMenuProvider(menuProvider, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    private fun setOnBackBehaviour() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            owner = viewLifecycleOwner,
+            onBackPressedCallback = object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    onBackOrUpClick.invoke()
+                }
+            }
+        )
     }
-}
-
-abstract class BaseMainDialogFragment : AppCompatDialogFragment() {
-
-    protected val activityViewModel by activityViewModels<MainViewModel>()
 }

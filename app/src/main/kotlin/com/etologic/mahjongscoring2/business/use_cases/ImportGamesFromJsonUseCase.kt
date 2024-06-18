@@ -61,7 +61,7 @@ class ImportGamesFromJsonUseCase @Inject constructor(
     private suspend fun createDbGameInDb(gameId: GameId, portableGame: PortableGame) {
         portableGame.toDbGame(gameId).let { dbGame ->
             gamesRepository.updateOne(dbGame)
-                .onFailure { deleteGameUseCase(gameId) }
+                .onFailure { deleteGameUseCase.invoke(gameId) }
         }
     }
 
@@ -69,7 +69,7 @@ class ImportGamesFromJsonUseCase @Inject constructor(
         portableRounds.toDbRounds(gameId)
             .forEach { dbRound ->
                 roundsRepository.insertOne(dbRound)
-                    .onFailure { deleteGameUseCase(gameId) }
+                    .onFailure { deleteGameUseCase.invoke(gameId) }
             }
     }
 }

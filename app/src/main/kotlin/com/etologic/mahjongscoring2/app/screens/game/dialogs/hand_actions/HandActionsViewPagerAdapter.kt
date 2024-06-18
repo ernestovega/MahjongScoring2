@@ -14,6 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions
 
 import androidx.fragment.app.Fragment
@@ -24,12 +25,22 @@ import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.hand_a
 
 class HandActionsViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-    override fun getItemCount(): Int = 3
+    enum class HandActions {
+        HU,
+        PENALTY;
+    }
+
+    var selectedHandAction = HandActions.HU
+
+    override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment =
         when (position) {
             0 -> HandActionsFragment()
-            1 -> HuFragment()
-            else -> PenaltyFragment()
+            else -> when (selectedHandAction) {
+                HandActions.HU -> HuFragment()
+                HandActions.PENALTY -> PenaltyFragment()
+            }
         }
+
 }

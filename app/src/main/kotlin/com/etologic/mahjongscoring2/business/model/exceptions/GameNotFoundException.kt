@@ -17,4 +17,10 @@
 
 package com.etologic.mahjongscoring2.business.model.exceptions
 
-class GameNotFoundException : Exception()
+import com.etologic.mahjongscoring2.business.model.entities.GameId
+
+class GameNotFoundException(val gameId: GameId) : Exception() {
+
+    override val message: String
+        get() = "GameId = $gameId -> message = ${super.message}"
+}

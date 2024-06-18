@@ -14,12 +14,12 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens.game.game_table
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.util.TypedValue.COMPLEX_UNIT_DIP
 import android.util.TypedValue.applyDimension
 import android.view.LayoutInflater
@@ -48,6 +48,7 @@ import com.etologic.mahjongscoring2.R.drawable.ic_west
 import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.app.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.custom_views.GameTableSeats
+import com.etologic.mahjongscoring2.app.screens.game.GameUiState
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
@@ -98,22 +99,26 @@ class GameTableFragment : BaseGameFragment() {
     }
 
     private fun startObservingGame() {
-        Log.d("GameTableFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
-        with(viewLifecycleOwner.lifecycleScope) {
-            launch { repeatOnLifecycle(STARTED) { gameViewModel.gameFlow.collect(::gameObserver) } }
-            launch { repeatOnLifecycle(STARTED) { gameViewModel.isDiffsCalcsFeatureEnabledFlow.collect(binding.gtsGameTableSeats::toggleDiffsButton) } }
-            launch { repeatOnLifecycle(STARTED) { gameViewModel.selectedSeatFlow.collect(binding.gtsGameTableSeats::updateSeatState) } }
-            launch { repeatOnLifecycle(STARTED) { gameViewModel.seatsOrientationFlow.collect(binding.gtsGameTableSeats::updateSeatsOrientation) } }
-            launch { repeatOnLifecycle(STARTED) { gameViewModel.shouldShowDiffsFlow.collect(binding.gtsGameTableSeats::toggleDiffs) } }
+        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(STARTED) { gameViewModel.gameUiStateFlow.collect(::uiStateObserver) } }
+    }
+
+    private fun uiStateObserver(uiState: GameUiState) {
+        when (uiState) {
+            is GameUiState.Loading -> {}
+            is GameUiState.Loaded -> {
+                setGameData(uiState.game)
+                binding.gtsGameTableSeats.toggleDiffsButton(uiState.isDiffsCalcsFeatureEnabled)
+                binding.gtsGameTableSeats.updateSeatState(uiState.selectedSeat)
+                binding.gtsGameTableSeats.updateSeatsOrientation(uiState.seatsOrientation)
+                binding.gtsGameTableSeats.toggleDiffsViews(uiState.shouldShowDiffs)
+            }
         }
     }
 
-    private fun gameObserver(game: UiGame) {
-        if (game.gameId != UiGame.NOT_SET_GAME_ID) {
-            setGameName(game.gameName)
-            setRoundStuff(game)
-            binding.gtsGameTableSeats.setSeats(game, isUserFontTooBig())
-        }
+    private fun setGameData(game: UiGame) {
+        setGameName(game.gameName)
+        setRoundStuff(game)
+        binding.gtsGameTableSeats.setSeats(game, isUserFontTooBig())
     }
 
     private fun isUserFontTooBig(): Boolean =

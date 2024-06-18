@@ -17,10 +17,8 @@
 
 package com.etologic.mahjongscoring2.app.utils
 
+import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Build
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
@@ -29,6 +27,7 @@ import com.etologic.mahjongscoring2.app.screens.MainActivity
 import com.etologic.mahjongscoring2.data_source.repositories.LanguageRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
@@ -54,13 +53,15 @@ class LanguageHelper @Inject constructor(
         }
     }
 
-    fun changeLanguage(language: String, activity: MainActivity) {
-        with(activity) {
+    suspend fun getCurrentLanguage(): String =
+        languageRepository.get().firstOrNull() ?: ENGLISH
+
+    fun changeLanguage(language: String, mainActivity: MainActivity) {
+        with(mainActivity) {
             lifecycleScope.launch {
                 languageRepository.save(language)
                     .onSuccess {
-                        startActivity(Intent(applicationContext, MainActivity::class.java))
-                        finish()
+                        mainActivity.restartMainActivity()
                     }
             }
         }
@@ -79,9 +80,11 @@ fun Context.setLocale(language: String): Context {
     Locale.setDefault(locale)
 
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        val config = Configuration()
-        config.setLocale(locale)
-        resources.updateConfiguration(config, resources.displayMetrics)
+//        val config = Configuration()
+//        config.setLocale(locale)
+//        resources.updateConfiguration(config, resources.displayMetrics)
+        resources.configuration.setLocale(locale)
+        createConfigurationContext(resources.configuration)
         this
     } else {
         @Suppress("DEPRECATION")
@@ -92,10 +95,7 @@ fun Context.setLocale(language: String): Context {
     }
 }
 
-fun Context.goToChooseLanguage(
-    currentLanguage: String,
-    changeLanguage: (language: String) -> Unit,
-) {
+fun Activity.goToChangeLanguage(languageHelper: LanguageHelper) {
     AlertDialog.Builder(this, R.style.AlertDialogStyleMM)
         .setTitle(R.string.choose_language)
         .setSingleChoiceItems(
@@ -108,7 +108,7 @@ fun Context.goToChooseLanguage(
                 getString(R.string.spanish),
             ),
             /* checkedItem = */
-            when (currentLanguage) {
+            when (languageHelper.currentLanguage) {
                 CHINESE -> 0
                 DUTCH -> 1
                 ENGLISH -> 2
@@ -118,7 +118,7 @@ fun Context.goToChooseLanguage(
             },
         )
         /* listener = */ { dialog, newSelectedItem ->
-            changeLanguage(
+            languageHelper.changeLanguage(
                 when (newSelectedItem) {
                     0 -> CHINESE
                     1 -> DUTCH
@@ -126,7 +126,8 @@ fun Context.goToChooseLanguage(
                     3 -> FRENCH
                     4 -> SPANISH
                     else -> ENGLISH
-                }
+                },
+                this as MainActivity,
             )
             dialog.dismiss()
         }

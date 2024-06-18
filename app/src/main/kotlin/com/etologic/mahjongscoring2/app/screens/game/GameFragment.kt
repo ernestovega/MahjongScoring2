@@ -19,7 +19,6 @@ package com.etologic.mahjongscoring2.app.screens.game
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -36,6 +35,7 @@ import androidx.navigation.fragment.findNavController
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseMainFragment
 import com.etologic.mahjongscoring2.app.screens.MainActivity
+import com.etologic.mahjongscoring2.app.screens.game.GameFragment.GamePages.STAY
 import com.etologic.mahjongscoring2.app.utils.shareFiles
 import com.etologic.mahjongscoring2.app.utils.shareText
 import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
@@ -45,7 +45,6 @@ import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
 import com.etologic.mahjongscoring2.databinding.GameFragmentBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -55,7 +54,8 @@ class GameFragment : BaseMainFragment() {
         const val TAG = "GameFragment"
     }
 
-    enum class GamePages(val code: Int) {
+    enum class GamePages(val index: Int) {
+        STAY(-1),
         TABLE(0),
         LIST(1);
     }
@@ -73,14 +73,17 @@ class GameFragment : BaseMainFragment() {
     private var _binding: GameFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val gameViewModel by viewModels<GameViewModel>()
+    private val viewModel by viewModels<GameViewModel>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = GameFragmentBinding.inflate(inflater, container, false)
-        return binding.root
+    override val onBackOrUpClick: () -> Unit = {
+        if (binding.viewPagerGame.currentItem == GamePages.LIST.index) {
+            binding.viewPagerGame.setCurrentItem(GamePages.TABLE.index, true)
+        } else {
+            findNavController().navigateUp()
+        }
     }
 
-    override val menuProvider = object : MenuProvider {
+    override val toolbarMenuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.game_menu, menu)
 
@@ -94,31 +97,36 @@ class GameFragment : BaseMainFragment() {
             endGameItem?.isVisible = shouldBeShownEndButton
 
             lifecycleScope.launch {
-                toggleDiffsEnabling(gameViewModel.isDiffsCalcsFeatureEnabledFlow.first())
+                toggleDiffsEnabling((viewModel.gameUiStateFlow.value as? GameUiState.Loaded)?.isDiffsCalcsFeatureEnabled == true)
             }
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             with(activity as? MainActivity) {
                 when (menuItem.itemId) {
+                    android.R.id.home -> onBackOrUpClick.invoke()
                     R.id.action_rotate_seats -> {
-                        if (binding.viewPagerGame.currentItem == GamePages.LIST.code) {
-                            gameViewModel.showPage(GamePages.TABLE)
+                        if (binding.viewPagerGame.currentItem == GamePages.LIST.index) {
+                            viewModel.showPage(GamePages.TABLE)
                         }
-                        gameViewModel.toggleSeatsRotation()
+                        viewModel.toggleSeatsRotation()
                     }
 
                     R.id.action_combinations -> findNavController().navigate(R.id.combinationsFragment)
-                    R.id.action_end_game -> gameViewModel.endGame()
-                    R.id.action_enable_diffs_calcs -> gameViewModel.toggleDiffsFeature(true)
-                    R.id.action_disable_diffs_calcs -> gameViewModel.toggleDiffsFeature(false)
-                    R.id.action_resume_game -> gameViewModel.resumeGame()
+                    R.id.action_end_game -> viewModel.endGame()
+                    R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
+                    R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
+                    R.id.action_resume_game -> viewModel.resumeGame()
                     R.id.action_edit_names -> findNavController().navigate(R.id.action_gameFragment_to_editNamesDialogFragment)
                     R.id.action_share_game -> this@with?.showShareGameDialog { shareGameOption ->
-                        gameViewModel.shareGame(
-                            option = shareGameOption,
-                            getExternalFilesDir = { requireActivity().getExternalFilesDir(null) },
-                        )
+                        with(requireActivity()) {
+                            viewModel.shareGame(
+                                option = shareGameOption,
+                                directory = getExternalFilesDir(null),
+                                showShareText = { text -> shareText(text) },
+                                showShareFiles = { files -> shareFiles(files) },
+                            )
+                        }
                     }
 
                     else -> return false
@@ -126,6 +134,11 @@ class GameFragment : BaseMainFragment() {
                 return true
             }
         }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = GameFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -137,22 +150,22 @@ class GameFragment : BaseMainFragment() {
     }
 
     private fun startObservingViewModel() {
-        Log.d("GameFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
-        with(viewLifecycleOwner.lifecycleScope) {
-            launch { repeatOnLifecycle(STARTED) { gameViewModel.gameFlow.collect(::gameObserver) } }
-            launch { repeatOnLifecycle(STARTED) { gameViewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling) } }
-            launch { repeatOnLifecycle(STARTED) { gameViewModel.seatsOrientationFlow.collect { updateSeatsOrientationIcon(it) } } }
-            launch { repeatOnLifecycle(STARTED) { gameViewModel.pageToShowFlow.collect { pageToShowObserver(it) } } }
-            launch { repeatOnLifecycle(STARTED) { gameViewModel.exportedTextFlow.collect { it?.let { requireActivity().shareText(it) } } } }
-            launch { repeatOnLifecycle(STARTED) { gameViewModel.exportedFilesFlow.collect { it?.let { requireActivity().shareFiles(it) } } } }
+        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(STARTED) { viewModel.gameUiStateFlow.collect(::uiStateObserver) } }
+    }
+
+    private fun uiStateObserver(uiState: GameUiState) {
+        when (uiState) {
+            is GameUiState.Loading -> {}
+            is GameUiState.Loaded -> {
+                setGameData(uiState.game)
+                toggleDiffsEnabling(uiState.isDiffsCalcsFeatureEnabled)
+                updateSeatsOrientationIcon(uiState.seatsOrientation)
+                pageToShowObserver(uiState.pageToShow)
+            }
         }
     }
 
-    private fun pageToShowObserver(it: Pair<GamePages, ShouldHighlightLastRound>?) {
-        it?.first?.code?.let { pageIndex -> binding.viewPagerGame.currentItem = pageIndex }
-    }
-
-    private fun gameObserver(game: UiGame) {
+    private fun setGameData(game: UiGame) {
         if (game.gameId != NOT_SET_GAME_ID) {
             val isGameEnded = game.isEnded
 
@@ -165,15 +178,6 @@ class GameFragment : BaseMainFragment() {
             if (isGameEnded) {
                 findNavController().navigate(R.id.action_gameFragment_to_rankingDialogFragment)
             }
-
-            activityViewModel.setCurrentGameName(game.gameName)
-        }
-    }
-
-    private fun updateSeatsOrientationIcon(seatOrientation: SeatOrientation) {
-        seatsOrientationMenuItem?.icon = when (seatOrientation) {
-            SeatOrientation.OUT -> orientationOutDrawable
-            SeatOrientation.DOWN -> orientationDownDrawable
         }
     }
 
@@ -184,6 +188,23 @@ class GameFragment : BaseMainFragment() {
         } else {
             enableCalcsItem?.isVisible = true
             disableCalcsItem?.isVisible = false
+        }
+    }
+
+    private fun updateSeatsOrientationIcon(seatOrientation: SeatOrientation) {
+        seatsOrientationMenuItem?.icon = when (seatOrientation) {
+            SeatOrientation.OUT -> orientationOutDrawable
+            SeatOrientation.DOWN -> orientationDownDrawable
+        }
+    }
+
+    private fun pageToShowObserver(pageToShow: Pair<GamePages, ShouldHighlightLastRound>?) {
+        pageToShow?.first?.let { gamePage ->
+            with(binding.viewPagerGame) {
+                if (gamePage != STAY && gamePage.index != currentItem) {
+                    currentItem = gamePage.index
+                }
+            }
         }
     }
 
@@ -202,7 +223,7 @@ class GameFragment : BaseMainFragment() {
 
     override fun onResume() {
         super.onResume()
-        gameViewModel.setGameId(activityViewModel.activeGameId)
+        viewModel.setGameId(activityViewModel.activeGameId)
     }
 
     override fun onDestroyView() {

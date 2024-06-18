@@ -18,7 +18,7 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import androidx.annotation.VisibleForTesting
-import com.etologic.mahjongscoring2.app.utils.writeToCsvFile
+import com.etologic.mahjongscoring2.app.utils.DateTimeUtils.prettify
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiRound
@@ -27,24 +27,33 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
+import com.etologic.mahjongscoring2.business.model.exceptions.ErrorProcessingCsvGameException
+import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
 import com.etologic.mahjongscoring2.business.use_cases.utils.normalizeName
+import com.etologic.mahjongscoring2.business.use_cases.utils.toFileNameFormat
+import com.etologic.mahjongscoring2.business.use_cases.utils.writeToCsvFile
+import kotlinx.coroutines.flow.firstOrNull
 import java.io.File
 import javax.inject.Inject
 
 class ExportGameToCsvUseCase @Inject constructor(
-    private val getOneGameUseCase: GetOneGameUseCase,
+    private val getOneGameFlowUseCase: GetOneGameFlowUseCase,
 ) {
-    suspend operator fun invoke(gameId: GameId, getExternalFilesDir: () -> File?): Result<List<File>> =
-        getOneGameUseCase(gameId)
-            .mapCatching { uiGame ->
-                val csvText = buildCsvText(uiGame)
-                val csvFile = writeToCsvFile(
-                    fileName = "${normalizeName(uiGame.gameName).replace(" ", "_")}.csv",
-                    fileText = csvText,
-                    externalFilesDir = getExternalFilesDir.invoke(),
-                )
-                listOf(csvFile)
-            }
+    suspend operator fun invoke(gameId: GameId, directory: File?): Result<File> =
+        runCatching {
+            getOneGameFlowUseCase.invoke(gameId)
+                .firstOrNull()
+                ?.let { uiGame ->
+                    val fileText = buildCsvText(uiGame)
+                    val fileName = normalizeName(uiGame.gameName)
+                        .replace(" ", "_")
+                        .ifEmpty { uiGame.startDate.toFileNameFormat() }
+                        .plus(".csv")
+                    val csvFile = writeToCsvFile(fileName, fileText, directory)
+                    csvFile
+                }
+                ?: throw GameNotFoundException(gameId)
+        }
 
     @VisibleForTesting
     fun buildCsvText(uiGame: UiGame): String =
@@ -85,10 +94,7 @@ class ExportGameToCsvUseCase @Inject constructor(
         }
     }
 
-    private fun StringBuilder.buildRoundDataRow(
-        uiRound: UiRound,
-        uiGame: UiGame
-    ) {
+    private fun StringBuilder.buildRoundDataRow(uiRound: UiRound, uiGame: UiGame) {
         append("${uiRound.roundNumber},") // 1
         append(
             when (uiRound.winnerInitialSeat) {

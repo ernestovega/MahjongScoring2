@@ -14,6 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
@@ -42,5 +43,5 @@ class HuDiscardUseCase @Inject constructor(
                 )
             )
         }
-            .onSuccess { endRoundUseCase(uiGame.gameId) }
+            .onSuccess { endRoundUseCase.invoke(uiGame.gameId) }
 }

@@ -14,6 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions
 
 import android.content.DialogInterface
@@ -21,9 +22,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.viewpager2.widget.ViewPager2
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HandActionsViewPagerAdapter.HandActions
 import com.etologic.mahjongscoring2.databinding.GameDialogHandActionsParentFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -64,13 +65,16 @@ class HandActionsDialogFragment : BaseGameDialogFragment() {
         }
     }
 
-    fun showPage(pageIndex: Int) {
-        binding.viewPagerHandActionsParentDialog.setCurrentItem(pageIndex, true)
+    fun showPage(handAction: HandActions) {
+        with(binding.viewPagerHandActionsParentDialog) {
+            (adapter as HandActionsViewPagerAdapter).selectedHandAction = handAction
+            setCurrentItem(1, true)
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         if (isDialogCancelled) {
-            gameViewModel.unselectSelectedSeat()
+            gameViewModel.unselectSeats()
         }
         super.onDismiss(dialog)
     }

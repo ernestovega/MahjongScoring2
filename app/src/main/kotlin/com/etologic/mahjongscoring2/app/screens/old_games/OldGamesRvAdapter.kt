@@ -14,6 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens.old_games
 
 import android.graphics.drawable.Drawable
@@ -28,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.model.GameItemDiffUtilCallback
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.RankingTableHelper
-import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
+import com.etologic.mahjongscoring2.app.utils.DateTimeUtils.prettify
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.utils.toStringSigned
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
@@ -102,9 +103,8 @@ class OldGamesRvAdapter
         bestHand: BestHand
     ) {
         itemViewHolder.gameId = uiGame.gameId
-        val prettyStartDate = DateTimeUtils.getPrettyDate(uiGame.startDate)
-        itemViewHolder.tvGameName.text = uiGame.gameName.ifEmpty { prettyStartDate.replace("\n", " ") }
-        itemViewHolder.tvStartDate.text = prettyStartDate
+        itemViewHolder.tvGameName.text = uiGame.gameName.ifBlank { uiGame.startDate.prettify() }
+        itemViewHolder.tvStartDate.text = uiGame.startDate.prettify(shouldTimeGoInNewLine = true)
         itemViewHolder.tvEastPlayerName.text = uiGame.nameP1
         itemViewHolder.tvSouthPlayerName.text = uiGame.nameP2
         itemViewHolder.tvWestPlayerName.text = uiGame.nameP3

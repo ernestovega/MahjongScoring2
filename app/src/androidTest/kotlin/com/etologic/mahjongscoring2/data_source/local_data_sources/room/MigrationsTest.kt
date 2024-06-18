@@ -21,14 +21,17 @@ import androidx.room.Room
 import androidx.room.testing.MigrationTestHelper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.*
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
+import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.IOException
 import java.util.Date
 
 @RunWith(AndroidJUnit4::class)
@@ -46,7 +49,6 @@ class MigrationsTest {
     )
 
     @Test
-    @Throws(IOException::class)
     fun migrateAll() {
         // Create earliest version of the database.
         helper.createDatabase(testDbName, 1)
@@ -64,7 +66,6 @@ class MigrationsTest {
     }
 
     @Test
-    @Throws(IOException::class)
     fun migrate1To2() {
         var db = helper.createDatabase(testDbName, 1)
         // Database has schema version 1. Insert some data using SQL queries.

@@ -14,6 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens.game.dialogs
 
 import android.media.AudioAttributes
@@ -21,18 +22,15 @@ import android.media.SoundPool
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.VISIBLE
 import android.widget.ImageView
-import androidx.lifecycle.Lifecycle.State.STARTED
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.app.screens.game.GameUiState
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment.DiceNumber.FIVE
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment.DiceNumber.FOUR
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment.DiceNumber.ONE
@@ -43,8 +41,6 @@ import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.databinding.GameDialogDiceFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import java.util.Random
 import java.util.Timer
 import java.util.TimerTask
@@ -120,12 +116,7 @@ class DiceDialogFragment : BaseGameDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         zero = resources.getString(R.string.zero)
-        startObservingTable()
-    }
-
-    private fun startObservingTable() {
-        Log.d("DiceDialogFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
-        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(STARTED) { gameViewModel.gameFlow.first().let { initViews(it) } } }
+        initViews((gameViewModel.gameUiStateFlow.value as GameUiState.Loaded).game)
     }
 
     private fun initViews(game: UiGame) {

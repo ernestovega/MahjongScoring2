@@ -17,7 +17,22 @@
 
 package com.etologic.mahjongscoring2.business.use_cases.utils
 
-internal fun normalizeName(name: String?): String =
-    (name ?: "")
-        .trim()
-        .replace("\"", "")
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
+fun normalizeName(name: String?): String =
+    name?.trim()
+        ?.replace("\"", "")
+        ?: ""
+
+fun Date.toFileNameFormat(): String =
+    SimpleDateFormat("yyyy_MM_dd_HH_mm", Locale.getDefault())
+        .format(this)
+
+fun writeToCsvFile(fileName: String, fileText: String, directory: File?): File =
+    File(directory, fileName)
+        .apply {
+            writeText(fileText)
+        }

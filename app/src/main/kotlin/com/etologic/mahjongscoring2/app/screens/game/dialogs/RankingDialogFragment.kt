@@ -14,31 +14,29 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens.game.dialogs
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
-import androidx.lifecycle.Lifecycle.State.STARTED
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.app.screens.game.GameUiState
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
+import com.etologic.mahjongscoring2.app.utils.shareFiles
+import com.etologic.mahjongscoring2.app.utils.shareText
 import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
 import com.etologic.mahjongscoring2.business.model.dtos.RankingData
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.MAX_MCR_ROUNDS
 import com.etologic.mahjongscoring2.databinding.GameDialogRankingFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import java.lang.String.format
 import java.util.Locale.getDefault
 
@@ -69,12 +67,7 @@ class RankingDialogFragment : BaseGameDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setListeners()
-        startObservingTable()
-    }
-
-    private fun startObservingTable() {
-        Log.d("RankingDialogFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
-        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(STARTED) { gameViewModel.gameFlow.first().let { initViews(it) } } }
+        initViews((gameViewModel.gameUiStateFlow.value as GameUiState.Loaded).game)
     }
 
     private fun initViews(game: UiGame) {
@@ -90,10 +83,14 @@ class RankingDialogFragment : BaseGameDialogFragment() {
         binding.btRankingDialogShare.setOnSecureClickListener {
             with(requireContext()) {
                 showShareGameDialog { shareGameOption ->
-                    gameViewModel.shareGame(
-                        option = shareGameOption,
-                        getExternalFilesDir = { getExternalFilesDir(null) },
-                    )
+                    with(requireActivity()) {
+                        gameViewModel.shareGame(
+                            option = shareGameOption,
+                            directory = getExternalFilesDir(null),
+                            showShareText = { text -> shareText(text) },
+                            showShareFiles = { files -> shareFiles(files) },
+                        )
+                    }
                 }
             }
         }

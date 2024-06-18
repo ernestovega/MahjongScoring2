@@ -21,13 +21,6 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/gameFragment"
-            android:icon="@drawable/ic_play_arrow_white_24px"
-            android:iconTint="@color/black"
-            android:visible="false"
-            tools:targetApi="o" />
-
-        <item
             android:id="@+id/oldGamesFragment"
             android:icon="@drawable/ic_history_black_24px"
             android:title="@string/old_games"

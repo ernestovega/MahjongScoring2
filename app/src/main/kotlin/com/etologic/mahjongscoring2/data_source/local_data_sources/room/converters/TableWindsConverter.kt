@@ -14,6 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.data_source.local_data_sources.room.converters
 
 import androidx.room.TypeConverter
@@ -30,20 +31,17 @@ class TableWindsConverter {
 
         @TypeConverter
         @JvmStatic
-        fun toStatus(status: Int): TableWinds {
-            return when (status) {
+        fun toStatus(status: Int): TableWinds =
+            when (status) {
                 EAST.code -> EAST
                 SOUTH.code -> SOUTH
                 WEST.code -> WEST
                 NORTH.code -> NORTH
                 else -> NONE
             }
-        }
 
         @TypeConverter
         @JvmStatic
-        fun toInteger(tableWinds: TableWinds): Int {
-            return tableWinds.code
-        }
+        fun toInteger(tableWinds: TableWinds): Int = tableWinds.code
     }
 }

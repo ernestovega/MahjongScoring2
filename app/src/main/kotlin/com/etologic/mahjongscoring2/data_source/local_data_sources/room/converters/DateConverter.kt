@@ -14,6 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.data_source.local_data_sources.room.converters
 
 import androidx.room.TypeConverter
@@ -25,14 +26,10 @@ class DateConverter {
 
         @TypeConverter
         @JvmStatic
-        fun toDate(timestamp: Long?): Date? {
-            return if (timestamp == null) null else Date(timestamp)
-        }
+        fun toDate(timestamp: Long?): Date? = timestamp?.let { Date(timestamp) }
 
         @TypeConverter
         @JvmStatic
-        fun toTimestamp(date: Date?): Long? {
-            return date?.time
-        }
+        fun toTimestamp(date: Date?): Long? = date?.time
     }
 }

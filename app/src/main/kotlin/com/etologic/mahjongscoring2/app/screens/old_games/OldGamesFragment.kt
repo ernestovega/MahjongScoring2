@@ -14,9 +14,11 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens.old_games
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -26,6 +28,9 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity.RESULT_OK
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle.State.STARTED
@@ -35,13 +40,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseMainFragment
-import com.etologic.mahjongscoring2.app.screens.MainActivity
 import com.etologic.mahjongscoring2.app.screens.goToPickFileToImport
-import com.etologic.mahjongscoring2.app.utils.goToChooseLanguage
+import com.etologic.mahjongscoring2.app.utils.LanguageHelper
+import com.etologic.mahjongscoring2.app.utils.goToChangeLanguage
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
+import com.etologic.mahjongscoring2.app.utils.shareFiles
+import com.etologic.mahjongscoring2.app.utils.shareText
 import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.databinding.OldGamesFragmentBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -51,6 +59,7 @@ class OldGamesFragment : BaseMainFragment() {
 
     companion object {
         const val TAG = "OldGamesFragment"
+        const val LAST_BACK_PRESSED_MIN_TIME: Long = 2000
     }
 
     private var changeLanguageItem: MenuItem? = null
@@ -65,7 +74,27 @@ class OldGamesFragment : BaseMainFragment() {
 
     private val viewModel: OldGamesViewModel by viewModels()
 
-    override val menuProvider = object : MenuProvider {
+    @Inject
+    lateinit var languageHelper: LanguageHelper
+
+    private var lastBackPress: Long = 0
+
+    override val onBackOrUpClick: () -> Unit = {
+        val navController = findNavController()
+        if (navController.currentDestination?.id == R.id.oldGamesFragment) {
+            val currentTimeMillis = System.currentTimeMillis()
+            if (currentTimeMillis - lastBackPress > LAST_BACK_PRESSED_MIN_TIME) {
+                Snackbar.make(binding.root, R.string.press_again_to_exit, Snackbar.LENGTH_LONG).show()
+                lastBackPress = currentTimeMillis
+            } else {
+                requireActivity().finish()
+            }
+        } else {
+            navController.navigateUp()
+        }
+    }
+
+    override val toolbarMenuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.old_games_menu, menu)
 
@@ -73,18 +102,21 @@ class OldGamesFragment : BaseMainFragment() {
             enableCalcsItem = menu.findItem(R.id.action_enable_diffs_calcs)
             disableCalcsItem = menu.findItem(R.id.action_disable_diffs_calcs)
 
-            toggleDiffsEnabling(activityViewModel.isDiffsCalcsFeatureEnabledFlow.value)
+            toggleDiffsEnabling((viewModel.oldGamesUiStateFlow.value as? OldGamesUiState.Loaded)?.isDiffsCalcsFeatureEnabled == true)
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-            with(activity as? MainActivity) {
+            with(requireActivity()) {
                 when (menuItem.itemId) {
-                    R.id.action_change_language -> this?.goToChooseLanguage(languageHelper.currentLanguage) { languageHelper.changeLanguage(it, this) }
+                    R.id.action_change_language -> goToChangeLanguage(languageHelper)
+                    R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
+                    R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
+                    R.id.action_import_games -> pickFileResultLauncher.goToPickFileToImport()
+                    R.id.action_export_games -> viewModel.exportGames(
+                        directory = getExternalFilesDir(null),
+                        showShareFiles = { files -> shareFiles(files) },
+                    )
 
-                    R.id.action_enable_diffs_calcs -> activityViewModel.toggleDiffsFeature(true)
-                    R.id.action_disable_diffs_calcs -> activityViewModel.toggleDiffsFeature(false)
-                    R.id.action_export_games -> lifecycleScope.launch { activityViewModel.exportGames { this@with?.getExternalFilesDir(null) } }
-                    R.id.action_import_games -> this?.goToPickFileToImport()
                     else -> return false
                 }
                 return true
@@ -92,13 +124,13 @@ class OldGamesFragment : BaseMainFragment() {
         }
     }
 
-    private fun toggleDiffsEnabling(shouldShowDiffs: Boolean) {
-        if (shouldShowDiffs) {
-            enableCalcsItem?.isVisible = false
-            disableCalcsItem?.isVisible = true
-        } else {
-            enableCalcsItem?.isVisible = true
-            disableCalcsItem?.isVisible = false
+    val pickFileResultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { activityResult ->
+        if (activityResult.resultCode == RESULT_OK) {
+            activityResult.data?.data?.let { uri ->
+                viewModel.importGames(uri) { requireContext().contentResolver }
+            }
         }
     }
 
@@ -130,12 +162,16 @@ class OldGamesFragment : BaseMainFragment() {
             }
 
             override fun onOldGameItemShareClicked(gameId: GameId) {
-                requireContext().showShareGameDialog { shareGameOption ->
-                    activityViewModel.shareGame(
-                        gameId = gameId,
-                        option = shareGameOption,
-                        getExternalFilesDir = { requireContext().getExternalFilesDir(null) },
-                    )
+                with(requireActivity()) {
+                    showShareGameDialog { shareGameOption ->
+                        viewModel.shareGame(
+                            gameId = gameId,
+                            option = shareGameOption,
+                            directory = getExternalFilesDir(null),
+                            showShareText = { text -> shareText(text) },
+                            showShareFiles = { files -> shareFiles(files) },
+                        )
+                    }
                 }
             }
 
@@ -154,23 +190,26 @@ class OldGamesFragment : BaseMainFragment() {
     }
 
     private fun startObservingViewModel() {
-        with(viewLifecycleOwner.lifecycleScope) {
-            launch { repeatOnLifecycle(STARTED) { viewModel.oldGamesUiState.collect(::gamesObserver) } }
-            launch { repeatOnLifecycle(STARTED) { activityViewModel.isDiffsCalcsFeatureEnabledFlow.collect(::toggleDiffsEnabling) } }
-        }
+        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(STARTED) { viewModel.oldGamesUiStateFlow.collect(::uiStateObserver) } }
     }
 
-    private fun gamesObserver(uiState: OldGamesUiState) {
+    private fun uiStateObserver(uiState: OldGamesUiState) {
         when (uiState) {
             is OldGamesUiState.Loading -> {}
             is OldGamesUiState.Loaded -> {
                 rvAdapter.setGames(uiState.oldGamesList)
-                binding.emptyLayoutOldGames.visibility = GONE
+                binding.emptyLayoutOldGames.visibility = if (uiState.oldGamesList.isEmpty()) VISIBLE else GONE
             }
-            is OldGamesUiState.Empty -> {
-                rvAdapter.setGames(emptyList())
-                binding.emptyLayoutOldGames.visibility = VISIBLE
-            }
+        }
+    }
+
+    private fun toggleDiffsEnabling(shouldShowDiffs: Boolean) {
+        if (shouldShowDiffs) {
+            enableCalcsItem?.isVisible = false
+            disableCalcsItem?.isVisible = true
+        } else {
+            enableCalcsItem?.isVisible = true
+            disableCalcsItem?.isVisible = false
         }
     }
 

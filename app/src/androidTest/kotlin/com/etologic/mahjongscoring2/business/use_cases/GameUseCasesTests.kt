@@ -81,12 +81,12 @@ class GameUseCasesTests {
         gamesRepository = DefaultGamesRepository(gamesDao)
         roundsRepository = DefaultRoundsRepository(roundsDao)
 
-        val getOneGameUseCase = GetOneGameUseCase(gamesRepository, roundsRepository)
+        val getOneGameFlowUseCase = GetOneGameFlowUseCase(gamesRepository, roundsRepository)
 
         createGameUseCase = CreateGameUseCase(gamesRepository, roundsRepository)
         endGameUseCase = EndGameUseCase(gamesRepository)
         resumeGameUseCase = ResumeGameUseCase(gamesRepository, roundsRepository)
-        endRoundUseCase = EndRoundUseCase(roundsRepository, endGameUseCase, getOneGameUseCase)
+        endRoundUseCase = EndRoundUseCase(roundsRepository, endGameUseCase, getOneGameFlowUseCase)
         huDrawUseCase = HuDrawUseCase(roundsRepository, endRoundUseCase)
         huSelfPickUseCase = HuSelfPickUseCase(roundsRepository, endRoundUseCase)
         huDiscardUseCase = HuDiscardUseCase(roundsRepository, endRoundUseCase)
@@ -143,7 +143,7 @@ class GameUseCasesTests {
         var rounds = roundsDao.getGameRounds(game.gameId)
 
         // When we call the UseCase for ending the game
-        endGameUseCase(game.toUiGame(rounds))
+        endGameUseCase.invoke(game.toUiGame(rounds))
 
         // Then we expect a not null game endDate, and an ongoing round
         game = gamesDao.getAllFlow().first().first()
@@ -160,12 +160,12 @@ class GameUseCasesTests {
         // Given an ended game with 1 ongoing round
         var game = createJustGameAndFirstOngoingRound()
         var rounds = roundsDao.getGameRounds(game.gameId)
-        endGameUseCase(game.toUiGame(rounds))
+        endGameUseCase.invoke(game.toUiGame(rounds))
 
         // When we call the UseCase for resuming the game
         game = gamesDao.getAllFlow().first().first()
         rounds = roundsDao.getGameRounds(game.gameId)
-        resumeGameUseCase(game.toUiGame(rounds))
+        resumeGameUseCase.invoke(game.toUiGame(rounds))
 
         // Then we expect a null game endDate, and an ongoing round
         game = gamesDao.getAllFlow().first().first()
@@ -184,7 +184,7 @@ class GameUseCasesTests {
         var rounds = roundsDao.getGameRounds(game.gameId)
 
         // When we call the UseCase for setting a Draw
-        huDrawUseCase(game.toUiGame(rounds))
+        huDrawUseCase.invoke(game.toUiGame(rounds))
 
         // Then we expect 2 rounds, the 1st with Draw data and the 2nd ongoing
         game = gamesDao.getAllFlow().first().first()
@@ -205,7 +205,7 @@ class GameUseCasesTests {
         var rounds = roundsDao.getGameRounds(game.gameId)
 
         // When we call the UseCase for setting a Hu by self pick
-        huSelfPickUseCase(game.toUiGame(rounds), HuData(8, EAST))
+        huSelfPickUseCase.invoke(game.toUiGame(rounds), HuData(8, EAST))
 
         // Then we expect 2 rounds, the 1st with the Hu by self pick data and the 2nd ongoing
         game = gamesDao.getAllFlow().first().first()
@@ -228,7 +228,7 @@ class GameUseCasesTests {
         var rounds = roundsDao.getGameRounds(game.gameId)
 
         // When we call the UseCase for setting a Hu by discard
-        huDiscardUseCase(game.toUiGame(rounds), HuData(9, EAST, SOUTH))
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(9, EAST, SOUTH))
 
         // Then we expect 2 rounds, the 1st with Hu by discard data and the 2nd ongoing
         game = gamesDao.getAllFlow().first().first()
@@ -250,12 +250,12 @@ class GameUseCasesTests {
         var game = createJustGameAndFirstOngoingRound()
         var rounds = roundsDao.getGameRounds(game.gameId)
         repeat(MAX_MCR_ROUNDS - 1) {
-            huDrawUseCase(game.toUiGame(rounds))
+            huDrawUseCase.invoke(game.toUiGame(rounds))
             rounds = roundsDao.getGameRounds(game.gameId)
         }
 
         // When set the 16th hand by Hu self pick
-        huSelfPickUseCase(game.toUiGame(rounds), HuData(8, EAST))
+        huSelfPickUseCase.invoke(game.toUiGame(rounds), HuData(8, EAST))
 
         // Then we expect MAX_MCR_ROUNDS rounds, none ongoing and a not null game endDate
         rounds = roundsDao.getGameRounds(game.gameId)
@@ -274,11 +274,11 @@ class GameUseCasesTests {
         // Given an existing game with 2 rounds, last 1 ongoing
         val game = createJustGameAndFirstOngoingRound()
         var rounds = roundsDao.getGameRounds(game.gameId)
-        huDrawUseCase(game.toUiGame(rounds))
+        huDrawUseCase.invoke(game.toUiGame(rounds))
 
         // When we call the UseCase to delete the round 1
         var firstRound = rounds.first()
-        deleteRoundUseCase(firstRound.roundId)
+        deleteRoundUseCase.invoke(firstRound.roundId)
 
         // Then we expect 1 round ongoing
         rounds = roundsDao.getGameRounds(game.gameId)
@@ -296,13 +296,13 @@ class GameUseCasesTests {
         var game = createJustGameAndFirstOngoingRound()
         var rounds = roundsDao.getGameRounds(game.gameId)
         repeat(MAX_MCR_ROUNDS) {
-            huDrawUseCase(game.toUiGame(rounds))
+            huDrawUseCase.invoke(game.toUiGame(rounds))
             rounds = roundsDao.getGameRounds(game.gameId)
         }
 
         // When we call the UseCase to delete the last round
         var lastRound = rounds.last()
-        deleteRoundUseCase(lastRound.roundId)
+        deleteRoundUseCase.invoke(lastRound.roundId)
 
         // Then we expect 15 rounds, none ongoing and game endDate not null
         rounds = roundsDao.getGameRounds(game.gameId)
@@ -324,7 +324,7 @@ class GameUseCasesTests {
         var rounds = roundsDao.getGameRounds(game.gameId)
 
         // When we call the UseCase for setting a penalty divided
-        setPenaltyUseCase(game.toUiGame(rounds).uiRounds.first(), PenaltyData(30, true, EAST))
+        setPenaltyUseCase.invoke(game.toUiGame(rounds).uiRounds.first(), PenaltyData(30, true, EAST))
 
         // Then we expect 1 ongoing round with the right penalty data
         game = gamesDao.getAllFlow().first().first()
@@ -345,7 +345,7 @@ class GameUseCasesTests {
         var rounds = roundsDao.getGameRounds(game.gameId)
 
         // When we call the UseCase for setting a penalty divided
-        setPenaltyUseCase(game.toUiGame(rounds).uiRounds.first(), PenaltyData(30, false, EAST))
+        setPenaltyUseCase.invoke(game.toUiGame(rounds).uiRounds.first(), PenaltyData(30, false, EAST))
 
         // Then we expect 1 ongoing round with the right penalty data
         rounds = roundsDao.getGameRounds(game.gameId)
@@ -365,7 +365,7 @@ class GameUseCasesTests {
         var rounds = roundsDao.getGameRounds(game.gameId)
 
         // When we call the UseCase for setting a penalty divided
-        cancelAllPenaltiesUseCase(game.toUiGame(rounds).uiRounds.first())
+        cancelAllPenaltiesUseCase.invoke(game.toUiGame(rounds).uiRounds.first())
 
         // Then we expect 1 ongoing round with no penalties
         rounds = roundsDao.getGameRounds(game.gameId)
@@ -385,7 +385,7 @@ class GameUseCasesTests {
         val rounds = roundsDao.getGameRounds(game.gameId)
 
         // When we call the UseCase for setting a penalty divided
-        editGameNamesUseCase(
+        editGameNamesUseCase.invoke(
             uiGame = game.toUiGame(rounds),
             newGameName = "EDITED game name 1",
             newNameP1 = "EDITED Player 1",
@@ -424,51 +424,51 @@ class GameUseCasesTests {
     private suspend fun createCompleteGame(): UiGame {
         val game = createJustGameAndFirstOngoingRound()
         var rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(18, EAST, TableWinds.NORTH)) // 1
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(18, EAST, TableWinds.NORTH)) // 1
         rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(9, SOUTH, TableWinds.WEST)) // 2
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(9, SOUTH, TableWinds.WEST)) // 2
         rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(12, TableWinds.WEST, SOUTH)) // 3
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(12, TableWinds.WEST, SOUTH)) // 3
         rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(25, TableWinds.NORTH, EAST)) // 4
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(25, TableWinds.NORTH, EAST)) // 4
         rounds = roundsDao.getGameRounds(game.gameId)
-        huSelfPickUseCase(game.toUiGame(rounds), HuData(8, TableWinds.NORTH)) // 5
+        huSelfPickUseCase.invoke(game.toUiGame(rounds), HuData(8, TableWinds.NORTH)) // 5
         rounds = roundsDao.getGameRounds(game.gameId)
-        setPenaltyUseCase(game.toUiGame(rounds).uiRounds.last(), PenaltyData(30, true, EAST)) // 6
+        setPenaltyUseCase.invoke(game.toUiGame(rounds).uiRounds.last(), PenaltyData(30, true, EAST)) // 6
         rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(12, SOUTH, TableWinds.NORTH)) // 6
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(12, SOUTH, TableWinds.NORTH)) // 6
         rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(10, EAST, TableWinds.WEST)) // 7
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(10, EAST, TableWinds.WEST)) // 7
         rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(12, TableWinds.WEST, SOUTH)) // 8
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(12, TableWinds.WEST, SOUTH)) // 8
         rounds = roundsDao.getGameRounds(game.gameId)
-        huSelfPickUseCase(game.toUiGame(rounds), HuData(8, TableWinds.NORTH)) // 9
-        deleteRoundUseCase(9) // 9
+        huSelfPickUseCase.invoke(game.toUiGame(rounds), HuData(8, TableWinds.NORTH)) // 9
+        deleteRoundUseCase.invoke(9) // 9
         rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(17, TableWinds.NORTH, EAST)) // 9 (10)
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(17, TableWinds.NORTH, EAST)) // 9 (10)
         rounds = roundsDao.getGameRounds(game.gameId)
-        huSelfPickUseCase(game.toUiGame(rounds), HuData(8, TableWinds.NORTH)) // 10 (11)
+        huSelfPickUseCase.invoke(game.toUiGame(rounds), HuData(8, TableWinds.NORTH)) // 10 (11)
         rounds = roundsDao.getGameRounds(game.gameId)
-        setPenaltyUseCase(game.toUiGame(rounds).uiRounds.last(), PenaltyData(60, true, EAST)) // 11 (12)
+        setPenaltyUseCase.invoke(game.toUiGame(rounds).uiRounds.last(), PenaltyData(60, true, EAST)) // 11 (12)
         rounds = roundsDao.getGameRounds(game.gameId)
-        setPenaltyUseCase(game.toUiGame(rounds).uiRounds.last(), PenaltyData(30, false, TableWinds.WEST)) // 11 (12)
+        setPenaltyUseCase.invoke(game.toUiGame(rounds).uiRounds.last(), PenaltyData(30, false, TableWinds.WEST)) // 11 (12)
         rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(28, SOUTH, TableWinds.NORTH)) // 11 (12)
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(28, SOUTH, TableWinds.NORTH)) // 11 (12)
         rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(9, EAST, TableWinds.WEST)) // 12 (13)
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(9, EAST, TableWinds.WEST)) // 12 (13)
         rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(12, TableWinds.WEST, SOUTH)) // 13 (14)
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(12, TableWinds.WEST, SOUTH)) // 13 (14)
         rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(13, TableWinds.WEST, TableWinds.NORTH)) // 14 (15)
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(13, TableWinds.WEST, TableWinds.NORTH)) // 14 (15)
         rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(8, TableWinds.NORTH, TableWinds.WEST)) // 15 (16)
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(8, TableWinds.NORTH, TableWinds.WEST)) // 15 (16)
         rounds = roundsDao.getGameRounds(game.gameId)
-        huSelfPickUseCase(game.toUiGame(rounds), HuData(1008, TableWinds.NORTH)) // 16 (17)
-        deleteRoundUseCase(17) // 16 (17)
+        huSelfPickUseCase.invoke(game.toUiGame(rounds), HuData(1008, TableWinds.NORTH)) // 16 (17)
+        deleteRoundUseCase.invoke(17) // 16 (17)
         rounds = roundsDao.getGameRounds(game.gameId)
-        resumeGameUseCase(game.toUiGame(rounds))
+        resumeGameUseCase.invoke(game.toUiGame(rounds))
         rounds = roundsDao.getGameRounds(game.gameId)
-        huDiscardUseCase(game.toUiGame(rounds), HuData(24, TableWinds.NORTH, SOUTH)) // 16 (18)
+        huDiscardUseCase.invoke(game.toUiGame(rounds), HuData(24, TableWinds.NORTH, SOUTH)) // 16 (18)
 
         val dbGame = createJustGameAndFirstOngoingRound()
         val dbRounds = roundsDao.getGameRounds(game.gameId)
@@ -476,7 +476,7 @@ class GameUseCasesTests {
     }
 
     private suspend fun createJustGameAndFirstOngoingRound(gameName: String = "Test Game Name 1"): DbGame {
-        createGameUseCase(
+        createGameUseCase.invoke(
             gameName = gameName,
             nameP1 = "Test Player 1",
             nameP2 = "Test Player 2",

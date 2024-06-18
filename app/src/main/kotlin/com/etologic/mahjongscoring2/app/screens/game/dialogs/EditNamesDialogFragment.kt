@@ -14,19 +14,17 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens.game.dialogs
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle.State.STARTED
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.app.screens.game.GameUiState
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.showKeyboard
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
@@ -37,8 +35,6 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.DialogEditNamesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class EditNamesDialogFragment : BaseGameDialogFragment() {
@@ -68,12 +64,7 @@ class EditNamesDialogFragment : BaseGameDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.tietNamesDialogGameName.showKeyboard(requireActivity().window)
         binding.btNamesDialogSave.text = getString(R.string.save)
-        startObservingTable()
-    }
-
-    private fun startObservingTable() {
-        Log.d("EditNamesDialogFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
-        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(STARTED) { gameViewModel.gameFlow.first().let { initViews(it) } } }
+        initViews((gameViewModel.gameUiStateFlow.value as GameUiState.Loaded).game)
     }
 
     private fun initViews(game: UiGame) {

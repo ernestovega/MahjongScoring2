@@ -14,16 +14,22 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.etologic.mahjongscoring2.app.screens.dialogs.setup_new_game
+
+package com.etologic.mahjongscoring2.app.screens.old_games.dialogs
 
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseMainDialogFragment
+import com.etologic.mahjongscoring2.app.screens.MainViewModel
+import com.etologic.mahjongscoring2.app.screens.old_games.OldGamesFragment
+import com.etologic.mahjongscoring2.app.screens.old_games.OldGamesViewModel
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.showKeyboard
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
@@ -31,7 +37,7 @@ import com.etologic.mahjongscoring2.databinding.DialogEditNamesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SetupNewGameDialogFragment : BaseMainDialogFragment() {
+class SetupNewGameDialogFragment : AppCompatDialogFragment() {
 
     companion object {
         const val TAG = "SetupNewGameDialogFragment"
@@ -39,6 +45,12 @@ class SetupNewGameDialogFragment : BaseMainDialogFragment() {
 
     private var _binding: DialogEditNamesFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private val activityViewModel by activityViewModels<MainViewModel>()
+    private val oldGamesViewModel by viewModels<OldGamesViewModel>(ownerProducer = {
+        requireParentFragment().childFragmentManager.fragments.filterIsInstance<OldGamesFragment>().firstOrNull()
+            ?: throw IllegalStateException()
+    })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,7 +89,7 @@ class SetupNewGameDialogFragment : BaseMainDialogFragment() {
             tietNamesDialogNorth.setOnFocusChangeListener { _, isFocused -> if (isFocused) tietNamesDialogNorth.selectAll() }
             btNamesDialogCancel.setOnSecureClickListener { dismiss() }
             btNamesDialogSave.setOnSecureClickListener {
-                activityViewModel.createGame(
+                oldGamesViewModel.createGame(
                     gameName = tietNamesDialogGameName.text?.toString() ?: "",
                     nameP1 = tietNamesDialogEast.text?.toString() ?: getString(R.string.player_one),
                     nameP2 = tietNamesDialogSouth.text?.toString() ?: getString(R.string.player_two),

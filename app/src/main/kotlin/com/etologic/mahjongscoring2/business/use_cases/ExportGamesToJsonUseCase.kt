@@ -18,12 +18,11 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import androidx.annotation.VisibleForTesting
-import com.etologic.mahjongscoring2.app.utils.writeToCsvFile
 import com.etologic.mahjongscoring2.business.model.dtos.PortableGame
 import com.etologic.mahjongscoring2.business.model.dtos.toPortableGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
-import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
 import com.etologic.mahjongscoring2.business.model.exceptions.GamesNotFoundException
+import com.etologic.mahjongscoring2.business.use_cases.utils.writeToCsvFile
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
@@ -31,19 +30,15 @@ import java.io.File
 import javax.inject.Inject
 
 class ExportGamesToJsonUseCase @Inject constructor(
-    private val getAllGamesFlowUseCase: GetAllGamesFlowUseCase
+    private val getAllGamesFlowUseCase: GetAllGamesFlowUseCase,
 ) {
-    @Throws(GameNotFoundException::class)
-    suspend operator fun invoke(getExternalFilesDir: () -> File?): Result<List<File>> =
+    suspend operator fun invoke(directory: File?): Result<Array<File>> =
         runCatching {
             val uiGames = getAllGamesFlowUseCase.invoke().firstOrNull() ?: throw GamesNotFoundException()
             val jsonText = jsonFrom(uiGames)
-            val jsonFile = writeToCsvFile(
-                fileName = "MahjongMadrid2_DataBase.json",
-                fileText = jsonText,
-                externalFilesDir = getExternalFilesDir.invoke(),
-            )
-            listOf(jsonFile)
+            val fileName = "MahjongMadrid2_DataBase".plus(".json")
+            val jsonFile = writeToCsvFile(fileName, jsonText, directory)
+            arrayOf(jsonFile)
         }
 
     @VisibleForTesting

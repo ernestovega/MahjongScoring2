@@ -14,6 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.GameId
@@ -36,19 +37,18 @@ class CreateGameUseCase @Inject constructor(
         nameP2: String,
         nameP3: String,
         nameP4: String,
-    ): Result<GameId> =
-        gamesRepository.insertOne(
-            DbGame(
-                gameId = NOT_SET_GAME_ID,
-                gameName = gameName,
-                nameP1 = nameP1,
-                nameP2 = nameP2,
-                nameP3 = nameP3,
-                nameP4 = nameP4,
-                startDate = Date(),
-                endDate = null,
-            )
+    ): Result<GameId> {
+        val newGame = DbGame(
+            gameId = NOT_SET_GAME_ID,
+            gameName = gameName,
+            nameP1 = nameP1,
+            nameP2 = nameP2,
+            nameP3 = nameP3,
+            nameP4 = nameP4,
+            startDate = Date(),
+            endDate = null,
         )
+        return gamesRepository.insertOne(newGame)
             .onSuccess { gameId ->
                 roundsRepository.insertOne(
                     DbRound(
@@ -57,4 +57,5 @@ class CreateGameUseCase @Inject constructor(
                     )
                 )
             }
+    }
 }

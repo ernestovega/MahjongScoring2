@@ -238,6 +238,5 @@
     <string name="spanish">🇪🇸Espagnol</string>
 
     <!--  Translations V2.4.0  -->
-    <string name="current_game">Partie en cours</string>
     <string name="there_arent_combinations_try_new_search">Il n\'y a pas de combinaisons selon ce critère, essayez un autre.</string>
 </resources>

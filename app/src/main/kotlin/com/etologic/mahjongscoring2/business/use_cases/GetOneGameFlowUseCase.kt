@@ -14,11 +14,12 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
-import com.etologic.mahjongscoring2.business.model.entities.UiRound
+import com.etologic.mahjongscoring2.business.use_cases.mappers.toUiGame
 import com.etologic.mahjongscoring2.data_source.repositories.games.GamesRepository
 import com.etologic.mahjongscoring2.data_source.repositories.rounds.RoundsRepository
 import kotlinx.coroutines.flow.Flow
@@ -38,29 +39,7 @@ class GetOneGameFlowUseCase @Inject constructor(
             if (dbRounds.isEmpty()) {
                 null
             } else {
-                UiGame(
-                    gameId = dbGame.gameId,
-                    nameP1 = dbGame.nameP1,
-                    nameP2 = dbGame.nameP2,
-                    nameP3 = dbGame.nameP3,
-                    nameP4 = dbGame.nameP4,
-                    startDate = dbGame.startDate,
-                    endDate = dbGame.endDate,
-                    gameName = dbGame.gameName,
-                    uiRounds = dbRounds.map { dbRound ->
-                        UiRound(
-                            gameId = dbRound.gameId,
-                            roundId = dbRound.roundId,
-                            winnerInitialSeat = dbRound.winnerInitialSeat,
-                            discarderInitialSeat = dbRound.discarderInitialSeat,
-                            handPoints = dbRound.handPoints,
-                            penaltyP1 = dbRound.penaltyP1,
-                            penaltyP2 = dbRound.penaltyP2,
-                            penaltyP3 = dbRound.penaltyP3,
-                            penaltyP4 = dbRound.penaltyP4,
-                        )
-                    },
-                )
+                dbGame.toUiGame(dbRounds)
             }
         }
             .filterNotNull()

@@ -14,11 +14,11 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens.game.game_list
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -32,9 +32,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.screens.game.GameFragment
+import com.etologic.mahjongscoring2.app.screens.game.GameFragment.GamePages.LIST
+import com.etologic.mahjongscoring2.app.screens.game.GameFragment.GamePages.STAY
+import com.etologic.mahjongscoring2.app.screens.game.GameUiState
 import com.etologic.mahjongscoring2.app.screens.game.ShouldHighlightLastRound
 import com.etologic.mahjongscoring2.app.screens.game.game_list.GameListRvAdapter.GameListItemListener
-import com.etologic.mahjongscoring2.app.screens.game.GameFragment.GamePages.LIST
 import com.etologic.mahjongscoring2.app.utils.toStringSigned
 import com.etologic.mahjongscoring2.business.model.entities.RoundId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
@@ -103,19 +105,23 @@ class GameListFragment : BaseGameFragment() {
     }
 
     private fun startObservingTable() {
-        Log.d("GameListFragment", "GameViewModel: ${gameViewModel.hashCode()} - parentFragment: ${parentFragment.hashCode()}")
-        with(viewLifecycleOwner.lifecycleScope) {
-            launch { repeatOnLifecycle(STARTED) { gameViewModel.gameFlow.collect(::gameObserver) } }
-            launch { repeatOnLifecycle(STARTED) { gameViewModel.pageToShowFlow.collect(::pageToShowObserver) } }
+        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(STARTED) { gameViewModel.gameUiStateFlow.collect(::uiStateObserver) } }
+    }
+
+    private fun uiStateObserver(uiState: GameUiState) {
+        when (uiState) {
+            is GameUiState.Loading -> {}
+            is GameUiState.Loaded -> {
+                setGameData(uiState.game)
+                pageToShowObserver(uiState.pageToShow)
+            }
         }
     }
 
-    private fun gameObserver(game: UiGame) {
-        if (game.gameId != UiGame.NOT_SET_GAME_ID) {
-            setRoundsList(game.finishedRounds)
-            setNames(game.playersNames)
-            setFooter(game)
-        }
+    private fun setGameData(game: UiGame) {
+        setRoundsList(game.finishedRounds)
+        setNames(game.playersNames)
+        setFooter(game)
     }
 
     private fun setRoundsList(roundsList: List<UiRound>) {
@@ -163,15 +169,12 @@ class GameListFragment : BaseGameFragment() {
         val (pageIndex, shouldHighlightLastRound) = pageToShow
         if (pageIndex == LIST && shouldHighlightLastRound) {
             lifecycleScope.launch {
-                gameViewModel.showPage(LIST)
                 delay(300)
                 val lastItemPosition = rvAdapter.itemCount.minus(1)
                 if (lastItemPosition >= 0) {
                     val lastItem = binding.rvGameList.findViewHolderForAdapterPosition(lastItemPosition) as GameListRvAdapter.ItemViewHolder
-                    if (gameViewModel.lastHighlightedRound != lastItem.tvRoundNum.text) {
-                        gameViewModel.lastHighlightedRound = lastItem.tvRoundNum.text
-                        lastItem.highlight()
-                    }
+                    lastItem.highlight()
+                    gameViewModel.showPage(STAY)
                 }
             }
         }

@@ -14,6 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens.diffs_calculator
 
 import android.os.Bundle
@@ -56,7 +57,7 @@ class DiffsCalculatorFragment : BaseMainFragment() {
 
     private val viewModel: DiffsCalculatorViewModel by viewModels()
 
-    override val menuProvider: MenuProvider = object : MenuProvider {
+    override val toolbarMenuProvider: MenuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {}
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean = false
     }

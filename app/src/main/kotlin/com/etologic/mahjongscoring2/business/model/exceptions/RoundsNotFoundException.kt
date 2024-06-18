@@ -17,4 +17,10 @@
 
 package com.etologic.mahjongscoring2.business.model.exceptions
 
-class RoundsNotFoundException : Exception()
+import com.etologic.mahjongscoring2.business.model.entities.GameId
+
+class RoundsNotFoundException(val gameId: GameId) : Exception() {
+
+    override val message: String
+        get() = "GameId = $gameId -> message = ${super.message}"
+}

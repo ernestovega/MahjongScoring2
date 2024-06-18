@@ -14,20 +14,18 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.hand_action_penalty
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle.State.STARTED
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseGameHandActionsDialogFragment
+import com.etologic.mahjongscoring2.app.screens.game.GameUiState
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
@@ -35,9 +33,6 @@ import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NUM
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.databinding.GameDialogPenaltyFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PenaltyFragment : BaseGameHandActionsDialogFragment() {
@@ -71,35 +66,17 @@ class PenaltyFragment : BaseGameHandActionsDialogFragment() {
             westIcon = ContextCompat.getDrawable(it, R.drawable.ic_west)
             northIcon = ContextCompat.getDrawable(it, R.drawable.ic_north)
         }
-        startObservingTable()
+        initViews(gameViewModel.gameUiStateFlow.value as GameUiState.Loaded)
     }
 
-    private fun startObservingTable() {
-        Log.d("PenaltyFragment", "GameViewModel: ${gameViewModel.hashCode()}")
-
-        with(viewLifecycleOwner.lifecycleScope) {
-            launch {
-                repeatOnLifecycle(STARTED) {
-                    combine(
-                        flow = gameViewModel.gameFlow,
-                        flow2 = gameViewModel.selectedSeatFlow,
-                    ) { game, winnerSeat -> Pair(game, winnerSeat) }
-                        .first()
-                        .let { initViews(it) }
-                }
-            }
-        }
-    }
-
-    private fun initViews(screenData: Pair<UiGame, TableWinds>) {
-        val (game, selectedSeat) = screenData
-        if (game.gameId != UiGame.NOT_SET_GAME_ID) {
+    private fun initViews(uiGameState: GameUiState.Loaded) {
+        if (uiGameState.game.gameId != UiGame.NOT_SET_GAME_ID) {
             with(binding.iPenaltyDialogPlayerContainer) {
-                val playersNamesByCurrentSeat = game.getPlayersNamesByCurrentSeat()
-                ivTableSeatMediumSeatWind.setImageDrawable(getWindIcon(selectedSeat))
-                tvTableSeatMediumName.text = playersNamesByCurrentSeat[selectedSeat.code]
+                val playersNamesByCurrentSeat = uiGameState.game.getPlayersNamesByCurrentSeat()
+                ivTableSeatMediumSeatWind.setImageDrawable(getWindIcon(uiGameState.selectedSeat))
+                tvTableSeatMediumName.text = playersNamesByCurrentSeat[uiGameState.selectedSeat.code]
             }
-            setListeners(game, selectedSeat)
+            setListeners(uiGameState.game, uiGameState.selectedSeat)
         }
     }
 

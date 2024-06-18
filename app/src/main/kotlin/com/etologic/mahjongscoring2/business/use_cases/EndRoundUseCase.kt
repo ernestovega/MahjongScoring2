@@ -14,6 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.GameId
@@ -21,25 +22,29 @@ import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiRound.Companion.NOT_SET_ROUND_ID
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
 import com.etologic.mahjongscoring2.data_source.repositories.rounds.RoundsRepository
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class EndRoundUseCase @Inject constructor(
     private val roundsRepository: RoundsRepository,
     private val endGameUseCase: EndGameUseCase,
-    private val getOneGameUseCase: GetOneGameUseCase,
+    private val getOneGameFlowUseCase: GetOneGameFlowUseCase,
 ) {
     suspend operator fun invoke(gameId: GameId): Result<Boolean> =
-        getOneGameUseCase(gameId)
-            .mapCatching { uiGame ->
-                if (uiGame.uiRounds.size < UiGame.MAX_MCR_ROUNDS) {
-                    roundsRepository.insertOne(
-                        DbRound(
-                            gameId = uiGame.gameId,
-                            roundId = NOT_SET_ROUND_ID
+        runCatching {
+            getOneGameFlowUseCase.invoke(gameId)
+                .first()
+                .let { uiGame ->
+                    if (uiGame.uiRounds.size < UiGame.MAX_MCR_ROUNDS) {
+                        roundsRepository.insertOne(
+                            DbRound(
+                                gameId = uiGame.gameId,
+                                roundId = NOT_SET_ROUND_ID
+                            )
                         )
-                    )
-                } else {
-                    endGameUseCase(uiGame)
-                }.getOrThrow()
-            }
+                    } else {
+                        endGameUseCase.invoke(uiGame)
+                    }.getOrThrow()
+                }
+        }
 }

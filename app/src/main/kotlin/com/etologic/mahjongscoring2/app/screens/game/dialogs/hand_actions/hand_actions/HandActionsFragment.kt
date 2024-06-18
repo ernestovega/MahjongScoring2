@@ -14,32 +14,29 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.hand_actions
 
 import android.app.AlertDialog
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle.State.STARTED
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseGameHandActionsDialogFragment
+import com.etologic.mahjongscoring2.app.screens.game.GameUiState
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HandActionsViewPagerAdapter.HandActions.HU
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HandActionsViewPagerAdapter.HandActions.PENALTY
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.utils.toStringOrHyphen
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.databinding.GameDialogHandActionsFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HandActionsFragment : BaseGameHandActionsDialogFragment() {
@@ -74,37 +71,12 @@ class HandActionsFragment : BaseGameHandActionsDialogFragment() {
             northIcon = ContextCompat.getDrawable(it, R.drawable.ic_north)
         }
         setListeners()
-        startObservingTable()
+        initViews(gameViewModel.gameUiStateFlow.value as GameUiState.Loaded)
     }
 
-    private fun startObservingTable() {
-        Log.d("HandActionsFragment", "GameViewModel: ${gameViewModel.hashCode()}")
-
-        fun toScreenData(
-            game: UiGame,
-            selectedSeat: TableWinds,
-            isDiffsCalcsFeatureEnabled: Boolean,
-        ) = Triple(game, selectedSeat, isDiffsCalcsFeatureEnabled)
-
-        with(viewLifecycleOwner.lifecycleScope) {
-            launch {
-                repeatOnLifecycle(STARTED) {
-                    combine(
-                        flow = gameViewModel.gameFlow,
-                        flow2 = gameViewModel.selectedSeatFlow,
-                        flow3 = gameViewModel.isDiffsCalcsFeatureEnabledFlow,
-                        transform = ::toScreenData
-                    ).first().let { initViews(it) }
-                }
-            }
-        }
-    }
-
-
-    private fun initViews(screenData: Triple<UiGame, TableWinds, Boolean>) {
-        val (game, selectedSeat, isDiffsCalcsFeatureEnabled) = screenData
-        setPlayer(game, selectedSeat, isDiffsCalcsFeatureEnabled)
-        setButtons(game)
+    private fun initViews(uiGameState: GameUiState.Loaded) {
+        setPlayer(uiGameState.game, uiGameState.selectedSeat, uiGameState.isDiffsCalcsFeatureEnabled)
+        setButtons(uiGameState.game)
     }
 
     private fun setPlayer(game: UiGame, selectedSeat: TableWinds, isDiffsCalcsFeatureEnabled: Boolean) {
@@ -144,32 +116,37 @@ class HandActionsFragment : BaseGameHandActionsDialogFragment() {
     }
 
     private fun setButtons(game: UiGame) {
-        binding.btHandActionsDialogPenaltiesCancel.visibility =
-            if (game.ongoingRound.areTherePenalties()) VISIBLE else GONE
+        with(binding.btHandActionsDialogPenaltiesCancel) {
+            if (game.ongoingRound.areTherePenalties()) {
+                setOnSecureClickListener {
+                    AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
+                        .setTitle(R.string.cancel_penalties)
+                        .setMessage(R.string.are_you_sure)
+                        .setPositiveButton(R.string.ok) { _, _ ->
+                            gameViewModel.cancelPenalties()
+                            dismissDialog()
+                        }
+                        .setNegativeButton(R.string.close, null)
+                        .create()
+                        .show()
+                }
+                visibility = VISIBLE
+            } else {
+                visibility = GONE
+            }
+        }
     }
 
     private fun setListeners() {
         with(binding) {
             root.setOnSecureClickListener { dismissDialog() }
-            btHandActionsDialogHu.setOnSecureClickListener { showPage(HandActionsPages.HU) }
+            btHandActionsDialogHu.setOnSecureClickListener { showPage(HU) }
             btHandActionsDialogDraw.setOnSecureClickListener {
                 gameViewModel.saveDrawRound()
                 isDialogCancelled = false
                 dismissDialog()
             }
-            btHandActionsDialogPenalty.setOnSecureClickListener { showPage(HandActionsPages.PENALTY) }
-            btHandActionsDialogPenaltiesCancel.setOnSecureClickListener {
-                AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
-                    .setTitle(R.string.cancel_penalties)
-                    .setMessage(R.string.are_you_sure)
-                    .setPositiveButton(R.string.ok) { _, _ ->
-                        gameViewModel.cancelPenalties()
-                        dismissDialog()
-                    }
-                    .setNegativeButton(R.string.close, null)
-                    .create()
-                    .show()
-            }
+            btHandActionsDialogPenalty.setOnSecureClickListener { showPage(PENALTY) }
         }
     }
 

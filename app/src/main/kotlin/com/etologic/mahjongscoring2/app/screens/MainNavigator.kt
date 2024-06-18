@@ -14,6 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens
 
 import android.app.Activity
@@ -24,6 +25,7 @@ import android.content.Intent.FLAG_ACTIVITY_MULTIPLE_TASK
 import android.content.Intent.FLAG_ACTIVITY_NEW_DOCUMENT
 import android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
 import android.net.Uri
+import androidx.activity.result.ActivityResultLauncher
 import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 
@@ -47,7 +49,7 @@ fun MainActivity.goToContactMM() = goToContact(MAHJONG_MADRID_EMAIL_ADDRESS)
 
 fun MainActivity.goToContactSupport() = goToContact(APP_SUPPORT_EMAIL_ADDRESS)
 
-fun MainActivity.goToPickFileToImport() = goToPickFile("*/*")
+fun ActivityResultLauncher<Intent>.goToPickFileToImport(mimeType: String = "*/*") = goToPickFile(mimeType)
 
 private fun Activity.goToGreenBook(url: String) {
     val intent = Intent(ACTION_VIEW, Uri.parse(url))
@@ -72,8 +74,8 @@ private fun MainActivity.goToContact(url: String) {
     }
 }
 
-private fun MainActivity.goToPickFile(mimeType: String) {
-    pickFileResultLauncher.launch(
+private fun ActivityResultLauncher<Intent>.goToPickFile(mimeType: String) {
+    this.launch(
         Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = mimeType

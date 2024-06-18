@@ -18,22 +18,32 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.RankingTableHelper
-import com.etologic.mahjongscoring2.app.utils.DateTimeUtils
+import com.etologic.mahjongscoring2.app.utils.DateTimeUtils.prettify
 import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
+import com.etologic.mahjongscoring2.business.model.exceptions.ErrorProcessingTextGameException
+import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
 import com.etologic.mahjongscoring2.business.model.exceptions.RankingDataGenerationException
+import kotlinx.coroutines.flow.firstOrNull
 import java.lang.String.format
 import java.util.Locale
 import javax.inject.Inject
 
 class ExportGameToTextUseCase @Inject constructor(
-    private val getOneGameUseCase: GetOneGameUseCase,
+    private val getOneGameFlowUseCase: GetOneGameFlowUseCase,
 ) {
     suspend operator fun invoke(gameId: GameId): Result<String> =
-        getOneGameUseCase(gameId)
-            .mapCatching { buildText(it) }
+        runCatching {
+            getOneGameFlowUseCase.invoke(gameId)
+                .firstOrNull()
+                ?.let { uiGame ->
+                    val text = buildText(uiGame)
+                    text
+                }
+                ?: throw GameNotFoundException(gameId)
+        }
 
     private fun buildText(uiGame: UiGame): String =
         with(StringBuilder()) {
@@ -46,7 +56,7 @@ class ExportGameToTextUseCase @Inject constructor(
         RankingTableHelper.generateRankingTable(uiGame)?.let { rankingData ->
 //            appendLine("- GAME:")
 //            appendLine()
-            appendLine(uiGame.gameName.ifBlank { DateTimeUtils.getPrettyDate(uiGame.startDate).replace("\n", " ") })
+            appendLine(uiGame.gameName.ifBlank { uiGame.startDate.prettify() })
             appendLine()
 //            appendLine("- FINAL RESULTS:")
 //            appendLine()

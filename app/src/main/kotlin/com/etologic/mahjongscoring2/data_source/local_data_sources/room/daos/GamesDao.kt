@@ -14,10 +14,14 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.data_source.local_data_sources.room.daos
 
-import android.database.sqlite.SQLiteConstraintException
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
 import kotlinx.coroutines.flow.Flow
@@ -35,7 +39,6 @@ interface GamesDao {
     suspend fun getOne(gameId: GameId): DbGame
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    @Throws(SQLiteConstraintException::class)
     suspend fun insertOne(dbGame: DbGame): GameId
 
     @Update

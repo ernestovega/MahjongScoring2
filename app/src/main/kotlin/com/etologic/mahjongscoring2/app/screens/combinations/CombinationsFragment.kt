@@ -14,6 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.app.screens.combinations
 
 import android.app.SearchManager
@@ -61,7 +62,7 @@ class CombinationsFragment : BaseMainFragment() {
 
     private val viewModel: CombinationsViewModel by viewModels()
 
-    override val menuProvider = object : MenuProvider {
+    override val toolbarMenuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.combinations_menu, menu)
             val searchManager = getSystemService(requireContext(), SearchManager::class.java)

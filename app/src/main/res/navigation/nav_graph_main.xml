@@ -35,7 +35,7 @@
 
     <dialog
         android:id="@+id/setupNewGameDialogFragment"
-        android:name="com.etologic.mahjongscoring2.app.screens.dialogs.setup_new_game.SetupNewGameDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.old_games.dialogs.SetupNewGameDialogFragment"
         android:label="SetupNewGameDialogFragment"
         tools:layout="@layout/dialog_edit_names_fragment"/>
 

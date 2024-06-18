@@ -14,12 +14,17 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.etologic.mahjongscoring2.injection
 
 import android.app.Application
 import com.etologic.mahjongscoring2.app.utils.LanguageHelper
 import com.etologic.mahjongscoring2.app.utils.setLocale
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -28,9 +33,12 @@ class MahjongScoringApp : Application() {
 
     @Inject
     lateinit var languageHelper: LanguageHelper
+    private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     override fun onCreate() {
         super.onCreate()
-        setLocale(languageHelper.currentLanguage)
+        applicationScope.launch {
+            setLocale(languageHelper.getCurrentLanguage())
+        }
     }
 }
