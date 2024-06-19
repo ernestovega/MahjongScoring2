@@ -172,7 +172,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/penalty"
             android:gravity="center"
-            android:src="@drawable/ic_whistle_black_24"
+            android:src="@drawable/ic_whistle"
             app:tint="@color/white" />
 
         <TextView

@@ -15,14 +15,16 @@
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <item
         android:id="@+id/action_search_combination"
         android:icon="@drawable/ic_search"
         android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        tools:ignore="UnusedAttribute" />
 
     <item
         android:id="@+id/action_toggle_combination_explanation"

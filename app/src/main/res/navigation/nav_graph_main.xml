@@ -32,8 +32,8 @@
             app:destination="@id/setupNewGameDialogFragment" />
 
         <action
-            android:id="@+id/action_oldGamesFragment_to_combinationsFragment"
-            app:destination="@id/combinationsFragment" />
+            android:id="@+id/action_oldGamesFragment_to_combinationsDialogFragment"
+            app:destination="@id/combinationsDialogFragment" />
 
         <action
             android:id="@+id/action_oldGamesFragment_to_diffsCalculatorDialogFragment"
@@ -81,15 +81,15 @@
 
         <action
             android:id="@+id/action_gameFragment_to_combinationsFragment"
-            app:destination="@id/combinationsFragment" />
+            app:destination="@id/combinationsDialogFragment" />
 
     </fragment>
 
-    <fragment
-        android:id="@+id/combinationsFragment"
-        android:name="com.etologic.mahjongscoring2.app.screens.combinations.CombinationsFragment"
+    <dialog
+        android:id="@+id/combinationsDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.combinations.CombinationsDialogFragment"
         android:label="@string/combinations"
-        tools:layout="@layout/combinations_fragment" />
+        tools:layout="@layout/combinations_dialog_fragment" />
 
     <dialog
         android:id="@+id/diffsCalculatorDialogFragment"

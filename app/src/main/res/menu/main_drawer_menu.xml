@@ -27,7 +27,7 @@
             android:visible="true" />
 
         <item
-            android:id="@+id/combinationsFragment"
+            android:id="@+id/combinationsDialogFragment"
             android:icon="@drawable/ic_format_list_numbered_black_24dp"
             android:title="@string/combinations" />
 

@@ -90,7 +90,7 @@
                 android:layout_width="@dimen/standard_margin"
                 android:layout_height="@dimen/standard_margin"
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP1"
-                android:src="@drawable/ic_whistle_black_24"
+                android:src="@drawable/ic_whistle"
                 android:visibility="gone"
                 app:tint="@color/purplePenalty"
                 tools:ignore="ContentDescription"
@@ -120,7 +120,7 @@
                 android:layout_width="@dimen/standard_margin"
                 android:layout_height="@dimen/standard_margin"
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP2"
-                android:src="@drawable/ic_whistle_black_24"
+                android:src="@drawable/ic_whistle"
                 android:visibility="gone"
                 app:tint="@color/purplePenalty"
                 tools:ignore="ContentDescription" />
@@ -148,7 +148,7 @@
                 android:layout_width="@dimen/standard_margin"
                 android:layout_height="@dimen/standard_margin"
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP3"
-                android:src="@drawable/ic_whistle_black_24"
+                android:src="@drawable/ic_whistle"
                 android:visibility="gone"
                 app:tint="@color/purplePenalty"
                 tools:ignore="ContentDescription" />
@@ -175,7 +175,7 @@
                 android:layout_width="@dimen/standard_margin"
                 android:layout_height="@dimen/standard_margin"
                 android:layout_toEndOf="@+id/tvGameListItemRoundPointsP4"
-                android:src="@drawable/ic_whistle_black_24"
+                android:src="@drawable/ic_whistle"
                 android:visibility="gone"
                 app:tint="@color/purplePenalty"
                 tools:ignore="ContentDescription" />
