@@ -29,7 +29,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.model.GameItemDiffUtilCallback
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.RankingTableHelper
-import com.etologic.mahjongscoring2.app.utils.DateTimeUtils.prettify
+import com.etologic.mahjongscoring2.app.utils.DateTimeUtils.prettifyOneLine
+import com.etologic.mahjongscoring2.app.utils.DateTimeUtils.prettifyTwoLines
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.utils.toStringSigned
 import com.etologic.mahjongscoring2.business.model.dtos.BestHand
@@ -103,8 +104,8 @@ class OldGamesRvAdapter
         bestHand: BestHand
     ) {
         itemViewHolder.gameId = uiGame.gameId
-        itemViewHolder.tvGameName.text = uiGame.gameName.ifBlank { uiGame.startDate.prettify() }
-        itemViewHolder.tvStartDate.text = uiGame.startDate.prettify(shouldTimeGoInNewLine = true)
+        itemViewHolder.tvGameName.text = uiGame.gameName.ifBlank { uiGame.startDate.prettifyOneLine() }
+        itemViewHolder.tvStartDate.text = uiGame.startDate.prettifyTwoLines()
         itemViewHolder.tvEastPlayerName.text = uiGame.nameP1
         itemViewHolder.tvSouthPlayerName.text = uiGame.nameP2
         itemViewHolder.tvWestPlayerName.text = uiGame.nameP3

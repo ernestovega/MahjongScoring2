@@ -18,7 +18,7 @@
 package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.RankingTableHelper
-import com.etologic.mahjongscoring2.app.utils.DateTimeUtils.prettify
+import com.etologic.mahjongscoring2.app.utils.DateTimeUtils.prettifyOneLine
 import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
@@ -55,7 +55,7 @@ class ExportGameToTextUseCase @Inject constructor(
         RankingTableHelper.generateRankingTable(uiGame)?.let { rankingData ->
 //            appendLine("- GAME:")
 //            appendLine()
-            appendLine(uiGame.gameName.ifBlank { uiGame.startDate.prettify() })
+            appendLine(uiGame.gameName.ifBlank { uiGame.startDate.prettifyOneLine() })
             appendLine()
 //            appendLine("- FINAL RESULTS:")
 //            appendLine()

@@ -19,7 +19,6 @@ package com.etologic.mahjongscoring2.app.screens.combinations
 
 import android.app.SearchManager
 import android.content.DialogInterface
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -37,7 +36,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.MenuProvider
-import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -47,7 +45,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.model.ShowState.SHOW
-import com.etologic.mahjongscoring2.app.screens.MainActivity
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
 import com.etologic.mahjongscoring2.databinding.CombinationsDialogFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,21 +68,18 @@ class CombinationsDialogFragment : DialogFragment() {
     private val viewModel: CombinationsViewModel by viewModels()
 
     private val whiteColor: Int by lazy { ContextCompat.getColor(requireContext(), R.color.white) }
-    private val greenColor: Int by lazy { ContextCompat.getColor(requireContext(), R.color.colorPrimary) }
 
     private val toolbarMenuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.combinations_menu, menu)
-            val searchManager = getSystemService(requireContext(), SearchManager::class.java)
+
             (menu.findItem(R.id.action_search_combination)?.actionView as? SearchView)?.apply {
-//                setStyle()
                 findViewById<ImageView>(androidx.appcompat.R.id.search_button)?.setColorFilter(whiteColor)
-                findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)?.setColorFilter(whiteColor)
                 findViewById<TextView>(androidx.appcompat.R.id.search_src_text)?.setTextColor(whiteColor)
-//                findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)?.setColorFilter(greenColor)
 
-
+                val searchManager = getSystemService(requireContext(), SearchManager::class.java)
                 setSearchableInfo(searchManager?.getSearchableInfo(requireActivity().componentName))
+
                 setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
                         return false
@@ -101,7 +95,7 @@ class CombinationsDialogFragment : DialogFragment() {
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             when (menuItem.itemId) {
-                R.id.action_toggle_combination_explanation -> (activity as? MainActivity)?.binding?.toolbar?.menu?.findItem(menuItem.itemId)
+                R.id.action_toggle_combination_explanation -> binding.toolbarCombinations.menu.findItem(menuItem.itemId)
                     ?.setIcon(if (rvAdapter.toggleImageOrDescription() === SHOW) R.drawable.ic_books else R.drawable.ic_photos)
 
                 else -> return false

@@ -23,15 +23,15 @@ import java.util.Locale
 
 object DateTimeUtils {
 
-    fun Date.prettify(shouldTimeGoInNewLine: Boolean = false): String =
+    fun Date.prettifyOneLine(): String =
         SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
             .format(this)
-            .apply {
-                capitalize()
-                if (shouldTimeGoInNewLine) {
-                    replace("", "\n")
-                }
-            }
+            .capitalize()
+
+    fun Date.prettifyTwoLines(): String =
+        SimpleDateFormat("dd/MM/yyyy\nHH:mm", Locale.getDefault())
+            .format(this)
+            .capitalize()
 
     fun areEqual(date1: Date?, date2: Date?): Boolean {
         if (date1 == null && date2 == null) return true
