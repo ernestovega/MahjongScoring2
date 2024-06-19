@@ -112,7 +112,7 @@ class GameFragment : BaseMainFragment() {
                         viewModel.toggleSeatsRotation()
                     }
 
-                    R.id.action_combinations -> findNavController().navigate(R.id.combinationsFragment)
+                    R.id.action_combinations -> findNavController().navigate(R.id.action_gameFragment_to_combinationsFragment)
                     R.id.action_end_game -> viewModel.endGame()
                     R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
                     R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)

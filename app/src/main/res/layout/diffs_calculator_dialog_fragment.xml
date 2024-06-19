@@ -15,12 +15,23 @@
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
     android:orientation="vertical"
-    tools:context=".app.screens.diffs_calculator.DiffsCalculatorFragment">
+    tools:context=".app.screens.diffs_calculator.DiffsCalculatorDialogFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarDiffsCalculator"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        app:navigationIcon="@drawable/ic_close"
+        app:title="@string/diffsCalculator"
+        app:titleTextColor="@color/white" />
 
     <LinearLayout
         android:id="@+id/llDiffsCalculatorTitles"
@@ -32,6 +43,7 @@
 
         <TextView
             style="@style/diffsCalculatorCell"
+            android:layout_marginStart="@dimen/standard_margin"
             android:lines="2"
             android:text="@string/diff"
             android:textColor="@color/white" />

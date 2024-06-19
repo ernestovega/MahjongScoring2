@@ -44,7 +44,6 @@ class HandActionsDialogFragment : BaseGameDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        isCancelable = false
         _binding = GameDialogHandActionsParentFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }

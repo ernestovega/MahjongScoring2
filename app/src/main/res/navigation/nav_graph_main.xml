@@ -31,13 +31,31 @@
             android:id="@+id/action_oldGamesFragment_to_setupNewGameDialogFragment"
             app:destination="@id/setupNewGameDialogFragment" />
 
+        <action
+            android:id="@+id/action_oldGamesFragment_to_combinationsFragment"
+            app:destination="@id/combinationsFragment" />
+
+        <action
+            android:id="@+id/action_oldGamesFragment_to_diffsCalculatorDialogFragment"
+            app:destination="@id/diffsCalculatorDialogFragment" />
+
+        <action
+            android:id="@+id/action_oldGamesFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+
     </fragment>
 
     <dialog
         android:id="@+id/setupNewGameDialogFragment"
         android:name="com.etologic.mahjongscoring2.app.screens.old_games.dialogs.SetupNewGameDialogFragment"
         android:label="SetupNewGameDialogFragment"
-        tools:layout="@layout/dialog_edit_names_fragment"/>
+        tools:layout="@layout/dialog_edit_names_fragment">
+
+        <action
+            android:id="@+id/action_setupNewGameDialogFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+
+    </dialog>
 
     <fragment
         android:id="@+id/gameFragment"
@@ -61,6 +79,10 @@
             android:id="@+id/action_gameFragment_to_rankingDialogFragment"
             app:destination="@id/rankingDialogFragment" />
 
+        <action
+            android:id="@+id/action_gameFragment_to_combinationsFragment"
+            app:destination="@id/combinationsFragment" />
+
     </fragment>
 
     <fragment
@@ -69,11 +91,11 @@
         android:label="@string/combinations"
         tools:layout="@layout/combinations_fragment" />
 
-    <fragment
-        android:id="@+id/diffsCalculatorFragment"
-        android:name="com.etologic.mahjongscoring2.app.screens.diffs_calculator.DiffsCalculatorFragment"
+    <dialog
+        android:id="@+id/diffsCalculatorDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.diffs_calculator.DiffsCalculatorDialogFragment"
         android:label="@string/diffsCalculator"
-        tools:layout="@layout/diffs_calculator_fragment" />
+        tools:layout="@layout/diffs_calculator_dialog_fragment" />
 
     <dialog
         android:id="@+id/diceDialogFragment"

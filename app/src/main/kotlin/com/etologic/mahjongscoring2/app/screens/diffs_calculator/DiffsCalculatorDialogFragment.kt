@@ -19,12 +19,9 @@ package com.etologic.mahjongscoring2.app.screens.diffs_calculator
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.MenuProvider
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -32,9 +29,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseMainFragment
 import com.etologic.mahjongscoring2.app.screens.diffs_calculator.DiffsCalculatorViewModel.Companion.MAX_ITEMS
-import com.etologic.mahjongscoring2.databinding.DiffsCalculatorFragmentBinding
+import com.etologic.mahjongscoring2.databinding.DiffsCalculatorDialogFragmentBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +38,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DiffsCalculatorFragment : BaseMainFragment() {
+class DiffsCalculatorDialogFragment : DialogFragment() {
 
     companion object {
         const val TAG = "DiffsCalculatorFragment"
@@ -52,27 +48,33 @@ class DiffsCalculatorFragment : BaseMainFragment() {
     @Inject
     lateinit var rvAdapter: DiffsCalculatorRvAdapter
 
-    private var _binding: DiffsCalculatorFragmentBinding? = null
+    private var _binding: DiffsCalculatorDialogFragmentBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: DiffsCalculatorViewModel by viewModels()
 
-    override val toolbarMenuProvider: MenuProvider = object : MenuProvider {
-        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {}
-        override fun onMenuItemSelected(menuItem: MenuItem): Boolean = false
-    }
-
     private val maxReachedSnackBar by lazy { Snackbar.make(binding.root, R.string.i_think_is_enough_jajaja, LENGTH_LONG) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = DiffsCalculatorFragmentBinding.inflate(inflater, container, false)
+        _binding = DiffsCalculatorDialogFragmentBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun getTheme(): Int {
+        return R.style.FullScreenDialogMM
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setToolbar()
         setupRecyclerView()
         startObservingViewModel()
+    }
+
+    private fun setToolbar() {
+        with(binding.toolbarDiffsCalculator) {
+            setNavigationOnClickListener { dismiss() }
+        }
     }
 
     private fun setupRecyclerView() {

@@ -177,7 +177,7 @@ class OldGamesFragment : BaseMainFragment() {
 
             override fun onOldGameItemResumeClicked(gameId: GameId) {
                 activityViewModel.activeGameId = gameId
-                findNavController().navigate(R.id.gameFragment)
+                findNavController().navigate(R.id.action_oldGamesFragment_to_gameFragment)
             }
         })
         binding.rvOldGames.adapter = rvAdapter

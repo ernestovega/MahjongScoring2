@@ -24,6 +24,7 @@
     <TextView
         android:id="@+id/tvDiffsCalculatorItemPointsNeeded"
         style="@style/diffsCalculatorCell"
+        android:layout_marginStart="@dimen/standard_margin"
         tools:text="64" />
 
     <TextView

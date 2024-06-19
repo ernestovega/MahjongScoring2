@@ -32,7 +32,7 @@
             android:title="@string/combinations" />
 
         <item
-            android:id="@+id/diffsCalculatorFragment"
+            android:id="@+id/diffsCalculatorDialogFragment"
             android:icon="@drawable/ic_calc"
             android:title="@string/diffsCalculator" />
 

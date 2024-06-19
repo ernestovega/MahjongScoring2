@@ -23,7 +23,6 @@ import com.etologic.mahjongscoring2.business.model.dtos.PlayerRanking
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
-import com.etologic.mahjongscoring2.business.model.exceptions.ErrorProcessingTextGameException
 import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
 import com.etologic.mahjongscoring2.business.model.exceptions.RankingDataGenerationException
 import kotlinx.coroutines.flow.firstOrNull
