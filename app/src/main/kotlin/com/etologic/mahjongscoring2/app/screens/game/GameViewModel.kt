@@ -72,6 +72,7 @@ typealias ShouldHighlightLastRound = Boolean
 sealed interface GameUiState {
     data object Loading : GameUiState
     data class Loaded(
+        val error: Throwable?,
         val game: UiGame,
         val isDiffsCalcsFeatureEnabled: Boolean,
         val shouldShowDiffs: Boolean,
@@ -80,14 +81,18 @@ sealed interface GameUiState {
         val selectedSeat: TableWinds,
     ) : GameUiState {
         @Suppress("UNCHECKED_CAST")
-        constructor(values: Array<Any>) : this(
-            game = values[0] as UiGame,
-            isDiffsCalcsFeatureEnabled = values[1] as Boolean,
-            shouldShowDiffs = values[2] as Boolean,
-            seatsOrientation = values[3] as SeatOrientation,
-            pageToShow = values[4] as Pair<GameFragment.GamePages, ShouldHighlightLastRound>,
-            selectedSeat = values[5] as TableWinds,
+        constructor(values: Array<Any?>) : this(
+            error = values[0] as Throwable?,
+            game = values[1] as UiGame,
+            isDiffsCalcsFeatureEnabled = values[2] as Boolean,
+            shouldShowDiffs = values[3] as Boolean,
+            seatsOrientation = values[4] as SeatOrientation,
+            pageToShow = values[5] as Pair<GameFragment.GamePages, ShouldHighlightLastRound>,
+            selectedSeat = values[6] as TableWinds,
         )
+    }
+    data class Error(val throwable: Throwable) : GameUiState {
+        constructor(error: Any?) : this(throwable = error as Throwable)
     }
 }
 
@@ -136,14 +141,20 @@ class GameViewModel @Inject constructor(
 
     val gameUiStateFlow: StateFlow<GameUiState> =
         combine(
+            errorFlow,
             gameFlow,
             isDiffsCalcsFeatureEnabledFlow,
             shouldShowDiffsFlow,
             seatsOrientationFlow,
             pageToShowFlow,
             selectedSeatFlow,
-        ) { values -> GameUiState.Loaded(values) }
-            .stateIn(viewModelScope, SharingStarted.Lazily, GameUiState.Loading)
+        ) { values ->
+            if (values[0] != null) {
+                GameUiState.Error(values[0])
+            } else {
+                GameUiState.Loaded(values)
+            }
+        }.stateIn(viewModelScope, SharingStarted.Lazily, GameUiState.Loading)
 
     //SELECTED PLAYER/SEAT
     fun onSeatClicked(wind: TableWinds) {

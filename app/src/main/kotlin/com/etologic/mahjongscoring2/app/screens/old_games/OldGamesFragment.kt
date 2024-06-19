@@ -196,6 +196,7 @@ class OldGamesFragment : BaseMainFragment() {
     private fun uiStateObserver(uiState: OldGamesUiState) {
         when (uiState) {
             is OldGamesUiState.Loading -> {}
+            is OldGamesUiState.Error -> showErrorDialog(uiState.throwable)
             is OldGamesUiState.Loaded -> {
                 rvAdapter.setGames(uiState.oldGamesList)
                 binding.emptyLayoutOldGames.visibility = if (uiState.oldGamesList.isEmpty()) VISIBLE else GONE

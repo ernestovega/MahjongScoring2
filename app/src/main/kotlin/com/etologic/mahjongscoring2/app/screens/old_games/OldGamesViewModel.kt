@@ -54,6 +54,7 @@ sealed interface OldGamesUiState {
         val oldGamesList: List<UiGame>,
         val isDiffsCalcsFeatureEnabled: Boolean,
     ) : OldGamesUiState
+    data class Error(val throwable: Throwable) : OldGamesUiState
 }
 
 @HiltViewModel
@@ -76,10 +77,15 @@ class OldGamesViewModel @Inject constructor(
 
     val oldGamesUiStateFlow: StateFlow<OldGamesUiState> =
         combine(
+            errorFlow,
             getAllGamesFlowUseCase.invoke(),
             isDiffsCalcsFeatureEnabledFlow,
-        ) { oldGames, isDiffsCalcsFeatureEnabled ->
-            OldGamesUiState.Loaded(oldGames, isDiffsCalcsFeatureEnabled)
+        ) { error, oldGames, isDiffsCalcsFeatureEnabled ->
+            if (error != null) {
+               OldGamesUiState.Error(error)
+            } else {
+               OldGamesUiState.Loaded(oldGames, isDiffsCalcsFeatureEnabled)
+            }
         }.stateIn(viewModelScope, SharingStarted.Lazily, OldGamesUiState.Loading)
 
     fun createGame(

@@ -17,8 +17,8 @@
 
 package com.etologic.mahjongscoring2.app.screens.diffs_calculator
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.app.model.Diff
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,7 +35,7 @@ sealed interface DiffsCalculatorUiState {
 }
 
 @HiltViewModel
-class DiffsCalculatorViewModel @Inject constructor() : BaseViewModel() {
+class DiffsCalculatorViewModel @Inject constructor() : ViewModel() {
 
     private val _diffsListFlow: MutableStateFlow<List<Diff>> = MutableStateFlow(getFirstInterval())
 

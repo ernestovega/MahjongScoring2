@@ -17,6 +17,7 @@
 
 package com.etologic.mahjongscoring2.app.base
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -28,6 +29,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import com.etologic.mahjongscoring2.BuildConfig
+import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.screens.MainActivity
 import com.etologic.mahjongscoring2.app.screens.MainViewModel
 
@@ -74,5 +77,14 @@ abstract class BaseMainFragment : Fragment() {
                 }
             }
         )
+    }
+
+    protected fun showErrorDialog(throwable: Throwable?) {
+        val message = if (BuildConfig.DEBUG && throwable != null) throwable.toString() else getString(R.string.ups_something_wrong)
+        AlertDialog.Builder(requireContext(), R.style.AlertDialogStyleMM)
+            .setTitle(R.string.error)
+            .setMessage(message)
+            .setPositiveButton(R.string.ok, null)
+            .show()
     }
 }

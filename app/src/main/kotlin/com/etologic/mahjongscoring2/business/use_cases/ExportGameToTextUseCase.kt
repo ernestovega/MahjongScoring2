@@ -35,13 +35,13 @@ class ExportGameToTextUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(gameId: GameId): Result<String> =
         runCatching {
-            getOneGameFlowUseCase.invoke(gameId)
-                .firstOrNull()
-                ?.let { uiGame ->
-                    val text = buildText(uiGame)
-                    text
-                }
-                ?: throw GameNotFoundException(gameId)
+//            getOneGameFlowUseCase.invoke(gameId)
+//                .firstOrNull()
+//                ?.let { uiGame ->
+//                    val text = buildText(uiGame)
+//                    text
+//                }
+                null ?: throw GameNotFoundException(gameId)
         }
 
     private fun buildText(uiGame: UiGame): String =

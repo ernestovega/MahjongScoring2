@@ -17,8 +17,8 @@
 
 package com.etologic.mahjongscoring2.app.screens.combinations
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.business.model.entities.Combination
 import com.etologic.mahjongscoring2.data_source.repositories.CombinationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,7 +40,7 @@ sealed interface CombinationsUiState {
 @HiltViewModel
 class CombinationsViewModel @Inject constructor(
     combinationsRepository: CombinationsRepository,
-) : BaseViewModel() {
+) : ViewModel() {
 
     private val combinationsFilter: MutableStateFlow<String> = MutableStateFlow("")
 

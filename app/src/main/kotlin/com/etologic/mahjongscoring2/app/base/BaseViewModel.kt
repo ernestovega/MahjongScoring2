@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 open class BaseViewModel : ViewModel() {
 
     private var _error = MutableStateFlow<Throwable?>(null)
-    val errorFlow: Flow<Throwable> = _error.filterNotNull()
+    val errorFlow: Flow<Throwable?> = _error
 
     fun showError(throwable: Throwable) {
         viewModelScope.launch {

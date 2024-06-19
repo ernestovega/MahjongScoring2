@@ -17,14 +17,14 @@
 
 package com.etologic.mahjongscoring2.app.screens
 
-import com.etologic.mahjongscoring2.app.base.BaseViewModel
+import androidx.lifecycle.ViewModel
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor() : BaseViewModel() {
+class MainViewModel @Inject constructor() : ViewModel() {
 
     var activeGameId: GameId = NOT_SET_GAME_ID
 }

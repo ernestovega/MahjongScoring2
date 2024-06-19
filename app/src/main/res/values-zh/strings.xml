@@ -239,4 +239,5 @@
 
     <!--  Translations V2.4.0  -->
     <string name="there_arent_combinations_try_new_search">在此标准下没有组合，请尝试其他标准。</string>
+    <string name="error">错误</string>
 </resources>

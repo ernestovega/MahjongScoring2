@@ -105,6 +105,7 @@ class GameTableFragment : BaseGameFragment() {
     private fun uiStateObserver(uiState: GameUiState) {
         when (uiState) {
             is GameUiState.Loading -> {}
+            is GameUiState.Error -> {}
             is GameUiState.Loaded -> {
                 setGameData(uiState.game)
                 binding.gtsGameTableSeats.toggleDiffsButton(uiState.isDiffsCalcsFeatureEnabled)

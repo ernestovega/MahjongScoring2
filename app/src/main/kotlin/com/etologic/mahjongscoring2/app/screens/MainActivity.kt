@@ -78,7 +78,6 @@ class MainActivity : AppCompatActivity() {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         setupDrawer()
-        startObservingViewModel()
     }
 
     private fun setupDrawer() {
@@ -92,22 +91,6 @@ class MainActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_contact_mahjong_madrid)?.setOnMenuItemClickListener { goToContactMM(); true }
             menu.findItem(R.id.nav_contact_app_support)?.setOnMenuItemClickListener { goToContactSupport(); true }
         }
-    }
-
-    private fun startObservingViewModel() {
-        with(lifecycleScope) {
-            launch { repeatOnLifecycle(STARTED) { viewModel.errorFlow.collect(::showError) } }
-        }
-    }
-
-    private fun showError(throwable: Throwable?) {
-        if (throwable == null) getString(R.string.ups_something_wrong)
-        else throwable.message?.let { showMessage(it) }
-    }
-
-    private fun showMessage(message: String) {
-        val builder = AlertDialog.Builder(this, R.style.AlertDialogStyleMM)
-        builder.setMessage(message).show()
     }
 
     override fun onStart() {
