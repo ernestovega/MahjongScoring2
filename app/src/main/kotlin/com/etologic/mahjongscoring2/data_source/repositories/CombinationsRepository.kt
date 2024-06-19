@@ -25,7 +25,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CombinationsRepository @Inject constructor(
     @ApplicationContext val context: Context,
     private val languageRepository: LanguageRepository,

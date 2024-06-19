@@ -41,7 +41,7 @@ import com.etologic.mahjongscoring2.app.utils.shareText
 import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
-import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
+import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation
 import com.etologic.mahjongscoring2.databinding.GameFragmentBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -91,7 +91,7 @@ class GameFragment : BaseMainFragment() {
             endGameItem = menu.findItem(R.id.action_end_game)
             enableCalcsItem = menu.findItem(R.id.action_enable_diffs_calcs)
             disableCalcsItem = menu.findItem(R.id.action_disable_diffs_calcs)
-            seatsOrientationMenuItem = menu.findItem(R.id.action_rotate_seats)
+            seatsOrientationMenuItem = menu.findItem(R.id.action_seats_orientation)
 
             resumeGameItem?.isVisible = shouldBeShownResumeButton
             endGameItem?.isVisible = shouldBeShownEndButton
@@ -105,17 +105,17 @@ class GameFragment : BaseMainFragment() {
             with(activity as? MainActivity) {
                 when (menuItem.itemId) {
                     android.R.id.home -> onBackOrUpClick.invoke()
-                    R.id.action_rotate_seats -> {
+                    R.id.action_seats_orientation -> {
                         if (binding.viewPagerGame.currentItem == GamePages.LIST.index) {
                             viewModel.showPage(GamePages.TABLE)
                         }
-                        viewModel.toggleSeatsRotation()
+                        viewModel.toggleSeatsOrientation()
                     }
 
                     R.id.action_combinations -> findNavController().navigate(R.id.action_gameFragment_to_combinationsFragment)
                     R.id.action_end_game -> viewModel.endGame()
-                    R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
-                    R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
+                    R.id.action_enable_diffs_calcs -> viewModel.showDiffCalcsFeature()
+                    R.id.action_disable_diffs_calcs -> viewModel.hideDiffCalcsFeature()
                     R.id.action_resume_game -> viewModel.resumeGame()
                     R.id.action_edit_names -> findNavController().navigate(R.id.action_gameFragment_to_editNamesDialogFragment)
                     R.id.action_share_game -> this@with?.showShareGameDialog { shareGameOption ->
@@ -143,8 +143,8 @@ class GameFragment : BaseMainFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        orientationDownDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_rotation_down)
-        orientationOutDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_rotation_out)
+        orientationDownDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_orientation_down)
+        orientationOutDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_orientation_out)
         setupViewPager()
         startObservingViewModel()
     }
@@ -192,10 +192,10 @@ class GameFragment : BaseMainFragment() {
         }
     }
 
-    private fun updateSeatsOrientationIcon(seatOrientation: SeatOrientation) {
-        seatsOrientationMenuItem?.icon = when (seatOrientation) {
-            SeatOrientation.OUT -> orientationOutDrawable
-            SeatOrientation.DOWN -> orientationDownDrawable
+    private fun updateSeatsOrientationIcon(seatsOrientation: SeatsOrientation) {
+        seatsOrientationMenuItem?.icon = when (seatsOrientation) {
+            SeatsOrientation.OUT -> orientationOutDrawable
+            SeatsOrientation.DOWN -> orientationDownDrawable
         }
     }
 

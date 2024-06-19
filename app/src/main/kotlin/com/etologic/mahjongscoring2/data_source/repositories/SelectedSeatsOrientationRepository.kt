@@ -18,29 +18,32 @@
 package com.etologic.mahjongscoring2.data_source.repositories
 
 import android.content.Context
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation
 import com.etologic.mahjongscoring2.data_source.local_data_sources.datastore.dataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class DiffsCalcsFeatureStateRepository @Inject constructor(
+@Singleton
+class SelectedSeatsOrientationRepository @Inject constructor(
     @ApplicationContext val context: Context,
 ) {
     companion object {
-        private val KEY_IS_DIFFS_CALCS_FEATURE_ENABLED = booleanPreferencesKey("isDiffsCalcsFeatureEnabled")
+        private val KEY_SELECTED_SEATS_ORIENTATION = intPreferencesKey("selectedSeatsOrientation")
     }
 
-    val get: Flow<Boolean> =
+    val selectedSeatsOrientationFlow: Flow<SeatsOrientation> =
         context.dataStore.data.map { preferences ->
-            preferences[KEY_IS_DIFFS_CALCS_FEATURE_ENABLED] ?: true
+            SeatsOrientation.from(preferences[KEY_SELECTED_SEATS_ORIENTATION])
         }
 
-    suspend fun save(isEnabled: Boolean) {
+    suspend fun save(seatsOrientation: SeatsOrientation) {
         context.dataStore.edit { preferences ->
-            preferences[KEY_IS_DIFFS_CALCS_FEATURE_ENABLED] = isEnabled
+            preferences[KEY_SELECTED_SEATS_ORIENTATION] = seatsOrientation.code
         }
     }
 }

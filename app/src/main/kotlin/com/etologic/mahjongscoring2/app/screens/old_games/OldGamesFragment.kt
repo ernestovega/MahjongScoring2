@@ -63,8 +63,6 @@ class OldGamesFragment : BaseMainFragment() {
     }
 
     private var changeLanguageItem: MenuItem? = null
-    private var enableCalcsItem: MenuItem? = null
-    private var disableCalcsItem: MenuItem? = null
 
     @Inject
     lateinit var rvAdapter: OldGamesRvAdapter
@@ -99,18 +97,12 @@ class OldGamesFragment : BaseMainFragment() {
             menuInflater.inflate(R.menu.old_games_menu, menu)
 
             changeLanguageItem = menu.findItem(R.id.action_change_language)
-            enableCalcsItem = menu.findItem(R.id.action_enable_diffs_calcs)
-            disableCalcsItem = menu.findItem(R.id.action_disable_diffs_calcs)
-
-            toggleDiffsEnabling((viewModel.oldGamesUiStateFlow.value as? OldGamesUiState.Loaded)?.isDiffsCalcsFeatureEnabled == true)
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             with(requireActivity()) {
                 when (menuItem.itemId) {
                     R.id.action_change_language -> goToChangeLanguage(languageHelper)
-                    R.id.action_enable_diffs_calcs -> viewModel.toggleDiffsFeature(true)
-                    R.id.action_disable_diffs_calcs -> viewModel.toggleDiffsFeature(false)
                     R.id.action_import_games -> pickFileResultLauncher.goToPickFileToImport()
                     R.id.action_export_games -> viewModel.exportGames(
                         directory = getExternalFilesDir(null),
@@ -201,16 +193,6 @@ class OldGamesFragment : BaseMainFragment() {
                 rvAdapter.setGames(uiState.oldGamesList)
                 binding.emptyLayoutOldGames.visibility = if (uiState.oldGamesList.isEmpty()) VISIBLE else GONE
             }
-        }
-    }
-
-    private fun toggleDiffsEnabling(shouldShowDiffs: Boolean) {
-        if (shouldShowDiffs) {
-            enableCalcsItem?.isVisible = false
-            disableCalcsItem?.isVisible = true
-        } else {
-            enableCalcsItem?.isVisible = true
-            disableCalcsItem?.isVisible = false
         }
     }
 

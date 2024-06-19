@@ -25,18 +25,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_enable_diffs_calcs"
-        android:title="@string/enable_diffs_calcs"
-        android:visible="false"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_disable_diffs_calcs"
-        android:title="@string/disable_diffs_calcs"
-        android:visible="false"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/action_export_games"
         android:title="@string/export_games"
         android:tooltipText="@string/export_games"

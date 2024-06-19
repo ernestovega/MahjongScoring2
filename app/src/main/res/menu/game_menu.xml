@@ -18,8 +18,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_rotate_seats"
-        android:icon="@drawable/ic_rotation_down"
+        android:id="@+id/action_seats_orientation"
+        android:icon="@drawable/ic_orientation_down"
         android:title="@string/rotate_seats"
         app:showAsAction="ifRoom" />
 

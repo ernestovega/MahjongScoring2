@@ -34,9 +34,7 @@ import com.etologic.mahjongscoring2.business.use_cases.ExportGameToJsonUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGamesToJsonUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetAllGamesFlowUseCase
-import com.etologic.mahjongscoring2.business.use_cases.GetIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ImportGamesFromJsonUseCase
-import com.etologic.mahjongscoring2.business.use_cases.SaveIsDiffCalcsFeatureEnabledUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -50,10 +48,7 @@ import javax.inject.Inject
 
 sealed interface OldGamesUiState {
     data object Loading : OldGamesUiState
-    data class Loaded(
-        val oldGamesList: List<UiGame>,
-        val isDiffsCalcsFeatureEnabled: Boolean,
-    ) : OldGamesUiState
+    data class Loaded(val oldGamesList: List<UiGame>) : OldGamesUiState
     data class Error(val throwable: Throwable) : OldGamesUiState
 }
 
@@ -67,24 +62,17 @@ class OldGamesViewModel @Inject constructor(
     private val exportGameToJsonUseCase: ExportGameToJsonUseCase,
     private val exportGamesToJsonUseCase: ExportGamesToJsonUseCase,
     private val importGamesFromJsonUseCase: ImportGamesFromJsonUseCase,
-    getIsDiffCalcsFeatureEnabledUseCase: GetIsDiffCalcsFeatureEnabledUseCase,
-    private val saveIsDiffCalcsFeatureEnabledUseCase: SaveIsDiffCalcsFeatureEnabledUseCase,
 ) : BaseViewModel() {
-
-    private val isDiffsCalcsFeatureEnabledFlow: StateFlow<Boolean> =
-        getIsDiffCalcsFeatureEnabledUseCase.invoke()
-            .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
     val oldGamesUiStateFlow: StateFlow<OldGamesUiState> =
         combine(
             errorFlow,
             getAllGamesFlowUseCase.invoke(),
-            isDiffsCalcsFeatureEnabledFlow,
-        ) { error, oldGames, isDiffsCalcsFeatureEnabled ->
+        ) { error, oldGames ->
             if (error != null) {
                OldGamesUiState.Error(error)
             } else {
-               OldGamesUiState.Loaded(oldGames, isDiffsCalcsFeatureEnabled)
+               OldGamesUiState.Loaded(oldGames)
             }
         }.stateIn(viewModelScope, SharingStarted.Lazily, OldGamesUiState.Loading)
 
@@ -147,12 +135,6 @@ class OldGamesViewModel @Inject constructor(
                 importGamesFromJsonUseCase.invoke(uri, getContentResolver)
                     .fold({}, ::showError)
             }
-        }
-    }
-
-    fun toggleDiffsFeature(isEnabled: Boolean) {
-        viewModelScope.launch {
-            saveIsDiffCalcsFeatureEnabledUseCase.invoke(isEnabled)
         }
     }
 }

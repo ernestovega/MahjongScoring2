@@ -40,9 +40,9 @@ import com.etologic.mahjongscoring2.app.model.SeatStates.SELECTED
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.dtos.SeatDiffs
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
-import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
-import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
-import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
+import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation
+import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation.DOWN
+import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation.OUT
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
@@ -369,8 +369,8 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
         }
     }
 
-    fun updateSeatsOrientation(seatOrientation: SeatOrientation) {
-        when (seatOrientation) {
+    fun updateSeatsOrientation(seatsOrientation: SeatsOrientation) {
+        when (seatsOrientation) {
             OUT -> {
                 binding.iGameTableSeatEast.rlTableSeatEastContainer.setPadding(0, margin, 0, 0)
                 binding.iGameTableSeatWest.rlTableSeatWestContainer.setPadding(0, margin, 0, 0)

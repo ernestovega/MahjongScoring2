@@ -26,9 +26,9 @@ import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.RoundId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
-import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation
-import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.DOWN
-import com.etologic.mahjongscoring2.business.model.enums.SeatOrientation.OUT
+import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation
+import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation.DOWN
+import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation.OUT
 import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
@@ -39,15 +39,16 @@ import com.etologic.mahjongscoring2.business.use_cases.EndGameUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToCsvUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToJsonUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ExportGameToTextUseCase
-import com.etologic.mahjongscoring2.business.use_cases.GetIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.GetOneGameFlowUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuDiscardUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuDrawUseCase
 import com.etologic.mahjongscoring2.business.use_cases.HuSelfPickUseCase
+import com.etologic.mahjongscoring2.business.use_cases.ImportGamesFromJsonUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ResumeGameUseCase
-import com.etologic.mahjongscoring2.business.use_cases.SaveIsDiffCalcsFeatureEnabledUseCase
 import com.etologic.mahjongscoring2.business.use_cases.SetPenaltyUseCase
 import com.etologic.mahjongscoring2.business.use_cases.ShowInAppReviewUseCase
+import com.etologic.mahjongscoring2.data_source.repositories.DiffCalcsFeatureEnabledRepository
+import com.etologic.mahjongscoring2.data_source.repositories.SelectedSeatsOrientationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -61,7 +62,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -76,7 +76,7 @@ sealed interface GameUiState {
         val game: UiGame,
         val isDiffsCalcsFeatureEnabled: Boolean,
         val shouldShowDiffs: Boolean,
-        val seatsOrientation: SeatOrientation,
+        val seatsOrientation: SeatsOrientation,
         val pageToShow: Pair<GameFragment.GamePages, ShouldHighlightLastRound>,
         val selectedSeat: TableWinds,
     ) : GameUiState {
@@ -86,11 +86,12 @@ sealed interface GameUiState {
             game = values[1] as UiGame,
             isDiffsCalcsFeatureEnabled = values[2] as Boolean,
             shouldShowDiffs = values[3] as Boolean,
-            seatsOrientation = values[4] as SeatOrientation,
+            seatsOrientation = values[4] as SeatsOrientation,
             pageToShow = values[5] as Pair<GameFragment.GamePages, ShouldHighlightLastRound>,
             selectedSeat = values[6] as TableWinds,
         )
     }
+
     data class Error(val throwable: Throwable) : GameUiState {
         constructor(error: Any?) : this(throwable = error as Throwable)
     }
@@ -111,8 +112,8 @@ class GameViewModel @Inject constructor(
     private val exportGameToTextUseCase: ExportGameToTextUseCase,
     private val exportGameToCsvUseCase: ExportGameToCsvUseCase,
     private val exportGameToJsonUseCase: ExportGameToJsonUseCase,
-    getIsDiffCalcsFeatureEnabledUseCase: GetIsDiffCalcsFeatureEnabledUseCase,
-    private val saveIsDiffCalcsFeatureEnabledUseCase: SaveIsDiffCalcsFeatureEnabledUseCase,
+    private val diffCalcsFeatureEnabledRepository: DiffCalcsFeatureEnabledRepository,
+    private val selectedSeatsOrientationRepository: SelectedSeatsOrientationRepository,
     private val showInAppReviewUseCase: ShowInAppReviewUseCase,
 ) : BaseViewModel() {
 
@@ -130,12 +131,15 @@ class GameViewModel @Inject constructor(
             .flatMapLatest(getOneGameFlowUseCase::invoke)
             .catch { showError(it) }
 
-    private val isDiffsCalcsFeatureEnabledFlow: StateFlow<Boolean> =
-        getIsDiffCalcsFeatureEnabledUseCase.invoke()
-            .stateIn(viewModelScope, SharingStarted.Lazily, false)
+    private val _isDiffsCalcsFeatureEnabledStateFlow: StateFlow<Boolean> =
+        diffCalcsFeatureEnabledRepository.diffCalcsFeatureEnabledFlow
+            .stateIn(viewModelScope, SharingStarted.Lazily, true)
+
+    private val _seatsOrientationStateFlow: StateFlow<SeatsOrientation> =
+        selectedSeatsOrientationRepository.selectedSeatsOrientationFlow
+            .stateIn(viewModelScope, SharingStarted.Lazily, DOWN)
 
     private var shouldShowDiffsFlow = MutableStateFlow(false)
-    private var seatsOrientationFlow = MutableStateFlow(DOWN)
     private val pageToShowFlow = MutableStateFlow(TABLE to false)
     private var selectedSeatFlow = MutableStateFlow(NONE)
 
@@ -143,9 +147,9 @@ class GameViewModel @Inject constructor(
         combine(
             errorFlow,
             gameFlow,
-            isDiffsCalcsFeatureEnabledFlow,
+            _isDiffsCalcsFeatureEnabledStateFlow,
             shouldShowDiffsFlow,
-            seatsOrientationFlow,
+            _seatsOrientationStateFlow,
             pageToShowFlow,
             selectedSeatFlow,
         ) { values ->
@@ -260,21 +264,27 @@ class GameViewModel @Inject constructor(
     }
 
     //VIEWS ACTIONS
-    fun toggleSeatsRotation() {
+    fun toggleSeatsOrientation() {
         viewModelScope.launch {
-            seatsOrientationFlow.update { currentOrientation -> if (currentOrientation == DOWN) OUT else DOWN }
+            selectedSeatsOrientationRepository.save(if (_seatsOrientationStateFlow.value == DOWN) OUT else DOWN)
         }
     }
 
-    fun toggleDiffsFeature(isEnabled: Boolean) {
+    fun showDiffCalcsFeature() {
         viewModelScope.launch {
-            saveIsDiffCalcsFeatureEnabledUseCase.invoke(isEnabled)
+            diffCalcsFeatureEnabledRepository.save(true)
+        }
+    }
+
+    fun hideDiffCalcsFeature() {
+        viewModelScope.launch {
+            diffCalcsFeatureEnabledRepository.save(false)
         }
     }
 
     fun toggleDiffsView(shouldShow: Boolean) {
         viewModelScope.launch {
-            if (isDiffsCalcsFeatureEnabledFlow.first()) {
+            if (_isDiffsCalcsFeatureEnabledStateFlow.value) {
                 shouldShowDiffsFlow.emit(shouldShow)
             }
         }
