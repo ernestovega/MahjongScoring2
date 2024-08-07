@@ -19,6 +19,7 @@ package com.etologic.mahjongscoring2.app.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
@@ -38,6 +39,7 @@ const val DUTCH = "nl"
 const val ENGLISH = "en"
 const val FRENCH = "fr"
 const val SPANISH = "es"
+const val ITALIAN = "it"
 
 @Singleton
 class LanguageHelper @Inject constructor(
@@ -75,17 +77,14 @@ fun Context.setLocale(language: String): Context {
         ENGLISH -> Locale.ENGLISH
         FRENCH -> Locale.FRENCH
         SPANISH -> Locale("es", "")
+        ITALIAN -> Locale.ITALIAN
         else -> Locale.ENGLISH
     }
     Locale.setDefault(locale)
 
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//        val config = Configuration()
-//        config.setLocale(locale)
-//        resources.updateConfiguration(config, resources.displayMetrics)
         resources.configuration.setLocale(locale)
-        createConfigurationContext(resources.configuration)
-        this
+        this.createConfigurationContext(resources.configuration)
     } else {
         @Suppress("DEPRECATION")
         resources.configuration.locale = locale
@@ -106,6 +105,7 @@ fun Activity.goToChangeLanguage(languageHelper: LanguageHelper) {
                 getString(R.string.english),
                 getString(R.string.french),
                 getString(R.string.spanish),
+                getString(R.string.italian), // We cant follow alphabetical order or the list gets wrongly selected.
             ),
             /* checkedItem = */
             when (languageHelper.currentLanguage) {
@@ -114,6 +114,7 @@ fun Activity.goToChangeLanguage(languageHelper: LanguageHelper) {
                 ENGLISH -> 2
                 FRENCH -> 3
                 SPANISH -> 4
+                ITALIAN -> 5
                 else -> 2
             },
         )
@@ -125,6 +126,7 @@ fun Activity.goToChangeLanguage(languageHelper: LanguageHelper) {
                     2 -> ENGLISH
                     3 -> FRENCH
                     4 -> SPANISH
+                    5 -> ITALIAN
                     else -> ENGLISH
                 },
                 this as MainActivity,

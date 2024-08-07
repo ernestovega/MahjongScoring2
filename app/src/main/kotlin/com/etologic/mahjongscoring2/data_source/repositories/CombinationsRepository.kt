@@ -22,21 +22,21 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.utils.setLocale
 import com.etologic.mahjongscoring2.business.model.entities.Combination
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class CombinationsRepository @Inject constructor(
-    @ApplicationContext val context: Context,
-    private val languageRepository: LanguageRepository,
+    @ApplicationContext context: Context,
+    languageRepository: LanguageRepository,
 ) {
-    private fun getLocalizedContext(): Context = context.setLocale(runBlocking { languageRepository.get().first() })
+    private val localizedContext: Flow<Context> = languageRepository.get().map { context.setLocale(it) }
 
-    val combinations: Array<Combination>
-        get() =
-            with(getLocalizedContext()) {
+    val combinations: Flow<Array<Combination>> =
+        localizedContext.map {
+            with(it) {
                 arrayOf(
                     Combination(
                         combinationPoints = 1,
@@ -445,4 +445,5 @@ class CombinationsRepository @Inject constructor(
                     )
                 )
             }
+        }
 }

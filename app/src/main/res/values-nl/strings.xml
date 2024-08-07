@@ -240,4 +240,5 @@
     <!--  Translations V2.4.0  -->
     <string name="there_arent_combinations_try_new_search">Er zijn geen combinaties onder dit criterium, probeer een andere.</string>
     <string name="error">Fout</string>
+    <string name="italian">🇮🇹Italiaans</string>
 </resources>
