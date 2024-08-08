@@ -27,16 +27,16 @@ plugins {
 }
 
 android {
-    compileSdk = 34
+    compileSdk = 35
     namespace = "com.etologic.mahjongscoring2"
 
     defaultConfig {
         applicationId = "com.mahjongscoring.activities"
         minSdk = 23
-        targetSdk = 34
+        targetSdk = 35
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         versionCode = 9
-        versionName = "2.4.0.dev"
+        versionName = "2.4.0"
 
         ksp {
             arg("correctErrorTypes", "true")
