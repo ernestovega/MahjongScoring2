@@ -35,7 +35,7 @@ android {
         minSdk = 23
         targetSdk = 35
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        versionCode = 9
+        versionCode = 12
         versionName = "2.4.0"
 
         ksp {
@@ -67,6 +67,8 @@ android {
             ndk.debugSymbolLevel = "FULL"
         }
     }
+
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
