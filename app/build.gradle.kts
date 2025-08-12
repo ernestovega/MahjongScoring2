@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 /*
  *     Copyright © 2024  Ernesto Vega de la Iglesia Soria
  *
@@ -27,31 +29,6 @@ plugins {
 }
 
 android {
-    compileSdk = 35
-    namespace = "com.etologic.mahjongscoring2"
-
-    defaultConfig {
-        applicationId = "com.mahjongscoring.activities"
-        minSdk = 23
-        targetSdk = 35
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        versionCode = 12
-        versionName = "2.4.0"
-
-        ksp {
-            arg("correctErrorTypes", "true")
-            arg("room.incremental", "true")
-            arg("room.expandProjection", "true")
-        }
-
-        room {
-            schemaDirectory("$projectDir/schemas")
-        }
-    }
-
-    sourceSets {
-        getByName("androidTest").assets.srcDir("$projectDir/schemas")
-    }
 
     buildTypes {
         debug {
@@ -63,29 +40,46 @@ android {
             isDebuggable = false
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             ndk.debugSymbolLevel = "FULL"
         }
-    }
-
-    ndkVersion = "27.0.12077973"
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 
     buildFeatures {
         buildConfig = true
         viewBinding = true
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    compileSdk = 36
+
+    defaultConfig {
+        applicationId = "com.mahjongscoring.activities"
+        minSdk = 23
+        targetSdk = 36
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        versionCode = 13
+        versionName = "2.5.0.dev"
+    }
+
+    namespace = "com.etologic.mahjongscoring2"
+
+    ndkVersion = "27.0.12077973"
+
+    sourceSets {
+        getByName("androidTest").assets.srcDir("$projectDir/schemas")
+    }
 }
 
 dependencies {
+
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.browser)
@@ -98,8 +92,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 //    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.navigation.fragment.ktx)
 //    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.room.ktx)
@@ -128,6 +122,38 @@ dependencies {
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.truth)
 }
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
+
+    jvmToolchain(17)
+
+    sourceSets.all {
+        languageSettings {
+            enableLanguageFeature("InlineClasses")
+            enableLanguageFeature("ExplicitBackingFields")
+        }
+    }
+}
+
+ksp {
+    arg("correctErrorTypes", "true")
+    arg("room.incremental", "true")
+    arg("room.expandProjection", "true")
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 
 tasks.withType<Test> {
     useJUnitPlatform()

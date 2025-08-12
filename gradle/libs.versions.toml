@@ -1,33 +1,33 @@
 [versions]
-agp = "8.4.1"
-androidx-annotation = "1.8.0"
-androidx-appcompat = "1.7.0"
-androidx-browser = "1.8.0"
+agp = "8.12.0"
+androidx-annotation = "1.9.1"
+androidx-appcompat = "1.7.1"
+androidx-browser = "1.9.0"
 androidx-cardview = "1.0.0"
-androidx-collection-ktx = "1.4.0"
-androidx-core-ktx = "1.13.1"
-androidx-datastore = "1.1.1"
-androidx-espresso-core = "3.5.1"
-androidx-fragment-ktx = "1.7.1"
+androidx-collection-ktx = "1.5.0"
+androidx-core-ktx = "1.16.0"
+androidx-datastore = "1.1.7"
+androidx-espresso-core = "3.7.0"
+androidx-fragment-ktx = "1.8.8"
 androidx-legacy-support-v4 = "1.0.0"
-androidx-lifecycle = "2.8.1"
-androidx-navigation = "2.7.7"
-androidx-recyclerview = "1.3.2"
-androidx-room = "2.6.1"
+androidx-lifecycle = "2.9.2"
+androidx-navigation = "2.9.3"
+androidx-recyclerview = "1.4.0"
+androidx-room = "2.7.2"
 androidx-viewpager2 = "1.1.0"
-androidx-test-ext-junit = "1.1.5"
-firebase-crashlytics = "2.9.9" #Crashes due to a circular dependency on 3.0.0
-firebase-bom = "33.1.0"
-google-services = "4.4.2"
-hilt = "2.50"
+androidx-test-ext-junit = "1.3.0"
+firebase-crashlytics = "3.0.6"
+firebase-bom = "34.1.0"
+google-services = "4.4.3"
+hilt = "2.57"
 junit = "4.13.2"
-junit-jupiter = "5.10.1"
-kotlin = "2.0.0"
-kotlinx-serialization-json = "1.6.3"
-ksp = "2.0.0-1.0.21"
+junit-jupiter = "5.13.4"
+kotlin = "2.2.0"
+kotlinx-serialization-json = "1.9.0"
+ksp = "2.2.0-2.0.2"
 material = "1.12.0"
-review-ktx = "2.0.1"
-truth = "1.1.5"
+review-ktx = "2.0.2"
+truth = "1.4.4"
 
 [libraries]
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
@@ -43,19 +43,19 @@ androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", ver
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 #androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
-androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidx-navigation" }
 #androidx-navigation-runtime-ktx = { module = "androidx.navigation:navigation-runtime-ktx", version.ref = "androidx-navigation" }
-androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidx-navigation" }
+androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidx-navigation" }
 androidx-navigation-test = { module = "androidx.navigation:navigation-testing", version.ref = "androidx-navigation" }
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidx-navigation" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recyclerview" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
 androidx-room-test = { module = "androidx.room:room-testing", version.ref = "androidx-room" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "androidx-viewpager2" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
-firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
