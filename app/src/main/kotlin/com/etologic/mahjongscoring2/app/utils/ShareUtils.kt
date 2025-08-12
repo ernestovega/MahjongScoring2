@@ -37,7 +37,7 @@ fun Context.showShareGameDialog(shareGame: (ShareGameOptions) -> Unit) {
             shareGame(ShareGameOptions.fromIndex(newSelectedItem))
             dialog.dismiss()
         }
-        .setNegativeButton(R.string.cancel, null)
+        .setNegativeButton(R.string.close, null)
         .create()
         .show()
 }

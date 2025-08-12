@@ -77,7 +77,6 @@
     <string name="backspace">Backspace</string>
     <string name="ok">OK</string>
     <string name="discarder_">Discarder?</string>
-    <string name="cancel">Cancel</string>
     <string name="pts">Pts</string>
     <string name="delete_round">Delete round</string>
     <string name="first">First</string>
@@ -243,4 +242,8 @@
     <string name="there_arent_combinations_try_new_search">There are no combinations under this criterion, try a different one.</string>
     <string name="error">Error</string>
     <string name="italian">🇮🇹Italian</string>
+
+    <!--  Translations V2.5.0  -->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

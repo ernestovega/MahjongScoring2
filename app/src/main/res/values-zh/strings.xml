@@ -75,7 +75,6 @@
     <string name="backspace">删除</string>
     <string name="ok">确定</string>
     <string name="discarder_">输家？</string>
-    <string name="cancel">取消</string>
     <string name="pts">分数</string>
     <string name="delete_round">删除此盘</string>
     <string name="first">第一名</string>
@@ -241,4 +240,8 @@
     <string name="there_arent_combinations_try_new_search">在此标准下没有组合，请尝试其他标准。</string>
     <string name="error">错误</string>
     <string name="italian">🇮🇹意大利语</string>
+
+    <!--  Translations V2.5.0  -->
+    <string name="yes">是</string>
+    <string name="no">不</string>
 </resources>

@@ -75,7 +75,6 @@
     <string name="backspace">Backspace</string>
     <string name="ok">OK</string>
     <string name="discarder_">Weggooien?</string>
-    <string name="cancel">Ongedaan maken?</string>
     <string name="pts">Pnt</string>
     <string name="delete_round">Verwijder ronde</string>
     <string name="first">Eerste</string>
@@ -241,4 +240,8 @@
     <string name="there_arent_combinations_try_new_search">Er zijn geen combinaties onder dit criterium, probeer een andere.</string>
     <string name="error">Fout</string>
     <string name="italian">🇮🇹Italiaans</string>
+
+    <!--  Translations V2.5.0  -->
+    <string name="yes">Ja</string>
+    <string name="no">Nee</string>
 </resources>

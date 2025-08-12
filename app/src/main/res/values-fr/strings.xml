@@ -75,7 +75,6 @@
     <string name="backspace">Supprimer</string>
     <string name="ok">OK</string>
     <string name="discarder_">Rejeteur?</string>
-    <string name="cancel">Annuler</string>
     <string name="pts">Pts</string>
     <string name="delete_round">Supprimer le tour</string>
     <string name="first">Premier</string>
@@ -241,4 +240,8 @@
     <string name="there_arent_combinations_try_new_search">Il n\'y a pas de combinaisons selon ce critère, essayez un autre.</string>
     <string name="error">Erreur</string>
     <string name="italian">🇮🇹Italien</string>
+
+    <!--  Translations V2.5.0  -->
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
 </resources>

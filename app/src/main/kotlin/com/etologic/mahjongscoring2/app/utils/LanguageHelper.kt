@@ -133,7 +133,7 @@ fun Activity.goToChangeLanguage(languageHelper: LanguageHelper) {
             )
             dialog.dismiss()
         }
-        .setNegativeButton(R.string.cancel, null)
+        .setNegativeButton(R.string.close, null)
         .create()
         .show()
 }

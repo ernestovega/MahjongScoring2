@@ -147,8 +147,8 @@ class OldGamesFragment : BaseMainFragment() {
                 AlertDialog.Builder(activity, R.style.AlertDialogStyleMM)
                     .setTitle(R.string.delete_game)
                     .setMessage(R.string.are_you_sure)
-                    .setPositiveButton(R.string.delete) { _, _ -> viewModel.deleteGame(gameId) }
-                    .setNegativeButton(R.string.cancel, null)
+                    .setPositiveButton(R.string.yes) { _, _ -> viewModel.deleteGame(gameId) }
+                    .setNegativeButton(R.string.no, null)
                     .create()
                     .show()
             }
