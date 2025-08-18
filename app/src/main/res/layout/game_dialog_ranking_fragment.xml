@@ -275,11 +275,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/vGameRankingDialogSeparator2"
         android:layout_marginTop="@dimen/standard_margin"
-        android:layout_toStartOf="@+id/btRankingDialogOk"
+        android:layout_toStartOf="@+id/btRankingDialogClose"
         android:text="@string/share" />
 
     <Button
-        android:id="@+id/btRankingDialogOk"
+        android:id="@+id/btRankingDialogClose"
         style="?android:buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -289,6 +289,6 @@
         android:layout_marginTop="@dimen/standard_margin"
         android:layout_marginEnd="@dimen/standard_margin"
         android:layout_marginBottom="@dimen/standard_margin"
-        android:text="@string/ok" />
+        android:text="@string/close" />
 
 </RelativeLayout>
