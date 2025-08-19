@@ -94,8 +94,8 @@ class RankingDialogFragment : BaseGameDialogFragment() {
                 }
             }
         }
-            dismiss()
         binding.btRankingDialogClose.setOnSecureClickListener {
+            dismiss()
         }
     }
 
