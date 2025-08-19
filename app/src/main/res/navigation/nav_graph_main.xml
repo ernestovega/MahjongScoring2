@@ -28,10 +28,6 @@
         tools:layout="@layout/old_games_fragment">
 
         <action
-            android:id="@+id/action_oldGamesFragment_to_setupNewGameDialogFragment"
-            app:destination="@id/setupNewGameDialogFragment" />
-
-        <action
             android:id="@+id/action_oldGamesFragment_to_combinationsDialogFragment"
             app:destination="@id/combinationsDialogFragment" />
 
@@ -40,48 +36,12 @@
             app:destination="@id/diffsCalculatorDialogFragment" />
 
         <action
-            android:id="@+id/action_oldGamesFragment_to_gameFragment"
-            app:destination="@id/gameFragment" />
-
-    </fragment>
-
-    <dialog
-        android:id="@+id/setupNewGameDialogFragment"
-        android:name="com.etologic.mahjongscoring2.app.screens.old_games.dialogs.SetupNewGameDialogFragment"
-        android:label="SetupNewGameDialogFragment"
-        tools:layout="@layout/dialog_edit_names_fragment">
+            android:id="@+id/action_oldGamesFragment_to_setupNewGameDialogFragment"
+            app:destination="@id/setupNewGameDialogFragment" />
 
         <action
-            android:id="@+id/action_setupNewGameDialogFragment_to_gameFragment"
-            app:destination="@id/gameFragment" />
-
-    </dialog>
-
-    <fragment
-        android:id="@+id/gameFragment"
-        android:name="com.etologic.mahjongscoring2.app.screens.game.GameFragment"
-        android:label="@string/game"
-        tools:layout="@layout/game_fragment">
-
-        <action
-            android:id="@+id/action_gameFragment_to_diceDialogFragment"
-            app:destination="@id/diceDialogFragment" />
-
-        <action
-            android:id="@+id/action_gameFragment_to_editNamesDialogFragment"
-            app:destination="@id/editNamesDialogFragment" />
-
-        <action
-            android:id="@+id/action_gameFragment_to_handActionsDialogFragment"
-            app:destination="@id/handActionsDialogFragment" />
-
-        <action
-            android:id="@+id/action_gameFragment_to_rankingDialogFragment"
-            app:destination="@id/rankingDialogFragment" />
-
-        <action
-            android:id="@+id/action_gameFragment_to_combinationsFragment"
-            app:destination="@id/combinationsDialogFragment" />
+            android:id="@+id/action_oldGamesFragment_to_nav_graph_game"
+            app:destination="@id/nav_graph_game" />
 
     </fragment>
 
@@ -98,27 +58,17 @@
         tools:layout="@layout/diffs_calculator_dialog_fragment" />
 
     <dialog
-        android:id="@+id/diceDialogFragment"
-        android:name="com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment"
-        android:label="DiceDialogFragment"
-        tools:layout="@layout/game_dialog_dice_fragment" />
+        android:id="@+id/setupNewGameDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.old_games.dialogs.SetupNewGameDialogFragment"
+        android:label="SetupNewGameDialogFragment"
+        tools:layout="@layout/dialog_edit_names_fragment">
 
-    <dialog
-        android:id="@+id/editNamesDialogFragment"
-        android:name="com.etologic.mahjongscoring2.app.screens.game.dialogs.EditNamesDialogFragment"
-        android:label="EditNamesDialogFragment"
-        tools:layout="@layout/dialog_edit_names_fragment" />
+        <action
+            android:id="@+id/action_setupNewGameDialogFragment_to_nav_graph_game"
+            app:destination="@id/nav_graph_game" />
 
-    <dialog
-        android:id="@+id/handActionsDialogFragment"
-        android:name="com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HandActionsDialogFragment"
-        android:label="HandActionsDialogFragment"
-        tools:layout="@layout/game_dialog_hand_actions_fragment" />
+    </dialog>
 
-    <dialog
-        android:id="@+id/rankingDialogFragment"
-        android:name="com.etologic.mahjongscoring2.app.screens.game.dialogs.RankingDialogFragment"
-        android:label="RankingDialogFragment"
-        tools:layout="@layout/game_dialog_ranking_fragment" />
+    <include app:graph="@navigation/nav_graph_game" />
 
 </navigation>

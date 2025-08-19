@@ -25,16 +25,19 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.screens.game.GameFragment
 import com.etologic.mahjongscoring2.app.screens.game.GameFragment.GamePages.LIST
 import com.etologic.mahjongscoring2.app.screens.game.GameFragment.GamePages.STAY
 import com.etologic.mahjongscoring2.app.screens.game.GameUiState
+import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.app.screens.game.ShouldHighlightLastRound
 import com.etologic.mahjongscoring2.app.screens.game.game_list.GameListRvAdapter.GameListItemListener
 import com.etologic.mahjongscoring2.app.utils.toStringSigned
@@ -48,10 +51,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class GameListFragment : BaseGameFragment() {
+class GameListFragment : Fragment() {
 
     private var _binding: GameListFragmentBinding? = null
     private val binding get() = _binding!!
+    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_game)
 
     @Inject
     lateinit var rvAdapter: GameListRvAdapter
@@ -131,7 +135,7 @@ class GameListFragment : BaseGameFragment() {
             if (roundsList.isEmpty()) {
                 rlGameListEmptyState.visibility = VISIBLE
             } else {
-                if (rlGameListEmptyState.visibility == VISIBLE) {
+                if (rlGameListEmptyState.isVisible) {
                     rlGameListEmptyState.visibility = GONE
                 }
                 rvGameList.smoothScrollToPosition(roundsList.size - 1)

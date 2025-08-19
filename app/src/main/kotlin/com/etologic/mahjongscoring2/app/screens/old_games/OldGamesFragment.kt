@@ -169,7 +169,7 @@ class OldGamesFragment : BaseMainFragment() {
 
             override fun onOldGameItemResumeClicked(gameId: GameId) {
                 activityViewModel.activeGameId = gameId
-                findNavController().navigate(R.id.action_oldGamesFragment_to_gameFragment)
+                findNavController().navigate(OldGamesFragmentDirections.actionOldGamesFragmentToNavGraphGame())
             }
         })
         binding.rvOldGames.adapter = rvAdapter
@@ -177,7 +177,7 @@ class OldGamesFragment : BaseMainFragment() {
 
     private fun setOnClickListeners() {
         binding.fabOldGames.setOnSecureClickListener {
-            findNavController().navigate(R.id.action_oldGamesFragment_to_setupNewGameDialogFragment)
+            findNavController().navigate(OldGamesFragmentDirections.actionOldGamesFragmentToSetupNewGameDialogFragment())
         }
     }
 

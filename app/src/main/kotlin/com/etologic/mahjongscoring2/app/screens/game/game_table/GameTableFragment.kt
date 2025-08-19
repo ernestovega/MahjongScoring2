@@ -34,6 +34,8 @@ import android.widget.RelativeLayout.ALIGN_PARENT_START
 import android.widget.RelativeLayout.GONE
 import android.widget.RelativeLayout.LayoutParams
 import androidx.core.content.ContextCompat.getDrawable
+import androidx.fragment.app.Fragment
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -46,9 +48,11 @@ import com.etologic.mahjongscoring2.R.drawable.ic_south
 import com.etologic.mahjongscoring2.R.drawable.ic_trophy_white
 import com.etologic.mahjongscoring2.R.drawable.ic_west
 import com.etologic.mahjongscoring2.R.string
-import com.etologic.mahjongscoring2.app.base.BaseGameFragment
 import com.etologic.mahjongscoring2.app.custom_views.GameTableSeats
+import com.etologic.mahjongscoring2.app.screens.game.GameFragmentDirections
 import com.etologic.mahjongscoring2.app.screens.game.GameUiState
+import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
+import com.etologic.mahjongscoring2.app.screens.game.navigateOnceToRanking
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
@@ -61,7 +65,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class GameTableFragment : BaseGameFragment() {
+class GameTableFragment : Fragment() {
 
     private var eastIcon: Drawable? = null
     private var southIcon: Drawable? = null
@@ -69,6 +73,7 @@ class GameTableFragment : BaseGameFragment() {
     private var northIcon: Drawable? = null
     private var _binding: GameTableFragmentBinding? = null
     private val binding get() = _binding!!
+    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_game)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -127,12 +132,14 @@ class GameTableFragment : BaseGameFragment() {
 
     private fun setListeners() {
         with(binding) {
-            fabGameTable.setOnSecureClickListener { findNavController().navigate(R.id.action_gameFragment_to_diceDialogFragment) }
+            fabGameTable.setOnSecureClickListener {
+                findNavController().navigate(GameFragmentDirections.actionGameFragmentToDiceDialogFragment())
+            }
 
             gtsGameTableSeats.setTableSeatsListener(object : GameTableSeats.GameTableSeatsListener {
                 override fun onSeatClick(wind: TableWinds) {
                     gameViewModel.onSeatClicked(wind)
-                    findNavController().navigate(R.id.action_gameFragment_to_handActionsDialogFragment)
+                    findNavController().navigate(GameFragmentDirections.actionGameFragmentToHandActionsDialogFragment())
                 }
 
                 override fun toggleDiffsView(shouldShowDiffs: Boolean) {
@@ -162,15 +169,15 @@ class GameTableFragment : BaseGameFragment() {
                 if (fabGameTable.tag != "ic_trophy_white_18dp") {
                     fabGameTable.tag = "ic_trophy_white_18dp"
                     fabGameTable.setImageResource(ic_trophy_white)
-                    fabGameTable.setOnSecureClickListener { findNavController().navigate(R.id.action_gameFragment_to_rankingDialogFragment) }
+                    fabGameTable.setOnSecureClickListener { findNavController().navigateOnceToRanking() }
                     setFabPosition(BOTTOM_END)
                 }
-
             } else {
                 if (fabGameTable.tag != "ic_dice_multiple_white_24dp") {
                     fabGameTable.tag = "ic_dice_multiple_white_24dp"
                     fabGameTable.setImageResource(ic_dice)
-                    fabGameTable.setOnSecureClickListener { findNavController().navigate(R.id.action_gameFragment_to_diceDialogFragment) } }
+                    fabGameTable.setOnSecureClickListener { findNavController().navigate(GameFragmentDirections.actionGameFragmentToDiceDialogFragment()) }
+                }
                 moveDice(game.uiRounds.size)
             }
             if (fabGameTable.visibility != VISIBLE) fabGameTable.visibility = VISIBLE

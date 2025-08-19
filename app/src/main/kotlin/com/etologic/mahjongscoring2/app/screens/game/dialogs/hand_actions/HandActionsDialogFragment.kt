@@ -22,14 +22,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
+import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HandActionsViewPagerAdapter.HandActions
 import com.etologic.mahjongscoring2.databinding.GameDialogHandActionsParentFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HandActionsDialogFragment : BaseGameDialogFragment() {
+class HandActionsDialogFragment : AppCompatDialogFragment() {
 
     companion object {
         const val TAG = "HandActionsDialogFragment"
@@ -38,6 +40,7 @@ class HandActionsDialogFragment : BaseGameDialogFragment() {
     private var isDialogCancelled = true
     private var _binding: GameDialogHandActionsParentFragmentBinding? = null
     private val binding get() = _binding!!
+    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_game)
 
     override fun onCreateView(
         inflater: LayoutInflater,

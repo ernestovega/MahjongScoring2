@@ -18,16 +18,15 @@
 package com.etologic.mahjongscoring2.app.base
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HandActionsDialogFragment
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HandActionsViewPagerAdapter
 
 abstract class BaseGameHandActionsDialogFragment : Fragment() {
 
-    protected val gameViewModel by viewModels<GameViewModel>(
-        ownerProducer = { requireParentFragment().findParentGameFragment() }
-    )
+    protected val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_game)
 
     protected fun Fragment.showPage(page: HandActionsViewPagerAdapter.HandActions) {
         (parentFragment as? HandActionsDialogFragment)?.showPage(page)

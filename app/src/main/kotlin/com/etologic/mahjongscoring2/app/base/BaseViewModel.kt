@@ -22,7 +22,6 @@ import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.BuildConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 open class BaseViewModel : ViewModel() {

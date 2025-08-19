@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~     Copyright © 2024  Ernesto Vega de la Iglesia Soria
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_game"
+    app:startDestination="@+id/gameFragment">
+
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.game.GameFragment"
+        android:label="@string/game"
+        tools:layout="@layout/game_fragment">
+
+        <action
+            android:id="@+id/action_gameFragment_to_diceDialogFragment"
+            app:destination="@id/diceDialogFragment" />
+
+        <action
+            android:id="@+id/action_gameFragment_to_editNamesDialogFragment"
+            app:destination="@id/editNamesDialogFragment" />
+
+        <action
+            android:id="@+id/action_gameFragment_to_handActionsDialogFragment"
+            app:destination="@id/handActionsDialogFragment" />
+
+        <action
+            android:id="@+id/action_gameFragment_to_rankingDialogFragment"
+            app:destination="@id/rankingDialogFragment" />
+
+        <action
+            android:id="@+id/action_gameFragment_to_combinationsFragment"
+            app:destination="@id/combinationsDialogFragment" />
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/combinationsDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.combinations.CombinationsDialogFragment"
+        android:label="@string/combinations"
+        tools:layout="@layout/combinations_dialog_fragment" />
+
+    <dialog
+        android:id="@+id/diceDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment"
+        android:label="DiceDialogFragment"
+        tools:layout="@layout/game_dialog_dice_fragment" />
+
+    <dialog
+        android:id="@+id/editNamesDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.game.dialogs.EditNamesDialogFragment"
+        android:label="EditNamesDialogFragment"
+        tools:layout="@layout/dialog_edit_names_fragment" />
+
+    <dialog
+        android:id="@+id/handActionsDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HandActionsDialogFragment"
+        android:label="HandActionsDialogFragment"
+        tools:layout="@layout/game_dialog_hand_actions_fragment" />
+
+    <dialog
+        android:id="@+id/rankingDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.game.dialogs.RankingDialogFragment"
+        android:label="RankingDialogFragment"
+        tools:layout="@layout/game_dialog_ranking_fragment" />
+
+</navigation>

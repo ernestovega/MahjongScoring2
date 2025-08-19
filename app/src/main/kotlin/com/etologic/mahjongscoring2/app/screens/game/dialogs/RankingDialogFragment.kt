@@ -25,9 +25,11 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.app.screens.game.GameUiState
+import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.utils.shareFiles
 import com.etologic.mahjongscoring2.app.utils.shareText
@@ -41,7 +43,7 @@ import java.lang.String.format
 import java.util.Locale.getDefault
 
 @AndroidEntryPoint
-class RankingDialogFragment : BaseGameDialogFragment() {
+class RankingDialogFragment : AppCompatDialogFragment() {
 
     companion object {
         const val TAG = "RankingDialogFragment"
@@ -49,6 +51,7 @@ class RankingDialogFragment : BaseGameDialogFragment() {
 
     private var _binding: GameDialogRankingFragmentBinding? = null
     private val binding get() = _binding!!
+    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_game)
 
     override fun onCreateView(
         inflater: LayoutInflater,

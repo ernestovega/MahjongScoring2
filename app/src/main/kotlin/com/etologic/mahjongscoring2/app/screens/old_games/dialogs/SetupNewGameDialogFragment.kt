@@ -97,7 +97,7 @@ class SetupNewGameDialogFragment : AppCompatDialogFragment() {
                     nameP4 = tietNamesDialogNorth.text?.toString() ?: getString(R.string.player_four),
                     onSuccess = { gameId ->
                         activityViewModel.activeGameId = gameId
-                        findNavController().navigate(R.id.action_setupNewGameDialogFragment_to_gameFragment)
+                        findNavController().navigate(SetupNewGameDialogFragmentDirections.actionSetupNewGameDialogFragmentToNavGraphGame())
                         dismiss()
                     }
                 )

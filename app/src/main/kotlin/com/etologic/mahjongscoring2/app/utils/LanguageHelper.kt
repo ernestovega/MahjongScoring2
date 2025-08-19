@@ -19,7 +19,6 @@ package com.etologic.mahjongscoring2.app.utils
 
 import android.app.Activity
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Build
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope

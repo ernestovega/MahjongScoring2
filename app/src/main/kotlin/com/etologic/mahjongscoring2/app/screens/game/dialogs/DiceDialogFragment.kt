@@ -28,9 +28,11 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.VISIBLE
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.app.screens.game.GameUiState
+import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment.DiceNumber.FIVE
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment.DiceNumber.FOUR
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment.DiceNumber.ONE
@@ -46,7 +48,7 @@ import java.util.Timer
 import java.util.TimerTask
 
 @AndroidEntryPoint
-class DiceDialogFragment : BaseGameDialogFragment() {
+class DiceDialogFragment : AppCompatDialogFragment() {
 
     companion object {
         const val TAG: String = "DiceDialogFragment"
@@ -98,6 +100,7 @@ class DiceDialogFragment : BaseGameDialogFragment() {
 
     private var _binding: GameDialogDiceFragmentBinding? = null
     private val binding get() = _binding!!
+    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_game)
 
     override fun onCreateView(
         inflater: LayoutInflater,

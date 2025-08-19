@@ -17,17 +17,12 @@
 
 package com.etologic.mahjongscoring2.app.screens
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle.State.STARTED
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -39,7 +34,6 @@ import com.etologic.mahjongscoring2.app.utils.LanguageHelper
 import com.etologic.mahjongscoring2.app.utils.setLocale
 import com.etologic.mahjongscoring2.databinding.MainActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint

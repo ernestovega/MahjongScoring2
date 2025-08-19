@@ -22,9 +22,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.base.BaseGameDialogFragment
 import com.etologic.mahjongscoring2.app.screens.game.GameUiState
+import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.showKeyboard
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
@@ -37,7 +39,7 @@ import com.etologic.mahjongscoring2.databinding.DialogEditNamesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EditNamesDialogFragment : BaseGameDialogFragment() {
+class EditNamesDialogFragment : AppCompatDialogFragment() {
 
     companion object {
         const val TAG = "EditNamesDialogFragment"
@@ -45,6 +47,7 @@ class EditNamesDialogFragment : BaseGameDialogFragment() {
 
     private var _binding: DialogEditNamesFragmentBinding? = null
     private val binding get() = _binding!!
+    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_game)
 
     override fun onCreateView(
         inflater: LayoutInflater,

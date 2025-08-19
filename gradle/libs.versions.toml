@@ -5,10 +5,10 @@ androidx-appcompat = "1.7.1"
 androidx-browser = "1.9.0"
 androidx-cardview = "1.0.0"
 androidx-collection-ktx = "1.5.0"
-androidx-core-ktx = "1.16.0"
+androidx-core-ktx = "1.17.0"
 androidx-datastore = "1.1.7"
 androidx-espresso-core = "3.7.0"
-androidx-fragment-ktx = "1.8.8"
+androidx-fragment-ktx = "1.8.9"
 androidx-legacy-support-v4 = "1.0.0"
 androidx-lifecycle = "2.9.2"
 androidx-navigation = "2.9.3"
@@ -20,6 +20,7 @@ firebase-crashlytics = "3.0.6"
 firebase-bom = "34.1.0"
 google-services = "4.4.3"
 hilt = "2.57"
+hilt-navigation = "1.2.0"
 junit = "4.13.2"
 junit-jupiter = "5.13.4"
 kotlin = "2.2.0"
@@ -58,6 +59,7 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt-android-navigation = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hilt-navigation" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
@@ -68,7 +70,7 @@ truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-androidx-navigation-safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidx-navigation" }
+androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidx-navigation" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }

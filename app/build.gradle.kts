@@ -19,6 +19,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.androidx.navigation.safeargs)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
@@ -101,6 +102,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
     implementation(libs.hilt.android)
+    implementation(libs.hilt.android.navigation)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.material)
     implementation(libs.review.ktx)
