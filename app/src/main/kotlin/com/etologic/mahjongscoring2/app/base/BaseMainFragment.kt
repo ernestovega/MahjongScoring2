@@ -26,17 +26,13 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.screens.MainActivity
-import com.etologic.mahjongscoring2.app.screens.MainViewModel
 
 abstract class BaseMainFragment : Fragment() {
-
-    protected val activityViewModel: MainViewModel by activityViewModels()
 
     protected open val onBackOrUpClick: () -> Unit = { findNavController().navigateUp() }
 

@@ -21,6 +21,10 @@
     android:id="@+id/nav_graph_game"
     app:startDestination="@+id/gameFragment">
 
+    <argument
+        android:name="gameId"
+        app:argType="long" />
+
     <fragment
         android:id="@+id/gameFragment"
         android:name="com.etologic.mahjongscoring2.app.screens.game.GameFragment"

@@ -23,11 +23,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.screens.MainViewModel
 import com.etologic.mahjongscoring2.app.screens.old_games.OldGamesFragment
 import com.etologic.mahjongscoring2.app.screens.old_games.OldGamesViewModel
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
@@ -46,7 +44,6 @@ class SetupNewGameDialogFragment : AppCompatDialogFragment() {
     private var _binding: DialogEditNamesFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val activityViewModel by activityViewModels<MainViewModel>()
     private val oldGamesViewModel by viewModels<OldGamesViewModel>(ownerProducer = {
         requireParentFragment().childFragmentManager.fragments.filterIsInstance<OldGamesFragment>().firstOrNull()
             ?: throw IllegalStateException()
@@ -96,8 +93,9 @@ class SetupNewGameDialogFragment : AppCompatDialogFragment() {
                     nameP3 = tietNamesDialogWest.text?.toString() ?: getString(R.string.player_three),
                     nameP4 = tietNamesDialogNorth.text?.toString() ?: getString(R.string.player_four),
                     onSuccess = { gameId ->
-                        activityViewModel.activeGameId = gameId
-                        findNavController().navigate(SetupNewGameDialogFragmentDirections.actionSetupNewGameDialogFragmentToNavGraphGame())
+                        findNavController().navigate(
+                            SetupNewGameDialogFragmentDirections.actionSetupNewGameDialogFragmentToNavGraphGame(gameId = gameId)
+                        )
                         dismiss()
                     }
                 )

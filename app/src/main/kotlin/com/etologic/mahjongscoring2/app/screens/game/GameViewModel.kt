@@ -17,6 +17,7 @@
 
 package com.etologic.mahjongscoring2.app.screens.game
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
 import com.etologic.mahjongscoring2.app.screens.game.GameFragment.GamePages.TABLE
@@ -69,7 +70,11 @@ import javax.inject.Inject
 typealias ShouldHighlightLastRound = Boolean
 
 sealed interface GameUiState {
+
+    data class Error(val throwable: Throwable) : GameUiState
+
     data object Loading : GameUiState
+
     data class Loaded(
         val error: Throwable?,
         val game: UiGame,
@@ -78,26 +83,12 @@ sealed interface GameUiState {
         val seatsOrientation: SeatsOrientation,
         val pageToShow: Pair<GameFragment.GamePages, ShouldHighlightLastRound>,
         val selectedSeat: TableWinds,
-    ) : GameUiState {
-        @Suppress("UNCHECKED_CAST")
-        constructor(values: Array<Any?>) : this(
-            error = values[0] as Throwable?,
-            game = values[1] as UiGame,
-            isDiffsCalcsFeatureEnabled = values[2] as Boolean,
-            shouldShowDiffs = values[3] as Boolean,
-            seatsOrientation = values[4] as SeatsOrientation,
-            pageToShow = values[5] as Pair<GameFragment.GamePages, ShouldHighlightLastRound>,
-            selectedSeat = values[6] as TableWinds,
-        )
-    }
-
-    data class Error(val throwable: Throwable) : GameUiState {
-        constructor(error: Any?) : this(throwable = error as Throwable)
-    }
+    ) : GameUiState
 }
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     getOneGameFlowUseCase: GetOneGameFlowUseCase,
     private val editGameNamesUseCase: EditGameNamesUseCase,
     private val huDiscardUseCase: HuDiscardUseCase,
@@ -116,13 +107,8 @@ class GameViewModel @Inject constructor(
     private val showInAppReviewUseCase: ShowInAppReviewUseCase,
 ) : BaseViewModel() {
 
-    private val _gameId = MutableStateFlow(NOT_SET_GAME_ID)
-
-    fun setGameId(gameId: GameId) {
-        viewModelScope.launch {
-            _gameId.emit(gameId)
-        }
-    }
+    private val _gameId: StateFlow<GameId> =
+        savedStateHandle.getStateFlow("gameId", NOT_SET_GAME_ID)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val gameFlow: Flow<UiGame> =
@@ -130,33 +116,58 @@ class GameViewModel @Inject constructor(
             .flatMapLatest(getOneGameFlowUseCase::invoke)
             .catch { showError(it) }
 
-    private val _isDiffsCalcsFeatureEnabledStateFlow: StateFlow<Boolean> =
+    private val isDiffsCalcsFeatureEnabledStateFlow: StateFlow<Boolean> =
         diffCalcsFeatureEnabledRepository.diffCalcsFeatureEnabledFlow
             .stateIn(viewModelScope, SharingStarted.Lazily, true)
 
-    private val _seatsOrientationStateFlow: StateFlow<SeatsOrientation> =
+    private val seatsOrientationStateFlow: StateFlow<SeatsOrientation> =
         selectedSeatsOrientationRepository.selectedSeatsOrientationFlow
             .stateIn(viewModelScope, SharingStarted.Lazily, DOWN)
 
-    private var shouldShowDiffsFlow = MutableStateFlow(false)
+    private val shouldShowDiffsFlow = MutableStateFlow(false)
     private val pageToShowFlow = MutableStateFlow(TABLE to false)
-    private var selectedSeatFlow = MutableStateFlow(NONE)
+    private val selectedSeatFlow = MutableStateFlow(NONE)
 
-    val gameUiStateFlow: StateFlow<GameUiState> =
+    private data class CoreState(
+        val error: Throwable?,
+        val game: UiGame,
+        val isDiffsCalcsFeatureEnabled: Boolean,
+        val shouldShowDiffs: Boolean,
+        val seatsOrientation: SeatsOrientation,
+    )
+
+    private val coreStateFlow: Flow<CoreState> =
         combine(
             errorFlow,
             gameFlow,
-            _isDiffsCalcsFeatureEnabledStateFlow,
+            isDiffsCalcsFeatureEnabledStateFlow,
             shouldShowDiffsFlow,
-            _seatsOrientationStateFlow,
+            seatsOrientationStateFlow,
+        ) { error, game, isDiffsEnabled, shouldShowDiffs, seatsOrientation ->
+            CoreState(
+                error = error,
+                game = game,
+                isDiffsCalcsFeatureEnabled = isDiffsEnabled,
+                shouldShowDiffs = shouldShowDiffs,
+                seatsOrientation = seatsOrientation,
+            )
+        }
+
+    val gameUiStateFlow: StateFlow<GameUiState> =
+        combine(
+            coreStateFlow,
             pageToShowFlow,
             selectedSeatFlow,
-        ) { values ->
-            if (values[0] != null) {
-                GameUiState.Error(values[0])
-            } else {
-                GameUiState.Loaded(values)
-            }
+        ) { core, pageToShow, selectedSeat ->
+            core.error?.let { GameUiState.Error(it) } ?: GameUiState.Loaded(
+                error = null,
+                game = core.game,
+                isDiffsCalcsFeatureEnabled = core.isDiffsCalcsFeatureEnabled,
+                shouldShowDiffs = core.shouldShowDiffs,
+                seatsOrientation = core.seatsOrientation,
+                pageToShow = pageToShow,
+                selectedSeat = selectedSeat,
+            )
         }.stateIn(viewModelScope, SharingStarted.Lazily, GameUiState.Loading)
 
     //SELECTED PLAYER/SEAT
@@ -265,7 +276,7 @@ class GameViewModel @Inject constructor(
     //VIEWS ACTIONS
     fun toggleSeatsOrientation() {
         viewModelScope.launch {
-            selectedSeatsOrientationRepository.save(if (_seatsOrientationStateFlow.value == DOWN) OUT else DOWN)
+            selectedSeatsOrientationRepository.save(if (seatsOrientationStateFlow.value == DOWN) OUT else DOWN)
         }
     }
 
@@ -283,7 +294,7 @@ class GameViewModel @Inject constructor(
 
     fun toggleDiffsView(shouldShow: Boolean) {
         viewModelScope.launch {
-            if (_isDiffsCalcsFeatureEnabledStateFlow.value) {
+            if (isDiffsCalcsFeatureEnabledStateFlow.value) {
                 shouldShowDiffsFlow.emit(shouldShow)
             }
         }

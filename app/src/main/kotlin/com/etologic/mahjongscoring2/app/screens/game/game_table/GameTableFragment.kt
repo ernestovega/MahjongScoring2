@@ -64,6 +64,7 @@ import com.google.android.material.badge.BadgeDrawable.TOP_START
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class GameTableFragment : Fragment() {
 

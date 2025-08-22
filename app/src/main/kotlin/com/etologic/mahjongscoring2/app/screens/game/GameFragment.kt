@@ -167,17 +167,11 @@ class GameFragment : BaseMainFragment() {
 
     private fun setGameData(game: UiGame) {
         if (game.gameId != NOT_SET_GAME_ID) {
-            val isGameEnded = game.isEnded
-
-            shouldBeShownResumeButton = isGameEnded && game.uiRounds.size < UiGame.MAX_MCR_ROUNDS
-            shouldBeShownEndButton = isGameEnded.not() && game.uiRounds.size > 1
+            shouldBeShownResumeButton = game.isEnded && game.uiRounds.size < UiGame.MAX_MCR_ROUNDS
+            shouldBeShownEndButton = game.isEnded.not() && game.uiRounds.size > 1
 
             resumeGameItem?.isVisible = shouldBeShownResumeButton
             endGameItem?.isVisible = shouldBeShownEndButton
-
-            if (isGameEnded) {
-                findNavController().navigateOnceToRanking()
-            }
         }
     }
 
@@ -219,11 +213,6 @@ class GameFragment : BaseMainFragment() {
                 tab.text = getString(if (position == 0) R.string.table else R.string.list)
             }.attach()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.setGameId(activityViewModel.activeGameId)
     }
 
     override fun onDestroyView() {

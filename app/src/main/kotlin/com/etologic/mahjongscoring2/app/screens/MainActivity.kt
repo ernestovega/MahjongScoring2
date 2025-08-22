@@ -21,7 +21,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -42,8 +41,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: MainActivityBinding
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-
-    private val viewModel: MainViewModel by viewModels()
 
     @Inject
     lateinit var languageHelper: LanguageHelper
