@@ -17,15 +17,17 @@
 
 package com.etologic.mahjongscoring2.business.model.enums
 
-enum class SeatsOrientation(val code: Int) {
+enum class SeatsArrangement(val code: Int) {
 
     DOWN(0),
-    OUT(1);
+    OUT(1),
+    RANKING(2);
 
-    companion object {
+    companion object Companion {
         fun from(code: Int?) = when (code) {
             0 -> DOWN
             1 -> OUT
+            2 -> RANKING
             else -> DOWN
         }
     }

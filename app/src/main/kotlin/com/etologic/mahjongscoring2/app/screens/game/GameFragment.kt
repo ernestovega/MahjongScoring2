@@ -42,11 +42,16 @@ import com.etologic.mahjongscoring2.app.utils.shareText
 import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
-import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation
+import com.etologic.mahjongscoring2.business.model.enums.SeatsArrangement
 import com.etologic.mahjongscoring2.databinding.GameFragmentBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 @AndroidEntryPoint
 class GameFragment : BaseMainFragment() {
@@ -63,6 +68,7 @@ class GameFragment : BaseMainFragment() {
 
     private var orientationDownDrawable: Drawable? = null
     private var orientationOutDrawable: Drawable? = null
+    private var orientationRankingDrawable: Drawable? = null
     private var seatsOrientationMenuItem: MenuItem? = null
     private var shouldBeShownResumeButton: Boolean = false
     private var shouldBeShownEndButton: Boolean = false
@@ -70,7 +76,7 @@ class GameFragment : BaseMainFragment() {
     private var resumeGameItem: MenuItem? = null
     private var enableCalcsItem: MenuItem? = null
     private var disableCalcsItem: MenuItem? = null
-
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private var _binding: GameFragmentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: GameViewModel by hiltNavGraphViewModels<GameViewModel>(R.id.nav_graph_game)
@@ -108,7 +114,7 @@ class GameFragment : BaseMainFragment() {
                         if (binding.viewPagerGame.currentItem == GamePages.LIST.index) {
                             viewModel.showPage(GamePages.TABLE)
                         }
-                        viewModel.toggleSeatsOrientation()
+                        viewModel.nextSeatsOrientation()
                     }
 
                     R.id.action_combinations -> findNavController().navigate(GameFragmentDirections.actionGameFragmentToCombinationsFragment())
@@ -135,21 +141,35 @@ class GameFragment : BaseMainFragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = GameFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        orientationDownDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_orientation_down)
-        orientationOutDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_orientation_out)
+        orientationDownDrawable =
+            ContextCompat.getDrawable(requireContext(), R.drawable.ic_orientation_down)
+        orientationOutDrawable =
+            ContextCompat.getDrawable(requireContext(), R.drawable.ic_orientation_out)
+        orientationRankingDrawable =
+            ContextCompat.getDrawable(requireContext(), R.drawable.ic_trophy_white)
         setupViewPager()
         startObservingViewModel()
     }
 
     private fun startObservingViewModel() {
-        viewLifecycleOwner.lifecycleScope.launch { repeatOnLifecycle(STARTED) { viewModel.gameUiStateFlow.collect(::uiStateObserver) } }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(STARTED) {
+                viewModel.gameUiStateFlow.collect(
+                    ::uiStateObserver
+                )
+            }
+        }
     }
 
     private fun uiStateObserver(uiState: GameUiState) {
@@ -159,8 +179,8 @@ class GameFragment : BaseMainFragment() {
             is GameUiState.Loaded -> {
                 setGameData(uiState.game)
                 toggleDiffsEnabling(uiState.isDiffsCalcsFeatureEnabled)
-                updateSeatsOrientationIcon(uiState.seatsOrientation)
                 pageToShowObserver(uiState.pageToShow)
+                updateSeatsOrientationIcon(uiState.seatsArrangement)
             }
         }
     }
@@ -185,10 +205,16 @@ class GameFragment : BaseMainFragment() {
         }
     }
 
-    private fun updateSeatsOrientationIcon(seatsOrientation: SeatsOrientation) {
-        seatsOrientationMenuItem?.icon = when (seatsOrientation) {
-            SeatsOrientation.OUT -> orientationOutDrawable
-            SeatsOrientation.DOWN -> orientationDownDrawable
+    private fun updateSeatsOrientationIcon(seatsArrangement: SeatsArrangement) {
+        scope.launch {
+            while (seatsOrientationMenuItem == null) { delay(100.milliseconds) }
+            seatsOrientationMenuItem
+            seatsOrientationMenuItem?.icon = when (seatsArrangement) {
+                SeatsArrangement.OUT -> orientationOutDrawable
+                SeatsArrangement.DOWN -> orientationDownDrawable
+                SeatsArrangement.RANKING -> orientationRankingDrawable
+            }
+            seatsOrientationMenuItem?.isVisible = true
         }
     }
 

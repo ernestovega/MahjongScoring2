@@ -27,9 +27,10 @@ import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.RoundId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
-import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation
-import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation.DOWN
-import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation.OUT
+import com.etologic.mahjongscoring2.business.model.enums.SeatsArrangement
+import com.etologic.mahjongscoring2.business.model.enums.SeatsArrangement.DOWN
+import com.etologic.mahjongscoring2.business.model.enums.SeatsArrangement.OUT
+import com.etologic.mahjongscoring2.business.model.enums.SeatsArrangement.RANKING
 import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
@@ -80,7 +81,7 @@ sealed interface GameUiState {
         val game: UiGame,
         val isDiffsCalcsFeatureEnabled: Boolean,
         val shouldShowDiffs: Boolean,
-        val seatsOrientation: SeatsOrientation,
+        val seatsArrangement: SeatsArrangement,
         val pageToShow: Pair<GameFragment.GamePages, ShouldHighlightLastRound>,
         val selectedSeat: TableWinds,
     ) : GameUiState
@@ -120,8 +121,8 @@ class GameViewModel @Inject constructor(
         diffCalcsFeatureEnabledRepository.diffCalcsFeatureEnabledFlow
             .stateIn(viewModelScope, SharingStarted.Lazily, true)
 
-    private val seatsOrientationStateFlow: StateFlow<SeatsOrientation> =
-        selectedSeatsOrientationRepository.selectedSeatsOrientationFlow
+    private val seatsArrangementStateFlow: StateFlow<SeatsArrangement> =
+        selectedSeatsOrientationRepository.selectedSeatsArrangementFlow
             .stateIn(viewModelScope, SharingStarted.Lazily, DOWN)
 
     private val shouldShowDiffsFlow = MutableStateFlow(false)
@@ -133,7 +134,7 @@ class GameViewModel @Inject constructor(
         val game: UiGame,
         val isDiffsCalcsFeatureEnabled: Boolean,
         val shouldShowDiffs: Boolean,
-        val seatsOrientation: SeatsOrientation,
+        val seatsArrangement: SeatsArrangement,
     )
 
     private val coreStateFlow: Flow<CoreState> =
@@ -142,14 +143,14 @@ class GameViewModel @Inject constructor(
             gameFlow,
             isDiffsCalcsFeatureEnabledStateFlow,
             shouldShowDiffsFlow,
-            seatsOrientationStateFlow,
+            seatsArrangementStateFlow,
         ) { error, game, isDiffsEnabled, shouldShowDiffs, seatsOrientation ->
             CoreState(
                 error = error,
                 game = game,
                 isDiffsCalcsFeatureEnabled = isDiffsEnabled,
                 shouldShowDiffs = shouldShowDiffs,
-                seatsOrientation = seatsOrientation,
+                seatsArrangement = seatsOrientation,
             )
         }
 
@@ -164,7 +165,7 @@ class GameViewModel @Inject constructor(
                 game = core.game,
                 isDiffsCalcsFeatureEnabled = core.isDiffsCalcsFeatureEnabled,
                 shouldShowDiffs = core.shouldShowDiffs,
-                seatsOrientation = core.seatsOrientation,
+                seatsArrangement = core.seatsArrangement,
                 pageToShow = pageToShow,
                 selectedSeat = selectedSeat,
             )
@@ -274,9 +275,15 @@ class GameViewModel @Inject constructor(
     }
 
     //VIEWS ACTIONS
-    fun toggleSeatsOrientation() {
+    fun nextSeatsOrientation() {
         viewModelScope.launch {
-            selectedSeatsOrientationRepository.save(if (seatsOrientationStateFlow.value == DOWN) OUT else DOWN)
+            selectedSeatsOrientationRepository.save(
+                when (seatsArrangementStateFlow.value) {
+                    DOWN -> OUT
+                    OUT -> RANKING
+                    RANKING -> DOWN
+                }
+            )
         }
     }
 

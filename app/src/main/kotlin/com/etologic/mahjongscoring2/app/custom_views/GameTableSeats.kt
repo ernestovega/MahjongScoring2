@@ -37,12 +37,17 @@ import com.etologic.mahjongscoring2.app.model.SeatStates
 import com.etologic.mahjongscoring2.app.model.SeatStates.DISABLED
 import com.etologic.mahjongscoring2.app.model.SeatStates.NORMAL
 import com.etologic.mahjongscoring2.app.model.SeatStates.SELECTED
+import com.etologic.mahjongscoring2.app.screens.game.dialogs.RankingTableHelper
+import com.etologic.mahjongscoring2.app.utils.fourth
+import com.etologic.mahjongscoring2.app.utils.second
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
+import com.etologic.mahjongscoring2.app.utils.third
 import com.etologic.mahjongscoring2.business.model.dtos.SeatDiffs
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
-import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation
-import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation.DOWN
-import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation.OUT
+import com.etologic.mahjongscoring2.business.model.enums.SeatsArrangement
+import com.etologic.mahjongscoring2.business.model.enums.SeatsArrangement.DOWN
+import com.etologic.mahjongscoring2.business.model.enums.SeatsArrangement.OUT
+import com.etologic.mahjongscoring2.business.model.enums.SeatsArrangement.RANKING
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
@@ -52,7 +57,8 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.databinding.CustomTableSeatsBinding
 import java.util.Locale.getDefault
 
-class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLayout(context, attributeSet) {
+class GameTableSeats(context: Context, attributeSet: AttributeSet) :
+    RelativeLayout(context, attributeSet) {
 
     interface GameTableSeatsListener {
         fun onSeatClick(wind: TableWinds)
@@ -94,7 +100,8 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
         purplePenalty = getColor(context, R.color.purplePenalty)
         margin = applyDimension(COMPLEX_UNIT_DIP, 16f, resources.displayMetrics).toInt()
 
-        setListeners()
+        setListenersBySeat()
+        setListenersByRanking()
     }
 
     fun setTableSeatsListener(gameTableSeatsListener: GameTableSeatsListener) {
@@ -109,12 +116,20 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
     fun setSeats(game: UiGame, isUserFontTooBig: Boolean) {
         selectedPlayer = NONE
         setStates(getSeatsStates(game))
+        setSeatsBySeat(game, isUserFontTooBig)
+        setSeatsByRanking(game, isUserFontTooBig)
+    }
+
+    private fun setSeatsBySeat(
+        game: UiGame,
+        isUserFontTooBig: Boolean
+    ) {
         val playersTotalPointsByCurrentSeat = game.getPlayersTotalPointsByCurrentSeat()
         setPoints(playersTotalPointsByCurrentSeat.map { it.toString() })
         setWinds(game.getSeatsCurrentWind(game.uiRounds.size))
         setNames(game.getPlayersNamesByCurrentSeat())
         setPenalties(game.getPlayersPenaltiesByCurrentSeat(), game.isEnded)
-        setPointsDiffs(game, isUserFontTooBig)
+        setPointsDiffsBySeat(game, isUserFontTooBig)
     }
 
     private fun getSeatsStates(): Array<SeatStates> =
@@ -130,7 +145,8 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
         if (uiGame.isEnded) arrayOf(DISABLED, DISABLED, DISABLED, DISABLED) else getSeatsStates()
 
     private fun setStates(states: Array<SeatStates>) {
-        areSeatsDisabled = states[0] == DISABLED && states[1] == DISABLED && states[2] == DISABLED && states[3] == DISABLED
+        areSeatsDisabled =
+            states[0] == DISABLED && states[1] == DISABLED && states[2] == DISABLED && states[3] == DISABLED
         setState(
             ivWind = binding.iGameTableSeatEast.ivTableSeatEastSeatWindIcon,
             tvName = binding.iGameTableSeatEast.tvTableSeatEastName,
@@ -155,9 +171,38 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
             tvPoints = binding.iGameTableSeatNorth.tvTableSeatNorthPoints,
             state = states[3]
         )
+        setState(
+            ivWind = binding.iGameTableSeatByRankingFirst.ivTableSeatRankingSeatWindIcon,
+            tvName = binding.iGameTableSeatByRankingFirst.tvTableSeatRankingName,
+            tvPoints = binding.iGameTableSeatByRankingFirst.tvTableSeatRankingPoints,
+            state = states[0]
+        )
+        setState(
+            ivWind = binding.iGameTableSeatByRankingSecond.ivTableSeatRankingSeatWindIcon,
+            tvName = binding.iGameTableSeatByRankingSecond.tvTableSeatRankingName,
+            tvPoints = binding.iGameTableSeatByRankingSecond.tvTableSeatRankingPoints,
+            state = states[1]
+        )
+        setState(
+            ivWind = binding.iGameTableSeatByRankingThird.ivTableSeatRankingSeatWindIcon,
+            tvName = binding.iGameTableSeatByRankingThird.tvTableSeatRankingName,
+            tvPoints = binding.iGameTableSeatByRankingThird.tvTableSeatRankingPoints,
+            state = states[2]
+        )
+        setState(
+            ivWind = binding.iGameTableSeatByRankingFourth.ivTableSeatRankingSeatWindIcon,
+            tvName = binding.iGameTableSeatByRankingFourth.tvTableSeatRankingName,
+            tvPoints = binding.iGameTableSeatByRankingFourth.tvTableSeatRankingPoints,
+            state = states[3]
+        )
     }
 
-    private fun setState(ivWind: ImageView?, tvName: TextView, tvPoints: TextView, state: SeatStates?) {
+    private fun setState(
+        ivWind: ImageView?,
+        tvName: TextView,
+        tvPoints: TextView,
+        state: SeatStates?
+    ) {
         val stateColor = when (state) {
             SELECTED -> accentColor
             DISABLED -> grayDisabledColor
@@ -177,40 +222,76 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
         binding.iGameTableSeatNorth.tvTableSeatNorthPoints.text = points[NORTH.code]
     }
 
-    private fun setPointsDiffs(uiGame: UiGame?, isUserFontTooBig: Boolean) {
+    private fun setPointsDiffsBySeat(uiGame: UiGame?, isUserFontTooBig: Boolean) {
         if (!isUserFontTooBig) {
             val tableDiffs = uiGame?.getTableDiffs()
             if (tableDiffs != null) {
                 with(binding.iGameTableSeatEast.iGameTableSeatEastDiffs) {
                     setSeatDiffs(
                         tableDiffs.seatsDiffs[EAST.code],
-                        tvTableSeatDiffsFirstSelfPick, tvTableSeatDiffsFirstDirectHu, tvTableSeatDiffsFirstIndirectHu, tlTableSeatDiffs,
-                        tvTableSeatDiffsSecondSelfPick, tvTableSeatDiffsSecondDirectHu, tvTableSeatDiffsSecondIndirectHu, trTableSeatDiffsSecond,
-                        tvTableSeatDiffsThirdSelfPick, tvTableSeatDiffsThirdDirectHu, tvTableSeatDiffsThirdIndirectHu, trTableSeatDiffsThird,
+                        tvTableSeatDiffsFirstSelfPick,
+                        tvTableSeatDiffsFirstDirectHu,
+                        tvTableSeatDiffsFirstIndirectHu,
+                        tlTableSeatDiffs,
+                        tvTableSeatDiffsSecondSelfPick,
+                        tvTableSeatDiffsSecondDirectHu,
+                        tvTableSeatDiffsSecondIndirectHu,
+                        trTableSeatDiffsSecond,
+                        tvTableSeatDiffsThirdSelfPick,
+                        tvTableSeatDiffsThirdDirectHu,
+                        tvTableSeatDiffsThirdIndirectHu,
+                        trTableSeatDiffsThird,
                     )
                 }
                 with(binding.iGameTableSeatSouth.iGameTableSeatSouthDiffs) {
                     setSeatDiffs(
                         tableDiffs.seatsDiffs[SOUTH.code],
-                        tvTableSeatDiffsFirstSelfPick, tvTableSeatDiffsFirstDirectHu, tvTableSeatDiffsFirstIndirectHu, tlTableSeatDiffs,
-                        tvTableSeatDiffsSecondSelfPick, tvTableSeatDiffsSecondDirectHu, tvTableSeatDiffsSecondIndirectHu, trTableSeatDiffsSecond,
-                        tvTableSeatDiffsThirdSelfPick, tvTableSeatDiffsThirdDirectHu, tvTableSeatDiffsThirdIndirectHu, trTableSeatDiffsThird,
+                        tvTableSeatDiffsFirstSelfPick,
+                        tvTableSeatDiffsFirstDirectHu,
+                        tvTableSeatDiffsFirstIndirectHu,
+                        tlTableSeatDiffs,
+                        tvTableSeatDiffsSecondSelfPick,
+                        tvTableSeatDiffsSecondDirectHu,
+                        tvTableSeatDiffsSecondIndirectHu,
+                        trTableSeatDiffsSecond,
+                        tvTableSeatDiffsThirdSelfPick,
+                        tvTableSeatDiffsThirdDirectHu,
+                        tvTableSeatDiffsThirdIndirectHu,
+                        trTableSeatDiffsThird,
                     )
                 }
                 with(binding.iGameTableSeatWest.iGameTableSeatWestDiffs) {
                     setSeatDiffs(
                         tableDiffs.seatsDiffs[WEST.code],
-                        tvTableSeatDiffsFirstSelfPick, tvTableSeatDiffsFirstDirectHu, tvTableSeatDiffsFirstIndirectHu, tlTableSeatDiffs,
-                        tvTableSeatDiffsSecondSelfPick, tvTableSeatDiffsSecondDirectHu, tvTableSeatDiffsSecondIndirectHu, trTableSeatDiffsSecond,
-                        tvTableSeatDiffsThirdSelfPick, tvTableSeatDiffsThirdDirectHu, tvTableSeatDiffsThirdIndirectHu, trTableSeatDiffsThird,
+                        tvTableSeatDiffsFirstSelfPick,
+                        tvTableSeatDiffsFirstDirectHu,
+                        tvTableSeatDiffsFirstIndirectHu,
+                        tlTableSeatDiffs,
+                        tvTableSeatDiffsSecondSelfPick,
+                        tvTableSeatDiffsSecondDirectHu,
+                        tvTableSeatDiffsSecondIndirectHu,
+                        trTableSeatDiffsSecond,
+                        tvTableSeatDiffsThirdSelfPick,
+                        tvTableSeatDiffsThirdDirectHu,
+                        tvTableSeatDiffsThirdIndirectHu,
+                        trTableSeatDiffsThird,
                     )
                 }
                 with(binding.iGameTableSeatNorth.iGameTableSeatNorthDiffs) {
                     setSeatDiffs(
                         tableDiffs.seatsDiffs[NORTH.code],
-                        tvTableSeatDiffsFirstSelfPick, tvTableSeatDiffsFirstDirectHu, tvTableSeatDiffsFirstIndirectHu, tlTableSeatDiffs,
-                        tvTableSeatDiffsSecondSelfPick, tvTableSeatDiffsSecondDirectHu, tvTableSeatDiffsSecondIndirectHu, trTableSeatDiffsSecond,
-                        tvTableSeatDiffsThirdSelfPick, tvTableSeatDiffsThirdDirectHu, tvTableSeatDiffsThirdIndirectHu, trTableSeatDiffsThird,
+                        tvTableSeatDiffsFirstSelfPick,
+                        tvTableSeatDiffsFirstDirectHu,
+                        tvTableSeatDiffsFirstIndirectHu,
+                        tlTableSeatDiffs,
+                        tvTableSeatDiffsSecondSelfPick,
+                        tvTableSeatDiffsSecondDirectHu,
+                        tvTableSeatDiffsSecondIndirectHu,
+                        trTableSeatDiffsSecond,
+                        tvTableSeatDiffsThirdSelfPick,
+                        tvTableSeatDiffsThirdDirectHu,
+                        tvTableSeatDiffsThirdIndirectHu,
+                        trTableSeatDiffsThird,
                     )
                 }
             } else {
@@ -223,9 +304,18 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
 
     private fun setSeatDiffs(
         seatDiffs: SeatDiffs,
-        tvFirstSelfPick: TextView, tvFirstDirectHu: TextView, tvFirstIndirectHu: TextView, tlGameTable: TableLayout,
-        tvSecondSelfPick: TextView, tvSecondDirectHu: TextView, tvSecondIndirectHu: TextView, trDiffsSecond: TableRow,
-        tvThirdSelfPick: TextView, tvThirdDirectHu: TextView, tvThirdIndirectHu: TextView, trDiffsThird: TableRow,
+        tvFirstSelfPick: TextView,
+        tvFirstDirectHu: TextView,
+        tvFirstIndirectHu: TextView,
+        tlGameTable: TableLayout,
+        tvSecondSelfPick: TextView,
+        tvSecondDirectHu: TextView,
+        tvSecondIndirectHu: TextView,
+        trDiffsSecond: TableRow,
+        tvThirdSelfPick: TextView,
+        tvThirdDirectHu: TextView,
+        tvThirdIndirectHu: TextView,
+        trDiffsThird: TableRow,
     ) {
         tlGameTable.visibility = GONE
         trDiffsSecond.visibility = GONE
@@ -265,10 +355,22 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
 
     private fun setPenalties(penalties: IntArray, isEnded: Boolean) {
         if (!isEnded) {
-            setPenaltyPoints(binding.iGameTableSeatEast.tvTableSeatEastPenaltyPoints, penalties[EAST.code])
-            setPenaltyPoints(binding.iGameTableSeatSouth.tvTableSeatSouthPenaltyPoints, penalties[SOUTH.code])
-            setPenaltyPoints(binding.iGameTableSeatWest.tvTableSeatWestPenaltyPoints, penalties[WEST.code])
-            setPenaltyPoints(binding.iGameTableSeatNorth.tvTableSeatNorthPenaltyPoints, penalties[NORTH.code])
+            setPenaltyPoints(
+                binding.iGameTableSeatEast.tvTableSeatEastPenaltyPoints,
+                penalties[EAST.code]
+            )
+            setPenaltyPoints(
+                binding.iGameTableSeatSouth.tvTableSeatSouthPenaltyPoints,
+                penalties[SOUTH.code]
+            )
+            setPenaltyPoints(
+                binding.iGameTableSeatWest.tvTableSeatWestPenaltyPoints,
+                penalties[WEST.code]
+            )
+            setPenaltyPoints(
+                binding.iGameTableSeatNorth.tvTableSeatNorthPenaltyPoints,
+                penalties[NORTH.code]
+            )
         } else {
             binding.iGameTableSeatEast.tvTableSeatEastPenaltyPoints.visibility = GONE
             binding.iGameTableSeatSouth.tvTableSeatSouthPenaltyPoints.visibility = GONE
@@ -318,11 +420,12 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
         textView.text = name ?: ""
     }
 
-
     @SuppressLint("ClickableViewAccessibility")
-    private fun setListeners() {
+    private fun setListenersBySeat() {
         with(binding) {
-            fun eastClick() { if (!areSeatsDisabled) listener?.onSeatClick(EAST) }
+            fun eastClick() {
+                if (!areSeatsDisabled) listener?.onSeatClick(EAST)
+            }
             iGameTableSeatEast.ivTableSeatEastSeatWindIcon.setOnSecureClickListener { eastClick() }
             iGameTableSeatEast.tvTableSeatEastName.setOnSecureClickListener { eastClick() }
             iGameTableSeatEast.tvTableSeatEastPoints.setOnSecureClickListener { eastClick() }
@@ -331,7 +434,9 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
             iGameTableSeatEast.tvTableSeatEastPenaltyPoints.setOnSecureClickListener { eastClick() }
             iGameTableSeatEast.iGameTableSeatEastDiffs.tlTableSeatDiffs.setOnSecureClickListener { eastClick() }
 
-            fun southClick() { if (!areSeatsDisabled) listener?.onSeatClick(SOUTH) }
+            fun southClick() {
+                if (!areSeatsDisabled) listener?.onSeatClick(SOUTH)
+            }
             iGameTableSeatSouth.ivTableSeatSouthSeatWindIcon.setOnSecureClickListener { southClick() }
             iGameTableSeatSouth.tvTableSeatSouthName.setOnSecureClickListener { southClick() }
             iGameTableSeatSouth.tvTableSeatSouthPoints.setOnSecureClickListener { southClick() }
@@ -340,7 +445,9 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
             iGameTableSeatSouth.tvTableSeatSouthPenaltyPoints.setOnSecureClickListener { southClick() }
             iGameTableSeatSouth.iGameTableSeatSouthDiffs.tlTableSeatDiffs.setOnSecureClickListener { southClick() }
 
-            fun westClick() { if (!areSeatsDisabled) listener?.onSeatClick(WEST) }
+            fun westClick() {
+                if (!areSeatsDisabled) listener?.onSeatClick(WEST)
+            }
             iGameTableSeatWest.ivTableSeatWestSeatWindIcon.setOnSecureClickListener { westClick() }
             iGameTableSeatWest.tvTableSeatWestName.setOnSecureClickListener { westClick() }
             iGameTableSeatWest.tvTableSeatWestPoints.setOnSecureClickListener { westClick() }
@@ -349,7 +456,9 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
             iGameTableSeatWest.tvTableSeatWestPenaltyPoints.setOnSecureClickListener { westClick() }
             iGameTableSeatWest.iGameTableSeatWestDiffs.tlTableSeatDiffs.setOnSecureClickListener { westClick() }
 
-            fun northClick() { if (!areSeatsDisabled) listener?.onSeatClick(NORTH) }
+            fun northClick() {
+                if (!areSeatsDisabled) listener?.onSeatClick(NORTH)
+            }
             iGameTableSeatNorth.ivTableSeatNorthSeatWindIcon.setOnSecureClickListener { northClick() }
             iGameTableSeatNorth.tvTableSeatNorthName.setOnSecureClickListener { northClick() }
             iGameTableSeatNorth.tvTableSeatNorthPoints.setOnSecureClickListener { northClick() }
@@ -369,9 +478,10 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
         }
     }
 
-    fun updateSeatsOrientation(seatsOrientation: SeatsOrientation) {
-        when (seatsOrientation) {
+    fun updateSeatsOrientation(seatsArrangement: SeatsArrangement) {
+        when (seatsArrangement) {
             OUT -> {
+                binding.llTableSeatsByRanking.visibility = GONE
                 binding.iGameTableSeatEast.rlTableSeatEastContainer.setPadding(0, margin, 0, 0)
                 binding.iGameTableSeatWest.rlTableSeatWestContainer.setPadding(0, margin, 0, 0)
                 binding.iGameTableSeatSouth.rlTableSeatSouthContainer.setPadding(0, 0, 0, margin)
@@ -379,9 +489,11 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
                 binding.iGameTableSeatSouth.rlTableSeatSouthContainer.rotation = -90f
                 binding.iGameTableSeatWest.rlTableSeatWestContainer.rotation = 180f
                 binding.iGameTableSeatNorth.rlTableSeatNorthContainer.rotation = 90f
+                binding.rlTableSeatsBySeat.visibility = VISIBLE
             }
 
             DOWN -> {
+                binding.llTableSeatsByRanking.visibility = GONE
                 binding.iGameTableSeatEast.rlTableSeatEastContainer.setPadding(0, margin * 3, 0, 0)
                 binding.iGameTableSeatWest.rlTableSeatWestContainer.setPadding(0, 0, 0, margin * 3)
                 binding.iGameTableSeatSouth.rlTableSeatSouthContainer.setPadding(0, 0, 0, 0)
@@ -389,6 +501,12 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
                 binding.iGameTableSeatSouth.rlTableSeatSouthContainer.rotation = 0f
                 binding.iGameTableSeatWest.rlTableSeatWestContainer.rotation = 0f
                 binding.iGameTableSeatNorth.rlTableSeatNorthContainer.rotation = 0f
+                binding.rlTableSeatsBySeat.visibility = VISIBLE
+            }
+
+            RANKING -> {
+                binding.rlTableSeatsBySeat.visibility = GONE
+                binding.llTableSeatsByRanking.visibility = VISIBLE
             }
         }
     }
@@ -396,8 +514,10 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
     fun toggleDiffsButton(areDiffsEnabled: Boolean) {
         if (areDiffsEnabled) {
             binding.btTableSeatsShowDiffs.visibility = VISIBLE
+            binding.btTableSeatsByRankingShowDiffs.visibility = VISIBLE
         } else {
             binding.btTableSeatsShowDiffs.visibility = INVISIBLE
+            binding.btTableSeatsByRankingShowDiffs.visibility = INVISIBLE
             toggleDiffsViews(false)
         }
     }
@@ -409,12 +529,218 @@ class GameTableSeats(context: Context, attributeSet: AttributeSet) : RelativeLay
                 iGameTableSeatSouth.iGameTableSeatSouthDiffs.llTableSeatDiffsContainer.visibility = VISIBLE
                 iGameTableSeatWest.iGameTableSeatWestDiffs.llTableSeatDiffsContainer.visibility = VISIBLE
                 iGameTableSeatNorth.iGameTableSeatNorthDiffs.llTableSeatDiffsContainer.visibility = VISIBLE
+                iGameTableSeatByRankingFirst.iGameTableSeatRankingDiffs.llTableSeatDiffsContainer.visibility = VISIBLE
+                iGameTableSeatByRankingSecond.iGameTableSeatRankingDiffs.llTableSeatDiffsContainer.visibility = VISIBLE
+                iGameTableSeatByRankingThird.iGameTableSeatRankingDiffs.llTableSeatDiffsContainer.visibility = VISIBLE
+                iGameTableSeatByRankingFourth.iGameTableSeatRankingDiffs.llTableSeatDiffsContainer.visibility = VISIBLE
             } else {
                 iGameTableSeatEast.iGameTableSeatEastDiffs.llTableSeatDiffsContainer.visibility = GONE
                 iGameTableSeatSouth.iGameTableSeatSouthDiffs.llTableSeatDiffsContainer.visibility = GONE
                 iGameTableSeatWest.iGameTableSeatWestDiffs.llTableSeatDiffsContainer.visibility = GONE
                 iGameTableSeatNorth.iGameTableSeatNorthDiffs.llTableSeatDiffsContainer.visibility = GONE
+                iGameTableSeatByRankingFirst.iGameTableSeatRankingDiffs.llTableSeatDiffsContainer.visibility = GONE
+                iGameTableSeatByRankingSecond.iGameTableSeatRankingDiffs.llTableSeatDiffsContainer.visibility = GONE
+                iGameTableSeatByRankingThird.iGameTableSeatRankingDiffs.llTableSeatDiffsContainer.visibility = GONE
+                iGameTableSeatByRankingFourth.iGameTableSeatRankingDiffs.llTableSeatDiffsContainer.visibility = GONE
             }
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setSeatsByRanking(game: UiGame, isUserFontTooBig: Boolean) {
+        with(binding) {
+            val rankingData = RankingTableHelper.generateRankingTable(game)
+            if (rankingData == null) return
+            val playersNamesByCurrentSeat = game.getPlayersNamesByCurrentSeat()
+            val getPlayersPenaltiesByCurrentSeat = game.getPlayersPenaltiesByCurrentSeat()
+            // 1st
+            val firstPlayerRankingData = rankingData.sortedPlayersRankings.first()
+            val firstPlayerCurrentSeat = TableWinds.from(playersNamesByCurrentSeat.indexOf(firstPlayerRankingData.name))
+            if (firstPlayerCurrentSeat == null) return
+            iGameTableSeatByRankingFirst.tvTableSeatRankingPosition.text = context.getString(R.string._1st)
+            iGameTableSeatByRankingFirst.tvTableSeatRankingPoints.text = firstPlayerRankingData.score.toString()
+            val firstPlayerPenaltyPoints = getPlayersPenaltiesByCurrentSeat[firstPlayerCurrentSeat.code]
+            setWindIcon(iGameTableSeatByRankingFirst.ivTableSeatRankingSeatWindIcon, firstPlayerCurrentSeat)
+            if (firstPlayerPenaltyPoints > 0) {
+                iGameTableSeatByRankingFirst.tvTableSeatRankingPenaltyPoints.text = firstPlayerPenaltyPoints.toString()
+                iGameTableSeatByRankingFirst.tvTableSeatRankingPenaltyPoints.visibility = VISIBLE
+            } else {
+                iGameTableSeatByRankingFirst.tvTableSeatRankingPenaltyPoints.visibility = GONE
+            }
+            iGameTableSeatByRankingFirst.tvTableSeatRankingName.text = firstPlayerRankingData.name
+            // 2nd
+            val secondPlayerRankingData = rankingData.sortedPlayersRankings.second()
+            val secondPlayerCurrentSeat = TableWinds.from(playersNamesByCurrentSeat.indexOf(secondPlayerRankingData.name))
+            if (secondPlayerCurrentSeat == null) return
+            iGameTableSeatByRankingSecond.tvTableSeatRankingPosition.text = context.getString(R.string._2nd)
+            iGameTableSeatByRankingSecond.tvTableSeatRankingPoints.text = secondPlayerRankingData.score.toString()
+            val secondPlayerPenaltyPoints = getPlayersPenaltiesByCurrentSeat[secondPlayerCurrentSeat.code]
+            setWindIcon(iGameTableSeatByRankingSecond.ivTableSeatRankingSeatWindIcon, secondPlayerCurrentSeat)
+            if (secondPlayerPenaltyPoints > 0) {
+                iGameTableSeatByRankingSecond.tvTableSeatRankingPenaltyPoints.text = secondPlayerPenaltyPoints.toString()
+                iGameTableSeatByRankingSecond.tvTableSeatRankingPenaltyPoints.visibility = VISIBLE
+            } else {
+                iGameTableSeatByRankingSecond.tvTableSeatRankingPenaltyPoints.visibility = GONE
+            }
+            iGameTableSeatByRankingSecond.tvTableSeatRankingName.text = secondPlayerRankingData.name
+            // 3rd
+            val thirdPlayerRankingData = rankingData.sortedPlayersRankings.third()
+            val thirdPlayerCurrentSeat = TableWinds.from(playersNamesByCurrentSeat.indexOf(thirdPlayerRankingData.name))
+            if (thirdPlayerCurrentSeat == null) return
+            iGameTableSeatByRankingThird.tvTableSeatRankingPosition.text = context.getString(R.string._3rd)
+            iGameTableSeatByRankingThird.tvTableSeatRankingPoints.text = thirdPlayerRankingData.score.toString()
+            val thirdPlayerPenaltyPoints = getPlayersPenaltiesByCurrentSeat[thirdPlayerCurrentSeat.code]
+            setWindIcon(iGameTableSeatByRankingThird.ivTableSeatRankingSeatWindIcon, thirdPlayerCurrentSeat)
+            if (thirdPlayerPenaltyPoints > 0) {
+                iGameTableSeatByRankingThird.tvTableSeatRankingPenaltyPoints.text = thirdPlayerPenaltyPoints.toString()
+                iGameTableSeatByRankingThird.tvTableSeatRankingPenaltyPoints.visibility = VISIBLE
+            } else {
+                iGameTableSeatByRankingThird.tvTableSeatRankingPenaltyPoints.visibility = GONE
+            }
+            iGameTableSeatByRankingThird.tvTableSeatRankingName.text = thirdPlayerRankingData.name
+            // 4th
+            val fourthPlayerRankingData = rankingData.sortedPlayersRankings.fourth()
+            val fourthPlayerCurrentSeat = TableWinds.from(playersNamesByCurrentSeat.indexOf(fourthPlayerRankingData.name))
+            if (fourthPlayerCurrentSeat == null) return
+            iGameTableSeatByRankingFourth.tvTableSeatRankingPosition.text = context.getString(R.string._4th)
+            iGameTableSeatByRankingFourth.tvTableSeatRankingPoints.text = fourthPlayerRankingData.score.toString()
+            val fourthPlayerPenaltyPoints = getPlayersPenaltiesByCurrentSeat[fourthPlayerCurrentSeat.code]
+            setWindIcon(iGameTableSeatByRankingFourth.ivTableSeatRankingSeatWindIcon, fourthPlayerCurrentSeat)
+            if (fourthPlayerPenaltyPoints > 0) {
+                iGameTableSeatByRankingFourth.tvTableSeatRankingPenaltyPoints.text = fourthPlayerPenaltyPoints.toString()
+                iGameTableSeatByRankingFourth.tvTableSeatRankingPenaltyPoints.visibility = VISIBLE
+            } else {
+                iGameTableSeatByRankingFourth.tvTableSeatRankingPenaltyPoints.visibility = GONE
+            }
+            iGameTableSeatByRankingFourth.tvTableSeatRankingName.text = fourthPlayerRankingData.name
+            // Listeners
+            setListenersByRanking(firstPlayerCurrentSeat, secondPlayerCurrentSeat, thirdPlayerCurrentSeat, fourthPlayerCurrentSeat)
+            // Diffs
+            setPointsDiffsByRanking(
+                game,
+                isUserFontTooBig,
+                firstPlayerCurrentSeat,
+                secondPlayerCurrentSeat,
+                thirdPlayerCurrentSeat,
+                fourthPlayerCurrentSeat,
+            )
+            btTableSeatsByRankingShowDiffs.setOnTouchListener { _, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> listener?.toggleDiffsView(true)
+                    MotionEvent.ACTION_UP -> listener?.toggleDiffsView(false)
+                    else -> return@setOnTouchListener false
+                }
+                return@setOnTouchListener true
+            }
+        }
+    }
+
+    private fun setListenersByRanking(
+        firstPlayerCurrentSeat: TableWinds = EAST,
+        secondPlayerCurrentSeat: TableWinds = SOUTH,
+        thirdPlayerCurrentSeat: TableWinds = WEST,
+        fourthPlayerCurrentSeat: TableWinds = NORTH,
+    ) {
+        with(binding) {
+            iGameTableSeatByRankingFirst.rlTableSeatRankingContainer.setOnSecureClickListener {
+                if (!areSeatsDisabled) listener?.onSeatClick(firstPlayerCurrentSeat)
+            }
+            iGameTableSeatByRankingSecond.rlTableSeatRankingContainer.setOnSecureClickListener {
+                if (!areSeatsDisabled) listener?.onSeatClick(secondPlayerCurrentSeat)
+            }
+            iGameTableSeatByRankingThird.rlTableSeatRankingContainer.setOnSecureClickListener {
+                if (!areSeatsDisabled) listener?.onSeatClick(thirdPlayerCurrentSeat)
+            }
+            iGameTableSeatByRankingFourth.rlTableSeatRankingContainer.setOnSecureClickListener {
+                if (!areSeatsDisabled) listener?.onSeatClick(fourthPlayerCurrentSeat)
+            }
+        }
+    }
+
+    private fun setPointsDiffsByRanking(
+        uiGame: UiGame?,
+        isUserFontTooBig: Boolean,
+        firstPlayerCurrentSeat: TableWinds,
+        secondPlayerCurrentSeat: TableWinds,
+        thirdPlayerCurrentSeat: TableWinds,
+        fourthPlayerCurrentSeat: TableWinds,
+    ) {
+        if (!isUserFontTooBig) {
+            val tableDiffs = uiGame?.getTableDiffs()
+            if (tableDiffs != null) {
+                with(binding.iGameTableSeatByRankingFirst.iGameTableSeatRankingDiffs) {
+                    setSeatDiffs(
+                        tableDiffs.seatsDiffs[firstPlayerCurrentSeat.code],
+                        tvTableSeatDiffsFirstSelfPick,
+                        tvTableSeatDiffsFirstDirectHu,
+                        tvTableSeatDiffsFirstIndirectHu,
+                        tlTableSeatDiffs,
+                        tvTableSeatDiffsSecondSelfPick,
+                        tvTableSeatDiffsSecondDirectHu,
+                        tvTableSeatDiffsSecondIndirectHu,
+                        trTableSeatDiffsSecond,
+                        tvTableSeatDiffsThirdSelfPick,
+                        tvTableSeatDiffsThirdDirectHu,
+                        tvTableSeatDiffsThirdIndirectHu,
+                        trTableSeatDiffsThird,
+                    )
+                }
+                with(binding.iGameTableSeatByRankingSecond.iGameTableSeatRankingDiffs) {
+                    setSeatDiffs(
+                        tableDiffs.seatsDiffs[secondPlayerCurrentSeat.code],
+                        tvTableSeatDiffsFirstSelfPick,
+                        tvTableSeatDiffsFirstDirectHu,
+                        tvTableSeatDiffsFirstIndirectHu,
+                        tlTableSeatDiffs,
+                        tvTableSeatDiffsSecondSelfPick,
+                        tvTableSeatDiffsSecondDirectHu,
+                        tvTableSeatDiffsSecondIndirectHu,
+                        trTableSeatDiffsSecond,
+                        tvTableSeatDiffsThirdSelfPick,
+                        tvTableSeatDiffsThirdDirectHu,
+                        tvTableSeatDiffsThirdIndirectHu,
+                        trTableSeatDiffsThird,
+                    )
+                }
+                with(binding.iGameTableSeatByRankingThird.iGameTableSeatRankingDiffs) {
+                    setSeatDiffs(
+                        tableDiffs.seatsDiffs[thirdPlayerCurrentSeat.code],
+                        tvTableSeatDiffsFirstSelfPick,
+                        tvTableSeatDiffsFirstDirectHu,
+                        tvTableSeatDiffsFirstIndirectHu,
+                        tlTableSeatDiffs,
+                        tvTableSeatDiffsSecondSelfPick,
+                        tvTableSeatDiffsSecondDirectHu,
+                        tvTableSeatDiffsSecondIndirectHu,
+                        trTableSeatDiffsSecond,
+                        tvTableSeatDiffsThirdSelfPick,
+                        tvTableSeatDiffsThirdDirectHu,
+                        tvTableSeatDiffsThirdIndirectHu,
+                        trTableSeatDiffsThird,
+                    )
+                }
+                with(binding.iGameTableSeatByRankingFourth.iGameTableSeatRankingDiffs) {
+                    setSeatDiffs(
+                        tableDiffs.seatsDiffs[fourthPlayerCurrentSeat.code],
+                        tvTableSeatDiffsFirstSelfPick,
+                        tvTableSeatDiffsFirstDirectHu,
+                        tvTableSeatDiffsFirstIndirectHu,
+                        tlTableSeatDiffs,
+                        tvTableSeatDiffsSecondSelfPick,
+                        tvTableSeatDiffsSecondDirectHu,
+                        tvTableSeatDiffsSecondIndirectHu,
+                        trTableSeatDiffsSecond,
+                        tvTableSeatDiffsThirdSelfPick,
+                        tvTableSeatDiffsThirdDirectHu,
+                        tvTableSeatDiffsThirdIndirectHu,
+                        trTableSeatDiffsThird,
+                    )
+                }
+            } else {
+                toggleDiffsViews(false)
+            }
+        } else {
+            toggleDiffsViews(false)
         }
     }
 }

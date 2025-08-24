@@ -20,7 +20,7 @@ package com.etologic.mahjongscoring2.data_source.repositories
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import com.etologic.mahjongscoring2.business.model.enums.SeatsOrientation
+import com.etologic.mahjongscoring2.business.model.enums.SeatsArrangement
 import com.etologic.mahjongscoring2.data_source.local_data_sources.datastore.dataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -36,14 +36,14 @@ class SelectedSeatsOrientationRepository @Inject constructor(
         private val KEY_SELECTED_SEATS_ORIENTATION = intPreferencesKey("selectedSeatsOrientation")
     }
 
-    val selectedSeatsOrientationFlow: Flow<SeatsOrientation> =
+    val selectedSeatsArrangementFlow: Flow<SeatsArrangement> =
         context.dataStore.data.map { preferences ->
-            SeatsOrientation.from(preferences[KEY_SELECTED_SEATS_ORIENTATION])
+            SeatsArrangement.from(preferences[KEY_SELECTED_SEATS_ORIENTATION])
         }
 
-    suspend fun save(seatsOrientation: SeatsOrientation) {
+    suspend fun save(seatsArrangement: SeatsArrangement) {
         context.dataStore.edit { preferences ->
-            preferences[KEY_SELECTED_SEATS_ORIENTATION] = seatsOrientation.code
+            preferences[KEY_SELECTED_SEATS_ORIENTATION] = seatsArrangement.code
         }
     }
 }
