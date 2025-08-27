@@ -115,7 +115,7 @@ class GameTableFragment : Fragment() {
             is GameUiState.Loaded -> {
                 setGameData(uiState.game)
                 binding.gtsGameTableSeats.toggleDiffsButton(uiState.isDiffsCalcsFeatureEnabled)
-                binding.gtsGameTableSeats.updateSeatState(uiState.selectedSeat)
+                binding.gtsGameTableSeats.updateSeatState(uiState.selectedSeat, uiState.game)
                 binding.gtsGameTableSeats.updateSeatsOrientation(uiState.seatsArrangement)
                 binding.gtsGameTableSeats.toggleDiffsViews(uiState.shouldShowDiffs)
             }

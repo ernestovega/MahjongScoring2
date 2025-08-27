@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright © 2024  Ernesto Vega de la Iglesia Soria
+  ~
+  ~     This program is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llTableSeatsByRanking"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <include
+        android:id="@+id/iGameTableSeatByRankingFirst"
+        layout="@layout/custom_table_seat_by_ranking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <include
+        android:id="@+id/iGameTableSeatByRankingSecond"
+        layout="@layout/custom_table_seat_by_ranking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iGameTableSeatByRankingFirst"
+        android:layout_marginTop="16dp" />
+
+    <include
+        android:id="@+id/iGameTableSeatByRankingThird"
+        layout="@layout/custom_table_seat_by_ranking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iGameTableSeatByRankingSecond"
+        android:layout_marginTop="16dp" />
+
+    <include
+        android:id="@+id/iGameTableSeatByRankingFourth"
+        layout="@layout/custom_table_seat_by_ranking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iGameTableSeatByRankingThird"
+        android:layout_marginTop="16dp" />
+
+    <ImageButton
+        android:id="@+id/btTableSeatsByRankingShowDiffs"
+        android:layout_width="@dimen/third_standard_margin"
+        android:layout_height="@dimen/third_standard_margin"
+        android:layout_below="@+id/iGameTableSeatByRankingFourth"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:background="@android:color/transparent"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_calc"
+        android:visibility="invisible"
+        app:tint="@color/gray"
+        tools:visibility="visible" />
+
+</RelativeLayout>

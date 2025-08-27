@@ -15,119 +15,26 @@
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:background="@color/grayLight">
 
-    <RelativeLayout
-        android:id="@+id/rlTableSeatsBySeat"
+    <include
+        android:id="@+id/iTableSeatsBySeat"
+        layout="@layout/custom_table_seats_by_seat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="visible">
+        android:visibility="visible"
+        tools:visibility="visible" />
 
-        <ImageButton
-            android:id="@+id/btTableSeatsShowDiffs"
-            android:layout_width="@dimen/third_standard_margin"
-            android:layout_height="@dimen/third_standard_margin"
-            android:layout_centerInParent="true"
-            android:background="@android:color/transparent"
-            android:importantForAccessibility="no"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_calc"
-            android:visibility="invisible"
-            app:tint="@color/gray"
-            tools:visibility="visible" />
-
-        <include
-            android:id="@+id/iGameTableSeatEast"
-            layout="@layout/custom_table_seat_east"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btTableSeatsShowDiffs"
-            android:layout_centerHorizontal="true" />
-
-        <include
-            android:id="@+id/iGameTableSeatSouth"
-            layout="@layout/custom_table_seat_south"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/btTableSeatsShowDiffs"
-            tools:ignore="RtlHardcoded" />
-
-        <include
-            android:id="@+id/iGameTableSeatWest"
-            layout="@layout/custom_table_seat_west"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/btTableSeatsShowDiffs"
-            android:layout_centerHorizontal="true" />
-
-        <include
-            android:id="@+id/iGameTableSeatNorth"
-            layout="@layout/custom_table_seat_north"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/btTableSeatsShowDiffs"
-            tools:ignore="RtlHardcoded" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/llTableSeatsByRanking"
+    <include
+        android:id="@+id/iTableSeatsByRanking"
+        layout="@layout/custom_table_seats_by_ranking"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:visibility="gone"
-        tools:visibility="visible">
-
-        <include
-            android:id="@+id/iGameTableSeatByRankingFirst"
-            layout="@layout/custom_table_seat_ranking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/iGameTableSeatByRankingSecond" />
-
-        <include
-            android:id="@+id/iGameTableSeatByRankingSecond"
-            layout="@layout/custom_table_seat_ranking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/btTableSeatsByRankingShowDiffs"
-            android:layout_marginTop="16dp" />
-
-        <ImageButton
-            android:id="@+id/btTableSeatsByRankingShowDiffs"
-            android:layout_width="@dimen/third_standard_margin"
-            android:layout_height="@dimen/third_standard_margin"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="16dp"
-            android:background="@android:color/transparent"
-            android:importantForAccessibility="no"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_calc"
-            android:visibility="invisible"
-            app:tint="@color/gray"
-            tools:visibility="visible" />
-
-        <include
-            android:id="@+id/iGameTableSeatByRankingThird"
-            layout="@layout/custom_table_seat_ranking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btTableSeatsByRankingShowDiffs"
-            android:layout_marginTop="16dp" />
-
-        <include
-            android:id="@+id/iGameTableSeatByRankingFourth"
-            layout="@layout/custom_table_seat_ranking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/iGameTableSeatByRankingThird"
-            android:layout_marginTop="16dp" />
-
-    </RelativeLayout>
+        tools:visibility="visible" />
 
 </FrameLayout>
