@@ -40,7 +40,6 @@
     </style>
 
     <style name="FullScreenDialogMM" parent="AppTheme">
-        <item name="android:windowFullscreen">true</item>
         <item name="android:colorBackground">@color/blackTransparent</item>
     </style>
 

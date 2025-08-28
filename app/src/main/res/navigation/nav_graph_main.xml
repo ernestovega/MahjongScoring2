@@ -51,17 +51,17 @@
 
     </fragment>
 
-    <dialog
+    <fragment
         android:id="@+id/combinationsDialogFragment"
-        android:name="com.etologic.mahjongscoring2.app.screens.combinations.CombinationsDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.combinations.CombinationsFragment"
         android:label="@string/combinations"
-        tools:layout="@layout/combinations_dialog_fragment" />
+        tools:layout="@layout/combinations_fragment" />
 
-    <dialog
+    <fragment
         android:id="@+id/diffsCalculatorDialogFragment"
-        android:name="com.etologic.mahjongscoring2.app.screens.diffs_calculator.DiffsCalculatorDialogFragment"
+        android:name="com.etologic.mahjongscoring2.app.screens.diffs_calculator.DiffsCalculatorFragment"
         android:label="@string/diffsCalculator"
-        tools:layout="@layout/diffs_calculator_dialog_fragment" />
+        tools:layout="@layout/diffs_calculator_fragment" />
 
     <dialog
         android:id="@+id/setupNewGameDialogFragment"
