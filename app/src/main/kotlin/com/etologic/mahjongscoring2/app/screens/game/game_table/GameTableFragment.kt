@@ -49,7 +49,9 @@ import com.etologic.mahjongscoring2.R.drawable.ic_trophy_white
 import com.etologic.mahjongscoring2.R.drawable.ic_west
 import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.app.custom_views.GameTableSeats
+import com.etologic.mahjongscoring2.app.screens.game.GameFragment
 import com.etologic.mahjongscoring2.app.screens.game.GameFragmentDirections
+import com.etologic.mahjongscoring2.app.screens.game.GamePageActions
 import com.etologic.mahjongscoring2.app.screens.game.GameUiState
 import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.app.screens.game.navigateOnceToRanking
@@ -118,6 +120,11 @@ class GameTableFragment : Fragment() {
                 binding.gtsGameTableSeats.updateSeatState(uiState.selectedSeat, uiState.game)
                 binding.gtsGameTableSeats.updateSeatsOrientation(uiState.seatsArrangement)
                 binding.gtsGameTableSeats.toggleDiffsViews(uiState.shouldShowDiffs)
+                if (uiState.pageToShow.first == GameFragment.GamePages.TABLE &&
+                    uiState.pageToShow.second == GamePageActions.SHOW_RANKING
+                ){
+                    findNavController().navigate(GameFragmentDirections.actionGameFragmentToRankingDialogFragment())
+                }
             }
         }
     }

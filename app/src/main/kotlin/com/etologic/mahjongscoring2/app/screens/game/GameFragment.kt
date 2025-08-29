@@ -36,7 +36,6 @@ import androidx.navigation.fragment.findNavController
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseMainFragment
 import com.etologic.mahjongscoring2.app.screens.MainActivity
-import com.etologic.mahjongscoring2.app.screens.game.GameFragment.GamePages.STAY
 import com.etologic.mahjongscoring2.app.utils.shareFiles
 import com.etologic.mahjongscoring2.app.utils.shareText
 import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
@@ -218,12 +217,11 @@ class GameFragment : BaseMainFragment() {
         }
     }
 
-    private fun pageToShowObserver(pageToShow: Pair<GamePages, ShouldHighlightLastRound>?) {
-        pageToShow?.first?.let { gamePage ->
+    private fun pageToShowObserver(pageToShow: Pair<GamePages, GamePageActions>?) {
+        pageToShow?.let { (page, _) ->
             with(binding.viewPagerGame) {
-                if (gamePage != STAY && gamePage.index != currentItem) {
-                    currentItem = gamePage.index
-                }
+                if (page == GamePages.STAY || page.index == currentItem) return
+                currentItem = page.index
             }
         }
     }

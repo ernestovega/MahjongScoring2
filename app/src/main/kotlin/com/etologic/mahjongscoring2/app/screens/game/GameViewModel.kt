@@ -20,7 +20,7 @@ package com.etologic.mahjongscoring2.app.screens.game
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.etologic.mahjongscoring2.app.base.BaseViewModel
-import com.etologic.mahjongscoring2.app.screens.game.GameFragment.GamePages.TABLE
+import com.etologic.mahjongscoring2.app.screens.game.GameFragment.GamePages
 import com.etologic.mahjongscoring2.business.model.dtos.HuData
 import com.etologic.mahjongscoring2.business.model.dtos.PenaltyData
 import com.etologic.mahjongscoring2.business.model.entities.GameId
@@ -28,12 +28,8 @@ import com.etologic.mahjongscoring2.business.model.entities.RoundId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
 import com.etologic.mahjongscoring2.business.model.enums.SeatsArrangement
-import com.etologic.mahjongscoring2.business.model.enums.SeatsArrangement.DOWN
-import com.etologic.mahjongscoring2.business.model.enums.SeatsArrangement.OUT
-import com.etologic.mahjongscoring2.business.model.enums.SeatsArrangement.RANKING
 import com.etologic.mahjongscoring2.business.model.enums.ShareGameOptions
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds
-import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NONE
 import com.etologic.mahjongscoring2.business.use_cases.CancelAllPenaltiesUseCase
 import com.etologic.mahjongscoring2.business.use_cases.DeleteRoundUseCase
 import com.etologic.mahjongscoring2.business.use_cases.EditGameNamesUseCase
@@ -60,7 +56,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -68,7 +64,11 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
 
-typealias ShouldHighlightLastRound = Boolean
+enum class GamePageActions {
+    NOTHING,
+    HIGHLIGHT_LAST_ROUND,
+    SHOW_RANKING,
+}
 
 sealed interface GameUiState {
 
@@ -82,7 +82,7 @@ sealed interface GameUiState {
         val isDiffsCalcsFeatureEnabled: Boolean,
         val shouldShowDiffs: Boolean,
         val seatsArrangement: SeatsArrangement,
-        val pageToShow: Pair<GameFragment.GamePages, ShouldHighlightLastRound>,
+        val pageToShow: Pair<GamePages, GamePageActions>,
         val selectedSeat: TableWinds,
     ) : GameUiState
 }
@@ -112,10 +112,11 @@ class GameViewModel @Inject constructor(
         savedStateHandle.getStateFlow("gameId", NOT_SET_GAME_ID)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val gameFlow: Flow<UiGame> =
+    private val gameFlow: StateFlow<UiGame?> =
         _gameId.filter { it != NOT_SET_GAME_ID }
             .flatMapLatest(getOneGameFlowUseCase::invoke)
             .catch { showError(it) }
+            .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     private val isDiffsCalcsFeatureEnabledStateFlow: StateFlow<Boolean> =
         diffCalcsFeatureEnabledRepository.diffCalcsFeatureEnabledFlow
@@ -123,11 +124,11 @@ class GameViewModel @Inject constructor(
 
     private val seatsArrangementStateFlow: StateFlow<SeatsArrangement> =
         selectedSeatsOrientationRepository.selectedSeatsArrangementFlow
-            .stateIn(viewModelScope, SharingStarted.Lazily, DOWN)
+            .stateIn(viewModelScope, SharingStarted.Lazily, SeatsArrangement.DOWN)
 
     private val shouldShowDiffsFlow = MutableStateFlow(false)
-    private val pageToShowFlow = MutableStateFlow(TABLE to false)
-    private val selectedSeatFlow = MutableStateFlow(NONE)
+    private val pageToShowFlow = MutableStateFlow(GamePages.TABLE to GamePageActions.NOTHING)
+    private val selectedSeatFlow = MutableStateFlow(TableWinds.NONE)
 
     private data class CoreState(
         val error: Throwable?,
@@ -140,7 +141,7 @@ class GameViewModel @Inject constructor(
     private val coreStateFlow: Flow<CoreState> =
         combine(
             errorFlow,
-            gameFlow,
+            gameFlow.filterNotNull(),
             isDiffsCalcsFeatureEnabledStateFlow,
             shouldShowDiffsFlow,
             seatsArrangementStateFlow,
@@ -160,15 +161,33 @@ class GameViewModel @Inject constructor(
             pageToShowFlow,
             selectedSeatFlow,
         ) { core, pageToShow, selectedSeat ->
-            core.error?.let { GameUiState.Error(it) } ?: GameUiState.Loaded(
-                error = null,
-                game = core.game,
-                isDiffsCalcsFeatureEnabled = core.isDiffsCalcsFeatureEnabled,
-                shouldShowDiffs = core.shouldShowDiffs,
-                seatsArrangement = core.seatsArrangement,
-                pageToShow = pageToShow,
-                selectedSeat = selectedSeat,
-            )
+            val pageToShowUpdated = if (pageToShow.first == GamePages.LIST &&
+                pageToShow.second == GamePageActions.HIGHLIGHT_LAST_ROUND &&
+                core.game.isEnded
+            ) {
+                GamePages.TABLE to GamePageActions.SHOW_RANKING
+            } else {
+                pageToShow
+            }
+            if (pageToShowUpdated.second == GamePageActions.SHOW_RANKING &&
+                core.seatsArrangement != SeatsArrangement.RANKING
+            ) {
+                viewModelScope.launch {
+                    selectedSeatsOrientationRepository.save(SeatsArrangement.RANKING)
+                }
+                gameUiStateFlow.value
+            } else {
+                core.error?.let { GameUiState.Error(it) }
+                    ?: GameUiState.Loaded(
+                        error = null,
+                        game = core.game,
+                        isDiffsCalcsFeatureEnabled = core.isDiffsCalcsFeatureEnabled,
+                        shouldShowDiffs = core.shouldShowDiffs,
+                        seatsArrangement = core.seatsArrangement,
+                        pageToShow = pageToShowUpdated,
+                        selectedSeat = selectedSeat,
+                    )
+            }
         }.stateIn(viewModelScope, SharingStarted.Lazily, GameUiState.Loading)
 
     //SELECTED PLAYER/SEAT
@@ -180,29 +199,33 @@ class GameViewModel @Inject constructor(
 
     fun unselectSeats() {
         viewModelScope.launch {
-            selectedSeatFlow.emit(NONE)
+            selectedSeatFlow.emit(TableWinds.NONE)
         }
     }
 
-    fun showPage(page: GameFragment.GamePages, shouldHighlightLastRound: Boolean = false) {
+    fun showPage(page: GamePages, action: GamePageActions = GamePageActions.NOTHING) {
         viewModelScope.launch {
-            pageToShowFlow.emit(page to shouldHighlightLastRound)
+            pageToShowFlow.emit(page to action)
         }
     }
 
     //GAME OPERATIONS
     fun resumeGame() {
-        viewModelScope.launch {
-            resumeGameUseCase.invoke(gameFlow.first())
-                .onFailure(::showError)
+        gameFlow.value?.let { game ->
+            viewModelScope.launch {
+                resumeGameUseCase.invoke(game)
+                    .onFailure(::showError)
+            }
         }
     }
 
     fun endGame() {
-        viewModelScope.launch {
-            endGameUseCase.invoke(gameFlow.first())
-                .onSuccess { showInAppReviewUseCase.invoke() }
-                .onFailure(::showError)
+        gameFlow.value?.let { game ->
+            viewModelScope.launch {
+                endGameUseCase.invoke(game)
+                    .onSuccess { showInAppReviewUseCase.invoke() }
+                    .onFailure(::showError)
+            }
         }
     }
 
@@ -229,41 +252,54 @@ class GameViewModel @Inject constructor(
 
     //ROUND OPERATIONS
     fun saveHuDiscardRound(huData: HuData) {
-        viewModelScope.launch {
-            huDiscardUseCase.invoke(gameFlow.first(), huData)
-                .fold({ showSavedRound() }, ::showError)
+        gameFlow.value?.let { game ->
+            viewModelScope.launch {
+                huDiscardUseCase.invoke(game, huData)
+                    .fold({ onRoundSaved() }, ::showError)
+            }
         }
     }
 
     fun saveHuSelfPickRound(huData: HuData) {
-        viewModelScope.launch {
-            huSelfPickUseCase.invoke(gameFlow.first(), huData)
-                .fold({ showSavedRound() }, ::showError)
+        gameFlow.value?.let { game ->
+            viewModelScope.launch {
+                huSelfPickUseCase.invoke(game, huData)
+                    .fold({ onRoundSaved() }, ::showError)
+            }
         }
     }
 
     fun saveDrawRound() {
-        viewModelScope.launch {
-            huDrawUseCase.invoke(gameFlow.first())
-                .fold({ showSavedRound() }, ::showError)
+        gameFlow.value?.let { game ->
+            viewModelScope.launch {
+                huDrawUseCase.invoke(game)
+                    .fold({ onRoundSaved() }, ::showError)
+            }
         }
     }
 
-    private fun showSavedRound() {
-        showPage(page = GameFragment.GamePages.LIST, shouldHighlightLastRound = true)
+    private fun onRoundSaved() {
+        showPage(
+            page = GamePages.LIST,
+            action = GamePageActions.HIGHLIGHT_LAST_ROUND,
+        )
     }
 
     fun savePenalty(penaltyData: PenaltyData) {
-        viewModelScope.launch {
-            setPenaltyUseCase.invoke(gameFlow.first().ongoingRound, penaltyData)
-                .onFailure(::showError)
+        gameFlow.value?.let { game ->
+            viewModelScope.launch {
+                setPenaltyUseCase.invoke(game.ongoingRound, penaltyData)
+                    .onFailure(::showError)
+            }
         }
     }
 
     fun cancelPenalties() {
-        viewModelScope.launch {
-            cancelAllPenaltiesUseCase.invoke(gameFlow.first().ongoingRound)
-                .onFailure(::showError)
+        gameFlow.value?.let { game ->
+            viewModelScope.launch {
+                cancelAllPenaltiesUseCase.invoke(game.ongoingRound)
+                    .onFailure(::showError)
+            }
         }
     }
 
@@ -279,9 +315,9 @@ class GameViewModel @Inject constructor(
         viewModelScope.launch {
             selectedSeatsOrientationRepository.save(
                 when (seatsArrangementStateFlow.value) {
-                    DOWN -> OUT
-                    OUT -> RANKING
-                    RANKING -> DOWN
+                    SeatsArrangement.DOWN -> SeatsArrangement.OUT
+                    SeatsArrangement.OUT -> SeatsArrangement.RANKING
+                    SeatsArrangement.RANKING -> SeatsArrangement.DOWN
                 }
             )
         }
@@ -314,24 +350,19 @@ class GameViewModel @Inject constructor(
         showShareText: (String) -> Unit,
         showShareFiles: (Array<File>) -> Unit,
     ) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                when (option) {
-                    ShareGameOptions.TEXT -> exportGameToTextUseCase.invoke(gameFlow.first().gameId)
-                        .fold({ showShareText.invoke(it) }, ::showError)
+        gameFlow.value?.gameId?.let { gameId ->
+            viewModelScope.launch {
+                withContext(Dispatchers.Default) {
+                    when (option) {
+                        ShareGameOptions.TEXT -> exportGameToTextUseCase.invoke(gameId)
+                            .fold({ showShareText.invoke(it) }, ::showError)
 
-                    ShareGameOptions.CSV -> exportGameToCsvUseCase.invoke(gameFlow.first().gameId, directory)
-                        .fold({ showShareFiles.invoke(arrayOf(it)) }, ::showError)
+                        ShareGameOptions.CSV -> exportGameToCsvUseCase.invoke(gameId, directory)
+                            .fold({ showShareFiles.invoke(arrayOf(it)) }, ::showError)
 
-                    ShareGameOptions.JSON -> exportGameToJsonUseCase.invoke(gameFlow.first().gameId, directory)
-                        .fold(
-                            {
-                                showShareFiles.invoke(arrayOf(it))
-                            },
-                            {
-                                showError(it)
-                            }
-                        )
+                        ShareGameOptions.JSON -> exportGameToJsonUseCase.invoke(gameId, directory)
+                            .fold({ showShareFiles.invoke(arrayOf(it)) }, ::showError)
+                    }
                 }
             }
         }

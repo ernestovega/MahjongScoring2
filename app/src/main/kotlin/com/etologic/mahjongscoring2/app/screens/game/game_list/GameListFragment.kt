@@ -36,9 +36,9 @@ import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.screens.game.GameFragment
 import com.etologic.mahjongscoring2.app.screens.game.GameFragment.GamePages.LIST
 import com.etologic.mahjongscoring2.app.screens.game.GameFragment.GamePages.STAY
+import com.etologic.mahjongscoring2.app.screens.game.GamePageActions
 import com.etologic.mahjongscoring2.app.screens.game.GameUiState
 import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
-import com.etologic.mahjongscoring2.app.screens.game.ShouldHighlightLastRound
 import com.etologic.mahjongscoring2.app.screens.game.game_list.GameListRvAdapter.GameListItemListener
 import com.etologic.mahjongscoring2.app.utils.toStringSigned
 import com.etologic.mahjongscoring2.business.model.entities.RoundId
@@ -49,6 +49,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 @AndroidEntryPoint
 class GameListFragment : Fragment() {
@@ -170,11 +171,11 @@ class GameListFragment : Fragment() {
         }
     }
 
-    private fun pageToShowObserver(pageToShow: Pair<GameFragment.GamePages, ShouldHighlightLastRound>) {
-        val (pageIndex, shouldHighlightLastRound) = pageToShow
-        if (pageIndex == LIST && shouldHighlightLastRound) {
+    private fun pageToShowObserver(pageToShow: Pair<GameFragment.GamePages, GamePageActions>) {
+        val (page, action) = pageToShow
+        if (page == LIST && action == GamePageActions.HIGHLIGHT_LAST_ROUND) {
             lifecycleScope.launch {
-                delay(300)
+                delay(300.milliseconds)
                 val lastItemPosition = rvAdapter.itemCount.minus(1)
                 if (lastItemPosition >= 0) {
                     val lastItem = binding.rvGameList.findViewHolderForAdapterPosition(lastItemPosition) as GameListRvAdapter.ItemViewHolder
