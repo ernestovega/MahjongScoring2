@@ -67,7 +67,7 @@ android {
         targetSdk = 36
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         versionCode = 13
-        versionName = "2.5.0.dev"
+        versionName = "2.5.0"
     }
 
     namespace = "com.etologic.mahjongscoring2"
