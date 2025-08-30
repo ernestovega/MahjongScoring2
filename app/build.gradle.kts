@@ -72,7 +72,7 @@ android {
 
     namespace = "com.etologic.mahjongscoring2"
 
-    ndkVersion = "27.0.12077973"
+    ndkVersion = "28.2.13676358"
 
     sourceSets {
         getByName("androidTest").assets.srcDir("$projectDir/schemas")
