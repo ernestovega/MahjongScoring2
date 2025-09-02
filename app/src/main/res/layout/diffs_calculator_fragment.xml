@@ -14,55 +14,61 @@
   ~     You should have received a copy of the GNU General Public License
   ~     along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".app.screens.diffs_calculator.DiffsCalculatorFragment">
 
     <LinearLayout
-        android:id="@+id/llDiffsCalculatorTitles"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            style="@style/diffsCalculatorCell"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:lines="2"
-            android:text="@string/diff"
-            android:textColor="@color/white" />
+        <LinearLayout
+            android:id="@+id/llDiffsCalculatorTitles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <TextView
-            style="@style/diffsCalculatorCell"
-            android:text="@string/self_pick"
-            android:textColor="@color/white" />
+            <TextView
+                style="@style/diffsCalculatorCell"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:lines="2"
+                android:text="@string/diff"
+                android:textColor="@color/white" />
 
-        <TextView
-            style="@style/diffsCalculatorCell"
-            android:text="@string/direct"
-            android:textColor="@color/white" />
+            <TextView
+                style="@style/diffsCalculatorCell"
+                android:text="@string/self_pick"
+                android:textColor="@color/white" />
 
-        <TextView
-            style="@style/diffsCalculatorCell"
-            android:text="@string/indirect"
-            android:textColor="@color/white" />
+            <TextView
+                style="@style/diffsCalculatorCell"
+                android:text="@string/direct"
+                android:textColor="@color/white" />
+
+            <TextView
+                style="@style/diffsCalculatorCell"
+                android:text="@string/indirect"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewDiffsCalculator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray"
+            android:fadeScrollbars="false"
+            android:fadingEdgeLength="@dimen/standard_margin"
+            android:requiresFadingEdge="vertical"
+            android:scrollIndicators="end"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/diffs_calculator_item" />
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewDiffsCalculator"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/gray"
-        android:fadeScrollbars="false"
-        android:fadingEdgeLength="@dimen/standard_margin"
-        android:requiresFadingEdge="vertical"
-        android:scrollIndicators="end"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/diffs_calculator_item" />
-
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
