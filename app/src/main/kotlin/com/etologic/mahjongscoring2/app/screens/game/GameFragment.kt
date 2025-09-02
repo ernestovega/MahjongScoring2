@@ -25,8 +25,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.activityViewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
@@ -36,6 +38,7 @@ import androidx.navigation.fragment.findNavController
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseMainFragment
 import com.etologic.mahjongscoring2.app.screens.MainActivity
+import com.etologic.mahjongscoring2.app.screens.MainViewModel
 import com.etologic.mahjongscoring2.app.utils.shareFiles
 import com.etologic.mahjongscoring2.app.utils.shareText
 import com.etologic.mahjongscoring2.app.utils.showShareGameDialog
@@ -78,7 +81,8 @@ class GameFragment : BaseMainFragment() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private var _binding: GameFragmentBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: GameViewModel by hiltNavGraphViewModels<GameViewModel>(R.id.nav_graph_game)
+    private val viewModel: GameViewModel by hiltNavGraphViewModels<GameViewModel>(R.id.nav_graph_main)
+    private val activityViewModel: MainViewModel by activityViewModels()
     override val onBackOrUpClick: () -> Unit = {
         if (binding.viewPagerGame.currentItem == GamePages.LIST.index) {
             binding.viewPagerGame.setCurrentItem(GamePages.TABLE.index, true)
@@ -108,7 +112,6 @@ class GameFragment : BaseMainFragment() {
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             with(activity as? MainActivity) {
                 when (menuItem.itemId) {
-                    android.R.id.home -> onBackOrUpClick.invoke()
                     R.id.action_seats_orientation -> {
                         if (binding.viewPagerGame.currentItem == GamePages.LIST.index) {
                             viewModel.showPage(GamePages.TABLE)
@@ -116,12 +119,11 @@ class GameFragment : BaseMainFragment() {
                         viewModel.nextSeatsOrientation()
                     }
 
-                    R.id.action_combinations -> findNavController().navigate(GameFragmentDirections.actionGameFragmentToCombinationsFragment())
                     R.id.action_end_game -> viewModel.endGame()
                     R.id.action_enable_diffs_calcs -> viewModel.showDiffCalcsFeature()
                     R.id.action_disable_diffs_calcs -> viewModel.hideDiffCalcsFeature()
                     R.id.action_resume_game -> viewModel.resumeGame()
-                    R.id.action_edit_names -> findNavController().navigate(GameFragmentDirections.actionGameFragmentToEditNamesDialogFragment())
+                    R.id.action_edit_names -> findNavController().navigate(R.id.editNamesDialogFragment)
                     R.id.action_share_game -> this@with?.showShareGameDialog { shareGameOption ->
                         with(requireActivity()) {
                             viewModel.shareGame(
@@ -151,6 +153,9 @@ class GameFragment : BaseMainFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            onBackOrUpClick.invoke()
+        }
         orientationDownDrawable =
             ContextCompat.getDrawable(requireContext(), R.drawable.ic_orientation_down)
         orientationOutDrawable =
@@ -158,6 +163,7 @@ class GameFragment : BaseMainFragment() {
         orientationRankingDrawable =
             ContextCompat.getDrawable(requireContext(), R.drawable.ic_trophy_white)
         setupViewPager()
+        viewModel.setGameId(activityViewModel.activeGameId.value)
         startObservingViewModel()
     }
 
@@ -247,6 +253,6 @@ class GameFragment : BaseMainFragment() {
 
 fun NavController.navigateOnceToRanking() {
     if (currentDestination?.id != R.id.rankingDialogFragment) {
-        navigate(GameFragmentDirections.actionGameFragmentToRankingDialogFragment())
+        navigate(R.id.rankingDialogFragment)
     }
 }

@@ -26,7 +26,7 @@ import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HandAc
 
 abstract class BaseGameHandActionsDialogFragment : Fragment() {
 
-    protected val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_game)
+    protected val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_main)
 
     protected fun Fragment.showPage(page: HandActionsViewPagerAdapter.HandActions) {
         (parentFragment as? HandActionsDialogFragment)?.showPage(page)

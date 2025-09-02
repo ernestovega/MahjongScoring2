@@ -44,7 +44,7 @@
             android:textColor="@color/white" />
 
         <TextView
-            android:layout_width="@dimen/second_standard_margin"
+            android:layout_width="@dimen/double_standard_margin"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/half_standard_margin"
             android:gravity="center"
@@ -126,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/vGameListEmptyStateCenter"
-            android:layout_marginStart="@dimen/second_standard_margin"
+            android:layout_marginStart="@dimen/double_standard_margin"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="-32dp"
             android:layout_toStartOf="@+id/vGameListEmptyStateCenter"
@@ -168,7 +168,7 @@
         tools:visibility="visible">
 
         <ImageView
-            android:layout_width="@dimen/fourth_standard_margin"
+            android:layout_width="@dimen/quadruple_standard_margin"
             android:layout_height="wrap_content"
             android:contentDescription="@string/penalty"
             android:gravity="center"
@@ -238,7 +238,7 @@
         android:paddingBottom="@dimen/half_standard_margin">
 
         <TextView
-            android:layout_width="@dimen/fourth_standard_margin"
+            android:layout_width="@dimen/quadruple_standard_margin"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:lines="1"

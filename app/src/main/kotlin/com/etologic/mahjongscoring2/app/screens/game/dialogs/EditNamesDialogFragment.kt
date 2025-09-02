@@ -23,6 +23,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.core.widget.doOnTextChanged
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.screens.game.GameUiState
@@ -35,8 +36,10 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.EAST
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.NORTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.SOUTH
 import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
+import com.etologic.mahjongscoring2.business.use_cases.utils.toGameNameFormat
 import com.etologic.mahjongscoring2.databinding.DialogEditNamesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Date
 
 @AndroidEntryPoint
 class EditNamesDialogFragment : AppCompatDialogFragment() {
@@ -47,7 +50,7 @@ class EditNamesDialogFragment : AppCompatDialogFragment() {
 
     private var _binding: DialogEditNamesFragmentBinding? = null
     private val binding get() = _binding!!
-    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_game)
+    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_main)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -93,10 +96,10 @@ class EditNamesDialogFragment : AppCompatDialogFragment() {
                 gameViewModel.saveGameNames(
                     game = game,
                     gameName = tietNamesDialogGameName.text?.toString() ?: "",
-                    nameP1 = tietNamesDialogEast.text?.toString() ?: getString(R.string.player_one),
-                    nameP2 = tietNamesDialogSouth.text?.toString() ?: getString(R.string.player_two),
-                    nameP3 = tietNamesDialogWest.text?.toString() ?: getString(R.string.player_three),
-                    nameP4 = tietNamesDialogNorth.text?.toString() ?: getString(R.string.player_four)
+                    nameP1 = tietNamesDialogEast.text?.toString()?.ifBlank { getString(R.string.player_one) } ?: getString(R.string.player_one),
+                    nameP2 = tietNamesDialogSouth.text?.toString()?.ifBlank { getString(R.string.player_two) } ?: getString(R.string.player_two),
+                    nameP3 = tietNamesDialogWest.text?.toString()?.ifBlank { getString(R.string.player_three) } ?: getString(R.string.player_three),
+                    nameP4 = tietNamesDialogNorth.text?.toString()?.ifBlank { getString(R.string.player_four) } ?: getString(R.string.player_four),
                 )
                 dismiss()
             }

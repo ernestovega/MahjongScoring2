@@ -24,8 +24,8 @@
 
     <ImageButton
         android:id="@+id/btTableSeatsShowDiffs"
-        android:layout_width="@dimen/third_standard_margin"
-        android:layout_height="@dimen/third_standard_margin"
+        android:layout_width="@dimen/triple_standard_margin"
+        android:layout_height="@dimen/triple_standard_margin"
         android:layout_centerInParent="true"
         android:background="@android:color/transparent"
         android:importantForAccessibility="no"

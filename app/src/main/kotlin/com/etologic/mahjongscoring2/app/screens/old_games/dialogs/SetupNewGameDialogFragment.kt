@@ -23,9 +23,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.etologic.mahjongscoring2.R
+import com.etologic.mahjongscoring2.app.screens.MainViewModel
 import com.etologic.mahjongscoring2.app.screens.old_games.OldGamesFragment
 import com.etologic.mahjongscoring2.app.screens.old_games.OldGamesViewModel
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
@@ -48,6 +50,8 @@ class SetupNewGameDialogFragment : AppCompatDialogFragment() {
         requireParentFragment().childFragmentManager.fragments.filterIsInstance<OldGamesFragment>().firstOrNull()
             ?: throw IllegalStateException()
     })
+
+    private val activityViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -88,14 +92,13 @@ class SetupNewGameDialogFragment : AppCompatDialogFragment() {
             btNamesDialogSave.setOnSecureClickListener {
                 oldGamesViewModel.createGame(
                     gameName = tietNamesDialogGameName.text?.toString() ?: "",
-                    nameP1 = tietNamesDialogEast.text?.toString() ?: getString(R.string.player_one),
-                    nameP2 = tietNamesDialogSouth.text?.toString() ?: getString(R.string.player_two),
-                    nameP3 = tietNamesDialogWest.text?.toString() ?: getString(R.string.player_three),
-                    nameP4 = tietNamesDialogNorth.text?.toString() ?: getString(R.string.player_four),
+                    nameP1 = tietNamesDialogEast.text?.toString()?.ifBlank { getString(R.string.player_one) } ?: getString(R.string.player_one),
+                    nameP2 = tietNamesDialogSouth.text?.toString()?.ifBlank { getString(R.string.player_two) } ?: getString(R.string.player_two),
+                    nameP3 = tietNamesDialogWest.text?.toString()?.ifBlank { getString(R.string.player_three) } ?: getString(R.string.player_three),
+                    nameP4 = tietNamesDialogNorth.text?.toString()?.ifBlank { getString(R.string.player_four) } ?: getString(R.string.player_four),
                     onSuccess = { gameId ->
-                        findNavController().navigate(
-                            SetupNewGameDialogFragmentDirections.actionSetupNewGameDialogFragmentToNavGraphGame(gameId = gameId)
-                        )
+                        activityViewModel.updateActiveGameId(gameId)
+                        findNavController().navigate(R.id.gameFragment)
                         dismiss()
                     }
                 )

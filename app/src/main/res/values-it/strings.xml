@@ -244,4 +244,7 @@
     <!--  Translations V2.5.0  -->
     <string name="yes">Sì</string>
     <string name="no">No</string>
+
+    <!--  Translations V2.5.1  -->
+    <string name="blank_name_warn">⚠️ Un nome vuoto comporterà l\'utilizzo della data corrente</string>
 </resources>

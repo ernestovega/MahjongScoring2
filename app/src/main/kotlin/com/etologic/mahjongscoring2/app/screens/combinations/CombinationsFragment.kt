@@ -31,6 +31,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
@@ -103,7 +104,6 @@ class CombinationsFragment : BaseMainFragment() {
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             with(activity as? MainActivity) {
                 when (menuItem.itemId) {
-                    android.R.id.home -> findNavController().navigateUp()
                     R.id.action_toggle_combination_explanation -> {
                         val icon = if (rvAdapter.toggleImageOrDescription() === SHOW) R.drawable.ic_books else R.drawable.ic_photos
                         menuItem.setIcon(icon)
@@ -127,6 +127,9 @@ class CombinationsFragment : BaseMainFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            onBackOrUpClick.invoke()
+        }
         setupRecyclerView()
         startObservingViewModel()
     }

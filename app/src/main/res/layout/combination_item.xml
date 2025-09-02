@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:minWidth="@dimen/second_standard_margin"
+                    android:minWidth="@dimen/double_standard_margin"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:textColor="@android:color/black"
                     tools:text="88" />

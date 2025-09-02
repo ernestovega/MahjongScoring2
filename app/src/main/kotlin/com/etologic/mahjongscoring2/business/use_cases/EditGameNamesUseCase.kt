@@ -19,6 +19,7 @@ package com.etologic.mahjongscoring2.business.use_cases
 
 import com.etologic.mahjongscoring2.business.model.entities.UiGame
 import com.etologic.mahjongscoring2.business.use_cases.utils.normalizeName
+import com.etologic.mahjongscoring2.business.use_cases.utils.toGameNameFormat
 import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbGame
 import com.etologic.mahjongscoring2.data_source.repositories.games.GamesRepository
 import javax.inject.Inject
@@ -43,7 +44,7 @@ class EditGameNamesUseCase @Inject constructor(
                 nameP4 = normalizeName(newNameP4),
                 startDate = uiGame.startDate,
                 endDate = uiGame.endDate,
-                gameName = normalizeName(newGameName),
+                gameName = normalizeName(newGameName).ifBlank { uiGame.startDate.toGameNameFormat() },
             )
         )
 }

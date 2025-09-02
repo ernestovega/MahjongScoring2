@@ -21,7 +21,13 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -31,8 +37,11 @@ import com.etologic.mahjongscoring2.BuildConfig
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.utils.LanguageHelper
 import com.etologic.mahjongscoring2.app.utils.setLocale
+import com.etologic.mahjongscoring2.business.model.entities.GameId
+import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
 import com.etologic.mahjongscoring2.databinding.MainActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -42,8 +51,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    private val viewModel: MainViewModel by viewModels()
+
     @Inject
     lateinit var languageHelper: LanguageHelper
+
     private var currentLanguage: String? = null
 
     private val navController by lazy { (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment).navController }
@@ -57,10 +69,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
+        appBarConfiguration = AppBarConfiguration(
+            topLevelDestinationIds = setOf(R.id.oldGamesFragment, R.id.gameFragment, R.id.combinationsFragment),
+            drawerLayout = binding.drawerLayout,
+        )
         setSupportActionBar(binding.toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navigationView.setupWithNavController(navController)
+        // binding.bottomNavigationView.setupWithNavController(navController) // removed
     }
 
     override fun onSupportNavigateUp(): Boolean =
@@ -69,19 +85,93 @@ class MainActivity : AppCompatActivity() {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         setupDrawer()
+        setupBottomNav()
+        syncBottomNavSelection()
+        startObservingViewModel()
     }
 
     private fun setupDrawer() {
         with(binding.navigationView) {
             getHeaderView(0)?.findViewById<TextView>(R.id.tvDrawerHeaderAppVersion)?.text = BuildConfig.VERSION_NAME
 
-            menu.findItem(R.id.nav_greenbook_en)?.setOnMenuItemClickListener { goToGreenBookEnglish(); true }
-            menu.findItem(R.id.nav_greenbook_es)?.setOnMenuItemClickListener { goToGreenBookSpanish(); true }
-            menu.findItem(R.id.nav_mm_web)?.setOnMenuItemClickListener { goToWebsiteMM(); true }
-            menu.findItem(R.id.nav_ema_web)?.setOnMenuItemClickListener { goToWebsiteEMA(); true }
-            menu.findItem(R.id.nav_contact_mahjong_madrid)?.setOnMenuItemClickListener { goToContactMM(); true }
-            menu.findItem(R.id.nav_contact_app_support)?.setOnMenuItemClickListener { goToContactSupport(); true }
+            setNavigationItemSelectedListener { menuItem ->
+                val handledGraph = when (menuItem.itemId) {
+                    R.id.oldGamesFragment -> navigateTopLevel(R.id.oldGamesFragment)
+                    R.id.gameFragment -> navigateTopLevel(R.id.gameFragment)
+                    R.id.combinationsFragment -> navigateTopLevel(R.id.combinationsFragment)
+                    R.id.diffsCalculatorFragment -> { navController.navigate(R.id.diffsCalculatorFragment); true }
+                    else -> false
+                }
+                val handledExternal = when (menuItem.itemId) {
+                    R.id.nav_greenbook_en -> { goToGreenBookEnglish(); true }
+                    R.id.nav_greenbook_es -> { goToGreenBookSpanish(); true }
+                    R.id.nav_mm_web -> { goToWebsiteMM(); true }
+                    R.id.nav_ema_web -> { goToWebsiteEMA(); true }
+                    R.id.nav_contact_mahjong_madrid -> { goToContactMM(); true }
+                    R.id.nav_contact_app_support -> { goToContactSupport(); true }
+                    else -> false
+                }
+                val handled = handledGraph || handledExternal
+                if (handled) binding.drawerLayout.closeDrawers()
+                handled
+            }
         }
+    }
+
+    private fun setupBottomNav() {
+        with(binding.bottomNavigationView) {
+            setOnItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.oldGamesFragment -> navigateTopLevel(R.id.oldGamesFragment)
+                    R.id.gameFragment -> navigateTopLevel(R.id.gameFragment)
+                    R.id.combinationsFragment -> navigateTopLevel(R.id.combinationsFragment)
+                    else -> false
+                }
+            }
+        }
+    }
+
+    @Suppress("SameReturnValue")
+    private fun navigateTopLevel(@IdRes destinationId: Int): Boolean {
+        if (navController.currentDestination?.id == destinationId) return true
+        val graph = navController.graph
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setRestoreState(true)
+            .setPopUpTo(graph.startDestinationId, false, true) // save state of previous top-level
+            .build()
+        navController.navigate(destinationId, null, options)
+        return true
+    }
+
+    private fun syncBottomNavSelection() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.oldGamesFragment,
+                R.id.gameFragment,
+                R.id.combinationsFragment -> {
+                    if (binding.bottomNavigationView.selectedItemId != destination.id) {
+                        binding.bottomNavigationView.menu.findItem(destination.id)?.isChecked = true
+                        binding.bottomNavigationView.selectedItemId = destination.id
+                    }
+                }
+            }
+        }
+    }
+
+    private fun startObservingViewModel() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.activeGameId.collect(::toggleGameBottomNav)
+            }
+        }
+    }
+
+    private fun toggleGameBottomNav(gameId: GameId) {
+        listOf(
+            binding.bottomNavigationView.menu.findItem(R.id.gameFragment),
+            binding.navigationView.menu.findItem(R.id.gameFragment),
+        ).onEach { it?.isEnabled = gameId != NOT_SET_GAME_ID }
     }
 
     override fun onStart() {

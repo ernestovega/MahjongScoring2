@@ -31,6 +31,10 @@ fun Date.toFileNameFormat(): String =
     SimpleDateFormat("yyyy_MM_dd_HH_mm", Locale.getDefault())
         .format(this)
 
+fun Date.toGameNameFormat(): String =
+    SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        .format(this)
+
 fun writeToFile(fileName: String, fileExtension: String, fileText: String, directory: File?): File {
     val fullFileName = fileName.sanitizeForFileName()
         .plus(".$fileExtension")

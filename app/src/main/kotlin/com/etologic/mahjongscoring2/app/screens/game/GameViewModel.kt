@@ -89,7 +89,6 @@ sealed interface GameUiState {
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     getOneGameFlowUseCase: GetOneGameFlowUseCase,
     private val editGameNamesUseCase: EditGameNamesUseCase,
     private val huDiscardUseCase: HuDiscardUseCase,
@@ -108,8 +107,7 @@ class GameViewModel @Inject constructor(
     private val showInAppReviewUseCase: ShowInAppReviewUseCase,
 ) : BaseViewModel() {
 
-    private val _gameId: StateFlow<GameId> =
-        savedStateHandle.getStateFlow("gameId", NOT_SET_GAME_ID)
+    private val _gameId = MutableStateFlow(NOT_SET_GAME_ID)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val gameFlow: StateFlow<UiGame?> =
@@ -129,6 +127,10 @@ class GameViewModel @Inject constructor(
     private val shouldShowDiffsFlow = MutableStateFlow(false)
     private val pageToShowFlow = MutableStateFlow(GamePages.TABLE to GamePageActions.NOTHING)
     private val selectedSeatFlow = MutableStateFlow(TableWinds.NONE)
+
+    fun setGameId(gameId: GameId) {
+        _gameId.value = gameId
+    }
 
     private data class CoreState(
         val error: Throwable?,

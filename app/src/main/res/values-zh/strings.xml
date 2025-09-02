@@ -244,4 +244,7 @@
     <!--  Translations V2.5.0  -->
     <string name="yes">是</string>
     <string name="no">不</string>
+
+    <!--  Translations V2.5.1  -->
+    <string name="blank_name_warn">⚠️ 空名称将导致使用当前日期</string>
 </resources>

@@ -33,7 +33,7 @@
         <TableRow style="@style/TableRowRankingDialog">
 
             <TextView
-                android:layout_marginBottom="@dimen/second_standard_margin"
+                android:layout_marginBottom="@dimen/double_standard_margin"
                 android:layout_weight="12"
                 android:text="@string/final_results"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
@@ -218,7 +218,7 @@
             android:id="@+id/tvRankingDialogBestHandPlayerPoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/second_standard_margin"
+            android:layout_marginStart="@dimen/double_standard_margin"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"

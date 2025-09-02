@@ -50,7 +50,6 @@ import com.etologic.mahjongscoring2.R.drawable.ic_west
 import com.etologic.mahjongscoring2.R.string
 import com.etologic.mahjongscoring2.app.custom_views.GameTableSeats
 import com.etologic.mahjongscoring2.app.screens.game.GameFragment
-import com.etologic.mahjongscoring2.app.screens.game.GameFragmentDirections
 import com.etologic.mahjongscoring2.app.screens.game.GamePageActions
 import com.etologic.mahjongscoring2.app.screens.game.GameUiState
 import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
@@ -76,7 +75,7 @@ class GameTableFragment : Fragment() {
     private var northIcon: Drawable? = null
     private var _binding: GameTableFragmentBinding? = null
     private val binding get() = _binding!!
-    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_game)
+    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_main)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -123,7 +122,7 @@ class GameTableFragment : Fragment() {
                 if (uiState.pageToShow.first == GameFragment.GamePages.TABLE &&
                     uiState.pageToShow.second == GamePageActions.SHOW_RANKING
                 ){
-                    findNavController().navigate(GameFragmentDirections.actionGameFragmentToRankingDialogFragment())
+                    findNavController().navigate(R.id.rankingDialogFragment)
                 }
             }
         }
@@ -141,13 +140,13 @@ class GameTableFragment : Fragment() {
     private fun setListeners() {
         with(binding) {
             fabGameTable.setOnSecureClickListener {
-                findNavController().navigate(GameFragmentDirections.actionGameFragmentToDiceDialogFragment())
+                findNavController().navigate(R.id.diceDialogFragment)
             }
 
             gtsGameTableSeats.setTableSeatsListener(object : GameTableSeats.GameTableSeatsListener {
                 override fun onSeatClick(wind: TableWinds) {
                     gameViewModel.onSeatClicked(wind)
-                    findNavController().navigate(GameFragmentDirections.actionGameFragmentToHandActionsDialogFragment())
+                    findNavController().navigate(R.id.handActionsDialogFragment)
                 }
 
                 override fun toggleDiffsView(shouldShowDiffs: Boolean) {
@@ -184,7 +183,7 @@ class GameTableFragment : Fragment() {
                 if (fabGameTable.tag != "ic_dice_multiple_white_24dp") {
                     fabGameTable.tag = "ic_dice_multiple_white_24dp"
                     fabGameTable.setImageResource(ic_dice)
-                    fabGameTable.setOnSecureClickListener { findNavController().navigate(GameFragmentDirections.actionGameFragmentToDiceDialogFragment()) }
+                    fabGameTable.setOnSecureClickListener { findNavController().navigate(R.id.diceDialogFragment) }
                 }
                 moveDice(game.uiRounds.size)
             }

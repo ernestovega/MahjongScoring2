@@ -25,12 +25,6 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_combinations"
-        android:icon="@drawable/ic_books"
-        android:title="@string/combinations"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/action_edit_names"
         android:title="@string/edit_names"
         app:showAsAction="never" />

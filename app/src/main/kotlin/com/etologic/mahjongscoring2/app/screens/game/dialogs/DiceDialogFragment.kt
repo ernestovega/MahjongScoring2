@@ -100,7 +100,7 @@ class DiceDialogFragment : AppCompatDialogFragment() {
 
     private var _binding: GameDialogDiceFragmentBinding? = null
     private val binding get() = _binding!!
-    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_game)
+    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_main)
 
     override fun onCreateView(
         inflater: LayoutInflater,

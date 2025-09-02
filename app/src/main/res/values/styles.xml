@@ -24,13 +24,13 @@
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <style name="AppTheme.BrandedLaunch" parent="AppTheme">
         <item name="android:windowBackground">@drawable/layer_mm_logo</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:fitsSystemWindows">true</item>
     </style>
 
     <style name="RippleEffect" parent="AppTheme">
@@ -159,8 +159,8 @@
     </style>
 
     <style name="auxView" parent="AppTheme">
-        <item name="android:width">@dimen/third_standard_margin</item>
-        <item name="android:layout_width">@dimen/third_standard_margin</item>
+        <item name="android:width">@dimen/triple_standard_margin</item>
+        <item name="android:layout_width">@dimen/triple_standard_margin</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerHorizontal">true</item>
     </style>

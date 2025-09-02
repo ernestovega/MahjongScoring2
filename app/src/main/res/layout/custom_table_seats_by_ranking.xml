@@ -56,8 +56,8 @@
 
     <ImageButton
         android:id="@+id/btTableSeatsByRankingShowDiffs"
-        android:layout_width="@dimen/third_standard_margin"
-        android:layout_height="@dimen/third_standard_margin"
+        android:layout_width="@dimen/triple_standard_margin"
+        android:layout_height="@dimen/triple_standard_margin"
         android:layout_below="@+id/iGameTableSeatByRankingFourth"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"

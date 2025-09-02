@@ -56,7 +56,7 @@ class GameListFragment : Fragment() {
 
     private var _binding: GameListFragmentBinding? = null
     private val binding get() = _binding!!
-    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_game)
+    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_main)
 
     @Inject
     lateinit var rvAdapter: GameListRvAdapter

@@ -40,7 +40,7 @@ class HandActionsDialogFragment : AppCompatDialogFragment() {
     private var isDialogCancelled = true
     private var _binding: GameDialogHandActionsParentFragmentBinding? = null
     private val binding get() = _binding!!
-    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_game)
+    private val gameViewModel: GameViewModel by hiltNavGraphViewModels(R.id.nav_graph_main)
 
     override fun onCreateView(
         inflater: LayoutInflater,

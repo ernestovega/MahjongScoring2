@@ -244,4 +244,7 @@
     <!--  Translations V2.5.0  -->
     <string name="yes">Oui</string>
     <string name="no">Non</string>
+
+    <!--  Translations V2.5.1  -->
+    <string name="blank_name_warn">⚠️ Un nom vide entraînera l\'utilisation de la date actuelle</string>
 </resources>

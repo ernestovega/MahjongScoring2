@@ -246,4 +246,7 @@
     <!--  Translations V2.5.0  -->
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
+    <!--  Translations V2.5.1  -->
+    <string name="blank_name_warn">⚠️ Blank game name will result in the current Date</string>
 </resources>

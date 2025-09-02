@@ -28,10 +28,12 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity.RESULT_OK
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
@@ -40,6 +42,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.base.BaseMainFragment
+import com.etologic.mahjongscoring2.app.screens.MainViewModel
 import com.etologic.mahjongscoring2.app.screens.goToPickFileToImport
 import com.etologic.mahjongscoring2.app.utils.LanguageHelper
 import com.etologic.mahjongscoring2.app.utils.goToChangeLanguage
@@ -71,6 +74,8 @@ class OldGamesFragment : BaseMainFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: OldGamesViewModel by viewModels()
+
+    private val activityViewModel: MainViewModel by activityViewModels()
 
     @Inject
     lateinit var languageHelper: LanguageHelper
@@ -168,9 +173,8 @@ class OldGamesFragment : BaseMainFragment() {
             }
 
             override fun onOldGameItemResumeClicked(gameId: GameId) {
-                findNavController().navigate(
-                    OldGamesFragmentDirections.actionOldGamesFragmentToNavGraphGame(gameId = gameId)
-                )
+                activityViewModel.updateActiveGameId(gameId)
+                findNavController().navigate(R.id.gameFragment)
             }
         })
         binding.rvOldGames.adapter = rvAdapter
@@ -178,7 +182,7 @@ class OldGamesFragment : BaseMainFragment() {
 
     private fun setOnClickListeners() {
         binding.fabOldGames.setOnSecureClickListener {
-            findNavController().navigate(OldGamesFragmentDirections.actionOldGamesFragmentToSetupNewGameDialogFragment())
+            findNavController().navigate(R.id.setupNewGameDialogFragment)
         }
     }
 

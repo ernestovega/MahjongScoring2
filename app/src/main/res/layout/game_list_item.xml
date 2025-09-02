@@ -44,7 +44,7 @@
             tools:text="16" />
 
         <RelativeLayout
-            android:layout_width="@dimen/second_standard_and_half_margin"
+            android:layout_width="@dimen/double_standard_and_half_margin"
             android:layout_height="match_parent">
 
             <TextView
@@ -199,7 +199,7 @@
             android:layout_marginEnd="@dimen/half_standard_margin" />
 
         <TextView
-            android:layout_width="@dimen/second_standard_margin"
+            android:layout_width="@dimen/double_standard_margin"
             android:layout_height="match_parent"
             android:gravity="end" />
 
@@ -250,7 +250,7 @@
             android:layout_marginEnd="@dimen/half_standard_margin" />
 
         <TextView
-            android:layout_width="@dimen/second_standard_margin"
+            android:layout_width="@dimen/double_standard_margin"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/half_standard_margin" />
 

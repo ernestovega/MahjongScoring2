@@ -244,4 +244,7 @@
     <!--  Translations V2.5.0  -->
     <string name="yes">Ja</string>
     <string name="no">Nee</string>
+
+    <!--  Translations V2.5.1  -->
+    <string name="blank_name_warn">⚠️ Een lege naam resulteert in de huidige datum</string>
 </resources>
