@@ -29,7 +29,7 @@ import com.etologic.mahjongscoring2.business.model.enums.TableWinds.WEST
 import com.etologic.mahjongscoring2.business.model.exceptions.GameNotFoundException
 import com.etologic.mahjongscoring2.business.use_cases.utils.normalizeName
 import com.etologic.mahjongscoring2.business.use_cases.utils.toFileNameFormat
-import com.etologic.mahjongscoring2.business.use_cases.utils.writeToCsvFile
+import com.etologic.mahjongscoring2.business.use_cases.utils.writeToFile
 import kotlinx.coroutines.flow.firstOrNull
 import java.io.File
 import javax.inject.Inject
@@ -43,11 +43,9 @@ class ExportGameToCsvUseCase @Inject constructor(
                 .firstOrNull()
                 ?.let { uiGame ->
                     val fileText = buildCsvText(uiGame)
-                    val fileName = normalizeName(uiGame.gameName)
-                        .replace(" ", "_")
-                        .ifEmpty { uiGame.startDate.toFileNameFormat() }
-                        .plus(".csv")
-                    val csvFile = writeToCsvFile(fileName, fileText, directory)
+                    val fileName = uiGame.gameName.ifEmpty { uiGame.startDate.toFileNameFormat() }
+                    val fileExtension = "csv"
+                    val csvFile = writeToFile(fileName, fileExtension, fileText, directory)
                     csvFile
                 }
                 ?: throw GameNotFoundException(gameId)

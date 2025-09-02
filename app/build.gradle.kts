@@ -66,8 +66,8 @@ android {
         minSdk = 23
         targetSdk = 36
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        versionCode = 13
-        versionName = "2.5.0"
+        versionCode = 14
+        versionName = "2.5.1"
     }
 
     namespace = "com.etologic.mahjongscoring2"
@@ -120,8 +120,9 @@ dependencies {
 
     kspAndroidTest(libs.hilt.android.compiler)
 
-    testImplementation(libs.junit)
+    testImplementation(platform(libs.junit))
     testImplementation(libs.junit.jupiter)
+    testImplementation(libs.junit.platform.launcher)
     testImplementation(libs.truth)
 }
 

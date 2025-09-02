@@ -42,7 +42,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import java.util.Date
 import kotlin.time.Duration.Companion.seconds
@@ -64,6 +66,10 @@ class ExportImportGamesUseCasesTests {
     private lateinit var exportGameToJsonUseCase: ExportGameToJsonUseCase
     private lateinit var exportGamesToJsonUseCase: ExportGamesToJsonUseCase
     private lateinit var importGamesFromJsonUseCase: ImportGamesFromJsonUseCase
+
+    @Rule
+    @JvmField
+    val testFolder = TemporaryFolder()
 
     @Before
     fun setUp() {
@@ -201,7 +207,7 @@ class ExportImportGamesUseCasesTests {
     fun exportAndImportSeveralGamesTest() = runBlocking {
         // Given an existing complete game
         val uiGameToExport1 = createCompleteGame(
-            gameName = "Test Game Name 1",
+            gameName = "Test_Game_Name_1",
             nameP1 = "Test Player 11",
             nameP2 = "Test Player 12",
             nameP3 = "Test Player 13",
@@ -245,7 +251,7 @@ class ExportImportGamesUseCasesTests {
 
             dbGames[4].let { importedDbGame ->
                 assertThat(importedDbGame.gameId).isEqualTo(4)
-                assertThat(importedDbGame.gameName).isEqualTo("Test Game Name 1")
+                assertThat(importedDbGame.gameName).isEqualTo("Test_Game_Name_1")
                 assertThat(importedDbGame.gameName).isEqualTo(dbGames[5].gameName)
                 assertThat(importedDbGame.nameP1).isEqualTo("Test Player 11")
                 assertThat(importedDbGame.nameP2).isEqualTo("Test Player 12")
@@ -328,6 +334,20 @@ class ExportImportGamesUseCasesTests {
                 assertThat(lastImportedUiRound.totalPointsP4).isEqualTo(97)
             }
         }
+    }
+
+    @Test
+    fun wrongFileNameTest() = runBlocking {
+        // Given an existing complete game with a weird name
+        val game = createCompleteGame(gameName = "Weird/Game/Name/1")
+
+        // When we call the UseCases for exporting the files
+        val exportedCsv = exportGameToCsvUseCase.invoke(game.gameId, testFolder.newFolder())
+        val exportedJson = exportGameToJsonUseCase.invoke(game.gameId, testFolder.newFolder())
+
+        // Then the file names are the expected ones
+        assertThat(exportedCsv.getOrThrow().name).isEqualTo("Weird_Game_Name_1.csv")
+        assertThat(exportedJson.getOrThrow().name).isEqualTo("Weird_Game_Name_1.json")
     }
 
     private suspend fun createCompleteGame(

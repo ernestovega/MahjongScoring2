@@ -21,7 +21,7 @@ firebase-bom = "34.2.0"
 google-services = "4.4.3"
 hilt = "2.57.1"
 hilt-navigation = "1.2.0"
-junit = "4.13.2"
+junit = "5.11.0"
 junit-jupiter = "5.13.4"
 kotlin = "2.2.10"
 kotlinx-serialization-json = "1.9.0"
@@ -61,8 +61,9 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-android-navigation = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hilt-navigation" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+junit = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "review-ktx" }

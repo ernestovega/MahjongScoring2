@@ -31,8 +31,9 @@ fun Date.toFileNameFormat(): String =
     SimpleDateFormat("yyyy_MM_dd_HH_mm", Locale.getDefault())
         .format(this)
 
-fun writeToCsvFile(fileName: String, fileText: String, directory: File?): File =
-    File(directory, fileName)
-        .apply {
-            writeText(fileText)
-        }
+fun writeToFile(fileName: String, fileExtension: String, fileText: String, directory: File?): File {
+    val fullFileName = fileName.sanitizeForFileName()
+        .plus(".$fileExtension")
+    return File(directory, fullFileName)
+        .apply { writeText(fileText) }
+}
