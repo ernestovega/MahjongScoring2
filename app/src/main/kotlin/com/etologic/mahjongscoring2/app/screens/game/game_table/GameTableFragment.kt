@@ -122,7 +122,7 @@ class GameTableFragment : Fragment() {
                 if (uiState.pageToShow.first == GameFragment.GamePages.TABLE &&
                     uiState.pageToShow.second == GamePageActions.SHOW_RANKING
                 ){
-                    findNavController().navigate(R.id.rankingDialogFragment)
+                    findNavController().navigateOnceToRanking()
                 }
             }
         }
