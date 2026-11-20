@@ -17,6 +17,8 @@
 
 package com.etologic.mahjongscoring2.app.screens.game.dialogs
 
+import kotlinx.coroutines.launch
+import androidx.lifecycle.lifecycleScope
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,7 +30,6 @@ import android.view.ViewGroup.LayoutParams
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.screens.game.GameUiState
 import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.app.utils.setOnSecureClickListener
 import com.etologic.mahjongscoring2.app.utils.shareFiles
@@ -70,7 +71,9 @@ class RankingDialogFragment : AppCompatDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setListeners()
-        initViews((gameViewModel.gameUiStateFlow.value as GameUiState.Loaded).game)
+        viewLifecycleOwner.lifecycleScope.launch {
+            initViews(gameViewModel.awaitLoadedState().game)
+        }
     }
 
     private fun initViews(game: UiGame) {

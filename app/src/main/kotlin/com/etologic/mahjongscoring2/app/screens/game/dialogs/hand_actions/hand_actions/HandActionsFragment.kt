@@ -17,6 +17,8 @@
 
 package com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.hand_actions
 
+import kotlinx.coroutines.launch
+import androidx.lifecycle.lifecycleScope
 import android.app.AlertDialog
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -71,10 +73,16 @@ class HandActionsFragment : BaseGameHandActionsDialogFragment() {
             northIcon = ContextCompat.getDrawable(it, R.drawable.ic_north)
         }
         setListeners()
-        initViews(gameViewModel.gameUiStateFlow.value as GameUiState.Loaded)
+        viewLifecycleOwner.lifecycleScope.launch {
+            initViews(gameViewModel.awaitLoadedState())
+        }
     }
 
     private fun initViews(uiGameState: GameUiState.Loaded) {
+        if (uiGameState.selectedSeat == TableWinds.NONE) {
+            closeDialogWithoutSelectedSeat()
+            return
+        }
         setPlayer(uiGameState.game, uiGameState.selectedSeat, uiGameState.isDiffsCalcsFeatureEnabled)
         setButtons(uiGameState.game)
     }
