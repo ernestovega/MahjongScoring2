@@ -80,7 +80,7 @@ class HandActionsFragment : BaseGameHandActionsDialogFragment() {
 
     private fun initViews(uiGameState: GameUiState.Loaded) {
         if (uiGameState.selectedSeat == TableWinds.NONE) {
-            dismissDialog()
+            closeDialogWithoutSelectedSeat()
             return
         }
         setPlayer(uiGameState.game, uiGameState.selectedSeat, uiGameState.isDiffsCalcsFeatureEnabled)

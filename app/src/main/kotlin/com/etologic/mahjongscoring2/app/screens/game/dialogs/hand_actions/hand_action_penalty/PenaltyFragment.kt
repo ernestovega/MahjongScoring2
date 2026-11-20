@@ -75,7 +75,7 @@ class PenaltyFragment : BaseGameHandActionsDialogFragment() {
 
     private fun initViews(uiGameState: GameUiState.Loaded) {
         if (uiGameState.selectedSeat == TableWinds.NONE) {
-            dismissDialog()
+            closeDialogWithoutSelectedSeat()
             return
         }
         if (uiGameState.game.gameId != UiGame.NOT_SET_GAME_ID) {
