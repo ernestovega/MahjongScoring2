@@ -65,7 +65,7 @@ android {
         applicationId = "com.mahjongscoring.activities"
         minSdk = 23
         targetSdk = 36
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.etologic.mahjongscoring2.HiltTestRunner"
         versionCode = 15
         versionName = "2.5.1"
     }
