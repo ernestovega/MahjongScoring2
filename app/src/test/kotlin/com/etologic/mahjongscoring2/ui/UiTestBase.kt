@@ -63,6 +63,7 @@ abstract class UiTestBase {
 
     companion object {
         const val DEVICE = "w411dp-h891dp-normal-long-notround-any-420dpi-keyshidden-nonav"
+        private const val SETTLE_STEP_MS = 50L
     }
 
     @get:Rule(order = 0)
@@ -142,13 +143,18 @@ abstract class UiTestBase {
         return id
     }
 
-    /** Runs pending main looper work, coroutine delays and animations, and lets IO threads finish. */
+    /**
+     * Runs pending main looper work, coroutine delays and animations, and lets IO threads finish.
+     * The fake clock advances in small steps, each giving background threads (Room, DataStore) a little real
+     * time, so app code that races a delay() against a database write behaves as it does on a device.
+     */
     protected fun settle(seconds: Long = 2) {
-        repeat(3) {
-            Thread.sleep(50)
+        repeat((seconds * 1000 / SETTLE_STEP_MS).toInt()) {
+            Thread.sleep(10)
             ShadowLooper.idleMainLooper()
-            shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(seconds * 1000 / 3))
+            shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(SETTLE_STEP_MS))
         }
+        Thread.sleep(20)
         ShadowLooper.idleMainLooper()
     }
 
