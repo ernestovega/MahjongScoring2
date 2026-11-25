@@ -19,6 +19,7 @@ package com.etologic.mahjongscoring2.app.base
 
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.navigation.fragment.findNavController
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.HandActionsDialogFragment
@@ -34,5 +35,14 @@ abstract class BaseGameHandActionsDialogFragment : Fragment() {
 
     protected fun Fragment.dismissDialog() {
         (parentFragment as? HandActionsDialogFragment)?.dismiss()
+    }
+
+    /**
+     * Closes the hand actions dialog when no seat is selected (for example, after process death).
+     * It uses the NavController, because a dismiss() while the dialog is restored
+     * does not remove the dialog from the navigation back stack.
+     */
+    protected fun closeDialogWithoutSelectedSeat() {
+        findNavController().popBackStack(R.id.handActionsDialogFragment, true)
     }
 }

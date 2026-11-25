@@ -178,8 +178,9 @@ class GameListFragment : Fragment() {
                 delay(300.milliseconds)
                 val lastItemPosition = rvAdapter.itemCount.minus(1)
                 if (lastItemPosition >= 0) {
-                    val lastItem = binding.rvGameList.findViewHolderForAdapterPosition(lastItemPosition) as GameListRvAdapter.ItemViewHolder
-                    lastItem.highlight()
+                    // The view holder is null when the item is not laid out yet.
+                    val lastItem = _binding?.rvGameList?.findViewHolderForAdapterPosition(lastItemPosition) as? GameListRvAdapter.ItemViewHolder
+                    lastItem?.highlight()
                     gameViewModel.showPage(STAY)
                 }
             }

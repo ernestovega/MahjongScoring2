@@ -17,6 +17,8 @@
 
 package com.etologic.mahjongscoring2.app.screens.game.dialogs
 
+import kotlinx.coroutines.launch
+import androidx.lifecycle.lifecycleScope
 import android.media.AudioAttributes
 import android.media.SoundPool
 import android.os.Bundle
@@ -31,7 +33,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.screens.game.GameUiState
 import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment.DiceNumber.FIVE
 import com.etologic.mahjongscoring2.app.screens.game.dialogs.DiceDialogFragment.DiceNumber.FOUR
@@ -75,7 +76,7 @@ class DiceDialogFragment : AppCompatDialogFragment() {
         }
     }
 
-    private lateinit var diceSound: SoundPool       //For dice sound playing
+    private var diceSound: SoundPool? = null      //For dice sound playing
     private var soundId: Int = 0               //Used to control sound stream return by SoundPool
     private lateinit var handler12: Handler            //Post message to start roll
     private lateinit var handler34: Handler            //Post message to start roll
@@ -119,7 +120,9 @@ class DiceDialogFragment : AppCompatDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         zero = resources.getString(R.string.zero)
-        initViews((gameViewModel.gameUiStateFlow.value as GameUiState.Loaded).game)
+        viewLifecycleOwner.lifecycleScope.launch {
+            initViews(gameViewModel.awaitLoadedState().game)
+        }
     }
 
     private fun initViews(game: UiGame) {
@@ -132,8 +135,9 @@ class DiceDialogFragment : AppCompatDialogFragment() {
             .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
             .build()
-        diceSound = SoundPool.Builder().setAudioAttributes(aa).build()
-        soundId = diceSound.load(context, R.raw.shake_dice, 1)
+        diceSound = SoundPool.Builder().setAudioAttributes(aa).build().also {
+            soundId = it.load(context, R.raw.shake_dice, 1)
+        }
     }
 
     private fun initDice(game: UiGame) {
@@ -208,8 +212,8 @@ class DiceDialogFragment : AppCompatDialogFragment() {
                 ivDice3.contentDescription = zero
                 ivDice4.contentDescription = zero
 
-                diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
-                diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
+                diceSound?.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
+                diceSound?.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
 
                 timer.schedule(Roll12(), 400)
             }
@@ -228,8 +232,8 @@ class DiceDialogFragment : AppCompatDialogFragment() {
                 ivDice3.tag = 0
                 ivDice4.tag = 0
 
-                diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
-                diceSound.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
+                diceSound?.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
+                diceSound?.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f)
                 timer.schedule(Roll34(), 400)
             }
         }
@@ -277,12 +281,13 @@ class DiceDialogFragment : AppCompatDialogFragment() {
     }
 
     override fun dismiss() {
-        diceSound.pause(soundId)
+        diceSound?.pause(soundId)
         super.dismiss()
     }
 
     override fun onDestroy() {
-        diceSound.release()
+        diceSound?.release()
+        diceSound = null
         timer.cancel()
         super.onDestroy()
     }

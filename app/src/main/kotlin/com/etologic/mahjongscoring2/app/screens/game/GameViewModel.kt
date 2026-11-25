@@ -56,7 +56,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -87,8 +89,12 @@ sealed interface GameUiState {
     ) : GameUiState
 }
 
+private const val KEY_GAME_ID = "game_id"
+private const val KEY_SELECTED_SEAT = "selected_seat"
+
 @HiltViewModel
 class GameViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     getOneGameFlowUseCase: GetOneGameFlowUseCase,
     private val editGameNamesUseCase: EditGameNamesUseCase,
     private val huDiscardUseCase: HuDiscardUseCase,
@@ -107,7 +113,9 @@ class GameViewModel @Inject constructor(
     private val showInAppReviewUseCase: ShowInAppReviewUseCase,
 ) : BaseViewModel() {
 
-    private val _gameId = MutableStateFlow(NOT_SET_GAME_ID)
+    // Kept in SavedStateHandle so the game and the selected seat survive process death.
+    // Dialogs restored by the system read them before the user can act again.
+    private val _gameId: StateFlow<GameId> = savedStateHandle.getStateFlow(KEY_GAME_ID, NOT_SET_GAME_ID)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val gameFlow: StateFlow<UiGame?> =
@@ -126,11 +134,18 @@ class GameViewModel @Inject constructor(
 
     private val shouldShowDiffsFlow = MutableStateFlow(false)
     private val pageToShowFlow = MutableStateFlow(GamePages.TABLE to GamePageActions.NOTHING)
-    private val selectedSeatFlow = MutableStateFlow(TableWinds.NONE)
+    private val selectedSeatFlow: StateFlow<TableWinds> =
+        savedStateHandle.getStateFlow(KEY_SELECTED_SEAT, TableWinds.NONE)
 
     fun setGameId(gameId: GameId) {
-        _gameId.value = gameId
+        if (gameId != NOT_SET_GAME_ID) {
+            savedStateHandle[KEY_GAME_ID] = gameId
+        }
     }
+
+    /** Returns the first loaded state. Use it when a screen needs the game data only once. */
+    suspend fun awaitLoadedState(): GameUiState.Loaded =
+        gameUiStateFlow.filterIsInstance<GameUiState.Loaded>().first()
 
     private data class CoreState(
         val error: Throwable?,
@@ -193,16 +208,13 @@ class GameViewModel @Inject constructor(
         }.stateIn(viewModelScope, SharingStarted.Lazily, GameUiState.Loading)
 
     //SELECTED PLAYER/SEAT
+    // Set synchronously: the hand actions dialog opens right after this call and reads the seat.
     fun onSeatClicked(wind: TableWinds) {
-        viewModelScope.launch {
-            selectedSeatFlow.emit(wind)
-        }
+        savedStateHandle[KEY_SELECTED_SEAT] = wind
     }
 
     fun unselectSeats() {
-        viewModelScope.launch {
-            selectedSeatFlow.emit(TableWinds.NONE)
-        }
+        savedStateHandle[KEY_SELECTED_SEAT] = TableWinds.NONE
     }
 
     fun showPage(page: GamePages, action: GamePageActions = GamePageActions.NOTHING) {

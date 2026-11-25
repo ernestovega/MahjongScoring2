@@ -17,6 +17,8 @@
 
 package com.etologic.mahjongscoring2.app.screens.game.dialogs
 
+import kotlinx.coroutines.launch
+import androidx.lifecycle.lifecycleScope
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,7 +28,6 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.widget.doOnTextChanged
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.etologic.mahjongscoring2.R
-import com.etologic.mahjongscoring2.app.screens.game.GameUiState
 import com.etologic.mahjongscoring2.app.screens.game.GameViewModel
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.hideKeyboard
 import com.etologic.mahjongscoring2.app.utils.KeyboardUtils.showKeyboard
@@ -70,7 +71,9 @@ class EditNamesDialogFragment : AppCompatDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.tietNamesDialogGameName.showKeyboard(requireActivity().window)
         binding.btNamesDialogSave.text = getString(R.string.save)
-        initViews((gameViewModel.gameUiStateFlow.value as GameUiState.Loaded).game)
+        viewLifecycleOwner.lifecycleScope.launch {
+            initViews(gameViewModel.awaitLoadedState().game)
+        }
     }
 
     private fun initViews(game: UiGame) {
@@ -107,12 +110,13 @@ class EditNamesDialogFragment : AppCompatDialogFragment() {
     }
 
     override fun dismiss() {
-        binding.tietNamesDialogGameName.hideKeyboard()
+        _binding?.tietNamesDialogGameName?.hideKeyboard()
         super.dismiss()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        binding.tietNamesDialogGameName.hideKeyboard()
+        // The binding can be null here: DialogFragment.onDestroyView() dismisses the dialog.
+        _binding?.tietNamesDialogGameName?.hideKeyboard()
         super.onDismiss(dialog)
     }
 }
