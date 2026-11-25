@@ -95,6 +95,7 @@ android {
                 // `-Pupdate.goldens=true` regenerates the text golden files under src/test/resources/golden.
                 test.systemProperty("update.goldens", project.findProperty("update.goldens") ?: "false")
                 test.systemProperty("goldens.dir", "$projectDir/src/test/resources/golden")
+                test.systemProperty("screenshots.dir", "$projectDir/src/test/screenshots")
                 // Optional Maven mirror for the Robolectric android-all jars (e.g. CI behind rate limits).
                 project.findProperty("robolectric.dependency.repo.url")?.let {
                     test.systemProperty("robolectric.dependency.repo.url", it)
