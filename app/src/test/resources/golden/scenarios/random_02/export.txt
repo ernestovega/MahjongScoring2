@@ -1,0 +1,8 @@
+random_02
+
+1st:    David    4    (+111)
+2nd:    Ana    1    (-37)
+3rd:    Bruno    1    (-37)
+4th:    Carla    1    (-37)
+
+Best hand:    29  -  David

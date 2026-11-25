@@ -1,0 +1,8 @@
+all_discard_pairs
+
+1st:    David    4    (+45)
+2nd:    Carla    2    (+15)
+3rd:    Bruno    1    (-15)
+4th:    Ana    0    (-45)
+
+Best hand:    41  -  David

@@ -1,0 +1,35 @@
+# tie_first_three
+players (initial seat): EAST="Ana" SOUTH="Bruno" WEST="Carla" NORTH="David"
+startDate: 1736964000000
+endDate: null
+isEnded: false
+rounds: 1 (finished: 0)
+
+## Rounds
+n  | winner | discarder | hand | penalties            | points                       | totals                       | best | ongoing
+1  | null   | null      | 0    | [10, 10, 10, -30]    | [10, 10, 10, -30]            | [10, 10, 10, -30]            | false | true
+
+## Best hand
+round=0 value=0 seat=NONE name=""
+
+## Table (ongoing round 1)
+seat winds by initial seat: EAST, SOUTH, WEST, NORTH
+names by current seat: "Ana", "Bruno", "Carla", "David"
+current east/south/west/north names: "Ana", "Bruno", "Carla", "David"
+initial seat by current seat: EAST->EAST, SOUTH->SOUTH, WEST->WEST, NORTH->NORTH
+totals by current seat: [10, 10, 10, -30]
+penalties by current seat: [10, 10, 10, -30]
+
+## Points needed (diffs) by current seat
+EAST  points=10     toBe1st=(selfPick=8, direct=8, indirect=8) toBe2nd=- toBe3rd=-
+SOUTH points=10     toBe1st=(selfPick=8, direct=8, indirect=8) toBe2nd=- toBe3rd=-
+WEST  points=10     toBe1st=(selfPick=8, direct=8, indirect=8) toBe2nd=- toBe3rd=-
+NORTH points=-30    toBe1st=(selfPick=8, direct=8, indirect=9) toBe2nd=- toBe3rd=-
+
+## Ranking
+1. "Ana" score=10 tablePoints=2.33
+2. "Bruno" score=10 tablePoints=2.33
+3. "Carla" score=10 tablePoints=2.33
+4. "David" score=-30 tablePoints=0
+bestHandPlayerPoints=- bestHandPlayerName="-"
+numRounds=1 sNumRounds=1

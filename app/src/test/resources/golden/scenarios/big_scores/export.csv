@@ -1,0 +1,9 @@
+Round,Winner,Discarder,Hand Points,Points Ana,Points Bruno,Points Carla,Points David,Penalty Ana,Penalty Bruno,Penalty Carla,Penalty David,Game name,Game start date,Game end date
+1,David,-,888,-896,-896,-896,2688,0,0,0,0,big_scores,Thu Jan 16 04:00:00 UTC 2025,null
+-,-,-,-,-896,-896,-896,2688,-,-,-,-,-,-,-
+2,Ana,David,500,524,-8,-8,-508,0,0,0,0,big_scores,Thu Jan 16 04:00:00 UTC 2025,null
+-,-,-,-,-372,-904,-904,2180,-,-,-,-,-,-,-
+3,Carla,Bruno,9999,-8,-10007,10023,-8,0,0,0,0,big_scores,Thu Jan 16 04:00:00 UTC 2025,null
+-,-,-,-,-380,-10911,9119,2172,-,-,-,-,-,-,-
+4,-,-,0,0,0,0,0,0,0,0,0,big_scores,Thu Jan 16 04:00:00 UTC 2025,null
+-,-,-,-,-380,-10911,9119,2172,-,-,-,-,-,-,-

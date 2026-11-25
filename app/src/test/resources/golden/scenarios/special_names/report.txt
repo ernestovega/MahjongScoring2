@@ -1,0 +1,37 @@
+# Final: "Copa" <Madrid>/2025?
+players (initial seat): EAST="  "Pepe"  " SOUTH="José, Luis" WEST="王伟" NORTH="Zoë 🀄"
+startDate: 1736985600000
+endDate: null
+isEnded: false
+rounds: 3 (finished: 2)
+
+## Rounds
+n  | winner | discarder | hand | penalties            | points                       | totals                       | best | ongoing
+1  | SOUTH  | WEST      | 25   | [0, 0, 0, 0]         | [-8, 49, -33, -8]            | [-8, 49, -33, -8]            | true | false
+2  | NORTH  | NONE      | 10   | [0, 0, -15, 0]       | [-18, -18, -33, 54]          | [-26, 31, -66, 46]           | false | false
+3  | null   | null      | 0    | [0, 0, 0, 0]         | [0, 0, 0, 0]                 | [-26, 31, -66, 46]           | false | true
+
+## Best hand
+round=1 value=25 seat=SOUTH name="José, Luis"
+
+## Table (ongoing round 3)
+seat winds by initial seat: WEST, NORTH, EAST, SOUTH
+names by current seat: "  "Pepe"  ", "José, Luis", "王伟", "Zoë 🀄"
+current east/south/west/north names: "王伟", "Zoë 🀄", "  "Pepe"  ", "José, Luis"
+initial seat by current seat: EAST->EAST, SOUTH->SOUTH, WEST->WEST, NORTH->NORTH
+totals by current seat: [-26, 31, -66, 46]
+penalties by current seat: [0, 0, 0, 0]
+
+## Points needed (diffs) by current seat
+EAST  points=-26    toBe1st=(selfPick=11, direct=21, indirect=41) toBe2nd=(selfPick=8, direct=13, indirect=26) toBe3rd=-
+SOUTH points=31     toBe1st=(selfPick=8, direct=8, indirect=8) toBe2nd=- toBe3rd=-
+WEST  points=-66    toBe1st=(selfPick=21, direct=41, indirect=81) toBe2nd=(selfPick=17, direct=33, indirect=66) toBe3rd=(selfPick=8, direct=8, indirect=9)
+NORTH points=46     toBe1st=- toBe2nd=- toBe3rd=-
+
+## Ranking
+1. "Zoë 🀄" score=46 tablePoints=4
+2. "José, Luis" score=31 tablePoints=2
+3. "  "Pepe"  " score=-26 tablePoints=1
+4. "王伟" score=-66 tablePoints=0
+bestHandPlayerPoints=25 bestHandPlayerName="José, Luis"
+numRounds=3 sNumRounds=3

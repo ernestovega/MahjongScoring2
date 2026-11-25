@@ -1,0 +1,19 @@
+Round,Winner,Discarder,Hand Points,Points Ana,Points Bruno,Points Carla,Points David,Penalty Ana,Penalty Bruno,Penalty Carla,Penalty David,Game name,Game start date,Game end date
+1,Carla,-,58,-66,-66,198,-66,0,0,0,0,random_09,Sun Jan 19 23:00:00 UTC 2025,null
+-,-,-,-,-66,-66,198,-66,-,-,-,-,-,-,-
+2,-,-,0,0,0,0,-20,0,0,0,-20,random_09,Sun Jan 19 23:00:00 UTC 2025,null
+-,-,-,-,-66,-66,198,-86,-,-,-,-,-,-,-
+3,Bruno,Ana,9,-17,33,-8,-8,0,0,0,0,random_09,Sun Jan 19 23:00:00 UTC 2025,null
+-,-,-,-,-83,-33,190,-94,-,-,-,-,-,-,-
+4,Bruno,-,61,-69,207,-69,-69,0,0,0,0,random_09,Sun Jan 19 23:00:00 UTC 2025,null
+-,-,-,-,-152,174,121,-163,-,-,-,-,-,-,-
+5,Carla,David,11,-8,-8,35,-19,0,0,0,0,random_09,Sun Jan 19 23:00:00 UTC 2025,null
+-,-,-,-,-160,166,156,-182,-,-,-,-,-,-,-
+6,-,-,0,0,0,0,0,0,0,0,0,random_09,Sun Jan 19 23:00:00 UTC 2025,null
+-,-,-,-,-160,166,156,-182,-,-,-,-,-,-,-
+7,Bruno,David,48,-38,72,-8,-56,-30,0,0,0,random_09,Sun Jan 19 23:00:00 UTC 2025,null
+-,-,-,-,-198,238,148,-238,-,-,-,-,-,-,-
+8,David,Carla,20,-8,-38,-28,44,0,-30,0,0,random_09,Sun Jan 19 23:00:00 UTC 2025,null
+-,-,-,-,-206,200,120,-194,-,-,-,-,-,-,-
+9,-,-,0,0,0,0,-10,0,0,0,-10,random_09,Sun Jan 19 23:00:00 UTC 2025,null
+-,-,-,-,-206,200,120,-204,-,-,-,-,-,-,-

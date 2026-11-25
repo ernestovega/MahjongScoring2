@@ -1,0 +1,8 @@
+self_picks
+
+1st:    David    4    (+216)
+2nd:    Carla    2    (-40)
+3rd:    Bruno    1    (-72)
+4th:    Ana    0    (-104)
+
+Best hand:    88  -  David

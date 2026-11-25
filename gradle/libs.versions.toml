@@ -25,9 +25,15 @@ junit = "5.11.0"
 junit-jupiter = "5.13.4"
 kotlin = "2.2.10"
 kotlinx-serialization-json = "1.9.0"
+kotlinx-coroutines-test = "1.10.2"
 ksp = "2.2.10-2.0.2"
 material = "1.12.0"
 review-ktx = "2.0.2"
+robolectric = "4.16"
+roborazzi = "1.50.0"
+androidx-test-core = "1.7.0"
+androidx-test-runner = "1.7.0"
+androidx-espresso-contrib = "3.7.0"
 truth = "1.4.4"
 
 [libraries]
@@ -64,6 +70,15 @@ hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", vers
 junit = { module = "org.junit:junit-bom", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine" }
+junit4 = { module = "junit:junit", version = "4.13.2" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
+roborazzi-junit-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "roborazzi" }
+androidx-test-core = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core" }
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
+androidx-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "androidx-espresso-contrib" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "review-ktx" }
@@ -79,3 +94,4 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 room = { id = "androidx.room", version.ref = "androidx-room" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }

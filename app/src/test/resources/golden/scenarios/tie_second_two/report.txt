@@ -1,0 +1,36 @@
+# tie_second_two
+players (initial seat): EAST="Ana" SOUTH="Bruno" WEST="Carla" NORTH="David"
+startDate: 1736974800000
+endDate: null
+isEnded: false
+rounds: 2 (finished: 1)
+
+## Rounds
+n  | winner | discarder | hand | penalties            | points                       | totals                       | best | ongoing
+1  | EAST   | NORTH     | 20   | [0, 0, 0, 0]         | [44, -8, -8, -28]            | [44, -8, -8, -28]            | true | false
+2  | null   | null      | 0    | [0, 0, 0, 0]         | [0, 0, 0, 0]                 | [44, -8, -8, -28]            | false | true
+
+## Best hand
+round=1 value=20 seat=EAST name="Ana"
+
+## Table (ongoing round 2)
+seat winds by initial seat: NORTH, EAST, SOUTH, WEST
+names by current seat: "Ana", "Bruno", "Carla", "David"
+current east/south/west/north names: "Bruno", "Carla", "David", "Ana"
+initial seat by current seat: EAST->EAST, SOUTH->SOUTH, WEST->WEST, NORTH->NORTH
+totals by current seat: [44, -8, -8, -28]
+penalties by current seat: [0, 0, 0, 0]
+
+## Points needed (diffs) by current seat
+EAST  points=44     toBe1st=- toBe2nd=- toBe3rd=-
+SOUTH points=-8     toBe1st=(selfPick=8, direct=11, indirect=21) toBe2nd=(selfPick=8, direct=8, indirect=8) toBe3rd=-
+WEST  points=-8     toBe1st=(selfPick=8, direct=11, indirect=21) toBe2nd=(selfPick=8, direct=8, indirect=8) toBe3rd=-
+NORTH points=-28    toBe1st=(selfPick=11, direct=21, indirect=41) toBe2nd=(selfPick=8, direct=8, indirect=8) toBe3rd=-
+
+## Ranking
+1. "Ana" score=44 tablePoints=4
+2. "Bruno" score=-8 tablePoints=1.5
+3. "Carla" score=-8 tablePoints=1.5
+4. "David" score=-28 tablePoints=0
+bestHandPlayerPoints=20 bestHandPlayerName="Ana"
+numRounds=2 sNumRounds=2

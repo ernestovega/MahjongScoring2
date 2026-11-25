@@ -1,0 +1,7 @@
+tie_all_four
+
+1st:    Ana    1.75    (+0)
+2nd:    Bruno    1.75    (+0)
+3rd:    Carla    1.75    (+0)
+4th:    David    1.75    (+0)
+

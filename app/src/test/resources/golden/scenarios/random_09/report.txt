@@ -1,0 +1,43 @@
+# random_09
+players (initial seat): EAST="Ana" SOUTH="Bruno" WEST="Carla" NORTH="David"
+startDate: 1737327600000
+endDate: null
+isEnded: false
+rounds: 9 (finished: 8)
+
+## Rounds
+n  | winner | discarder | hand | penalties            | points                       | totals                       | best | ongoing
+1  | WEST   | NONE      | 58   | [0, 0, 0, 0]         | [-66, -66, 198, -66]         | [-66, -66, 198, -66]         | false | false
+2  | NONE   | NONE      | 0    | [0, 0, 0, -20]       | [0, 0, 0, -20]               | [-66, -66, 198, -86]         | false | false
+3  | SOUTH  | EAST      | 9    | [0, 0, 0, 0]         | [-17, 33, -8, -8]            | [-83, -33, 190, -94]         | false | false
+4  | SOUTH  | NONE      | 61   | [0, 0, 0, 0]         | [-69, 207, -69, -69]         | [-152, 174, 121, -163]       | true | false
+5  | WEST   | NORTH     | 11   | [0, 0, 0, 0]         | [-8, -8, 35, -19]            | [-160, 166, 156, -182]       | false | false
+6  | NONE   | NONE      | 0    | [0, 0, 0, 0]         | [0, 0, 0, 0]                 | [-160, 166, 156, -182]       | false | false
+7  | SOUTH  | NORTH     | 48   | [-30, 0, 0, 0]       | [-38, 72, -8, -56]           | [-198, 238, 148, -238]       | false | false
+8  | NORTH  | WEST      | 20   | [0, -30, 0, 0]       | [-8, -38, -28, 44]           | [-206, 200, 120, -194]       | false | false
+9  | null   | null      | 0    | [0, 0, 0, -10]       | [0, 0, 0, -10]               | [-206, 200, 120, -204]       | false | true
+
+## Best hand
+round=4 value=61 seat=SOUTH name="Bruno"
+
+## Table (ongoing round 9)
+seat winds by initial seat: EAST, SOUTH, WEST, NORTH
+names by current seat: "Carla", "David", "Bruno", "Ana"
+current east/south/west/north names: "Carla", "David", "Bruno", "Ana"
+initial seat by current seat: EAST->WEST, SOUTH->NORTH, WEST->SOUTH, NORTH->EAST
+totals by current seat: [120, -204, 200, -206]
+penalties by current seat: [0, -10, 0, 0]
+
+## Points needed (diffs) by current seat
+EAST  points=120    toBe1st=(selfPick=13, direct=25, indirect=49) toBe2nd=- toBe3rd=-
+SOUTH points=-204   toBe1st=(selfPick=94, direct=187, indirect=373) toBe2nd=(selfPick=74, direct=147, indirect=293) toBe3rd=-
+WEST  points=200    toBe1st=- toBe2nd=- toBe3rd=-
+NORTH points=-206   toBe1st=(selfPick=94, direct=188, indirect=375) toBe2nd=(selfPick=74, direct=148, indirect=295) toBe3rd=(selfPick=8, direct=8, indirect=8)
+
+## Ranking
+1. "Bruno" score=200 tablePoints=4
+2. "Carla" score=120 tablePoints=2
+3. "David" score=-204 tablePoints=1
+4. "Ana" score=-206 tablePoints=0
+bestHandPlayerPoints=61 bestHandPlayerName="Bruno"
+numRounds=9 sNumRounds=9

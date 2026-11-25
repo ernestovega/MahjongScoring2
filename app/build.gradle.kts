@@ -27,6 +27,7 @@ plugins {
     alias(libs.plugins.room)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.roborazzi)
 }
 
 android {
@@ -77,6 +78,35 @@ android {
     sourceSets {
         getByName("androidTest").assets.srcDir("$projectDir/schemas")
     }
+
+    testOptions {
+        unitTests {
+            // Robolectric needs the merged resources/assets to inflate the real layouts.
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+            all { test ->
+                test.maxHeapSize = "3g"
+                // Deterministic environment for golden files and screenshots.
+                test.systemProperty("user.timezone", "UTC")
+                test.systemProperty("user.language", "en")
+                test.systemProperty("user.country", "US")
+                // Room schemas are read by the JVM migration tests.
+                test.systemProperty("room.schemaDir", "$projectDir/schemas")
+                // `-Pupdate.goldens=true` regenerates the text golden files under src/test/resources/golden.
+                test.systemProperty("update.goldens", project.findProperty("update.goldens") ?: "false")
+                test.systemProperty("goldens.dir", "$projectDir/src/test/resources/golden")
+                // Optional Maven mirror for the Robolectric android-all jars (e.g. CI behind rate limits).
+                project.findProperty("robolectric.dependency.repo.url")?.let {
+                    test.systemProperty("robolectric.dependency.repo.url", it)
+                }
+            }
+        }
+    }
+}
+
+roborazzi {
+    // Golden screenshots are committed to the repo so any visual change shows up in review.
+    outputDir.set(file("src/test/screenshots"))
 }
 
 dependencies {
@@ -123,7 +153,22 @@ dependencies {
     testImplementation(platform(libs.junit))
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.junit.platform.launcher)
+    testImplementation(libs.junit.vintage.engine)
+    testImplementation(libs.junit4)
     testImplementation(libs.truth)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.junit.rule)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.test.ext.junit)
+    testImplementation(libs.androidx.test.runner)
+    testImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.androidx.espresso.contrib)
+    testImplementation(libs.androidx.navigation.test)
+    testImplementation(libs.androidx.room.test)
+    testImplementation(libs.hilt.android.testing)
+    kspTest(libs.hilt.android.compiler)
 }
 
 java {

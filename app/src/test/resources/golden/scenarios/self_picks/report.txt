@@ -1,0 +1,39 @@
+# self_picks
+players (initial seat): EAST="Ana" SOUTH="Bruno" WEST="Carla" NORTH="David"
+startDate: 1736942400000
+endDate: null
+isEnded: false
+rounds: 5 (finished: 4)
+
+## Rounds
+n  | winner | discarder | hand | penalties            | points                       | totals                       | best | ongoing
+1  | EAST   | NONE      | 8    | [0, 0, 0, 0]         | [48, -16, -16, -16]          | [48, -16, -16, -16]          | false | false
+2  | SOUTH  | NONE      | 16   | [0, 0, 0, 0]         | [-24, 72, -24, -24]          | [24, 56, -40, -40]           | false | false
+3  | WEST   | NONE      | 24   | [0, 0, 0, 0]         | [-32, -32, 96, -32]          | [-8, 24, 56, -72]            | false | false
+4  | NORTH  | NONE      | 88   | [0, 0, 0, 0]         | [-96, -96, -96, 288]         | [-104, -72, -40, 216]        | true | false
+5  | null   | null      | 0    | [0, 0, 0, 0]         | [0, 0, 0, 0]                 | [-104, -72, -40, 216]        | false | true
+
+## Best hand
+round=4 value=88 seat=NORTH name="David"
+
+## Table (ongoing round 5)
+seat winds by initial seat: EAST, SOUTH, WEST, NORTH
+names by current seat: "Bruno", "Ana", "David", "Carla"
+current east/south/west/north names: "Bruno", "Ana", "David", "Carla"
+initial seat by current seat: EAST->SOUTH, SOUTH->EAST, WEST->NORTH, NORTH->WEST
+totals by current seat: [-72, -104, 216, -40]
+penalties by current seat: [0, 0, 0, 0]
+
+## Points needed (diffs) by current seat
+EAST  points=-72    toBe1st=(selfPick=65, direct=129, indirect=257) toBe2nd=(selfPick=8, direct=8, indirect=8) toBe3rd=-
+SOUTH points=-104   toBe1st=(selfPick=73, direct=145, indirect=289) toBe2nd=(selfPick=9, direct=17, indirect=33) toBe3rd=(selfPick=8, direct=8, indirect=8)
+WEST  points=216    toBe1st=- toBe2nd=- toBe3rd=-
+NORTH points=-40    toBe1st=(selfPick=57, direct=113, indirect=225) toBe2nd=- toBe3rd=-
+
+## Ranking
+1. "David" score=216 tablePoints=4
+2. "Carla" score=-40 tablePoints=2
+3. "Bruno" score=-72 tablePoints=1
+4. "Ana" score=-104 tablePoints=0
+bestHandPlayerPoints=88 bestHandPlayerName="David"
+numRounds=5 sNumRounds=5
