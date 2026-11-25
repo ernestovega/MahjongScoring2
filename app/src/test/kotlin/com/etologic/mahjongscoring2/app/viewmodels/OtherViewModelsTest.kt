@@ -1,5 +1,6 @@
 package com.etologic.mahjongscoring2.app.viewmodels
 
+import androidx.lifecycle.SavedStateHandle
 import android.content.Context
 import android.net.Uri
 import androidx.datastore.preferences.core.edit
@@ -72,7 +73,7 @@ class OtherViewModelsTest {
 
     @Test
     fun `main view model keeps the active game id`() {
-        val viewModel = MainViewModel()
+        val viewModel = MainViewModel(SavedStateHandle())
         assertThat(viewModel.activeGameId.value).isEqualTo(UiGame.NOT_SET_GAME_ID)
         viewModel.updateActiveGameId(7)
         assertThat(viewModel.activeGameId.value).isEqualTo(7)

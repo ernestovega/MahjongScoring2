@@ -1,5 +1,6 @@
 package com.etologic.mahjongscoring2.app.viewmodels
 
+import androidx.lifecycle.SavedStateHandle
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.test.core.app.ApplicationProvider
@@ -78,6 +79,7 @@ class GameViewModelTest {
         val endGame = EndGameUseCase(games)
         val endRound = EndRoundUseCase(rounds, endGame, getOneGame)
         viewModel = GameViewModel(
+            savedStateHandle = SavedStateHandle(),
             getOneGameFlowUseCase = getOneGame,
             editGameNamesUseCase = EditGameNamesUseCase(games),
             huDiscardUseCase = HuDiscardUseCase(rounds, endRound),

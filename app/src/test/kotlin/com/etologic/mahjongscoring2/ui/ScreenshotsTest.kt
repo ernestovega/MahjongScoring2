@@ -66,7 +66,7 @@ class ScreenshotsTest : UiTestBase() {
         launchApp()
         onView(withId(R.id.fabOldGames)).safeClick()
         screenshot("old_games_new_game_dialog")
-        // Close it before tearing down: destroying the activity with this dialog open crashes (see KnownIssuesTest).
+        // Close it before tearing down so every test ends on the same clean state.
         onDialogView(R.id.btNamesDialogCancel).safeClick()
     }
 

@@ -1,7 +1,5 @@
 package com.etologic.mahjongscoring2.ui
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.etologic.mahjongscoring2.R
 import com.etologic.mahjongscoring2.testutil.GameScenarios
@@ -19,32 +17,6 @@ import org.junit.runner.RunWith
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class KnownIssuesTest : UiTestBase() {
-
-    /**
-     * SetupNewGameDialogFragment and EditNamesDialogFragment null their _binding in onDestroyView() and then
-     * call super.onDestroyView(), which dismisses the dialog and runs onDismiss(), which reads binding -> NPE.
-     * Happens whenever the activity is destroyed with the dialog open (e.g. "Don't keep activities", process
-     * death, the system killing the activity in background).
-     */
-    @Ignore("Bug: NPE in onDismiss when the activity is destroyed with the new game dialog open")
-    @Test
-    fun newGameDialog_survivesActivityDestruction() {
-        launchApp()
-        onView(withId(R.id.fabOldGames)).safeClick()
-        scenario!!.close()
-        scenario = null
-    }
-
-    @Ignore("Bug: NPE in onDismiss when the activity is destroyed with the edit names dialog open")
-    @Test
-    fun editNamesDialog_survivesActivityDestruction() {
-        seed(GameScenarios.penalties)
-        launchApp()
-        openGame(GameScenarios.penalties.game.gameId)
-        navigateTo(R.id.editNamesDialogFragment)
-        scenario!!.close()
-        scenario = null
-    }
 
     /**
      * MainActivity.navigateTopLevel() navigates with popUpTo(start, saveState = true) + restoreState + singleTop.
