@@ -107,12 +107,13 @@ class SetupNewGameDialogFragment : AppCompatDialogFragment() {
     }
 
     override fun dismiss() {
-        binding.tietNamesDialogGameName.hideKeyboard()
+        _binding?.tietNamesDialogGameName?.hideKeyboard()
         super.dismiss()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        binding.tietNamesDialogGameName.hideKeyboard()
+        // The binding can be null here: DialogFragment.onDestroyView() dismisses the dialog.
+        _binding?.tietNamesDialogGameName?.hideKeyboard()
         super.onDismiss(dialog)
     }
 }

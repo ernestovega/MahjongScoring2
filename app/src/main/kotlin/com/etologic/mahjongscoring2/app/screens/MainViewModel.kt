@@ -17,22 +17,28 @@
 
 package com.etologic.mahjongscoring2.app.screens
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.etologic.mahjongscoring2.business.model.entities.GameId
 import com.etologic.mahjongscoring2.business.model.entities.UiGame.Companion.NOT_SET_GAME_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor() : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
+) : ViewModel() {
 
-    val activeGameId: StateFlow<GameId>
-        field = MutableStateFlow(NOT_SET_GAME_ID)
+    // Kept in SavedStateHandle so the active game survives process death.
+    val activeGameId: StateFlow<GameId> = savedStateHandle.getStateFlow(KEY_ACTIVE_GAME_ID, NOT_SET_GAME_ID)
 
     fun updateActiveGameId(gameId: GameId) {
-        activeGameId.value = gameId
+        savedStateHandle[KEY_ACTIVE_GAME_ID] = gameId
+    }
+
+    private companion object {
+        const val KEY_ACTIVE_GAME_ID = "active_game_id"
     }
 
 }

@@ -17,6 +17,8 @@
 
 package com.etologic.mahjongscoring2.app.screens.game.dialogs.hand_actions.hand_action_penalty
 
+import kotlinx.coroutines.launch
+import androidx.lifecycle.lifecycleScope
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -66,10 +68,16 @@ class PenaltyFragment : BaseGameHandActionsDialogFragment() {
             westIcon = ContextCompat.getDrawable(it, R.drawable.ic_west)
             northIcon = ContextCompat.getDrawable(it, R.drawable.ic_north)
         }
-        initViews(gameViewModel.gameUiStateFlow.value as GameUiState.Loaded)
+        viewLifecycleOwner.lifecycleScope.launch {
+            initViews(gameViewModel.awaitLoadedState())
+        }
     }
 
     private fun initViews(uiGameState: GameUiState.Loaded) {
+        if (uiGameState.selectedSeat == TableWinds.NONE) {
+            closeDialogWithoutSelectedSeat()
+            return
+        }
         if (uiGameState.game.gameId != UiGame.NOT_SET_GAME_ID) {
             with(binding.iPenaltyDialogPlayerContainer) {
                 val playersNamesByCurrentSeat = uiGameState.game.getPlayersNamesByCurrentSeat()
