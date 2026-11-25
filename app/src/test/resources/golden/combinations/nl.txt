@@ -1,0 +1,81 @@
+1 | Zuivere dubbele Chow | @drawable/pure_double_chow | -
+1 | Gemengde dubbele Chow | @drawable/mixed_double_chow | -
+1 | Korte straat | @drawable/short_straight | -
+1 | Twee hoeksteen Chows | @drawable/two_terminal_chows | -
+1 | Pung van hoek- of troefstenen | @drawable/pung_of_terminal_or_honors | -
+1 | Open Kong | @drawable/melded_kong | -
+1 | Eén ontbrekende kleur | @drawable/one_voided_suit | -
+1 | Geen troefstenen | @drawable/no_honors | -
+1 | Wachtend op randsteen | - | Win met 3 of 7 met 1–2 of 8–9
+1 | Wachtend op middelste steen | - | Win met de middelste Chow steen
+1 | Wachtend op sluitpaar | - | Win met sluitpaar
+1 | Zelf gepakt | - | Win met een steen van de muur gepakt
+1 | Bloemen of seizoenen | @drawable/flower_tiles | -
+2 | Pung draken | @drawable/dragon_pung | -
+2 | Wind van de ronde | @drawable/prevalent_wind | -
+2 | Eigen wind | @drawable/seat_wind | -
+2 | Verborgen hand | - | Alle stenen getrokken behalve de laatste
+2 | Alleen Chows | @drawable/all_chows | -
+2 | Stenenvreter  Vier gelijken in 2 of meer combinaties | @drawable/tile_hog | -
+2 | Dubbele Pungs | @drawable/double_pungs | -
+2 | Twee dichte Pungs | @drawable/two_concealed_pungs | -
+2 | Dichte Kong | @drawable/concealed_kong | -
+2 | Pure eenvoud | @drawable/all_simples | -
+4 | Handje buitenkantje | @drawable/outside_hand | -
+4 | Verborgen schat | - | Alle stenen zijn van de muur getrokken ook de laatste
+4 | Twee open Kongs | @drawable/two_melded_kongs | -
+4 | Laatste steen | - | Win met de steen die al drie keer open op tafel ligt
+6 | Alleen Pungs | @drawable/all_pungs | -
+6 | Schoon spel | @drawable/half_flush | -
+6 | Gemengde oplopende Chows | @drawable/mixed_shifted_chows | -
+6 | Alle soorten | @drawable/all_types | -
+6 | Open hand | - | Vier combinaties liggen open op tafel
+6 | Twee Pungs draken | @drawable/two_dragon_pungs | -
+8 | Gemengde straat | @drawable/mixed_straight | -
+8 | Omkeerbare stenen | @drawable/reversible_tiles | -
+8 | Gemengde drievoudige Chow | @drawable/mixed_triple_chow | -
+8 | Gemengde oplopende Pungs | @drawable/mixed_shifted_pungs | -
+8 | Winst zonder punten - chicken hand | @drawable/chicken_hand | -
+8 | Laatste steen getrokken | - | Win met de laatste steen van de muur
+8 | Laatste steen geclaimd | - | Win met de laatste afgelegde steen nadat de muur geheel gebruikt is
+8 | Uit met vervangende steen na Kong | - | Win met de vervangende steen na Kong declaratie
+8 | Kongroof | - | Win met de steen die een andere speler aan een open Kong wilde toevoegen
+8 | Twee dichte Kongs | @drawable/two_concealed_kongs | -
+12 | Verweven straat met minder troefstenen | @drawable/lesser_honors_and_knitted_tiles | -
+12 | Verweven straat | @drawable/knitted_straight | -
+12 | Hoogste vier | @drawable/upper_four | -
+12 | Laagste vier | @drawable/lower_four | -
+12 | Grote drie winden | @drawable/big_three_winds | -
+16 | Zuivere straat | @drawable/pure_straight | -
+16 | Driekleurs hoeksteen Chows | @drawable/three_suited_terminal_chows | -
+16 | Zuivere oplopende Chows | @drawable/pure_shifted_chows | -
+16 | Overal vijven | @drawable/all_fives | -
+16 | Drie gelijke Pungs | @drawable/triple_pungs | -
+16 | Drie gesloten Pungs | @drawable/three_concealed_pungs | -
+24 | Zeven tweelingen | @drawable/seven_pairs | -
+24 | Verweven straat met alle troefstenen | @drawable/greater_honors_and_knitted_tiles | -
+24 | Alleen even Pungs | @drawable/all_even_pungs | -
+24 | Zuiver spel | @drawable/full_flush | -
+24 | Zuivere drievoudige Chows | @drawable/pure_triple_chow | -
+24 | Zuivere oplopende Pungs | @drawable/pure_shifted_pungs | -
+24 | Hoogste stenen | @drawable/upper_tiles | -
+24 | Middelste stenen | @drawable/medium_tiles | -
+24 | Laagste stenen | @drawable/lower_tiles | -
+32 | Vier oplopende pure Chows | @drawable/four_pure_shifted_chows | -
+32 | Drie Kongs | @drawable/three_kongs | -
+32 | Alleen hoek- en troefstenen | @drawable/all_terminals_and_honors | -
+48 | Vier gelijke zuivere Chows | @drawable/quadruple_chow | -
+48 | Vier zuivere oplopende Pungs | @drawable/four_pure_shifted_pungs | -
+64 | Alleen hoekstenen | @drawable/all_terminals | -
+64 | Alleen troefstenen | @drawable/all_honors | -
+64 | Kleine vier winden | @drawable/little_four_winds | -
+64 | Kleine drie draken | @drawable/little_three_dragons | -
+64 | Vier gesloten Pungs | @drawable/four_concealed_pungs | -
+64 | Zuivere hoeksteen Chows | @drawable/pure_terminal_chows | -
+88 | Dertien wezen | @drawable/thirteen_orphans | -
+88 | Grote drie draken | @drawable/big_three_dragons | -
+88 | Grote vier winden | @drawable/big_four_winds | -
+88 | Jade spel | @drawable/all_green | -
+88 | Negen poorten | @drawable/nine_gates | -
+88 | Vier Kongs | @drawable/four_kongs | -
+88 | Zeven oplopende tweelingen | @drawable/seven_shifted_pairs | -

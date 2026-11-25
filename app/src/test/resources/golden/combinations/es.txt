@@ -1,0 +1,81 @@
+1 | Doble chow puro | @drawable/pure_double_chow | -
+1 | Doble chow mixto | @drawable/mixed_double_chow | -
+1 | Escalera corta | @drawable/short_straight | -
+1 | Dos chows terminales | @drawable/two_terminal_chows | -
+1 | Pong de terminales u honores | @drawable/pung_of_terminal_or_honors | -
+1 | Kong expuesto | @drawable/melded_kong | -
+1 | Familia ausente | @drawable/one_voided_suit | -
+1 | Sin honores | @drawable/no_honors | -
+1 | Espera de borde | - | Ganar con el 3 ó el 7 teniendo 1–2 u 8–9
+1 | Espera cerrada | - | Ganar con la ficha central de un chow
+1 | Espera simple | - | Ganar con la ficha de la pareja
+1 | Cogerla del muro | - | Ganar con la ficha del muro
+1 | Flores o estaciones | @drawable/flower_tiles | -
+2 | Dragon Pung | @drawable/dragon_pung | -
+2 | Viento de ronda | @drawable/prevalent_wind | -
+2 | Viento de asiento | @drawable/seat_wind | -
+2 | Mano oculta | - | Ganar por descarte teniendo la mano oculta
+2 | Todo chows | @drawable/all_chows | -
+2 | Ficha acaparada | @drawable/tile_hog | -
+2 | Doble pung | @drawable/double_pungs | -
+2 | Dos pungs ocultos | @drawable/two_concealed_pungs | -
+2 | Kong oculto | @drawable/concealed_kong | -
+2 | Todo simples | @drawable/all_simples | -
+4 | Mano exterior | @drawable/outside_hand | -
+4 | Mano completamente oculta | - | Ganar con al ficha del muro y la mano oculta
+4 | Dos kongs expuestos | @drawable/two_melded_kongs | -
+4 | Última ficha | - | Ganar con una ficha expuesta 3 veces
+6 | Todo pungs | @drawable/all_pungs | -
+6 | Mano semipura | @drawable/half_flush | -
+6 | Chows escalonados mixtos | @drawable/mixed_shifted_chows | -
+6 | Todas las familias | @drawable/all_types | -
+6 | Mano expuesta | - | Todo con fichas expuestas
+6 | Dos pungs de dragones | @drawable/two_dragon_pungs | -
+8 | Escalera mixta | @drawable/mixed_straight | -
+8 | Fichas reversibles | @drawable/reversible_tiles | -
+8 | Triple chow mixto | @drawable/mixed_triple_chow | -
+8 | Pungs escalados mixtos | @drawable/mixed_shifted_pungs | -
+8 | Mano del pollo | @drawable/chicken_hand | -
+8 | Última ficha del muro | - | Ganar con al última ficha del muro
+8 | Último descarte | - | Ganar con la última ficha descartada del juego
+8 | Reemplazo del kong | - | Ganar con la ficha de reemplazo tras hacer kong
+8 | Robar el kong | - | Ganar con la ficha con la que otro extiende un kong
+8 | Dos kongs ocultos | @drawable/two_concealed_kongs | -
+12 | Fichas cosidas con honores | @drawable/lesser_honors_and_knitted_tiles | -
+12 | Escalera cosida | @drawable/knitted_straight | -
+12 | Cuatro superiores | @drawable/upper_four | -
+12 | Cuatro inferiores | @drawable/lower_four | -
+12 | Tres Grandes vientos | @drawable/big_three_winds | -
+16 | Escalera pura | @drawable/pure_straight | -
+16 | Chows terminales mixtos | @drawable/three_suited_terminal_chows | -
+16 | Chows escalonados puros | @drawable/pure_shifted_chows | -
+16 | Todo cincos | @drawable/all_fives | -
+16 | Triple pong | @drawable/triple_pungs | -
+16 | Tres pongs ocultos | @drawable/three_concealed_pungs | -
+24 | Siete parejas | @drawable/seven_pairs | -
+24 | Todos los honores con fichas cosidas | @drawable/greater_honors_and_knitted_tiles | -
+24 | Todo pongs pares | @drawable/all_even_pungs | -
+24 | Mano pura | @drawable/full_flush | -
+24 | Triple chow puro | @drawable/pure_triple_chow | -
+24 | Pongs escalonados puros | @drawable/pure_shifted_pungs | -
+24 | Tres superiores | @drawable/upper_tiles | -
+24 | Tres centrales | @drawable/medium_tiles | -
+24 | Tres inferiores | @drawable/lower_tiles | -
+32 | Cuatro chows escalonados puros | @drawable/four_pure_shifted_chows | -
+32 | Tres kongs | @drawable/three_kongs | -
+32 | Todo terminales y honoress | @drawable/all_terminals_and_honors | -
+48 | Cuádruple chow | @drawable/quadruple_chow | -
+48 | Cuatro pongs escalonados puros | @drawable/four_pure_shifted_pungs | -
+64 | Todo terminales | @drawable/all_terminals | -
+64 | Todo honores | @drawable/all_honors | -
+64 | Cuatro pequeños vientos | @drawable/little_four_winds | -
+64 | Tres pequeños dragones | @drawable/little_three_dragons | -
+64 | Cuatro pongs ocultos | @drawable/four_concealed_pungs | -
+64 | Chows terminales puros | @drawable/pure_terminal_chows | -
+88 | Trece huérfanos | @drawable/thirteen_orphans | -
+88 | Tres grandes dragones | @drawable/big_three_dragons | -
+88 | Cuatro grandes vientos | @drawable/big_four_winds | -
+88 | Todo verde | @drawable/all_green | -
+88 | Nueve puertas | @drawable/nine_gates | -
+88 | Cuatro kongs | @drawable/four_kongs | -
+88 | Siete parejas escalonadas | @drawable/seven_shifted_pairs | -

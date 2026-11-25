@@ -1,0 +1,77 @@
+# 
+players (initial seat): EAST="Player A2" SOUTH="Player B2" WEST="Player C2" NORTH="Player D2"
+startDate: 1714862254044
+endDate: 1714862254044
+isEnded: true
+rounds: 4 (finished: 4)
+
+## Rounds
+n  | winner | discarder | hand | penalties            | points                       | totals                       | best | ongoing
+1  | NONE   | NONE      | 0    | [0, 0, 0, 0]         | [0, 0, 0, 0]                 | [0, 0, 0, 0]                 | false | false
+2  | NONE   | NONE      | 0    | [0, 0, 0, -30]       | [0, 0, 0, -30]               | [0, 0, 0, -30]               | false | false
+3  | NONE   | NONE      | 0    | [20, 20, 20, -60]    | [20, 20, 20, -60]            | [20, 20, 20, -90]            | false | false
+4  | NONE   | NONE      | 0    | [0, 0, 0, 0]         | [0, 0, 0, 0]                 | [20, 20, 20, -90]            | false | false
+
+## Best hand
+round=0 value=0 seat=NONE name=""
+
+## Table (ongoing round 4)
+seat winds by initial seat: SOUTH, WEST, NORTH, EAST
+names by current seat: "Player A2", "Player B2", "Player C2", "Player D2"
+current east/south/west/north names: "Player D2", "Player A2", "Player B2", "Player C2"
+initial seat by current seat: EAST->EAST, SOUTH->SOUTH, WEST->WEST, NORTH->NORTH
+totals by current seat: [20, 20, 20, -90]
+penalties by current seat: [0, 0, 0, 0]
+
+## Points needed (diffs) by current seat
+EAST  points=20     toBe1st=(selfPick=8, direct=8, indirect=8) toBe2nd=- toBe3rd=-
+SOUTH points=20     toBe1st=(selfPick=8, direct=8, indirect=8) toBe2nd=- toBe3rd=-
+WEST  points=20     toBe1st=(selfPick=8, direct=8, indirect=8) toBe2nd=- toBe3rd=-
+NORTH points=-90    toBe1st=(selfPick=20, direct=40, indirect=79) toBe2nd=- toBe3rd=-
+
+## Ranking
+1. "Player A2" score=20 tablePoints=2.33
+2. "Player B2" score=20 tablePoints=2.33
+3. "Player C2" score=20 tablePoints=2.33
+4. "Player D2" score=-90 tablePoints=0
+bestHandPlayerPoints=- bestHandPlayerName="-"
+numRounds=4 sNumRounds=4
+
+# 
+players (initial seat): EAST="Player A" SOUTH="Player B" WEST="Player C" NORTH="Player D"
+startDate: 1714862073965
+endDate: 1714862073965
+isEnded: true
+rounds: 4 (finished: 4)
+
+## Rounds
+n  | winner | discarder | hand | penalties            | points                       | totals                       | best | ongoing
+1  | EAST   | NONE      | 8    | [0, 0, 0, 0]         | [48, -16, -16, -16]          | [48, -16, -16, -16]          | false | false
+2  | SOUTH  | WEST      | 9    | [0, 0, 0, 0]         | [-8, 33, -17, -8]            | [40, 17, -33, -24]           | false | false
+3  | WEST   | NORTH     | 10   | [0, 0, 0, 0]         | [-8, -8, 34, -18]            | [32, 9, 1, -42]              | true | false
+4  | NONE   | NONE      | 0    | [0, 0, 0, 0]         | [0, 0, 0, 0]                 | [32, 9, 1, -42]              | false | false
+
+## Best hand
+round=3 value=10 seat=WEST name="Player C"
+
+## Table (ongoing round 4)
+seat winds by initial seat: SOUTH, WEST, NORTH, EAST
+names by current seat: "Player A", "Player B", "Player C", "Player D"
+current east/south/west/north names: "Player D", "Player A", "Player B", "Player C"
+initial seat by current seat: EAST->EAST, SOUTH->SOUTH, WEST->WEST, NORTH->NORTH
+totals by current seat: [32, 9, 1, -42]
+penalties by current seat: [0, 0, 0, 0]
+
+## Points needed (diffs) by current seat
+EAST  points=32     toBe1st=- toBe2nd=- toBe3rd=-
+SOUTH points=9      toBe1st=(selfPick=8, direct=8, indirect=8) toBe2nd=- toBe3rd=-
+WEST  points=1      toBe1st=(selfPick=8, direct=8, indirect=8) toBe2nd=- toBe3rd=-
+NORTH points=-42    toBe1st=(selfPick=11, direct=22, indirect=43) toBe2nd=(selfPick=8, direct=10, indirect=20) toBe3rd=(selfPick=8, direct=8, indirect=12)
+
+## Ranking
+1. "Player A" score=32 tablePoints=4
+2. "Player B" score=9 tablePoints=2
+3. "Player C" score=1 tablePoints=1
+4. "Player D" score=-42 tablePoints=0
+bestHandPlayerPoints=10 bestHandPlayerName="Player C"
+numRounds=4 sNumRounds=4
