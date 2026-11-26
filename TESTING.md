@@ -31,6 +31,7 @@ verificación de referencia es la de CI (`.github/workflows/tests.yml`, ubuntu).
 | UI textos | `ui/ScreenTextGoldenTest` | Golden de texto (`golden/screens/*.txt`) con todo lo que se lee en pantalla para cada partida: mesa en las 3 disposiciones, cada ronda de la lista, diálogo de acciones de cada asiento con su tabla de puntos necesarios, ranking, mesa tras 0..15 manos (posición del dado), listas de partidas, combinaciones y calculadora |
 | Volumen | `golden/BulkRandomGamesTest` | 400 partidas aleatorias con semilla en golden (`golden/bulk/`), invariantes sobre 3000 partidas e ida y vuelta JSON de 300 |
 | UI visual | `ui/ScreenshotsTest` | Screenshots golden: todas las pantallas y diálogos, disposiciones de asientos, la mesa tras cada mano, fuente grande del sistema, y pantallas y diálogos en los 6 idiomas |
+| Android 15/16 | `ui/EdgeToEdgeTest`, `ui/LargeScreenTest` | Edge-to-edge (dónde acaban los insets de barras, recortes y teclado, con screenshots con barras simuladas) y pantallas grandes (Android 16 ignora el bloqueo a vertical en tablets: screenshots de todas las pantallas en tablet horizontal y rotación conservando estado) |
 | Regresiones | `ui/DialogLifecycleTest`, navegación en `ui/UiFlowsTest`, recreación en `ui/UiEdgeCasesTest`, `Queries` en `business/use_cases/UseCasesTest` | Bugs ya arreglados (diálogos al destruir la activity, volver a Old games desde la barra inferior, diálogo de acciones que se cerraba al recrear la pantalla, lista de partidas que no se actualizaba si había una partida sin rondas) |
 
 ## Migración a KMP

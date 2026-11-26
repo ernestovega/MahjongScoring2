@@ -18,12 +18,19 @@
 package com.etologic.mahjongscoring2.app.screens
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.widget.TextView
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.ViewGroupCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -62,10 +69,53 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
+        setupEdgeToEdge()
         super.onCreate(savedInstanceState)
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applyWindowInsets()
         setupToolbar()
+    }
+
+    /**
+     * Apps targeting Android 15+ are always drawn edge-to-edge (the system ignores the status bar color and the
+     * opt-out). Doing it on every version keeps one behaviour everywhere: transparent bars with light icons, since
+     * both the toolbar and the bottom navigation are dark green.
+     */
+    private fun setupEdgeToEdge() {
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+        )
+    }
+
+    /**
+     * Keeps the content out of the system bars, display cutouts and keyboard:
+     * - top: the app bar grows by the status bar height (painted with the dark brand color),
+     * - bottom: the bottom navigation grows by the navigation bar height, or the whole content is lifted above
+     *   the keyboard while it is shown,
+     * - sides: bars and cutouts in landscape (tablets, foldables and desktop windows on Android 16).
+     * The drawer ([com.google.android.material.navigation.NavigationView]) handles its own insets.
+     */
+    private fun applyWindowInsets() {
+        // Before Android 11, once a view consumed the insets its siblings got none (here: the drawer).
+        ViewGroupCompat.installCompatInsetsDispatch(binding.root)
+        val bottomNavPaddingBottom = binding.bottomNavigationView.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mainContent) { content, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val isKeyboardCoveringBars = ime.bottom > bars.bottom
+            binding.appBarLayout.updatePadding(top = bars.top)
+            content.updatePadding(
+                left = bars.left,
+                right = bars.right,
+                bottom = if (isKeyboardCoveringBars) ime.bottom else 0,
+            )
+            binding.bottomNavigationView.updatePadding(
+                bottom = bottomNavPaddingBottom + if (isKeyboardCoveringBars) 0 else bars.bottom
+            )
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     private fun setupToolbar() {
