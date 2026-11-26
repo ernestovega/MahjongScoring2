@@ -27,6 +27,10 @@
         android:id="@+id/tabLayoutGame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:tabGravity="fill"
+        app:tabMaxWidth="0dp"
+        app:tabMode="fixed"
         app:tabIndicatorHeight="4dp"
         app:tabBackground="@color/colorPrimary"
         app:tabTextColor="@color/white" />

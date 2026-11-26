@@ -21,10 +21,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:fitsSystemWindows">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <style name="AppTheme.BrandedLaunch" parent="AppTheme">
@@ -39,7 +36,9 @@
         <item name="android:focusable">true</item>
     </style>
 
+    <!-- Full screen window: since Android 15 it is drawn edge-to-edge too, so its content must avoid the system bars. -->
     <style name="FullScreenDialogMM" parent="AppTheme">
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:colorBackground">@color/blackTransparent</item>
     </style>
 
