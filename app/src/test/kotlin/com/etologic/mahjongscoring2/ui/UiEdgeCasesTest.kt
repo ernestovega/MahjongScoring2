@@ -860,6 +860,29 @@ class UiEdgeCasesTest : UiTestBase() {
 
     // endregion
 
+    // region Games without rounds
+
+    /** Regression: a game without rounds used to keep the whole Old games list from loading and updating. */
+    @Test
+    fun oldGames_withAGameWithoutRounds_listsTheOtherGamesAndKeepsUpdating() {
+        seed(GameScenarios.penalties)
+        runBlocking { database.gamesDao.insertOne(GameScenarios.newGame.game.copy(gameId = 50, gameName = "no rounds")) }
+        launchApp()
+        assertThat(oldGamesNames()).containsExactly("penalties")
+        seed(GameScenarios.fullGame)
+        settle()
+        assertThat(oldGamesNames()).containsExactly("penalties", GameScenarios.fullGame.game.gameName)
+    }
+
+    private fun oldGamesNames(): List<String> = onActivity { activity ->
+        val list = activity.findViewById<RecyclerView>(R.id.rvOldGames)
+        (0 until list.childCount).map {
+            list.getChildAt(it).findViewById<android.widget.TextView>(R.id.tvOldGameItemGameName).text.toString()
+        }
+    }
+
+    // endregion
+
     // region Activity recreation (rotation, process death with saved state)
 
     @Test
@@ -873,12 +896,9 @@ class UiEdgeCasesTest : UiTestBase() {
         onView(withId(R.id.tvGameTableGameName)).check(matches(withText("penalties")))
     }
 
-    /**
-     * Current behaviour: when the activity is recreated with the hand actions dialog open, the old dialog's
-     * dismissal clears the selected seat, so the restored dialog closes itself (no crash, nothing saved).
-     */
+    /** Recreating the activity with the hand actions dialog open keeps the dialog open for the same seat. */
     @Test
-    fun recreate_withTheHandActionsDialogOpen_closesItSafely() {
+    fun recreate_withTheHandActionsDialogOpen_keepsItOpen() {
         seed(GameScenarios.penalties)
         launchApp()
         openGame(GameScenarios.penalties.game.gameId)
@@ -887,12 +907,27 @@ class UiEdgeCasesTest : UiTestBase() {
         assertThat(currentDestination()).isEqualTo(R.id.handActionsDialogFragment)
         scenario!!.recreate()
         settle()
-        assertThat(currentDestination()).isEqualTo(R.id.gameFragment)
+        assertThat(currentDestination()).isEqualTo(R.id.handActionsDialogFragment)
         assertThat(roundsColumns(GameScenarios.penalties.game.gameId)).isEqualTo(before)
-        // The table keeps working afterwards.
-        seat(R.id.iGameTableSeatWest).safeClick()
+        // The restored dialog still works for the selected seat.
         onDialogView(R.id.btHandActionsDialogDraw).safeClick()
+        assertThat(currentDestination()).isEqualTo(R.id.gameFragment)
         assertThat(rounds(GameScenarios.penalties.game.gameId)).hasSize(before.size + 1)
+    }
+
+    /** Cancelling the dialog after a recreation still clears the selection and leaves the table usable. */
+    @Test
+    fun recreate_withTheHandActionsDialogOpen_thenBack_closesIt() {
+        seed(GameScenarios.penalties)
+        launchApp()
+        openGame(GameScenarios.penalties.game.gameId)
+        seat(R.id.iGameTableSeatWest).safeClick()
+        scenario!!.recreate()
+        settle()
+        pressBack()
+        assertThat(currentDestination()).isEqualTo(R.id.gameFragment)
+        seat(R.id.iGameTableSeatEast).safeClick()
+        assertThat(currentDestination()).isEqualTo(R.id.handActionsDialogFragment)
     }
 
     // endregion

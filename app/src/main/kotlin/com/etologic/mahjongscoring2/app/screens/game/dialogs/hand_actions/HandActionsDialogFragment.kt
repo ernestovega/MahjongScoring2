@@ -75,7 +75,10 @@ class HandActionsDialogFragment : AppCompatDialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        if (isDialogCancelled) {
+        // When the screen is being recreated (rotation, process death...) the dialog is dismissed only to be
+        // restored right after, so the selected seat must be kept or the restored dialog would close itself.
+        val isBeingRecreated = isStateSaved || activity?.isChangingConfigurations == true
+        if (isDialogCancelled && !isBeingRecreated) {
             gameViewModel.unselectSeats()
         }
         super.onDismiss(dialog)

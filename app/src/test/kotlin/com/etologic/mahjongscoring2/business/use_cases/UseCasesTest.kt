@@ -17,6 +17,7 @@ import com.etologic.mahjongscoring2.testutil.clone
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerializationException
 import org.junit.jupiter.api.BeforeEach
@@ -319,15 +320,23 @@ class UseCasesTest {
         }
 
         @Test
-        fun `a game without rounds hides the whole list (current behaviour)`() = runTest {
-            newGame()
+        fun `a game without rounds is skipped and the rest of the list keeps updating`() = runTest {
+            // Regression: GetAllGamesFlowUseCase used to drop the whole emission when any game had no rounds,
+            // so the list never updated (and first() never returned).
+            val withRounds = newGame()
             games.insertOne(GameScenarios.newGame.game.copy(gameId = 50)).getOrThrow()
-            // GetAllGamesFlowUseCase returns null for the whole emission if any game has no rounds.
-            val emissions = mutableListOf<List<UiGame>>()
-            val job = backgroundScope.launch { getAllGames().collect { emissions += it } }
-            testScheduler.advanceUntilIdle()
-            assertThat(emissions).isEmpty()
-            job.cancel()
+            val first = withTimeoutOrNull(1_000) { getAllGames().first() }
+            assertThat(first?.map { it.gameId }).containsExactly(withRounds)
+            // The list keeps updating while the game without rounds is still there.
+            val another = newGame()
+            val second = withTimeoutOrNull(1_000) { getAllGames().first() }
+            assertThat(second?.map { it.gameId }).containsExactly(withRounds, another)
+        }
+
+        @Test
+        fun `only games without rounds give an empty list`() = runTest {
+            games.insertOne(GameScenarios.newGame.game.copy(gameId = 50)).getOrThrow()
+            assertThat(withTimeoutOrNull(1_000) { getAllGames().first() }).isEmpty()
         }
     }
 
