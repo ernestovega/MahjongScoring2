@@ -1,0 +1,219 @@
+# random_18: Seeded random game #18 with 2 rounds.
+
+## Table, seats DOWN
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: random_18
+tvTableSeatBySeatPoints: 0
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: 0
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: 0
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: 0
+tvTableSeatBySeatName: David
+tvGameTableRoundNumberTopStart: 2
+tvGameTableRoundNumberBottomStart: 2
+tvGameTableRoundNumberBottomEnd: 2
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 1 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: 0
+tvGameListFooterTotalPointsP2: 0
+tvGameListFooterTotalPointsP3: 0
+tvGameListFooterTotalPointsP4: 0
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Table, seats OUT
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: random_18
+tvTableSeatBySeatPoints: 0
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: 0
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: 0
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: 0
+tvTableSeatBySeatName: David
+tvGameTableRoundNumberTopStart: 2
+tvGameTableRoundNumberBottomStart: 2
+tvGameTableRoundNumberBottomEnd: 2
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 1 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: 0
+tvGameListFooterTotalPointsP2: 0
+tvGameListFooterTotalPointsP3: 0
+tvGameListFooterTotalPointsP4: 0
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Table, seats RANKING
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: random_18
+tvTableSeatRankingPosition: 1st
+tvTableSeatRankingPoints: 0
+tvTableSeatRankingName: Ana
+tvTableSeatRankingPosition: 2nd
+tvTableSeatRankingPoints: 0
+tvTableSeatRankingName: Bruno
+tvTableSeatRankingPosition: 3rd
+tvTableSeatRankingPoints: 0
+tvTableSeatRankingName: Carla
+tvTableSeatRankingPosition: 4th
+tvTableSeatRankingPoints: 0
+tvTableSeatRankingName: David
+tvGameTableRoundNumberTopStart: 2
+tvGameTableRoundNumberBottomStart: 2
+tvGameTableRoundNumberBottomEnd: 2
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 1 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: 0
+tvGameListFooterTotalPointsP2: 0
+tvGameListFooterTotalPointsP3: 0
+tvGameListFooterTotalPointsP4: 0
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Hand actions dialog, seat EAST
+tvTableSeatMediumName: Ana
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: 8
+tvActionDialogDiffsFirstDirectHu: 8
+tvActionDialogDiffsFirstIndirectHu: 8
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: -
+tvActionDialogDiffsSecondDirectHu: -
+tvActionDialogDiffsSecondIndirectHu: -
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: -
+tvActionDialogDiffsThirdDirectHu: -
+tvActionDialogDiffsThirdIndirectHu: -
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## Hand actions dialog, seat SOUTH
+tvTableSeatMediumName: Bruno
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: 8
+tvActionDialogDiffsFirstDirectHu: 8
+tvActionDialogDiffsFirstIndirectHu: 8
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: -
+tvActionDialogDiffsSecondDirectHu: -
+tvActionDialogDiffsSecondIndirectHu: -
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: -
+tvActionDialogDiffsThirdDirectHu: -
+tvActionDialogDiffsThirdIndirectHu: -
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## Hand actions dialog, seat WEST
+tvTableSeatMediumName: Carla
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: 8
+tvActionDialogDiffsFirstDirectHu: 8
+tvActionDialogDiffsFirstIndirectHu: 8
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: -
+tvActionDialogDiffsSecondDirectHu: -
+tvActionDialogDiffsSecondIndirectHu: -
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: -
+tvActionDialogDiffsThirdDirectHu: -
+tvActionDialogDiffsThirdIndirectHu: -
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## Hand actions dialog, seat NORTH
+tvTableSeatMediumName: David
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: 8
+tvActionDialogDiffsFirstDirectHu: 8
+tvActionDialogDiffsFirstIndirectHu: 8
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: -
+tvActionDialogDiffsSecondDirectHu: -
+tvActionDialogDiffsSecondIndirectHu: -
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: -
+tvActionDialogDiffsThirdDirectHu: -
+tvActionDialogDiffsThirdIndirectHu: -
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## List
+items: 1
+-- item 1
+tvGameListItemRoundNumber: 1
+tvGameListItemHandPoints: 0
+tvGameListItemRoundPointsP1: +0
+tvGameListItemRoundPointsP2: +0
+tvGameListItemRoundPointsP3: +0
+tvGameListItemRoundPointsP4: +0
+tvGameListItemRoundTotalPointsP1: +0
+tvGameListItemRoundTotalPointsP2: +0
+tvGameListItemRoundTotalPointsP3: +0
+tvGameListItemRoundTotalPointsP4: +0
+## List page (header and footers)
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 1 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: 0
+tvGameListFooterTotalPointsP2: 0
+tvGameListFooterTotalPointsP3: 0
+tvGameListFooterTotalPointsP4: 0

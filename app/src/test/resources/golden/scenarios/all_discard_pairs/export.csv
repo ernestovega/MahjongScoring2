@@ -1,0 +1,25 @@
+Round,Winner,Discarder,Hand Points,Points Ana,Points Bruno,Points Carla,Points David,Penalty Ana,Penalty Bruno,Penalty Carla,Penalty David,Game name,Game start date,Game end date
+1,Ana,Bruno,8,32,-16,-8,-8,0,0,0,0,all_discard_pairs,Wed Jan 15 13:00:00 UTC 2025,Wed Jan 15 15:00:00 UTC 2025
+-,-,-,-,32,-16,-8,-8,-,-,-,-,-,-,-
+2,Ana,Carla,11,35,-8,-19,-8,0,0,0,0,all_discard_pairs,Wed Jan 15 13:00:00 UTC 2025,Wed Jan 15 15:00:00 UTC 2025
+-,-,-,-,67,-24,-27,-16,-,-,-,-,-,-,-
+3,Ana,David,14,38,-8,-8,-22,0,0,0,0,all_discard_pairs,Wed Jan 15 13:00:00 UTC 2025,Wed Jan 15 15:00:00 UTC 2025
+-,-,-,-,105,-32,-35,-38,-,-,-,-,-,-,-
+4,Bruno,Ana,17,-25,41,-8,-8,0,0,0,0,all_discard_pairs,Wed Jan 15 13:00:00 UTC 2025,Wed Jan 15 15:00:00 UTC 2025
+-,-,-,-,80,9,-43,-46,-,-,-,-,-,-,-
+5,Bruno,Carla,20,-8,44,-28,-8,0,0,0,0,all_discard_pairs,Wed Jan 15 13:00:00 UTC 2025,Wed Jan 15 15:00:00 UTC 2025
+-,-,-,-,72,53,-71,-54,-,-,-,-,-,-,-
+6,Bruno,David,23,-8,47,-8,-31,0,0,0,0,all_discard_pairs,Wed Jan 15 13:00:00 UTC 2025,Wed Jan 15 15:00:00 UTC 2025
+-,-,-,-,64,100,-79,-85,-,-,-,-,-,-,-
+7,Carla,Ana,26,-34,-8,50,-8,0,0,0,0,all_discard_pairs,Wed Jan 15 13:00:00 UTC 2025,Wed Jan 15 15:00:00 UTC 2025
+-,-,-,-,30,92,-29,-93,-,-,-,-,-,-,-
+8,Carla,Bruno,29,-8,-37,53,-8,0,0,0,0,all_discard_pairs,Wed Jan 15 13:00:00 UTC 2025,Wed Jan 15 15:00:00 UTC 2025
+-,-,-,-,22,55,24,-101,-,-,-,-,-,-,-
+9,Carla,David,32,-8,-8,56,-40,0,0,0,0,all_discard_pairs,Wed Jan 15 13:00:00 UTC 2025,Wed Jan 15 15:00:00 UTC 2025
+-,-,-,-,14,47,80,-141,-,-,-,-,-,-,-
+10,David,Ana,35,-43,-8,-8,59,0,0,0,0,all_discard_pairs,Wed Jan 15 13:00:00 UTC 2025,Wed Jan 15 15:00:00 UTC 2025
+-,-,-,-,-29,39,72,-82,-,-,-,-,-,-,-
+11,David,Bruno,38,-8,-46,-8,62,0,0,0,0,all_discard_pairs,Wed Jan 15 13:00:00 UTC 2025,Wed Jan 15 15:00:00 UTC 2025
+-,-,-,-,-37,-7,64,-20,-,-,-,-,-,-,-
+12,David,Carla,41,-8,-8,-49,65,0,0,0,0,all_discard_pairs,Wed Jan 15 13:00:00 UTC 2025,Wed Jan 15 15:00:00 UTC 2025
+-,-,-,-,-45,-15,15,45,-,-,-,-,-,-,-

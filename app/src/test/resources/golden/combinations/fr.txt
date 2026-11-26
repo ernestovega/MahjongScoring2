@@ -1,0 +1,81 @@
+1 | Double chow pur | @drawable/pure_double_chow | -
+1 | Double chow | @drawable/mixed_double_chow | -
+1 | Petite suite pure | @drawable/short_straight | -
+1 | Deux chows purs d 'extrémités | @drawable/two_terminal_chows | -
+1 | Pung de vent ou d extrémité | @drawable/pung_of_terminal_or_honors | -
+1 | Kong exposé | @drawable/melded_kong | -
+1 | Une famille absente | @drawable/one_voided_suit | -
+1 | Pas d'honneur | @drawable/no_honors | -
+1 | Finir d'un côté | - | Finir sur 3 pour 1-2-3 ou 7 pour 7-8-9
+1 | Finir au milieu | - | Finir sur la tuile du milieu d'un chow
+1 | Finir sur la paire | - | Finir en complétant la paire
+1 | Tirer soi-même | - | Finir en piochant la tuile gagnante
+1 | Fleurs ou saisons | @drawable/flower_tiles | -
+2 | Pung de dragon | @drawable/dragon_pung | -
+2 | Vent dominant | @drawable/prevalent_wind | -
+2 | Vent du joueur | @drawable/seat_wind | -
+2 | Tout caché donné | - | Finir sur un écard sans avoir rien exposé
+2 | Tout chow | @drawable/all_chows | -
+2 | Quatre identiques | @drawable/tile_hog | -
+2 | Double pung | @drawable/double_pungs | -
+2 | Deux pungs cachés | @drawable/two_concealed_pungs | -
+2 | Kong caché | @drawable/concealed_kong | -
+2 | Tout ordinaire | @drawable/all_simples | -
+4 | Extrémité ou honneur partout | @drawable/outside_hand | -
+4 | Tout caché tiré | - | Finir en piochant la tuile en ayant rien exposé
+4 | Deux kongs exposés | @drawable/two_melded_kongs | -
+4 | Dernière tuile existante | - | Finir avec la quatrième tuile quand les trois autres sont visibles
+6 | Tout pung | @drawable/all_pungs | -
+6 | Semi pure | @drawable/half_flush | -
+6 | Trois chows superposés | @drawable/mixed_shifted_chows | -
+6 | Tout type | @drawable/all_types | -
+6 | Tout exposé | - | Quatre figures exposées et finir sur un écart
+6 | Deux pungs de dragons | @drawable/two_dragon_pungs | -
+8 | Grande suite | @drawable/mixed_straight | -
+8 | Symétrie | @drawable/reversible_tiles | -
+8 | Triple chows | @drawable/mixed_triple_chow | -
+8 | Trois pungs consécutifs | @drawable/mixed_shifted_pungs | -
+8 | Main sans valeur | @drawable/chicken_hand | -
+8 | Dernière tuile tirée | - | Finir en piochant la dernière tuile du mur
+8 | Dernière tuile jetée | - | Finir sur la dernière défausse de la partie
+8 | Finir sur un kong | - | Finir grace à la tuile de remplacement d'un kong
+8 | Voler le kong | - | Finir avec la tuile qui transforme un pung en kong
+8 | Deux kongs cachés | @drawable/two_concealed_kongs | -
+12 | Petit serpentin | @drawable/lesser_honors_and_knitted_tiles | -
+12 | Suite serpentin | @drawable/knitted_straight | -
+12 | Les quatre derniers | @drawable/upper_four | -
+12 | Les quatre premiers | @drawable/lower_four | -
+12 | Trois grands vents | @drawable/big_three_winds | -
+16 | Grande suite pure | @drawable/pure_straight | -
+16 | Deux dragons dans trois familles | @drawable/three_suited_terminal_chows | -
+16 | Trois chows purs superposés | @drawable/pure_shifted_chows | -
+16 | Cinq partout | @drawable/all_fives | -
+16 | Triple pungs | @drawable/triple_pungs | -
+16 | Trois pungs cachés | @drawable/three_concealed_pungs | -
+24 | Sept paires | @drawable/seven_pairs | -
+24 | Grand serpentin | @drawable/greater_honors_and_knitted_tiles | -
+24 | Tout pung pair | @drawable/all_even_pungs | -
+24 | Main pure | @drawable/full_flush | -
+24 | Triple chow pur | @drawable/pure_triple_chow | -
+24 | Trois pungs purs consécutifs | @drawable/pure_shifted_pungs | -
+24 | Les trois derniers | @drawable/upper_tiles | -
+24 | Les trois milieux | @drawable/medium_tiles | -
+24 | Les trois premiers | @drawable/lower_tiles | -
+32 | Quatre chows purs superposés | @drawable/four_pure_shifted_chows | -
+32 | Trois kongs | @drawable/three_kongs | -
+32 | Tout honneur et extrémité | @drawable/all_terminals_and_honors | -
+48 | Quadruple chow pur | @drawable/quadruple_chow | -
+48 | Quatre pungs purs consécutifs | @drawable/four_pure_shifted_pungs | -
+64 | Tout extrémité | @drawable/all_terminals | -
+64 | Tout honneur | @drawable/all_honors | -
+64 | Quatre petits vents | @drawable/little_four_winds | -
+64 | Trois petits dragons | @drawable/little_three_dragons | -
+64 | Quatre pungs cachés | @drawable/four_concealed_pungs | -
+64 | Deux dragons dans une famille | @drawable/pure_terminal_chows | -
+88 | Treize orphelins | @drawable/thirteen_orphans | -
+88 | Trois grands dragons | @drawable/big_three_dragons | -
+88 | Quatre grands vents | @drawable/big_four_winds | -
+88 | Main verte | @drawable/all_green | -
+88 | Neufs portes | @drawable/nine_gates | -
+88 | Quatre kongs | @drawable/four_kongs | -
+88 | Sept paires pures consécutives | @drawable/seven_shifted_pairs | -

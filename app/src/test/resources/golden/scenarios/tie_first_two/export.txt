@@ -1,0 +1,8 @@
+tie_first_two
+
+1st:    Ana    3    (+24)
+2nd:    Bruno    3    (+24)
+3rd:    David    1    (-22)
+4th:    Carla    0    (-26)
+
+Best hand:    8  -  Ana

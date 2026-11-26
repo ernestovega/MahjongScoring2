@@ -1,0 +1,81 @@
+1 | Pure double chow | @drawable/pure_double_chow | -
+1 | Mixed double chow | @drawable/mixed_double_chow | -
+1 | Short straight | @drawable/short_straight | -
+1 | Two terminal chows | @drawable/two_terminal_chows | -
+1 | Pung of terminals or honors | @drawable/pung_of_terminal_or_honors | -
+1 | Melded Kong | @drawable/melded_kong | -
+1 | One voided suit | @drawable/one_voided_suit | -
+1 | No honors | @drawable/no_honors | -
+1 | Edge wait | - | Win with 3 or 7 having 1–2 or 8–9
+1 | Closed wait | - | Win with central chow tile
+1 | Single waiting | - | Win with pair tile
+1 | Self-drawn | - | Win with a tile from the wall
+1 | Flowers or seasons | @drawable/flower_tiles | -
+2 | Dragon pung | @drawable/dragon_pung | -
+2 | Prevalent wind | @drawable/prevalent_wind | -
+2 | Seat wind | @drawable/seat_wind | -
+2 | Concealed hand | - | Having all from the wall except last tile
+2 | All chows | @drawable/all_chows | -
+2 | Tile hog | @drawable/tile_hog | -
+2 | Double pungs | @drawable/double_pungs | -
+2 | Two concealed pungs | @drawable/two_concealed_pungs | -
+2 | Concealed Kong | @drawable/concealed_kong | -
+2 | All simples | @drawable/all_simples | -
+4 | Outside hand | @drawable/outside_hand | -
+4 | Fully concealed hand | - | All from the wall
+4 | Two melded Kongs | @drawable/two_melded_kongs | -
+4 | Last tile | - | Win with tile exposed or discarded three times
+6 | All pungs | @drawable/all_pungs | -
+6 | Half flush | @drawable/half_flush | -
+6 | Mixed shifted chows | @drawable/mixed_shifted_chows | -
+6 | All types | @drawable/all_types | -
+6 | Melded hand | - | All with melded tiles
+6 | Two dragon pungs | @drawable/two_dragon_pungs | -
+8 | Mixed straight | @drawable/mixed_straight | -
+8 | Reversible tiles | @drawable/reversible_tiles | -
+8 | Mixed triple chow | @drawable/mixed_triple_chow | -
+8 | Mixed shifted pungs | @drawable/mixed_shifted_pungs | -
+8 | Chicken hand | @drawable/chicken_hand | -
+8 | Last tile draw | - | Win with last wall tile
+8 | Last tile claim | - | Win with last discard tile
+8 | Out with replacement tile | - | Win with Kong extra tile
+8 | Robbing the Kong | - | Win with other player Kong extension tile
+8 | Two concealed Kongs | @drawable/two_concealed_kongs | -
+12 | Lesser honors and knitted tiles | @drawable/lesser_honors_and_knitted_tiles | -
+12 | Knitted straight | @drawable/knitted_straight | -
+12 | Upper four | @drawable/upper_four | -
+12 | Lower four | @drawable/lower_four | -
+12 | Big three winds | @drawable/big_three_winds | -
+16 | Pure straight | @drawable/pure_straight | -
+16 | Three-suited terminal chows | @drawable/three_suited_terminal_chows | -
+16 | Pure shifted chows | @drawable/pure_shifted_chows | -
+16 | All fives | @drawable/all_fives | -
+16 | Triple pungs | @drawable/triple_pungs | -
+16 | Three concealed pungs | @drawable/three_concealed_pungs | -
+24 | Seven pairs | @drawable/seven_pairs | -
+24 | Greater honors and knitted tiles | @drawable/greater_honors_and_knitted_tiles | -
+24 | All even pungs | @drawable/all_even_pungs | -
+24 | Full flush | @drawable/full_flush | -
+24 | Pure triple chow | @drawable/pure_triple_chow | -
+24 | Pure shifted pungs | @drawable/pure_shifted_pungs | -
+24 | Upper tiles | @drawable/upper_tiles | -
+24 | Medium tiles | @drawable/medium_tiles | -
+24 | Lower tiles | @drawable/lower_tiles | -
+32 | Four pure shifted chows | @drawable/four_pure_shifted_chows | -
+32 | Three Kongs | @drawable/three_kongs | -
+32 | All terminals and honors | @drawable/all_terminals_and_honors | -
+48 | Quadruple chow | @drawable/quadruple_chow | -
+48 | Four pure shifted pungs | @drawable/four_pure_shifted_pungs | -
+64 | All terminals | @drawable/all_terminals | -
+64 | All honors | @drawable/all_honors | -
+64 | Little four winds | @drawable/little_four_winds | -
+64 | Little three dragons | @drawable/little_three_dragons | -
+64 | Four concealed pungs | @drawable/four_concealed_pungs | -
+64 | Pure terminal chows | @drawable/pure_terminal_chows | -
+88 | Thirteen orphans | @drawable/thirteen_orphans | -
+88 | Big three dragons | @drawable/big_three_dragons | -
+88 | Big four winds | @drawable/big_four_winds | -
+88 | All green | @drawable/all_green | -
+88 | Nine gates | @drawable/nine_gates | -
+88 | Four Kongs | @drawable/four_kongs | -
+88 | Seven shifted pairs | @drawable/seven_shifted_pairs | -

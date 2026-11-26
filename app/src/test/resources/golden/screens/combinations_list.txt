@@ -1,0 +1,325 @@
+items: 81
+-- item 1
+tvCombinationItemPoints: 1
+tvCombinationItemName: Pure double chow
+tvCombinationItemPosition: #1
+-- item 2
+tvCombinationItemPoints: 1
+tvCombinationItemName: Mixed double chow
+tvCombinationItemPosition: #2
+-- item 3
+tvCombinationItemPoints: 1
+tvCombinationItemName: Short straight
+tvCombinationItemPosition: #3
+-- item 4
+tvCombinationItemPoints: 1
+tvCombinationItemName: Two terminal chows
+tvCombinationItemPosition: #4
+-- item 5
+tvCombinationItemPoints: 1
+tvCombinationItemName: Pung of terminals or honors
+tvCombinationItemPosition: #5
+-- item 6
+tvCombinationItemPoints: 1
+tvCombinationItemName: Melded Kong
+tvCombinationItemPosition: #6
+-- item 7
+tvCombinationItemPoints: 1
+tvCombinationItemName: One voided suit
+tvCombinationItemPosition: #7
+-- item 8
+tvCombinationItemPoints: 1
+tvCombinationItemName: No honors
+tvCombinationItemPosition: #8
+-- item 9
+tvCombinationItemPoints: 1
+tvCombinationItemName: Edge wait
+tvCombinationItemPosition: #9
+-- item 10
+tvCombinationItemPoints: 1
+tvCombinationItemName: Closed wait
+tvCombinationItemPosition: #10
+-- item 11
+tvCombinationItemPoints: 1
+tvCombinationItemName: Single waiting
+tvCombinationItemPosition: #11
+-- item 12
+tvCombinationItemPoints: 1
+tvCombinationItemName: Self-drawn
+tvCombinationItemPosition: #12
+-- item 13
+tvCombinationItemPoints: 1
+tvCombinationItemName: Flowers or seasons
+tvCombinationItemPosition: #13
+-- item 14
+tvCombinationItemPoints: 2
+tvCombinationItemName: Dragon pung
+tvCombinationItemPosition: #14
+-- item 15
+tvCombinationItemPoints: 2
+tvCombinationItemName: Prevalent wind
+tvCombinationItemPosition: #15
+-- item 16
+tvCombinationItemPoints: 2
+tvCombinationItemName: Seat wind
+tvCombinationItemPosition: #16
+-- item 17
+tvCombinationItemPoints: 2
+tvCombinationItemName: Concealed hand
+tvCombinationItemPosition: #17
+-- item 18
+tvCombinationItemPoints: 2
+tvCombinationItemName: All chows
+tvCombinationItemPosition: #18
+-- item 19
+tvCombinationItemPoints: 2
+tvCombinationItemName: Tile hog
+tvCombinationItemPosition: #19
+-- item 20
+tvCombinationItemPoints: 2
+tvCombinationItemName: Double pungs
+tvCombinationItemPosition: #20
+-- item 21
+tvCombinationItemPoints: 2
+tvCombinationItemName: Two concealed pungs
+tvCombinationItemPosition: #21
+-- item 22
+tvCombinationItemPoints: 2
+tvCombinationItemName: Concealed Kong
+tvCombinationItemPosition: #22
+-- item 23
+tvCombinationItemPoints: 2
+tvCombinationItemName: All simples
+tvCombinationItemPosition: #23
+-- item 24
+tvCombinationItemPoints: 4
+tvCombinationItemName: Outside hand
+tvCombinationItemPosition: #24
+-- item 25
+tvCombinationItemPoints: 4
+tvCombinationItemName: Fully concealed hand
+tvCombinationItemPosition: #25
+-- item 26
+tvCombinationItemPoints: 4
+tvCombinationItemName: Two melded Kongs
+tvCombinationItemPosition: #26
+-- item 27
+tvCombinationItemPoints: 4
+tvCombinationItemName: Last tile
+tvCombinationItemPosition: #27
+-- item 28
+tvCombinationItemPoints: 6
+tvCombinationItemName: All pungs
+tvCombinationItemPosition: #28
+-- item 29
+tvCombinationItemPoints: 6
+tvCombinationItemName: Half flush
+tvCombinationItemPosition: #29
+-- item 30
+tvCombinationItemPoints: 6
+tvCombinationItemName: Mixed shifted chows
+tvCombinationItemPosition: #30
+-- item 31
+tvCombinationItemPoints: 6
+tvCombinationItemName: All types
+tvCombinationItemPosition: #31
+-- item 32
+tvCombinationItemPoints: 6
+tvCombinationItemName: Melded hand
+tvCombinationItemPosition: #32
+-- item 33
+tvCombinationItemPoints: 6
+tvCombinationItemName: Two dragon pungs
+tvCombinationItemPosition: #33
+-- item 34
+tvCombinationItemPoints: 8
+tvCombinationItemName: Mixed straight
+tvCombinationItemPosition: #34
+-- item 35
+tvCombinationItemPoints: 8
+tvCombinationItemName: Reversible tiles
+tvCombinationItemPosition: #35
+-- item 36
+tvCombinationItemPoints: 8
+tvCombinationItemName: Mixed triple chow
+tvCombinationItemPosition: #36
+-- item 37
+tvCombinationItemPoints: 8
+tvCombinationItemName: Mixed shifted pungs
+tvCombinationItemPosition: #37
+-- item 38
+tvCombinationItemPoints: 8
+tvCombinationItemName: Chicken hand
+tvCombinationItemPosition: #38
+-- item 39
+tvCombinationItemPoints: 8
+tvCombinationItemName: Last tile draw
+tvCombinationItemPosition: #39
+-- item 40
+tvCombinationItemPoints: 8
+tvCombinationItemName: Last tile claim
+tvCombinationItemPosition: #40
+-- item 41
+tvCombinationItemPoints: 8
+tvCombinationItemName: Out with replacement tile
+tvCombinationItemPosition: #41
+-- item 42
+tvCombinationItemPoints: 8
+tvCombinationItemName: Robbing the Kong
+tvCombinationItemPosition: #42
+-- item 43
+tvCombinationItemPoints: 8
+tvCombinationItemName: Two concealed Kongs
+tvCombinationItemPosition: #43
+-- item 44
+tvCombinationItemPoints: 12
+tvCombinationItemName: Lesser honors and knitted tiles
+tvCombinationItemPosition: #44
+-- item 45
+tvCombinationItemPoints: 12
+tvCombinationItemName: Knitted straight
+tvCombinationItemPosition: #45
+-- item 46
+tvCombinationItemPoints: 12
+tvCombinationItemName: Upper four
+tvCombinationItemPosition: #46
+-- item 47
+tvCombinationItemPoints: 12
+tvCombinationItemName: Lower four
+tvCombinationItemPosition: #47
+-- item 48
+tvCombinationItemPoints: 12
+tvCombinationItemName: Big three winds
+tvCombinationItemPosition: #48
+-- item 49
+tvCombinationItemPoints: 16
+tvCombinationItemName: Pure straight
+tvCombinationItemPosition: #49
+-- item 50
+tvCombinationItemPoints: 16
+tvCombinationItemName: Three-suited terminal chows
+tvCombinationItemPosition: #50
+-- item 51
+tvCombinationItemPoints: 16
+tvCombinationItemName: Pure shifted chows
+tvCombinationItemPosition: #51
+-- item 52
+tvCombinationItemPoints: 16
+tvCombinationItemName: All fives
+tvCombinationItemPosition: #52
+-- item 53
+tvCombinationItemPoints: 16
+tvCombinationItemName: Triple pungs
+tvCombinationItemPosition: #53
+-- item 54
+tvCombinationItemPoints: 16
+tvCombinationItemName: Three concealed pungs
+tvCombinationItemPosition: #54
+-- item 55
+tvCombinationItemPoints: 24
+tvCombinationItemName: Seven pairs
+tvCombinationItemPosition: #55
+-- item 56
+tvCombinationItemPoints: 24
+tvCombinationItemName: Greater honors and knitted tiles
+tvCombinationItemPosition: #56
+-- item 57
+tvCombinationItemPoints: 24
+tvCombinationItemName: All even pungs
+tvCombinationItemPosition: #57
+-- item 58
+tvCombinationItemPoints: 24
+tvCombinationItemName: Full flush
+tvCombinationItemPosition: #58
+-- item 59
+tvCombinationItemPoints: 24
+tvCombinationItemName: Pure triple chow
+tvCombinationItemPosition: #59
+-- item 60
+tvCombinationItemPoints: 24
+tvCombinationItemName: Pure shifted pungs
+tvCombinationItemPosition: #60
+-- item 61
+tvCombinationItemPoints: 24
+tvCombinationItemName: Upper tiles
+tvCombinationItemPosition: #61
+-- item 62
+tvCombinationItemPoints: 24
+tvCombinationItemName: Medium tiles
+tvCombinationItemPosition: #62
+-- item 63
+tvCombinationItemPoints: 24
+tvCombinationItemName: Lower tiles
+tvCombinationItemPosition: #63
+-- item 64
+tvCombinationItemPoints: 32
+tvCombinationItemName: Four pure shifted chows
+tvCombinationItemPosition: #64
+-- item 65
+tvCombinationItemPoints: 32
+tvCombinationItemName: Three Kongs
+tvCombinationItemPosition: #65
+-- item 66
+tvCombinationItemPoints: 32
+tvCombinationItemName: All terminals and honors
+tvCombinationItemPosition: #66
+-- item 67
+tvCombinationItemPoints: 48
+tvCombinationItemName: Quadruple chow
+tvCombinationItemPosition: #67
+-- item 68
+tvCombinationItemPoints: 48
+tvCombinationItemName: Four pure shifted pungs
+tvCombinationItemPosition: #68
+-- item 69
+tvCombinationItemPoints: 64
+tvCombinationItemName: All terminals
+tvCombinationItemPosition: #69
+-- item 70
+tvCombinationItemPoints: 64
+tvCombinationItemName: All honors
+tvCombinationItemPosition: #70
+-- item 71
+tvCombinationItemPoints: 64
+tvCombinationItemName: Little four winds
+tvCombinationItemPosition: #71
+-- item 72
+tvCombinationItemPoints: 64
+tvCombinationItemName: Little three dragons
+tvCombinationItemPosition: #72
+-- item 73
+tvCombinationItemPoints: 64
+tvCombinationItemName: Four concealed pungs
+tvCombinationItemPosition: #73
+-- item 74
+tvCombinationItemPoints: 64
+tvCombinationItemName: Pure terminal chows
+tvCombinationItemPosition: #74
+-- item 75
+tvCombinationItemPoints: 88
+tvCombinationItemName: Thirteen orphans
+tvCombinationItemPosition: #75
+-- item 76
+tvCombinationItemPoints: 88
+tvCombinationItemName: Big three dragons
+tvCombinationItemPosition: #76
+-- item 77
+tvCombinationItemPoints: 88
+tvCombinationItemName: Big four winds
+tvCombinationItemPosition: #77
+-- item 78
+tvCombinationItemPoints: 88
+tvCombinationItemName: All green
+tvCombinationItemPosition: #78
+-- item 79
+tvCombinationItemPoints: 88
+tvCombinationItemName: Nine gates
+tvCombinationItemPosition: #79
+-- item 80
+tvCombinationItemPoints: 88
+tvCombinationItemName: Four Kongs
+tvCombinationItemPosition: #80
+-- item 81
+tvCombinationItemPoints: 88
+tvCombinationItemName: Seven shifted pairs
+tvCombinationItemPosition: #81

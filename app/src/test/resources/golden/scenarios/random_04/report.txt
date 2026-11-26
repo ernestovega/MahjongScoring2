@@ -1,0 +1,38 @@
+# random_04
+players (initial seat): EAST="Ana" SOUTH="Bruno" WEST="Carla" NORTH="David"
+startDate: 1737309600000
+endDate: 1737316800000
+isEnded: true
+rounds: 4 (finished: 4)
+
+## Rounds
+n  | winner | discarder | hand | penalties            | points                       | totals                       | best | ongoing
+1  | NONE   | NONE      | 0    | [0, 0, 0, 0]         | [0, 0, 0, 0]                 | [0, 0, 0, 0]                 | false | false
+2  | WEST   | SOUTH     | 10   | [0, 0, 0, 0]         | [-8, -18, 34, -8]            | [-8, -18, 34, -8]            | false | false
+3  | WEST   | NORTH     | 66   | [0, 0, 0, 0]         | [-8, -8, 90, -74]            | [-16, -26, 124, -82]         | true | false
+4  | NONE   | NONE      | 0    | [0, 0, 0, 0]         | [0, 0, 0, 0]                 | [-16, -26, 124, -82]         | false | false
+
+## Best hand
+round=3 value=66 seat=WEST name="Carla"
+
+## Table (ongoing round 4)
+seat winds by initial seat: SOUTH, WEST, NORTH, EAST
+names by current seat: "Ana", "Bruno", "Carla", "David"
+current east/south/west/north names: "David", "Ana", "Bruno", "Carla"
+initial seat by current seat: EAST->EAST, SOUTH->SOUTH, WEST->WEST, NORTH->NORTH
+totals by current seat: [-16, -26, 124, -82]
+penalties by current seat: [0, 0, 0, 0]
+
+## Points needed (diffs) by current seat
+EAST  points=-16    toBe1st=(selfPick=28, direct=55, indirect=109) toBe2nd=- toBe3rd=-
+SOUTH points=-26    toBe1st=(selfPick=30, direct=60, indirect=119) toBe2nd=(selfPick=8, direct=8, indirect=8) toBe3rd=-
+WEST  points=124    toBe1st=- toBe2nd=- toBe3rd=-
+NORTH points=-82    toBe1st=(selfPick=44, direct=88, indirect=175) toBe2nd=(selfPick=9, direct=18, indirect=35) toBe3rd=(selfPick=8, direct=13, indirect=25)
+
+## Ranking
+1. "Carla" score=124 tablePoints=4
+2. "Ana" score=-16 tablePoints=2
+3. "Bruno" score=-26 tablePoints=1
+4. "David" score=-82 tablePoints=0
+bestHandPlayerPoints=66 bestHandPlayerName="Carla"
+numRounds=4 sNumRounds=4

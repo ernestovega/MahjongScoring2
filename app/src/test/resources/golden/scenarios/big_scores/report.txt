@@ -1,0 +1,38 @@
+# big_scores
+players (initial seat): EAST="Ana" SOUTH="Bruno" WEST="Carla" NORTH="David"
+startDate: 1737000000000
+endDate: null
+isEnded: false
+rounds: 4 (finished: 3)
+
+## Rounds
+n  | winner | discarder | hand | penalties            | points                       | totals                       | best | ongoing
+1  | NORTH  | NONE      | 888  | [0, 0, 0, 0]         | [-896, -896, -896, 2688]     | [-896, -896, -896, 2688]     | false | false
+2  | EAST   | NORTH     | 500  | [0, 0, 0, 0]         | [524, -8, -8, -508]          | [-372, -904, -904, 2180]     | false | false
+3  | WEST   | SOUTH     | 9999 | [0, 0, 0, 0]         | [-8, -10007, 10023, -8]      | [-380, -10911, 9119, 2172]   | true | false
+4  | null   | null      | 0    | [0, 0, 0, 0]         | [0, 0, 0, 0]                 | [-380, -10911, 9119, 2172]   | false | true
+
+## Best hand
+round=3 value=9999 seat=WEST name="Carla"
+
+## Table (ongoing round 4)
+seat winds by initial seat: SOUTH, WEST, NORTH, EAST
+names by current seat: "Ana", "Bruno", "Carla", "David"
+current east/south/west/north names: "David", "Ana", "Bruno", "Carla"
+initial seat by current seat: EAST->EAST, SOUTH->SOUTH, WEST->WEST, NORTH->NORTH
+totals by current seat: [-380, -10911, 9119, 2172]
+penalties by current seat: [0, 0, 0, 0]
+
+## Points needed (diffs) by current seat
+EAST  points=-380   toBe1st=(selfPick=2367, direct=4734, indirect=9468) toBe2nd=(selfPick=631, direct=1261, indirect=2521) toBe3rd=-
+SOUTH points=-10911 toBe1st=(selfPick=5000, direct=10000, indirect=19999) toBe2nd=(selfPick=3263, direct=6526, indirect=13052) toBe3rd=(selfPick=2625, direct=5250, indirect=10500)
+WEST  points=9119   toBe1st=- toBe2nd=- toBe3rd=-
+NORTH points=2172   toBe1st=(selfPick=1729, direct=3458, indirect=6916) toBe2nd=- toBe3rd=-
+
+## Ranking
+1. "Carla" score=9119 tablePoints=4
+2. "David" score=2172 tablePoints=2
+3. "Ana" score=-380 tablePoints=1
+4. "Bruno" score=-10911 tablePoints=0
+bestHandPlayerPoints=9999 bestHandPlayerName="Carla"
+numRounds=4 sNumRounds=4

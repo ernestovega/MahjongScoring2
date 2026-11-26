@@ -1,0 +1,35 @@
+# random_17
+players (initial seat): EAST="Ana" SOUTH="Bruno" WEST="Carla" NORTH="David"
+startDate: 1737356400000
+endDate: null
+isEnded: false
+rounds: 1 (finished: 0)
+
+## Rounds
+n  | winner | discarder | hand | penalties            | points                       | totals                       | best | ongoing
+1  | null   | null      | 0    | [0, 0, 0, 0]         | [0, 0, 0, 0]                 | [0, 0, 0, 0]                 | false | true
+
+## Best hand
+round=0 value=0 seat=NONE name=""
+
+## Table (ongoing round 1)
+seat winds by initial seat: EAST, SOUTH, WEST, NORTH
+names by current seat: "Ana", "Bruno", "Carla", "David"
+current east/south/west/north names: "Ana", "Bruno", "Carla", "David"
+initial seat by current seat: EAST->EAST, SOUTH->SOUTH, WEST->WEST, NORTH->NORTH
+totals by current seat: [0, 0, 0, 0]
+penalties by current seat: [0, 0, 0, 0]
+
+## Points needed (diffs) by current seat
+EAST  points=0      toBe1st=(selfPick=8, direct=8, indirect=8) toBe2nd=- toBe3rd=-
+SOUTH points=0      toBe1st=(selfPick=8, direct=8, indirect=8) toBe2nd=- toBe3rd=-
+WEST  points=0      toBe1st=(selfPick=8, direct=8, indirect=8) toBe2nd=- toBe3rd=-
+NORTH points=0      toBe1st=(selfPick=8, direct=8, indirect=8) toBe2nd=- toBe3rd=-
+
+## Ranking
+1. "Ana" score=0 tablePoints=1.75
+2. "Bruno" score=0 tablePoints=1.75
+3. "Carla" score=0 tablePoints=1.75
+4. "David" score=0 tablePoints=1.75
+bestHandPlayerPoints=- bestHandPlayerName="-"
+numRounds=1 sNumRounds=1

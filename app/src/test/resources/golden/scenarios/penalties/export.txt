@@ -1,0 +1,8 @@
+penalties
+
+1st:    Carla    4    (+39)
+2nd:    David    2    (+33)
+3rd:    Bruno    1    (-51)
+4th:    Ana    0    (-111)
+
+Best hand:    32  -  David

@@ -1,0 +1,7 @@
+penalties_only
+
+1st:    Bruno    2.33    (+0)
+2nd:    Carla    2.33    (+0)
+3rd:    David    2.33    (+0)
+4th:    Ana    0    (-40)
+

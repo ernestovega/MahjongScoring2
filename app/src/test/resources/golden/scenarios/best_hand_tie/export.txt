@@ -1,0 +1,8 @@
+best_hand_tie
+
+1st:    Bruno    3    (+56)
+2nd:    Carla    3    (+56)
+3rd:    David    1    (+28)
+4th:    Ana    0    (-140)
+
+Best hand:    48  -  Bruno

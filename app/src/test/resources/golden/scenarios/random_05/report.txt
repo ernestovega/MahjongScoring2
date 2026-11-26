@@ -1,0 +1,39 @@
+# random_05
+players (initial seat): EAST="Ana" SOUTH="Bruno" WEST="Carla" NORTH="David"
+startDate: 1737313200000
+endDate: null
+isEnded: false
+rounds: 5 (finished: 4)
+
+## Rounds
+n  | winner | discarder | hand | penalties            | points                       | totals                       | best | ongoing
+1  | NORTH  | SOUTH     | 35   | [0, 0, 0, 0]         | [-8, -43, -8, 59]            | [-8, -43, -8, 59]            | false | false
+2  | NORTH  | WEST      | 39   | [0, 0, 0, 0]         | [-8, -8, -47, 63]            | [-16, -51, -55, 122]         | false | false
+3  | NONE   | NONE      | 0    | [0, 0, 0, 0]         | [0, 0, 0, 0]                 | [-16, -51, -55, 122]         | false | false
+4  | SOUTH  | NONE      | 48   | [0, 0, 0, 0]         | [-56, 168, -56, -56]         | [-72, 117, -111, 66]         | true | false
+5  | null   | null      | 0    | [0, 0, 0, -50]       | [0, 0, 0, -50]               | [-72, 117, -111, 16]         | false | true
+
+## Best hand
+round=4 value=48 seat=SOUTH name="Bruno"
+
+## Table (ongoing round 5)
+seat winds by initial seat: EAST, SOUTH, WEST, NORTH
+names by current seat: "Bruno", "Ana", "David", "Carla"
+current east/south/west/north names: "Bruno", "Ana", "David", "Carla"
+initial seat by current seat: EAST->SOUTH, SOUTH->EAST, WEST->NORTH, NORTH->WEST
+totals by current seat: [117, -72, 16, -111]
+penalties by current seat: [0, 0, -50, 0]
+
+## Points needed (diffs) by current seat
+EAST  points=117    toBe1st=- toBe2nd=- toBe3rd=-
+SOUTH points=-72    toBe1st=(selfPick=40, direct=79, indirect=158) toBe2nd=(selfPick=15, direct=29, indirect=57) toBe3rd=-
+WEST  points=16     toBe1st=(selfPick=18, direct=35, indirect=70) toBe2nd=- toBe3rd=-
+NORTH points=-111   toBe1st=(selfPick=50, direct=99, indirect=197) toBe2nd=(selfPick=24, direct=48, indirect=96) toBe3rd=(selfPick=8, direct=8, indirect=8)
+
+## Ranking
+1. "Bruno" score=117 tablePoints=4
+2. "David" score=16 tablePoints=2
+3. "Ana" score=-72 tablePoints=1
+4. "Carla" score=-111 tablePoints=0
+bestHandPlayerPoints=48 bestHandPlayerName="Bruno"
+numRounds=5 sNumRounds=5

@@ -1,0 +1,8 @@
+big_scores
+
+1st:    Carla    4    (+9119)
+2nd:    David    2    (+2172)
+3rd:    Ana    1    (-380)
+4th:    Bruno    0    (-10911)
+
+Best hand:    9999  -  Carla

@@ -1,0 +1,41 @@
+# random_07
+players (initial seat): EAST="Ana" SOUTH="Bruno" WEST="Carla" NORTH="David"
+startDate: 1737320400000
+endDate: null
+isEnded: false
+rounds: 7 (finished: 6)
+
+## Rounds
+n  | winner | discarder | hand | penalties            | points                       | totals                       | best | ongoing
+1  | NORTH  | EAST      | 13   | [0, 0, 0, 0]         | [-21, -8, -8, 37]            | [-21, -8, -8, 37]            | false | false
+2  | NORTH  | EAST      | 10   | [0, 0, 0, 0]         | [-18, -8, -8, 34]            | [-39, -16, -16, 71]          | false | false
+3  | SOUTH  | NONE      | 33   | [0, -60, 0, 0]       | [-41, 63, -41, -41]          | [-80, 47, -57, 30]           | false | false
+4  | SOUTH  | NORTH     | 57   | [0, 0, 0, 0]         | [-8, 81, -8, -65]            | [-88, 128, -65, -35]         | true | false
+5  | SOUTH  | NONE      | 34   | [10, -30, 10, 10]    | [-32, 96, -32, -32]          | [-120, 224, -97, -67]        | false | false
+6  | NONE   | NONE      | 0    | [0, 0, 0, 0]         | [0, 0, 0, 0]                 | [-120, 224, -97, -67]        | false | false
+7  | null   | null      | 0    | [0, 0, 0, 0]         | [0, 0, 0, 0]                 | [-120, 224, -97, -67]        | false | true
+
+## Best hand
+round=4 value=57 seat=SOUTH name="Bruno"
+
+## Table (ongoing round 7)
+seat winds by initial seat: WEST, NORTH, EAST, SOUTH
+names by current seat: "Bruno", "Ana", "David", "Carla"
+current east/south/west/north names: "David", "Carla", "Bruno", "Ana"
+initial seat by current seat: EAST->SOUTH, SOUTH->EAST, WEST->NORTH, NORTH->WEST
+totals by current seat: [224, -120, -67, -97]
+penalties by current seat: [0, 0, 0, 0]
+
+## Points needed (diffs) by current seat
+EAST  points=224    toBe1st=- toBe2nd=- toBe3rd=-
+SOUTH points=-120   toBe1st=(selfPick=79, direct=157, indirect=313) toBe2nd=(selfPick=8, direct=11, indirect=22) toBe3rd=(selfPick=8, direct=8, indirect=8)
+WEST  points=-67    toBe1st=(selfPick=65, direct=130, indirect=260) toBe2nd=- toBe3rd=-
+NORTH points=-97    toBe1st=(selfPick=73, direct=145, indirect=290) toBe2nd=(selfPick=8, direct=8, indirect=8) toBe3rd=-
+
+## Ranking
+1. "Bruno" score=224 tablePoints=4
+2. "David" score=-67 tablePoints=2
+3. "Carla" score=-97 tablePoints=1
+4. "Ana" score=-120 tablePoints=0
+bestHandPlayerPoints=57 bestHandPlayerName="Bruno"
+numRounds=7 sNumRounds=7

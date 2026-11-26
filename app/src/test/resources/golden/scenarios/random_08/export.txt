@@ -1,0 +1,8 @@
+random_08
+
+1st:    Bruno    4    (+300)
+2nd:    David    2    (-27)
+3rd:    Carla    1    (-84)
+4th:    Ana    0    (-189)
+
+Best hand:    62  -  Bruno

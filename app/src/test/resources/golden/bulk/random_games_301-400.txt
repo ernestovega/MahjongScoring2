@@ -1,0 +1,1142 @@
+game 10301 ended=true players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=NORTH h=54 pen=0,0,0,0 pts=-8,78,-8,-62 tot=-8,78,-8,-62
+  r2 w=WEST d=SOUTH h=44 pen=0,0,0,0 pts=-8,-52,68,-8 tot=-16,26,60,-70
+  r3 w=NORTH d=NONE h=8 pen=0,0,0,0 pts=-16,-16,-16,48 tot=-32,10,44,-22
+  r4 w=NORTH d=WEST h=12 pen=0,0,0,0 pts=-8,-8,-20,36 tot=-40,2,24,14
+  r5 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-40,2,24,14
+  ranking=Carla:4:24, David:2:14, Bruno:1:2, Ana:0:-40
+  best=SOUTH:54
+game 10302 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=0,0,0,0
+  r2 w=NORTH d=WEST h=38 pen=-30,10,10,10 pts=-38,2,-36,72 tot=-38,2,-36,72
+  r3 w=NORTH d=WEST h=40 pen=0,0,0,0 pts=-8,-8,-48,64 tot=-46,-6,-84,136
+  r4 w=WEST d=SOUTH h=55 pen=0,0,0,0 pts=-8,-63,79,-8 tot=-54,-69,-5,128
+  r5 w=EAST d=NORTH h=11 pen=-30,0,0,0 pts=5,-8,-8,-19 tot=-49,-77,-13,109
+  r6 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-49,-77,-13,109
+  ranking=David:4:109, Carla:2:-13, Ana:1:-49, Bruno:0:-77
+  best=WEST:55
+game 10303 ended=false players=Ana|Bruno|Carla|David
+  r1 w=WEST d=SOUTH h=49 pen=0,0,0,0 pts=-8,-57,73,-8 tot=-8,-57,73,-8
+  r2 w=SOUTH d=NONE h=44 pen=10,10,-30,10 pts=-42,166,-82,-42 tot=-50,109,-9,-50
+  r3 w=SOUTH d=NONE h=48 pen=0,0,0,0 pts=-56,168,-56,-56 tot=-106,277,-65,-106
+  r4 w=NORTH d=NONE h=34 pen=0,0,0,0 pts=-42,-42,-42,126 tot=-148,235,-107,20
+  r5 w=EAST d=NONE h=12 pen=0,0,0,0 pts=60,-20,-20,-20 tot=-88,215,-127,0
+  r6 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-88,215,-127,0
+  r7 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-88,215,-127,0
+  ranking=Bruno:4:215, David:2:0, Ana:1:-88, Carla:0:-127
+  best=WEST:49
+game 10304 ended=true players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=NONE h=22 pen=0,0,0,0 pts=-30,-30,-30,90 tot=-30,-30,-30,90
+  r2 w=EAST d=WEST h=40 pen=0,0,0,0 pts=64,-8,-48,-8 tot=34,-38,-78,82
+  r3 w=NONE d=NONE h=0 pen=-50,0,0,0 pts=-50,0,0,0 tot=-16,-38,-78,82
+  r4 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-16,-38,-78,82
+  r5 w=SOUTH d=NONE h=54 pen=0,0,0,0 pts=-62,186,-62,-62 tot=-78,148,-140,20
+  r6 w=SOUTH d=NONE h=66 pen=0,0,0,0 pts=-74,222,-74,-74 tot=-152,370,-214,-54
+  r7 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-152,370,-214,-54
+  r8 w=SOUTH d=NORTH h=14 pen=0,0,0,0 pts=-8,38,-8,-22 tot=-160,408,-222,-76
+  ranking=Bruno:4:408, David:2:-76, Ana:1:-160, Carla:0:-222
+  best=SOUTH:66
+game 10305 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=NONE h=13 pen=0,0,0,0 pts=63,-21,-21,-21 tot=63,-21,-21,-21
+  r2 w=NORTH d=EAST h=34 pen=0,-60,0,0 pts=-42,-68,-8,58 tot=21,-89,-29,37
+  r3 w=EAST d=NONE h=50 pen=0,0,0,0 pts=174,-58,-58,-58 tot=195,-147,-87,-21
+  r4 w=NORTH d=EAST h=8 pen=0,0,0,0 pts=-16,-8,-8,32 tot=179,-155,-95,11
+  r5 w=EAST d=NONE h=14 pen=0,0,0,0 pts=66,-22,-22,-22 tot=245,-177,-117,-11
+  r6 w=SOUTH d=NORTH h=26 pen=0,0,0,0 pts=-8,50,-8,-34 tot=237,-127,-125,-45
+  r7 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=237,-127,-125,-45
+  r8 w=NORTH d=NONE h=28 pen=0,0,0,0 pts=-36,-36,-36,108 tot=201,-163,-161,63
+  r9 w=- d=- h=0 pen=-40,13,13,13 pts=-40,13,13,13 tot=161,-150,-148,76
+  ranking=Ana:4:161, David:2:76, Carla:1:-148, Bruno:0:-150
+  best=EAST:50
+game 10306 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=NONE h=53 pen=0,0,0,0 pts=-61,-61,-61,183 tot=-61,-61,-61,183
+  r2 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-61,-61,-61,183
+  r3 w=WEST d=NONE h=14 pen=0,0,0,-60 pts=-22,-22,66,-82 tot=-83,-83,5,101
+  r4 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-83,-83,5,101
+  r5 w=WEST d=EAST h=56 pen=0,0,0,0 pts=-64,-8,80,-8 tot=-147,-91,85,93
+  r6 w=SOUTH d=NORTH h=15 pen=0,0,0,0 pts=-8,39,-8,-23 tot=-155,-52,77,70
+  r7 w=WEST d=SOUTH h=64 pen=0,0,0,0 pts=-8,-72,88,-8 tot=-163,-124,165,62
+  r8 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-163,-124,165,62
+  r9 w=SOUTH d=NONE h=35 pen=0,0,0,0 pts=-43,129,-43,-43 tot=-206,5,122,19
+  r10 w=- d=- h=0 pen=-40,0,0,0 pts=-40,0,0,0 tot=-246,5,122,19
+  ranking=Carla:4:122, David:2:19, Bruno:1:5, Ana:0:-246
+  best=WEST:64
+game 10307 ended=false players=Ana|Bruno|Carla|David
+  r1 w=WEST d=SOUTH h=67 pen=0,0,0,0 pts=-8,-75,91,-8 tot=-8,-75,91,-8
+  r2 w=EAST d=WEST h=20 pen=0,0,0,0 pts=44,-8,-28,-8 tot=36,-83,63,-16
+  r3 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=36,-83,63,-16
+  r4 w=WEST d=EAST h=34 pen=0,0,0,0 pts=-42,-8,58,-8 tot=-6,-91,121,-24
+  r5 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-6,-91,121,-24
+  r6 w=SOUTH d=EAST h=24 pen=0,0,0,0 pts=-32,48,-8,-8 tot=-38,-43,113,-32
+  r7 w=SOUTH d=NONE h=26 pen=0,0,0,0 pts=-34,102,-34,-34 tot=-72,59,79,-66
+  r8 w=EAST d=NORTH h=47 pen=0,0,0,0 pts=71,-8,-8,-55 tot=-1,51,71,-121
+  r9 w=EAST d=NONE h=56 pen=0,0,0,0 pts=192,-64,-64,-64 tot=191,-13,7,-185
+  r10 w=NONE d=NONE h=0 pen=13,-40,13,13 pts=13,-40,13,13 tot=204,-53,20,-172
+  r11 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=204,-53,20,-172
+  ranking=Ana:4:204, Carla:2:20, Bruno:1:-53, David:0:-172
+  best=WEST:67
+game 10308 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=EAST h=66 pen=-40,13,13,13 pts=-114,103,5,5 tot=-114,103,5,5
+  r2 w=WEST d=NONE h=46 pen=16,16,16,-50 pts=-38,-38,178,-104 tot=-152,65,183,-99
+  r3 w=NONE d=NONE h=0 pen=0,-20,0,0 pts=0,-20,0,0 tot=-152,45,183,-99
+  r4 w=SOUTH d=NORTH h=65 pen=0,0,0,0 pts=-8,89,-8,-73 tot=-160,134,175,-172
+  r5 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-160,134,175,-172
+  r6 w=SOUTH d=NONE h=24 pen=0,0,0,0 pts=-32,96,-32,-32 tot=-192,230,143,-204
+  r7 w=SOUTH d=WEST h=18 pen=0,0,-50,0 pts=-8,42,-76,-8 tot=-200,272,67,-212
+  r8 w=SOUTH d=WEST h=19 pen=0,0,0,0 pts=-8,43,-27,-8 tot=-208,315,40,-220
+  r9 w=NORTH d=SOUTH h=24 pen=0,0,0,0 pts=-8,-32,-8,48 tot=-216,283,32,-172
+  r10 w=SOUTH d=NONE h=47 pen=0,0,0,0 pts=-55,165,-55,-55 tot=-271,448,-23,-227
+  r11 w=EAST d=WEST h=51 pen=0,0,0,0 pts=75,-8,-59,-8 tot=-196,440,-82,-235
+  r12 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-196,440,-82,-235
+  ranking=Bruno:4:440, Carla:2:-82, Ana:1:-196, David:0:-235
+  best=SOUTH:66
+game 10309 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=NONE h=19 pen=0,0,-10,0 pts=81,-27,-37,-27 tot=81,-27,-37,-27
+  r2 w=WEST d=SOUTH h=54 pen=0,0,0,0 pts=-8,-62,78,-8 tot=73,-89,41,-35
+  r3 w=NORTH d=NONE h=28 pen=0,-20,0,0 pts=-36,-56,-36,108 tot=37,-145,5,73
+  r4 w=NORTH d=NONE h=25 pen=0,0,0,0 pts=-33,-33,-33,99 tot=4,-178,-28,172
+  r5 w=NORTH d=NONE h=55 pen=-10,0,0,0 pts=-73,-63,-63,189 tot=-69,-241,-91,361
+  r6 w=WEST d=NONE h=22 pen=0,0,0,0 pts=-30,-30,90,-30 tot=-99,-271,-1,331
+  r7 w=EAST d=SOUTH h=59 pen=0,0,0,0 pts=83,-67,-8,-8 tot=-16,-338,-9,323
+  r8 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-16,-338,-9,323
+  r9 w=WEST d=EAST h=45 pen=10,10,10,-30 pts=-43,2,79,-38 tot=-59,-336,70,285
+  r10 w=SOUTH d=WEST h=45 pen=0,0,0,0 pts=-8,69,-53,-8 tot=-67,-267,17,277
+  r11 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-67,-267,17,277
+  r12 w=SOUTH d=WEST h=46 pen=0,0,0,0 pts=-8,70,-54,-8 tot=-75,-197,-37,269
+  r13 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-75,-197,-37,269
+  ranking=David:4:269, Carla:2:-37, Ana:1:-75, Bruno:0:-197
+  best=EAST:59
+game 10310 ended=true players=Ana|Bruno|Carla|David
+  r1 w=WEST d=NONE h=59 pen=13,13,13,-40 pts=-54,-54,214,-107 tot=-54,-54,214,-107
+  r2 w=EAST d=NORTH h=44 pen=0,0,0,0 pts=68,-8,-8,-52 tot=14,-62,206,-159
+  r3 w=NORTH d=EAST h=67 pen=0,0,0,0 pts=-75,-8,-8,91 tot=-61,-70,198,-68
+  r4 w=SOUTH d=WEST h=26 pen=0,0,0,0 pts=-8,50,-34,-8 tot=-69,-20,164,-76
+  r5 w=WEST d=NORTH h=31 pen=-50,16,16,16 pts=-58,8,71,-23 tot=-127,-12,235,-99
+  r6 w=WEST d=EAST h=26 pen=0,-50,0,0 pts=-34,-58,50,-8 tot=-161,-70,285,-107
+  r7 w=EAST d=WEST h=38 pen=0,0,0,0 pts=62,-8,-46,-8 tot=-99,-78,239,-115
+  r8 w=EAST d=SOUTH h=41 pen=0,0,-30,0 pts=65,-49,-38,-8 tot=-34,-127,201,-123
+  r9 w=EAST d=NONE h=30 pen=0,0,0,0 pts=114,-38,-38,-38 tot=80,-165,163,-161
+  r10 w=NORTH d=NONE h=48 pen=0,0,0,0 pts=-56,-56,-56,168 tot=24,-221,107,7
+  r11 w=EAST d=NORTH h=14 pen=0,0,0,0 pts=38,-8,-8,-22 tot=62,-229,99,-15
+  r12 w=WEST d=SOUTH h=67 pen=0,0,0,0 pts=-8,-75,91,-8 tot=54,-304,190,-23
+  r13 w=NORTH d=EAST h=47 pen=0,0,0,0 pts=-55,-8,-8,71 tot=-1,-312,182,48
+  r14 w=NORTH d=WEST h=56 pen=0,0,0,0 pts=-8,-8,-64,80 tot=-9,-320,118,128
+  ranking=David:4:128, Carla:2:118, Ana:1:-9, Bruno:0:-320
+  best=NORTH:67
+game 10311 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=NONE h=9 pen=0,0,0,0 pts=-17,51,-17,-17 tot=-17,51,-17,-17
+  r2 w=WEST d=NORTH h=23 pen=10,-30,10,10 pts=2,-38,57,-21 tot=-15,13,40,-38
+  r3 w=SOUTH d=WEST h=27 pen=0,0,0,0 pts=-8,51,-35,-8 tot=-23,64,5,-46
+  r4 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-23,64,5,-46
+  r5 w=EAST d=SOUTH h=44 pen=0,0,0,0 pts=68,-52,-8,-8 tot=45,12,-3,-54
+  r6 w=SOUTH d=NORTH h=57 pen=0,0,0,0 pts=-8,81,-8,-65 tot=37,93,-11,-119
+  r7 w=EAST d=NORTH h=65 pen=0,0,0,0 pts=89,-8,-8,-73 tot=126,85,-19,-192
+  r8 w=WEST d=EAST h=48 pen=16,16,16,-50 pts=-40,8,88,-58 tot=86,93,69,-250
+  r9 w=WEST d=NONE h=22 pen=0,0,0,0 pts=-30,-30,90,-30 tot=56,63,159,-280
+  r10 w=NORTH d=NONE h=43 pen=0,0,0,0 pts=-51,-51,-51,153 tot=5,12,108,-127
+  r11 w=EAST d=WEST h=59 pen=0,0,0,0 pts=83,-8,-67,-8 tot=88,4,41,-135
+  r12 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=88,4,41,-135
+  r13 w=NORTH d=NONE h=50 pen=0,0,0,0 pts=-58,-58,-58,174 tot=30,-54,-17,39
+  r14 w=SOUTH d=WEST h=11 pen=0,0,0,0 pts=-8,35,-19,-8 tot=22,-19,-36,31
+  r15 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=22,-19,-36,31
+  ranking=David:4:31, Ana:2:22, Bruno:1:-19, Carla:0:-36
+  best=EAST:65
+game 10312 ended=true players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=SOUTH h=14 pen=0,0,0,0 pts=-8,-22,-8,38 tot=-8,-22,-8,38
+  r2 w=SOUTH d=NONE h=33 pen=10,10,-30,10 pts=-31,133,-71,-31 tot=-39,111,-79,7
+  r3 w=NORTH d=SOUTH h=55 pen=0,0,0,0 pts=-8,-63,-8,79 tot=-47,48,-87,86
+  r4 w=NORTH d=NONE h=25 pen=0,0,0,0 pts=-33,-33,-33,99 tot=-80,15,-120,185
+  r5 w=NONE d=NONE h=0 pen=3,3,3,-10 pts=3,3,3,-10 tot=-77,18,-117,175
+  r6 w=NORTH d=WEST h=65 pen=0,0,0,0 pts=-8,-8,-73,89 tot=-85,10,-190,264
+  r7 w=NORTH d=NONE h=14 pen=0,0,0,0 pts=-22,-22,-22,66 tot=-107,-12,-212,330
+  r8 w=SOUTH d=EAST h=37 pen=16,16,-50,16 pts=-29,77,-58,8 tot=-136,65,-270,338
+  r9 w=SOUTH d=NONE h=13 pen=0,0,0,0 pts=-21,63,-21,-21 tot=-157,128,-291,317
+  r10 w=EAST d=NONE h=12 pen=13,-40,13,13 pts=73,-60,-7,-7 tot=-84,68,-298,310
+  r11 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-84,68,-298,310
+  r12 w=EAST d=NONE h=24 pen=0,0,0,0 pts=96,-32,-32,-32 tot=12,36,-330,278
+  r13 w=NONE d=NONE h=0 pen=16,-50,16,16 pts=16,-50,16,16 tot=28,-14,-314,294
+  r14 w=WEST d=NONE h=17 pen=0,0,0,0 pts=-25,-25,75,-25 tot=3,-39,-239,269
+  r15 w=SOUTH d=NORTH h=63 pen=3,-10,3,3 pts=-5,77,-5,-68 tot=-2,38,-244,201
+  r16 w=SOUTH d=NORTH h=13 pen=0,0,0,0 pts=-8,37,-8,-21 tot=-10,75,-252,180
+  ranking=David:4:180, Bruno:2:75, Ana:1:-10, Carla:0:-252
+  best=NORTH:65
+game 10313 ended=false players=Ana|Bruno|Carla|David
+  r1 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=0,0,0,0
+  ranking=Ana:1.75:0, Bruno:1.75:0, Carla:1.75:0, David:1.75:0
+  best=NONE:0
+game 10314 ended=false players=Ana|Bruno|Carla|David
+  r1 w=WEST d=NONE h=65 pen=0,0,0,0 pts=-73,-73,219,-73 tot=-73,-73,219,-73
+  r2 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-73,-73,219,-73
+  ranking=Carla:4:219, Ana:1:-73, Bruno:1:-73, David:1:-73
+  best=WEST:65
+game 10315 ended=false players=Ana|Bruno|Carla|David
+  r1 w=WEST d=EAST h=41 pen=0,0,0,0 pts=-49,-8,65,-8 tot=-49,-8,65,-8
+  r2 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-49,-8,65,-8
+  r3 w=- d=- h=0 pen=-60,20,20,20 pts=-60,20,20,20 tot=-109,12,85,12
+  ranking=Carla:4:85, Bruno:1.5:12, David:1.5:12, Ana:0:-109
+  best=WEST:41
+game 10316 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=NONE h=22 pen=-40,13,13,13 pts=-70,-17,-17,103 tot=-70,-17,-17,103
+  r2 w=SOUTH d=NORTH h=25 pen=0,0,0,0 pts=-8,49,-8,-33 tot=-78,32,-25,70
+  r3 w=WEST d=EAST h=67 pen=0,0,0,0 pts=-75,-8,91,-8 tot=-153,24,66,62
+  r4 w=- d=- h=0 pen=0,0,-60,0 pts=0,0,-60,0 tot=-153,24,6,62
+  ranking=David:4:62, Bruno:2:24, Carla:1:6, Ana:0:-153
+  best=WEST:67
+game 10317 ended=false players=Ana|Bruno|Carla|David
+  r1 w=WEST d=EAST h=62 pen=0,0,0,0 pts=-70,-8,86,-8 tot=-70,-8,86,-8
+  r2 w=NORTH d=WEST h=60 pen=0,0,0,0 pts=-8,-8,-68,84 tot=-78,-16,18,76
+  r3 w=SOUTH d=NONE h=55 pen=0,0,0,0 pts=-63,189,-63,-63 tot=-141,173,-45,13
+  r4 w=WEST d=NORTH h=10 pen=0,0,0,0 pts=-8,-8,34,-18 tot=-149,165,-11,-5
+  r5 w=- d=- h=0 pen=20,20,20,-60 pts=20,20,20,-60 tot=-129,185,9,-65
+  ranking=Bruno:4:185, Carla:2:9, David:1:-65, Ana:0:-129
+  best=WEST:62
+game 10318 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=SOUTH h=13 pen=0,0,0,0 pts=37,-21,-8,-8 tot=37,-21,-8,-8
+  r2 w=NORTH d=NONE h=46 pen=0,0,0,0 pts=-54,-54,-54,162 tot=-17,-75,-62,154
+  r3 w=NORTH d=SOUTH h=35 pen=0,0,0,0 pts=-8,-43,-8,59 tot=-25,-118,-70,213
+  r4 w=SOUTH d=NONE h=42 pen=0,0,0,0 pts=-50,150,-50,-50 tot=-75,32,-120,163
+  r5 w=WEST d=EAST h=49 pen=0,0,0,0 pts=-57,-8,73,-8 tot=-132,24,-47,155
+  r6 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-132,24,-47,155
+  ranking=David:4:155, Bruno:2:24, Carla:1:-47, Ana:0:-132
+  best=WEST:49
+game 10319 ended=true players=Ana|Bruno|Carla|David
+  r1 w=EAST d=NORTH h=49 pen=0,0,0,0 pts=73,-8,-8,-57 tot=73,-8,-8,-57
+  r2 w=NORTH d=NONE h=28 pen=0,0,0,0 pts=-36,-36,-36,108 tot=37,-44,-44,51
+  r3 w=EAST d=SOUTH h=15 pen=0,0,0,0 pts=39,-23,-8,-8 tot=76,-67,-52,43
+  r4 w=WEST d=EAST h=13 pen=0,0,0,0 pts=-21,-8,37,-8 tot=55,-75,-15,35
+  r5 w=EAST d=NONE h=21 pen=0,0,0,0 pts=87,-29,-29,-29 tot=142,-104,-44,6
+  r6 w=WEST d=NORTH h=34 pen=20,20,-60,20 pts=12,12,-2,-22 tot=154,-92,-46,-16
+  r7 w=WEST d=SOUTH h=51 pen=0,0,0,0 pts=-8,-59,75,-8 tot=146,-151,29,-24
+  ranking=Ana:4:146, Carla:2:29, David:1:-24, Bruno:0:-151
+  best=WEST:51
+game 10320 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=NONE h=52 pen=0,0,0,0 pts=180,-60,-60,-60 tot=180,-60,-60,-60
+  r2 w=EAST d=WEST h=43 pen=0,0,0,0 pts=67,-8,-51,-8 tot=247,-68,-111,-68
+  r3 w=NORTH d=EAST h=57 pen=0,0,0,0 pts=-65,-8,-8,81 tot=182,-76,-119,13
+  r4 w=NORTH d=EAST h=64 pen=0,0,0,0 pts=-72,-8,-8,88 tot=110,-84,-127,101
+  r5 w=EAST d=NONE h=23 pen=0,0,0,0 pts=93,-31,-31,-31 tot=203,-115,-158,70
+  r6 w=EAST d=NONE h=47 pen=0,0,0,0 pts=165,-55,-55,-55 tot=368,-170,-213,15
+  r7 w=WEST d=NONE h=67 pen=0,0,0,0 pts=-75,-75,225,-75 tot=293,-245,12,-60
+  r8 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=293,-245,12,-60
+  ranking=Ana:4:293, Carla:2:12, David:1:-60, Bruno:0:-245
+  best=WEST:67
+game 10321 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=NONE h=35 pen=0,0,0,0 pts=129,-43,-43,-43 tot=129,-43,-43,-43
+  r2 w=NORTH d=EAST h=52 pen=0,0,0,0 pts=-60,-8,-8,76 tot=69,-51,-51,33
+  r3 w=WEST d=NONE h=58 pen=10,-30,10,10 pts=-56,-96,208,-56 tot=13,-147,157,-23
+  r4 w=SOUTH d=EAST h=26 pen=10,-30,10,10 pts=-24,20,2,2 tot=-11,-127,159,-21
+  r5 w=EAST d=NONE h=9 pen=0,0,0,0 pts=51,-17,-17,-17 tot=40,-144,142,-38
+  r6 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=40,-144,142,-38
+  r7 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=40,-144,142,-38
+  r8 w=EAST d=NONE h=27 pen=0,0,0,0 pts=105,-35,-35,-35 tot=145,-179,107,-73
+  r9 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=145,-179,107,-73
+  ranking=Ana:4:145, Carla:2:107, David:1:-73, Bruno:0:-179
+  best=WEST:58
+game 10322 ended=true players=Ana|Bruno|Carla|David
+  r1 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=0,0,0,0
+  r2 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=0,0,0,0
+  r3 w=EAST d=NONE h=52 pen=0,0,0,0 pts=180,-60,-60,-60 tot=180,-60,-60,-60
+  r4 w=NORTH d=NONE h=39 pen=0,0,0,0 pts=-47,-47,-47,141 tot=133,-107,-107,81
+  r5 w=SOUTH d=WEST h=10 pen=0,0,0,0 pts=-8,34,-18,-8 tot=125,-73,-125,73
+  r6 w=EAST d=NONE h=34 pen=0,0,0,0 pts=126,-42,-42,-42 tot=251,-115,-167,31
+  r7 w=NORTH d=NONE h=43 pen=0,0,0,0 pts=-51,-51,-51,153 tot=200,-166,-218,184
+  r8 w=WEST d=NONE h=42 pen=0,0,0,0 pts=-50,-50,150,-50 tot=150,-216,-68,134
+  r9 w=NONE d=NONE h=0 pen=10,10,10,-30 pts=10,10,10,-30 tot=160,-206,-58,104
+  r10 w=EAST d=SOUTH h=40 pen=0,0,0,0 pts=64,-48,-8,-8 tot=224,-254,-66,96
+  ranking=Ana:4:224, David:2:96, Carla:1:-66, Bruno:0:-254
+  best=EAST:52
+game 10323 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=EAST h=58 pen=-60,20,20,20 pts=-126,102,12,12 tot=-126,102,12,12
+  r2 w=WEST d=SOUTH h=33 pen=0,0,0,0 pts=-8,-41,57,-8 tot=-134,61,69,4
+  r3 w=WEST d=NONE h=47 pen=0,0,0,0 pts=-55,-55,165,-55 tot=-189,6,234,-51
+  r4 w=NORTH d=SOUTH h=13 pen=0,0,0,0 pts=-8,-21,-8,37 tot=-197,-15,226,-14
+  r5 w=WEST d=NONE h=43 pen=0,0,0,0 pts=-51,-51,153,-51 tot=-248,-66,379,-65
+  r6 w=NORTH d=EAST h=56 pen=0,0,0,0 pts=-64,-8,-8,80 tot=-312,-74,371,15
+  r7 w=NORTH d=WEST h=10 pen=0,0,0,0 pts=-8,-8,-18,34 tot=-320,-82,353,49
+  r8 w=NORTH d=WEST h=26 pen=0,0,0,0 pts=-8,-8,-34,50 tot=-328,-90,319,99
+  r9 w=NORTH d=SOUTH h=10 pen=0,0,0,0 pts=-8,-18,-8,34 tot=-336,-108,311,133
+  r10 w=SOUTH d=NONE h=64 pen=10,-30,10,10 pts=-62,186,-62,-62 tot=-398,78,249,71
+  r11 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-398,78,249,71
+  ranking=Carla:4:249, Bruno:2:78, David:1:71, Ana:0:-398
+  best=SOUTH:64
+game 10324 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=NORTH h=8 pen=0,0,0,0 pts=32,-8,-8,-16 tot=32,-8,-8,-16
+  r2 w=WEST d=NORTH h=59 pen=0,0,0,0 pts=-8,-8,83,-67 tot=24,-16,75,-83
+  r3 w=SOUTH d=NONE h=64 pen=0,0,0,0 pts=-72,216,-72,-72 tot=-48,200,3,-155
+  r4 w=SOUTH d=NONE h=60 pen=0,0,0,0 pts=-68,204,-68,-68 tot=-116,404,-65,-223
+  r5 w=WEST d=NORTH h=58 pen=0,0,0,0 pts=-8,-8,82,-66 tot=-124,396,17,-289
+  r6 w=SOUTH d=EAST h=50 pen=0,0,0,0 pts=-58,74,-8,-8 tot=-182,470,9,-297
+  r7 w=EAST d=NORTH h=47 pen=0,0,0,0 pts=71,-8,-8,-55 tot=-111,462,1,-352
+  r8 w=WEST d=NONE h=61 pen=-20,0,0,0 pts=-89,-69,207,-69 tot=-200,393,208,-421
+  r9 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-200,393,208,-421
+  r10 w=WEST d=NONE h=65 pen=0,0,0,0 pts=-73,-73,219,-73 tot=-273,320,427,-494
+  r11 w=NORTH d=SOUTH h=33 pen=0,0,0,-60 pts=-8,-41,-8,-3 tot=-281,279,419,-497
+  r12 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-281,279,419,-497
+  ranking=Carla:4:419, Bruno:2:279, Ana:1:-281, David:0:-497
+  best=WEST:65
+game 10325 ended=false players=Ana|Bruno|Carla|David
+  r1 w=WEST d=SOUTH h=18 pen=0,0,0,0 pts=-8,-26,42,-8 tot=-8,-26,42,-8
+  r2 w=WEST d=SOUTH h=52 pen=0,0,0,0 pts=-8,-60,76,-8 tot=-16,-86,118,-16
+  r3 w=WEST d=NONE h=48 pen=0,0,0,0 pts=-56,-56,168,-56 tot=-72,-142,286,-72
+  r4 w=NORTH d=SOUTH h=16 pen=-50,16,16,16 pts=-58,-8,8,56 tot=-130,-150,294,-16
+  r5 w=NONE d=NONE h=0 pen=0,0,-60,0 pts=0,0,-60,0 tot=-130,-150,234,-16
+  r6 w=WEST d=NONE h=17 pen=0,0,0,0 pts=-25,-25,75,-25 tot=-155,-175,309,-41
+  r7 w=EAST d=WEST h=25 pen=6,6,-20,6 pts=55,-2,-53,-2 tot=-100,-177,256,-43
+  r8 w=SOUTH d=NONE h=19 pen=0,0,0,0 pts=-27,81,-27,-27 tot=-127,-96,229,-70
+  r9 w=NORTH d=NONE h=67 pen=0,0,0,0 pts=-75,-75,-75,225 tot=-202,-171,154,155
+  r10 w=EAST d=WEST h=43 pen=0,0,0,0 pts=67,-8,-51,-8 tot=-135,-179,103,147
+  r11 w=EAST d=SOUTH h=19 pen=0,0,0,0 pts=43,-27,-8,-8 tot=-92,-206,95,139
+  r12 w=NORTH d=NONE h=60 pen=0,0,0,0 pts=-68,-68,-68,204 tot=-160,-274,27,343
+  r13 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-160,-274,27,343
+  ranking=David:4:343, Carla:2:27, Ana:1:-160, Bruno:0:-274
+  best=NORTH:67
+game 10326 ended=true players=Ana|Bruno|Carla|David
+  r1 w=WEST d=NONE h=49 pen=20,-60,20,20 pts=-37,-117,191,-37 tot=-37,-117,191,-37
+  r2 w=EAST d=SOUTH h=54 pen=0,0,0,0 pts=78,-62,-8,-8 tot=41,-179,183,-45
+  r3 w=WEST d=NORTH h=60 pen=0,0,0,0 pts=-8,-8,84,-68 tot=33,-187,267,-113
+  r4 w=NORTH d=NONE h=59 pen=0,0,0,0 pts=-67,-67,-67,201 tot=-34,-254,200,88
+  r5 w=EAST d=NONE h=38 pen=0,0,-10,0 pts=138,-46,-56,-46 tot=104,-300,144,42
+  r6 w=NORTH d=SOUTH h=40 pen=0,0,0,0 pts=-8,-48,-8,64 tot=96,-348,136,106
+  r7 w=EAST d=SOUTH h=47 pen=0,0,0,0 pts=71,-55,-8,-8 tot=167,-403,128,98
+  r8 w=EAST d=NONE h=27 pen=0,0,0,0 pts=105,-35,-35,-35 tot=272,-438,93,63
+  r9 w=EAST d=NONE h=48 pen=0,0,0,0 pts=168,-56,-56,-56 tot=440,-494,37,7
+  r10 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=440,-494,37,7
+  r11 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=440,-494,37,7
+  r12 w=NORTH d=SOUTH h=31 pen=0,0,0,0 pts=-8,-39,-8,55 tot=432,-533,29,62
+  r13 w=NONE d=NONE h=0 pen=0,0,-40,0 pts=0,0,-40,0 tot=432,-533,-11,62
+  r14 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=432,-533,-11,62
+  ranking=Ana:4:432, David:2:62, Carla:1:-11, Bruno:0:-533
+  best=WEST:60
+game 10327 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NONE d=NONE h=0 pen=20,20,20,-60 pts=20,20,20,-60 tot=20,20,20,-60
+  r2 w=WEST d=NONE h=10 pen=0,0,0,0 pts=-18,-18,54,-18 tot=2,2,74,-78
+  r3 w=WEST d=SOUTH h=28 pen=0,0,0,0 pts=-8,-36,52,-8 tot=-6,-34,126,-86
+  r4 w=EAST d=NORTH h=41 pen=0,0,0,-40 pts=65,-8,-8,-89 tot=59,-42,118,-175
+  r5 w=WEST d=SOUTH h=12 pen=0,0,0,0 pts=-8,-20,36,-8 tot=51,-62,154,-183
+  r6 w=EAST d=NONE h=52 pen=0,0,0,0 pts=180,-60,-60,-60 tot=231,-122,94,-243
+  r7 w=SOUTH d=WEST h=65 pen=0,0,0,0 pts=-8,89,-73,-8 tot=223,-33,21,-251
+  r8 w=NORTH d=NONE h=64 pen=0,0,0,0 pts=-72,-72,-72,216 tot=151,-105,-51,-35
+  r9 w=EAST d=SOUTH h=29 pen=0,0,0,0 pts=53,-37,-8,-8 tot=204,-142,-59,-43
+  r10 w=WEST d=NORTH h=46 pen=0,0,0,0 pts=-8,-8,70,-54 tot=196,-150,11,-97
+  r11 w=NORTH d=NONE h=63 pen=0,0,0,0 pts=-71,-71,-71,213 tot=125,-221,-60,116
+  r12 w=EAST d=NORTH h=41 pen=0,0,0,0 pts=65,-8,-8,-49 tot=190,-229,-68,67
+  r13 w=EAST d=SOUTH h=43 pen=0,0,0,0 pts=67,-51,-8,-8 tot=257,-280,-76,59
+  r14 w=WEST d=EAST h=50 pen=0,0,-60,0 pts=-58,-8,14,-8 tot=199,-288,-62,51
+  r15 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=199,-288,-62,51
+  ranking=Ana:4:199, David:2:51, Carla:1:-62, Bruno:0:-288
+  best=SOUTH:65
+game 10328 ended=true players=Ana|Bruno|Carla|David
+  r1 w=WEST d=EAST h=40 pen=16,16,-50,16 pts=-32,8,14,8 tot=-32,8,14,8
+  r2 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-32,8,14,8
+  r3 w=EAST d=NONE h=21 pen=0,0,0,0 pts=87,-29,-29,-29 tot=55,-21,-15,-21
+  r4 w=SOUTH d=NORTH h=47 pen=0,0,0,0 pts=-8,71,-8,-55 tot=47,50,-23,-76
+  r5 w=SOUTH d=NONE h=51 pen=-20,6,6,6 pts=-79,183,-53,-53 tot=-32,233,-76,-129
+  r6 w=WEST d=SOUTH h=45 pen=0,0,0,-40 pts=-8,-53,69,-48 tot=-40,180,-7,-177
+  r7 w=WEST d=NORTH h=55 pen=0,0,0,0 pts=-8,-8,79,-63 tot=-48,172,72,-240
+  r8 w=EAST d=SOUTH h=32 pen=0,0,0,0 pts=56,-40,-8,-8 tot=8,132,64,-248
+  r9 w=EAST d=NORTH h=62 pen=0,0,0,0 pts=86,-8,-8,-70 tot=94,124,56,-318
+  r10 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=94,124,56,-318
+  r11 w=WEST d=NORTH h=64 pen=0,0,0,0 pts=-8,-8,88,-72 tot=86,116,144,-390
+  r12 w=SOUTH d=NONE h=56 pen=0,0,0,0 pts=-64,192,-64,-64 tot=22,308,80,-454
+  r13 w=NORTH d=SOUTH h=63 pen=0,0,0,0 pts=-8,-71,-8,87 tot=14,237,72,-367
+  r14 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=14,237,72,-367
+  r15 w=WEST d=SOUTH h=38 pen=0,0,0,0 pts=-8,-46,62,-8 tot=6,191,134,-375
+  r16 w=WEST d=SOUTH h=19 pen=0,0,0,0 pts=-8,-27,43,-8 tot=-2,164,177,-383
+  ranking=Carla:4:177, Bruno:2:164, Ana:1:-2, David:0:-383
+  best=WEST:64
+game 10329 ended=false players=Ana|Bruno|Carla|David
+  r1 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=0,0,0,0
+  ranking=Ana:1.75:0, Bruno:1.75:0, Carla:1.75:0, David:1.75:0
+  best=NONE:0
+game 10330 ended=true players=Ana|Bruno|Carla|David
+  r1 w=WEST d=SOUTH h=41 pen=20,20,20,-60 pts=12,-29,85,-68 tot=12,-29,85,-68
+  r2 w=EAST d=SOUTH h=22 pen=0,0,0,0 pts=46,-30,-8,-8 tot=58,-59,77,-76
+  ranking=Carla:4:77, Ana:2:58, Bruno:1:-59, David:0:-76
+  best=WEST:41
+game 10331 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=EAST h=9 pen=0,0,0,0 pts=-17,33,-8,-8 tot=-17,33,-8,-8
+  r2 w=WEST d=NONE h=30 pen=0,0,0,0 pts=-38,-38,114,-38 tot=-55,-5,106,-46
+  r3 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-55,-5,106,-46
+  ranking=Carla:4:106, Bruno:2:-5, David:1:-46, Ana:0:-55
+  best=WEST:30
+game 10332 ended=false players=Ana|Bruno|Carla|David
+  r1 w=WEST d=NONE h=42 pen=0,0,0,0 pts=-50,-50,150,-50 tot=-50,-50,150,-50
+  r2 w=NORTH d=EAST h=24 pen=0,0,-10,0 pts=-32,-8,-18,48 tot=-82,-58,132,-2
+  r3 w=WEST d=EAST h=57 pen=0,0,0,0 pts=-65,-8,81,-8 tot=-147,-66,213,-10
+  r4 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-147,-66,213,-10
+  ranking=Carla:4:213, David:2:-10, Bruno:1:-66, Ana:0:-147
+  best=WEST:57
+game 10333 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=EAST h=39 pen=0,0,0,0 pts=-47,-8,-8,63 tot=-47,-8,-8,63
+  r2 w=SOUTH d=NORTH h=37 pen=0,0,0,0 pts=-8,61,-8,-45 tot=-55,53,-16,18
+  r3 w=WEST d=EAST h=24 pen=0,0,0,0 pts=-32,-8,48,-8 tot=-87,45,32,10
+  r4 w=SOUTH d=NONE h=24 pen=0,0,0,0 pts=-32,96,-32,-32 tot=-119,141,0,-22
+  r5 w=- d=- h=0 pen=13,-40,13,13 pts=13,-40,13,13 tot=-106,101,13,-9
+  ranking=Bruno:4:101, Carla:2:13, David:1:-9, Ana:0:-106
+  best=NORTH:39
+game 10334 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=NONE h=11 pen=0,0,0,0 pts=57,-19,-19,-19 tot=57,-19,-19,-19
+  r2 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=57,-19,-19,-19
+  r3 w=SOUTH d=EAST h=42 pen=0,0,0,-60 pts=-50,66,-8,-68 tot=7,47,-27,-87
+  r4 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=7,47,-27,-87
+  r5 w=NORTH d=EAST h=62 pen=16,16,-50,16 pts=-54,8,-58,102 tot=-47,55,-85,15
+  r6 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-47,55,-85,15
+  ranking=Bruno:4:55, David:2:15, Ana:1:-47, Carla:0:-85
+  best=NORTH:62
+game 10335 ended=true players=Ana|Bruno|Carla|David
+  r1 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=0,0,0,0
+  r2 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=0,0,0,0
+  r3 w=SOUTH d=EAST h=10 pen=0,0,0,0 pts=-18,34,-8,-8 tot=-18,34,-8,-8
+  r4 w=EAST d=SOUTH h=21 pen=0,0,0,0 pts=45,-29,-8,-8 tot=27,5,-16,-16
+  r5 w=WEST d=EAST h=38 pen=0,0,0,0 pts=-46,-8,62,-8 tot=-19,-3,46,-24
+  r6 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-19,-3,46,-24
+  r7 w=NONE d=NONE h=0 pen=0,0,-60,0 pts=0,0,-60,0 tot=-19,-3,-14,-24
+  ranking=Bruno:4:-3, Carla:2:-14, Ana:1:-19, David:0:-24
+  best=WEST:38
+game 10336 ended=true players=Ana|Bruno|Carla|David
+  r1 w=WEST d=NORTH h=65 pen=0,0,0,0 pts=-8,-8,89,-73 tot=-8,-8,89,-73
+  r2 w=EAST d=NORTH h=52 pen=0,0,0,-60 pts=76,-8,-8,-120 tot=68,-16,81,-193
+  r3 w=WEST d=SOUTH h=23 pen=0,0,0,0 pts=-8,-31,47,-8 tot=60,-47,128,-201
+  r4 w=SOUTH d=WEST h=13 pen=0,0,0,0 pts=-8,37,-21,-8 tot=52,-10,107,-209
+  r5 w=EAST d=NORTH h=28 pen=13,-40,13,13 pts=65,-48,5,-23 tot=117,-58,112,-232
+  r6 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=117,-58,112,-232
+  r7 w=EAST d=WEST h=33 pen=0,0,0,0 pts=57,-8,-41,-8 tot=174,-66,71,-240
+  r8 w=NONE d=NONE h=0 pen=0,0,-20,0 pts=0,0,-20,0 tot=174,-66,51,-240
+  ranking=Ana:4:174, Carla:2:51, Bruno:1:-66, David:0:-240
+  best=WEST:65
+game 10337 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=NONE h=57 pen=0,0,0,0 pts=-65,-65,-65,195 tot=-65,-65,-65,195
+  r2 w=NORTH d=SOUTH h=55 pen=0,0,0,0 pts=-8,-63,-8,79 tot=-73,-128,-73,274
+  r3 w=WEST d=NONE h=45 pen=0,0,0,0 pts=-53,-53,159,-53 tot=-126,-181,86,221
+  r4 w=SOUTH d=NORTH h=49 pen=0,0,0,0 pts=-8,73,-8,-57 tot=-134,-108,78,164
+  r5 w=WEST d=EAST h=59 pen=16,16,-50,16 pts=-51,8,33,8 tot=-185,-100,111,172
+  r6 w=EAST d=NORTH h=54 pen=13,13,-40,13 pts=91,5,-48,-49 tot=-94,-95,63,123
+  r7 w=NORTH d=NONE h=8 pen=0,0,0,0 pts=-16,-16,-16,48 tot=-110,-111,47,171
+  r8 w=EAST d=SOUTH h=33 pen=0,0,0,0 pts=57,-41,-8,-8 tot=-53,-152,39,163
+  r9 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-53,-152,39,163
+  ranking=David:4:163, Carla:2:39, Ana:1:-53, Bruno:0:-152
+  best=WEST:59
+game 10338 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=SOUTH h=21 pen=0,0,0,0 pts=45,-29,-8,-8 tot=45,-29,-8,-8
+  r2 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=45,-29,-8,-8
+  r3 w=SOUTH d=WEST h=54 pen=0,0,0,0 pts=-8,78,-62,-8 tot=37,49,-70,-16
+  r4 w=SOUTH d=NONE h=56 pen=13,-40,13,13 pts=-51,152,-51,-51 tot=-14,201,-121,-67
+  r5 w=WEST d=NONE h=29 pen=0,0,0,0 pts=-37,-37,111,-37 tot=-51,164,-10,-104
+  r6 w=NORTH d=SOUTH h=50 pen=0,0,-40,0 pts=-8,-58,-48,74 tot=-59,106,-58,-30
+  r7 w=EAST d=WEST h=46 pen=0,0,0,0 pts=70,-8,-54,-8 tot=11,98,-112,-38
+  r8 w=NORTH d=NONE h=33 pen=0,0,0,0 pts=-41,-41,-41,123 tot=-30,57,-153,85
+  r9 w=EAST d=NORTH h=18 pen=0,0,0,0 pts=42,-8,-8,-26 tot=12,49,-161,59
+  r10 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=12,49,-161,59
+  ranking=David:4:59, Bruno:2:49, Ana:1:12, Carla:0:-161
+  best=SOUTH:56
+game 10339 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=NONE h=35 pen=0,0,0,0 pts=-43,-43,-43,129 tot=-43,-43,-43,129
+  r2 w=NORTH d=SOUTH h=10 pen=0,0,0,0 pts=-8,-18,-8,34 tot=-51,-61,-51,163
+  r3 w=WEST d=EAST h=66 pen=0,0,0,0 pts=-74,-8,90,-8 tot=-125,-69,39,155
+  r4 w=NORTH d=NONE h=9 pen=0,0,0,0 pts=-17,-17,-17,51 tot=-142,-86,22,206
+  r5 w=SOUTH d=NORTH h=42 pen=0,0,-60,0 pts=-8,66,-68,-50 tot=-150,-20,-46,156
+  r6 w=SOUTH d=NONE h=36 pen=0,0,0,0 pts=-44,132,-44,-44 tot=-194,112,-90,112
+  r7 w=NORTH d=NONE h=56 pen=0,0,0,0 pts=-64,-64,-64,192 tot=-258,48,-154,304
+  r8 w=WEST d=SOUTH h=20 pen=0,0,0,0 pts=-8,-28,44,-8 tot=-266,20,-110,296
+  r9 w=NORTH d=SOUTH h=67 pen=0,0,0,0 pts=-8,-75,-8,91 tot=-274,-55,-118,387
+  r10 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-274,-55,-118,387
+  r11 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-274,-55,-118,387
+  ranking=David:4:387, Bruno:2:-55, Carla:1:-118, Ana:0:-274
+  best=NORTH:67
+game 10340 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=NORTH h=60 pen=0,0,0,0 pts=84,-8,-8,-68 tot=84,-8,-8,-68
+  r2 w=NORTH d=NONE h=59 pen=20,20,20,-60 pts=-47,-47,-47,141 tot=37,-55,-55,73
+  r3 w=NORTH d=NONE h=24 pen=0,0,0,0 pts=-32,-32,-32,96 tot=5,-87,-87,169
+  r4 w=NORTH d=NONE h=32 pen=6,6,6,-20 pts=-34,-34,-34,100 tot=-29,-121,-121,269
+  r5 w=WEST d=NONE h=46 pen=0,0,0,0 pts=-54,-54,162,-54 tot=-83,-175,41,215
+  r6 w=WEST d=EAST h=55 pen=-40,0,0,0 pts=-103,-8,79,-8 tot=-186,-183,120,207
+  r7 w=SOUTH d=NORTH h=13 pen=0,0,0,0 pts=-8,37,-8,-21 tot=-194,-146,112,186
+  r8 w=SOUTH d=NORTH h=14 pen=0,0,0,0 pts=-8,38,-8,-22 tot=-202,-108,104,164
+  r9 w=EAST d=NONE h=29 pen=0,0,0,0 pts=111,-37,-37,-37 tot=-91,-145,67,127
+  r10 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-91,-145,67,127
+  r11 w=NORTH d=NONE h=18 pen=0,0,0,0 pts=-26,-26,-26,78 tot=-117,-171,41,205
+  r12 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-117,-171,41,205
+  ranking=David:4:205, Carla:2:41, Ana:1:-117, Bruno:0:-171
+  best=EAST:60
+game 10341 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NONE d=NONE h=0 pen=13,13,-40,13 pts=13,13,-40,13 tot=13,13,-40,13
+  r2 w=EAST d=NORTH h=26 pen=0,0,0,0 pts=50,-8,-8,-34 tot=63,5,-48,-21
+  r3 w=WEST d=NORTH h=49 pen=13,13,13,-40 pts=5,5,86,-97 tot=68,10,38,-118
+  r4 w=NORTH d=SOUTH h=18 pen=0,0,0,0 pts=-8,-26,-8,42 tot=60,-16,30,-76
+  r5 w=EAST d=WEST h=32 pen=0,0,0,0 pts=56,-8,-40,-8 tot=116,-24,-10,-84
+  r6 w=NORTH d=SOUTH h=57 pen=0,0,0,0 pts=-8,-65,-8,81 tot=108,-89,-18,-3
+  r7 w=EAST d=NORTH h=38 pen=3,3,-10,3 pts=65,-5,-18,-43 tot=173,-94,-36,-46
+  r8 w=SOUTH d=NORTH h=18 pen=0,0,0,0 pts=-8,42,-8,-26 tot=165,-52,-44,-72
+  r9 w=NONE d=NONE h=0 pen=0,0,-40,0 pts=0,0,-40,0 tot=165,-52,-84,-72
+  r10 w=WEST d=NONE h=33 pen=6,6,-20,6 pts=-35,-35,103,-35 tot=130,-87,19,-107
+  r11 w=WEST d=NONE h=42 pen=0,0,0,0 pts=-50,-50,150,-50 tot=80,-137,169,-157
+  r12 w=SOUTH d=NONE h=21 pen=0,0,0,0 pts=-29,87,-29,-29 tot=51,-50,140,-186
+  r13 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=51,-50,140,-186
+  ranking=Carla:4:140, Ana:2:51, Bruno:1:-50, David:0:-186
+  best=NORTH:57
+game 10342 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=NORTH h=37 pen=0,0,0,0 pts=-8,61,-8,-45 tot=-8,61,-8,-45
+  r2 w=WEST d=NONE h=54 pen=0,0,0,0 pts=-62,-62,186,-62 tot=-70,-1,178,-107
+  r3 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-70,-1,178,-107
+  r4 w=NORTH d=WEST h=66 pen=0,0,0,0 pts=-8,-8,-74,90 tot=-78,-9,104,-17
+  r5 w=NORTH d=EAST h=35 pen=0,0,0,0 pts=-43,-8,-8,59 tot=-121,-17,96,42
+  r6 w=SOUTH d=NONE h=21 pen=0,0,0,0 pts=-29,87,-29,-29 tot=-150,70,67,13
+  r7 w=WEST d=SOUTH h=28 pen=0,0,0,0 pts=-8,-36,52,-8 tot=-158,34,119,5
+  r8 w=EAST d=WEST h=34 pen=0,0,0,0 pts=58,-8,-42,-8 tot=-100,26,77,-3
+  r9 w=NONE d=NONE h=0 pen=10,10,10,-30 pts=10,10,10,-30 tot=-90,36,87,-33
+  r10 w=EAST d=SOUTH h=62 pen=0,0,0,0 pts=86,-70,-8,-8 tot=-4,-34,79,-41
+  r11 w=SOUTH d=WEST h=48 pen=0,0,0,0 pts=-8,72,-56,-8 tot=-12,38,23,-49
+  r12 w=WEST d=NONE h=49 pen=0,0,0,0 pts=-57,-57,171,-57 tot=-69,-19,194,-106
+  r13 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-69,-19,194,-106
+  r14 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-69,-19,194,-106
+  ranking=Carla:4:194, Bruno:2:-19, Ana:1:-69, David:0:-106
+  best=NORTH:66
+game 10343 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=NORTH h=53 pen=0,0,0,0 pts=77,-8,-8,-61 tot=77,-8,-8,-61
+  r2 w=NONE d=NONE h=0 pen=16,16,-50,16 pts=16,16,-50,16 tot=93,8,-58,-45
+  r3 w=EAST d=NONE h=65 pen=0,0,0,0 pts=219,-73,-73,-73 tot=312,-65,-131,-118
+  r4 w=SOUTH d=WEST h=66 pen=0,0,0,0 pts=-8,90,-74,-8 tot=304,25,-205,-126
+  r5 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=304,25,-205,-126
+  r6 w=EAST d=NONE h=9 pen=0,0,0,0 pts=51,-17,-17,-17 tot=355,8,-222,-143
+  r7 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=355,8,-222,-143
+  r8 w=WEST d=NONE h=53 pen=13,13,-40,13 pts=-48,-48,143,-48 tot=307,-40,-79,-191
+  r9 w=NORTH d=EAST h=53 pen=0,0,0,0 pts=-61,-8,-8,77 tot=246,-48,-87,-114
+  r10 w=WEST d=NONE h=24 pen=0,0,0,0 pts=-32,-32,96,-32 tot=214,-80,9,-146
+  r11 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=214,-80,9,-146
+  r12 w=WEST d=NORTH h=55 pen=-20,0,0,0 pts=-28,-8,79,-63 tot=186,-88,88,-209
+  r13 w=NORTH d=WEST h=41 pen=0,0,0,0 pts=-8,-8,-49,65 tot=178,-96,39,-144
+  r14 w=NORTH d=EAST h=59 pen=0,0,0,0 pts=-67,-8,-8,83 tot=111,-104,31,-61
+  r15 w=- d=- h=0 pen=-30,0,0,0 pts=-30,0,0,0 tot=81,-104,31,-61
+  ranking=Ana:4:81, Carla:2:31, David:1:-61, Bruno:0:-104
+  best=SOUTH:66
+game 10344 ended=true players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=NORTH h=50 pen=0,0,0,0 pts=-8,74,-8,-58 tot=-8,74,-8,-58
+  r2 w=EAST d=NORTH h=62 pen=0,0,0,0 pts=86,-8,-8,-70 tot=78,66,-16,-128
+  r3 w=WEST d=NONE h=9 pen=0,0,0,0 pts=-17,-17,51,-17 tot=61,49,35,-145
+  r4 w=SOUTH d=NONE h=21 pen=0,0,0,0 pts=-29,87,-29,-29 tot=32,136,6,-174
+  r5 w=NORTH d=NONE h=43 pen=3,3,3,-10 pts=-48,-48,-48,143 tot=-16,88,-42,-31
+  r6 w=NORTH d=NONE h=46 pen=0,0,0,0 pts=-54,-54,-54,162 tot=-70,34,-96,131
+  r7 w=EAST d=NONE h=11 pen=0,0,0,0 pts=57,-19,-19,-19 tot=-13,15,-115,112
+  r8 w=EAST d=WEST h=60 pen=0,0,0,0 pts=84,-8,-68,-8 tot=71,7,-183,104
+  r9 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=71,7,-183,104
+  r10 w=WEST d=NONE h=17 pen=0,0,0,0 pts=-25,-25,75,-25 tot=46,-18,-108,79
+  r11 w=WEST d=SOUTH h=49 pen=0,0,0,0 pts=-8,-57,73,-8 tot=38,-75,-35,71
+  r12 w=EAST d=WEST h=27 pen=0,0,0,0 pts=51,-8,-35,-8 tot=89,-83,-70,63
+  r13 w=SOUTH d=EAST h=33 pen=-20,6,6,6 pts=-61,63,-2,-2 tot=28,-20,-72,61
+  r14 w=NORTH d=EAST h=27 pen=0,0,0,-40 pts=-35,-8,-8,11 tot=-7,-28,-80,72
+  r15 w=NORTH d=NONE h=61 pen=0,0,0,0 pts=-69,-69,-69,207 tot=-76,-97,-149,279
+  r16 w=SOUTH d=NONE h=58 pen=0,0,0,0 pts=-66,198,-66,-66 tot=-142,101,-215,213
+  ranking=David:4:213, Bruno:2:101, Ana:1:-142, Carla:0:-215
+  best=EAST:62
+game 10345 ended=true players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=WEST h=31 pen=0,0,0,0 pts=-8,-8,-39,55 tot=-8,-8,-39,55
+  ranking=David:4:55, Ana:1.5:-8, Bruno:1.5:-8, Carla:0:-39
+  best=NORTH:31
+game 10346 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=SOUTH h=33 pen=0,0,0,0 pts=-8,-41,-8,57 tot=-8,-41,-8,57
+  r2 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-8,-41,-8,57
+  ranking=David:4:57, Ana:1.5:-8, Carla:1.5:-8, Bruno:0:-41
+  best=NORTH:33
+game 10347 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=SOUTH h=9 pen=0,0,0,0 pts=-8,-17,-8,33 tot=-8,-17,-8,33
+  r2 w=NORTH d=EAST h=54 pen=0,0,0,0 pts=-62,-8,-8,78 tot=-70,-25,-16,111
+  r3 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-70,-25,-16,111
+  ranking=David:4:111, Carla:2:-16, Bruno:1:-25, Ana:0:-70
+  best=NORTH:54
+game 10348 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=NONE h=28 pen=0,0,0,0 pts=-36,108,-36,-36 tot=-36,108,-36,-36
+  r2 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-36,108,-36,-36
+  r3 w=SOUTH d=EAST h=15 pen=0,0,0,0 pts=-23,39,-8,-8 tot=-59,147,-44,-44
+  r4 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-59,147,-44,-44
+  ranking=Bruno:4:147, Carla:1.5:-44, David:1.5:-44, Ana:0:-59
+  best=SOUTH:28
+game 10349 ended=true players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=WEST h=47 pen=0,0,0,0 pts=-8,71,-55,-8 tot=-8,71,-55,-8
+  r2 w=NONE d=NONE h=0 pen=0,0,-40,0 pts=0,0,-40,0 tot=-8,71,-95,-8
+  r3 w=SOUTH d=EAST h=40 pen=0,0,0,0 pts=-48,64,-8,-8 tot=-56,135,-103,-16
+  r4 w=WEST d=NONE h=40 pen=0,0,0,0 pts=-48,-48,144,-48 tot=-104,87,41,-64
+  r5 w=WEST d=SOUTH h=62 pen=0,0,0,0 pts=-8,-70,86,-8 tot=-112,17,127,-72
+  ranking=Carla:4:127, Bruno:2:17, David:1:-72, Ana:0:-112
+  best=WEST:62
+game 10350 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=EAST h=41 pen=0,0,0,0 pts=-49,65,-8,-8 tot=-49,65,-8,-8
+  r2 w=NORTH d=EAST h=42 pen=0,0,-10,0 pts=-50,-8,-18,66 tot=-99,57,-26,58
+  r3 w=SOUTH d=WEST h=14 pen=0,0,0,0 pts=-8,38,-22,-8 tot=-107,95,-48,50
+  r4 w=EAST d=NORTH h=45 pen=0,0,0,0 pts=69,-8,-8,-53 tot=-38,87,-56,-3
+  r5 w=NORTH d=WEST h=28 pen=0,0,0,0 pts=-8,-8,-36,52 tot=-46,79,-92,49
+  r6 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-46,79,-92,49
+  ranking=Bruno:4:79, David:2:49, Ana:1:-46, Carla:0:-92
+  best=EAST:45
+game 10351 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=EAST h=39 pen=0,0,0,0 pts=-47,-8,-8,63 tot=-47,-8,-8,63
+  r2 w=SOUTH d=NONE h=10 pen=0,0,0,0 pts=-18,54,-18,-18 tot=-65,46,-26,45
+  r3 w=WEST d=SOUTH h=66 pen=0,0,0,0 pts=-8,-74,90,-8 tot=-73,-28,64,37
+  r4 w=EAST d=NORTH h=35 pen=0,0,0,0 pts=59,-8,-8,-43 tot=-14,-36,56,-6
+  r5 w=WEST d=NONE h=36 pen=0,0,0,0 pts=-44,-44,132,-44 tot=-58,-80,188,-50
+  r6 w=WEST d=EAST h=44 pen=0,0,0,0 pts=-52,-8,68,-8 tot=-110,-88,256,-58
+  r7 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-110,-88,256,-58
+  ranking=Carla:4:256, David:2:-58, Bruno:1:-88, Ana:0:-110
+  best=WEST:66
+game 10352 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=NONE h=41 pen=0,0,0,0 pts=-49,-49,-49,147 tot=-49,-49,-49,147
+  r2 w=WEST d=EAST h=23 pen=0,0,0,0 pts=-31,-8,47,-8 tot=-80,-57,-2,139
+  r3 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-80,-57,-2,139
+  r4 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-80,-57,-2,139
+  r5 w=SOUTH d=WEST h=65 pen=0,0,0,0 pts=-8,89,-73,-8 tot=-88,32,-75,131
+  r6 w=NORTH d=WEST h=46 pen=0,0,0,0 pts=-8,-8,-54,70 tot=-96,24,-129,201
+  r7 w=EAST d=NONE h=53 pen=0,0,0,0 pts=183,-61,-61,-61 tot=87,-37,-190,140
+  r8 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=87,-37,-190,140
+  ranking=David:4:140, Ana:2:87, Bruno:1:-37, Carla:0:-190
+  best=SOUTH:65
+game 10353 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=NONE h=63 pen=0,0,0,0 pts=-71,213,-71,-71 tot=-71,213,-71,-71
+  r2 w=NORTH d=SOUTH h=33 pen=0,0,0,0 pts=-8,-41,-8,57 tot=-79,172,-79,-14
+  r3 w=WEST d=EAST h=17 pen=0,0,0,0 pts=-25,-8,41,-8 tot=-104,164,-38,-22
+  r4 w=NORTH d=NONE h=22 pen=0,0,0,0 pts=-30,-30,-30,90 tot=-134,134,-68,68
+  r5 w=EAST d=NONE h=48 pen=0,0,0,0 pts=168,-56,-56,-56 tot=34,78,-124,12
+  r6 w=SOUTH d=NONE h=21 pen=0,0,0,0 pts=-29,87,-29,-29 tot=5,165,-153,-17
+  r7 w=EAST d=SOUTH h=46 pen=0,0,0,0 pts=70,-54,-8,-8 tot=75,111,-161,-25
+  r8 w=EAST d=NORTH h=40 pen=16,16,16,-50 pts=80,8,8,-98 tot=155,119,-153,-123
+  r9 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=155,119,-153,-123
+  ranking=Ana:4:155, Bruno:2:119, David:1:-123, Carla:0:-153
+  best=SOUTH:63
+game 10354 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=0,0,0,0
+  r2 w=NORTH d=EAST h=56 pen=0,-60,0,0 pts=-64,-68,-8,80 tot=-64,-68,-8,80
+  r3 w=WEST d=NORTH h=60 pen=0,0,0,0 pts=-8,-8,84,-68 tot=-72,-76,76,12
+  r4 w=SOUTH d=NONE h=55 pen=0,0,0,0 pts=-63,189,-63,-63 tot=-135,113,13,-51
+  r5 w=EAST d=NORTH h=53 pen=0,0,0,0 pts=77,-8,-8,-61 tot=-58,105,5,-112
+  r6 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-58,105,5,-112
+  r7 w=NORTH d=WEST h=17 pen=0,0,0,0 pts=-8,-8,-25,41 tot=-66,97,-20,-71
+  r8 w=WEST d=SOUTH h=11 pen=0,0,0,0 pts=-8,-19,35,-8 tot=-74,78,15,-79
+  r9 w=EAST d=NORTH h=22 pen=0,0,0,0 pts=46,-8,-8,-30 tot=-28,70,7,-109
+  r10 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-28,70,7,-109
+  ranking=Bruno:4:70, Carla:2:7, Ana:1:-28, David:0:-109
+  best=WEST:60
+game 10355 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=NONE h=41 pen=0,0,0,0 pts=-49,147,-49,-49 tot=-49,147,-49,-49
+  r2 w=NORTH d=EAST h=48 pen=0,0,0,0 pts=-56,-8,-8,72 tot=-105,139,-57,23
+  r3 w=WEST d=NONE h=39 pen=0,0,0,0 pts=-47,-47,141,-47 tot=-152,92,84,-24
+  r4 w=WEST d=SOUTH h=33 pen=0,0,0,0 pts=-8,-41,57,-8 tot=-160,51,141,-32
+  r5 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-160,51,141,-32
+  r6 w=SOUTH d=NORTH h=41 pen=0,0,0,0 pts=-8,65,-8,-49 tot=-168,116,133,-81
+  r7 w=WEST d=NORTH h=11 pen=0,0,0,0 pts=-8,-8,35,-19 tot=-176,108,168,-100
+  r8 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-176,108,168,-100
+  r9 w=NORTH d=EAST h=46 pen=0,0,0,-30 pts=-54,-8,-8,40 tot=-230,100,160,-60
+  r10 w=EAST d=NONE h=48 pen=0,0,0,0 pts=168,-56,-56,-56 tot=-62,44,104,-116
+  r11 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-62,44,104,-116
+  ranking=Carla:4:104, Bruno:2:44, Ana:1:-62, David:0:-116
+  best=NORTH:48
+game 10356 ended=true players=Ana|Bruno|Carla|David
+  r1 w=EAST d=WEST h=36 pen=-50,16,16,16 pts=10,8,-28,8 tot=10,8,-28,8
+  r2 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=10,8,-28,8
+  r3 w=WEST d=EAST h=24 pen=0,0,0,-40 pts=-32,-8,48,-48 tot=-22,0,20,-40
+  r4 w=WEST d=NONE h=58 pen=0,0,0,0 pts=-66,-66,198,-66 tot=-88,-66,218,-106
+  r5 w=NORTH d=WEST h=45 pen=0,0,0,0 pts=-8,-8,-53,69 tot=-96,-74,165,-37
+  r6 w=WEST d=NONE h=31 pen=20,20,-60,20 pts=-19,-19,57,-19 tot=-115,-93,222,-56
+  r7 w=SOUTH d=NONE h=10 pen=0,0,0,0 pts=-18,54,-18,-18 tot=-133,-39,204,-74
+  r8 w=WEST d=EAST h=10 pen=0,0,0,0 pts=-18,-8,34,-8 tot=-151,-47,238,-82
+  r9 w=EAST d=WEST h=49 pen=0,0,0,0 pts=73,-8,-57,-8 tot=-78,-55,181,-90
+  r10 w=EAST d=NONE h=9 pen=0,0,0,0 pts=51,-17,-17,-17 tot=-27,-72,164,-107
+  r11 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-27,-72,164,-107
+  r12 w=WEST d=SOUTH h=9 pen=0,0,0,0 pts=-8,-17,33,-8 tot=-35,-89,197,-115
+  ranking=Carla:4:197, Ana:2:-35, Bruno:1:-89, David:0:-115
+  best=WEST:58
+game 10357 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=WEST h=54 pen=3,-10,3,3 pts=-5,68,-59,-5 tot=-5,68,-59,-5
+  r2 w=SOUTH d=NORTH h=49 pen=0,0,0,0 pts=-8,73,-8,-57 tot=-13,141,-67,-62
+  r3 w=EAST d=NORTH h=25 pen=0,0,0,0 pts=49,-8,-8,-33 tot=36,133,-75,-95
+  r4 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=36,133,-75,-95
+  r5 w=NORTH d=NONE h=64 pen=0,0,0,0 pts=-72,-72,-72,216 tot=-36,61,-147,121
+  r6 w=NORTH d=NONE h=12 pen=0,0,0,0 pts=-20,-20,-20,60 tot=-56,41,-167,181
+  r7 w=EAST d=WEST h=50 pen=0,0,0,0 pts=74,-8,-58,-8 tot=18,33,-225,173
+  r8 w=SOUTH d=NONE h=38 pen=0,0,0,0 pts=-46,138,-46,-46 tot=-28,171,-271,127
+  r9 w=EAST d=NORTH h=66 pen=0,0,0,0 pts=90,-8,-8,-74 tot=62,163,-279,53
+  r10 w=EAST d=NORTH h=13 pen=0,0,0,0 pts=37,-8,-8,-21 tot=99,155,-287,32
+  r11 w=NORTH d=NONE h=39 pen=0,0,0,0 pts=-47,-47,-47,141 tot=52,108,-334,173
+  r12 w=WEST d=SOUTH h=61 pen=0,0,0,0 pts=-8,-69,85,-8 tot=44,39,-249,165
+  r13 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=44,39,-249,165
+  ranking=David:4:165, Ana:2:44, Bruno:1:39, Carla:0:-249
+  best=EAST:66
+game 10358 ended=true players=Ana|Bruno|Carla|David
+  r1 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=0,0,0,0
+  r2 w=SOUTH d=NONE h=9 pen=0,0,0,0 pts=-17,51,-17,-17 tot=-17,51,-17,-17
+  r3 w=NORTH d=SOUTH h=29 pen=0,0,0,-50 pts=-8,-37,-8,3 tot=-25,14,-25,-14
+  r4 w=EAST d=NONE h=25 pen=0,0,0,0 pts=99,-33,-33,-33 tot=74,-19,-58,-47
+  r5 w=NORTH d=WEST h=63 pen=0,0,0,0 pts=-8,-8,-71,87 tot=66,-27,-129,40
+  r6 w=EAST d=NONE h=18 pen=0,0,0,0 pts=78,-26,-26,-26 tot=144,-53,-155,14
+  r7 w=SOUTH d=EAST h=67 pen=0,-40,0,0 pts=-75,51,-8,-8 tot=69,-2,-163,6
+  r8 w=WEST d=EAST h=31 pen=0,0,0,0 pts=-39,-8,55,-8 tot=30,-10,-108,-2
+  r9 w=NORTH d=SOUTH h=39 pen=0,0,0,0 pts=-8,-47,-8,63 tot=22,-57,-116,61
+  r10 w=NORTH d=NONE h=34 pen=0,0,0,0 pts=-42,-42,-42,126 tot=-20,-99,-158,187
+  r11 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-20,-99,-158,187
+  r12 w=NORTH d=SOUTH h=56 pen=0,0,0,-10 pts=-8,-64,-8,70 tot=-28,-163,-166,257
+  r13 w=EAST d=NORTH h=38 pen=0,0,0,0 pts=62,-8,-8,-46 tot=34,-171,-174,211
+  r14 w=NORTH d=EAST h=53 pen=0,0,0,0 pts=-61,-8,-8,77 tot=-27,-179,-182,288
+  ranking=David:4:288, Ana:2:-27, Bruno:1:-179, Carla:0:-182
+  best=SOUTH:67
+game 10359 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=NORTH h=17 pen=0,0,0,0 pts=-8,41,-8,-25 tot=-8,41,-8,-25
+  r2 w=NORTH d=NONE h=24 pen=0,0,0,0 pts=-32,-32,-32,96 tot=-40,9,-40,71
+  r3 w=EAST d=NONE h=17 pen=0,0,0,0 pts=75,-25,-25,-25 tot=35,-16,-65,46
+  r4 w=SOUTH d=EAST h=57 pen=0,0,0,0 pts=-65,81,-8,-8 tot=-30,65,-73,38
+  r5 w=WEST d=NONE h=63 pen=0,0,0,0 pts=-71,-71,213,-71 tot=-101,-6,140,-33
+  r6 w=WEST d=EAST h=38 pen=0,0,0,0 pts=-46,-8,62,-8 tot=-147,-14,202,-41
+  r7 w=NORTH d=WEST h=51 pen=0,0,0,0 pts=-8,-8,-59,75 tot=-155,-22,143,34
+  r8 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-155,-22,143,34
+  r9 w=NORTH d=NONE h=37 pen=0,0,0,0 pts=-45,-45,-45,135 tot=-200,-67,98,169
+  r10 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-200,-67,98,169
+  r11 w=WEST d=NONE h=11 pen=0,0,0,0 pts=-19,-19,57,-19 tot=-219,-86,155,150
+  r12 w=NONE d=NONE h=0 pen=20,-60,20,20 pts=20,-60,20,20 tot=-199,-146,175,170
+  r13 w=EAST d=NONE h=44 pen=0,0,0,0 pts=156,-52,-52,-52 tot=-43,-198,123,118
+  r14 w=EAST d=SOUTH h=48 pen=0,0,0,0 pts=72,-56,-8,-8 tot=29,-254,115,110
+  r15 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=29,-254,115,110
+  ranking=Carla:4:115, David:2:110, Ana:1:29, Bruno:0:-254
+  best=WEST:63
+game 10360 ended=true players=Ana|Bruno|Carla|David
+  r1 w=WEST d=NORTH h=54 pen=0,0,0,0 pts=-8,-8,78,-62 tot=-8,-8,78,-62
+  r2 w=NONE d=NONE h=0 pen=-30,10,10,10 pts=-30,10,10,10 tot=-38,2,88,-52
+  r3 w=EAST d=NORTH h=36 pen=0,0,0,0 pts=60,-8,-8,-44 tot=22,-6,80,-96
+  r4 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=22,-6,80,-96
+  r5 w=NORTH d=EAST h=60 pen=0,-60,0,0 pts=-68,-68,-8,84 tot=-46,-74,72,-12
+  r6 w=EAST d=WEST h=45 pen=0,0,0,0 pts=69,-8,-53,-8 tot=23,-82,19,-20
+  r7 w=NORTH d=EAST h=61 pen=0,0,0,0 pts=-69,-8,-8,85 tot=-46,-90,11,65
+  r8 w=EAST d=NORTH h=63 pen=6,-20,6,6 pts=93,-28,-2,-65 tot=47,-118,9,0
+  r9 w=EAST d=NONE h=53 pen=0,0,0,0 pts=183,-61,-61,-61 tot=230,-179,-52,-61
+  r10 w=EAST d=NORTH h=38 pen=0,0,0,0 pts=62,-8,-8,-46 tot=292,-187,-60,-107
+  r11 w=EAST d=SOUTH h=43 pen=0,0,0,0 pts=67,-51,-8,-8 tot=359,-238,-68,-115
+  r12 w=WEST d=NONE h=10 pen=0,0,0,0 pts=-18,-18,54,-18 tot=341,-256,-14,-133
+  r13 w=EAST d=SOUTH h=15 pen=-60,20,20,20 pts=-21,-3,12,12 tot=320,-259,-2,-121
+  r14 w=NONE d=NONE h=0 pen=-60,0,0,0 pts=-60,0,0,0 tot=260,-259,-2,-121
+  r15 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=260,-259,-2,-121
+  r16 w=NORTH d=EAST h=45 pen=0,0,0,0 pts=-53,-8,-8,69 tot=207,-267,-10,-52
+  ranking=Ana:4:207, Carla:2:-10, David:1:-52, Bruno:0:-267
+  best=EAST:63
+game 10361 ended=true players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=NONE h=19 pen=0,0,0,0 pts=-27,81,-27,-27 tot=-27,81,-27,-27
+  ranking=Bruno:4:81, Ana:1:-27, Carla:1:-27, David:1:-27
+  best=SOUTH:19
+game 10362 ended=false players=Ana|Bruno|Carla|David
+  r1 w=WEST d=SOUTH h=51 pen=0,0,0,0 pts=-8,-59,75,-8 tot=-8,-59,75,-8
+  r2 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-8,-59,75,-8
+  ranking=Carla:4:75, Ana:1.5:-8, David:1.5:-8, Bruno:0:-59
+  best=WEST:51
+game 10363 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=0,0,0,0
+  r2 w=SOUTH d=NORTH h=33 pen=0,0,-40,0 pts=-8,57,-48,-41 tot=-8,57,-48,-41
+  r3 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-8,57,-48,-41
+  ranking=Bruno:4:57, Ana:2:-8, David:1:-41, Carla:0:-48
+  best=SOUTH:33
+game 10364 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=SOUTH h=46 pen=0,0,0,0 pts=70,-54,-8,-8 tot=70,-54,-8,-8
+  r2 w=EAST d=NONE h=34 pen=0,0,0,0 pts=126,-42,-42,-42 tot=196,-96,-50,-50
+  r3 w=NORTH d=EAST h=56 pen=10,10,-30,10 pts=-54,2,-38,90 tot=142,-94,-88,40
+  r4 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=142,-94,-88,40
+  ranking=Ana:4:142, David:2:40, Carla:1:-88, Bruno:0:-94
+  best=NORTH:56
+game 10365 ended=true players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=WEST h=30 pen=0,0,0,0 pts=-8,54,-38,-8 tot=-8,54,-38,-8
+  r2 w=NORTH d=NONE h=20 pen=0,0,0,0 pts=-28,-28,-28,84 tot=-36,26,-66,76
+  r3 w=NORTH d=NONE h=43 pen=0,0,0,0 pts=-51,-51,-51,153 tot=-87,-25,-117,229
+  r4 w=WEST d=NONE h=21 pen=0,0,0,0 pts=-29,-29,87,-29 tot=-116,-54,-30,200
+  r5 w=NORTH d=EAST h=50 pen=0,0,0,0 pts=-58,-8,-8,74 tot=-174,-62,-38,274
+  ranking=David:4:274, Carla:2:-38, Bruno:1:-62, Ana:0:-174
+  best=NORTH:50
+game 10366 ended=false players=Ana|Bruno|Carla|David
+  r1 w=WEST d=NONE h=15 pen=0,0,0,0 pts=-23,-23,69,-23 tot=-23,-23,69,-23
+  r2 w=NORTH d=SOUTH h=18 pen=0,0,0,0 pts=-8,-26,-8,42 tot=-31,-49,61,19
+  r3 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-31,-49,61,19
+  r4 w=NORTH d=NONE h=60 pen=0,0,0,0 pts=-68,-68,-68,204 tot=-99,-117,-7,223
+  r5 w=SOUTH d=NONE h=23 pen=0,0,-50,0 pts=-31,93,-81,-31 tot=-130,-24,-88,192
+  r6 w=- d=- h=0 pen=0,0,0,-60 pts=0,0,0,-60 tot=-130,-24,-88,132
+  ranking=David:4:132, Bruno:2:-24, Carla:1:-88, Ana:0:-130
+  best=NORTH:60
+game 10367 ended=true players=Ana|Bruno|Carla|David
+  r1 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=0,0,0,0
+  r2 w=EAST d=NORTH h=45 pen=0,-30,0,0 pts=69,-38,-8,-53 tot=69,-38,-8,-53
+  r3 w=WEST d=NORTH h=26 pen=0,0,0,0 pts=-8,-8,50,-34 tot=61,-46,42,-87
+  r4 w=NORTH d=SOUTH h=43 pen=0,0,0,0 pts=-8,-51,-8,67 tot=53,-97,34,-20
+  r5 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=53,-97,34,-20
+  r6 w=WEST d=NORTH h=19 pen=20,-60,20,20 pts=12,-68,63,-7 tot=65,-165,97,-27
+  r7 w=SOUTH d=NONE h=26 pen=0,0,0,0 pts=-34,102,-34,-34 tot=31,-63,63,-61
+  ranking=Carla:4:63, Ana:2:31, David:1:-61, Bruno:0:-63
+  best=EAST:45
+game 10368 ended=false players=Ana|Bruno|Carla|David
+  r1 w=WEST d=NONE h=22 pen=0,-40,0,0 pts=-30,-70,90,-30 tot=-30,-70,90,-30
+  r2 w=EAST d=WEST h=59 pen=0,-40,0,0 pts=83,-48,-67,-8 tot=53,-118,23,-38
+  r3 w=SOUTH d=NORTH h=61 pen=0,0,0,0 pts=-8,85,-8,-69 tot=45,-33,15,-107
+  r4 w=WEST d=NORTH h=15 pen=20,20,-60,20 pts=12,12,-21,-3 tot=57,-21,-6,-110
+  r5 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=57,-21,-6,-110
+  r6 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=57,-21,-6,-110
+  r7 w=NORTH d=NONE h=55 pen=0,0,0,0 pts=-63,-63,-63,189 tot=-6,-84,-69,79
+  r8 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-6,-84,-69,79
+  ranking=David:4:79, Ana:2:-6, Carla:1:-69, Bruno:0:-84
+  best=SOUTH:61
+game 10369 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=WEST h=45 pen=0,0,0,0 pts=-8,-8,-53,69 tot=-8,-8,-53,69
+  r2 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-8,-8,-53,69
+  r3 w=WEST d=NONE h=10 pen=0,0,0,0 pts=-18,-18,54,-18 tot=-26,-26,1,51
+  r4 w=SOUTH d=NONE h=23 pen=0,0,0,0 pts=-31,93,-31,-31 tot=-57,67,-30,20
+  r5 w=EAST d=NONE h=24 pen=0,0,0,0 pts=96,-32,-32,-32 tot=39,35,-62,-12
+  r6 w=WEST d=SOUTH h=62 pen=0,0,0,0 pts=-8,-70,86,-8 tot=31,-35,24,-20
+  r7 w=SOUTH d=NONE h=37 pen=0,0,0,0 pts=-45,135,-45,-45 tot=-14,100,-21,-65
+  r8 w=WEST d=NONE h=61 pen=0,0,-10,0 pts=-69,-69,197,-69 tot=-83,31,176,-134
+  r9 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-83,31,176,-134
+  ranking=Carla:4:176, Bruno:2:31, Ana:1:-83, David:0:-134
+  best=WEST:62
+game 10370 ended=true players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=SOUTH h=15 pen=-20,0,0,0 pts=-28,-23,-8,39 tot=-28,-23,-8,39
+  r2 w=NORTH d=WEST h=63 pen=0,0,0,0 pts=-8,-8,-71,87 tot=-36,-31,-79,126
+  r3 w=NORTH d=NONE h=15 pen=0,0,0,0 pts=-23,-23,-23,69 tot=-59,-54,-102,195
+  r4 w=NONE d=NONE h=0 pen=0,-50,0,0 pts=0,-50,0,0 tot=-59,-104,-102,195
+  r5 w=SOUTH d=NORTH h=46 pen=-60,20,20,20 pts=-68,90,12,-34 tot=-127,-14,-90,161
+  r6 w=NORTH d=WEST h=14 pen=0,0,0,0 pts=-8,-8,-22,38 tot=-135,-22,-112,199
+  r7 w=SOUTH d=NORTH h=37 pen=0,0,0,0 pts=-8,61,-8,-45 tot=-143,39,-120,154
+  r8 w=NORTH d=NONE h=37 pen=0,0,0,0 pts=-45,-45,-45,135 tot=-188,-6,-165,289
+  r9 w=WEST d=NONE h=22 pen=0,0,0,0 pts=-30,-30,90,-30 tot=-218,-36,-75,259
+  r10 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-218,-36,-75,259
+  ranking=David:4:259, Bruno:2:-36, Carla:1:-75, Ana:0:-218
+  best=NORTH:63
+game 10371 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=EAST h=34 pen=0,0,0,0 pts=-42,58,-8,-8 tot=-42,58,-8,-8
+  r2 w=WEST d=NONE h=35 pen=0,0,0,0 pts=-43,-43,129,-43 tot=-85,15,121,-51
+  r3 w=WEST d=NORTH h=46 pen=0,0,-50,0 pts=-8,-8,20,-54 tot=-93,7,141,-105
+  r4 w=WEST d=NONE h=47 pen=0,0,0,0 pts=-55,-55,165,-55 tot=-148,-48,306,-160
+  r5 w=NORTH d=NONE h=33 pen=20,20,-60,20 pts=-21,-21,-101,143 tot=-169,-69,205,-17
+  r6 w=SOUTH d=WEST h=29 pen=0,0,0,0 pts=-8,53,-37,-8 tot=-177,-16,168,-25
+  r7 w=SOUTH d=WEST h=59 pen=0,0,0,0 pts=-8,83,-67,-8 tot=-185,67,101,-33
+  r8 w=NORTH d=SOUTH h=59 pen=0,0,0,0 pts=-8,-67,-8,83 tot=-193,0,93,50
+  r9 w=NORTH d=WEST h=17 pen=0,0,0,-50 pts=-8,-8,-25,-9 tot=-201,-8,68,41
+  r10 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-201,-8,68,41
+  r11 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-201,-8,68,41
+  ranking=Carla:4:68, David:2:41, Bruno:1:-8, Ana:0:-201
+  best=SOUTH:59
+game 10372 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=0,0,0,0
+  r2 w=SOUTH d=NONE h=10 pen=0,0,0,0 pts=-18,54,-18,-18 tot=-18,54,-18,-18
+  r3 w=EAST d=NORTH h=34 pen=0,0,0,0 pts=58,-8,-8,-42 tot=40,46,-26,-60
+  r4 w=NORTH d=SOUTH h=45 pen=0,0,0,0 pts=-8,-53,-8,69 tot=32,-7,-34,9
+  r5 w=NORTH d=NONE h=12 pen=0,0,0,0 pts=-20,-20,-20,60 tot=12,-27,-54,69
+  r6 w=NONE d=NONE h=0 pen=0,-30,0,0 pts=0,-30,0,0 tot=12,-57,-54,69
+  r7 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=12,-57,-54,69
+  r8 w=NORTH d=NONE h=33 pen=0,0,0,0 pts=-41,-41,-41,123 tot=-29,-98,-95,192
+  r9 w=NORTH d=SOUTH h=37 pen=0,0,0,0 pts=-8,-45,-8,61 tot=-37,-143,-103,253
+  r10 w=EAST d=SOUTH h=52 pen=0,0,0,-20 pts=76,-60,-8,-28 tot=39,-203,-111,225
+  r11 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=39,-203,-111,225
+  r12 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=39,-203,-111,225
+  ranking=David:4:225, Ana:2:39, Carla:1:-111, Bruno:0:-203
+  best=EAST:52
+game 10373 ended=false players=Ana|Bruno|Carla|David
+  r1 w=WEST d=NONE h=49 pen=0,0,-40,0 pts=-57,-57,131,-57 tot=-57,-57,131,-57
+  r2 w=NORTH d=SOUTH h=20 pen=0,0,0,0 pts=-8,-28,-8,44 tot=-65,-85,123,-13
+  r3 w=EAST d=WEST h=59 pen=0,0,0,0 pts=83,-8,-67,-8 tot=18,-93,56,-21
+  r4 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=18,-93,56,-21
+  r5 w=NORTH d=NONE h=49 pen=0,-20,0,0 pts=-57,-77,-57,171 tot=-39,-170,-1,150
+  r6 w=NONE d=NONE h=0 pen=6,6,6,-20 pts=6,6,6,-20 tot=-33,-164,5,130
+  r7 w=EAST d=SOUTH h=20 pen=0,0,0,0 pts=44,-28,-8,-8 tot=11,-192,-3,122
+  r8 w=NORTH d=NONE h=41 pen=0,0,0,0 pts=-49,-49,-49,147 tot=-38,-241,-52,269
+  r9 w=NORTH d=NONE h=33 pen=0,0,0,0 pts=-41,-41,-41,123 tot=-79,-282,-93,392
+  r10 w=WEST d=NONE h=18 pen=0,0,0,0 pts=-26,-26,78,-26 tot=-105,-308,-15,366
+  r11 w=SOUTH d=EAST h=65 pen=0,0,0,0 pts=-73,89,-8,-8 tot=-178,-219,-23,358
+  r12 w=NONE d=NONE h=0 pen=20,20,-60,20 pts=20,20,-60,20 tot=-158,-199,-83,378
+  r13 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-158,-199,-83,378
+  ranking=David:4:378, Carla:2:-83, Ana:1:-158, Bruno:0:-199
+  best=SOUTH:65
+game 10374 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=SOUTH h=41 pen=0,0,0,0 pts=-8,-49,-8,65 tot=-8,-49,-8,65
+  r2 w=NORTH d=NONE h=66 pen=0,0,0,0 pts=-74,-74,-74,222 tot=-82,-123,-82,287
+  r3 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-82,-123,-82,287
+  r4 w=WEST d=EAST h=51 pen=0,0,0,0 pts=-59,-8,75,-8 tot=-141,-131,-7,279
+  r5 w=EAST d=NONE h=9 pen=0,0,0,0 pts=51,-17,-17,-17 tot=-90,-148,-24,262
+  r6 w=NORTH d=WEST h=55 pen=13,13,13,-40 pts=5,5,-50,39 tot=-85,-143,-74,301
+  r7 w=WEST d=NORTH h=10 pen=0,0,0,0 pts=-8,-8,34,-18 tot=-93,-151,-40,283
+  r8 w=WEST d=NONE h=62 pen=0,0,0,0 pts=-70,-70,210,-70 tot=-163,-221,170,213
+  r9 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-163,-221,170,213
+  r10 w=SOUTH d=NORTH h=24 pen=0,0,-20,0 pts=-8,48,-28,-32 tot=-171,-173,142,181
+  r11 w=SOUTH d=EAST h=22 pen=13,-40,13,13 pts=-17,6,5,5 tot=-188,-167,147,186
+  r12 w=NORTH d=NONE h=25 pen=0,-30,0,0 pts=-33,-63,-33,99 tot=-221,-230,114,285
+  r13 w=WEST d=NORTH h=36 pen=0,0,0,0 pts=-8,-8,60,-44 tot=-229,-238,174,241
+  r14 w=- d=- h=0 pen=13,-40,13,13 pts=13,-40,13,13 tot=-216,-278,187,254
+  ranking=David:4:254, Carla:2:187, Ana:1:-216, Bruno:0:-278
+  best=NORTH:66
+game 10375 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=NONE h=41 pen=0,0,0,0 pts=-49,-49,-49,147 tot=-49,-49,-49,147
+  r2 w=WEST d=NONE h=63 pen=0,0,0,0 pts=-71,-71,213,-71 tot=-120,-120,164,76
+  r3 w=EAST d=NONE h=10 pen=0,0,0,0 pts=54,-18,-18,-18 tot=-66,-138,146,58
+  r4 w=NORTH d=NONE h=14 pen=0,0,0,0 pts=-22,-22,-22,66 tot=-88,-160,124,124
+  r5 w=SOUTH d=NONE h=45 pen=10,-30,10,10 pts=-43,129,-43,-43 tot=-131,-31,81,81
+  r6 w=EAST d=NONE h=64 pen=0,0,0,0 pts=216,-72,-72,-72 tot=85,-103,9,9
+  r7 w=NORTH d=WEST h=32 pen=0,0,0,0 pts=-8,-8,-40,56 tot=77,-111,-31,65
+  r8 w=EAST d=WEST h=12 pen=0,0,0,0 pts=36,-8,-20,-8 tot=113,-119,-51,57
+  r9 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=113,-119,-51,57
+  r10 w=EAST d=NONE h=33 pen=0,0,-20,0 pts=123,-41,-61,-41 tot=236,-160,-112,16
+  r11 w=WEST d=NORTH h=27 pen=0,0,0,0 pts=-8,-8,51,-35 tot=228,-168,-61,-19
+  r12 w=WEST d=NONE h=60 pen=0,0,-10,0 pts=-68,-68,194,-68 tot=160,-236,133,-87
+  r13 w=EAST d=SOUTH h=8 pen=0,0,0,0 pts=32,-16,-8,-8 tot=192,-252,125,-95
+  r14 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=192,-252,125,-95
+  r15 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=192,-252,125,-95
+  ranking=Ana:4:192, Carla:2:125, David:1:-95, Bruno:0:-252
+  best=EAST:64
+game 10376 ended=true players=Ana|Bruno|Carla|David
+  r1 w=EAST d=WEST h=33 pen=0,0,0,0 pts=57,-8,-41,-8 tot=57,-8,-41,-8
+  r2 w=EAST d=WEST h=32 pen=0,0,0,0 pts=56,-8,-40,-8 tot=113,-16,-81,-16
+  r3 w=NORTH d=NONE h=35 pen=0,0,0,0 pts=-43,-43,-43,129 tot=70,-59,-124,113
+  r4 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=70,-59,-124,113
+  r5 w=NORTH d=NONE h=54 pen=0,0,0,0 pts=-62,-62,-62,186 tot=8,-121,-186,299
+  r6 w=NONE d=NONE h=0 pen=0,0,0,-10 pts=0,0,0,-10 tot=8,-121,-186,289
+  r7 w=SOUTH d=EAST h=51 pen=0,0,0,0 pts=-59,75,-8,-8 tot=-51,-46,-194,281
+  r8 w=NORTH d=NONE h=66 pen=0,0,0,0 pts=-74,-74,-74,222 tot=-125,-120,-268,503
+  r9 w=SOUTH d=NONE h=44 pen=0,0,0,0 pts=-52,156,-52,-52 tot=-177,36,-320,451
+  r10 w=WEST d=NONE h=8 pen=0,0,0,0 pts=-16,-16,48,-16 tot=-193,20,-272,435
+  r11 w=WEST d=EAST h=15 pen=0,0,0,0 pts=-23,-8,39,-8 tot=-216,12,-233,427
+  r12 w=EAST d=NONE h=32 pen=0,0,0,0 pts=120,-40,-40,-40 tot=-96,-28,-273,387
+  r13 w=WEST d=NONE h=62 pen=10,10,10,-30 pts=-60,-60,220,-100 tot=-156,-88,-53,287
+  r14 w=WEST d=NONE h=44 pen=0,0,0,0 pts=-52,-52,156,-52 tot=-208,-140,103,235
+  r15 w=NORTH d=WEST h=8 pen=0,0,0,0 pts=-8,-8,-16,32 tot=-216,-148,87,267
+  r16 w=NORTH d=EAST h=57 pen=0,0,0,0 pts=-65,-8,-8,81 tot=-281,-156,79,348
+  ranking=David:4:348, Carla:2:79, Bruno:1:-156, Ana:0:-281
+  best=NORTH:66
+game 10377 ended=false players=Ana|Bruno|Carla|David
+  r1 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=0,0,0,0
+  ranking=Ana:1.75:0, Bruno:1.75:0, Carla:1.75:0, David:1.75:0
+  best=NONE:0
+game 10378 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=WEST h=38 pen=0,0,0,0 pts=-8,62,-46,-8 tot=-8,62,-46,-8
+  r2 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-8,62,-46,-8
+  ranking=Bruno:4:62, Ana:1.5:-8, David:1.5:-8, Carla:0:-46
+  best=SOUTH:38
+game 10379 ended=true players=Ana|Bruno|Carla|David
+  r1 w=EAST d=SOUTH h=14 pen=0,0,0,0 pts=38,-22,-8,-8 tot=38,-22,-8,-8
+  r2 w=SOUTH d=NONE h=27 pen=0,0,0,0 pts=-35,105,-35,-35 tot=3,83,-43,-43
+  r3 w=WEST d=SOUTH h=8 pen=0,0,0,0 pts=-8,-16,32,-8 tot=-5,67,-11,-51
+  ranking=Bruno:4:67, Ana:2:-5, Carla:1:-11, David:0:-51
+  best=SOUTH:27
+game 10380 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=SOUTH h=16 pen=0,0,0,0 pts=40,-24,-8,-8 tot=40,-24,-8,-8
+  r2 w=SOUTH d=WEST h=9 pen=0,-40,0,0 pts=-8,-7,-17,-8 tot=32,-31,-25,-16
+  r3 w=SOUTH d=NONE h=53 pen=0,0,0,0 pts=-61,183,-61,-61 tot=-29,152,-86,-77
+  r4 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-29,152,-86,-77
+  ranking=Bruno:4:152, Ana:2:-29, David:1:-77, Carla:0:-86
+  best=SOUTH:53
+game 10381 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=NORTH h=59 pen=0,0,0,0 pts=-8,83,-8,-67 tot=-8,83,-8,-67
+  r2 w=NORTH d=EAST h=29 pen=0,0,0,0 pts=-37,-8,-8,53 tot=-45,75,-16,-14
+  r3 w=NORTH d=NONE h=39 pen=0,0,0,0 pts=-47,-47,-47,141 tot=-92,28,-63,127
+  r4 w=EAST d=SOUTH h=31 pen=0,0,0,0 pts=55,-39,-8,-8 tot=-37,-11,-71,119
+  r5 w=- d=- h=0 pen=13,13,13,-40 pts=13,13,13,-40 tot=-24,2,-58,79
+  ranking=David:4:79, Bruno:2:2, Ana:1:-24, Carla:0:-58
+  best=SOUTH:59
+game 10382 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=NONE h=54 pen=0,0,0,0 pts=-62,186,-62,-62 tot=-62,186,-62,-62
+  r2 w=NORTH d=WEST h=40 pen=0,0,0,0 pts=-8,-8,-48,64 tot=-70,178,-110,2
+  r3 w=NORTH d=WEST h=51 pen=3,3,3,-10 pts=-5,-5,-56,65 tot=-75,173,-166,67
+  r4 w=SOUTH d=EAST h=28 pen=0,0,0,0 pts=-36,52,-8,-8 tot=-111,225,-174,59
+  r5 w=WEST d=SOUTH h=11 pen=0,0,0,0 pts=-8,-19,35,-8 tot=-119,206,-139,51
+  r6 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-119,206,-139,51
+  ranking=Bruno:4:206, David:2:51, Ana:1:-119, Carla:0:-139
+  best=SOUTH:54
+game 10383 ended=true players=Ana|Bruno|Carla|David
+  r1 w=EAST d=WEST h=31 pen=0,0,0,-40 pts=55,-8,-39,-48 tot=55,-8,-39,-48
+  r2 w=WEST d=SOUTH h=46 pen=0,0,0,0 pts=-8,-54,70,-8 tot=47,-62,31,-56
+  r3 w=WEST d=SOUTH h=27 pen=0,0,-40,0 pts=-8,-35,11,-8 tot=39,-97,42,-64
+  r4 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=39,-97,42,-64
+  r5 w=EAST d=NONE h=36 pen=0,0,0,0 pts=132,-44,-44,-44 tot=171,-141,-2,-108
+  r6 w=EAST d=NONE h=63 pen=0,0,0,0 pts=213,-71,-71,-71 tot=384,-212,-73,-179
+  r7 w=SOUTH d=NONE h=13 pen=-40,13,13,13 pts=-61,76,-8,-8 tot=323,-136,-81,-187
+  ranking=Ana:4:323, Carla:2:-81, Bruno:1:-136, David:0:-187
+  best=EAST:63
+game 10384 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=0,0,0,0
+  r2 w=WEST d=NONE h=52 pen=0,0,0,0 pts=-60,-60,180,-60 tot=-60,-60,180,-60
+  r3 w=NORTH d=EAST h=44 pen=20,-60,20,20 pts=-32,-68,12,88 tot=-92,-128,192,28
+  r4 w=WEST d=NORTH h=57 pen=0,0,0,0 pts=-8,-8,81,-65 tot=-100,-136,273,-37
+  r5 w=NORTH d=NONE h=20 pen=0,0,-20,0 pts=-28,-28,-48,84 tot=-128,-164,225,47
+  r6 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-128,-164,225,47
+  r7 w=EAST d=SOUTH h=59 pen=13,13,13,-40 pts=96,-54,5,-48 tot=-32,-218,230,-1
+  r8 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-32,-218,230,-1
+  ranking=Carla:4:230, David:2:-1, Ana:1:-32, Bruno:0:-218
+  best=EAST:59
+game 10385 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=WEST h=51 pen=0,0,0,0 pts=-8,75,-59,-8 tot=-8,75,-59,-8
+  r2 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-8,75,-59,-8
+  r3 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-8,75,-59,-8
+  r4 w=WEST d=SOUTH h=61 pen=13,13,13,-40 pts=5,-56,98,-48 tot=-3,19,39,-56
+  r5 w=SOUTH d=NONE h=23 pen=0,0,0,0 pts=-31,93,-31,-31 tot=-34,112,8,-87
+  r6 w=WEST d=EAST h=20 pen=-60,20,20,20 pts=-88,12,64,12 tot=-122,124,72,-75
+  r7 w=SOUTH d=EAST h=27 pen=0,0,0,0 pts=-35,51,-8,-8 tot=-157,175,64,-83
+  r8 w=EAST d=NONE h=15 pen=0,0,0,0 pts=69,-23,-23,-23 tot=-88,152,41,-106
+  r9 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-88,152,41,-106
+  ranking=Bruno:4:152, Carla:2:41, Ana:1:-88, David:0:-106
+  best=WEST:61
+game 10386 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=NONE h=64 pen=0,0,0,0 pts=216,-72,-72,-72 tot=216,-72,-72,-72
+  r2 w=WEST d=SOUTH h=29 pen=0,0,0,0 pts=-8,-37,53,-8 tot=208,-109,-19,-80
+  r3 w=EAST d=WEST h=40 pen=0,0,0,0 pts=64,-8,-48,-8 tot=272,-117,-67,-88
+  r4 w=NORTH d=WEST h=54 pen=0,0,0,0 pts=-8,-8,-62,78 tot=264,-125,-129,-10
+  r5 w=WEST d=NORTH h=60 pen=0,0,0,0 pts=-8,-8,84,-68 tot=256,-133,-45,-78
+  r6 w=WEST d=NONE h=37 pen=0,0,0,0 pts=-45,-45,135,-45 tot=211,-178,90,-123
+  r7 w=WEST d=NONE h=29 pen=0,0,0,0 pts=-37,-37,111,-37 tot=174,-215,201,-160
+  r8 w=NORTH d=SOUTH h=14 pen=0,0,0,0 pts=-8,-22,-8,38 tot=166,-237,193,-122
+  r9 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=166,-237,193,-122
+  r10 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=166,-237,193,-122
+  ranking=Carla:4:193, Ana:2:166, David:1:-122, Bruno:0:-237
+  best=EAST:64
+game 10387 ended=true players=Ana|Bruno|Carla|David
+  r1 w=WEST d=EAST h=46 pen=0,0,0,0 pts=-54,-8,70,-8 tot=-54,-8,70,-8
+  r2 w=NORTH d=EAST h=39 pen=0,0,0,0 pts=-47,-8,-8,63 tot=-101,-16,62,55
+  r3 w=NORTH d=EAST h=59 pen=0,0,0,0 pts=-67,-8,-8,83 tot=-168,-24,54,138
+  r4 w=SOUTH d=NONE h=67 pen=0,0,0,0 pts=-75,225,-75,-75 tot=-243,201,-21,63
+  r5 w=WEST d=NONE h=64 pen=0,0,0,0 pts=-72,-72,216,-72 tot=-315,129,195,-9
+  r6 w=EAST d=NORTH h=23 pen=0,0,0,0 pts=47,-8,-8,-31 tot=-268,121,187,-40
+  r7 w=SOUTH d=NORTH h=43 pen=0,0,0,0 pts=-8,67,-8,-51 tot=-276,188,179,-91
+  r8 w=SOUTH d=NONE h=31 pen=0,0,0,0 pts=-39,117,-39,-39 tot=-315,305,140,-130
+  r9 w=SOUTH d=EAST h=55 pen=0,0,0,0 pts=-63,79,-8,-8 tot=-378,384,132,-138
+  r10 w=NORTH d=WEST h=35 pen=0,0,0,0 pts=-8,-8,-43,59 tot=-386,376,89,-79
+  r11 w=WEST d=SOUTH h=42 pen=0,0,0,0 pts=-8,-50,66,-8 tot=-394,326,155,-87
+  ranking=Bruno:4:326, Carla:2:155, David:1:-87, Ana:0:-394
+  best=SOUTH:67
+game 10388 ended=true players=Ana|Bruno|Carla|David
+  r1 w=WEST d=NONE h=58 pen=0,0,0,0 pts=-66,-66,198,-66 tot=-66,-66,198,-66
+  r2 w=WEST d=NONE h=19 pen=0,0,0,0 pts=-27,-27,81,-27 tot=-93,-93,279,-93
+  r3 w=WEST d=SOUTH h=61 pen=0,0,0,0 pts=-8,-69,85,-8 tot=-101,-162,364,-101
+  r4 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-101,-162,364,-101
+  r5 w=SOUTH d=NONE h=25 pen=0,0,0,0 pts=-33,99,-33,-33 tot=-134,-63,331,-134
+  r6 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-134,-63,331,-134
+  r7 w=SOUTH d=WEST h=45 pen=0,0,0,0 pts=-8,69,-53,-8 tot=-142,6,278,-142
+  r8 w=SOUTH d=WEST h=11 pen=0,0,0,0 pts=-8,35,-19,-8 tot=-150,41,259,-150
+  r9 w=EAST d=SOUTH h=13 pen=0,0,0,0 pts=37,-21,-8,-8 tot=-113,20,251,-158
+  r10 w=WEST d=NORTH h=46 pen=0,0,0,0 pts=-8,-8,70,-54 tot=-121,12,321,-212
+  r11 w=EAST d=NONE h=62 pen=0,0,0,0 pts=210,-70,-70,-70 tot=89,-58,251,-282
+  r12 w=SOUTH d=WEST h=57 pen=0,0,0,-40 pts=-8,81,-65,-48 tot=81,23,186,-330
+  ranking=Carla:4:186, Ana:2:81, Bruno:1:23, David:0:-330
+  best=EAST:62
+game 10389 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=NORTH h=35 pen=13,13,-40,13 pts=5,72,-48,-30 tot=5,72,-48,-30
+  r2 w=WEST d=SOUTH h=34 pen=0,0,0,0 pts=-8,-42,58,-8 tot=-3,30,10,-38
+  r3 w=EAST d=NORTH h=10 pen=0,0,0,0 pts=34,-8,-8,-18 tot=31,22,2,-56
+  r4 w=EAST d=NORTH h=66 pen=0,0,0,0 pts=90,-8,-8,-74 tot=121,14,-6,-130
+  r5 w=EAST d=NONE h=43 pen=0,0,0,0 pts=153,-51,-51,-51 tot=274,-37,-57,-181
+  r6 w=EAST d=NONE h=21 pen=0,0,0,0 pts=87,-29,-29,-29 tot=361,-66,-86,-210
+  r7 w=NORTH d=WEST h=66 pen=0,0,0,0 pts=-8,-8,-74,90 tot=353,-74,-160,-120
+  r8 w=NORTH d=SOUTH h=41 pen=0,0,0,0 pts=-8,-49,-8,65 tot=345,-123,-168,-55
+  r9 w=NONE d=NONE h=0 pen=0,-60,0,0 pts=0,-60,0,0 tot=345,-183,-168,-55
+  r10 w=NORTH d=SOUTH h=44 pen=0,0,0,0 pts=-8,-52,-8,68 tot=337,-235,-176,13
+  r11 w=NORTH d=SOUTH h=24 pen=0,0,0,0 pts=-8,-32,-8,48 tot=329,-267,-184,61
+  r12 w=WEST d=NORTH h=36 pen=0,0,-60,0 pts=-8,-8,0,-44 tot=321,-275,-184,17
+  r13 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=321,-275,-184,17
+  ranking=Ana:4:321, David:2:17, Carla:1:-184, Bruno:0:-275
+  best=EAST:66
+game 10390 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=SOUTH h=14 pen=0,0,0,0 pts=38,-22,-8,-8 tot=38,-22,-8,-8
+  r2 w=SOUTH d=NONE h=51 pen=0,0,0,0 pts=-59,177,-59,-59 tot=-21,155,-67,-67
+  r3 w=WEST d=NORTH h=10 pen=0,0,0,0 pts=-8,-8,34,-18 tot=-29,147,-33,-85
+  r4 w=SOUTH d=EAST h=14 pen=3,3,3,-10 pts=-19,41,-5,-18 tot=-48,188,-38,-103
+  r5 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-48,188,-38,-103
+  r6 w=EAST d=SOUTH h=61 pen=0,0,0,0 pts=85,-69,-8,-8 tot=37,119,-46,-111
+  r7 w=NORTH d=NONE h=40 pen=0,0,0,0 pts=-48,-48,-48,144 tot=-11,71,-94,33
+  r8 w=WEST d=EAST h=64 pen=0,0,0,0 pts=-72,-8,88,-8 tot=-83,63,-6,25
+  r9 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-83,63,-6,25
+  r10 w=EAST d=NONE h=8 pen=0,0,0,-30 pts=48,-16,-16,-46 tot=-35,47,-22,-21
+  r11 w=EAST d=SOUTH h=28 pen=0,0,0,0 pts=52,-36,-8,-8 tot=17,11,-30,-29
+  r12 w=WEST d=SOUTH h=27 pen=0,0,0,0 pts=-8,-35,51,-8 tot=9,-24,21,-37
+  r13 w=NONE d=NONE h=0 pen=10,10,10,-30 pts=10,10,10,-30 tot=19,-14,31,-67
+  r14 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=19,-14,31,-67
+  ranking=Carla:4:31, Ana:2:19, Bruno:1:-14, David:0:-67
+  best=WEST:64
+game 10391 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=NONE h=65 pen=0,0,0,0 pts=219,-73,-73,-73 tot=219,-73,-73,-73
+  r2 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=219,-73,-73,-73
+  r3 w=WEST d=NONE h=8 pen=-40,0,0,0 pts=-56,-16,48,-16 tot=163,-89,-25,-89
+  r4 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=163,-89,-25,-89
+  r5 w=NORTH d=EAST h=25 pen=0,0,0,0 pts=-33,-8,-8,49 tot=130,-97,-33,-40
+  r6 w=EAST d=SOUTH h=12 pen=0,0,-50,0 pts=36,-20,-58,-8 tot=166,-117,-91,-48
+  r7 w=NORTH d=WEST h=27 pen=-60,0,0,0 pts=-68,-8,-35,51 tot=98,-125,-126,3
+  r8 w=NORTH d=EAST h=27 pen=16,16,16,-50 pts=-19,8,8,1 tot=79,-117,-118,4
+  r9 w=WEST d=EAST h=11 pen=3,3,-10,3 pts=-16,-5,25,-5 tot=63,-122,-93,-1
+  r10 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=63,-122,-93,-1
+  r11 w=EAST d=SOUTH h=58 pen=0,0,0,-40 pts=82,-66,-8,-48 tot=145,-188,-101,-49
+  r12 w=NORTH d=NONE h=21 pen=3,3,3,-10 pts=-26,-26,-26,77 tot=119,-214,-127,28
+  r13 w=EAST d=NONE h=38 pen=16,16,16,-50 pts=154,-30,-30,-96 tot=273,-244,-157,-68
+  r14 w=NORTH d=SOUTH h=51 pen=0,0,0,0 pts=-8,-59,-8,75 tot=265,-303,-165,7
+  r15 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=265,-303,-165,7
+  ranking=Ana:4:265, David:2:7, Carla:1:-165, Bruno:0:-303
+  best=EAST:65
+game 10392 ended=true players=Ana|Bruno|Carla|David
+  r1 w=WEST d=SOUTH h=36 pen=0,0,0,0 pts=-8,-44,60,-8 tot=-8,-44,60,-8
+  r2 w=NONE d=NONE h=0 pen=-40,0,0,0 pts=-40,0,0,0 tot=-48,-44,60,-8
+  r3 w=SOUTH d=NONE h=50 pen=0,0,0,0 pts=-58,174,-58,-58 tot=-106,130,2,-66
+  r4 w=WEST d=NORTH h=65 pen=0,0,0,0 pts=-8,-8,89,-73 tot=-114,122,91,-139
+  r5 w=WEST d=SOUTH h=23 pen=0,0,0,0 pts=-8,-31,47,-8 tot=-122,91,138,-147
+  r6 w=SOUTH d=WEST h=49 pen=0,0,0,0 pts=-8,73,-57,-8 tot=-130,164,81,-155
+  r7 w=EAST d=NONE h=27 pen=0,0,0,0 pts=105,-35,-35,-35 tot=-25,129,46,-190
+  r8 w=NORTH d=NONE h=56 pen=0,0,0,0 pts=-64,-64,-64,192 tot=-89,65,-18,2
+  r9 w=WEST d=EAST h=53 pen=0,0,0,0 pts=-61,-8,77,-8 tot=-150,57,59,-6
+  r10 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-150,57,59,-6
+  r11 w=WEST d=NONE h=29 pen=0,0,0,0 pts=-37,-37,111,-37 tot=-187,20,170,-43
+  r12 w=EAST d=NORTH h=30 pen=0,0,0,0 pts=54,-8,-8,-38 tot=-133,12,162,-81
+  r13 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-133,12,162,-81
+  r14 w=NORTH d=NONE h=15 pen=0,0,0,0 pts=-23,-23,-23,69 tot=-156,-11,139,-12
+  r15 w=NONE d=NONE h=0 pen=0,-30,0,0 pts=0,-30,0,0 tot=-156,-41,139,-12
+  r16 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-156,-41,139,-12
+  ranking=Carla:4:139, David:2:-12, Bruno:1:-41, Ana:0:-156
+  best=WEST:65
+game 10393 ended=false players=Ana|Bruno|Carla|David
+  r1 w=- d=- h=0 pen=0,0,0,-40 pts=0,0,0,-40 tot=0,0,0,-40
+  ranking=Ana:2.33:0, Bruno:2.33:0, Carla:2.33:0, David:0:-40
+  best=NONE:0
+game 10394 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=NONE h=56 pen=0,0,0,0 pts=192,-64,-64,-64 tot=192,-64,-64,-64
+  r2 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=192,-64,-64,-64
+  ranking=Ana:4:192, Bruno:1:-64, Carla:1:-64, David:1:-64
+  best=EAST:56
+game 10395 ended=false players=Ana|Bruno|Carla|David
+  r1 w=WEST d=NORTH h=62 pen=0,0,0,0 pts=-8,-8,86,-70 tot=-8,-8,86,-70
+  r2 w=NONE d=NONE h=0 pen=0,0,0,-50 pts=0,0,0,-50 tot=-8,-8,86,-120
+  r3 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-8,-8,86,-120
+  ranking=Carla:4:86, Ana:1.5:-8, Bruno:1.5:-8, David:0:-120
+  best=WEST:62
+game 10396 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=NORTH h=50 pen=0,0,0,0 pts=-8,74,-8,-58 tot=-8,74,-8,-58
+  r2 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-8,74,-8,-58
+  r3 w=SOUTH d=NONE h=23 pen=6,6,6,-20 pts=-25,99,-25,-51 tot=-33,173,-33,-109
+  r4 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-33,173,-33,-109
+  ranking=Bruno:4:173, Ana:1.5:-33, Carla:1.5:-33, David:0:-109
+  best=SOUTH:50
+game 10397 ended=true players=Ana|Bruno|Carla|David
+  r1 w=WEST d=EAST h=33 pen=0,0,0,0 pts=-41,-8,57,-8 tot=-41,-8,57,-8
+  r2 w=WEST d=EAST h=50 pen=-10,0,0,0 pts=-68,-8,74,-8 tot=-109,-16,131,-16
+  r3 w=WEST d=NONE h=66 pen=0,0,0,0 pts=-74,-74,222,-74 tot=-183,-90,353,-90
+  r4 w=EAST d=NONE h=66 pen=0,0,0,0 pts=222,-74,-74,-74 tot=39,-164,279,-164
+  r5 w=NORTH d=EAST h=62 pen=0,0,0,0 pts=-70,-8,-8,86 tot=-31,-172,271,-78
+  ranking=Carla:4:271, Ana:2:-31, David:1:-78, Bruno:0:-172
+  best=WEST:66
+game 10398 ended=false players=Ana|Bruno|Carla|David
+  r1 w=NORTH d=NONE h=66 pen=0,0,0,0 pts=-74,-74,-74,222 tot=-74,-74,-74,222
+  r2 w=WEST d=NORTH h=9 pen=16,16,16,-50 pts=8,8,49,-67 tot=-66,-66,-25,155
+  r3 w=EAST d=NONE h=17 pen=0,0,0,0 pts=75,-25,-25,-25 tot=9,-91,-50,130
+  r4 w=NORTH d=NONE h=55 pen=0,0,0,0 pts=-63,-63,-63,189 tot=-54,-154,-113,319
+  r5 w=WEST d=NONE h=63 pen=16,16,-50,16 pts=-55,-55,163,-55 tot=-109,-209,50,264
+  r6 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-109,-209,50,264
+  ranking=David:4:264, Carla:2:50, Ana:1:-109, Bruno:0:-209
+  best=NORTH:66
+game 10399 ended=false players=Ana|Bruno|Carla|David
+  r1 w=EAST d=NONE h=17 pen=0,0,0,0 pts=75,-25,-25,-25 tot=75,-25,-25,-25
+  r2 w=SOUTH d=NONE h=28 pen=0,0,0,0 pts=-36,108,-36,-36 tot=39,83,-61,-61
+  r3 w=SOUTH d=NONE h=49 pen=0,0,0,0 pts=-57,171,-57,-57 tot=-18,254,-118,-118
+  r4 w=SOUTH d=NONE h=35 pen=0,0,0,0 pts=-43,129,-43,-43 tot=-61,383,-161,-161
+  r5 w=EAST d=WEST h=53 pen=0,0,0,0 pts=77,-8,-61,-8 tot=16,375,-222,-169
+  r6 w=NORTH d=NONE h=42 pen=0,0,0,0 pts=-50,-50,-50,150 tot=-34,325,-272,-19
+  r7 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-34,325,-272,-19
+  ranking=Bruno:4:325, David:2:-19, Ana:1:-34, Carla:0:-272
+  best=EAST:53
+game 10400 ended=false players=Ana|Bruno|Carla|David
+  r1 w=SOUTH d=WEST h=41 pen=0,0,0,0 pts=-8,65,-49,-8 tot=-8,65,-49,-8
+  r2 w=WEST d=NONE h=27 pen=0,0,0,0 pts=-35,-35,105,-35 tot=-43,30,56,-43
+  r3 w=WEST d=NORTH h=25 pen=0,0,0,0 pts=-8,-8,49,-33 tot=-51,22,105,-76
+  r4 w=EAST d=NONE h=15 pen=0,0,0,0 pts=69,-23,-23,-23 tot=18,-1,82,-99
+  r5 w=NONE d=NONE h=0 pen=0,0,0,0 pts=0,0,0,0 tot=18,-1,82,-99
+  r6 w=NONE d=NONE h=0 pen=-10,3,3,3 pts=-10,3,3,3 tot=8,2,85,-96
+  r7 w=NORTH d=NONE h=18 pen=0,0,0,0 pts=-26,-26,-26,78 tot=-18,-24,59,-18
+  r8 w=- d=- h=0 pen=0,0,0,0 pts=0,0,0,0 tot=-18,-24,59,-18
+  ranking=Carla:4:59, Ana:1.5:-18, David:1.5:-18, Bruno:0:-24
+  best=SOUTH:41

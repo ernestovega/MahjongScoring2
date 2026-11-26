@@ -135,10 +135,13 @@ class MainActivity : AppCompatActivity() {
     private fun navigateTopLevel(@IdRes destinationId: Int): Boolean {
         if (navController.currentDestination?.id == destinationId) return true
         val graph = navController.graph
+        // The start destination (Old games) must not save/restore state: restoring it would bring back the
+        // saved back stack of the previous tab (e.g. Game) instead of showing Old games.
+        val isStartDestination = destinationId == graph.startDestinationId
         val options = NavOptions.Builder()
             .setLaunchSingleTop(true)
-            .setRestoreState(true)
-            .setPopUpTo(graph.startDestinationId, false, true) // save state of previous top-level
+            .setRestoreState(!isStartDestination)
+            .setPopUpTo(graph.startDestinationId, false, !isStartDestination) // save state of previous top-level
             .build()
         navController.navigate(destinationId, null, options)
         return true

@@ -1,0 +1,7 @@
+tie_first_three
+
+1st:    Ana    2.33    (+10)
+2nd:    Bruno    2.33    (+10)
+3rd:    Carla    2.33    (+10)
+4th:    David    0    (-30)
+

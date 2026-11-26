@@ -1,0 +1,9 @@
+Round,Winner,Discarder,Hand Points,Points Ana,Points Bruno,Points Carla,Points David,Penalty Ana,Penalty Bruno,Penalty Carla,Penalty David,Game name,Game start date,Game end date
+1,Bruno,Ana,48,-56,72,-8,-8,0,0,0,0,best_hand_tie,Thu Jan 16 02:00:00 UTC 2025,null
+-,-,-,-,-56,72,-8,-8,-,-,-,-,-,-,-
+2,Carla,Ana,48,-56,-8,72,-8,0,0,0,0,best_hand_tie,Thu Jan 16 02:00:00 UTC 2025,null
+-,-,-,-,-112,64,64,-16,-,-,-,-,-,-,-
+3,David,Ana,20,-28,-8,-8,44,0,0,0,0,best_hand_tie,Thu Jan 16 02:00:00 UTC 2025,null
+-,-,-,-,-140,56,56,28,-,-,-,-,-,-,-
+4,-,-,0,0,0,0,0,0,0,0,0,best_hand_tie,Thu Jan 16 02:00:00 UTC 2025,null
+-,-,-,-,-140,56,56,28,-,-,-,-,-,-,-

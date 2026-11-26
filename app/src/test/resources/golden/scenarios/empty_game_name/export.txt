@@ -1,0 +1,8 @@
+16/01/2025 01:00
+
+1st:    Carla    4    (+114)
+2nd:    Ana    1    (-38)
+3rd:    Bruno    1    (-38)
+4th:    David    1    (-38)
+
+Best hand:    30  -  Carla

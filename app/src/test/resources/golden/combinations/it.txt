@@ -1,0 +1,81 @@
+1 | Due scale uguali di colore | @drawable/pure_double_chow | -
+1 | Due scale uguali miste | @drawable/mixed_double_chow | -
+1 | Serpentino | @drawable/short_straight | -
+1 | Due scale laterali di colore | @drawable/two_terminal_chows | -
+1 | Tris di Testa | @drawable/pung_of_terminal_or_honors | -
+1 | Poker scoperto | @drawable/melded_kong | -
+1 | Senza un seme | @drawable/one_voided_suit | -
+1 | Senza Onori | @drawable/no_honors | -
+1 | A punto su 3 o 7 | - | Chiudere con il 3 o con il 7 avendo 1–2 e 8–9
+1 | A punto su incastro | - | Chiudere con la pedina centrale di una scala
+1 | A punto sulla coppia | - | Chiudere con la pedina di una coppia
+1 | Chiusura pescata | - | Chiudere con la pedina del muro
+1 | Fiori e stagioni | @drawable/flower_tiles | -
+2 | Tris di Drago | @drawable/dragon_pung | -
+2 | Tris del Vento di giro | @drawable/prevalent_wind | -
+2 | Tris del proprio Vento | @drawable/seat_wind | -
+2 | Quasi tutto pescato | - | Chiudere con una pedina scartata non avendo esposto niente
+2 | Tutte scale | @drawable/all_chows | -
+2 | Tutte e quattro | @drawable/tile_hog | -
+2 | Due tris uguali | @drawable/double_pungs | -
+2 | Due tris coperti | @drawable/two_concealed_pungs | -
+2 | Poker coperto | @drawable/concealed_kong | -
+2 | Senza teste | @drawable/all_simples | -
+4 | Teste ovunque | @drawable/outside_hand | -
+4 | Tutto pescato | - | Chidere con la pedina del muro non avendo esposto niente
+4 | Due poker scoperti | @drawable/two_melded_kongs | -
+4 | Quarto pezzo | - | Chiudere con una pedina già scartata tre volte
+6 | Tutti tris | @drawable/all_pungs | -
+6 | Mano pura | @drawable/half_flush | -
+6 | Tre scale incastrate nei tre semi | @drawable/mixed_shifted_chows | -
+6 | Tutti i tipi | @drawable/all_types | -
+6 | Tutto chiamato | - | Avere tutto esposto compresa la pedina di chiusura
+6 | Due tris di Drago | @drawable/two_dragon_pungs | -
+8 | Serpente nei tre semi | @drawable/mixed_straight | -
+8 | Senza verso | @drawable/reversible_tiles | -
+8 | Tre scale uguali nei tre semi | @drawable/mixed_triple_chow | -
+8 | Tre tris consecutivi nei tre semi | @drawable/mixed_shifted_pungs | -
+8 | Mano del pollo | @drawable/chicken_hand | -
+8 | Ultima pedina | - | Chiudere con l'ultima pedina del muro
+8 | Ultimo scarto | - | Chiudere con l'ultima pedina scartata
+8 | Chiuso col rimpiazzo del poker | - | Chiudere con la pedina di rimpiazzo del poker
+8 | Pezzo rubato | - | Chiudere con la pedina di rimpiazzo del poker di un altro giocatore
+8 | Due poker coperti | @drawable/two_concealed_kongs | -
+12 | Piccolo raduno degli Onori | @drawable/lesser_honors_and_knitted_tiles | -
+12 | Serpente legato | @drawable/knitted_straight | -
+12 | Sopra il cinque | @drawable/upper_four | -
+12 | Sotto il cinque | @drawable/lower_four | -
+12 | Le tre benedizioni della casa | @drawable/big_three_winds | -
+16 | Serpente di colore | @drawable/pure_straight | -
+16 | Doppie scale laterali con tutti i semi | @drawable/three_suited_terminal_chows | -
+16 | Tre scale incastrate di colore | @drawable/pure_shifted_chows | -
+16 | Cinque ovunque | @drawable/all_fives | -
+16 | Tre tris uguali | @drawable/triple_pungs | -
+16 | Tre tris coperti | @drawable/three_concealed_pungs | -
+24 | Tutte coppie | @drawable/seven_pairs | -
+24 | Grande raduno degli Onori | @drawable/greater_honors_and_knitted_tiles | -
+24 | Tutte pari | @drawable/all_even_pungs | -
+24 | Mano purissima | @drawable/full_flush | -
+24 | Tre scale uguali di colore | @drawable/pure_triple_chow | -
+24 | Tre tris consecutivi di colore | @drawable/pure_shifted_pungs | -
+24 | Tre superiori | @drawable/upper_tiles | -
+24 | Tre centrali | @drawable/medium_tiles | -
+24 | Tre inferiori | @drawable/lower_tiles | -
+32 | Quattro scale incastrate di colore | @drawable/four_pure_shifted_chows | -
+32 | Tre poker | @drawable/three_kongs | -
+32 | Tutte teste | @drawable/all_terminals_and_honors | -
+48 | Quattro scale uguali di colore | @drawable/quadruple_chow | -
+48 | Quattro tris consecutivi di colore | @drawable/four_pure_shifted_pungs | -
+64 | Tutti Estremi | @drawable/all_terminals | -
+64 | Tutti Onori | @drawable/all_honors | -
+64 | Quattro piccole benedizioni della casa | @drawable/little_four_winds | -
+64 | Piccolo raduno dei Dragoni | @drawable/little_three_dragons | -
+64 | Quattro tris coperti | @drawable/four_concealed_pungs | -
+64 | Doppie scale laterali di colore | @drawable/pure_terminal_chows | -
+88 | Tredici lanterne meravigliose | @drawable/thirteen_orphans | -
+88 | Grande raduno dei Dragoni | @drawable/big_three_dragons | -
+88 | Quattro grandi benedizioni della casa | @drawable/big_four_winds | -
+88 | Tutto verde | @drawable/all_green | -
+88 | Casa piena di nove pezzi | @drawable/nine_gates | -
+88 | Tutto Kong | @drawable/four_kongs | -
+88 | Sette coppie consecutive di colore | @drawable/seven_shifted_pairs | -

@@ -1,0 +1,8 @@
+tie_second_two
+
+1st:    Ana    4    (+44)
+2nd:    Bruno    1.5    (-8)
+3rd:    Carla    1.5    (-8)
+4th:    David    0    (-28)
+
+Best hand:    20  -  Ana
