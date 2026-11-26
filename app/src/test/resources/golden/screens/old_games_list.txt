@@ -1,0 +1,609 @@
+items: 38
+-- item 1
+tvOldGameItemGameName: random_20
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: +11
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: +5
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: +43
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -59
+tvOldGameItemStartDate: 20/01/2025\n10:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 3
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Bruno
+tvOldGameItemBestHandValue: 35
+-- item 2
+tvOldGameItemGameName: random_19
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: +72
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: +62
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -118
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -18
+tvOldGameItemStartDate: 20/01/2025\n09:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 3
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: David
+tvOldGameItemBestHandValue: 65
+-- item 3
+tvOldGameItemGameName: random_18
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: 0
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: 0
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: 0
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: 0
+tvOldGameItemStartDate: 20/01/2025\n08:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 1
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: -
+tvOldGameItemBestHandValue: -
+-- item 4
+tvOldGameItemGameName: random_17
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: 0
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: 0
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: 0
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: 0
+tvOldGameItemStartDate: 20/01/2025\n07:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 0
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: -
+tvOldGameItemBestHandValue: -
+-- item 5
+tvOldGameItemGameName: random_16
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -184
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: +147
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: +417
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -420
+tvOldGameItemStartDate: 20/01/2025\n06:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 16
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: David
+tvOldGameItemBestHandValue: 63
+-- item 6
+tvOldGameItemGameName: random_15
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -238
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: +37
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -63
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: +264
+tvOldGameItemStartDate: 20/01/2025\n05:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 14
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Bruno
+tvOldGameItemBestHandValue: 61
+-- item 7
+tvOldGameItemGameName: random_14
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: +5
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: +99
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -149
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -85
+tvOldGameItemStartDate: 20/01/2025\n04:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 13
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Carla
+tvOldGameItemBestHandValue: 66
+-- item 8
+tvOldGameItemGameName: random_13
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -65
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -112
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -160
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: +316
+tvOldGameItemStartDate: 20/01/2025\n03:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 12
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: David
+tvOldGameItemBestHandValue: 56
+-- item 9
+tvOldGameItemGameName: random_12
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: +180
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: +118
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -156
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -222
+tvOldGameItemStartDate: 20/01/2025\n02:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 11
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Carla
+tvOldGameItemBestHandValue: 58
+-- item 10
+tvOldGameItemGameName: random_11
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: +143
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: +85
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -4
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -244
+tvOldGameItemStartDate: 20/01/2025\n01:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 10
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: David
+tvOldGameItemBestHandValue: 64
+-- item 11
+tvOldGameItemGameName: random_10
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -117
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -80
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: +42
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: +154
+tvOldGameItemStartDate: 20/01/2025\n00:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 10
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Ana
+tvOldGameItemBestHandValue: 61
+-- item 12
+tvOldGameItemGameName: random_09
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: +120
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -204
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: +200
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -206
+tvOldGameItemStartDate: 19/01/2025\n23:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 8
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Bruno
+tvOldGameItemBestHandValue: 61
+-- item 13
+tvOldGameItemGameName: random_08
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -84
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -27
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: +300
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -189
+tvOldGameItemStartDate: 19/01/2025\n22:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 7
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Bruno
+tvOldGameItemBestHandValue: 62
+-- item 14
+tvOldGameItemGameName: random_07
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -97
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -67
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: +224
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -120
+tvOldGameItemStartDate: 19/01/2025\n21:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 6
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Bruno
+tvOldGameItemBestHandValue: 57
+-- item 15
+tvOldGameItemGameName: random_06
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: +119
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -154
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -41
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: +26
+tvOldGameItemStartDate: 19/01/2025\n20:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 5
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Ana
+tvOldGameItemBestHandValue: 41
+-- item 16
+tvOldGameItemGameName: random_05
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -111
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: +16
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: +117
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -72
+tvOldGameItemStartDate: 19/01/2025\n19:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 4
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Bruno
+tvOldGameItemBestHandValue: 48
+-- item 17
+tvOldGameItemGameName: random_04
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: +124
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -82
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -26
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -16
+tvOldGameItemStartDate: 19/01/2025\n18:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 4
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Carla
+tvOldGameItemBestHandValue: 66
+-- item 18
+tvOldGameItemGameName: random_03
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -106
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -56
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: +168
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -56
+tvOldGameItemStartDate: 19/01/2025\n17:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 2
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Bruno
+tvOldGameItemBestHandValue: 48
+-- item 19
+tvOldGameItemGameName: random_02
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -37
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: +111
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -37
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -37
+tvOldGameItemStartDate: 19/01/2025\n16:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 1
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: David
+tvOldGameItemBestHandValue: 29
+-- item 20
+tvOldGameItemGameName: random_01
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -27
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -27
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -40
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: +93
+tvOldGameItemStartDate: 19/01/2025\n15:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 1
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Ana
+tvOldGameItemBestHandValue: 22
+-- item 21
+tvOldGameItemGameName: big_scores
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: +9119
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: +2172
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -10911
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -380
+tvOldGameItemStartDate: 16/01/2025\n04:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 3
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Carla
+tvOldGameItemBestHandValue: 9999
+-- item 22
+tvOldGameItemGameName: penalties_only
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: 0
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: 0
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: 0
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -40
+tvOldGameItemStartDate: 16/01/2025\n03:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 0
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: -
+tvOldGameItemBestHandValue: -
+-- item 23
+tvOldGameItemGameName: best_hand_tie
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: +56
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: +28
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: +56
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -140
+tvOldGameItemStartDate: 16/01/2025\n02:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 3
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Bruno
+tvOldGameItemBestHandValue: 48
+-- item 24
+tvOldGameItemGameName: 16/01/2025 01:00
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: +114
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -38
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -38
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -38
+tvOldGameItemStartDate: 16/01/2025\n01:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 1
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Carla
+tvOldGameItemBestHandValue: 30
+-- item 25
+tvOldGameItemGameName: Final: "Copa" <Madrid>/2025?
+tvOlgGameItemPlayerWestName: 王伟
+tvOldGameItemPlayerWestPoints: -66
+tvOlgGameItemPlayerNorthName: Zoë 🀄
+tvOldGameItemPlayerNorthPoints: +46
+tvOlgGameItemPlayerSouthName: José, Luis
+tvOldGameItemPlayerSouthPoints: +31
+tvOlgGameItemPlayerEastName:   "Pepe"  
+tvOldGameItemPlayerEastPoints: -26
+tvOldGameItemStartDate: 16/01/2025\n00:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 2
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: José, Luis
+tvOldGameItemBestHandValue: 25
+-- item 26
+tvOldGameItemGameName: tie_two_pairs
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -24
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -24
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: +24
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: +24
+tvOldGameItemStartDate: 15/01/2025\n23:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 2
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Ana
+tvOldGameItemBestHandValue: 8
+-- item 27
+tvOldGameItemGameName: tie_last_two
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -30
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -30
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: +24
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: +36
+tvOldGameItemStartDate: 15/01/2025\n22:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 2
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Ana
+tvOldGameItemBestHandValue: 20
+-- item 28
+tvOldGameItemGameName: tie_second_two
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -8
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -28
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -8
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: +44
+tvOldGameItemStartDate: 15/01/2025\n21:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 1
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Ana
+tvOldGameItemBestHandValue: 20
+-- item 29
+tvOldGameItemGameName: tie_first_two
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -26
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -22
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: +24
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: +24
+tvOldGameItemStartDate: 15/01/2025\n20:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 2
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Ana
+tvOldGameItemBestHandValue: 8
+-- item 30
+tvOldGameItemGameName: tie_last_three
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -16
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -16
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: +48
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -16
+tvOldGameItemStartDate: 15/01/2025\n19:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 1
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Bruno
+tvOldGameItemBestHandValue: 8
+-- item 31
+tvOldGameItemGameName: tie_first_three
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: +10
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: -30
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: +10
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: +10
+tvOldGameItemStartDate: 15/01/2025\n18:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 0
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: -
+tvOldGameItemBestHandValue: -
+-- item 32
+tvOldGameItemGameName: tie_all_four
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: 0
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: 0
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: 0
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: 0
+tvOldGameItemStartDate: 15/01/2025\n17:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 0
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: -
+tvOldGameItemBestHandValue: -
+-- item 33
+tvOldGameItemGameName: Torneo Primavera - Mesa 3
+tvOlgGameItemPlayerWestName: Wang Wei
+tvOldGameItemPlayerWestPoints: +45
+tvOlgGameItemPlayerNorthName: Ana María
+tvOldGameItemPlayerNorthPoints: -116
+tvOlgGameItemPlayerSouthName: Lucía
+tvOldGameItemPlayerSouthPoints: -92
+tvOlgGameItemPlayerEastName: Ernesto
+tvOldGameItemPlayerEastPoints: +153
+tvOldGameItemStartDate: 15/01/2025\n16:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 16
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: Ernesto
+tvOldGameItemBestHandValue: 88
+-- item 34
+tvOldGameItemGameName: sixteen_draws
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: 0
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: 0
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: 0
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: 0
+tvOldGameItemStartDate: 15/01/2025\n15:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 16
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: -
+tvOldGameItemBestHandValue: -
+-- item 35
+tvOldGameItemGameName: penalties
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: +39
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: +33
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -51
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -111
+tvOldGameItemStartDate: 15/01/2025\n14:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 4
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: David
+tvOldGameItemBestHandValue: 32
+-- item 36
+tvOldGameItemGameName: all_discard_pairs
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: +15
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: +45
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -15
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -45
+tvOldGameItemStartDate: 15/01/2025\n13:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 12
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: David
+tvOldGameItemBestHandValue: 41
+-- item 37
+tvOldGameItemGameName: self_picks
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: -40
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: +216
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: -72
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: -104
+tvOldGameItemStartDate: 15/01/2025\n12:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 4
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: David
+tvOldGameItemBestHandValue: 88
+-- item 38
+tvOldGameItemGameName: new_game
+tvOlgGameItemPlayerWestName: Carla
+tvOldGameItemPlayerWestPoints: 0
+tvOlgGameItemPlayerNorthName: David
+tvOldGameItemPlayerNorthPoints: 0
+tvOlgGameItemPlayerSouthName: Bruno
+tvOldGameItemPlayerSouthPoints: 0
+tvOlgGameItemPlayerEastName: Ana
+tvOldGameItemPlayerEastPoints: 0
+tvOldGameItemStartDate: 15/01/2025\n11:00
+AppCompatTextView: Rounds
+tvOldGameItemRoundsNumber: 0
+AppCompatTextView: Best hand
+tvOldGameItemBestHandPlayerName: -
+tvOldGameItemBestHandValue: -

@@ -63,7 +63,7 @@ class OtherViewModelsTest {
 
     @Before
     fun setUp() = runBlocking<Unit> {
-        context.dataStore.edit { it.clear() }
+        withTimeout(10_000) { context.dataStore.edit { it.clear() } }
         Locale.setDefault(Locale.US)
     }
 

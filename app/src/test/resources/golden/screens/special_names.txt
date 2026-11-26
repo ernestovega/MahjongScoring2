@@ -1,0 +1,234 @@
+# special_names: Names with quotes, commas, accents, emoji and file-name-unsafe characters.
+
+## Table, seats DOWN
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: Final: "Copa" <Madrid>/2025?
+tvTableSeatBySeatPoints: -26
+tvTableSeatBySeatName:   "Pepe"  
+tvTableSeatBySeatPoints: 31
+tvTableSeatBySeatName: José, Luis
+tvTableSeatBySeatPoints: -66
+tvTableSeatBySeatName: 王伟
+tvTableSeatBySeatPoints: 46
+tvTableSeatBySeatName: Zoë 🀄
+tvGameTableRoundNumberTopEnd: 3
+tvGameTableRoundNumberBottomStart: 3
+tvGameTableRoundNumberBottomEnd: 3
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1:   "Pepe"  
+tvGameListHeaderNameP2: José, Luis
+tvGameListHeaderNameP3: 王伟
+tvGameListHeaderNameP4: Zoë 🀄
+rvGameList: <list of 2 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -26
+tvGameListFooterTotalPointsP2: +31
+tvGameListFooterTotalPointsP3: -66
+tvGameListFooterTotalPointsP4: +46
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Table, seats OUT
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: Final: "Copa" <Madrid>/2025?
+tvTableSeatBySeatPoints: -26
+tvTableSeatBySeatName:   "Pepe"  
+tvTableSeatBySeatPoints: 31
+tvTableSeatBySeatName: José, Luis
+tvTableSeatBySeatPoints: -66
+tvTableSeatBySeatName: 王伟
+tvTableSeatBySeatPoints: 46
+tvTableSeatBySeatName: Zoë 🀄
+tvGameTableRoundNumberTopEnd: 3
+tvGameTableRoundNumberBottomStart: 3
+tvGameTableRoundNumberBottomEnd: 3
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1:   "Pepe"  
+tvGameListHeaderNameP2: José, Luis
+tvGameListHeaderNameP3: 王伟
+tvGameListHeaderNameP4: Zoë 🀄
+rvGameList: <list of 2 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -26
+tvGameListFooterTotalPointsP2: +31
+tvGameListFooterTotalPointsP3: -66
+tvGameListFooterTotalPointsP4: +46
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Table, seats RANKING
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: Final: "Copa" <Madrid>/2025?
+tvTableSeatRankingPosition: 1st
+tvTableSeatRankingPoints: 46
+tvTableSeatRankingName: Zoë 🀄
+tvTableSeatRankingPosition: 2nd
+tvTableSeatRankingPoints: 31
+tvTableSeatRankingName: José, Luis
+tvTableSeatRankingPosition: 3rd
+tvTableSeatRankingPoints: -26
+tvTableSeatRankingName:   "Pepe"  
+tvTableSeatRankingPosition: 4th
+tvTableSeatRankingPoints: -66
+tvTableSeatRankingName: 王伟
+tvGameTableRoundNumberTopEnd: 3
+tvGameTableRoundNumberBottomStart: 3
+tvGameTableRoundNumberBottomEnd: 3
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1:   "Pepe"  
+tvGameListHeaderNameP2: José, Luis
+tvGameListHeaderNameP3: 王伟
+tvGameListHeaderNameP4: Zoë 🀄
+rvGameList: <list of 2 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -26
+tvGameListFooterTotalPointsP2: +31
+tvGameListFooterTotalPointsP3: -66
+tvGameListFooterTotalPointsP4: +46
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Hand actions dialog, seat EAST
+tvTableSeatMediumName:   "Pepe"  
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: 11
+tvActionDialogDiffsFirstDirectHu: 21
+tvActionDialogDiffsFirstIndirectHu: 41
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: 8
+tvActionDialogDiffsSecondDirectHu: 13
+tvActionDialogDiffsSecondIndirectHu: 26
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: -
+tvActionDialogDiffsThirdDirectHu: -
+tvActionDialogDiffsThirdIndirectHu: -
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## Hand actions dialog, seat SOUTH
+tvTableSeatMediumName: José, Luis
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: 8
+tvActionDialogDiffsFirstDirectHu: 8
+tvActionDialogDiffsFirstIndirectHu: 8
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: -
+tvActionDialogDiffsSecondDirectHu: -
+tvActionDialogDiffsSecondIndirectHu: -
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: -
+tvActionDialogDiffsThirdDirectHu: -
+tvActionDialogDiffsThirdIndirectHu: -
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## Hand actions dialog, seat WEST
+tvTableSeatMediumName: 王伟
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: 21
+tvActionDialogDiffsFirstDirectHu: 41
+tvActionDialogDiffsFirstIndirectHu: 81
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: 17
+tvActionDialogDiffsSecondDirectHu: 33
+tvActionDialogDiffsSecondIndirectHu: 66
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: 8
+tvActionDialogDiffsThirdDirectHu: 8
+tvActionDialogDiffsThirdIndirectHu: 9
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## Hand actions dialog, seat NORTH
+tvTableSeatMediumName: Zoë 🀄
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: -
+tvActionDialogDiffsFirstDirectHu: -
+tvActionDialogDiffsFirstIndirectHu: -
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: -
+tvActionDialogDiffsSecondDirectHu: -
+tvActionDialogDiffsSecondIndirectHu: -
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: -
+tvActionDialogDiffsThirdDirectHu: -
+tvActionDialogDiffsThirdIndirectHu: -
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## List
+items: 2
+-- item 1
+tvGameListItemRoundNumber: 1
+tvGameListItemHandPoints: 25
+tvGameListItemRoundPointsP1: -8
+tvGameListItemRoundPointsP2: +49
+tvGameListItemRoundPointsP3: -33
+tvGameListItemRoundPointsP4: -8
+tvGameListItemRoundTotalPointsP1: -8
+tvGameListItemRoundTotalPointsP2: +49
+tvGameListItemRoundTotalPointsP3: -33
+tvGameListItemRoundTotalPointsP4: -8
+-- item 2
+tvGameListItemRoundNumber: 2
+tvGameListItemHandPoints: 10
+tvGameListItemRoundPointsP1: -18
+tvGameListItemRoundPointsP2: -18
+tvGameListItemRoundPointsP3: -33
+tvGameListItemRoundPointsP4: +54
+tvGameListItemRoundPenaltiesP1: 0
+tvGameListItemRoundPenaltiesP2: 0
+tvGameListItemRoundPenaltiesP3: -15
+tvGameListItemRoundPenaltiesP4: 0
+tvGameListItemRoundTotalPointsP1: -26
+tvGameListItemRoundTotalPointsP2: +31
+tvGameListItemRoundTotalPointsP3: -66
+tvGameListItemRoundTotalPointsP4: +46
+## List page (header and footers)
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1:   "Pepe"  
+tvGameListHeaderNameP2: José, Luis
+tvGameListHeaderNameP3: 王伟
+tvGameListHeaderNameP4: Zoë 🀄
+rvGameList: <list of 2 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -26
+tvGameListFooterTotalPointsP2: +31
+tvGameListFooterTotalPointsP3: -66
+tvGameListFooterTotalPointsP4: +46

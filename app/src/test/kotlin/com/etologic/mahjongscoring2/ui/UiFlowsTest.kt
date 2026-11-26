@@ -58,57 +58,6 @@ import org.robolectric.shadows.ShadowDialog
 @RunWith(AndroidJUnit4::class)
 class UiFlowsTest : UiTestBase() {
 
-    // region Helpers
-
-    private fun rounds(gameId: GameId): List<DbRound> = runBlocking { database.roundsDao.getGameRounds(gameId) }
-
-    private fun game(gameId: GameId) = runBlocking { database.gamesDao.getOne(gameId).toUiGame(rounds(gameId)) }
-
-    private fun allGames() = runBlocking { database.gamesDao.getAllFlow().first() }
-
-    private fun seat(seatId: Int) = onView(allOf(withId(R.id.tvTableSeatBySeatName), isDescendantOfA(withId(seatId))))
-
-    private fun seatPoints(seatId: Int) = onView(allOf(withId(R.id.tvTableSeatBySeatPoints), isDescendantOfA(withId(seatId))))
-
-    private fun typePoints(numPadId: Int, points: Int) {
-        val digitIds = listOf(
-            R.id.btCustomNumPad0, R.id.btCustomNumPad1, R.id.btCustomNumPad2, R.id.btCustomNumPad3, R.id.btCustomNumPad4,
-            R.id.btCustomNumPad5, R.id.btCustomNumPad6, R.id.btCustomNumPad7, R.id.btCustomNumPad8, R.id.btCustomNumPad9,
-        )
-        points.toString().forEach { digit ->
-            onDialogView(allOf(withId(digitIds[digit.digitToInt()]), isDescendantOfA(withId(numPadId)))).safeClick()
-        }
-    }
-
-    private fun gamePagerItem(): Int {
-        var item = -1
-        scenario!!.onActivity { item = it.findViewById<ViewPager2>(R.id.viewPagerGame).currentItem }
-        return item
-    }
-
-    private fun clickMenu(itemId: Int) {
-        scenario!!.onActivity { shadowOf(it).clickMenuItem(itemId) }
-        settle()
-    }
-
-    private fun confirmLatestAlertDialog() {
-        val dialog = ShadowAlertDialog.getLatestDialog() as AlertDialog
-        dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick()
-        settle()
-    }
-
-    private fun performClickWithoutAdvancingTime() = object : ViewAction {
-        override fun getConstraints(): Matcher<View> = isEnabled()
-        override fun getDescription() = "performClick() without advancing the clock"
-        override fun perform(uiController: UiController, view: View) {
-            shadowOf(Looper.getMainLooper()).idleFor(Duration.ofSeconds(1)) // past the anti double click guard
-            view.performClick()
-        }
-    }
-
-    private fun isDialogShowing(): Boolean = ShadowDialog.getLatestDialog()?.isShowing == true
-
-    // endregion
 
     // region Old games
 

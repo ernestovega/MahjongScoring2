@@ -1,0 +1,528 @@
+## progression_00
+dice button: bottom-end
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_00
+tvTableSeatBySeatPoints: 0
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: 0
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: 0
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: 0
+tvTableSeatBySeatName: David
+tvGameTableRoundNumberTopStart: 1
+tvGameTableRoundNumberTopEnd: 1
+tvGameTableRoundNumberBottomStart: 1
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 0 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: 0
+tvGameListFooterTotalPointsP2: 0
+tvGameListFooterTotalPointsP3: 0
+tvGameListFooterTotalPointsP4: 0
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_01
+dice button: top-end
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_01
+tvTableSeatBySeatPoints: -16
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: 48
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: -16
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: -16
+tvTableSeatBySeatName: David
+tvGameTableRoundNumberTopStart: 2
+tvGameTableRoundNumberBottomStart: 2
+tvGameTableRoundNumberBottomEnd: 2
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 1 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -16
+tvGameListFooterTotalPointsP2: +48
+tvGameListFooterTotalPointsP3: -16
+tvGameListFooterTotalPointsP4: -16
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_02
+dice button: top-start
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_02
+tvTableSeatBySeatPoints: 20
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: 28
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: -24
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: -24
+tvTableSeatBySeatName: David
+tvGameTableRoundNumberTopEnd: 3
+tvGameTableRoundNumberBottomStart: 3
+tvGameTableRoundNumberBottomEnd: 3
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 2 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: +20
+tvGameListFooterTotalPointsP2: +28
+tvGameListFooterTotalPointsP3: -24
+tvGameListFooterTotalPointsP4: -24
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_03
+dice button: bottom-start
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_03
+tvTableSeatBySeatPoints: 20
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: 28
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: -24
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: -24
+tvTableSeatBySeatName: David
+tvGameTableRoundNumberTopStart: 4
+tvGameTableRoundNumberTopEnd: 4
+tvGameTableRoundNumberBottomEnd: 4
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 3 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: +20
+tvGameListFooterTotalPointsP2: +28
+tvGameListFooterTotalPointsP3: -24
+tvGameListFooterTotalPointsP4: -24
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_04
+dice button: bottom-end
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_04
+tvTableSeatBySeatPoints: 20
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: 12
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: -48
+tvTableSeatBySeatName: David
+tvTableSeatBySeatPoints: 16
+tvTableSeatBySeatName: Carla
+tvGameTableRoundNumberTopStart: 5
+tvGameTableRoundNumberTopEnd: 5
+tvGameTableRoundNumberBottomStart: 5
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 4 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: +12
+tvGameListFooterTotalPointsP2: +20
+tvGameListFooterTotalPointsP3: +16
+tvGameListFooterTotalPointsP4: -48
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_05
+dice button: top-end
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_05
+tvTableSeatBySeatPoints: 80
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: -8
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: -68
+tvTableSeatBySeatName: David
+tvTableSeatBySeatPoints: -4
+tvTableSeatBySeatName: Carla
+tvGameTableRoundNumberTopStart: 6
+tvGameTableRoundNumberBottomStart: 6
+tvGameTableRoundNumberBottomEnd: 6
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 5 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -8
+tvGameListFooterTotalPointsP2: +80
+tvGameListFooterTotalPointsP3: -4
+tvGameListFooterTotalPointsP4: -68
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_06
+dice button: top-start
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_06
+tvTableSeatBySeatPoints: 80
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: -8
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: -68
+tvTableSeatBySeatName: David
+tvTableSeatBySeatPoints: -4
+tvTableSeatBySeatName: Carla
+tvGameTableRoundNumberTopEnd: 7
+tvGameTableRoundNumberBottomStart: 7
+tvGameTableRoundNumberBottomEnd: 7
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 6 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -8
+tvGameListFooterTotalPointsP2: +80
+tvGameListFooterTotalPointsP3: -4
+tvGameListFooterTotalPointsP4: -68
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_07
+dice button: bottom-start
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_07
+tvTableSeatBySeatPoints: 58
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: -30
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: -2
+tvTableSeatBySeatName: David
+tvTableSeatBySeatPoints: -26
+tvTableSeatBySeatName: Carla
+tvGameTableRoundNumberTopStart: 8
+tvGameTableRoundNumberTopEnd: 8
+tvGameTableRoundNumberBottomEnd: 8
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 7 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -30
+tvGameListFooterTotalPointsP2: +58
+tvGameListFooterTotalPointsP3: -26
+tvGameListFooterTotalPointsP4: -2
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_08
+dice button: bottom-end
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_08
+tvTableSeatBySeatPoints: 22
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: -34
+tvTableSeatBySeatName: David
+tvTableSeatBySeatPoints: 50
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: -38
+tvTableSeatBySeatName: Ana
+tvGameTableRoundNumberTopStart: 9
+tvGameTableRoundNumberTopEnd: 9
+tvGameTableRoundNumberBottomStart: 9
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 8 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -38
+tvGameListFooterTotalPointsP2: +50
+tvGameListFooterTotalPointsP3: +22
+tvGameListFooterTotalPointsP4: -34
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_09
+dice button: top-end
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_09
+tvTableSeatBySeatPoints: 22
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: -34
+tvTableSeatBySeatName: David
+tvTableSeatBySeatPoints: 50
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: -38
+tvTableSeatBySeatName: Ana
+tvGameTableRoundNumberTopStart: 10
+tvGameTableRoundNumberBottomStart: 10
+tvGameTableRoundNumberBottomEnd: 10
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 9 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -38
+tvGameListFooterTotalPointsP2: +50
+tvGameListFooterTotalPointsP3: +22
+tvGameListFooterTotalPointsP4: -34
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_10
+dice button: top-start
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_10
+tvTableSeatBySeatPoints: 14
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: -42
+tvTableSeatBySeatName: David
+tvTableSeatBySeatPoints: 14
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: 14
+tvTableSeatBySeatName: Ana
+tvGameTableRoundNumberTopEnd: 11
+tvGameTableRoundNumberBottomStart: 11
+tvGameTableRoundNumberBottomEnd: 11
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 10 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: +14
+tvGameListFooterTotalPointsP2: +14
+tvGameListFooterTotalPointsP3: +14
+tvGameListFooterTotalPointsP4: -42
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_11
+dice button: bottom-start
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_11
+tvTableSeatBySeatPoints: -12
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: 36
+tvTableSeatBySeatName: David
+tvTableSeatBySeatPoints: -12
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: -12
+tvTableSeatBySeatName: Ana
+tvGameTableRoundNumberTopStart: 12
+tvGameTableRoundNumberTopEnd: 12
+tvGameTableRoundNumberBottomEnd: 12
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 11 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -12
+tvGameListFooterTotalPointsP2: -12
+tvGameListFooterTotalPointsP3: -12
+tvGameListFooterTotalPointsP4: +36
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_12
+dice button: bottom-end
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_12
+tvTableSeatBySeatPoints: 36
+tvTableSeatBySeatName: David
+tvTableSeatBySeatPoints: -12
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: -12
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: -12
+tvTableSeatBySeatName: Bruno
+tvGameTableRoundNumberTopStart: 13
+tvGameTableRoundNumberTopEnd: 13
+tvGameTableRoundNumberBottomStart: 13
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 12 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -12
+tvGameListFooterTotalPointsP2: -12
+tvGameListFooterTotalPointsP3: -12
+tvGameListFooterTotalPointsP4: +36
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_13
+dice button: top-end
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_13
+tvTableSeatBySeatPoints: 8
+tvTableSeatBySeatName: David
+tvTableSeatBySeatPoints: -40
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: -40
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: 72
+tvTableSeatBySeatName: Bruno
+tvGameTableRoundNumberTopStart: 14
+tvGameTableRoundNumberBottomStart: 14
+tvGameTableRoundNumberBottomEnd: 14
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 13 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -40
+tvGameListFooterTotalPointsP2: +72
+tvGameListFooterTotalPointsP3: -40
+tvGameListFooterTotalPointsP4: +8
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_14
+dice button: top-start
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_14
+tvTableSeatBySeatPoints: 0
+tvTableSeatBySeatName: David
+tvTableSeatBySeatPoints: -48
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: 20
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: 28
+tvTableSeatBySeatName: Bruno
+tvGameTableRoundNumberTopEnd: 15
+tvGameTableRoundNumberBottomStart: 15
+tvGameTableRoundNumberBottomEnd: 15
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 14 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: +20
+tvGameListFooterTotalPointsP2: +28
+tvGameListFooterTotalPointsP3: -48
+tvGameListFooterTotalPointsP4: 0
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+## progression_15
+dice button: bottom-start
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: progression_15
+tvTableSeatBySeatPoints: 0
+tvTableSeatBySeatName: David
+tvTableSeatBySeatPoints: -48
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: 20
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: 28
+tvTableSeatBySeatName: Bruno
+tvGameTableRoundNumberTopStart: 16
+tvGameTableRoundNumberTopEnd: 16
+tvGameTableRoundNumberBottomEnd: 16
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 15 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: +20
+tvGameListFooterTotalPointsP2: +28
+tvGameListFooterTotalPointsP3: -48
+tvGameListFooterTotalPointsP4: 0
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations

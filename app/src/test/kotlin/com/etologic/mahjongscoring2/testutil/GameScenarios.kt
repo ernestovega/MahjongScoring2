@@ -238,11 +238,17 @@ object GameScenarios {
     }
 
     /** Pseudo-random but fully deterministic games, covering lengths from 1 to 16 rounds. */
-    val randomGames: List<GameScenario> = (1..20).map { index ->
+    val randomGames: List<GameScenario> = (1..20).map { index -> randomGame(index, 100L + index) }
+
+    /**
+     * Seeded random game number [index] (same seed, same game, on every platform that ports this generator).
+     * Lengths cycle from 1 to 16 rounds; a quarter of the shorter games are ended.
+     */
+    fun randomGame(index: Int, id: GameId): GameScenario {
         val random = Random(index * 7919L)
         val roundsCount = 1 + (index - 1) % 16
         val ended = roundsCount == 16 || random.nextInt(4) == 0
-        scenario(100L + index, "random_%02d".format(index), "Seeded random game #$index with $roundsCount rounds.", ended = ended) {
+        return scenario(id, "random_%02d".format(index), "Seeded random game #$index with $roundsCount rounds.", ended = ended) {
             repeat(roundsCount) { roundIndex ->
                 val isLast = roundIndex == roundsCount - 1
                 val penalties = IntArray(4)
@@ -271,6 +277,25 @@ object GameScenarios {
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * The same game seen after 0..15 finished hands (ongoing). Used for the table screen: the dice button moves
+     * corner every hand, and the prevalent wind changes every four hands. Not part of [all].
+     */
+    val progression: List<GameScenario> = (0..15).map { finished ->
+        val winners = listOf(TableWinds.EAST, TableWinds.SOUTH, TableWinds.WEST, TableWinds.NORTH)
+        scenario(
+            id = 300L + finished,
+            name = "progression_%02d".format(finished),
+            description = "Ongoing game after $finished finished hands.",
+        ) {
+            repeat(finished) { hand ->
+                val winner = winners[(hand * 3 + 1) % 4]
+                if (hand % 3 == 2) draw() else if (hand % 2 == 0) selfPick(winner, 8 + hand) else discard(winner, winners[(hand * 3 + 2) % 4], 10 + hand * 2)
+            }
+            ongoing()
         }
     }
 

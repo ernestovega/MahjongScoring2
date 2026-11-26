@@ -1,0 +1,328 @@
+# full_game: A realistic complete 16 round tournament game with every kind of round.
+
+## Table, seats DOWN
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: Torneo Primavera - Mesa 3
+tvTableSeatBySeatPoints: -116
+tvTableSeatBySeatName: Ana María
+tvTableSeatBySeatPoints: 45
+tvTableSeatBySeatName: Wang Wei
+tvTableSeatBySeatPoints: 153
+tvTableSeatBySeatName: Ernesto
+tvTableSeatBySeatPoints: -92
+tvTableSeatBySeatName: Lucía
+tvGameTableRoundNumberTopStart: End
+tvGameTableRoundNumberTopEnd: End
+tvGameTableRoundNumberBottomStart: End
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ernesto
+tvGameListHeaderNameP2: Lucía
+tvGameListHeaderNameP3: Wang Wei
+tvGameListHeaderNameP4: Ana María
+rvGameList: <list of 16 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: +153
+tvGameListFooterTotalPointsP2: -92
+tvGameListFooterTotalPointsP3: +45
+tvGameListFooterTotalPointsP4: -116
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Table, seats OUT
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: Torneo Primavera - Mesa 3
+tvTableSeatBySeatPoints: -116
+tvTableSeatBySeatName: Ana María
+tvTableSeatBySeatPoints: 45
+tvTableSeatBySeatName: Wang Wei
+tvTableSeatBySeatPoints: 153
+tvTableSeatBySeatName: Ernesto
+tvTableSeatBySeatPoints: -92
+tvTableSeatBySeatName: Lucía
+tvGameTableRoundNumberTopStart: End
+tvGameTableRoundNumberTopEnd: End
+tvGameTableRoundNumberBottomStart: End
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ernesto
+tvGameListHeaderNameP2: Lucía
+tvGameListHeaderNameP3: Wang Wei
+tvGameListHeaderNameP4: Ana María
+rvGameList: <list of 16 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: +153
+tvGameListFooterTotalPointsP2: -92
+tvGameListFooterTotalPointsP3: +45
+tvGameListFooterTotalPointsP4: -116
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Table, seats RANKING
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: Torneo Primavera - Mesa 3
+tvTableSeatRankingPosition: 1st
+tvTableSeatRankingPoints: 153
+tvTableSeatRankingName: Ernesto
+tvTableSeatRankingPosition: 2nd
+tvTableSeatRankingPoints: 45
+tvTableSeatRankingName: Wang Wei
+tvTableSeatRankingPosition: 3rd
+tvTableSeatRankingPoints: -92
+tvTableSeatRankingName: Lucía
+tvTableSeatRankingPosition: 4th
+tvTableSeatRankingPoints: -116
+tvTableSeatRankingName: Ana María
+tvGameTableRoundNumberTopStart: End
+tvGameTableRoundNumberTopEnd: End
+tvGameTableRoundNumberBottomStart: End
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ernesto
+tvGameListHeaderNameP2: Lucía
+tvGameListHeaderNameP3: Wang Wei
+tvGameListHeaderNameP4: Ana María
+rvGameList: <list of 16 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: +153
+tvGameListFooterTotalPointsP2: -92
+tvGameListFooterTotalPointsP3: +45
+tvGameListFooterTotalPointsP4: -116
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Ranking dialog
+AppCompatTextView: Final results
+tvRankingDialogPlayer1Name: Ernesto
+tvRankingDialogPlayer1Points: 4
+tvRankingDialogPlayer1Score: +153
+tvRankingDialogPlayer2Position: 2nd
+tvRankingDialogPlayer2Name: Wang Wei
+tvRankingDialogPlayer2Points: 2
+tvRankingDialogPlayer2Score: +45
+tvRankingDialogPlayer3Position: 3rd
+tvRankingDialogPlayer3Name: Lucía
+tvRankingDialogPlayer3Points: 1
+tvRankingDialogPlayer3Score: -92
+tvRankingDialogPlayer4Position: 4th
+tvRankingDialogPlayer4Name: Ana María
+tvRankingDialogPlayer4Points: 0
+tvRankingDialogPlayer4Score: -116
+tvRankingDialogBestHandTitle: Best hand:
+tvRankingDialogBestHandPlayerPoints: 88
+AppCompatTextView: -
+tvRankingDialogBestHandPlayerName: Ernesto
+btRankingDialogShare: Share
+btRankingDialogClose: Close
+
+## List
+items: 16
+-- item 1
+tvGameListItemRoundNumber: 1
+tvGameListItemHandPoints: 12
+tvGameListItemRoundPointsP1: +36
+tvGameListItemRoundPointsP2: -8
+tvGameListItemRoundPointsP3: -8
+tvGameListItemRoundPointsP4: -20
+tvGameListItemRoundTotalPointsP1: +36
+tvGameListItemRoundTotalPointsP2: -8
+tvGameListItemRoundTotalPointsP3: -8
+tvGameListItemRoundTotalPointsP4: -20
+-- item 2
+tvGameListItemRoundNumber: 2
+tvGameListItemHandPoints: 9
+tvGameListItemRoundPointsP1: -17
+tvGameListItemRoundPointsP2: +51
+tvGameListItemRoundPointsP3: -17
+tvGameListItemRoundPointsP4: -17
+tvGameListItemRoundTotalPointsP1: +19
+tvGameListItemRoundTotalPointsP2: +43
+tvGameListItemRoundTotalPointsP3: -25
+tvGameListItemRoundTotalPointsP4: -37
+-- item 3
+tvGameListItemRoundNumber: 3
+tvGameListItemHandPoints: 0
+tvGameListItemRoundPointsP1: +0
+tvGameListItemRoundPointsP2: +0
+tvGameListItemRoundPointsP3: +0
+tvGameListItemRoundPointsP4: +0
+tvGameListItemRoundTotalPointsP1: +19
+tvGameListItemRoundTotalPointsP2: +43
+tvGameListItemRoundTotalPointsP3: -25
+tvGameListItemRoundTotalPointsP4: -37
+-- item 4
+tvGameListItemRoundNumber: 4
+tvGameListItemHandPoints: 24
+tvGameListItemRoundPointsP1: -8
+tvGameListItemRoundPointsP2: -32
+tvGameListItemRoundPointsP3: +48
+tvGameListItemRoundPointsP4: -8
+tvGameListItemRoundTotalPointsP1: +11
+tvGameListItemRoundTotalPointsP2: +11
+tvGameListItemRoundTotalPointsP3: +23
+tvGameListItemRoundTotalPointsP4: -45
+-- item 5
+tvGameListItemRoundNumber: 5
+tvGameListItemHandPoints: 8
+tvGameListItemRoundPointsP1: -8
+tvGameListItemRoundPointsP2: -8
+tvGameListItemRoundPointsP3: -16
+tvGameListItemRoundPointsP4: +22
+tvGameListItemRoundPenaltiesP1: 0
+tvGameListItemRoundPenaltiesP2: 0
+tvGameListItemRoundPenaltiesP3: 0
+tvGameListItemRoundPenaltiesP4: -10
+tvGameListItemRoundTotalPointsP1: +3
+tvGameListItemRoundTotalPointsP2: +3
+tvGameListItemRoundTotalPointsP3: +7
+tvGameListItemRoundTotalPointsP4: -23
+-- item 6
+tvGameListItemRoundNumber: 6
+tvGameListItemHandPoints: 32
+tvGameListItemRoundPointsP1: +120
+tvGameListItemRoundPointsP2: -40
+tvGameListItemRoundPointsP3: -40
+tvGameListItemRoundPointsP4: -40
+tvGameListItemRoundTotalPointsP1: +123
+tvGameListItemRoundTotalPointsP2: -37
+tvGameListItemRoundTotalPointsP3: -33
+tvGameListItemRoundTotalPointsP4: -63
+-- item 7
+tvGameListItemRoundNumber: 7
+tvGameListItemHandPoints: 16
+tvGameListItemRoundPointsP1: -24
+tvGameListItemRoundPointsP2: +40
+tvGameListItemRoundPointsP3: -8
+tvGameListItemRoundPointsP4: -8
+tvGameListItemRoundTotalPointsP1: +99
+tvGameListItemRoundTotalPointsP2: +3
+tvGameListItemRoundTotalPointsP3: -41
+tvGameListItemRoundTotalPointsP4: -71
+-- item 8
+tvGameListItemRoundNumber: 8
+tvGameListItemHandPoints: 0
+tvGameListItemRoundPointsP1: -30
+tvGameListItemRoundPointsP2: +10
+tvGameListItemRoundPointsP3: +10
+tvGameListItemRoundPointsP4: +10
+tvGameListItemRoundPenaltiesP1: -30
+tvGameListItemRoundPenaltiesP2: +10
+tvGameListItemRoundPenaltiesP3: +10
+tvGameListItemRoundPenaltiesP4: +10
+tvGameListItemRoundTotalPointsP1: +69
+tvGameListItemRoundTotalPointsP2: +13
+tvGameListItemRoundTotalPointsP3: -31
+tvGameListItemRoundTotalPointsP4: -61
+-- item 9
+tvGameListItemRoundNumber: 9
+tvGameListItemHandPoints: 64
+tvGameListItemRoundPointsP1: -8
+tvGameListItemRoundPointsP2: -8
+tvGameListItemRoundPointsP3: +88
+tvGameListItemRoundPointsP4: -72
+tvGameListItemRoundTotalPointsP1: +61
+tvGameListItemRoundTotalPointsP2: +5
+tvGameListItemRoundTotalPointsP3: +57
+tvGameListItemRoundTotalPointsP4: -133
+-- item 10
+tvGameListItemRoundNumber: 10
+tvGameListItemHandPoints: 12
+tvGameListItemRoundPointsP1: -20
+tvGameListItemRoundPointsP2: -20
+tvGameListItemRoundPointsP3: -20
+tvGameListItemRoundPointsP4: +60
+tvGameListItemRoundTotalPointsP1: +41
+tvGameListItemRoundTotalPointsP2: -15
+tvGameListItemRoundTotalPointsP3: +37
+tvGameListItemRoundTotalPointsP4: -73
+-- item 11
+tvGameListItemRoundNumber: 11
+tvGameListItemHandPoints: 8
+tvGameListItemRoundPointsP1: +32
+tvGameListItemRoundPointsP2: -8
+tvGameListItemRoundPointsP3: -16
+tvGameListItemRoundPointsP4: -8
+tvGameListItemRoundTotalPointsP1: +73
+tvGameListItemRoundTotalPointsP2: -23
+tvGameListItemRoundTotalPointsP3: +21
+tvGameListItemRoundTotalPointsP4: -81
+-- item 12
+tvGameListItemRoundNumber: 12
+tvGameListItemHandPoints: 40
+tvGameListItemRoundPointsP1: -8
+tvGameListItemRoundPointsP2: +64
+tvGameListItemRoundPointsP3: -8
+tvGameListItemRoundPointsP4: -48
+tvGameListItemRoundTotalPointsP1: +65
+tvGameListItemRoundTotalPointsP2: +41
+tvGameListItemRoundTotalPointsP3: +13
+tvGameListItemRoundTotalPointsP4: -129
+-- item 13
+tvGameListItemRoundNumber: 13
+tvGameListItemHandPoints: 8
+tvGameListItemRoundPointsP1: -16
+tvGameListItemRoundPointsP2: -16
+tvGameListItemRoundPointsP3: +48
+tvGameListItemRoundPointsP4: -16
+tvGameListItemRoundTotalPointsP1: +49
+tvGameListItemRoundTotalPointsP2: +25
+tvGameListItemRoundTotalPointsP3: +61
+tvGameListItemRoundTotalPointsP4: -145
+-- item 14
+tvGameListItemRoundNumber: 14
+tvGameListItemHandPoints: 13
+tvGameListItemRoundPointsP1: -8
+tvGameListItemRoundPointsP2: -21
+tvGameListItemRoundPointsP3: -8
+tvGameListItemRoundPointsP4: +37
+tvGameListItemRoundTotalPointsP1: +41
+tvGameListItemRoundTotalPointsP2: +4
+tvGameListItemRoundTotalPointsP3: +53
+tvGameListItemRoundTotalPointsP4: -108
+-- item 15
+tvGameListItemRoundNumber: 15
+tvGameListItemHandPoints: 0
+tvGameListItemRoundPointsP1: +0
+tvGameListItemRoundPointsP2: +0
+tvGameListItemRoundPointsP3: +0
+tvGameListItemRoundPointsP4: +0
+tvGameListItemRoundTotalPointsP1: +41
+tvGameListItemRoundTotalPointsP2: +4
+tvGameListItemRoundTotalPointsP3: +53
+tvGameListItemRoundTotalPointsP4: -108
+-- item 16
+tvGameListItemRoundNumber: 16
+tvGameListItemHandPoints: 88
+tvGameListItemRoundPointsP1: +112
+tvGameListItemRoundPointsP2: -96
+tvGameListItemRoundPointsP3: -8
+tvGameListItemRoundPointsP4: -8
+tvGameListItemRoundTotalPointsP1: +153
+tvGameListItemRoundTotalPointsP2: -92
+tvGameListItemRoundTotalPointsP3: +45
+tvGameListItemRoundTotalPointsP4: -116
+## List page (header and footers)
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ernesto
+tvGameListHeaderNameP2: Lucía
+tvGameListHeaderNameP3: Wang Wei
+tvGameListHeaderNameP4: Ana María
+rvGameList: <list of 16 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: +153
+tvGameListFooterTotalPointsP2: -92
+tvGameListFooterTotalPointsP3: +45
+tvGameListFooterTotalPointsP4: -116

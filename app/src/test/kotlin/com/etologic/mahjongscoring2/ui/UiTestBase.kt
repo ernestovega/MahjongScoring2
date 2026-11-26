@@ -1,6 +1,16 @@
 package com.etologic.mahjongscoring2.ui
 
 import android.content.Context
+import android.app.AlertDialog
+import android.content.DialogInterface
+import androidx.viewpager2.widget.ViewPager2
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
+import com.etologic.mahjongscoring2.business.use_cases.mappers.toUiGame
+import com.etologic.mahjongscoring2.data_source.local_data_sources.room.model.DbRound
+import kotlinx.coroutines.flow.first
+import org.hamcrest.Matchers.allOf
+import org.robolectric.shadows.ShadowAlertDialog
+import org.robolectric.shadows.ShadowDialog
 import android.os.Looper
 import android.view.View
 import androidx.datastore.preferences.core.edit
@@ -84,9 +94,21 @@ abstract class UiTestBase {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
         Locale.setDefault(Locale.US)
         hiltRule.inject()
+        clearFileProviderCache()
         runBlocking {
             context.dataStore.edit { it.clear() }
             languageRepository.save("en")
+        }
+    }
+
+    /**
+     * androidx FileProvider caches its roots in a static map, but every Robolectric test gets a new temporary
+     * files directory: without this, only the first test that shares a file would find its root.
+     */
+    private fun clearFileProviderCache() {
+        runCatching {
+            val field = androidx.core.content.FileProvider::class.java.getDeclaredField("sCache").apply { isAccessible = true }
+            (field.get(null) as MutableMap<*, *>).clear()
         }
     }
 
@@ -211,6 +233,58 @@ abstract class UiTestBase {
         override fun getDescription() = "wait $seconds s"
         override fun perform(uiController: UiController, view: View) = uiController.loopMainThreadForAtLeast(seconds * 1000)
     }
+
+    // endregion
+
+    // region Common user actions and queries
+
+    protected fun rounds(gameId: GameId): List<DbRound> = runBlocking { database.roundsDao.getGameRounds(gameId) }
+
+    protected fun game(gameId: GameId) = runBlocking { database.gamesDao.getOne(gameId).toUiGame(rounds(gameId)) }
+
+    protected fun allGames() = runBlocking { database.gamesDao.getAllFlow().first() }
+
+    protected fun seat(seatId: Int) = onView(allOf(withId(R.id.tvTableSeatBySeatName), isDescendantOfA(withId(seatId))))
+
+    protected fun seatPoints(seatId: Int) = onView(allOf(withId(R.id.tvTableSeatBySeatPoints), isDescendantOfA(withId(seatId))))
+
+    protected fun typePoints(numPadId: Int, points: Int) {
+        val digitIds = listOf(
+            R.id.btCustomNumPad0, R.id.btCustomNumPad1, R.id.btCustomNumPad2, R.id.btCustomNumPad3, R.id.btCustomNumPad4,
+            R.id.btCustomNumPad5, R.id.btCustomNumPad6, R.id.btCustomNumPad7, R.id.btCustomNumPad8, R.id.btCustomNumPad9,
+        )
+        points.toString().forEach { digit ->
+            onDialogView(allOf(withId(digitIds[digit.digitToInt()]), isDescendantOfA(withId(numPadId)))).safeClick()
+        }
+    }
+
+    protected fun gamePagerItem(): Int {
+        var item = -1
+        scenario!!.onActivity { item = it.findViewById<ViewPager2>(R.id.viewPagerGame).currentItem }
+        return item
+    }
+
+    protected fun clickMenu(itemId: Int) {
+        scenario!!.onActivity { shadowOf(it).clickMenuItem(itemId) }
+        settle()
+    }
+
+    protected fun confirmLatestAlertDialog() {
+        val dialog = ShadowAlertDialog.getLatestDialog() as AlertDialog
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick()
+        settle()
+    }
+
+    protected fun performClickWithoutAdvancingTime() = object : ViewAction {
+        override fun getConstraints(): Matcher<View> = isEnabled()
+        override fun getDescription() = "performClick() without advancing the clock"
+        override fun perform(uiController: UiController, view: View) {
+            shadowOf(Looper.getMainLooper()).idleFor(Duration.ofSeconds(1)) // past the anti double click guard
+            view.performClick()
+        }
+    }
+
+    protected fun isDialogShowing(): Boolean = ShadowDialog.getLatestDialog()?.isShowing == true
 
     // endregion
 

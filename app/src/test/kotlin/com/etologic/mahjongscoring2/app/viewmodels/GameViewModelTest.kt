@@ -42,9 +42,15 @@ import com.etologic.mahjongscoring2.testutil.MainDispatcherRule
 import com.etologic.mahjongscoring2.testutil.awaitFirst
 import com.etologic.mahjongscoring2.testutil.clone
 import com.google.common.truth.Truth.assertThat
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -67,10 +73,11 @@ class GameViewModelTest {
     private lateinit var seatsRepository: SelectedSeatsOrientationRepository
     private lateinit var diffsRepository: DiffCalcsFeatureEnabledRepository
     private lateinit var viewModel: GameViewModel
+    private val viewModelStore = ViewModelStore()
 
     @Before
     fun setUp() = runBlocking<Unit> {
-        context.dataStore.edit { it.clear() }
+        withTimeout(10_000) { context.dataStore.edit { it.clear() } }
         games = FakeGamesRepository()
         rounds = FakeRoundsRepository()
         seatsRepository = SelectedSeatsOrientationRepository(context)
@@ -78,7 +85,7 @@ class GameViewModelTest {
         val getOneGame = GetOneGameFlowUseCase(games, rounds)
         val endGame = EndGameUseCase(games)
         val endRound = EndRoundUseCase(rounds, endGame, getOneGame)
-        viewModel = GameViewModel(
+        viewModel = ViewModelProvider(viewModelStore, viewModelFactory { initializer { GameViewModel(
             savedStateHandle = SavedStateHandle(),
             getOneGameFlowUseCase = getOneGame,
             editGameNamesUseCase = EditGameNamesUseCase(games),
@@ -96,7 +103,13 @@ class GameViewModelTest {
             diffCalcsFeatureEnabledRepository = diffsRepository,
             selectedSeatsOrientationRepository = seatsRepository,
             showInAppReviewUseCase = ShowInAppReviewUseCase(InAppReviewRepository(context)),
-        )
+        ) } })[GameViewModel::class.java]
+    }
+
+    /** Cancels the view model's coroutines (onCleared), so none of its work leaks into the next test. */
+    @After
+    fun tearDown() {
+        viewModelStore.clear()
     }
 
     private fun seed(scenario: GameScenario) = runBlocking {
@@ -209,7 +222,13 @@ class GameViewModelTest {
             awaitLoaded { it.game.uiRounds.size == index + 2 }
         }
         viewModel.saveHuSelfPickRound(HuData(points = 8, winnerInitialSeat = TableWinds.EAST))
-        val state = awaitLoaded { it.game.isEnded && it.pageToShow.second == GamePageActions.SHOW_RANKING }
+        val state = try {
+            awaitLoaded { it.game.isEnded && it.pageToShow.second == GamePageActions.SHOW_RANKING }
+        } catch (e: Throwable) {
+            val current = viewModel.gameUiStateFlow.value as? GameUiState.Loaded
+            val arrangement = runBlocking { seatsRepository.selectedSeatsArrangementFlow.first() }
+            throw AssertionError("stuck: ended=${current?.game?.isEnded} rounds=${current?.game?.uiRounds?.size} page=${current?.pageToShow} arrangement=${current?.seatsArrangement}/$arrangement", e)
+        }
         assertThat(state.game.uiRounds).hasSize(16)
     }
 

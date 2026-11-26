@@ -1,0 +1,241 @@
+# big_scores: Very large hands to check sign handling and table diffs with big numbers.
+
+## Table, seats DOWN
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: big_scores
+tvTableSeatBySeatPoints: -380
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: -10911
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: 9119
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: 2172
+tvTableSeatBySeatName: David
+tvGameTableRoundNumberTopStart: 4
+tvGameTableRoundNumberTopEnd: 4
+tvGameTableRoundNumberBottomEnd: 4
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 3 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -380
+tvGameListFooterTotalPointsP2: -10911
+tvGameListFooterTotalPointsP3: +9119
+tvGameListFooterTotalPointsP4: +2172
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Table, seats OUT
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: big_scores
+tvTableSeatBySeatPoints: -380
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: -10911
+tvTableSeatBySeatName: Bruno
+tvTableSeatBySeatPoints: 9119
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: 2172
+tvTableSeatBySeatName: David
+tvGameTableRoundNumberTopStart: 4
+tvGameTableRoundNumberTopEnd: 4
+tvGameTableRoundNumberBottomEnd: 4
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 3 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -380
+tvGameListFooterTotalPointsP2: -10911
+tvGameListFooterTotalPointsP3: +9119
+tvGameListFooterTotalPointsP4: +2172
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Table, seats RANKING
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: big_scores
+tvTableSeatRankingPosition: 1st
+tvTableSeatRankingPoints: 9119
+tvTableSeatRankingName: Carla
+tvTableSeatRankingPosition: 2nd
+tvTableSeatRankingPoints: 2172
+tvTableSeatRankingName: David
+tvTableSeatRankingPosition: 3rd
+tvTableSeatRankingPoints: -380
+tvTableSeatRankingName: Ana
+tvTableSeatRankingPosition: 4th
+tvTableSeatRankingPoints: -10911
+tvTableSeatRankingName: Bruno
+tvGameTableRoundNumberTopStart: 4
+tvGameTableRoundNumberTopEnd: 4
+tvGameTableRoundNumberBottomEnd: 4
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 3 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -380
+tvGameListFooterTotalPointsP2: -10911
+tvGameListFooterTotalPointsP3: +9119
+tvGameListFooterTotalPointsP4: +2172
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Hand actions dialog, seat EAST
+tvTableSeatMediumName: Ana
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: 2367
+tvActionDialogDiffsFirstDirectHu: 4734
+tvActionDialogDiffsFirstIndirectHu: 9468
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: 631
+tvActionDialogDiffsSecondDirectHu: 1261
+tvActionDialogDiffsSecondIndirectHu: 2521
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: -
+tvActionDialogDiffsThirdDirectHu: -
+tvActionDialogDiffsThirdIndirectHu: -
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## Hand actions dialog, seat SOUTH
+tvTableSeatMediumName: Bruno
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: 5000
+tvActionDialogDiffsFirstDirectHu: 10000
+tvActionDialogDiffsFirstIndirectHu: 19999
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: 3263
+tvActionDialogDiffsSecondDirectHu: 6526
+tvActionDialogDiffsSecondIndirectHu: 13052
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: 2625
+tvActionDialogDiffsThirdDirectHu: 5250
+tvActionDialogDiffsThirdIndirectHu: 10500
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## Hand actions dialog, seat WEST
+tvTableSeatMediumName: Carla
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: -
+tvActionDialogDiffsFirstDirectHu: -
+tvActionDialogDiffsFirstIndirectHu: -
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: -
+tvActionDialogDiffsSecondDirectHu: -
+tvActionDialogDiffsSecondIndirectHu: -
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: -
+tvActionDialogDiffsThirdDirectHu: -
+tvActionDialogDiffsThirdIndirectHu: -
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## Hand actions dialog, seat NORTH
+tvTableSeatMediumName: David
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: 1729
+tvActionDialogDiffsFirstDirectHu: 3458
+tvActionDialogDiffsFirstIndirectHu: 6916
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: -
+tvActionDialogDiffsSecondDirectHu: -
+tvActionDialogDiffsSecondIndirectHu: -
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: -
+tvActionDialogDiffsThirdDirectHu: -
+tvActionDialogDiffsThirdIndirectHu: -
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## List
+items: 3
+-- item 1
+tvGameListItemRoundNumber: 1
+tvGameListItemHandPoints: 888
+tvGameListItemRoundPointsP1: -896
+tvGameListItemRoundPointsP2: -896
+tvGameListItemRoundPointsP3: -896
+tvGameListItemRoundPointsP4: +2688
+tvGameListItemRoundTotalPointsP1: -896
+tvGameListItemRoundTotalPointsP2: -896
+tvGameListItemRoundTotalPointsP3: -896
+tvGameListItemRoundTotalPointsP4: +2688
+-- item 2
+tvGameListItemRoundNumber: 2
+tvGameListItemHandPoints: 500
+tvGameListItemRoundPointsP1: +524
+tvGameListItemRoundPointsP2: -8
+tvGameListItemRoundPointsP3: -8
+tvGameListItemRoundPointsP4: -508
+tvGameListItemRoundTotalPointsP1: -372
+tvGameListItemRoundTotalPointsP2: -904
+tvGameListItemRoundTotalPointsP3: -904
+tvGameListItemRoundTotalPointsP4: +2180
+-- item 3
+tvGameListItemRoundNumber: 3
+tvGameListItemHandPoints: 9999
+tvGameListItemRoundPointsP1: -8
+tvGameListItemRoundPointsP2: -10007
+tvGameListItemRoundPointsP3: +10023
+tvGameListItemRoundPointsP4: -8
+tvGameListItemRoundTotalPointsP1: -380
+tvGameListItemRoundTotalPointsP2: -10911
+tvGameListItemRoundTotalPointsP3: +9119
+tvGameListItemRoundTotalPointsP4: +2172
+## List page (header and footers)
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 3 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: -380
+tvGameListFooterTotalPointsP2: -10911
+tvGameListFooterTotalPointsP3: +9119
+tvGameListFooterTotalPointsP4: +2172

@@ -1,0 +1,362 @@
+# random_15: Seeded random game #15 with 15 rounds.
+
+## Table, seats DOWN
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: random_15
+tvTableSeatBySeatPoints: 37
+tvTableSeatBySeatName: David
+tvTableSeatBySeatPoints: -238
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: 264
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: -63
+tvTableSeatBySeatName: Bruno
+tvGameTableRoundNumberTopEnd: 15
+tvGameTableRoundNumberBottomStart: 15
+tvGameTableRoundNumberBottomEnd: 15
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 14 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: +264
+tvGameListFooterTotalPointsP2: -63
+tvGameListFooterTotalPointsP3: -238
+tvGameListFooterTotalPointsP4: +37
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Table, seats OUT
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: random_15
+tvTableSeatBySeatPoints: 37
+tvTableSeatBySeatName: David
+tvTableSeatBySeatPoints: -238
+tvTableSeatBySeatName: Carla
+tvTableSeatBySeatPoints: 264
+tvTableSeatBySeatName: Ana
+tvTableSeatBySeatPoints: -63
+tvTableSeatBySeatName: Bruno
+tvGameTableRoundNumberTopEnd: 15
+tvGameTableRoundNumberBottomStart: 15
+tvGameTableRoundNumberBottomEnd: 15
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 14 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: +264
+tvGameListFooterTotalPointsP2: -63
+tvGameListFooterTotalPointsP3: -238
+tvGameListFooterTotalPointsP4: +37
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Table, seats RANKING
+== window 1 (DecorView)
+AppCompatTextView: Game
+AppCompatTextView: Table
+AppCompatTextView: List
+tvGameTableGameName: random_15
+tvTableSeatRankingPosition: 1st
+tvTableSeatRankingPoints: 264
+tvTableSeatRankingName: Ana
+tvTableSeatRankingPosition: 2nd
+tvTableSeatRankingPoints: 37
+tvTableSeatRankingName: David
+tvTableSeatRankingPosition: 3rd
+tvTableSeatRankingPoints: -63
+tvTableSeatRankingName: Bruno
+tvTableSeatRankingPosition: 4th
+tvTableSeatRankingPoints: -238
+tvTableSeatRankingName: Carla
+tvGameTableRoundNumberTopEnd: 15
+tvGameTableRoundNumberBottomStart: 15
+tvGameTableRoundNumberBottomEnd: 15
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 14 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: +264
+tvGameListFooterTotalPointsP2: -63
+tvGameListFooterTotalPointsP3: -238
+tvGameListFooterTotalPointsP4: +37
+navigation_bar_item_small_label_view: Old games
+navigation_bar_item_large_label_view: Game
+navigation_bar_item_small_label_view: Combinations
+
+## Hand actions dialog, seat EAST
+tvTableSeatMediumName: David
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: 49
+tvActionDialogDiffsFirstDirectHu: 98
+tvActionDialogDiffsFirstIndirectHu: 196
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: -
+tvActionDialogDiffsSecondDirectHu: -
+tvActionDialogDiffsSecondIndirectHu: -
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: -
+tvActionDialogDiffsThirdDirectHu: -
+tvActionDialogDiffsThirdIndirectHu: -
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## Hand actions dialog, seat SOUTH
+tvTableSeatMediumName: Carla
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: 118
+tvActionDialogDiffsFirstDirectHu: 236
+tvActionDialogDiffsFirstIndirectHu: 471
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: 61
+tvActionDialogDiffsSecondDirectHu: 122
+tvActionDialogDiffsSecondIndirectHu: 244
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: 36
+tvActionDialogDiffsThirdDirectHu: 72
+tvActionDialogDiffsThirdIndirectHu: 144
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## Hand actions dialog, seat WEST
+tvTableSeatMediumName: Ana
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: -
+tvActionDialogDiffsFirstDirectHu: -
+tvActionDialogDiffsFirstIndirectHu: -
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: -
+tvActionDialogDiffsSecondDirectHu: -
+tvActionDialogDiffsSecondIndirectHu: -
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: -
+tvActionDialogDiffsThirdDirectHu: -
+tvActionDialogDiffsThirdIndirectHu: -
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## Hand actions dialog, seat NORTH
+tvTableSeatMediumName: Bruno
+AppCompatTextView: To be \ By
+AppCompatTextView: Self pick
+AppCompatTextView: Direct
+AppCompatTextView: Indirect
+AppCompatTextView: 1st
+tvActionDialogDiffsFirstSelfPick: 74
+tvActionDialogDiffsFirstDirectHu: 148
+tvActionDialogDiffsFirstIndirectHu: 296
+AppCompatTextView: 2nd
+tvActionDialogDiffsSecondSelfPick: 18
+tvActionDialogDiffsSecondDirectHu: 35
+tvActionDialogDiffsSecondIndirectHu: 69
+AppCompatTextView: 3rd
+tvActionDialogDiffsThirdSelfPick: -
+tvActionDialogDiffsThirdDirectHu: -
+tvActionDialogDiffsThirdIndirectHu: -
+AppCompatTextView: Mahjong
+AppCompatTextView: Draw
+AppCompatTextView: Penalty
+
+## List
+items: 14
+-- item 1
+tvGameListItemRoundNumber: 1
+tvGameListItemHandPoints: 39
+tvGameListItemRoundPointsP1: +63
+tvGameListItemRoundPointsP2: -8
+tvGameListItemRoundPointsP3: -8
+tvGameListItemRoundPointsP4: -47
+tvGameListItemRoundTotalPointsP1: +63
+tvGameListItemRoundTotalPointsP2: -8
+tvGameListItemRoundTotalPointsP3: -8
+tvGameListItemRoundTotalPointsP4: -47
+-- item 2
+tvGameListItemRoundNumber: 2
+tvGameListItemHandPoints: 56
+tvGameListItemRoundPointsP1: -8
+tvGameListItemRoundPointsP2: +80
+tvGameListItemRoundPointsP3: -64
+tvGameListItemRoundPointsP4: -8
+tvGameListItemRoundTotalPointsP1: +55
+tvGameListItemRoundTotalPointsP2: +72
+tvGameListItemRoundTotalPointsP3: -72
+tvGameListItemRoundTotalPointsP4: -55
+-- item 3
+tvGameListItemRoundNumber: 3
+tvGameListItemHandPoints: 0
+tvGameListItemRoundPointsP1: +0
+tvGameListItemRoundPointsP2: +0
+tvGameListItemRoundPointsP3: +0
+tvGameListItemRoundPointsP4: +0
+tvGameListItemRoundTotalPointsP1: +55
+tvGameListItemRoundTotalPointsP2: +72
+tvGameListItemRoundTotalPointsP3: -72
+tvGameListItemRoundTotalPointsP4: -55
+-- item 4
+tvGameListItemRoundNumber: 4
+tvGameListItemHandPoints: 60
+tvGameListItemRoundPointsP1: +204
+tvGameListItemRoundPointsP2: -68
+tvGameListItemRoundPointsP3: -68
+tvGameListItemRoundPointsP4: -68
+tvGameListItemRoundTotalPointsP1: +259
+tvGameListItemRoundTotalPointsP2: +4
+tvGameListItemRoundTotalPointsP3: -140
+tvGameListItemRoundTotalPointsP4: -123
+-- item 5
+tvGameListItemRoundNumber: 5
+tvGameListItemHandPoints: 61
+tvGameListItemRoundPointsP1: -69
+tvGameListItemRoundPointsP2: +85
+tvGameListItemRoundPointsP3: -8
+tvGameListItemRoundPointsP4: -8
+tvGameListItemRoundTotalPointsP1: +190
+tvGameListItemRoundTotalPointsP2: +89
+tvGameListItemRoundTotalPointsP3: -148
+tvGameListItemRoundTotalPointsP4: -131
+-- item 6
+tvGameListItemRoundNumber: 6
+tvGameListItemHandPoints: 45
+tvGameListItemRoundPointsP1: +69
+tvGameListItemRoundPointsP2: -8
+tvGameListItemRoundPointsP3: -53
+tvGameListItemRoundPointsP4: -8
+tvGameListItemRoundTotalPointsP1: +259
+tvGameListItemRoundTotalPointsP2: +81
+tvGameListItemRoundTotalPointsP3: -201
+tvGameListItemRoundTotalPointsP4: -139
+-- item 7
+tvGameListItemRoundNumber: 7
+tvGameListItemHandPoints: 46
+tvGameListItemRoundPointsP1: -54
+tvGameListItemRoundPointsP2: -54
+tvGameListItemRoundPointsP3: -54
+tvGameListItemRoundPointsP4: +162
+tvGameListItemRoundTotalPointsP1: +205
+tvGameListItemRoundTotalPointsP2: +27
+tvGameListItemRoundTotalPointsP3: -255
+tvGameListItemRoundTotalPointsP4: +23
+-- item 8
+tvGameListItemRoundNumber: 8
+tvGameListItemHandPoints: 57
+tvGameListItemRoundPointsP1: -65
+tvGameListItemRoundPointsP2: -8
+tvGameListItemRoundPointsP3: -8
+tvGameListItemRoundPointsP4: +81
+tvGameListItemRoundTotalPointsP1: +140
+tvGameListItemRoundTotalPointsP2: +19
+tvGameListItemRoundTotalPointsP3: -263
+tvGameListItemRoundTotalPointsP4: +104
+-- item 9
+tvGameListItemRoundNumber: 9
+tvGameListItemHandPoints: 0
+tvGameListItemRoundPointsP1: +0
+tvGameListItemRoundPointsP2: +0
+tvGameListItemRoundPointsP3: +0
+tvGameListItemRoundPointsP4: +0
+tvGameListItemRoundTotalPointsP1: +140
+tvGameListItemRoundTotalPointsP2: +19
+tvGameListItemRoundTotalPointsP3: -263
+tvGameListItemRoundTotalPointsP4: +104
+-- item 10
+tvGameListItemRoundNumber: 10
+tvGameListItemHandPoints: 20
+tvGameListItemRoundPointsP1: -28
+tvGameListItemRoundPointsP2: -8
+tvGameListItemRoundPointsP3: +44
+tvGameListItemRoundPointsP4: -8
+tvGameListItemRoundTotalPointsP1: +112
+tvGameListItemRoundTotalPointsP2: +11
+tvGameListItemRoundTotalPointsP3: -219
+tvGameListItemRoundTotalPointsP4: +96
+-- item 11
+tvGameListItemRoundNumber: 11
+tvGameListItemHandPoints: 39
+tvGameListItemRoundPointsP1: +63
+tvGameListItemRoundPointsP2: -47
+tvGameListItemRoundPointsP3: -8
+tvGameListItemRoundPointsP4: -8
+tvGameListItemRoundTotalPointsP1: +175
+tvGameListItemRoundTotalPointsP2: -36
+tvGameListItemRoundTotalPointsP3: -227
+tvGameListItemRoundTotalPointsP4: +88
+-- item 12
+tvGameListItemRoundNumber: 12
+tvGameListItemHandPoints: 27
+tvGameListItemRoundPointsP1: +105
+tvGameListItemRoundPointsP2: -35
+tvGameListItemRoundPointsP3: -35
+tvGameListItemRoundPointsP4: -35
+tvGameListItemRoundTotalPointsP1: +280
+tvGameListItemRoundTotalPointsP2: -71
+tvGameListItemRoundTotalPointsP3: -262
+tvGameListItemRoundTotalPointsP4: +53
+-- item 13
+tvGameListItemRoundNumber: 13
+tvGameListItemHandPoints: 23
+tvGameListItemRoundPointsP1: -8
+tvGameListItemRoundPointsP2: -31
+tvGameListItemRoundPointsP3: +47
+tvGameListItemRoundPointsP4: -8
+tvGameListItemRoundTotalPointsP1: +272
+tvGameListItemRoundTotalPointsP2: -102
+tvGameListItemRoundTotalPointsP3: -215
+tvGameListItemRoundTotalPointsP4: +45
+-- item 14
+tvGameListItemRoundNumber: 14
+tvGameListItemHandPoints: 15
+tvGameListItemRoundPointsP1: -8
+tvGameListItemRoundPointsP2: +39
+tvGameListItemRoundPointsP3: -23
+tvGameListItemRoundPointsP4: -8
+tvGameListItemRoundTotalPointsP1: +264
+tvGameListItemRoundTotalPointsP2: -63
+tvGameListItemRoundTotalPointsP3: -238
+tvGameListItemRoundTotalPointsP4: +37
+## List page (header and footers)
+AppCompatTextView: #
+AppCompatTextView: Pts
+tvGameListHeaderNameP1: Ana
+tvGameListHeaderNameP2: Bruno
+tvGameListHeaderNameP3: Carla
+tvGameListHeaderNameP4: David
+rvGameList: <list of 14 items>
+AppCompatTextView: Totals
+tvGameListFooterTotalPointsP1: +264
+tvGameListFooterTotalPointsP2: -63
+tvGameListFooterTotalPointsP3: -238
+tvGameListFooterTotalPointsP4: +37

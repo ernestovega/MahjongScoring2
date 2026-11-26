@@ -1,0 +1,1001 @@
+items: 200
+-- item 1
+tvDiffsCalculatorItemPointsNeeded: 32
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 8
+-- item 2
+tvDiffsCalculatorItemPointsNeeded: 33
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 8
+-- item 3
+tvDiffsCalculatorItemPointsNeeded: 34
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 8
+-- item 4
+tvDiffsCalculatorItemPointsNeeded: 35
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 8
+-- item 5
+tvDiffsCalculatorItemPointsNeeded: 36
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 8
+-- item 6
+tvDiffsCalculatorItemPointsNeeded: 37
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 8
+-- item 7
+tvDiffsCalculatorItemPointsNeeded: 38
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 8
+-- item 8
+tvDiffsCalculatorItemPointsNeeded: 39
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 8
+-- item 9
+tvDiffsCalculatorItemPointsNeeded: 40
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 9
+-- item 10
+tvDiffsCalculatorItemPointsNeeded: 41
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 10
+-- item 11
+tvDiffsCalculatorItemPointsNeeded: 42
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 11
+-- item 12
+tvDiffsCalculatorItemPointsNeeded: 43
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 12
+-- item 13
+tvDiffsCalculatorItemPointsNeeded: 44
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 13
+-- item 14
+tvDiffsCalculatorItemPointsNeeded: 45
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 14
+-- item 15
+tvDiffsCalculatorItemPointsNeeded: 46
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 15
+-- item 16
+tvDiffsCalculatorItemPointsNeeded: 47
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 8
+tvDiffsCalculatorItemIndirectHu: 16
+-- item 17
+tvDiffsCalculatorItemPointsNeeded: 48
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 9
+tvDiffsCalculatorItemIndirectHu: 17
+-- item 18
+tvDiffsCalculatorItemPointsNeeded: 49
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 9
+tvDiffsCalculatorItemIndirectHu: 18
+-- item 19
+tvDiffsCalculatorItemPointsNeeded: 50
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 10
+tvDiffsCalculatorItemIndirectHu: 19
+-- item 20
+tvDiffsCalculatorItemPointsNeeded: 51
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 10
+tvDiffsCalculatorItemIndirectHu: 20
+-- item 21
+tvDiffsCalculatorItemPointsNeeded: 52
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 11
+tvDiffsCalculatorItemIndirectHu: 21
+-- item 22
+tvDiffsCalculatorItemPointsNeeded: 53
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 11
+tvDiffsCalculatorItemIndirectHu: 22
+-- item 23
+tvDiffsCalculatorItemPointsNeeded: 54
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 12
+tvDiffsCalculatorItemIndirectHu: 23
+-- item 24
+tvDiffsCalculatorItemPointsNeeded: 55
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 12
+tvDiffsCalculatorItemIndirectHu: 24
+-- item 25
+tvDiffsCalculatorItemPointsNeeded: 56
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 13
+tvDiffsCalculatorItemIndirectHu: 25
+-- item 26
+tvDiffsCalculatorItemPointsNeeded: 57
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 13
+tvDiffsCalculatorItemIndirectHu: 26
+-- item 27
+tvDiffsCalculatorItemPointsNeeded: 58
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 14
+tvDiffsCalculatorItemIndirectHu: 27
+-- item 28
+tvDiffsCalculatorItemPointsNeeded: 59
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 14
+tvDiffsCalculatorItemIndirectHu: 28
+-- item 29
+tvDiffsCalculatorItemPointsNeeded: 60
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 15
+tvDiffsCalculatorItemIndirectHu: 29
+-- item 30
+tvDiffsCalculatorItemPointsNeeded: 61
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 15
+tvDiffsCalculatorItemIndirectHu: 30
+-- item 31
+tvDiffsCalculatorItemPointsNeeded: 62
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 16
+tvDiffsCalculatorItemIndirectHu: 31
+-- item 32
+tvDiffsCalculatorItemPointsNeeded: 63
+tvDiffsCalculatorItemSelfPick: 8
+tvDiffsCalculatorItemDirectHu: 16
+tvDiffsCalculatorItemIndirectHu: 32
+-- item 33
+tvDiffsCalculatorItemPointsNeeded: 64
+tvDiffsCalculatorItemSelfPick: 9
+tvDiffsCalculatorItemDirectHu: 17
+tvDiffsCalculatorItemIndirectHu: 33
+-- item 34
+tvDiffsCalculatorItemPointsNeeded: 65
+tvDiffsCalculatorItemSelfPick: 9
+tvDiffsCalculatorItemDirectHu: 17
+tvDiffsCalculatorItemIndirectHu: 34
+-- item 35
+tvDiffsCalculatorItemPointsNeeded: 66
+tvDiffsCalculatorItemSelfPick: 9
+tvDiffsCalculatorItemDirectHu: 18
+tvDiffsCalculatorItemIndirectHu: 35
+-- item 36
+tvDiffsCalculatorItemPointsNeeded: 67
+tvDiffsCalculatorItemSelfPick: 9
+tvDiffsCalculatorItemDirectHu: 18
+tvDiffsCalculatorItemIndirectHu: 36
+-- item 37
+tvDiffsCalculatorItemPointsNeeded: 68
+tvDiffsCalculatorItemSelfPick: 10
+tvDiffsCalculatorItemDirectHu: 19
+tvDiffsCalculatorItemIndirectHu: 37
+-- item 38
+tvDiffsCalculatorItemPointsNeeded: 69
+tvDiffsCalculatorItemSelfPick: 10
+tvDiffsCalculatorItemDirectHu: 19
+tvDiffsCalculatorItemIndirectHu: 38
+-- item 39
+tvDiffsCalculatorItemPointsNeeded: 70
+tvDiffsCalculatorItemSelfPick: 10
+tvDiffsCalculatorItemDirectHu: 20
+tvDiffsCalculatorItemIndirectHu: 39
+-- item 40
+tvDiffsCalculatorItemPointsNeeded: 71
+tvDiffsCalculatorItemSelfPick: 10
+tvDiffsCalculatorItemDirectHu: 20
+tvDiffsCalculatorItemIndirectHu: 40
+-- item 41
+tvDiffsCalculatorItemPointsNeeded: 72
+tvDiffsCalculatorItemSelfPick: 11
+tvDiffsCalculatorItemDirectHu: 21
+tvDiffsCalculatorItemIndirectHu: 41
+-- item 42
+tvDiffsCalculatorItemPointsNeeded: 73
+tvDiffsCalculatorItemSelfPick: 11
+tvDiffsCalculatorItemDirectHu: 21
+tvDiffsCalculatorItemIndirectHu: 42
+-- item 43
+tvDiffsCalculatorItemPointsNeeded: 74
+tvDiffsCalculatorItemSelfPick: 11
+tvDiffsCalculatorItemDirectHu: 22
+tvDiffsCalculatorItemIndirectHu: 43
+-- item 44
+tvDiffsCalculatorItemPointsNeeded: 75
+tvDiffsCalculatorItemSelfPick: 11
+tvDiffsCalculatorItemDirectHu: 22
+tvDiffsCalculatorItemIndirectHu: 44
+-- item 45
+tvDiffsCalculatorItemPointsNeeded: 76
+tvDiffsCalculatorItemSelfPick: 12
+tvDiffsCalculatorItemDirectHu: 23
+tvDiffsCalculatorItemIndirectHu: 45
+-- item 46
+tvDiffsCalculatorItemPointsNeeded: 77
+tvDiffsCalculatorItemSelfPick: 12
+tvDiffsCalculatorItemDirectHu: 23
+tvDiffsCalculatorItemIndirectHu: 46
+-- item 47
+tvDiffsCalculatorItemPointsNeeded: 78
+tvDiffsCalculatorItemSelfPick: 12
+tvDiffsCalculatorItemDirectHu: 24
+tvDiffsCalculatorItemIndirectHu: 47
+-- item 48
+tvDiffsCalculatorItemPointsNeeded: 79
+tvDiffsCalculatorItemSelfPick: 12
+tvDiffsCalculatorItemDirectHu: 24
+tvDiffsCalculatorItemIndirectHu: 48
+-- item 49
+tvDiffsCalculatorItemPointsNeeded: 80
+tvDiffsCalculatorItemSelfPick: 13
+tvDiffsCalculatorItemDirectHu: 25
+tvDiffsCalculatorItemIndirectHu: 49
+-- item 50
+tvDiffsCalculatorItemPointsNeeded: 81
+tvDiffsCalculatorItemSelfPick: 13
+tvDiffsCalculatorItemDirectHu: 25
+tvDiffsCalculatorItemIndirectHu: 50
+-- item 51
+tvDiffsCalculatorItemPointsNeeded: 82
+tvDiffsCalculatorItemSelfPick: 13
+tvDiffsCalculatorItemDirectHu: 26
+tvDiffsCalculatorItemIndirectHu: 51
+-- item 52
+tvDiffsCalculatorItemPointsNeeded: 83
+tvDiffsCalculatorItemSelfPick: 13
+tvDiffsCalculatorItemDirectHu: 26
+tvDiffsCalculatorItemIndirectHu: 52
+-- item 53
+tvDiffsCalculatorItemPointsNeeded: 84
+tvDiffsCalculatorItemSelfPick: 14
+tvDiffsCalculatorItemDirectHu: 27
+tvDiffsCalculatorItemIndirectHu: 53
+-- item 54
+tvDiffsCalculatorItemPointsNeeded: 85
+tvDiffsCalculatorItemSelfPick: 14
+tvDiffsCalculatorItemDirectHu: 27
+tvDiffsCalculatorItemIndirectHu: 54
+-- item 55
+tvDiffsCalculatorItemPointsNeeded: 86
+tvDiffsCalculatorItemSelfPick: 14
+tvDiffsCalculatorItemDirectHu: 28
+tvDiffsCalculatorItemIndirectHu: 55
+-- item 56
+tvDiffsCalculatorItemPointsNeeded: 87
+tvDiffsCalculatorItemSelfPick: 14
+tvDiffsCalculatorItemDirectHu: 28
+tvDiffsCalculatorItemIndirectHu: 56
+-- item 57
+tvDiffsCalculatorItemPointsNeeded: 88
+tvDiffsCalculatorItemSelfPick: 15
+tvDiffsCalculatorItemDirectHu: 29
+tvDiffsCalculatorItemIndirectHu: 57
+-- item 58
+tvDiffsCalculatorItemPointsNeeded: 89
+tvDiffsCalculatorItemSelfPick: 15
+tvDiffsCalculatorItemDirectHu: 29
+tvDiffsCalculatorItemIndirectHu: 58
+-- item 59
+tvDiffsCalculatorItemPointsNeeded: 90
+tvDiffsCalculatorItemSelfPick: 15
+tvDiffsCalculatorItemDirectHu: 30
+tvDiffsCalculatorItemIndirectHu: 59
+-- item 60
+tvDiffsCalculatorItemPointsNeeded: 91
+tvDiffsCalculatorItemSelfPick: 15
+tvDiffsCalculatorItemDirectHu: 30
+tvDiffsCalculatorItemIndirectHu: 60
+-- item 61
+tvDiffsCalculatorItemPointsNeeded: 92
+tvDiffsCalculatorItemSelfPick: 16
+tvDiffsCalculatorItemDirectHu: 31
+tvDiffsCalculatorItemIndirectHu: 61
+-- item 62
+tvDiffsCalculatorItemPointsNeeded: 93
+tvDiffsCalculatorItemSelfPick: 16
+tvDiffsCalculatorItemDirectHu: 31
+tvDiffsCalculatorItemIndirectHu: 62
+-- item 63
+tvDiffsCalculatorItemPointsNeeded: 94
+tvDiffsCalculatorItemSelfPick: 16
+tvDiffsCalculatorItemDirectHu: 32
+tvDiffsCalculatorItemIndirectHu: 63
+-- item 64
+tvDiffsCalculatorItemPointsNeeded: 95
+tvDiffsCalculatorItemSelfPick: 16
+tvDiffsCalculatorItemDirectHu: 32
+tvDiffsCalculatorItemIndirectHu: 64
+-- item 65
+tvDiffsCalculatorItemPointsNeeded: 96
+tvDiffsCalculatorItemSelfPick: 17
+tvDiffsCalculatorItemDirectHu: 33
+tvDiffsCalculatorItemIndirectHu: 65
+-- item 66
+tvDiffsCalculatorItemPointsNeeded: 97
+tvDiffsCalculatorItemSelfPick: 17
+tvDiffsCalculatorItemDirectHu: 33
+tvDiffsCalculatorItemIndirectHu: 66
+-- item 67
+tvDiffsCalculatorItemPointsNeeded: 98
+tvDiffsCalculatorItemSelfPick: 17
+tvDiffsCalculatorItemDirectHu: 34
+tvDiffsCalculatorItemIndirectHu: 67
+-- item 68
+tvDiffsCalculatorItemPointsNeeded: 99
+tvDiffsCalculatorItemSelfPick: 17
+tvDiffsCalculatorItemDirectHu: 34
+tvDiffsCalculatorItemIndirectHu: 68
+-- item 69
+tvDiffsCalculatorItemPointsNeeded: 100
+tvDiffsCalculatorItemSelfPick: 18
+tvDiffsCalculatorItemDirectHu: 35
+tvDiffsCalculatorItemIndirectHu: 69
+-- item 70
+tvDiffsCalculatorItemPointsNeeded: 101
+tvDiffsCalculatorItemSelfPick: 18
+tvDiffsCalculatorItemDirectHu: 35
+tvDiffsCalculatorItemIndirectHu: 70
+-- item 71
+tvDiffsCalculatorItemPointsNeeded: 102
+tvDiffsCalculatorItemSelfPick: 18
+tvDiffsCalculatorItemDirectHu: 36
+tvDiffsCalculatorItemIndirectHu: 71
+-- item 72
+tvDiffsCalculatorItemPointsNeeded: 103
+tvDiffsCalculatorItemSelfPick: 18
+tvDiffsCalculatorItemDirectHu: 36
+tvDiffsCalculatorItemIndirectHu: 72
+-- item 73
+tvDiffsCalculatorItemPointsNeeded: 104
+tvDiffsCalculatorItemSelfPick: 19
+tvDiffsCalculatorItemDirectHu: 37
+tvDiffsCalculatorItemIndirectHu: 73
+-- item 74
+tvDiffsCalculatorItemPointsNeeded: 105
+tvDiffsCalculatorItemSelfPick: 19
+tvDiffsCalculatorItemDirectHu: 37
+tvDiffsCalculatorItemIndirectHu: 74
+-- item 75
+tvDiffsCalculatorItemPointsNeeded: 106
+tvDiffsCalculatorItemSelfPick: 19
+tvDiffsCalculatorItemDirectHu: 38
+tvDiffsCalculatorItemIndirectHu: 75
+-- item 76
+tvDiffsCalculatorItemPointsNeeded: 107
+tvDiffsCalculatorItemSelfPick: 19
+tvDiffsCalculatorItemDirectHu: 38
+tvDiffsCalculatorItemIndirectHu: 76
+-- item 77
+tvDiffsCalculatorItemPointsNeeded: 108
+tvDiffsCalculatorItemSelfPick: 20
+tvDiffsCalculatorItemDirectHu: 39
+tvDiffsCalculatorItemIndirectHu: 77
+-- item 78
+tvDiffsCalculatorItemPointsNeeded: 109
+tvDiffsCalculatorItemSelfPick: 20
+tvDiffsCalculatorItemDirectHu: 39
+tvDiffsCalculatorItemIndirectHu: 78
+-- item 79
+tvDiffsCalculatorItemPointsNeeded: 110
+tvDiffsCalculatorItemSelfPick: 20
+tvDiffsCalculatorItemDirectHu: 40
+tvDiffsCalculatorItemIndirectHu: 79
+-- item 80
+tvDiffsCalculatorItemPointsNeeded: 111
+tvDiffsCalculatorItemSelfPick: 20
+tvDiffsCalculatorItemDirectHu: 40
+tvDiffsCalculatorItemIndirectHu: 80
+-- item 81
+tvDiffsCalculatorItemPointsNeeded: 112
+tvDiffsCalculatorItemSelfPick: 21
+tvDiffsCalculatorItemDirectHu: 41
+tvDiffsCalculatorItemIndirectHu: 81
+-- item 82
+tvDiffsCalculatorItemPointsNeeded: 113
+tvDiffsCalculatorItemSelfPick: 21
+tvDiffsCalculatorItemDirectHu: 41
+tvDiffsCalculatorItemIndirectHu: 82
+-- item 83
+tvDiffsCalculatorItemPointsNeeded: 114
+tvDiffsCalculatorItemSelfPick: 21
+tvDiffsCalculatorItemDirectHu: 42
+tvDiffsCalculatorItemIndirectHu: 83
+-- item 84
+tvDiffsCalculatorItemPointsNeeded: 115
+tvDiffsCalculatorItemSelfPick: 21
+tvDiffsCalculatorItemDirectHu: 42
+tvDiffsCalculatorItemIndirectHu: 84
+-- item 85
+tvDiffsCalculatorItemPointsNeeded: 116
+tvDiffsCalculatorItemSelfPick: 22
+tvDiffsCalculatorItemDirectHu: 43
+tvDiffsCalculatorItemIndirectHu: 85
+-- item 86
+tvDiffsCalculatorItemPointsNeeded: 117
+tvDiffsCalculatorItemSelfPick: 22
+tvDiffsCalculatorItemDirectHu: 43
+tvDiffsCalculatorItemIndirectHu: 86
+-- item 87
+tvDiffsCalculatorItemPointsNeeded: 118
+tvDiffsCalculatorItemSelfPick: 22
+tvDiffsCalculatorItemDirectHu: 44
+tvDiffsCalculatorItemIndirectHu: 87
+-- item 88
+tvDiffsCalculatorItemPointsNeeded: 119
+tvDiffsCalculatorItemSelfPick: 22
+tvDiffsCalculatorItemDirectHu: 44
+tvDiffsCalculatorItemIndirectHu: 88
+-- item 89
+tvDiffsCalculatorItemPointsNeeded: 120
+tvDiffsCalculatorItemSelfPick: 23
+tvDiffsCalculatorItemDirectHu: 45
+tvDiffsCalculatorItemIndirectHu: 89
+-- item 90
+tvDiffsCalculatorItemPointsNeeded: 121
+tvDiffsCalculatorItemSelfPick: 23
+tvDiffsCalculatorItemDirectHu: 45
+tvDiffsCalculatorItemIndirectHu: 90
+-- item 91
+tvDiffsCalculatorItemPointsNeeded: 122
+tvDiffsCalculatorItemSelfPick: 23
+tvDiffsCalculatorItemDirectHu: 46
+tvDiffsCalculatorItemIndirectHu: 91
+-- item 92
+tvDiffsCalculatorItemPointsNeeded: 123
+tvDiffsCalculatorItemSelfPick: 23
+tvDiffsCalculatorItemDirectHu: 46
+tvDiffsCalculatorItemIndirectHu: 92
+-- item 93
+tvDiffsCalculatorItemPointsNeeded: 124
+tvDiffsCalculatorItemSelfPick: 24
+tvDiffsCalculatorItemDirectHu: 47
+tvDiffsCalculatorItemIndirectHu: 93
+-- item 94
+tvDiffsCalculatorItemPointsNeeded: 125
+tvDiffsCalculatorItemSelfPick: 24
+tvDiffsCalculatorItemDirectHu: 47
+tvDiffsCalculatorItemIndirectHu: 94
+-- item 95
+tvDiffsCalculatorItemPointsNeeded: 126
+tvDiffsCalculatorItemSelfPick: 24
+tvDiffsCalculatorItemDirectHu: 48
+tvDiffsCalculatorItemIndirectHu: 95
+-- item 96
+tvDiffsCalculatorItemPointsNeeded: 127
+tvDiffsCalculatorItemSelfPick: 24
+tvDiffsCalculatorItemDirectHu: 48
+tvDiffsCalculatorItemIndirectHu: 96
+-- item 97
+tvDiffsCalculatorItemPointsNeeded: 128
+tvDiffsCalculatorItemSelfPick: 25
+tvDiffsCalculatorItemDirectHu: 49
+tvDiffsCalculatorItemIndirectHu: 97
+-- item 98
+tvDiffsCalculatorItemPointsNeeded: 129
+tvDiffsCalculatorItemSelfPick: 25
+tvDiffsCalculatorItemDirectHu: 49
+tvDiffsCalculatorItemIndirectHu: 98
+-- item 99
+tvDiffsCalculatorItemPointsNeeded: 130
+tvDiffsCalculatorItemSelfPick: 25
+tvDiffsCalculatorItemDirectHu: 50
+tvDiffsCalculatorItemIndirectHu: 99
+-- item 100
+tvDiffsCalculatorItemPointsNeeded: 131
+tvDiffsCalculatorItemSelfPick: 25
+tvDiffsCalculatorItemDirectHu: 50
+tvDiffsCalculatorItemIndirectHu: 100
+-- item 101
+tvDiffsCalculatorItemPointsNeeded: 132
+tvDiffsCalculatorItemSelfPick: 26
+tvDiffsCalculatorItemDirectHu: 51
+tvDiffsCalculatorItemIndirectHu: 101
+-- item 102
+tvDiffsCalculatorItemPointsNeeded: 133
+tvDiffsCalculatorItemSelfPick: 26
+tvDiffsCalculatorItemDirectHu: 51
+tvDiffsCalculatorItemIndirectHu: 102
+-- item 103
+tvDiffsCalculatorItemPointsNeeded: 134
+tvDiffsCalculatorItemSelfPick: 26
+tvDiffsCalculatorItemDirectHu: 52
+tvDiffsCalculatorItemIndirectHu: 103
+-- item 104
+tvDiffsCalculatorItemPointsNeeded: 135
+tvDiffsCalculatorItemSelfPick: 26
+tvDiffsCalculatorItemDirectHu: 52
+tvDiffsCalculatorItemIndirectHu: 104
+-- item 105
+tvDiffsCalculatorItemPointsNeeded: 136
+tvDiffsCalculatorItemSelfPick: 27
+tvDiffsCalculatorItemDirectHu: 53
+tvDiffsCalculatorItemIndirectHu: 105
+-- item 106
+tvDiffsCalculatorItemPointsNeeded: 137
+tvDiffsCalculatorItemSelfPick: 27
+tvDiffsCalculatorItemDirectHu: 53
+tvDiffsCalculatorItemIndirectHu: 106
+-- item 107
+tvDiffsCalculatorItemPointsNeeded: 138
+tvDiffsCalculatorItemSelfPick: 27
+tvDiffsCalculatorItemDirectHu: 54
+tvDiffsCalculatorItemIndirectHu: 107
+-- item 108
+tvDiffsCalculatorItemPointsNeeded: 139
+tvDiffsCalculatorItemSelfPick: 27
+tvDiffsCalculatorItemDirectHu: 54
+tvDiffsCalculatorItemIndirectHu: 108
+-- item 109
+tvDiffsCalculatorItemPointsNeeded: 140
+tvDiffsCalculatorItemSelfPick: 28
+tvDiffsCalculatorItemDirectHu: 55
+tvDiffsCalculatorItemIndirectHu: 109
+-- item 110
+tvDiffsCalculatorItemPointsNeeded: 141
+tvDiffsCalculatorItemSelfPick: 28
+tvDiffsCalculatorItemDirectHu: 55
+tvDiffsCalculatorItemIndirectHu: 110
+-- item 111
+tvDiffsCalculatorItemPointsNeeded: 142
+tvDiffsCalculatorItemSelfPick: 28
+tvDiffsCalculatorItemDirectHu: 56
+tvDiffsCalculatorItemIndirectHu: 111
+-- item 112
+tvDiffsCalculatorItemPointsNeeded: 143
+tvDiffsCalculatorItemSelfPick: 28
+tvDiffsCalculatorItemDirectHu: 56
+tvDiffsCalculatorItemIndirectHu: 112
+-- item 113
+tvDiffsCalculatorItemPointsNeeded: 144
+tvDiffsCalculatorItemSelfPick: 29
+tvDiffsCalculatorItemDirectHu: 57
+tvDiffsCalculatorItemIndirectHu: 113
+-- item 114
+tvDiffsCalculatorItemPointsNeeded: 145
+tvDiffsCalculatorItemSelfPick: 29
+tvDiffsCalculatorItemDirectHu: 57
+tvDiffsCalculatorItemIndirectHu: 114
+-- item 115
+tvDiffsCalculatorItemPointsNeeded: 146
+tvDiffsCalculatorItemSelfPick: 29
+tvDiffsCalculatorItemDirectHu: 58
+tvDiffsCalculatorItemIndirectHu: 115
+-- item 116
+tvDiffsCalculatorItemPointsNeeded: 147
+tvDiffsCalculatorItemSelfPick: 29
+tvDiffsCalculatorItemDirectHu: 58
+tvDiffsCalculatorItemIndirectHu: 116
+-- item 117
+tvDiffsCalculatorItemPointsNeeded: 148
+tvDiffsCalculatorItemSelfPick: 30
+tvDiffsCalculatorItemDirectHu: 59
+tvDiffsCalculatorItemIndirectHu: 117
+-- item 118
+tvDiffsCalculatorItemPointsNeeded: 149
+tvDiffsCalculatorItemSelfPick: 30
+tvDiffsCalculatorItemDirectHu: 59
+tvDiffsCalculatorItemIndirectHu: 118
+-- item 119
+tvDiffsCalculatorItemPointsNeeded: 150
+tvDiffsCalculatorItemSelfPick: 30
+tvDiffsCalculatorItemDirectHu: 60
+tvDiffsCalculatorItemIndirectHu: 119
+-- item 120
+tvDiffsCalculatorItemPointsNeeded: 151
+tvDiffsCalculatorItemSelfPick: 30
+tvDiffsCalculatorItemDirectHu: 60
+tvDiffsCalculatorItemIndirectHu: 120
+-- item 121
+tvDiffsCalculatorItemPointsNeeded: 152
+tvDiffsCalculatorItemSelfPick: 31
+tvDiffsCalculatorItemDirectHu: 61
+tvDiffsCalculatorItemIndirectHu: 121
+-- item 122
+tvDiffsCalculatorItemPointsNeeded: 153
+tvDiffsCalculatorItemSelfPick: 31
+tvDiffsCalculatorItemDirectHu: 61
+tvDiffsCalculatorItemIndirectHu: 122
+-- item 123
+tvDiffsCalculatorItemPointsNeeded: 154
+tvDiffsCalculatorItemSelfPick: 31
+tvDiffsCalculatorItemDirectHu: 62
+tvDiffsCalculatorItemIndirectHu: 123
+-- item 124
+tvDiffsCalculatorItemPointsNeeded: 155
+tvDiffsCalculatorItemSelfPick: 31
+tvDiffsCalculatorItemDirectHu: 62
+tvDiffsCalculatorItemIndirectHu: 124
+-- item 125
+tvDiffsCalculatorItemPointsNeeded: 156
+tvDiffsCalculatorItemSelfPick: 32
+tvDiffsCalculatorItemDirectHu: 63
+tvDiffsCalculatorItemIndirectHu: 125
+-- item 126
+tvDiffsCalculatorItemPointsNeeded: 157
+tvDiffsCalculatorItemSelfPick: 32
+tvDiffsCalculatorItemDirectHu: 63
+tvDiffsCalculatorItemIndirectHu: 126
+-- item 127
+tvDiffsCalculatorItemPointsNeeded: 158
+tvDiffsCalculatorItemSelfPick: 32
+tvDiffsCalculatorItemDirectHu: 64
+tvDiffsCalculatorItemIndirectHu: 127
+-- item 128
+tvDiffsCalculatorItemPointsNeeded: 159
+tvDiffsCalculatorItemSelfPick: 32
+tvDiffsCalculatorItemDirectHu: 64
+tvDiffsCalculatorItemIndirectHu: 128
+-- item 129
+tvDiffsCalculatorItemPointsNeeded: 160
+tvDiffsCalculatorItemSelfPick: 33
+tvDiffsCalculatorItemDirectHu: 65
+tvDiffsCalculatorItemIndirectHu: 129
+-- item 130
+tvDiffsCalculatorItemPointsNeeded: 161
+tvDiffsCalculatorItemSelfPick: 33
+tvDiffsCalculatorItemDirectHu: 65
+tvDiffsCalculatorItemIndirectHu: 130
+-- item 131
+tvDiffsCalculatorItemPointsNeeded: 162
+tvDiffsCalculatorItemSelfPick: 33
+tvDiffsCalculatorItemDirectHu: 66
+tvDiffsCalculatorItemIndirectHu: 131
+-- item 132
+tvDiffsCalculatorItemPointsNeeded: 163
+tvDiffsCalculatorItemSelfPick: 33
+tvDiffsCalculatorItemDirectHu: 66
+tvDiffsCalculatorItemIndirectHu: 132
+-- item 133
+tvDiffsCalculatorItemPointsNeeded: 164
+tvDiffsCalculatorItemSelfPick: 34
+tvDiffsCalculatorItemDirectHu: 67
+tvDiffsCalculatorItemIndirectHu: 133
+-- item 134
+tvDiffsCalculatorItemPointsNeeded: 165
+tvDiffsCalculatorItemSelfPick: 34
+tvDiffsCalculatorItemDirectHu: 67
+tvDiffsCalculatorItemIndirectHu: 134
+-- item 135
+tvDiffsCalculatorItemPointsNeeded: 166
+tvDiffsCalculatorItemSelfPick: 34
+tvDiffsCalculatorItemDirectHu: 68
+tvDiffsCalculatorItemIndirectHu: 135
+-- item 136
+tvDiffsCalculatorItemPointsNeeded: 167
+tvDiffsCalculatorItemSelfPick: 34
+tvDiffsCalculatorItemDirectHu: 68
+tvDiffsCalculatorItemIndirectHu: 136
+-- item 137
+tvDiffsCalculatorItemPointsNeeded: 168
+tvDiffsCalculatorItemSelfPick: 35
+tvDiffsCalculatorItemDirectHu: 69
+tvDiffsCalculatorItemIndirectHu: 137
+-- item 138
+tvDiffsCalculatorItemPointsNeeded: 169
+tvDiffsCalculatorItemSelfPick: 35
+tvDiffsCalculatorItemDirectHu: 69
+tvDiffsCalculatorItemIndirectHu: 138
+-- item 139
+tvDiffsCalculatorItemPointsNeeded: 170
+tvDiffsCalculatorItemSelfPick: 35
+tvDiffsCalculatorItemDirectHu: 70
+tvDiffsCalculatorItemIndirectHu: 139
+-- item 140
+tvDiffsCalculatorItemPointsNeeded: 171
+tvDiffsCalculatorItemSelfPick: 35
+tvDiffsCalculatorItemDirectHu: 70
+tvDiffsCalculatorItemIndirectHu: 140
+-- item 141
+tvDiffsCalculatorItemPointsNeeded: 172
+tvDiffsCalculatorItemSelfPick: 36
+tvDiffsCalculatorItemDirectHu: 71
+tvDiffsCalculatorItemIndirectHu: 141
+-- item 142
+tvDiffsCalculatorItemPointsNeeded: 173
+tvDiffsCalculatorItemSelfPick: 36
+tvDiffsCalculatorItemDirectHu: 71
+tvDiffsCalculatorItemIndirectHu: 142
+-- item 143
+tvDiffsCalculatorItemPointsNeeded: 174
+tvDiffsCalculatorItemSelfPick: 36
+tvDiffsCalculatorItemDirectHu: 72
+tvDiffsCalculatorItemIndirectHu: 143
+-- item 144
+tvDiffsCalculatorItemPointsNeeded: 175
+tvDiffsCalculatorItemSelfPick: 36
+tvDiffsCalculatorItemDirectHu: 72
+tvDiffsCalculatorItemIndirectHu: 144
+-- item 145
+tvDiffsCalculatorItemPointsNeeded: 176
+tvDiffsCalculatorItemSelfPick: 37
+tvDiffsCalculatorItemDirectHu: 73
+tvDiffsCalculatorItemIndirectHu: 145
+-- item 146
+tvDiffsCalculatorItemPointsNeeded: 177
+tvDiffsCalculatorItemSelfPick: 37
+tvDiffsCalculatorItemDirectHu: 73
+tvDiffsCalculatorItemIndirectHu: 146
+-- item 147
+tvDiffsCalculatorItemPointsNeeded: 178
+tvDiffsCalculatorItemSelfPick: 37
+tvDiffsCalculatorItemDirectHu: 74
+tvDiffsCalculatorItemIndirectHu: 147
+-- item 148
+tvDiffsCalculatorItemPointsNeeded: 179
+tvDiffsCalculatorItemSelfPick: 37
+tvDiffsCalculatorItemDirectHu: 74
+tvDiffsCalculatorItemIndirectHu: 148
+-- item 149
+tvDiffsCalculatorItemPointsNeeded: 180
+tvDiffsCalculatorItemSelfPick: 38
+tvDiffsCalculatorItemDirectHu: 75
+tvDiffsCalculatorItemIndirectHu: 149
+-- item 150
+tvDiffsCalculatorItemPointsNeeded: 181
+tvDiffsCalculatorItemSelfPick: 38
+tvDiffsCalculatorItemDirectHu: 75
+tvDiffsCalculatorItemIndirectHu: 150
+-- item 151
+tvDiffsCalculatorItemPointsNeeded: 182
+tvDiffsCalculatorItemSelfPick: 38
+tvDiffsCalculatorItemDirectHu: 76
+tvDiffsCalculatorItemIndirectHu: 151
+-- item 152
+tvDiffsCalculatorItemPointsNeeded: 183
+tvDiffsCalculatorItemSelfPick: 38
+tvDiffsCalculatorItemDirectHu: 76
+tvDiffsCalculatorItemIndirectHu: 152
+-- item 153
+tvDiffsCalculatorItemPointsNeeded: 184
+tvDiffsCalculatorItemSelfPick: 39
+tvDiffsCalculatorItemDirectHu: 77
+tvDiffsCalculatorItemIndirectHu: 153
+-- item 154
+tvDiffsCalculatorItemPointsNeeded: 185
+tvDiffsCalculatorItemSelfPick: 39
+tvDiffsCalculatorItemDirectHu: 77
+tvDiffsCalculatorItemIndirectHu: 154
+-- item 155
+tvDiffsCalculatorItemPointsNeeded: 186
+tvDiffsCalculatorItemSelfPick: 39
+tvDiffsCalculatorItemDirectHu: 78
+tvDiffsCalculatorItemIndirectHu: 155
+-- item 156
+tvDiffsCalculatorItemPointsNeeded: 187
+tvDiffsCalculatorItemSelfPick: 39
+tvDiffsCalculatorItemDirectHu: 78
+tvDiffsCalculatorItemIndirectHu: 156
+-- item 157
+tvDiffsCalculatorItemPointsNeeded: 188
+tvDiffsCalculatorItemSelfPick: 40
+tvDiffsCalculatorItemDirectHu: 79
+tvDiffsCalculatorItemIndirectHu: 157
+-- item 158
+tvDiffsCalculatorItemPointsNeeded: 189
+tvDiffsCalculatorItemSelfPick: 40
+tvDiffsCalculatorItemDirectHu: 79
+tvDiffsCalculatorItemIndirectHu: 158
+-- item 159
+tvDiffsCalculatorItemPointsNeeded: 190
+tvDiffsCalculatorItemSelfPick: 40
+tvDiffsCalculatorItemDirectHu: 80
+tvDiffsCalculatorItemIndirectHu: 159
+-- item 160
+tvDiffsCalculatorItemPointsNeeded: 191
+tvDiffsCalculatorItemSelfPick: 40
+tvDiffsCalculatorItemDirectHu: 80
+tvDiffsCalculatorItemIndirectHu: 160
+-- item 161
+tvDiffsCalculatorItemPointsNeeded: 192
+tvDiffsCalculatorItemSelfPick: 41
+tvDiffsCalculatorItemDirectHu: 81
+tvDiffsCalculatorItemIndirectHu: 161
+-- item 162
+tvDiffsCalculatorItemPointsNeeded: 193
+tvDiffsCalculatorItemSelfPick: 41
+tvDiffsCalculatorItemDirectHu: 81
+tvDiffsCalculatorItemIndirectHu: 162
+-- item 163
+tvDiffsCalculatorItemPointsNeeded: 194
+tvDiffsCalculatorItemSelfPick: 41
+tvDiffsCalculatorItemDirectHu: 82
+tvDiffsCalculatorItemIndirectHu: 163
+-- item 164
+tvDiffsCalculatorItemPointsNeeded: 195
+tvDiffsCalculatorItemSelfPick: 41
+tvDiffsCalculatorItemDirectHu: 82
+tvDiffsCalculatorItemIndirectHu: 164
+-- item 165
+tvDiffsCalculatorItemPointsNeeded: 196
+tvDiffsCalculatorItemSelfPick: 42
+tvDiffsCalculatorItemDirectHu: 83
+tvDiffsCalculatorItemIndirectHu: 165
+-- item 166
+tvDiffsCalculatorItemPointsNeeded: 197
+tvDiffsCalculatorItemSelfPick: 42
+tvDiffsCalculatorItemDirectHu: 83
+tvDiffsCalculatorItemIndirectHu: 166
+-- item 167
+tvDiffsCalculatorItemPointsNeeded: 198
+tvDiffsCalculatorItemSelfPick: 42
+tvDiffsCalculatorItemDirectHu: 84
+tvDiffsCalculatorItemIndirectHu: 167
+-- item 168
+tvDiffsCalculatorItemPointsNeeded: 199
+tvDiffsCalculatorItemSelfPick: 42
+tvDiffsCalculatorItemDirectHu: 84
+tvDiffsCalculatorItemIndirectHu: 168
+-- item 169
+tvDiffsCalculatorItemPointsNeeded: 200
+tvDiffsCalculatorItemSelfPick: 43
+tvDiffsCalculatorItemDirectHu: 85
+tvDiffsCalculatorItemIndirectHu: 169
+-- item 170
+tvDiffsCalculatorItemPointsNeeded: 201
+tvDiffsCalculatorItemSelfPick: 43
+tvDiffsCalculatorItemDirectHu: 85
+tvDiffsCalculatorItemIndirectHu: 170
+-- item 171
+tvDiffsCalculatorItemPointsNeeded: 202
+tvDiffsCalculatorItemSelfPick: 43
+tvDiffsCalculatorItemDirectHu: 86
+tvDiffsCalculatorItemIndirectHu: 171
+-- item 172
+tvDiffsCalculatorItemPointsNeeded: 203
+tvDiffsCalculatorItemSelfPick: 43
+tvDiffsCalculatorItemDirectHu: 86
+tvDiffsCalculatorItemIndirectHu: 172
+-- item 173
+tvDiffsCalculatorItemPointsNeeded: 204
+tvDiffsCalculatorItemSelfPick: 44
+tvDiffsCalculatorItemDirectHu: 87
+tvDiffsCalculatorItemIndirectHu: 173
+-- item 174
+tvDiffsCalculatorItemPointsNeeded: 205
+tvDiffsCalculatorItemSelfPick: 44
+tvDiffsCalculatorItemDirectHu: 87
+tvDiffsCalculatorItemIndirectHu: 174
+-- item 175
+tvDiffsCalculatorItemPointsNeeded: 206
+tvDiffsCalculatorItemSelfPick: 44
+tvDiffsCalculatorItemDirectHu: 88
+tvDiffsCalculatorItemIndirectHu: 175
+-- item 176
+tvDiffsCalculatorItemPointsNeeded: 207
+tvDiffsCalculatorItemSelfPick: 44
+tvDiffsCalculatorItemDirectHu: 88
+tvDiffsCalculatorItemIndirectHu: 176
+-- item 177
+tvDiffsCalculatorItemPointsNeeded: 208
+tvDiffsCalculatorItemSelfPick: 45
+tvDiffsCalculatorItemDirectHu: 89
+tvDiffsCalculatorItemIndirectHu: 177
+-- item 178
+tvDiffsCalculatorItemPointsNeeded: 209
+tvDiffsCalculatorItemSelfPick: 45
+tvDiffsCalculatorItemDirectHu: 89
+tvDiffsCalculatorItemIndirectHu: 178
+-- item 179
+tvDiffsCalculatorItemPointsNeeded: 210
+tvDiffsCalculatorItemSelfPick: 45
+tvDiffsCalculatorItemDirectHu: 90
+tvDiffsCalculatorItemIndirectHu: 179
+-- item 180
+tvDiffsCalculatorItemPointsNeeded: 211
+tvDiffsCalculatorItemSelfPick: 45
+tvDiffsCalculatorItemDirectHu: 90
+tvDiffsCalculatorItemIndirectHu: 180
+-- item 181
+tvDiffsCalculatorItemPointsNeeded: 212
+tvDiffsCalculatorItemSelfPick: 46
+tvDiffsCalculatorItemDirectHu: 91
+tvDiffsCalculatorItemIndirectHu: 181
+-- item 182
+tvDiffsCalculatorItemPointsNeeded: 213
+tvDiffsCalculatorItemSelfPick: 46
+tvDiffsCalculatorItemDirectHu: 91
+tvDiffsCalculatorItemIndirectHu: 182
+-- item 183
+tvDiffsCalculatorItemPointsNeeded: 214
+tvDiffsCalculatorItemSelfPick: 46
+tvDiffsCalculatorItemDirectHu: 92
+tvDiffsCalculatorItemIndirectHu: 183
+-- item 184
+tvDiffsCalculatorItemPointsNeeded: 215
+tvDiffsCalculatorItemSelfPick: 46
+tvDiffsCalculatorItemDirectHu: 92
+tvDiffsCalculatorItemIndirectHu: 184
+-- item 185
+tvDiffsCalculatorItemPointsNeeded: 216
+tvDiffsCalculatorItemSelfPick: 47
+tvDiffsCalculatorItemDirectHu: 93
+tvDiffsCalculatorItemIndirectHu: 185
+-- item 186
+tvDiffsCalculatorItemPointsNeeded: 217
+tvDiffsCalculatorItemSelfPick: 47
+tvDiffsCalculatorItemDirectHu: 93
+tvDiffsCalculatorItemIndirectHu: 186
+-- item 187
+tvDiffsCalculatorItemPointsNeeded: 218
+tvDiffsCalculatorItemSelfPick: 47
+tvDiffsCalculatorItemDirectHu: 94
+tvDiffsCalculatorItemIndirectHu: 187
+-- item 188
+tvDiffsCalculatorItemPointsNeeded: 219
+tvDiffsCalculatorItemSelfPick: 47
+tvDiffsCalculatorItemDirectHu: 94
+tvDiffsCalculatorItemIndirectHu: 188
+-- item 189
+tvDiffsCalculatorItemPointsNeeded: 220
+tvDiffsCalculatorItemSelfPick: 48
+tvDiffsCalculatorItemDirectHu: 95
+tvDiffsCalculatorItemIndirectHu: 189
+-- item 190
+tvDiffsCalculatorItemPointsNeeded: 221
+tvDiffsCalculatorItemSelfPick: 48
+tvDiffsCalculatorItemDirectHu: 95
+tvDiffsCalculatorItemIndirectHu: 190
+-- item 191
+tvDiffsCalculatorItemPointsNeeded: 222
+tvDiffsCalculatorItemSelfPick: 48
+tvDiffsCalculatorItemDirectHu: 96
+tvDiffsCalculatorItemIndirectHu: 191
+-- item 192
+tvDiffsCalculatorItemPointsNeeded: 223
+tvDiffsCalculatorItemSelfPick: 48
+tvDiffsCalculatorItemDirectHu: 96
+tvDiffsCalculatorItemIndirectHu: 192
+-- item 193
+tvDiffsCalculatorItemPointsNeeded: 224
+tvDiffsCalculatorItemSelfPick: 49
+tvDiffsCalculatorItemDirectHu: 97
+tvDiffsCalculatorItemIndirectHu: 193
+-- item 194
+tvDiffsCalculatorItemPointsNeeded: 225
+tvDiffsCalculatorItemSelfPick: 49
+tvDiffsCalculatorItemDirectHu: 97
+tvDiffsCalculatorItemIndirectHu: 194
+-- item 195
+tvDiffsCalculatorItemPointsNeeded: 226
+tvDiffsCalculatorItemSelfPick: 49
+tvDiffsCalculatorItemDirectHu: 98
+tvDiffsCalculatorItemIndirectHu: 195
+-- item 196
+tvDiffsCalculatorItemPointsNeeded: 227
+tvDiffsCalculatorItemSelfPick: 49
+tvDiffsCalculatorItemDirectHu: 98
+tvDiffsCalculatorItemIndirectHu: 196
+-- item 197
+tvDiffsCalculatorItemPointsNeeded: 228
+tvDiffsCalculatorItemSelfPick: 50
+tvDiffsCalculatorItemDirectHu: 99
+tvDiffsCalculatorItemIndirectHu: 197
+-- item 198
+tvDiffsCalculatorItemPointsNeeded: 229
+tvDiffsCalculatorItemSelfPick: 50
+tvDiffsCalculatorItemDirectHu: 99
+tvDiffsCalculatorItemIndirectHu: 198
+-- item 199
+tvDiffsCalculatorItemPointsNeeded: 230
+tvDiffsCalculatorItemSelfPick: 50
+tvDiffsCalculatorItemDirectHu: 100
+tvDiffsCalculatorItemIndirectHu: 199
+-- item 200
+tvDiffsCalculatorItemPointsNeeded: 231
+tvDiffsCalculatorItemSelfPick: 50
+tvDiffsCalculatorItemDirectHu: 100
+tvDiffsCalculatorItemIndirectHu: 200
