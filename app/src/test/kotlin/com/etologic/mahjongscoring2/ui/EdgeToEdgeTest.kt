@@ -10,6 +10,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
 /**
  * Apps targeting Android 15+ are always drawn edge-to-edge, so MainActivity applies the system bar, cutout and
@@ -132,5 +133,27 @@ class EdgeToEdgeTest : UiTestBase() {
         dispatch()
         seat(R.id.iGameTableSeatSouth).safeClick()
         screenshot("edge_to_edge_dialog_hand_actions")
+    }
+
+    @Test
+    fun `screenshot with the keyboard open`() {
+        launchApp()
+        navigateTo(R.id.combinationsFragment)
+        dispatch(ime = Insets.of(0, 0, 0, 700))
+        screenshot("edge_to_edge_keyboard_open_combinations")
+    }
+
+    @Test
+    @Config(qualifiers = PHONE_LANDSCAPE)
+    fun `screenshot in landscape with a notch and side navigation bar`() {
+        seed(GameScenarios.penalties)
+        launchApp()
+        openGame(GameScenarios.penalties.game.gameId)
+        dispatch(bars = Insets.of(0, statusBar, 126, 0), cutout = Insets.of(80, 0, 0, 0))
+        screenshot("edge_to_edge_landscape_notch_game_table")
+    }
+
+    private companion object {
+        const val PHONE_LANDSCAPE = "w891dp-h411dp-normal-long-notround-land-420dpi-keyshidden-nonav"
     }
 }
