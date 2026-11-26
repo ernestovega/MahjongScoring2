@@ -28,7 +28,7 @@ verificación de referencia es la de CI (`.github/workflows/tests.yml`, ubuntu).
 | ViewModels | `app/viewmodels/**` | Estados que emiten y efectos en los repos |
 | UI flujos | `ui/UiFlowsTest` | La app real (Hilt + Room en memoria) manejada como un usuario: crear partida, hu, autoservido, empate, penalizaciones, borrar ronda, terminar/reanudar, 16 rondas, editar nombres, menús |
 | UI visual | `ui/ScreenshotsTest` | 47 screenshots golden: todas las pantallas, diálogos, disposiciones de asientos, vientos y los 6 idiomas |
-| Bugs conocidos | `ui/KnownIssuesTest` | Tests `@Ignore` con el comportamiento esperado de bugs encontrados. Quita el `@Ignore` al arreglarlos |
+| Regresiones | `ui/DialogLifecycleTest`, navegación en `ui/UiFlowsTest` | Bugs ya arreglados (diálogos al destruir la activity, volver a Old games desde la barra inferior) |
 
 ## Migración a KMP
 

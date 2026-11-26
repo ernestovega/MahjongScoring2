@@ -200,7 +200,37 @@ class UiFlowsTest : UiTestBase() {
         scenario!!.onActivity { it.findViewById<BottomNavigationView>(R.id.bottomNavigationView).selectedItemId = R.id.gameFragment }
         settle()
         assertThat(currentDestination()).isEqualTo(R.id.gameFragment)
-        // Going back to Old games once Game has been visited is broken: see KnownIssuesTest.
+        scenario!!.onActivity { it.findViewById<BottomNavigationView>(R.id.bottomNavigationView).selectedItemId = R.id.oldGamesFragment }
+        settle()
+        assertThat(currentDestination()).isEqualTo(R.id.oldGamesFragment)
+    }
+
+    private fun selectBottomNavItem(itemId: Int) {
+        scenario!!.onActivity { it.findViewById<BottomNavigationView>(R.id.bottomNavigationView).selectedItemId = itemId }
+        settle()
+    }
+
+    @Test
+    fun bottomNavigation_fromGameToOldGames() {
+        seed(GameScenarios.penalties)
+        launchApp()
+        openGame(GameScenarios.penalties.game.gameId)
+        selectBottomNavItem(R.id.oldGamesFragment)
+        assertThat(currentDestination()).isEqualTo(R.id.oldGamesFragment)
+    }
+
+    @Test
+    fun bottomNavigation_fromCombinationsToOldGames_afterVisitingGame() {
+        seed(GameScenarios.penalties)
+        launchApp()
+        openGame(GameScenarios.penalties.game.gameId)
+        selectBottomNavItem(R.id.combinationsFragment)
+        selectBottomNavItem(R.id.oldGamesFragment)
+        assertThat(currentDestination()).isEqualTo(R.id.oldGamesFragment)
+        // And the game tab still opens the active game.
+        selectBottomNavItem(R.id.gameFragment)
+        assertThat(currentDestination()).isEqualTo(R.id.gameFragment)
+        onView(withId(R.id.tvGameTableGameName)).check(matches(withText("penalties")))
     }
 
     @Test
