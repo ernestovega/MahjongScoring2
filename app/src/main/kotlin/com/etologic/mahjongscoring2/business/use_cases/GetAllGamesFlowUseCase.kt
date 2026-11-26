@@ -23,7 +23,6 @@ import com.etologic.mahjongscoring2.data_source.repositories.games.GamesReposito
 import com.etologic.mahjongscoring2.data_source.repositories.rounds.RoundsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
 import javax.inject.Inject
 
 class GetAllGamesFlowUseCase @Inject constructor(
@@ -35,14 +34,11 @@ class GetAllGamesFlowUseCase @Inject constructor(
             gamesRepository.getAllFlow(),
             roundsRepository.getAllFlow(),
         ) { dbGames, dbRounds ->
-            dbGames.map { dbGame ->
-                val gameRounds = dbRounds.filter { round -> round.gameId == dbGame.gameId }
-                if (gameRounds.isEmpty()) {
-                    return@combine null
-                } else {
-                    dbGame.toUiGame(gameRounds)
-                }
+            val roundsByGameId = dbRounds.groupBy { round -> round.gameId }
+            // A game without rounds (for example, a game just created whose first round is not saved yet)
+            // is skipped instead of hiding the whole list.
+            dbGames.mapNotNull { dbGame ->
+                roundsByGameId[dbGame.gameId]?.let { gameRounds -> dbGame.toUiGame(gameRounds) }
             }
         }
-            .filterNotNull()
 }
